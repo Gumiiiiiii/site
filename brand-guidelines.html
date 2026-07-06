@@ -1,0 +1,691 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gumi. Brand Guidelines</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================================
+           GUMI. BRAND GUIDELINES — DESIGN SYSTEM
+           Circular & Organic. No rigid lines.
+           ======================================== */
+
+        :root {
+            --bg:      #F9F4EF;
+            --text:    #1A1A1A;
+            --accent:  #9C77F5; /* Lavande vif */
+            --accent-light: #D1BFFF; /* Violet clair pour bouton sombre */
+            --positive:#609675;
+            --negative:#C56A6A;
+            --font:    'Urbanist', sans-serif;
+            --radius:  2.5rem;
+            --card-bg: rgba(26, 26, 26, 0.04);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        *:focus { outline: none; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            font-weight: 500;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            background-blend-mode: multiply;
+            overflow-x: hidden;
+        }
+
+        ::selection { background-color: var(--accent); color: var(--bg); }
+        .no-select { user-select: none; }
+
+        .dot { color: var(--accent); }
+
+        .dots-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 250px;
+            z-index: -1;
+            color: var(--text);
+            pointer-events: none;
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 8%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .nav-logo img { height: 35px; width: auto; }
+
+        .nav-links { display: flex; gap: 3rem; }
+        .nav-links a { text-decoration: none; color: var(--text); font-weight: 700; font-size: 1.1rem; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--accent); }
+
+        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 8%; }
+        .hero h1 { font-size: clamp(3rem, 10vw, 8rem); font-weight: 900; text-transform: uppercase; line-height: 0.95; letter-spacing: -3px; }
+        .hero-sub { margin-top: 30px; font-size: 1.2rem; max-width: 600px; opacity: 0.7; line-height: 1.6; font-weight: 600; }
+        .last-update { color: var(--accent); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 2rem; }
+
+        .section { padding: 120px 8%; position: relative; }
+        .section-label { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: var(--accent); color: var(--bg); border-radius: 50%; font-size: 0.8rem; font-weight: 900; letter-spacing: 2px; margin-bottom: 25px; }
+        .section h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 15px; }
+        .section-intro { font-size: 1.1rem; max-width: 700px; opacity: 0.7; margin-bottom: 60px; line-height: 1.6; font-weight: 600; }
+
+        .voice-pillar { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; margin-bottom: 80px; padding-bottom: 80px; border-bottom: 1px solid rgba(26,26,26,0.1); }
+        .voice-pillar:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .pillar-desc h3 { font-size: 2rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: -1px; }
+        .pillar-desc p { opacity: 0.7; font-size: 1.1rem; }
+        .pillar-examples { display: flex; flex-direction: column; gap: 2rem; font-size: 1rem; }
+        .example-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .example-do { color: var(--text); display: flex; align-items: flex-start; gap: 10px; font-weight: 600; }
+        .example-dont { color: var(--text); display: flex; align-items: flex-start; gap: 10px; opacity: 0.4; font-weight: 500; }
+        .example-icon { flex-shrink: 0; margin-top: 2px; }
+
+        .color-proportions {
+            position: relative;
+            height: 600px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: var(--radius);
+        }
+        .color-circle {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(26,26,26,0.04);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .color-circle:hover { transform: scale(1.02); }
+        .color-circle span { font-weight: 700; font-size: 1.2rem; margin-bottom: 4px; pointer-events: none; }
+        .color-circle small { font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; transition: opacity 0.3s; pointer-events: none; }
+        
+        .circle-60 { width: 550px; height: 550px; background: var(--card-bg); color: var(--text); right: 5%; z-index: 1; }
+        .circle-30 { width: 350px; height: 350px; background: var(--text); color: var(--bg); left: 15%; bottom: 10%; z-index: 2; }
+        .circle-10 { width: 140px; height: 140px; background: var(--accent); color: var(--bg); left: 25%; top: 15%; z-index: 3; }
+        .circle-10 small { color: rgba(249, 244, 239, 0.7); }
+
+        .opacity-section { margin-top: 80px; }
+        .opacity-section h3, .semantic-colors-section h3 { font-size: 1.5rem; font-weight: 900; margin-bottom: 1.5rem; letter-spacing: -0.5px; }
+        .opacity-grid { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .opacity-box { flex: 1; min-width: 120px; height: 100px; border-radius: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: transform 0.3s ease; box-shadow: 0 10px 30px rgba(26,26,26,0.04); }
+        .opacity-box:hover { transform: scale(1.02); }
+        .opacity-box.dark-bg { color: var(--bg); }
+        .opacity-box.dark-bg small { color: rgba(249, 244, 239, 0.7); }
+        .opacity-box.light-bg { color: var(--text); }
+        .opacity-box.light-bg small { color: rgba(26, 26, 26, 0.7); }
+        .ob-content { display: flex; flex-direction: column; align-items: center; pointer-events: none; }
+        .ob-content span { font-weight: 900; font-size: 1.3rem; margin-bottom: 2px; }
+        .ob-content small { font-weight: 600; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; transition: color 0.3s; }
+
+        .type-specimen { background: var(--card-bg); padding: 50px; border-radius: var(--radius); display: flex; flex-direction: column; gap: 2.5rem; }
+        .type-row { display: flex; flex-direction: column; gap: 0.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(26,26,26,0.1); }
+        .type-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .type-label { font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .type-demo { margin: 0; }
+        .type-h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; letter-spacing: -2px; line-height: 1; }
+        .type-h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; line-height: 1.2; }
+        .type-body { font-size: 1.1rem; max-width: 650px; line-height: 1.6; }
+
+        .icons-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+        .icons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 1.5rem; }
+        .icon-box { background: var(--card-bg); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; cursor: default;}
+        .icon-box svg { width: 28px; height: 28px; stroke-width: 2.5; stroke: currentColor; fill: none; transition: color 0.3s ease; stroke-linecap: round; stroke-linejoin: round; }
+        .icon-box:hover { background: rgba(26,26,26,0.1); }
+        .icon-box:hover svg { color: var(--accent); }
+
+        .assets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .asset-card { border-radius: var(--radius); overflow: hidden; background: var(--card-bg); }
+        .asset-card.dark-bg { background: var(--text); color: var(--bg); }
+        .asset-preview { height: 200px; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        .asset-preview img { max-width: 100%; max-height: 80px; object-fit: contain; }
+        .asset-preview.small-logo img { max-height: 100px; }
+        .asset-info { padding: 1.5rem 2rem 2rem; }
+        .asset-info h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .asset-info p { font-size: 1rem; color: rgba(26,26,26,0.7); font-weight: 500; }
+        .asset-card.dark-bg .asset-info p { color: rgba(249, 244, 239, 0.7); }
+
+        .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 220px); gap: 1.5rem; }
+        .bento-item { border-radius: 1.5rem; overflow: hidden; position: relative; background: var(--card-bg); }
+        .bento-item img { width: 100%; height: 100%; object-fit: cover; }
+        .bento-large { grid-column: span 2; grid-row: span 2; }
+        .bento-small-1 { grid-column: 3; grid-row: 1; }
+        .bento-small-2 { grid-column: 3; grid-row: 2; }
+        
+        .texture-display {
+            background-color: rgba(26,26,26,0.04);
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            background-blend-mode: color-burn;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            color: var(--text);
+            box-shadow: inset 0 0 40px rgba(26,26,26,0.1);
+        }
+        .texture-display span { font-weight: 900; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 0; }
+
+        .ui-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem; align-items: start; padding: 2rem 0; width: 100%; }
+        .ui-column { display: flex; flex-direction: column; gap: 2.5rem; align-items: flex-start; }
+
+        button.secondary, button.primary, .icon-button, .segmented-control, .input-field, .drop-zone, .exp-card, .tool-card { border: none !important; outline: none !important; }
+
+        button.secondary { height: 54px; display: flex; align-items: center; justify-content: center; width: 100%; color: var(--text); padding: 0 1.7em; font-size: 16px; font-weight: 700; border-radius: 0.5em; background: var(--bg); cursor: pointer; transition: all 0.3s ease; box-shadow: 4px 4px 8px rgba(26,26,26,0.1), -4px -4px 8px rgba(255,255,255,0.7); font-family: var(--font); }
+        button.secondary:hover { color: var(--accent); }
+        button.secondary:active { box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7); }
+
+        button.primary { height: 54px; display: flex; align-items: center; justify-content: center; width: 100%; color: var(--bg); padding: 0 1.7em; font-size: 16px; font-weight: 700; border-radius: 0.5em; background: var(--text); cursor: pointer; transition: all 0.3s ease; box-shadow: 6px 6px 12px rgba(26,26,26,0.15), -6px -6px 12px rgba(255,255,255,0.8), inset 1px 1px 2px rgba(255, 255, 255, 0.15); font-family: var(--font); }
+        button.primary:hover { color: var(--accent-light); }
+        button.primary:active { box-shadow: inset 4px 4px 8px rgba(0,0,0,0.8), inset -4px -4px 8px rgba(255,255,255,0.05); }
+
+        .icon-button { display: flex; justify-content: center; align-items: center; width: 54px; height: 54px; border-radius: 50%; color: var(--text); background: var(--bg); cursor: pointer; transition: all 0.3s ease; box-shadow: 4px 4px 8px rgba(26,26,26,0.1), -4px -4px 8px rgba(255,255,255,0.7); padding: 0; align-self: flex-start; }
+        .icon-button:hover { color: var(--accent); }
+        .icon-button:active { box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7); }
+        .icon-button svg { width: 1.4rem; height: 1.4rem; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+
+        .toggle-label { display: inline-flex; align-items: center; cursor: pointer; color: var(--text); }
+        .toggle-state { display: none; }
+        .toggle { position: relative; height: 32px; width: 64px; border-radius: 16px; background: rgba(197, 106, 106, 0.15); box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7); transition: background 0.3s ease; }
+        .indicator { position: absolute; top: 4px; left: 4px; height: 24px; width: 24px; background: var(--bg); border-radius: 50%; box-shadow: 2px 2px 4px rgba(26,26,26,0.15), -2px -2px 4px rgba(255,255,255,0.8); transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
+        .toggle-state:checked + .toggle { background: rgba(96, 150, 117, 0.15); }
+        .toggle-state:checked + .toggle .indicator { transform: translateX(32px); }
+        .toggle-text { margin-left: 16px; font-weight: 700; color: var(--negative); transition: color 0.3s ease; width: 85px; }
+        .toggle-state:checked ~ .toggle-text { color: var(--positive); }
+        .toggle-state:not(:checked) ~ .toggle-text::before { content: 'Désactivé'; }
+        .toggle-state:checked ~ .toggle-text::before { content: 'Activé'; }
+
+        .segmented-control { margin: 0; display: flex; position: relative; align-items: center; background: var(--card-bg); padding: 0.4em; border-radius: 0.7em; box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7); width: 100%; height: 54px; }
+        .segmented-control input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+        .segmented-control label { flex: 1; cursor: pointer; height: 100%; display: flex; align-items: center; justify-content: center; line-height: 1; text-align: center; font-size: 14px; font-weight: 700; color: rgba(26,26,26,0.7); z-index: 2; transition: color 0.3s ease; }
+        .segmented-control label:hover { color: var(--accent); }
+        .slider { position: absolute; top: 0.4em; bottom: 0.4em; left: 0.4em; width: calc((100% - 0.8em) / 3); border-radius: 0.4em; background: var(--bg); box-shadow: 3px 3px 6px rgba(26,26,26,0.04), -3px -3px 6px rgba(255,255,255,0.7); transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); z-index: 1; }
+        #high:checked ~ .slider { transform: translateX(0); }
+        #medium:checked ~ .slider { transform: translateX(100%); }
+        #low:checked ~ .slider { transform: translateX(200%); }
+        #high:checked ~ label[for="high"], #medium:checked ~ label[for="medium"], #low:checked ~ label[for="low"] { color: var(--text); }
+
+        .tooltip-wrapper { position: relative; display: inline-flex; cursor: pointer; z-index: 20; }
+        .tooltip-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--bg); color: var(--text); display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 5px rgba(26,26,26,0.1), -2px -2px 5px rgba(255,255,255,0.7); transition: all 0.3s ease; }
+        .tooltip-icon svg { width: 18px; height: 18px; stroke-width: 2.5; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round;}
+        .tooltip-wrapper:hover .tooltip-icon { color: var(--accent); }
+        .tooltip-wrapper.active .tooltip-icon { box-shadow: inset 2px 2px 5px rgba(26,26,26,0.1), inset -2px -2px 5px rgba(255,255,255,0.7); color: var(--accent); }
+        .tooltip-content { position: absolute; bottom: calc(100% + 12px); left: 0; background: #FFFFFF; color: var(--text); padding: 1rem; border-radius: 0.8rem; font-size: 0.9rem; font-weight: 600; text-align: left; width: max-content; max-width: 240px; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 15px 35px rgba(26,26,26,0.1), 0 5px 15px rgba(26,26,26,0.04); border: 1px solid rgba(26,26,26,0.04); pointer-events: none; }
+        .tooltip-wrapper.active .tooltip-content { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+
+        .input-field { height: 54px; background: var(--bg); padding: 0 1.2em; font-size: 16px; font-family: inherit; color: var(--text); border-radius: 0.5em; box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7); transition: all 0.3s ease; width: 100%; font-weight: 600;}
+        .input-field:focus { box-shadow: inset 5px 5px 10px rgba(26,26,26,0.1), inset -5px -5px 10px rgba(255,255,255,0.7); }
+        .input-field::placeholder { color: rgba(26,26,26,0.4); }
+
+        .drop-zone { width: 100%; padding: 2.5rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg); border-radius: 1em; box-shadow: inset 5px 5px 12px rgba(26,26,26,0.1), inset -5px -5px 12px rgba(255,255,255,0.7); text-align: center; gap: 1rem; transition: all 0.3s ease; cursor: pointer; }
+        .drop-zone:hover p, .drop-zone:hover .text-small, .drop-zone:hover .drop-zone-icon { color: var(--accent); opacity: 1; }
+        .drop-zone-icon { width: 60px; height: 60px; margin-bottom: 0.5rem; opacity: 0.4; color: var(--text); transition: all 0.3s ease; }
+        .drop-zone-icon svg { width: 100%; height: 100%; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .drop-zone p { margin: 0; color: rgba(26,26,26,0.7); font-size: 16px; font-weight: 700; transition: color 0.3s ease; }
+        .drop-zone .text-small { color: rgba(26,26,26,0.4); font-size: 14px; font-weight: 600; transition: color 0.3s ease; }
+
+        .exp-card { background: var(--bg); border-radius: 1.5rem; padding: 1.5rem; box-shadow: 6px 6px 14px rgba(26,26,26,0.1), -6px -6px 14px rgba(255,255,255,0.7); display: flex; flex-direction: column; gap: 1rem; width: 100%; transition: all 0.3s ease; cursor: pointer; }
+        .exp-card:hover { box-shadow: 12px 12px 24px rgba(26,26,26,0.1), -12px -12px 24px rgba(255,255,255,0.7); }
+        .exp-card:hover h3 { color: var(--accent); }
+        .exp-card:active { box-shadow: inset 3px 3px 8px rgba(26,26,26,0.1), inset -3px -3px 8px rgba(255,255,255,0.7); }
+        .exp-cover { width: 100%; height: 140px; border-radius: 1rem; background: var(--card-bg); overflow: hidden; }
+        .exp-cover img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+        .exp-content h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--text); transition: color 0.3s ease; }
+        .exp-content p { font-size: 0.9rem; color: rgba(26,26,26,0.7); line-height: 1.5; margin: 0; font-weight: 500;}
+
+        .tool-card { background: var(--bg); border-radius: 1.5rem; padding: 1.5rem; box-shadow: 6px 6px 14px rgba(26,26,26,0.1), -6px -6px 14px rgba(255,255,255,0.7); display: flex; align-items: flex-start; gap: 1.2rem; width: 100%; transition: all 0.3s ease; cursor: pointer; }
+        .tool-card:hover { box-shadow: 12px 12px 24px rgba(26,26,26,0.1), -12px -12px 24px rgba(255,255,255,0.7); }
+        .tool-card:hover h3 { color: var(--accent); }
+        .tool-card:active { box-shadow: inset 3px 3px 8px rgba(26,26,26,0.1), inset -3px -3px 8px rgba(255,255,255,0.7); }
+        .tool-icon-wrapper { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); }
+        .tool-icon-wrapper svg { width: 26px; height: 26px; stroke-width: 2.5; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .tool-content h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.2rem; color: var(--text); transition: color 0.3s ease; }
+        .tool-content p { font-size: 0.9rem; color: rgba(26,26,26,0.7); line-height: 1.4; margin: 0; font-weight: 500;}
+
+        .footer { position: relative; display: flex; justify-content: center; align-items: center; padding: 120px 8% 60px; font-weight: 900; font-size: 1.5rem; letter-spacing: 3px; text-transform: uppercase; overflow: hidden; }
+        .footer-dots { top: auto; bottom: 0; height: 250px; -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%); mask-image: linear-gradient(to top, black 0%, transparent 100%); z-index: -1; }
+
+        @media (max-width: 1024px) { 
+            .ui-grid { grid-template-columns: 1fr 1fr; } 
+            .icons-layout { grid-template-columns: 1fr; } 
+            .circle-60 { width: 400px; height: 400px; right: 0; }
+            .circle-30 { width: 250px; height: 250px; }
+            .circle-10 { width: 100px; height: 100px; }
+        }
+        @media (max-width: 768px) { 
+            .ui-grid, .voice-pillar { grid-template-columns: 1fr; } 
+            .example-pair { grid-template-columns: 1fr; } 
+            .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .bento-large { grid-column: span 1; grid-row: auto; height: 350px; }
+            .bento-small-1, .bento-small-2 { grid-column: span 1; grid-row: auto; height: 200px; }
+            .section { padding: 80px 6%; } 
+            .color-proportions { height: 400px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dots-bg dynamic-dots"></div>
+
+    <nav class="navbar">
+        <div class="nav-logo">
+            <img src="Gumi-Logotype.png" alt="Gumi Logo" onerror="this.src='https://placehold.co/100x35/transparent/9C77F5?text=GUMI.'">
+        </div>
+        <div class="nav-links">
+            <a href="#identity">Voix</a>
+            <a href="#uikit">UI Kit</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="last-update">Dernière mise à jour : Juillet 2026</div>
+        <h1>Directives de Marque<span class="dot">.</span></h1>
+        <p class="hero-sub">Le système de design et l'identité visuelle de référence pour mes outils et expérimentations personnels.</p>
+    </header>
+
+    <section class="section" id="identity">
+        <div class="section-label">01</div>
+        <h2>Voix</h2>
+        <p class="section-intro">Mon ton est celui d'un expert technique pragmatique. Je suis direct, créatif, et je vais à l'essentiel sans utiliser de jargon superflu.</p>
+
+        <div class="voice-pillar">
+            <div class="pillar-desc">
+                <h3>Être direct et utile</h3>
+                <p>J'adapte mon discours à l'interlocuteur et expose clairement les caractéristiques du sujet.</p>
+            </div>
+            <div class="pillar-examples">
+                <div class="example-pair">
+                    <div class="example-do"><span class="example-icon">✅</span> <span>"Boostez votre ROI de 20% avec cette structure de campagne Google Ads ciblée."</span></div>
+                    <div class="example-dont"><span class="example-icon">🚫</span> <span>"Notre méthode magique va faire exploser vos ventes sur les moteurs de recherche !"</span></div>
+                </div>
+                <div class="example-pair">
+                    <div class="example-do"><span class="example-icon">✅</span> <span>"Découvrez 3 méthodes concrètes pour optimiser le temps de chargement de votre site."</span></div>
+                    <div class="example-dont"><span class="example-icon">🚫</span> <span>"Le secret incroyable pour un site parfait que tous vos concurrents vous envient."</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="voice-pillar">
+            <div class="pillar-desc">
+                <h3>Partager le processus</h3>
+                <p>Je communique efficacement les enjeux et les délais afin d'avoir un contexte clair.</p>
+            </div>
+            <div class="pillar-examples">
+                <div class="example-pair">
+                    <div class="example-do"><span class="example-icon">✅</span> <span>"La V1 sera livrée mardi. Nous aurons besoin de vos retours avant jeudi midi."</span></div>
+                    <div class="example-dont"><span class="example-icon">🚫</span> <span>"On gère ça très vite, promis, ne vous inquiétez pas pour la suite."</span></div>
+                </div>
+                <div class="example-pair">
+                    <div class="example-do"><span class="example-icon">✅</span> <span>"La validation de la campagne prendra deux jours de plus suite à un délai imposé par la plateforme."</span></div>
+                    <div class="example-dont"><span class="example-icon">🚫</span> <span>"Tout avance super bien, c'est juste un petit détail technique sans importance."</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="colors">
+        <div class="section-label">02</div>
+        <h2>Couleurs</h2>
+        <p class="section-intro">La couleur structure l'information. Pour maintenir l'équilibre visuel, j'applique la règle des 60 / 30 / 10 à travers des formes circulaires organiques.</p>
+        
+        <div class="color-proportions no-select">
+            <div class="color-circle circle-60" onclick="copyHex(this, '#F9F4EF')" title="Copier la couleur">
+                <span>60%</span>
+                <small>#F9F4EF</small>
+            </div>
+            <div class="color-circle circle-30" onclick="copyHex(this, '#1A1A1A')" title="Copier la couleur">
+                <span>30%</span>
+                <small>#1A1A1A</small>
+            </div>
+            <div class="color-circle circle-10" onclick="copyHex(this, '#9C77F5')" title="Copier la couleur">
+                <span>10%</span>
+                <small>#9C77F5</small>
+            </div>
+        </div>
+
+        <div class="semantic-colors-section" style="margin-top: 80px;">
+            <h3>Couleurs sémantiques</h3>
+            <div class="opacity-grid no-select">
+                <div class="opacity-box" style="background: var(--positive); color: var(--bg);" onclick="copyHex(this, '#609675')" title="Copier la valeur rgba">
+                    <div class="ob-content"><span>Positif</span><small>#609675</small></div>
+                </div>
+                <div class="opacity-box" style="background: var(--negative); color: var(--bg);" onclick="copyHex(this, '#C56A6A')" title="Copier la valeur rgba">
+                    <div class="ob-content"><span>Négatif</span><small>#C56A6A</small></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="opacity-section">
+            <h3>Nuances d'opacité (Noir #1A1A1A)</h3>
+            <div class="opacity-grid no-select">
+                <div class="opacity-box dark-bg" style="background: rgba(26,26,26,1);" onclick="copyHex(this, 'rgba(26, 26, 26, 1)')" title="Copier la valeur rgba">
+                    <div class="ob-content"><span>100%</span><small>Texte</small></div>
+                </div>
+                <div class="opacity-box dark-bg" style="background: rgba(26,26,26,0.7);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.7)')" title="Copier la valeur rgba">
+                    <div class="ob-content"><span>70%</span><small>Détails</small></div>
+                </div>
+                <div class="opacity-box dark-bg" style="background: rgba(26,26,26,0.4);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.4)')" title="Copier la valeur rgba">
+                    <div class="ob-content"><span>40%</span><small>Icônes</small></div>
+                </div>
+                <div class="opacity-box light-bg" style="background: rgba(26,26,26,0.1);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.1)')" title="Copier la valeur rgba">
+                    <div class="ob-content"><span>10%</span><small>Ombres</small></div>
+                </div>
+                <div class="opacity-box light-bg" style="background: rgba(26,26,26,0.04);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.04)')" title="Copier la valeur rgba">
+                    <div class="ob-content"><span>4%</span><small>Fonds</small></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="typography">
+        <div class="section-label">03</div>
+        <h2>Typographie</h2>
+        <p class="section-intro">Une hiérarchie franche et sans ambiguïté. Urbanist est utilisée de bout en bout pour son équilibre géométrique. Seul le grand titre H1 porte le point de ponctuation emblématique.</p>
+        
+        <div class="type-specimen">
+            <div class="type-row">
+                <span class="type-label">H1 / Urbanist Black 900 / 100% Noir (#1A1A1A)</span>
+                <h1 class="type-demo type-h1">Direct et créatif<span class="dot">.</span></h1>
+            </div>
+            <div class="type-row">
+                <span class="type-label">H2 / Urbanist Bold 700 / 100% Noir (#1A1A1A)</span>
+                <h2 class="type-demo type-h2">Outils & Expérimentations</h2>
+            </div>
+            <div class="type-row">
+                <span class="type-label">Body / Urbanist Medium 500 / 100% Noir ou 70% Noir</span>
+                <p class="type-demo type-body">La variante Medium d'Urbanist garantit une lisibilité maximale pour les interfaces et les descriptions d'outils. Propre, technique et fonctionnel. Chaque mot a sa place et l'épaisseur soutient parfaitement le regard.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="icons">
+        <div class="section-label">04</div>
+        <div class="icons-layout">
+            <div class="layout-text">
+                <h2>Icônes</h2>
+                <p class="section-intro">J'utilise la bibliothèque Lucide Icons. Elles sont géométriques et utilisent une épaisseur de trait généreuse (2.5px). Elles sont pensées pour l'interface utilisateur, la manipulation de fichiers et le code.</p>
+            </div>
+            <div class="layout-content">
+                <div class="icons-grid no-select">
+                    <!-- Outils & UI -->
+                    <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></div>
+                    <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></div>
+                    <div class="icon-box"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg></div>
+                    <div class="icon-box"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></div>
+                    <div class="icon-box"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></div>
+                    <div class="icon-box"><svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg></div>
+                    <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></div>
+                    <div class="icon-box"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></div>
+                    
+                    <!-- Chevrons -->
+                    <div class="icon-box"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
+                    <div class="icon-box"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></div>
+                    <div class="icon-box"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg></div>
+                    <div class="icon-box"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="assets">
+        <div class="section-label">05</div>
+        <h2>Ressources de marque</h2>
+        <p class="section-intro">Mes logos officiels pour les différents contextes d'affichage.</p>
+        
+        <div class="assets-grid">
+            <div class="asset-card">
+                <div class="asset-preview">
+                    <img src="Gumi-Logotype.png" alt="Gumi Logotype" onerror="this.src='https://placehold.co/200x70/transparent/9C77F5?text=GUMI.'">
+                </div>
+                <div class="asset-info">
+                    <h4>Mot-symbole (Clair)</h4>
+                    <p>Logo principal pour la navigation et les fonds clairs.</p>
+                </div>
+            </div>
+            
+            <div class="asset-card dark-bg">
+                <div class="asset-preview">
+                    <img src="Gumi-Logotype.png" alt="Gumi Logotype Inverse" onerror="this.src='https://placehold.co/200x70/transparent/F9F4EF?text=GUMI.'" style="filter: brightness(0) invert(1);">
+                </div>
+                <div class="asset-info">
+                    <h4>Mot-symbole (Sombre)</h4>
+                    <p>Version contrastée pour les fonds sombres ou photographiques.</p>
+                </div>
+            </div>
+
+            <div class="asset-card">
+                <div class="asset-preview small-logo">
+                    <img src="Gumi-small.png" alt="Gumi Monogramme" onerror="this.src='https://placehold.co/100x100/transparent/9C77F5?text=G.'">
+                </div>
+                <div class="asset-info">
+                    <h4>Monogramme</h4>
+                    <p>Pour les espaces compacts : avatars, favicons.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="imagery">
+        <div class="section-label">06</div>
+        <h2>Images</h2>
+        <p class="section-intro">Mes visuels s'appuient sur des photographies brutes et un grain de papier omniprésent qui lie le design system au monde physique.</p>
+        
+        <div class="bento-grid">
+            <div class="bento-item bento-large">
+                <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80&w=800" alt="Lumière architecturale">
+            </div>
+            <div class="bento-item bento-small-1">
+                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800" alt="Détail textural">
+            </div>
+            <div class="bento-item bento-small-2">
+                <div class="texture-display">
+                    <span>Grain de papier</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="uikit">
+        <div class="section-label">07</div>
+        <h2>UI Kit</h2>
+        <p class="section-intro">Le neumorphisme sans bordures est ma signature. Il invite au clic grâce à des reliefs doux, créant une affordance tactile forte.</p>
+        
+        <div class="ui-grid">
+            
+            <!-- Colonne 1 : Boutons -->
+            <div class="ui-column">
+                <button class="secondary no-select" type="button">Bouton clair</button>
+                <button class="primary no-select" type="button">Bouton sombre</button>
+                <button class="icon-button no-select" aria-label="Télécharger" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </button>
+                
+                <label class="toggle-label no-select">
+                    <input class="toggle-state" type="checkbox" name="check" value="check">
+                    <div class="toggle">
+                        <div class="indicator"></div>
+                    </div>
+                    <span class="toggle-text"></span>
+                </label>
+            </div>
+
+            <!-- Colonne 2 : Champs de saisie -->
+            <div class="ui-column">
+                <div class="segmented-control no-select" role="radiogroup">
+                    <input type="radio" id="high" name="priority" value="high" checked>
+                    <input type="radio" id="medium" name="priority" value="medium">
+                    <input type="radio" id="low" name="priority" value="low">
+                    <div class="slider"></div>
+                    <label for="high">Haut</label>
+                    <label for="medium">Moyen</label>
+                    <label for="low">Bas</label>
+                </div>
+
+                <div class="tooltip-wrapper no-select" onclick="toggleTooltip(event)">
+                    <div class="tooltip-icon" title="Plus d'informations">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    </div>
+                    <div class="tooltip-content">
+                        Cette zone de texte supporte le Markdown basique. Vous pouvez y coller vos notes directement.
+                    </div>
+                </div>
+
+                <input type="text" class="input-field" placeholder="Saisissez du texte..." aria-label="Champ de texte">
+
+                <div class="drop-zone no-select" tabindex="0">
+                    <div class="drop-zone-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                    <p>Déposez votre fichier ici</p>
+                    <span class="text-small">ou cliquez pour parcourir</span>
+                </div>
+            </div>
+
+            <!-- Colonne 3 : Cartes Interactives -->
+            <div class="ui-column">
+                <div class="exp-card no-select">
+                    <div class="exp-cover">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=600" alt="ArdaCraft">
+                    </div>
+                    <div class="exp-content">
+                        <h3>Refonte d'ArdaCraft</h3>
+                        <p>Modernisation de l'interface du wiki historique de la communauté.</p>
+                    </div>
+                </div>
+
+                <div class="tool-card no-select">
+                    <div class="tool-icon-wrapper">
+                        <!-- Icône plate, PAS d'effet neumorphique -->
+                        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    </div>
+                    <div class="tool-content">
+                        <h3>Convertisseur</h3>
+                        <p>Optimisation WebP, PNG, JPG directe dans le navigateur.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="dots-bg footer-dots dynamic-dots"></div>
+        <span>GUMI<span class="dot">.</span></span>
+    </footer>
+
+    <script>
+        // --- COPIER HEX/RGBA ---
+        function copyHex(element, valueToCopy) {
+            try {
+                const textArea = document.createElement("textarea");
+                textArea.value = valueToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const label = element.querySelector('small');
+                if (label.innerText === 'Copié !') return;
+                
+                const originalText = label.innerText;
+                label.innerText = 'Copié !';
+                
+                setTimeout(() => { 
+                    label.innerText = originalText; 
+                }, 1500);
+            } catch (err) {
+                console.error('Erreur de copie:', err);
+            }
+        }
+
+        // --- TOOLTIP INTERACTIF ---
+        function toggleTooltip(event) {
+            event.stopPropagation();
+            const wrapper = event.currentTarget;
+            wrapper.classList.toggle('active');
+        }
+
+        document.addEventListener('click', (event) => {
+            const wrappers = document.querySelectorAll('.tooltip-wrapper.active');
+            wrappers.forEach(wrapper => {
+                if (!wrapper.contains(event.target)) {
+                    wrapper.classList.remove('active');
+                }
+            });
+        });
+
+        // --- FOND DE POINTS DYNAMIQUES ---
+        const dotContainers = document.querySelectorAll('.dynamic-dots');
+        let resizeTimeout;
+
+        function drawDots() {
+            if(!dotContainers.length) return;
+            const width = window.innerWidth;
+            const height = 250; 
+            const spacingX = 20; 
+            const spacingY = 18; 
+            
+            let svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor" opacity="0.04">';
+            
+            for (let y = 0; y <= height; y += spacingY) {
+                const isOdd = Math.round(y / spacingY) % 2 !== 0;
+                const offsetX = isOdd ? spacingX / 2 : 0;
+                
+                for (let x = offsetX; x <= width + spacingX; x += spacingX) {
+                    const nx = Math.abs(x - width / 2) / (width / 2);
+                    const baseRadius = 3.0 + (Math.pow(nx, 2.0) * 4.0); 
+                    
+                    if (baseRadius > 0.3) {
+                        svg += `<circle cx="${x}" cy="${y}" r="${baseRadius.toFixed(2)}" />`;
+                    }
+                }
+            }
+            svg += '</g></svg>';
+            dotContainers.forEach(container => {
+                container.innerHTML = svg;
+            });
+        }
+
+        drawDots();
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(drawDots, 100);
+        });
+    </script>
+</body>
+</html>
