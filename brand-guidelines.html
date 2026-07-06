@@ -71,6 +71,8 @@
             left: 0;
             right: 0;
             z-index: 10;
+            width: min(100%, 90rem);
+            margin: 0 auto;
         }
 
         .nav-logo img { height: 35px; width: auto; }
@@ -84,7 +86,12 @@
         .hero-sub { margin-top: 30px; font-size: 1.2rem; max-width: 600px; opacity: 0.7; line-height: 1.6; font-weight: 600; }
         .last-update { color: var(--accent); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 2rem; }
 
-        .section { padding: 120px 8%; position: relative; }
+        .section {
+            padding: 120px 8%;
+            position: relative;
+            width: min(100%, 90rem);
+            margin: 0 auto;
+        }
         .section-label { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: var(--accent); color: var(--bg); border-radius: 50%; font-size: 0.8rem; font-weight: 900; letter-spacing: 2px; margin-bottom: 25px; }
         .section h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 15px; }
         .section-intro { font-size: 1.1rem; max-width: 700px; opacity: 0.7; margin-bottom: 60px; line-height: 1.6; font-weight: 600; }
@@ -269,7 +276,20 @@
         .tool-content h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.2rem; color: var(--text); transition: color 0.3s ease; }
         .tool-content p { font-size: 0.9rem; color: rgba(26,26,26,0.7); line-height: 1.4; margin: 0; font-weight: 500;}
 
-        .footer { position: relative; display: flex; justify-content: center; align-items: center; padding: 120px 8% 60px; font-weight: 900; font-size: 1.5rem; letter-spacing: 3px; text-transform: uppercase; overflow: hidden; }
+        .footer {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 120px 8% 60px;
+            font-weight: 900;
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            overflow: hidden;
+            width: min(100%, 90rem);
+            margin: 0 auto;
+        }
         .footer-dots { top: auto; bottom: 0; height: 250px; -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%); mask-image: linear-gradient(to top, black 0%, transparent 100%); z-index: -1; }
 
         @media (max-width: 1024px) { 
