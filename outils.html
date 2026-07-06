@@ -26,8 +26,15 @@
             -webkit-font-smoothing: antialiased;
             background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
             background-blend-mode: multiply;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
             min-height: 100vh;
+        }
+
+        .page-shell {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 0 3rem;
         }
 
         .no-select { user-select: none; }
@@ -77,12 +84,13 @@
         </div>
     </nav>
 
-    <div class="header-container">
-        <h1>Outils<span class="dot">.</span></h1>
-        <p class="subtitle">Utilitaires exécutés à 100% dans votre navigateur.</p>
-    </div>
+    <div class="page-shell">
+        <div class="header-container">
+            <h1>Outils<span class="dot">.</span></h1>
+            <p class="subtitle">Utilitaires exécutés à 100% dans votre navigateur.</p>
+        </div>
 
-    <div class="tools-grid">
+        <div class="tools-grid">
         <a href="convertisseur.html" class="no-select">
             <div class="tool-card">
                 <div class="tool-icon-wrapper">
@@ -106,6 +114,7 @@
                 </div>
             </div>
         </a>
+        </div>
     </div>
 </body>
 </html>
