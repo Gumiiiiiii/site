@@ -23,7 +23,7 @@
             --font:    'Urbanist', sans-serif;
             --radius:  2.5rem;
             --card-bg: rgba(26, 26, 26, 0.04);
-            --content-max-width: 100rem;
+            --content-max-width: 90rem;
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -66,17 +66,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem 8%;
+            gap: 1.5rem;
+            padding: 1.5rem 1.5rem 0;
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 10;
             width: min(100%, var(--content-max-width));
+            max-width: var(--content-max-width);
             margin: 0 auto;
         }
 
-        .nav-logo img { height: 35px; width: auto; }
+        .nav-logo img { height: 24px; width: auto; }
 
         .nav-links { display: flex; gap: 3rem; }
         .nav-links a { text-decoration: none; color: var(--text); font-weight: 700; font-size: 1.1rem; transition: color 0.3s ease; }
@@ -326,17 +328,7 @@
 
     <div class="dots-bg dynamic-dots"></div>
 
-    <nav class="navbar">
-        <div class="nav-logo">
-            <a href="brand-guidelines.html" class="no-select">
-                <img src="Gumi-Logotype.png" alt="Gumi Logo" onerror="this.src='https://placehold.co/100x35/transparent/9C77F5?text=GUMI.'">
-            </a>
-        </div>
-        <div class="nav-links">
-            <a href="brand-guidelines.html">Brand Guidelines</a>
-            <a href="outils.html">Tools</a>
-        </div>
-    </nav>
+    <nav class="navbar" data-navbar-root></nav>
 
     <header class="hero">
         <div class="last-update">Dernière mise à jour : Juillet 2026</div>
@@ -642,6 +634,26 @@
         <span>GUMI<span class="dot">.</span></span>
     </footer>
 
+    <script src="https://unpkg.com/lenis@1.1.16/dist/lenis.min.js"></script>
+    <script>
+        const lenis = new Lenis({
+            duration: 1.1,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            touchMultiplier: 1.5
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        window.addEventListener('resize', () => lenis.resize());
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="scripts/navbar.js"></script>
+    <script src="scripts/animations.js"></script>
     <script>
         // --- COPIER HEX/RGBA ---
         function copyHex(element, valueToCopy) {

@@ -11,16 +11,9 @@
     <style>
         .main-grid { display: grid; grid-template-columns: 420px 1fr; gap: 3rem; align-items: stretch; min-height: 0; }
 
-        html, body {
-            height: 100%;
-            overflow: hidden;
-        }
-
         .main-wrapper {
-            height: calc(100vh - 3rem);
             display: flex;
             flex-direction: column;
-            overflow: hidden;
         }
 
         button.primary:disabled { opacity: 0.6; cursor: not-allowed; background: rgba(26,26,26,0.4); color: rgba(255,255,255,0.8); box-shadow: 2px 2px 6px rgba(26,26,26,0.1) !important; }
@@ -178,17 +171,10 @@
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-logo">
-            <a href="brand-guidelines.html" class="no-select">
-                <img src="Gumi-Logotype.png" alt="Gumi Logo" onerror="this.src='https://placehold.co/100x35/transparent/9C77F5?text=GUMI.'">
-            </a>
-        </div>
-        <div class="nav-links">
-            <a href="brand-guidelines.html">Brand Guidelines</a>
-            <a href="outils.html">Tools</a>
-        </div>
-    </nav>
+    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+    <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" aria-hidden="true"></div>
+
+    <nav class="navbar" data-navbar-root></nav>
 
     <div class="main-wrapper">
         <a href="outils.html" class="back-link no-select" title="Retour aux outils">
@@ -332,6 +318,64 @@
         Tout télécharger <span id="dl-count" style="margin-left: 5px;"></span>
     </button>
 
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="scripts/navbar.js"></script>
+    <script src="scripts/animations.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.16/dist/lenis.min.js"></script>
+    <script>
+        const lenis = new Lenis({
+            duration: 1.1,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            touchMultiplier: 1.5
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        window.addEventListener('resize', () => lenis.resize());
+    </script>
+    <script>
+        const dotContainers = document.querySelectorAll('.dynamic-dots');
+        let resizeTimeout;
+
+        function drawDots() {
+            if (!dotContainers.length) return;
+            const width = window.innerWidth;
+            dotContainers.forEach(container => {
+                const height = Number(container.dataset.height || 250);
+                const spacingX = 20;
+                const spacingY = 18;
+                let svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor" opacity="0.04">';
+
+                for (let y = 0; y <= height; y += spacingY) {
+                    const isOdd = Math.round(y / spacingY) % 2 !== 0;
+                    const offsetX = isOdd ? spacingX / 2 : 0;
+
+                    for (let x = offsetX; x <= width + spacingX; x += spacingX) {
+                        const nx = Math.abs(x - width / 2) / (width / 2);
+                        const baseRadius = 3.0 + (Math.pow(nx, 2.0) * 4.0);
+
+                        if (baseRadius > 0.3) {
+                            svg += `<circle cx="${x}" cy="${y}" r="${baseRadius.toFixed(2)}" />`;
+                        }
+                    }
+                }
+
+                svg += '</g></svg>';
+                container.innerHTML = svg;
+            });
+        }
+
+        drawDots();
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(drawDots, 100);
+        });
+    </script>
     <script>
         function toggleTooltip(event) {
             event.stopPropagation();

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gumi. — Home</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/shared.css">
+
+    <style>
+        body {
+            min-height: 100vh;
+        }
+
+        .hero-shell {
+            padding: 2rem 0 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-card h1 {
+            font-size: clamp(2rem, 4.5vw, 3.2rem);
+            line-height: 1;
+            margin-bottom: 0.9rem;
+            max-width: 46rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-copy {
+            font-size: 1rem;
+            color: rgba(26, 26, 26, 0.72);
+            font-weight: 600;
+            max-width: 40rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-actions a {
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1rem;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 0.95rem;
+        }
+
+        .hero-actions .primary-link {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .hero-actions .secondary-link {
+            color: var(--text);
+            background: rgba(26, 26, 26, 0.05);
+        }
+
+        .links-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .links-list a {
+            text-decoration: none;
+            color: rgba(26, 26, 26, 0.7);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+    <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" aria-hidden="true"></div>
+
+    <nav class="navbar" data-navbar-root></nav>
+
+    <main class="main-wrapper">
+        <section class="hero-shell">
+            <div class="hero-card">
+                <h1>Je rassemble ici les projets et outils que j’ai bâtis par curiosité, pour répondre à mes propres défis et expérimenter.</h1>
+                <p class="hero-copy">Des expériences, des utilitaires et des systèmes visuels, construits pour résoudre des problèmes concrets et explorer de nouvelles directions.</p>
+                <div class="hero-actions">
+                    <a class="primary-link" href="experiments.html">Explorer les expériences</a>
+                    <a class="secondary-link" href="outils.html">Voir les outils</a>
+                </div>
+                <div class="links-list">
+                    <a href="brand-guidelines.html">Brand Guidelines</a>
+                    <a href="experiments.html">Expériences</a>
+                    <a href="outils.html">Outils</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="scripts/navbar.js"></script>
+</body>
+</html>

@@ -44,6 +44,25 @@
         #f-svg:checked ~ .slider { transform: translateX(100%); }
         #f-png:checked ~ label[for="f-png"], #f-svg:checked ~ label[for="f-svg"] { color: var(--text); }
 
+        .header-inline { display: flex; align-items: center; justify-content: center; gap: 0.8rem; position: relative; }
+        .info-button {
+            width: 2.25rem; height: 2.25rem; border: none; border-radius: 50%; background: var(--bg);
+            color: var(--text); display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 4px 4px 8px rgba(26,26,26,0.08), -4px -4px 8px rgba(255,255,255,0.8);
+            transition: all 0.2s ease; padding: 0;
+        }
+        .info-button:hover { color: var(--accent); transform: translateY(-1px); }
+        .info-button.active { box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7); color: var(--accent); }
+        .info-button svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .info-panel {
+            position: absolute; top: calc(100% + 0.7rem); left: 50%; transform: translateX(-50%);
+            width: min(320px, calc(100vw - 2rem)); padding: 0.9rem 1rem; border-radius: 1rem;
+            background: rgba(255,255,255,0.97); border: 1px solid rgba(26,26,26,0.06);
+            box-shadow: 10px 10px 28px rgba(26,26,26,0.08); font-size: 0.92rem; line-height: 1.5; color: rgba(26,26,26,0.8);
+            display: none; z-index: 20;
+        }
+        .info-panel.active { display: block; }
+
         .advanced-header { display: flex; justify-content: space-between; align-items: center; font-weight: 700; cursor: pointer; padding: 1rem 0; border-top: 1px solid rgba(26,26,26,0.1); color: var(--text); opacity: 0.6; transition: opacity 0.3s, color 0.3s; margin-top: 1rem;}
         .advanced-header:hover { opacity: 1; color: var(--accent); }
         .advanced-header svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2.5; transition: transform 0.3s ease; stroke-linecap: round; stroke-linejoin: round; }
@@ -57,21 +76,18 @@
         .qr-placeholder { color: rgba(26,26,26,0.3); font-weight: 700; text-align: center; }
         .export-group { display: flex; gap: 1rem; width: 100%; max-width: 320px; flex-direction: column; display: none; }
 
-        @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } .right-col { min-height: 400px; } }
+        @media (max-width: 900px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .right-col { min-height: 400px; }
+            .info-panel { left: auto; right: 0; transform: none; }
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-logo">
-            <a href="brand-guidelines.html" class="no-select">
-                <img src="Gumi-Logotype.png" alt="Gumi Logo" onerror="this.src='https://placehold.co/100x35/transparent/9C77F5?text=GUMI.'">
-            </a>
-        </div>
-        <div class="nav-links">
-            <a href="brand-guidelines.html">Brand Guidelines</a>
-            <a href="outils.html">Tools</a>
-        </div>
-    </nav>
+    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+    <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" aria-hidden="true"></div>
+
+    <nav class="navbar" data-navbar-root></nav>
 
     <div class="main-wrapper">
         <a href="outils.html" class="back-link no-select" title="Retour aux outils">
@@ -80,7 +96,16 @@
         </a>
 
         <div class="header-container">
-            <h1>QR Code<span class="dot">.</span></h1>
+            <div class="header-inline">
+                <h1>QR Code<span class="dot">.</span></h1>
+                <button class="info-button" type="button" aria-label="Informations" onclick="toggleInfo(event)">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                </button>
+                <div class="info-panel" id="qr-info-panel">
+                    <strong>Créez un QR code rapide et propre.</strong><br>
+                    Saisissez votre contenu, choisissez un style, puis exportez en PNG ou SVG.
+                </div>
+            </div>
         </div>
 
         <div class="main-grid">
@@ -160,6 +185,81 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="scripts/navbar.js"></script>
+    <script src="scripts/animations.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.16/dist/lenis.min.js"></script>
+    <script>
+        const lenis = new Lenis({
+            duration: 1.1,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            touchMultiplier: 1.5
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        window.addEventListener('resize', () => lenis.resize());
+    </script>
+    <script>
+        function toggleInfo(event) {
+            event.stopPropagation();
+            const button = event.currentTarget;
+            const panel = document.getElementById('qr-info-panel');
+            const isActive = panel.classList.toggle('active');
+            button.classList.toggle('active', isActive);
+        }
+
+        document.addEventListener('click', (event) => {
+            const panel = document.getElementById('qr-info-panel');
+            const button = document.querySelector('.info-button');
+            if (!panel.contains(event.target) && !button.contains(event.target)) {
+                panel.classList.remove('active');
+                button.classList.remove('active');
+            }
+        });
+
+        const dotContainers = document.querySelectorAll('.dynamic-dots');
+        let resizeTimeout;
+
+        function drawDots() {
+            if (!dotContainers.length) return;
+            const width = window.innerWidth;
+            dotContainers.forEach(container => {
+                const height = Number(container.dataset.height || 250);
+                const spacingX = 20;
+                const spacingY = 18;
+                let svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor" opacity="0.04">';
+
+                for (let y = 0; y <= height; y += spacingY) {
+                    const isOdd = Math.round(y / spacingY) % 2 !== 0;
+                    const offsetX = isOdd ? spacingX / 2 : 0;
+
+                    for (let x = offsetX; x <= width + spacingX; x += spacingX) {
+                        const nx = Math.abs(x - width / 2) / (width / 2);
+                        const baseRadius = 3.0 + (Math.pow(nx, 2.0) * 4.0);
+
+                        if (baseRadius > 0.3) {
+                            svg += `<circle cx="${x}" cy="${y}" r="${baseRadius.toFixed(2)}" />`;
+                        }
+                    }
+                }
+
+                svg += '</g></svg>';
+                container.innerHTML = svg;
+            });
+        }
+
+        drawDots();
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(drawDots, 100);
+        });
+    </script>
     <script>
         function toggleAdvanced() {
             const header = document.querySelector('.advanced-header');
