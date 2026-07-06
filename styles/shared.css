@@ -1,0 +1,138 @@
+:root {
+    --bg: #F9F4EF;
+    --text: #1A1A1A;
+    --accent: #9C77F5;
+    --accent-light: #D1BFFF;
+    --positive: #609675;
+    --negative: #C56A6A;
+    --font: 'Urbanist', sans-serif;
+    --card-bg: rgba(26, 26, 26, 0.04);
+    --content-max-width: 100rem;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+*:focus {
+    outline: none;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-weight: 500;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+    background-blend-mode: multiply;
+}
+
+.main-wrapper {
+    max-width: var(--content-max-width);
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+}
+
+::selection {
+    background-color: var(--accent);
+    color: var(--bg);
+}
+
+.no-select {
+    user-select: none;
+}
+
+.dot {
+    color: var(--accent);
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 15px;
+    color: rgba(26, 26, 26, 0.5);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.back-link:hover {
+    color: var(--accent);
+}
+
+.back-link svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 3rem;
+}
+
+h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin: 0;
+    line-height: 1;
+}
+
+button.primary {
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: var(--bg);
+    padding: 0 1.7em;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 0.8em;
+    background: var(--text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 6px 6px 12px rgba(26, 26, 26, 0.15), -6px -6px 12px rgba(255, 255, 255, 0.8), inset 1px 1px 2px rgba(255, 255, 255, 0.15);
+    font-family: var(--font);
+    border: none;
+}
+
+button.primary:hover:not(:disabled) {
+    color: var(--accent-light);
+}
+
+button.primary:active:not(:disabled) {
+    box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.8), inset -4px -4px 8px rgba(255, 255, 255, 0.05);
+}
+
+.input-field {
+    background: var(--bg);
+    padding: 1.2em;
+    font-size: 16px;
+    font-family: inherit;
+    color: var(--text);
+    border-radius: 0.8em;
+    box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7);
+    transition: all 0.3s ease;
+    font-weight: 700;
+    border: none;
+    width: 100%;
+    resize: none;
+}
+
+.input-field:focus {
+    box-shadow: inset 5px 5px 10px rgba(26, 26, 26, 0.15), inset -5px -5px 10px rgba(255, 255, 255, 0.9);
+}

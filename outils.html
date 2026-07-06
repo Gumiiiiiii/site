@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outils - Gumi.</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #F9F4EF;
+            --text: #1A1A1A;
+            --accent: #9C77F5;
+            --font: 'Urbanist', sans-serif;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            font-weight: 500;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            background-blend-mode: multiply;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 100vh;
+        }
+
+        .no-select { user-select: none; }
+        .dot { color: var(--accent); }
+
+        .header-container { text-align: center; margin-bottom: 4rem; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 1; }
+        .subtitle { font-size: 1.1rem; opacity: 0.7; font-weight: 600; max-width: 500px; margin: 1rem auto 0; }
+
+        .tools-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem; width: 100%; max-width: 800px; padding: 0 1.5rem;
+        }
+
+        a { text-decoration: none; color: inherit; display: block; }
+
+        .tool-card {
+            background: var(--bg); border-radius: 1.5rem; padding: 1.8rem;
+            box-shadow: 6px 6px 14px rgba(26,26,26,0.1), -6px -6px 14px rgba(255,255,255,0.7);
+            display: flex; align-items: flex-start; gap: 1.2rem; width: 100%;
+            transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.2);
+        }
+        .tool-card:hover { box-shadow: 12px 12px 24px rgba(26,26,26,0.1), -12px -12px 24px rgba(255,255,255,0.7); }
+        .tool-card:hover h3 { color: var(--accent); }
+        .tool-card:active { box-shadow: inset 3px 3px 8px rgba(26,26,26,0.1), inset -3px -3px 8px rgba(255,255,255,0.7); }
+
+        .tool-icon-wrapper {
+            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; color: var(--accent); background: rgba(156, 119, 245, 0.1); border-radius: 12px;
+        }
+        .tool-icon-wrapper svg { width: 24px; height: 24px; stroke-width: 2.5; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+        .tool-content h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.3rem; transition: color 0.3s ease; }
+        .tool-content p { font-size: 0.95rem; color: rgba(26,26,26,0.7); line-height: 1.4; margin: 0; font-weight: 600;}
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <h1>Outils<span class="dot">.</span></h1>
+        <p class="subtitle">Utilitaires exécutés à 100% dans votre navigateur.</p>
+    </div>
+
+    <div class="tools-grid">
+        <a href="convertisseur.html" class="no-select">
+            <div class="tool-card">
+                <div class="tool-icon-wrapper">
+                    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                </div>
+                <div class="tool-content">
+                    <h3>Convertisseur</h3>
+                    <p>Optimisation WebP, AVIF, JPEG, PNG et recadrage.</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="qrcode.html" class="no-select">
+            <div class="tool-card">
+                <div class="tool-icon-wrapper">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><line x1="9" y1="9" x2="9" y2="9.01"></line><line x1="15" y1="15" x2="15" y2="15.01"></line></svg>
+                </div>
+                <div class="tool-content">
+                    <h3>Générateur QR Code</h3>
+                    <p>Création de QR codes personnalisés haute résolution.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+</body>
+</html>

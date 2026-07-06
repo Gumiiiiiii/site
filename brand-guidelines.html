@@ -23,6 +23,7 @@
             --font:    'Urbanist', sans-serif;
             --radius:  2.5rem;
             --card-bg: rgba(26, 26, 26, 0.04);
+            --content-max-width: 100rem;
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -71,7 +72,7 @@
             left: 0;
             right: 0;
             z-index: 10;
-            width: min(100%, 90rem);
+            width: min(100%, var(--content-max-width));
             margin: 0 auto;
         }
 
@@ -81,7 +82,17 @@
         .nav-links a { text-decoration: none; color: var(--text); font-weight: 700; font-size: 1.1rem; transition: color 0.3s ease; }
         .nav-links a:hover { color: var(--accent); }
 
-        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 8%; }
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 8%;
+            width: min(100%, var(--content-max-width));
+            margin: 0 auto;
+        }
         .hero h1 { font-size: clamp(3rem, 10vw, 8rem); font-weight: 900; text-transform: uppercase; line-height: 0.95; letter-spacing: -3px; }
         .hero-sub { margin-top: 30px; font-size: 1.2rem; max-width: 600px; opacity: 0.7; line-height: 1.6; font-weight: 600; }
         .last-update { color: var(--accent); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 2rem; }
@@ -89,7 +100,7 @@
         .section {
             padding: 120px 8%;
             position: relative;
-            width: min(100%, 90rem);
+            width: min(100%, var(--content-max-width));
             margin: 0 auto;
         }
         .section-label { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: var(--accent); color: var(--bg); border-radius: 50%; font-size: 0.8rem; font-weight: 900; letter-spacing: 2px; margin-bottom: 25px; }
@@ -287,8 +298,9 @@
             letter-spacing: 3px;
             text-transform: uppercase;
             overflow: hidden;
-            width: min(100%, 90rem);
-            margin: 0 auto;
+            width: 100%;
+            max-width: none;
+            margin: 0;
         }
         .footer-dots { top: auto; bottom: 0; height: 250px; -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%); mask-image: linear-gradient(to top, black 0%, transparent 100%); z-index: -1; }
 
@@ -316,11 +328,13 @@
 
     <nav class="navbar">
         <div class="nav-logo">
-            <img src="Gumi-Logotype.png" alt="Gumi Logo" onerror="this.src='https://placehold.co/100x35/transparent/9C77F5?text=GUMI.'">
+            <a href="brand-guidelines.html" class="no-select">
+                <img src="Gumi-Logotype.png" alt="Gumi Logo" onerror="this.src='https://placehold.co/100x35/transparent/9C77F5?text=GUMI.'">
+            </a>
         </div>
         <div class="nav-links">
-            <a href="#identity">Voix</a>
-            <a href="#uikit">UI Kit</a>
+            <a href="brand-guidelines.html">Brand Guidelines</a>
+            <a href="outils.html">Tools</a>
         </div>
     </nav>
 
