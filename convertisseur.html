@@ -9,7 +9,19 @@
     <link rel="stylesheet" href="styles/shared.css">
 
     <style>
-        .main-grid { display: grid; grid-template-columns: 420px 1fr; gap: 3rem; align-items: stretch; }
+        .main-grid { display: grid; grid-template-columns: 420px 1fr; gap: 3rem; align-items: stretch; min-height: 0; }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .main-wrapper {
+            height: calc(100vh - 3rem);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
         button.primary:disabled { opacity: 0.6; cursor: not-allowed; background: rgba(26,26,26,0.4); color: rgba(255,255,255,0.8); box-shadow: 2px 2px 6px rgba(26,26,26,0.1) !important; }
 
@@ -167,7 +179,7 @@
 </head>
 <body>
     <div class="main-wrapper">
-        <a href="index.html" class="back-link no-select" title="Retour à l'accueil">
+        <a href="outils.html" class="back-link no-select" title="Retour aux outils">
             <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             Retour aux outils
         </a>
