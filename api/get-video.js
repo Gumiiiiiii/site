@@ -32,7 +32,11 @@ export default async function handler(req, res) {
         formats.find((f) => f.acodec !== 'none' && f.vcodec !== 'none');
     }
 
-    const directLink = selected?.url || output.url;
+    const fallbackLink = formats.find((f) => Boolean(f?.url))?.url || output.url || null;
+    const directLink = selected?.url || fallbackLink;
+    if (!directLink) {
+      return res.status(422).json({ error: 'No downloadable format available for this URL' });
+    }
     const withThumb = String(thumb).toLowerCase() === 'true';
 
     return res.status(200).json({

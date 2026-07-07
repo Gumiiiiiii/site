@@ -8,6 +8,60 @@
 
     const jsPDF = window.jspdf ? window.jspdf.jsPDF : null;
 
+    function detectPSDLib() {
+        if (window.PSD) return window.PSD;
+        if (window.psd && window.psd.PSD) return window.psd.PSD;
+        return null;
+    }
+
+    function loadScriptOnce(src) {
+        return new Promise(function (resolve, reject) {
+            const existing = document.querySelector('script[data-psd-src="' + src + '"]');
+            if (existing) {
+                if (existing.dataset.loaded === 'true') return resolve();
+                existing.addEventListener('load', function () { resolve(); }, { once: true });
+                existing.addEventListener('error', function () { reject(new Error('script load error')); }, { once: true });
+                return;
+            }
+
+            const script = document.createElement('script');
+            script.src = src;
+            script.async = true;
+            script.dataset.psdSrc = src;
+            script.onload = function () {
+                script.dataset.loaded = 'true';
+                resolve();
+            };
+            script.onerror = function () {
+                reject(new Error('script load error'));
+            };
+            document.head.appendChild(script);
+        });
+    }
+
+    async function ensurePSDLib() {
+        const existing = detectPSDLib();
+        if (existing) return existing;
+
+        const candidates = [
+            'https://cdnjs.cloudflare.com/ajax/libs/psd.js/2.0.0/psd.min.js',
+            'https://unpkg.com/psd.js@2.0.0/dist/psd.min.js',
+            'https://cdn.jsdelivr.net/gh/meltingice/psd.js@master/dist/psd.min.js'
+        ];
+
+        for (const src of candidates) {
+            try {
+                await loadScriptOnce(src);
+                const lib = detectPSDLib();
+                if (lib) return lib;
+            } catch (error) {
+                // Try next CDN fallback.
+            }
+        }
+
+        return null;
+    }
+
     const dropZone = document.getElementById('drop-zone');
     const fileInput = document.getElementById('file-input');
     const convertBtn = document.getElementById('convert-btn');
@@ -106,7 +160,7 @@
     }
 
     async function getCanvasFromPSD(file) {
-        let PSDLib = window.PSD;
+        let PSDLib = await ensurePSDLib();
         if (!PSDLib) throw new Error('Librairie PSD manquante');
 
         let psd;
@@ -302,7 +356,4 @@
 
     resetState();
 
-    if (!window.PSD && window.showToolToast) {
-        window.showToolToast('Librairie PSD non chargee. Verifiez la connexion CDN.', true);
-    }
 })();
