@@ -64,11 +64,11 @@
             const item = fetchCache.get(url);
             if (!item) return;
 
-            if (item.status === 'loading') loadingCount += 1;
+            if (item.status === 'loading' || item.status === 'warming') loadingCount += 1;
             if (item.status === 'done') readyCount += 1;
 
             let thumbHtml = '';
-            if (item.status === 'loading') {
+            if (item.status === 'loading' || item.status === 'warming') {
                 thumbHtml = '<div class="preview-thumb"><span class="loader-small"></span></div>';
             } else if (item.status === 'error') {
                 thumbHtml = '<div class="preview-thumb"><svg viewBox="0 0 24 24" style="width:24px; stroke:var(--negative); fill:none; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg></div>';
@@ -81,11 +81,15 @@
             const extLabel = item.status === 'done' ? (item.requestedFormat === 'audio_only' ? 'MP3' : 'MP4') : '';
             const statusText = item.status === 'loading'
                 ? 'Extraction en cours...'
+                : item.status === 'warming'
+                    ? (item.errorMessage || 'Reveil du serveur Render...')
                 : item.status === 'error'
                     ? (item.errorMessage || 'Erreur de lecture')
                     : 'Media pret <span style="opacity:0.6; font-size: 0.8em;">(' + extLabel + ')</span>';
             const statusColor = item.status === 'done'
                 ? 'var(--positive)'
+                : item.status === 'warming'
+                    ? 'var(--accent)'
                 : item.status === 'error'
                     ? 'var(--negative)'
                     : 'inherit';
@@ -121,7 +125,8 @@
         }
     }
 
-    async function fetchMedia(url) {
+    async function fetchMedia(url, retryCount) {
+        const attempt = typeof retryCount === 'number' ? retryCount : 0;
         const format = selectedFormat();
         const thumb = thumbEnabled();
 
@@ -136,6 +141,24 @@
             fetchCache.set(url, { status: 'done', data: data, requestedFormat: format });
         } catch (error) {
             const onLocalFile = window.location.protocol === 'file:';
+            if (!onLocalFile && attempt < 4) {
+                const nextAttempt = attempt + 1;
+                const waitMs = 1500 * Math.pow(2, attempt);
+
+                fetchCache.set(url, {
+                    status: 'warming',
+                    data: null,
+                    requestedFormat: format,
+                    errorMessage: 'Reveil du serveur Render... tentative ' + nextAttempt + '/5'
+                });
+                if (requestedUrls.has(url)) renderUI();
+
+                setTimeout(function () {
+                    fetchMedia(url, nextAttempt);
+                }, waitMs);
+                return;
+            }
+
             const msg = onLocalFile
                 ? 'Serveur API indisponible (lancez: node server.js)'
                 : 'Erreur API / lien non pris en charge';

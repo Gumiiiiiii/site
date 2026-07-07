@@ -8,6 +8,10 @@
 
     const jsPDF = window.jspdf ? window.jspdf.jsPDF : null;
 
+    function detectAgPsd() {
+        return window.agPsd && typeof window.agPsd.readPsd === 'function' ? window.agPsd : null;
+    }
+
     function detectPSDLib() {
         if (window.PSD) return window.PSD;
         if (window.psd && window.psd.PSD) return window.psd.PSD;
@@ -53,6 +57,28 @@
             try {
                 await loadScriptOnce(src);
                 const lib = detectPSDLib();
+                if (lib) return lib;
+            } catch (error) {
+                // Try next CDN fallback.
+            }
+        }
+
+        return null;
+    }
+
+    async function ensureAgPsd() {
+        const existing = detectAgPsd();
+        if (existing) return existing;
+
+        const candidates = [
+            'https://cdn.jsdelivr.net/npm/ag-psd@26.0.0/dist/bundle.js',
+            'https://unpkg.com/ag-psd@26.0.0/dist/bundle.js'
+        ];
+
+        for (const src of candidates) {
+            try {
+                await loadScriptOnce(src);
+                const lib = detectAgPsd();
                 if (lib) return lib;
             } catch (error) {
                 // Try next CDN fallback.
@@ -160,6 +186,20 @@
     }
 
     async function getCanvasFromPSD(file) {
+        const agPsd = await ensureAgPsd();
+        if (agPsd) {
+            try {
+                const buffer = await file.arrayBuffer();
+                const parsed = agPsd.readPsd(buffer, { skipLayerImageData: true });
+                const composite = parsed && parsed.canvas;
+                if (composite && typeof composite.getContext === 'function') {
+                    return composite;
+                }
+            } catch (error) {
+                // Fallback to legacy PSD parser below.
+            }
+        }
+
         let PSDLib = await ensurePSDLib();
         if (!PSDLib) throw new Error('Librairie PSD manquante');
 
