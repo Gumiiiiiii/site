@@ -278,7 +278,11 @@ button.primary:disabled {
     position: relative;
     display: inline-flex;
     cursor: pointer;
-    z-index: 20;
+    z-index: 1200;
+}
+
+.tooltip-wrapper.active {
+    z-index: 12000;
 }
 
 .tooltip-icon {
@@ -332,7 +336,7 @@ button.primary:disabled {
     box-shadow: 0 15px 35px rgba(26, 26, 26, 0.1), 0 5px 15px rgba(26, 26, 26, 0.04);
     border: 1px solid rgba(26, 26, 26, 0.04);
     pointer-events: none;
-    z-index: 100;
+    z-index: 12001;
 }
 
 .tooltip-wrapper.active .tooltip-content {

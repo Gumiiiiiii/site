@@ -139,6 +139,11 @@ body {
     background: rgba(26, 26, 26, 0.05);
 }
 
+/* Temporarily hide language switcher in navbar. */
+.navbar .lang-switch {
+    display: none;
+}
+
 .lang-btn {
     border: none;
     background: transparent;

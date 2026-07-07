@@ -8,9 +8,34 @@
     const formatBtns = document.querySelectorAll('.format-btn');
     const thumbToggle = document.getElementById('thumb-toggle');
     const dlCount = document.getElementById('dl-count');
-    const API_BASE = window.location.protocol === 'file:'
-        ? 'http://localhost:10000/api/get-video'
-        : '/api/get-video';
+    const RENDER_API_BASE = 'https://site-xyvc.onrender.com/api/get-video';
+    const LOCAL_API_BASE = 'http://localhost:10000/api/get-video';
+
+    function getApiCandidates() {
+        const params = new URLSearchParams(window.location.search);
+        const forced = params.get('api');
+        const sameOriginApi = window.location.origin + '/api/get-video';
+        const isFileProtocol = window.location.protocol === 'file:';
+
+        const candidates = [];
+        if (forced) candidates.push(forced);
+
+        if (isFileProtocol) {
+            candidates.push(LOCAL_API_BASE);
+            candidates.push(RENDER_API_BASE);
+        } else {
+            candidates.push('/api/get-video');
+            candidates.push(sameOriginApi);
+            candidates.push(RENDER_API_BASE);
+            candidates.push(LOCAL_API_BASE);
+        }
+
+        return candidates.filter(function (value, index, arr) {
+            return value && arr.indexOf(value) === index;
+        });
+    }
+
+    const API_CANDIDATES = getApiCandidates();
 
     let fetchCache = new Map();
     let requestedUrls = new Set();
@@ -45,6 +70,56 @@
     function setGenerateIdle() {
         generateBtn.textContent = 'Extraire les medias';
         generateBtn.disabled = extractUrls(urlInput.value).length === 0;
+    }
+
+    function sanitizeFilenamePart(input) {
+        const value = String(input || '')
+            .normalize('NFKD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[<>:"/\\|?*\x00-\x1F]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+
+        const cleaned = value.replace(/\.+$/g, '').trim();
+        return cleaned || 'gumi_media';
+    }
+
+    function buildDownloadName(title, ext) {
+        const safeBase = sanitizeFilenamePart(title).slice(0, 120);
+        const safeExt = sanitizeFilenamePart(ext || 'mp4').replace(/\./g, '').toLowerCase() || 'mp4';
+        return safeBase + '.' + safeExt;
+    }
+
+    async function requestMediaFromApi(url, format, thumb) {
+        let lastError = null;
+
+        for (const base of API_CANDIDATES) {
+            const backendUrl = base + '?url=' + encodeURIComponent(url) + '&format=' + encodeURIComponent(format) + '&thumb=' + encodeURIComponent(String(thumb));
+
+            try {
+                const response = await fetch(backendUrl, { headers: { Accept: 'application/json' } });
+                const rawText = await response.text();
+
+                let data = null;
+                if (rawText) {
+                    try {
+                        data = JSON.parse(rawText);
+                    } catch (parseError) {
+                        throw new Error('Reponse API non-JSON');
+                    }
+                }
+
+                if (!response.ok || (data && data.error)) {
+                    throw new Error((data && data.error) || ('HTTP ' + response.status));
+                }
+
+                return data || {};
+            } catch (error) {
+                lastError = error;
+            }
+        }
+
+        throw lastError || new Error('API indisponible');
     }
 
     function renderUI() {
@@ -95,7 +170,7 @@
                     : 'inherit';
 
             const actionBtn = item.status === 'done' && item.data && item.data.directLink
-                ? '<button class="icon-button btn-dl-one" data-url="' + escapeHtml(item.data.directLink) + '" data-ext="' + extLabel.toLowerCase() + '" title="Telecharger"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>'
+                ? '<button class="icon-button btn-dl-one" data-url="' + escapeHtml(item.data.directLink) + '" data-ext="' + extLabel.toLowerCase() + '" data-source="' + escapeHtml(url) + '" title="Telecharger"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>'
                 : '';
 
             html += '<div class="preview-card">' + thumbHtml + '<div class="preview-info"><div class="preview-title" title="' + escapeHtml(url) + '">' + escapeHtml(url) + '</div><div style="font-size:0.85rem; font-weight:700; opacity:0.8; color:' + statusColor + '">' + statusText + '</div></div>' + actionBtn + '</div>';
@@ -108,7 +183,9 @@
             generateBtn.innerHTML = '<span class="loader-btn" style="border-color:rgba(255,255,255,0.2); border-bottom-color:#fff;"></span> Extraction en cours...';
             generateBtn.disabled = true;
         } else if (readyCount > 0) {
-            generateBtn.innerHTML = 'OK ' + readyCount + ' media(s) extrait(s)';
+            const mediaWord = readyCount > 1 ? 'medias' : 'media';
+            const extraitWord = readyCount > 1 ? 'extraits' : 'extrait';
+            generateBtn.innerHTML = String(readyCount) + ' ' + mediaWord + ' ' + extraitWord;
             generateBtn.disabled = false;
         } else {
             generateBtn.textContent = 'Reessayer l\'extraction';
@@ -133,15 +210,11 @@
         fetchCache.set(url, { status: 'loading', data: null, requestedFormat: format });
         if (requestedUrls.has(url)) renderUI();
 
-        const backendUrl = API_BASE + '?url=' + encodeURIComponent(url) + '&format=' + encodeURIComponent(format) + '&thumb=' + encodeURIComponent(String(thumb));
         try {
-            const response = await fetch(backendUrl);
-            const data = await response.json();
-            if (!response.ok || data.error) throw new Error(data.error || 'Erreur API');
+            const data = await requestMediaFromApi(url, format, thumb);
             fetchCache.set(url, { status: 'done', data: data, requestedFormat: format });
         } catch (error) {
-            const onLocalFile = window.location.protocol === 'file:';
-            if (!onLocalFile && attempt < 4) {
+            if (attempt < 4) {
                 const nextAttempt = attempt + 1;
                 const waitMs = 1500 * Math.pow(2, attempt);
 
@@ -159,9 +232,7 @@
                 return;
             }
 
-            const msg = onLocalFile
-                ? 'Serveur API indisponible (lancez: node server.js)'
-                : 'Erreur API / lien non pris en charge';
+            const msg = 'Serveur API indisponible (essayez: node server.js)';
             fetchCache.set(url, { status: 'error', data: null, requestedFormat: format, errorMessage: msg });
         }
 
@@ -177,7 +248,7 @@
         if (requestedUrls.size > 0) renderUI();
     }
 
-    async function safeDownload(url, isFallback, ext) {
+    async function safeDownload(url, isFallback, ext, mediaTitle) {
         try {
             const res = await fetch(url, { mode: 'cors' });
             if (!res.ok) throw new Error('CORS bloque');
@@ -186,7 +257,7 @@
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = blobUrl;
-            a.download = 'gumi_media_' + Date.now() + '.' + (ext || 'mp4');
+            a.download = buildDownloadName(mediaTitle, ext);
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(blobUrl);
@@ -247,7 +318,10 @@
 
         const url = button.getAttribute('data-url');
         const ext = button.getAttribute('data-ext') || 'mp4';
-        if (url) safeDownload(url, false, ext);
+        const sourceUrl = button.getAttribute('data-source') || '';
+        const item = sourceUrl ? fetchCache.get(sourceUrl) : null;
+        const mediaTitle = item && item.data && item.data.title ? item.data.title : 'gumi_media';
+        if (url) safeDownload(url, false, ext, mediaTitle);
     });
 
     downloadAllBtn.addEventListener('click', async function () {
@@ -258,12 +332,13 @@
             const item = fetchCache.get(url);
             if (item && item.status === 'done' && item.data && item.data.directLink) {
                 const ext = item.requestedFormat === 'audio_only' ? 'mp3' : 'mp4';
-                await safeDownload(item.data.directLink, true, ext);
+                const mediaTitle = item.data.title || 'gumi_media';
+                await safeDownload(item.data.directLink, true, ext, mediaTitle);
                 openedCount += 1;
 
                 if (thumbEnabled() && item.data.thumbnailLink) {
                     setTimeout(function () {
-                        safeDownload(item.data.thumbnailLink, true, 'jpg');
+                        safeDownload(item.data.thumbnailLink, true, 'jpg', mediaTitle + ' thumbnail');
                     }, 500);
                 }
 

@@ -41,7 +41,8 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       directLink,
-      thumbnailLink: withThumb ? output.thumbnail || null : null
+      thumbnailLink: withThumb ? output.thumbnail || null : null,
+      title: output.title || null
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });

@@ -39,7 +39,8 @@ app.get('/api/get-video', async (req, res) => {
 
         res.json({
             directLink,
-            thumbnailLink: withThumb ? output.thumbnail || null : null
+            thumbnailLink: withThumb ? output.thumbnail || null : null,
+            title: output.title || null
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
