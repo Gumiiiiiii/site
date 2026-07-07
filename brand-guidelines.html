@@ -6,6 +6,7 @@
     <title>Gumi. Brand Guidelines</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/shared.css">
     
     <style>
         /* ========================================
@@ -61,28 +62,6 @@
             -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
             mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
         }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1.5rem;
-            padding: 1.5rem 1.5rem 0;
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            width: min(100%, var(--content-max-width));
-            max-width: var(--content-max-width);
-            margin: 0 auto;
-        }
-
-        .nav-logo img { height: 24px; width: auto; }
-
-        .nav-links { display: flex; gap: 3rem; }
-        .nav-links a { text-decoration: none; color: var(--text); font-weight: 700; font-size: 1.1rem; transition: color 0.3s ease; }
-        .nav-links a:hover { color: var(--accent); }
 
         .hero {
             min-height: 100vh;
@@ -326,7 +305,8 @@
 </head>
 <body>
 
-    <div class="dots-bg dynamic-dots"></div>
+    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+    <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" aria-hidden="true"></div>
 
     <nav class="navbar" data-navbar-root></nav>
 
@@ -700,29 +680,29 @@
         let resizeTimeout;
 
         function drawDots() {
-            if(!dotContainers.length) return;
+            if (!dotContainers.length) return;
             const width = window.innerWidth;
-            const height = 250; 
-            const spacingX = 20; 
-            const spacingY = 18; 
-            
-            let svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor" opacity="0.04">';
-            
-            for (let y = 0; y <= height; y += spacingY) {
-                const isOdd = Math.round(y / spacingY) % 2 !== 0;
-                const offsetX = isOdd ? spacingX / 2 : 0;
-                
-                for (let x = offsetX; x <= width + spacingX; x += spacingX) {
-                    const nx = Math.abs(x - width / 2) / (width / 2);
-                    const baseRadius = 3.0 + (Math.pow(nx, 2.0) * 4.0); 
-                    
-                    if (baseRadius > 0.3) {
-                        svg += `<circle cx="${x}" cy="${y}" r="${baseRadius.toFixed(2)}" />`;
+            dotContainers.forEach((container) => {
+                const height = Number(container.dataset.height || 250);
+                const spacingX = 20;
+                const spacingY = 18;
+                let svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor" opacity="0.04">';
+
+                for (let y = 0; y <= height; y += spacingY) {
+                    const isOdd = Math.round(y / spacingY) % 2 !== 0;
+                    const offsetX = isOdd ? spacingX / 2 : 0;
+
+                    for (let x = offsetX; x <= width + spacingX; x += spacingX) {
+                        const nx = Math.abs(x - width / 2) / (width / 2);
+                        const baseRadius = 3.0 + (Math.pow(nx, 2.0) * 4.0);
+
+                        if (baseRadius > 0.3) {
+                            svg += `<circle cx="${x}" cy="${y}" r="${baseRadius.toFixed(2)}" />`;
+                        }
                     }
                 }
-            }
-            svg += '</g></svg>';
-            dotContainers.forEach(container => {
+
+                svg += '</g></svg>';
                 container.innerHTML = svg;
             });
         }

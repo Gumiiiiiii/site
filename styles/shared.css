@@ -29,6 +29,8 @@ body {
     -webkit-font-smoothing: antialiased;
     background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
     background-blend-mode: multiply;
+    position: relative;
+    overflow-x: hidden;
 }
 
 @keyframes fade-up {
@@ -103,6 +105,13 @@ body {
     height: 180px;
 }
 
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
 .nav-links {
     display: flex;
     gap: 1.5rem;
@@ -119,6 +128,34 @@ body {
 
 .nav-links a:hover {
     color: var(--accent);
+}
+
+.lang-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem;
+    border-radius: 999px;
+    background: rgba(26, 26, 26, 0.05);
+}
+
+.lang-btn {
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.lang-btn.active {
+    background: var(--text);
+    color: var(--bg);
 }
 
 .back-link {
