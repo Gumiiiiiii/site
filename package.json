@@ -2,6 +2,7 @@
   "name": "social-downloader",
   "version": "1.0.0",
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "yt-dlp-wrap": "^2.1.1"
   }
 }
