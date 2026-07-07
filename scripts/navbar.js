@@ -19,15 +19,15 @@
 
     const navbarMarkup = `
         <div class="nav-logo">
-            <a href="${basePrefix}index.html" class="no-select">
+            <a href="${basePrefix}index" class="no-select">
                 <img src="${basePrefix}Gumi-Logotype.png" alt="Gumi Logo" onerror="this.src='https://placehold.co/100x35/transparent/9C77F5?text=GUMI.'">
             </a>
         </div>
         <div class="nav-actions">
             <div class="nav-links">
-                <a href="${basePrefix}experiments.html" data-i18n-key="experiments">Expériences</a>
-                <a href="${basePrefix}brand-guidelines.html" data-i18n-key="brand">Brand Guidelines</a>
-                <a href="${basePrefix}outils.html" data-i18n-key="tools">Outils</a>
+                <a href="${basePrefix}experiments" data-i18n-key="experiments">Expériences</a>
+                <a href="${basePrefix}brand-guidelines" data-i18n-key="brand">Brand Guidelines</a>
+                <a href="${basePrefix}outils" data-i18n-key="tools">Outils</a>
             </div>
             <div class="lang-switch" role="group" aria-label="Language switcher">
                 <button type="button" class="lang-btn active" data-lang="fr">FR</button>
@@ -36,7 +36,16 @@
         </div>
     `;
 
-    const currentPage = window.location.pathname.split('/').pop() || 'brand-guidelines.html';
+    function normalizeRoute(value) {
+        const stripped = String(value || '')
+            .split('#')[0]
+            .split('?')[0]
+            .replace(/\/+$/, '');
+        const lastSegment = stripped.split('/').pop() || 'index';
+        return lastSegment.replace(/\.html$/i, '') || 'index';
+    }
+
+    const currentPage = normalizeRoute(window.location.pathname);
     const savedLang = localStorage.getItem('site-lang') || 'fr';
 
     function applyLanguage(root, language) {
@@ -61,7 +70,7 @@
         root.innerHTML = navbarMarkup;
 
         root.querySelectorAll('.nav-links a').forEach((link) => {
-            const linkPage = (link.getAttribute('href') || '').split('/').pop();
+            const linkPage = normalizeRoute(link.getAttribute('href') || '');
             if (linkPage === currentPage) {
                 link.classList.add('active');
                 link.setAttribute('aria-current', 'page');
