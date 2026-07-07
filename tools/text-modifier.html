@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificateur de Texte - Gumi.</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/shared.css">
+    <link rel="stylesheet" href="../styles/tools-suite.css">
+</head>
+<body>
+    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+
+    <nav class="navbar" data-navbar-root></nav>
+
+    <div class="main-wrapper">
+        <a href="../outils.html" class="back-link no-select" title="Retour aux outils">
+            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Retour aux outils
+        </a>
+
+        <div class="header-container">
+            <h1>Texte<span class="dot">.</span></h1>
+            <div class="tooltip-wrapper no-select" onclick="toggleTooltip(event)">
+                <div class="tooltip-icon" title="Comment ca marche ?">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                </div>
+                <div class="tooltip-content">
+                    <strong>Processus client-side :</strong><br><br>
+                    Modifiez instantanement votre texte. Combinez les formats de base avec des filtres avances.<br><br>
+                    <i>Aucune donnee n'est envoyee sur nos serveurs.</i>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="left-col">
+                <div class="control-row">
+                    <div class="control-label">Texte source</div>
+                    <textarea id="source-text" class="input-field" placeholder="Collez ou tapez votre texte ici..."></textarea>
+                </div>
+
+                <div class="control-row">
+                    <div class="control-label">Actions rapides</div>
+                    <div class="actions-grid no-select">
+                        <button class="secondary modifier-btn" data-action="uppercase" type="button">MAJUSCULES</button>
+                        <button class="secondary modifier-btn" data-action="lowercase" type="button">minuscules</button>
+                        <button class="secondary modifier-btn" data-action="capitalize" type="button">Capitaliser mots</button>
+                        <button class="secondary modifier-btn" data-action="sentence" type="button">Casse phrase</button>
+                        <button class="secondary modifier-btn" data-action="slugify" type="button">format-slug-url</button>
+                        <button class="secondary modifier-btn" data-action="removeAccents" type="button">Sans accents</button>
+                        <button class="secondary modifier-btn" data-action="clean" type="button" style="grid-column: span 2;">Nettoyer les espaces</button>
+                    </div>
+                </div>
+
+                <div class="advanced-section">
+                    <div class="advanced-header no-select" onclick="toggleAdvanced()">
+                        <span>Filtres avances</span>
+                        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="advanced-content" id="adv-content">
+                        <div class="adv-inner">
+                            <div class="control-row" style="margin-bottom: 0;">
+                                <div class="control-label" style="font-size: 1rem; opacity: 0.8;">Ciblage par mots</div>
+                                <input type="text" id="target-words" class="input-field" style="min-height: auto; height: 54px;" placeholder="Ex: urgent, erreur">
+                                <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                                    <button class="secondary modifier-btn" data-action="targetUpper" type="button" style="flex:1;">Cibles MAJ</button>
+                                    <button class="secondary modifier-btn" data-action="targetBold" type="button" style="flex:1;">Cibles **Gras**</button>
+                                </div>
+                            </div>
+
+                            <div class="control-row" style="margin-bottom: 0;">
+                                <div class="control-label" style="font-size: 1rem; opacity: 0.8;">Rechercher & Remplacer</div>
+                                <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                                    <input type="text" id="search-input" class="input-field" style="min-height: auto; height: 54px;" placeholder="Texte a rechercher...">
+                                    <input type="text" id="replace-input" class="input-field" style="min-height: auto; height: 54px;" placeholder="Remplacer par...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <div class="control-row" style="margin-bottom: 0; flex: 1; display: flex; flex-direction: column;">
+                    <div class="control-label" style="margin-bottom: 0.8rem;">Resultat</div>
+                    <textarea id="result-text" class="input-field" readonly placeholder="Le texte modifie apparaitra ici..." style="flex: 1;"></textarea>
+                </div>
+
+                <div class="stats-container no-select">
+                    <div class="stat-item">Mots <span class="stat-val" id="word-count">0</span></div>
+                    <div class="stat-item">Caracteres <span class="stat-val" id="char-count">0</span></div>
+                    <div class="stat-item">Lignes <span class="stat-val" id="line-count">0</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="copy-all-btn" class="primary floating-btn hidden no-select" type="button">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        Copier le resultat
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.16/dist/lenis.min.js"></script>
+    <script src="../scripts/navbar.js"></script>
+    <script src="../scripts/animations.js"></script>
+    <script src="../scripts/page-effects.js"></script>
+    <script src="../scripts/tools-common.js"></script>
+    <script src="../scripts/tool-text-modifier.js"></script>
+</body>
+</html>
+

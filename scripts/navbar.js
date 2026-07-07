@@ -14,17 +14,20 @@
         }
     };
 
+    const inToolsFolder = window.location.pathname.includes('/tools/');
+    const basePrefix = inToolsFolder ? '../' : '';
+
     const navbarMarkup = `
         <div class="nav-logo">
-            <a href="index.html" class="no-select">
-                <img src="Gumi-Logotype.png" alt="Gumi Logo" onerror="this.src='https://placehold.co/100x35/transparent/9C77F5?text=GUMI.'">
+            <a href="${basePrefix}index.html" class="no-select">
+                <img src="${basePrefix}Gumi-Logotype.png" alt="Gumi Logo" onerror="this.src='https://placehold.co/100x35/transparent/9C77F5?text=GUMI.'">
             </a>
         </div>
         <div class="nav-actions">
             <div class="nav-links">
-                <a href="experiments.html" data-i18n-key="experiments">Expériences</a>
-                <a href="brand-guidelines.html" data-i18n-key="brand">Brand Guidelines</a>
-                <a href="outils.html" data-i18n-key="tools">Outils</a>
+                <a href="${basePrefix}experiments.html" data-i18n-key="experiments">Expériences</a>
+                <a href="${basePrefix}brand-guidelines.html" data-i18n-key="brand">Brand Guidelines</a>
+                <a href="${basePrefix}outils.html" data-i18n-key="tools">Outils</a>
             </div>
             <div class="lang-switch" role="group" aria-label="Language switcher">
                 <button type="button" class="lang-btn active" data-lang="fr">FR</button>
@@ -58,7 +61,8 @@
         root.innerHTML = navbarMarkup;
 
         root.querySelectorAll('.nav-links a').forEach((link) => {
-            if (link.getAttribute('href') === currentPage) {
+            const linkPage = (link.getAttribute('href') || '').split('/').pop();
+            if (linkPage === currentPage) {
                 link.classList.add('active');
                 link.setAttribute('aria-current', 'page');
             }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,7 @@
     <title>Convertisseur - Gumi.</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/shared.css">
+    <link rel="stylesheet" href="../styles/shared.css">
 
     <style>
         .main-grid { display: grid; grid-template-columns: 420px 1fr; gap: 3rem; align-items: stretch; min-height: 0; }
@@ -172,12 +172,11 @@
 </head>
 <body>
     <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
-    <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" aria-hidden="true"></div>
 
     <nav class="navbar" data-navbar-root></nav>
 
     <div class="main-wrapper">
-        <a href="outils.html" class="back-link no-select" title="Retour aux outils">
+        <a href="../outils.html" class="back-link no-select" title="Retour aux outils">
             <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             Retour aux outils
         </a>
@@ -319,8 +318,8 @@
     </button>
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="scripts/navbar.js"></script>
-    <script src="scripts/animations.js"></script>
+    <script src="../scripts/navbar.js"></script>
+    <script src="../scripts/animations.js"></script>
     <script src="https://unpkg.com/lenis@1.1.16/dist/lenis.min.js"></script>
     <script>
         const lenis = new Lenis({
@@ -606,3 +605,4 @@
     </script>
 </body>
 </html>
+

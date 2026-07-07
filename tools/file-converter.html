@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outil Fichier - Gumi.</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/shared.css">
+    <link rel="stylesheet" href="../styles/tools-suite.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/psd.js/2.0.0/psd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+
+    <nav class="navbar" data-navbar-root></nav>
+
+    <div class="main-wrapper">
+        <a href="../outils.html" class="back-link no-select" title="Retour aux outils">
+            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Retour aux outils
+        </a>
+
+        <div class="header-container">
+            <h1>Fichiers<span class="dot">.</span></h1>
+            <div class="tooltip-wrapper no-select" onclick="toggleTooltip(event)" style="margin-left: 10px;">
+                <div class="tooltip-icon" title="Comment ca marche ?">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                </div>
+                <div class="tooltip-content">
+                    <strong>Conversion multi-fichiers :</strong><br><br>
+                    1. Glissez plusieurs fichiers .psd, .ai ou .pdf.<br>
+                    2. Choisissez le format (PNG, JPG, PDF).<br>
+                    3. Convertissez le tout en local.<br><br>
+                    <i>Astuce : un .ai converti en .pdf conserve ses traces vectorielles.</i>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="left-col">
+                <div class="controls-panel">
+                    <div class="control-row">
+                        <div class="control-label">Format d'export</div>
+                        <div class="segmented-control format-3 no-select">
+                            <input type="radio" id="f-png" name="out-format" value="png" checked>
+                            <input type="radio" id="f-jpeg" name="out-format" value="jpeg">
+                            <input type="radio" id="f-pdf" name="out-format" value="pdf">
+                            <div class="slider-format"></div>
+                            <label for="f-png">PNG</label>
+                            <label for="f-jpeg">JPG</label>
+                            <label for="f-pdf">PDF</label>
+                        </div>
+                    </div>
+                </div>
+                <button id="convert-btn" class="primary no-select" style="margin-top: 1.5rem;" disabled>Convertir les fichiers</button>
+            </div>
+
+            <div class="right-col">
+                <div id="drop-zone" class="drop-zone no-select" tabindex="0">
+                    <div class="drop-zone-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></div>
+                    <p>Deposez vos fichiers ici</p>
+                    <span class="text-small" id="file-count">.psd, .pdf, .ai, images</span>
+                </div>
+
+                <input type="file" id="file-input" multiple accept=".psd,.pdf,.ai,image/*" style="display:none;">
+
+                <div style="display: flex; justify-content: flex-end; margin-top: -0.5rem; height: 24px;">
+                    <button id="clear-btn" class="subtle-btn no-select" style="display: none;" title="Vider la liste">
+                        <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                        Vider
+                    </button>
+                </div>
+
+                <div id="results-list" class="results-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <button id="download-all-btn" class="primary floating-btn no-select hidden" disabled>
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Tout telecharger <span id="dl-count" style="margin-left: 5px;"></span>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.16/dist/lenis.min.js"></script>
+    <script src="../scripts/navbar.js"></script>
+    <script src="../scripts/animations.js"></script>
+    <script src="../scripts/page-effects.js"></script>
+    <script src="../scripts/tools-common.js"></script>
+    <script src="../scripts/tool-file-converter.js"></script>
+</body>
+</html>
+
