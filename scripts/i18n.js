@@ -132,7 +132,7 @@
 
         // Footer
         footer_title: { fr: "Envie d'échanger ?", en: 'Want to get in touch?' },
-        footer_byline: { fr: 'Conçu et développé par Pierre, en Suisse.', en: 'Designed and built by Pierre, in Switzerland.' },
+        footer_byline: { fr: 'Conçu et développé par Pierre.', en: 'Designed and built by Pierre.' },
 
         // Tools shared
         back_tools: { fr: 'Retour aux outils', en: 'Back to tools' },

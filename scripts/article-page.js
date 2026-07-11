@@ -87,6 +87,15 @@
         if (coverEl.getAttribute('src') !== article.cover) coverEl.src = article.cover;
         coverEl.alt = article.coverAlt || article.title[lang];
         postContent.innerHTML = article.html[lang];
+
+        // Wide tables scroll inside their own container on small screens.
+        postContent.querySelectorAll('table').forEach((table) => {
+            const wrap = document.createElement('div');
+            wrap.className = 'table-scroll';
+            table.parentNode.insertBefore(wrap, table);
+            wrap.appendChild(table);
+        });
+
         buildToc();
 
         const next = articles[article.readNext];

@@ -5,6 +5,12 @@
     align-items: start;
 }
 
+/* Grid items default to min-width:auto and refuse to shrink below their
+   content, which pushed the columns past small viewports. */
+.main-grid > * {
+    min-width: 0;
+}
+
 @media (max-width: 950px) {
     .main-grid {
         grid-template-columns: 1fr;
@@ -348,6 +354,20 @@ button.primary:disabled {
     visibility: visible;
     transform: translateY(0);
     pointer-events: auto;
+}
+
+/* On small screens the anchored panel would run past the viewport edge
+   (and its hidden box widened the page): pin it to the bottom instead. */
+@media (max-width: 640px) {
+    .tooltip-content {
+        position: fixed;
+        top: auto;
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+        width: auto;
+        max-width: none;
+    }
 }
 
 .advanced-header {

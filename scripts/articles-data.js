@@ -57,7 +57,7 @@ window.GUMI_ARTICLES = {
             <p>La solution fut un changement de paradigme vers une <a href="https://jamstack.org/" target="_blank">architecture Jamstack</a> moderne. En découplant la couche de présentation front-end de la base de données back-end, nous avons pu pré-générer l'intégralité du site en fichiers statiques HTML, CSS et JavaScript. Ces ressources optimisées ont ensuite été déployées sur un CDN mondial. Les résultats de cette migration furent spectaculaires : des pages considérablement plus rapides et une infrastructure serveur enfin soulagée.</p>
 
             <figure>
-                <img src="https://images.unsplash.com/photo-1461800919507-79b1673d4615" alt="Un ordinateur portable affichant du code" width="100%">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1600&auto=format&fit=crop" alt="Un ordinateur portable affichant du code" width="100%">
                 <figcaption>La transition vers un générateur de site statique nous permet de servir les pages mondialement, sans aucune base de données.</figcaption>
             </figure>
 
@@ -155,7 +155,7 @@ buildSite();</code></pre>
             <p>The solution was a paradigm shift toward a modern <a href="https://jamstack.org/" target="_blank">Jamstack architecture</a>. By decoupling our frontend presentation layer from our backend database, we could pre-render the entire website into static HTML, CSS, and JavaScript files. We then deployed these highly optimized static assets across a global Content Delivery Network (CDN). The results of this migration were nothing short of spectacular, dramatically increasing page load speeds while simultaneously unburdening our server infrastructure.</p>
 
             <figure>
-                <img src="https://images.unsplash.com/photo-1461800919507-79b1673d4615" alt="A laptop showing lines of code" width="100%">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1600&auto=format&fit=crop" alt="A laptop showing lines of code" width="100%">
                 <figcaption>Transitioning to a static site generator allowed us to serve pages globally with zero database overhead.</figcaption>
             </figure>
 
@@ -216,8 +216,8 @@ buildSite();</code></pre>
     },
 
     'ai-photoshoot': {
-        cover: 'https://images.unsplash.com/photo-1678995632902-6019eb508c90?q=80&w=2000&auto=format&fit=crop',
-        coverAlt: 'Portrait généré par intelligence artificielle',
+        cover: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2000&auto=format&fit=crop',
+        coverAlt: 'Studio photo avec éclairage professionnel',
         readNext: 'ardacraft',
         title: {
             fr: "Peut-on remplacer un véritable shooting photo avec l'Intelligence Artificielle ?",
