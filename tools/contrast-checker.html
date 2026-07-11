@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
     <link rel="canonical" href="https://gumi.ch/tools/contrast-checker">
+    <link rel="alternate" hreflang="fr" href="https://gumi.ch/tools/contrast-checker">
+    <link rel="alternate" hreflang="en" href="https://gumi.ch/en/tools/contrast-checker">
+    <link rel="alternate" hreflang="x-default" href="https://gumi.ch/tools/contrast-checker">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Gumi.">
     <meta property="og:locale" content="fr_FR">
@@ -21,7 +24,9 @@
     <meta name="twitter:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
     <title>Analyseur de contraste - Gumi.</title>
     <meta name="description" content="Vérifiez le contraste de vos couleurs selon les normes WCAG : ratio, niveaux AA/AAA pour petit et grand texte, avec aperçu en direct.">
-    <link rel="icon" type="image/x-icon" href="../media/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../media/favicon-32.png">
+    <link rel="apple-touch-icon" href="../media/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
 
     <link rel="stylesheet" href="../styles/shared.css">
     <link rel="stylesheet" href="../styles/tools-suite.css">
@@ -159,6 +164,36 @@
 
         .color-input-row .secondary.hidden { display: none; }
 
+        /* Color and image are one either/or choice: box them together. */
+        .bg-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            padding: 1rem;
+            border-radius: 1rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(26, 26, 26, 0.05);
+        }
+
+        .bg-group-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: rgba(26, 26, 26, 0.45);
+        }
+
+        .bg-group-divider::before,
+        .bg-group-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(26, 26, 26, 0.12);
+        }
+
         .bg-image-note {
             font-size: 0.85rem;
             font-weight: 600;
@@ -223,11 +258,12 @@
     </script>
 </head>
 <body>
+    <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
     <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
 
     <nav class="navbar" data-navbar-root></nav>
 
-    <div class="main-wrapper">
+    <div class="main-wrapper" id="main" role="main">
         <a href="../outils" class="back-link no-select" title="Retour aux outils">
             <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             <span data-i18n="back_tools">Retour aux outils</span>
@@ -239,12 +275,18 @@
                 <button type="button" class="tooltip-icon" onclick="toggleTooltip(event)" aria-expanded="false" aria-label="Comment ça marche ?" title="Comment ça marche ?">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                 </button>
-                <div class="tooltip-content" style="max-width: 340px;" data-i18n-html="contrast_tooltip">
-                    <strong>Comment ça marche ?</strong><br><br>
-                    Cet outil suit les Web Content Accessibility Guidelines (WCAG), qui définissent deux niveaux de contraste : AA (minimum) et AAA (renforcé).<br><br>
-                    AA : ratio d'au moins 4,5:1 pour le texte normal et 3:1 pour le grand texte (18pt+) ou le gras.<br>
-                    AAA : ratio d'au moins 7:1 pour le texte normal et 4,5:1 pour le grand texte ou le gras.<br><br>
-                    <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 800;">En savoir plus</a>
+                <div class="tooltip-content" style="max-width: 340px;">
+                    <div data-i18n-html="contrast_tooltip">
+                        <strong>Comment ça marche ?</strong><br><br>
+                        Cet outil suit les Web Content Accessibility Guidelines (WCAG), qui définissent deux niveaux de contraste : AA (minimum) et AAA (renforcé).<br><br>
+                        AA : ratio d'au moins 4,5:1 pour le texte normal et 3:1 pour le grand texte (18pt+) ou le gras.<br>
+                        AAA : ratio d'au moins 7:1 pour le texte normal et 4,5:1 pour le grand texte ou le gras.<br><br>
+                        <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 800;">En savoir plus</a>
+                    </div>
+                    <div class="tooltip-status is-offline">
+                        <span class="tooltip-status-dot" aria-hidden="true"></span>
+                        <span data-i18n="tooltip_offline">Fonctionne hors ligne</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -261,21 +303,20 @@
                     </div>
 
                     <div class="control-row">
-                        <div class="control-label" data-i18n="contrast_bg_color">Couleur de fond</div>
-                        <div class="color-input-row">
-                            <input type="text" id="bg-hex" class="input-field" value="#F9F4EF" spellcheck="false" maxlength="7">
-                            <input type="color" id="bg-swatch" class="color-swatch no-select" value="#F9F4EF" title="Couleur de fond">
+                        <div class="control-label" data-i18n="contrast_bg_label">Arrière-plan</div>
+                        <div class="bg-group">
+                            <div class="color-input-row">
+                                <input type="text" id="bg-hex" class="input-field" value="#F9F4EF" spellcheck="false" maxlength="7">
+                                <input type="color" id="bg-swatch" class="color-swatch no-select" value="#F9F4EF" title="Couleur de fond">
+                            </div>
+                            <div class="bg-group-divider" aria-hidden="true"><span data-i18n="contrast_or">ou</span></div>
+                            <div class="color-input-row">
+                                <button type="button" id="bg-image-btn" class="secondary no-select" style="flex: 1;" data-i18n="contrast_add_image">Ajouter une image</button>
+                                <button type="button" id="bg-image-clear" class="secondary no-select hidden" style="flex: 1;" data-i18n="contrast_remove_image">Retirer l'image</button>
+                            </div>
+                            <input type="file" id="bg-image-input" accept="image/*" style="display: none;">
+                            <span class="bg-image-note hidden" id="bg-image-note"></span>
                         </div>
-                    </div>
-
-                    <div class="control-row">
-                        <div class="control-label" data-i18n="contrast_bg_image">Image de fond</div>
-                        <div class="color-input-row">
-                            <button type="button" id="bg-image-btn" class="secondary no-select" style="flex: 1;" data-i18n="contrast_add_image">Ajouter une image</button>
-                            <button type="button" id="bg-image-clear" class="secondary no-select hidden" style="flex: 1;" data-i18n="contrast_remove_image">Retirer l'image</button>
-                        </div>
-                        <input type="file" id="bg-image-input" accept="image/*" style="display: none;">
-                        <span class="bg-image-note hidden" id="bg-image-note"></span>
                     </div>
 
                     <div class="control-row">
@@ -330,9 +371,14 @@
     <script src="../scripts/vendor/lenis.min.js"></script>
     <script src="../scripts/i18n.js"></script>
     <script src="../scripts/navbar.js"></script>
-    <script src="../scripts/animations.js"></script>
     <script src="../scripts/page-effects.js"></script>
     <script src="../scripts/tools-common.js"></script>
     <script src="../scripts/tool-contrast-checker.js"></script>
+    <script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

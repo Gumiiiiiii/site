@@ -7,6 +7,7 @@
     if (!article) return;
 
     const titleEl = document.getElementById('article-title');
+    const dateEl = document.getElementById('article-date');
     const coverEl = document.getElementById('article-cover');
     const postContent = document.getElementById('post-content');
     const tocList = document.getElementById('toc-list');
@@ -84,6 +85,16 @@
             metaDesc.setAttribute('content', article.excerpt[lang]);
         }
         titleEl.textContent = article.title[lang];
+
+        if (dateEl && article.published) {
+            const date = new Date(article.published + 'T00:00:00');
+            const label = window.GumiI18n ? window.GumiI18n.t('published_on') : 'Publié le';
+            dateEl.textContent = label + ' ' + date.toLocaleDateString(
+                lang === 'fr' ? 'fr-FR' : 'en-US',
+                { year: 'numeric', month: 'long', day: 'numeric' }
+            );
+        }
+
         if (coverEl.getAttribute('src') !== article.cover) coverEl.src = article.cover;
         coverEl.alt = article.coverAlt || article.title[lang];
         postContent.innerHTML = article.html[lang];
@@ -99,6 +110,7 @@
         buildToc();
 
         const next = articles[article.readNext];
+        const readNextSection = readNextLink ? readNextLink.closest('.read-next-section') : null;
         if (next && readNextLink) {
             // Sibling page in /experiments/, so the relative slug is enough
             // (and it keeps a potential /en/ prefix intact).
@@ -107,6 +119,9 @@
             readNextImg.alt = next.coverAlt || next.title[lang];
             readNextTitle.textContent = next.title[lang];
             readNextDesc.textContent = next.excerpt[lang];
+        } else if (readNextSection) {
+            // No published follow-up article: hide the whole section.
+            readNextSection.style.display = 'none';
         }
     }
 
@@ -117,7 +132,9 @@
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         window.addEventListener('scroll', () => {
             const fadeEnd = window.innerHeight * 0.4;
-            titleEl.style.opacity = Math.max(0, Math.min(1, 1 - (window.scrollY / fadeEnd)));
+            const opacity = Math.max(0, Math.min(1, 1 - (window.scrollY / fadeEnd)));
+            titleEl.style.opacity = opacity;
+            if (dateEl) dateEl.style.opacity = opacity;
         }, { passive: true });
     }
 

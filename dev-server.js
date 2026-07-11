@@ -19,7 +19,8 @@ const MIME = {
     '.svg': 'image/svg+xml',
     '.ico': 'image/x-icon',
     '.webp': 'image/webp',
-    '.woff2': 'font/woff2'
+    '.woff2': 'font/woff2',
+    '.webmanifest': 'application/manifest+json'
 };
 
 http.createServer((req, res) => {
@@ -34,6 +35,21 @@ http.createServer((req, res) => {
     // /en prefix rewrite (same as vercel.json).
     if (urlPath === '/en' || urlPath.startsWith('/en/')) {
         urlPath = urlPath.slice(3) || '/';
+    }
+
+    // Local stand-in for the Vercel function behind the share-preview tool.
+    if (urlPath === '/api/get-meta') {
+        const meta = require('./api/_lib/meta.cjs');
+        const query = new URL(req.url, 'http://localhost').searchParams;
+        return meta.fetchPageMeta(query.get('url'))
+            .then((data) => {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(data));
+            })
+            .catch((err) => {
+                res.writeHead(err.statusCode || 500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: err.publicMessage || 'Metadata extraction failed' }));
+            });
     }
 
     if (urlPath.endsWith('/')) urlPath += 'index.html';

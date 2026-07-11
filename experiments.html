@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
     <link rel="canonical" href="https://gumi.ch/experiments">
+    <link rel="alternate" hreflang="fr" href="https://gumi.ch/experiments">
+    <link rel="alternate" hreflang="en" href="https://gumi.ch/en/experiments">
+    <link rel="alternate" hreflang="x-default" href="https://gumi.ch/experiments">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Gumi.">
     <meta property="og:locale" content="fr_FR">
@@ -21,16 +24,20 @@
     <meta name="twitter:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
     <title>Expérimentations - Gumi.</title>
     <meta name="description" content="Découvrez les expérimentations de Gumi : concepts exploratoires, concepts visuels et prototypes pour repousser les limites des technologies actuelles.">
-    <link rel="icon" type="image/x-icon" href="media/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="media/favicon-32.png">
+    <link rel="apple-touch-icon" href="media/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
 
     <link rel="stylesheet" href="styles/shared.css">
 </head>
 <body class="shell-page">
-    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+    <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
 
     <nav class="navbar" data-navbar-root></nav>
 
-    <main class="site-content">
+    <main class="site-content" id="main">
+    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+
         <div class="container">
             <header class="hero">
                 <h1 data-i18n="exp_hero_title">Mes Expérimentations</h1>
@@ -40,7 +47,7 @@
             <div class="controls-wrapper">
                 <div class="search-wrapper">
                     <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    <input type="text" class="search-input" placeholder="Rechercher une expérimentation..." data-i18n-placeholder="search_experiments">
+                    <input type="text" class="search-input" aria-label="Rechercher une expérimentation" data-i18n-aria="search_experiments" placeholder="Rechercher une expérimentation..." data-i18n-placeholder="search_experiments">
                 </div>
                 <div class="filters-group">
                     <button class="filter-btn active" data-filter="all"><span data-i18n="filter_all_f">Toutes</span></button>
@@ -53,15 +60,16 @@
                 <a href="experiments/ardacraft" class="card" data-category="design">
                     <div class="card-inner">
                         <div class="card-image"><img src="media/ardacraft-redesign-card.webp" alt="Aperçu de la refonte du site ArdaCraft" width="1200" height="675" loading="lazy"></div>
-                        <h3 class="card-title" data-i18n="exp_card_ardacraft">Redesign du site d'ArdaCraft pour refléter l'ambition et l'ampleur du projet.</h3>
+                        <h3 class="card-title" data-i18n="exp_card_ardacraft">De Webflow à une architecture décentralisée : comment j'ai repensé le site d'ArdaCraft.</h3>
                     </div>
                 </a>
-                <a href="experiments/ai-photoshoot" class="card" data-category="ia">
+                <div class="card faded" data-category="ia">
                     <div class="card-inner">
                         <div class="card-image"><img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=1200&auto=format&fit=crop" alt="Studio photo avec éclairage professionnel" loading="lazy"></div>
+                        <span class="soon-badge" data-i18n="coming_soon">Bientôt disponible</span>
                         <h3 class="card-title" data-i18n="exp_card_shooting">Peut-on remplacer un véritable shooting photo avec l'Intelligence Artificielle ?</h3>
                     </div>
-                </a>
+                </div>
             </section>
         </div>
     </main>
@@ -71,5 +79,11 @@
     <script src="scripts/i18n.js"></script>
     <script src="scripts/navbar.js"></script>
     <script src="scripts/filters.js"></script>
+    <script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

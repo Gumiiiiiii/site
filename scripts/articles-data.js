@@ -6,211 +6,225 @@ window.GUMI_ARTICLES = {
     'ardacraft': {
         cover: '/media/ardacraft-redesign-featured-image.webp',
         coverAlt: 'Aperçu de la refonte du site ArdaCraft',
-        readNext: 'ai-photoshoot',
+        // Restore to 'ai-photoshoot' once that article is published.
+        readNext: null,
+        published: '2026-07-11',
         title: {
-            fr: "Refonte d'ArdaCraft : forger une Terre du Milieu numérique moderne et inclusive",
-            en: 'ArdaCraft Redesign: Forging a Modern, Inclusive Digital Middle-earth'
+            fr: "De Webflow à une architecture décentralisée : comment j'ai repensé le site d'ArdaCraft",
+            en: 'From Webflow to a Decentralized Architecture: How I Rethought the ArdaCraft Website'
         },
         excerpt: {
-            fr: "Nouvelle identité visuelle, accessibilité WCAG et migration vers une infrastructure statique moderne pour le wiki de la communauté ArdaCraft.",
-            en: 'A new visual identity, WCAG accessibility and a migration to a modern static infrastructure for the ArdaCraft community wiki.'
+            fr: "Participer au succès d'une communauté de passionnés tout en me challengeant et en développant de nouvelles compétences : retour sur un chantier de 150 heures.",
+            en: 'Contributing to the success of a passionate community while challenging myself and building new skills: a look back at a 150-hour project.'
         },
         html: {
             fr: `
             <div class="abstract">
-                <p><strong>Refonte visuelle totale</strong> pour aligner l'identité de la marque à l'échelle épique et à l'atmosphère immersive exceptionnelle du projet.</p>
-                <p><strong>100% de conformité WCAG</strong> atteinte grâce à une refonte de l'architecture privilégiant une accessibilité web inclusive et sans compromis.</p>
-                <p><strong>-90% de coûts mensuels</strong> et un temps de chargement <strong>81% plus rapide</strong> accomplis via la transition vers une infrastructure statique moderne (Jamstack).</p>
+                <p><strong>-90 % de coûts d'hébergement</strong> par rapport au forfait supérieur que Webflow nous imposait — et deux fois moins qu'avant la migration.</p>
+                <p><strong>150 heures sur 3 mois</strong> pour migrer vers une architecture décentralisée : WordPress et Webstudio reliés en headless via GraphQL.</p>
+                <p><strong>3× plus d'utilisation</strong> des fonctionnalités clés (recherche, filtres, tri) sur l'une des pages les plus visitées, grâce à une optimisation UX guidée par les données.</p>
             </div>
 
-            <h2>L'aube d'une nouvelle ère numérique pour ArdaCraft</h2>
-            <p>Depuis des années, le projet ArdaCraft est une réussite monumentale de la construction numérique, recréant méticuleusement les vastes paysages de la <a href="https://ardacraft.me/" target="_blank">Terre du Milieu de J.R.R. Tolkien</a> avec un niveau de précision historique et géographique sans précédent. Pourtant, alors que notre monde en jeu continuait d'évoluer et de s'étendre vers de nouveaux territoires époustouflants, notre présence web restait figée dans une époque révolue. Le site, premier point de contact pour des milliers de bâtisseurs potentiels, de passionnés de lore et de curieux, était devenu visuellement daté, structurellement lourd et frustrant à maintenir. Il était temps d'une refonte complète — repartir de zéro pour élever notre identité de marque tout en corrigeant des défauts structurels qui épuisaient silencieusement nos ressources et éloignaient les utilisateurs.</p>
+            <p><em>Participer au succès d'une communauté de passionnés tout en me challengeant et en développant de nouvelles compétences : retour sur un chantier de 150 heures.</em></p>
 
-            <h2>Réinventer l'identité de marque</h2>
-            <p>Le langage visuel de notre ancien site ne parvenait pas à transmettre la grandeur et le dévouement inhérents à la mission d'ArdaCraft. Dès leur arrivée sur la page d'accueil, les visiteurs devraient sentir les vents glacés des Monts Brumeux ou la chaleur accueillante d'un foyer de la Comté. Pour y parvenir, notre équipe de design a opéré un virage esthétique majeur. Nous avons abandonné les textures web lourdes et surchargées du début des années 2010 au profit d'une interface épurée, immersive et parfaitement responsive. En utilisant des <a href="#gallery">photographies en jeu haute résolution</a> comme bannières panoramiques, associées à un système typographique soigné mariant des titres classiques à empattements et un corps de texte sans-serif très lisible, nous avons créé un environnement à la fois légendaire et résolument moderne. Cette nouvelle hiérarchie visuelle place immédiatement au premier plan nos actualités essentielles, nos captures d'écran spectaculaires et les projecteurs sur la communauté.</p>
+            <h2>Le contexte : un succès massif, un goulot d'étranglement réel</h2>
+            <p>ArdaCraft est un projet collaboratif international dont l'ambition est de recréer minutieusement la <a href="https://ardacraft.me/" target="_blank" rel="noopener">Terre du Milieu</a> (l'univers du <em>Seigneur des Anneaux</em> et du <em>Hobbit</em>). J'ai rejoint l'aventure initialement pour créer des vidéos, avant de prendre plus de responsabilités pour me challenger et explorer de nouveaux horizons.</p>
+            <p>Il y a quelques années, le projet a connu un immense succès sur les réseaux sociaux, cumulant des dizaines de millions de vues sur nos Reels. Pourtant, je n'étais pas satisfait : le nombre de visiteurs réels sur le projet ne décollait pas. J'ai vite compris le problème. Notre site web était un goulot d'étranglement. Pour un utilisateur curieux, comprendre comment commencer la visite du monde relevait du parcours du combattant.</p>
 
             <figure class="image-breakout">
-                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop" alt="Mise en page large">
-                <figcaption>Une mise en page large qui casse le rythme du texte pour plus d'impact visuel.</figcaption>
+                <img src="/media/ardacraft-experiments-location-gallery.webp" alt="Six panoramas de la Terre du Milieu recréée dans ArdaCraft : champs cultivés de la Comté, collines brumeuses, falaises, village fleuri et tour de garde fortifiée" width="1920" height="1080" loading="lazy">
+                <figcaption>L'ampleur du projet : quelques-uns des 316 lieux recréés bloc par bloc par la communauté.</figcaption>
             </figure>
 
-            <h3>Typographie et hiérarchie visuelle</h3>
-            <p>Pour vraiment éprouver la fluidité du texte sur différentes tailles d'écran, il est essentiel d'utiliser des blocs variés. Nous avons mis en place une grille CSS robuste qui laisse le texte respirer, avec des interlignages généreux et des marges adaptées. L'introduction de lettrines thématiques et d'accents <em>italiques</em> subtils guide l'œil du lecteur à travers les longues mises à jour de lore et les tutoriels de construction complexes, sans fatigue cognitive.</p>
+            <h2>Le problème : la rançon du succès et l'impasse financière</h2>
+            <p>En collaboration avec un autre membre, j'ai reconstruit un site mais plus complet et aligné sur nos objectifs : agrandir la communauté et imposer ArdaCraft comme une référence auprès des fans de Tolkien.</p>
+            <p>Développée sur Webflow, cette première refonte a été un succès critique. Portée par notre stratégie de communication, elle a attiré plus de 217 000 visiteurs la première année. C'est là que les ennuis ont commencé.</p>
+            <p>Nous avons atteint la limite de notre abonnement Webflow. Passer au forfait supérieur aurait <strong>multiplié nos coûts par cinq</strong>. Pour un projet communautaire qui survit uniquement grâce aux dons, c'était impossible. Il nous fallait une solution capable de grandir avec nous sans vider notre trésorerie.</p>
 
-            <blockquote>
-                <p>« Notre objectif n'était pas seulement de faire un joli site ; nous voulions que l'architecture numérique de notre présence web reflète l'intégrité structurelle et la beauté des cités majestueuses que nous construisons en jeu. Chaque pixel, comme chaque bloc, doit servir un dessein délibéré. »</p>
-                <footer>— L'équipe de développement web d'ArdaCraft</footer>
-            </blockquote>
-
-            <h2>Défendre l'accessibilité pour tous les aventuriers</h2>
-            <p>À mesure que notre communauté devenait une communauté mondiale, nous avons pris conscience de l'importance vitale de l'inclusivité numérique. Explorer nos recréations détaillées de la Terre du Milieu devrait être une expérience ouverte à absolument tout le monde, quelles que soient les capacités physiques de chacun ou sa manière de naviguer sur le web. Lors de notre phase d'audit, nous avons découvert que notre ancien framework manquait cruellement de conformité aux <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank">Web Content Accessibility Guidelines (WCAG)</a>. Les lecteurs d'écran peinaient à interpréter nos tableaux imbriqués, et notre palette de couleurs échouait souvent aux tests de contraste élémentaires.</p>
-            <p>Pour y remédier, nous avons reconstruit le DOM en nous appuyant strictement sur des balises HTML5 sémantiques. Nous avons instauré des standards de contraste rigoureux garantissant une lisibilité nette du texte sur les éléments de fond, et introduit une prise en charge complète de la navigation au clavier. Voici les piliers de notre initiative d'accessibilité :</p>
-
+            <h3>Notre nouvelle architecture technique</h3>
+            <p>Pour contourner cette contrainte financière, nous avons migré vers une solution décentralisée. J'ai dû apprendre à maîtriser plusieurs nouveaux outils. Le défi était de taille : il a fallu déplacer des milliers de points de données et faire communiquer WordPress et Webstudio via GraphQL pour gérer dynamiquement des centaines de pages en mode <em>headless</em>. J'ai même dû concevoir un script Python sur mesure pour compresser des milliers d'images au format WebP et optimiser les performances.</p>
+            <p>Ce chantier de refonte et de migration m'a demandé <strong>bien 150 heures de travail étalées sur 3 mois</strong>. Bien que j'aie été le contributeur principal sur cette partie, je suis profondément reconnaissant envers toutes les personnes de l'équipe qui m'ont donné un coup de main de temps en temps ; leur soutien constant a été un moteur indispensable pour avancer.</p>
+            <p>Je me suis basé sur 3 piliers :</p>
             <ul>
-                <li><strong>Structure sémantique :</strong> remplacer les <code>&lt;div&gt;</code> ambiguës par des repères <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code> et <code>&lt;nav&gt;</code> appropriés.</li>
-                <li><strong>Labels ARIA et textes alternatifs :</strong> garantir que chaque média, des grandes galeries aux plus petites icônes d'interface, comporte un texte descriptif pour les technologies d'assistance.</li>
-                <li><strong>États de focus :</strong> concevoir des anneaux de focus très visibles et esthétiques pour que les utilisateurs au clavier ne perdent jamais leur position sur la page.</li>
+                <li><strong>L'impact visuel</strong> : un design marquant pour faire ressortir notre personnalité.</li>
+                <li><strong>L'efficacité du parcours</strong> : une navigation logique pour guider le visiteur.</li>
+                <li><strong>L'adaptabilité</strong> : une expérience fluide du smartphone à l'ordinateur.</li>
             </ul>
 
-            <h2>Le chantier technique : réduire drastiquement les coûts d'infrastructure</h2>
-            <p>Le triomphe le plus monumental — quoique invisible — de cette refonte est sans doute la restructuration complète de notre architecture back-end. Notre ancien système reposait sur un CMS monolithique hébergé sur des serveurs privés virtuels fonctionnant en permanence. Cette approche était extrêmement gourmande : nous payions une capacité de calcul maximale 24h/24, même en période de faible trafic. De plus, les requêtes en base nécessaires au chargement d'une seule page riche en images haute résolution provoquaient d'importants problèmes de latence, en particulier pour nos utilisateurs internationaux.</p>
-            <p>La solution fut un changement de paradigme vers une <a href="https://jamstack.org/" target="_blank">architecture Jamstack</a> moderne. En découplant la couche de présentation front-end de la base de données back-end, nous avons pu pré-générer l'intégralité du site en fichiers statiques HTML, CSS et JavaScript. Ces ressources optimisées ont ensuite été déployées sur un CDN mondial. Les résultats de cette migration furent spectaculaires : des pages considérablement plus rapides et une infrastructure serveur enfin soulagée.</p>
+            <hr />
 
-            <figure>
-                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1600&auto=format&fit=crop" alt="Un ordinateur portable affichant du code" width="100%">
-                <figcaption>La transition vers un générateur de site statique nous permet de servir les pages mondialement, sans aucune base de données.</figcaption>
+            <h2>1. L'impact visuel : immersion avant tout</h2>
+
+            <figure class="image-breakout">
+                <img src="/media/ardacraft-experiments-before-after.webp" alt="Comparaison avant/après de la page des lieux : l'ancienne interface utilitaire à gauche, la nouvelle version immersive aux accents dorés à droite" width="1920" height="1080" loading="lazy">
+                <figcaption>Avant / après : la page des lieux, passée d'une liste utilitaire à une vitrine immersive.</figcaption>
             </figure>
 
-            <h3>Détail de la réduction des coûts</h3>
-            <p>L'impact financier de ce pivot technique a été profondément transformateur pour notre projet bénévole. En éliminant le besoin de serveurs de base de données toujours actifs et en passant à des fichiers statiques hébergés en périphérie, nous avons obtenu une réduction stupéfiante de <strong>90%</strong> de nos coûts mensuels d'infrastructure web. Les fonds auparavant brûlés en cycles serveurs inefficaces peuvent désormais être réinvestis directement dans le projet : de meilleurs serveurs de jeu, des développements sur mesure et des événements communautaires.</p>
+            <p>Redesigner l'intégralité des pages a été une tâche colossale. Après une phase de recherche sur Figma, j'ai introduit des concepts visuels forts : l'utilisation extensive de la couleur « or », des effets « brillants » sur les éléments interactifs et du <em>glassmorphism</em>.</p>
+            <p>Mon maître-mot était l'<strong>immersion</strong>. Comment faire des choix créatifs forts sans dégrader la navigation ? La clé a été la subtilité : travailler avec des images en fond, des dégradés, utiliser le <em>glassmorphism</em> avec parcimonie et réduire drastiquement le nombre d'éléments visibles à l'écran.</p>
+
+            <figure class="image-breakout">
+                <img src="/media/ardacraft-experiments-process.webp" alt="Processus de design en deux exemples : une maquette Figma face à la page finale en ligne, puis un croquis papier face à sa page finale en ligne" width="1920" height="1080" loading="lazy">
+                <figcaption>Mon flux de travail réel : une fois le style établi sur une dizaine de pages, je passais du croquis papier ou de la maquette Figma directement à l'implémentation — en affinant les idées en cours de route.</figcaption>
+            </figure>
+
+            <p>S'il est presque impossible de mesurer l'impact réel d'un nouveau design sur un projet associatif comme le nôtre, le gain est ailleurs : nous disposons enfin d'une belle cohérence visuelle sur l'intégralité des pages, et le site agit désormais comme un pilier fort de l'identité de marque (<em>brand identity</em>) d'ArdaCraft.</p>
+
+            <hr />
+
+            <h2>2. L'efficacité du parcours : analyser les données pour simplifier</h2>
+            <p>Pour optimiser le parcours, je me suis appuyé sur <a href="https://clarity.microsoft.com/" target="_blank" rel="noopener">Microsoft Clarity</a>, un outil d'analyse UX qui permet de visualiser le comportement des utilisateurs (via des cartes de chaleur ou des enregistrements de sessions). Le constat a été simple : la plupart des éléments coupés par le bas de l'écran (<em>viewport</em>) n'étaient jamais utilisés. J'ai donc remonté ces fonctionnalités clés en haut de page pour les rendre immédiatement accessibles.</p>
+            <p>La page listant tous les lieux du <em>Seigneur des Anneaux</em> est l'une des plus visitées. En appliquant cette logique, les résultats ont été immédiats. À trafic comparable entre décembre 2025 et juin 2026, l'utilisation des fonctionnalités a bondi :</p>
 
             <table>
                 <thead>
                     <tr>
-                        <th>Métrique</th>
-                        <th>Architecture héritée</th>
-                        <th>Nouvelle architecture statique</th>
-                        <th>Amélioration</th>
+                        <th style="text-align: left;">Fonctionnalité</th>
+                        <th style="text-align: center;">Utilisation en décembre 2025</th>
+                        <th style="text-align: center;">Utilisation en juin 2026</th>
+                        <th style="text-align: center;">Évolution globale</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Temps de chargement moyen</td>
-                        <td>4,2 secondes</td>
-                        <td>0,8 seconde</td>
-                        <td>81% plus rapide</td>
+                        <td style="text-align: left;"><strong>Recherche</strong></td>
+                        <td style="text-align: center;">2,98 %</td>
+                        <td style="text-align: center;">5,09 %</td>
+                        <td style="text-align: center;"><strong>+ 71 %</strong></td>
                     </tr>
                     <tr>
-                        <td>Coût d'infrastructure mensuel</td>
-                        <td>Indice de base (100%)</td>
-                        <td>Indice optimisé (10%)</td>
-                        <td><strong>-90%</strong></td>
+                        <td style="text-align: left;"><strong>Filtres</strong></td>
+                        <td style="text-align: center;">1,17 %</td>
+                        <td style="text-align: center;">7,64 %</td>
+                        <td style="text-align: center;"><strong>+ 555 %</strong></td>
                     </tr>
                     <tr>
-                        <td>Fiabilité (uptime)</td>
-                        <td>98,5%</td>
-                        <td>99,99%</td>
-                        <td>Stabilité accrue</td>
+                        <td style="text-align: left;"><strong>Tri</strong></td>
+                        <td style="text-align: center;">1,55 %</td>
+                        <td style="text-align: center;">4,99 %</td>
+                        <td style="text-align: center;"><strong>+ 222 %</strong></td>
                     </tr>
                 </tbody>
             </table>
 
-            <h4>Un aperçu de la magie</h4>
-            <p>Pour les développeurs de notre communauté, la transition a signifié des configurations bien plus propres, orientées build. Au lieu de lutter avec des règles de cache serveur complexes, notre pipeline de déploiement ressemble désormais à ce script simplifié :</p>
+            <p>Ces modifications sont un grand succès, et nous allons continuer à optimiser cette expérience.</p>
 
-            <pre><code>// Exemple de script de build et de déploiement
-const buildSite = async () => {
-  console.log("Récupération du lore et des galeries...");
-  const data = await fetchCMSData();
+            <hr />
 
-  console.log("Génération des pages HTML statiques...");
-  generatePages(data);
+            <h2>3. L'adaptabilité : penser enfin aux mobiles</h2>
+            <p>De nombreuses fonctionnalités majeures, comme la carte interactive ou les filtres, n'étaient tout simplement pas adaptées aux smartphones. L'un des grands chantiers a donc été de repenser ces éléments pour le mobile.</p>
+            <p>Nous avions également remarqué que l'ancien menu mobile était délaissé car trop complexe. La nouvelle version propose un menu extrêmement simple, ce qui a radicalement facilité la navigation de nos utilisateurs nomades.</p>
 
-  console.log("Déploiement sur le CDN. 90% d'économies sécurisées !");
-};
+            <hr />
 
-buildSite();</code></pre>
-
-            <h2>Regarder vers l'horizon</h2>
-            <p>Le lancement de ce site repensé n'est pas un aboutissement, mais une nouvelle fondation. Avec une image de marque qui impose le respect, une interface accessible qui accueille tout le monde et un back-end optimisé qui garantit notre pérennité financière, ArdaCraft est mieux positionné que jamais pour poursuivre sa construction historique. Nous vous invitons à explorer les nouvelles galeries, à parcourir les pages de lore mises à jour et à découvrir la vitesse et la clarté de notre nouveau foyer numérique. La route se poursuit sans fin, et nous sommes ravis que vous la parcouriez avec nous.</p>
+            <h2>Et après ?</h2>
+            <p>La communauté a très bien accueilli cette nouvelle mouture, le site est jugé bien plus utile et agréable au quotidien. Nous avons notamment reçu de nombreux commentaires enthousiastes sur la carte interactive.</p>
+            <p>ArdaCraft est un projet qui se base sur des recherches approfondies touchant à la géologie, la botanique, l'histoire et leurs influences sur le monde de Tolkien. Notre carte a pour ambition de regrouper tous ces éléments scientifiques et narratifs pour les mettre à la disposition des passionnés, s'imposant comme l'outil ultime d'immersion dans notre univers (ce qui fera d'ailleurs l'objet d'un prochain article dédié !).</p>
+            <p>Quant à la suite ? Je planche déjà sur mon prochain défi : concevoir la V3 de cette fameuse carte interactive.</p>
             `,
             en: `
             <div class="abstract">
-                <p><strong>Complete visual overhaul</strong> to align the brand identity with the epic scale and exceptional immersive atmosphere of the project.</p>
-                <p><strong>100% WCAG compliance</strong> achieved through an architecture redesign prioritizing inclusive, uncompromising web accessibility.</p>
-                <p><strong>-90% monthly costs</strong> and an <strong>81% faster</strong> load time accomplished through the transition to a modern static infrastructure (Jamstack).</p>
+                <p><strong>-90% hosting costs</strong> compared to the higher Webflow tier we were being pushed onto — and half of what we paid before the migration.</p>
+                <p><strong>150 hours over 3 months</strong> to migrate to a decentralized architecture: WordPress and Webstudio connected headless via GraphQL.</p>
+                <p><strong>3× more usage</strong> of key features (search, filters, sorting) on one of our most visited pages, thanks to data-driven UX optimization.</p>
             </div>
 
-            <h2>The Dawn of a New Digital Age for ArdaCraft</h2>
-            <p>For years, the ArdaCraft project has stood as a monumental achievement in digital block-building, meticulously recreating the vast and sweeping landscapes of <a href="https://ardacraft.me/" target="_blank">J.R.R. Tolkien’s Middle-earth</a> with an unprecedented level of historical and geographical accuracy. However, while our in-game world continued to evolve and expand into breathtaking new territories, our primary web presence was slowly being left behind in a bygone era. The website, which serves as the very first touchpoint for thousands of prospective builders, lore enthusiasts, and curious wanderers, had grown visually dated, structurally unwieldy, and frustratingly difficult to maintain. It was time for a comprehensive overhaul—a complete redesign from the ground up that would not only elevate our brand identity but also address critical structural flaws that had been silently draining our resources and alienating users.</p>
+            <p><em>Contributing to the success of a passionate community while challenging myself and building new skills: a look back at a 150-hour project.</em></p>
 
-            <h2>Reimagining the Brand Identity</h2>
-            <p>The visual language of our previous website failed to communicate the sheer grandeur and dedication inherent to the ArdaCraft mission. When users first arrive on our homepage, they should immediately feel the cold winds of the Misty Mountains or the welcoming warmth of a Shire hearth. To achieve this, our design team embarked on a massive aesthetic pivot. We stripped away the cluttered, heavy web textures of the early 2010s in favor of a sleek, immersive, and highly responsive interface. By utilizing <a href="#gallery">high-resolution in-game photography</a> as sweeping hero banners, coupled with a carefully curated typography system that pairs classical, serif headers with clean, highly legible sans-serif body text, we have created an environment that feels both legendary and thoroughly modern. This new visual hierarchy ensures that our most critical updates, breathtaking screenshots, and community spotlights are immediately front and center.</p>
+            <h2>The Context: Massive Success, a Very Real Bottleneck</h2>
+            <p>ArdaCraft is an international collaborative project whose ambition is to meticulously recreate <a href="https://ardacraft.me/" target="_blank" rel="noopener">Middle-earth</a> (the universe of <em>The Lord of the Rings</em> and <em>The Hobbit</em>). I initially joined the adventure to create videos, before taking on more responsibilities to challenge myself and explore new horizons.</p>
+            <p>A few years ago, the project became hugely successful on social media, racking up tens of millions of views on our Reels. Yet I wasn't satisfied: the number of actual visitors to the project wasn't taking off. I quickly understood the problem. Our website was a bottleneck. For a curious user, figuring out how to start exploring the world was an obstacle course.</p>
 
             <figure class="image-breakout">
-                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop" alt="Premium Wide Showcase">
-                <figcaption>A wide layout that breaks the rhythm of the text for greater visual impact.</figcaption>
+                <img src="/media/ardacraft-experiments-location-gallery.webp" alt="Six panoramas of Middle-earth recreated in ArdaCraft: cultivated Shire fields, misty hills, cliffs, a flowering village and a fortified watchtower" width="1920" height="1080" loading="lazy">
+                <figcaption>The scale of the project: a few of the 316 locations recreated block by block by the community.</figcaption>
             </figure>
 
-            <h3>Typography and Visual Hierarchy</h3>
-            <p>To truly test how text flows across different screen sizes, it is essential to utilize varied block elements. We implemented a robust CSS grid system that allows text to breathe, utilizing generous line heights and appropriate padding. The introduction of thematic drop caps and subtle <em>italicized</em> accents helps guide the reader's eye through lengthy lore updates and complex building tutorials without inducing cognitive fatigue.</p>
+            <h2>The Problem: The Price of Success and a Financial Dead End</h2>
+            <p>Together with another member, I rebuilt the site — more complete this time, and aligned with our goals: growing the community and establishing ArdaCraft as a reference among Tolkien fans.</p>
+            <p>Built on Webflow, that first redesign was a critical success. Carried by our communication strategy, it attracted more than 217,000 visitors in its first year. That's when the trouble started.</p>
+            <p>We hit the limit of our Webflow plan. Upgrading to the next tier would have <strong>multiplied our costs by five</strong>. For a community project that survives on donations alone, that was impossible. We needed a solution that could grow with us without draining our treasury.</p>
 
-            <blockquote>
-                <p>"Our goal wasn't just to make a pretty website; we wanted the digital architecture of our web presence to mirror the structural integrity and beauty of the majestic cities we construct in-game. Every pixel, much like every block, must serve a deliberate purpose."</p>
-                <footer>— The ArdaCraft Web Development Team</footer>
-            </blockquote>
-
-            <h2>Championing Accessibility for All Adventurers</h2>
-            <p>As our community has grown into a global fellowship, we have come to recognize the vital importance of digital inclusivity. Exploring our detailed recreations of Middle-earth is an experience that should be open to absolutely everyone, regardless of their physical abilities or how they navigate the web. During our auditing phase, we discovered that our previous framework was severely lacking in basic <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank">Web Content Accessibility Guidelines (WCAG)</a> compliance. Screen readers struggled to parse our nested tables, and our color palette often failed basic contrast checks.</p>
-            <p>To rectify this, we rebuilt the Document Object Model (DOM) to strictly rely on semantic HTML5 tags. We implemented rigorous contrast standards ensuring that text stands out crisply against background elements, and we introduced comprehensive keyboard navigation support. Here are the core pillars of our accessibility initiative:</p>
-
+            <h3>Our New Technical Architecture</h3>
+            <p>To work around this financial constraint, we migrated to a decentralized solution. I had to learn several new tools. The challenge was substantial: thousands of data points had to be moved, and WordPress and Webstudio had to communicate via GraphQL to dynamically manage hundreds of pages in <em>headless</em> mode. I even had to build a custom Python script to compress thousands of images to WebP and optimize performance.</p>
+            <p>This redesign and migration took me <strong>a good 150 hours of work spread over 3 months</strong>. Although I was the main contributor on this part, I am deeply grateful to everyone on the team who lent a hand from time to time; their constant support was an essential driving force.</p>
+            <p>I built everything on 3 pillars:</p>
             <ul>
-                <li><strong>Semantic Structuring:</strong> Replacing ambiguous <code>&lt;div&gt;</code> tags with appropriate <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, and <code>&lt;nav&gt;</code> landmarks.</li>
-                <li><strong>Aria Labels and Alt Text:</strong> Ensuring every single piece of media, from massive gallery showcases to tiny UI icons, includes descriptive text for assistive technologies.</li>
-                <li><strong>Focus States:</strong> Designing highly visible, aesthetically pleasing focus rings so keyboard-only users never lose track of their position on the page.</li>
+                <li><strong>Visual impact</strong>: a striking design to bring out our personality.</li>
+                <li><strong>An efficient journey</strong>: logical navigation to guide the visitor.</li>
+                <li><strong>Adaptability</strong>: a smooth experience from smartphone to desktop.</li>
             </ul>
 
-            <h2>The Technical Journey: Slashing Infrastructure Costs</h2>
-            <p>Perhaps the most monumental, albeit invisible, triumph of this redesign is the complete restructuring of our backend architecture. Our legacy system relied on a monolithic content management system hosted on traditional, persistently running virtual private servers. This approach was incredibly resource-intensive; we were paying for maximum compute capacity 24/7, even during low-traffic periods. Furthermore, the database queries required to load a single page with multiple high-resolution images were causing massive latency issues, especially for our international users.</p>
-            <p>The solution was a paradigm shift toward a modern <a href="https://jamstack.org/" target="_blank">Jamstack architecture</a>. By decoupling our frontend presentation layer from our backend database, we could pre-render the entire website into static HTML, CSS, and JavaScript files. We then deployed these highly optimized static assets across a global Content Delivery Network (CDN). The results of this migration were nothing short of spectacular, dramatically increasing page load speeds while simultaneously unburdening our server infrastructure.</p>
+            <hr />
 
-            <figure>
-                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1600&auto=format&fit=crop" alt="A laptop showing lines of code" width="100%">
-                <figcaption>Transitioning to a static site generator allowed us to serve pages globally with zero database overhead.</figcaption>
+            <h2>1. Visual Impact: Immersion Above All</h2>
+
+            <figure class="image-breakout">
+                <img src="/media/ardacraft-experiments-before-after.webp" alt="Before/after comparison of the locations page: the old utilitarian interface on the left, the new immersive gold-accented version on the right" width="1920" height="1080" loading="lazy">
+                <figcaption>Before / after: the locations page, transformed from a utilitarian list into an immersive showcase.</figcaption>
             </figure>
 
-            <h3>Cost Reduction Breakdown</h3>
-            <p>The financial impact of this technical pivot has been deeply transformative for our volunteer-run project. By eliminating the need for robust, always-on database servers and transitioning to edge-hosted static files, we achieved a staggering <strong>90% reduction</strong> in our monthly web infrastructure costs. This means that funds previously burned on inefficient server cycles can now be reallocated directly into the project—funding better game servers, commissioning custom development, and hosting community events.</p>
+            <p>Redesigning every single page was a colossal task. After a research phase in Figma, I introduced strong visual concepts: extensive use of a "gold" color, "shiny" effects on interactive elements, and <em>glassmorphism</em>.</p>
+            <p>My watchword was <strong>immersion</strong>. How do you make bold creative choices without degrading navigation? The key was subtlety: working with background images and gradients, using <em>glassmorphism</em> sparingly, and drastically reducing the number of elements visible on screen.</p>
+
+            <figure class="image-breakout">
+                <img src="/media/ardacraft-experiments-process.webp" alt="Design process in two examples: a Figma mockup next to the final live page, then a paper sketch next to its final live page" width="1920" height="1080" loading="lazy">
+                <figcaption>My actual workflow: once the style was established across a dozen pages, I went from paper sketch or Figma mockup straight to implementation — refining ideas along the way.</figcaption>
+            </figure>
+
+            <p>While it's nearly impossible to measure the real impact of a new design on a volunteer project like ours, the gain lies elsewhere: we finally have strong visual consistency across every page, and the site now acts as a solid pillar of ArdaCraft's brand identity.</p>
+
+            <hr />
+
+            <h2>2. An Efficient Journey: Analyzing Data to Simplify</h2>
+            <p>To optimize the user journey, I relied on <a href="https://clarity.microsoft.com/" target="_blank" rel="noopener">Microsoft Clarity</a>, a UX analytics tool that lets you visualize user behavior (through heatmaps and session recordings). The finding was simple: most elements cut off by the bottom of the viewport were never used. So I moved these key features to the top of the page to make them immediately accessible.</p>
+            <p>The page listing all the locations from <em>The Lord of the Rings</em> is one of the most visited. Applying this logic, the results were immediate. With comparable traffic between December 2025 and June 2026, feature usage soared:</p>
 
             <table>
                 <thead>
                     <tr>
-                        <th>Metric</th>
-                        <th>Legacy Architecture</th>
-                        <th>New Static Architecture</th>
-                        <th>Improvement</th>
+                        <th style="text-align: left;">Feature</th>
+                        <th style="text-align: center;">Usage in December 2025</th>
+                        <th style="text-align: center;">Usage in June 2026</th>
+                        <th style="text-align: center;">Overall change</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Average Page Load Time</td>
-                        <td>4.2 Seconds</td>
-                        <td>0.8 Seconds</td>
-                        <td>81% Faster</td>
+                        <td style="text-align: left;"><strong>Search</strong></td>
+                        <td style="text-align: center;">2.98%</td>
+                        <td style="text-align: center;">5.09%</td>
+                        <td style="text-align: center;"><strong>+71%</strong></td>
                     </tr>
                     <tr>
-                        <td>Monthly Infrastructure Cost</td>
-                        <td>Base Index (100%)</td>
-                        <td>Optimized Index (10%)</td>
-                        <td><strong>90% Decrease</strong></td>
+                        <td style="text-align: left;"><strong>Filters</strong></td>
+                        <td style="text-align: center;">1.17%</td>
+                        <td style="text-align: center;">7.64%</td>
+                        <td style="text-align: center;"><strong>+555%</strong></td>
                     </tr>
                     <tr>
-                        <td>Uptime Reliability</td>
-                        <td>98.5%</td>
-                        <td>99.99%</td>
-                        <td>Higher Stability</td>
+                        <td style="text-align: left;"><strong>Sorting</strong></td>
+                        <td style="text-align: center;">1.55%</td>
+                        <td style="text-align: center;">4.99%</td>
+                        <td style="text-align: center;"><strong>+222%</strong></td>
                     </tr>
                 </tbody>
             </table>
 
-            <h4>A Snippet of the Magic</h4>
-            <p>For the developers in our community, the transition meant writing much cleaner, build-focused configurations. Instead of wrestling with complex server-side caching rules, our deployment pipeline now looks something as elegant as this simplified script:</p>
+            <p>These changes are a great success, and we will keep optimizing this experience.</p>
 
-            <pre><code>// Example build and deploy script
-const buildSite = async () => {
-  console.log("Fetching latest lore and gallery data...");
-  const data = await fetchCMSData();
+            <hr />
 
-  console.log("Generating static HTML pages...");
-  generatePages(data);
+            <h2>3. Adaptability: Finally Thinking Mobile</h2>
+            <p>Many major features, like the interactive map or the filters, simply weren't suited to smartphones. One of the big work streams was therefore rethinking these elements for mobile.</p>
+            <p>We had also noticed that the old mobile menu was neglected because it was too complex. The new version offers an extremely simple menu, which has radically eased navigation for our on-the-go users.</p>
 
-  console.log("Deploying to Edge CDN. 90% cost savings secured!");
-};
+            <hr />
 
-buildSite();</code></pre>
-
-            <h2>Looking Toward the Horizon</h2>
-            <p>The launch of this redesigned website is not an endpoint, but rather a new foundation. With a brand image that commands respect, an accessible interface that welcomes all, and an optimized backend that secures our financial sustainability, ArdaCraft is better positioned than ever to continue its historic build. We invite you to explore the new galleries, read through the updated lore pages, and experience the speed and clarity of our new digital home. The road goes ever on and on, and we are thrilled to have you walking it with us.</p>
+            <h2>What's Next?</h2>
+            <p>The community welcomed this new version very warmly; the site is considered far more useful and pleasant to use day to day. We received particularly enthusiastic feedback about the interactive map.</p>
+            <p>ArdaCraft is a project grounded in deep research into geology, botany, history and their influence on Tolkien's world. Our map aims to bring all these scientific and narrative elements together for enthusiasts, establishing itself as the ultimate immersion tool into our universe (which will, incidentally, be the subject of a dedicated upcoming article!).</p>
+            <p>As for what comes next? I'm already working on my next challenge: designing V3 of that famous interactive map.</p>
             `
         }
     },
@@ -219,6 +233,7 @@ buildSite();</code></pre>
         cover: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2000&auto=format&fit=crop',
         coverAlt: 'Studio photo avec éclairage professionnel',
         readNext: 'ardacraft',
+        published: '2026-07-11',
         title: {
             fr: "Peut-on remplacer un véritable shooting photo avec l'Intelligence Artificielle ?",
             en: 'Can Artificial Intelligence Replace a Real Photo Shoot?'

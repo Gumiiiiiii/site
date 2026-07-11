@@ -3,7 +3,7 @@
 
     const pdfjsLib = window['pdfjs-dist/build/pdf'];
     if (pdfjsLib) {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '../scripts/vendor/pdf.worker.min.js';
     }
 
     const jsPDF = window.jspdf ? window.jspdf.jsPDF : null;
@@ -48,6 +48,7 @@
         if (existing) return existing;
 
         const candidates = [
+            '../scripts/vendor/psd.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/psd.js/2.0.0/psd.min.js',
             'https://unpkg.com/psd.js@2.0.0/dist/psd.min.js',
             'https://cdn.jsdelivr.net/gh/meltingice/psd.js@master/dist/psd.min.js'
@@ -66,11 +67,33 @@
         return null;
     }
 
+    async function ensureJSZip() {
+        if (window.JSZip) return window.JSZip;
+
+        const candidates = [
+            '../scripts/vendor/jszip.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
+            'https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js'
+        ];
+
+        for (const src of candidates) {
+            try {
+                await loadScriptOnce(src);
+                if (window.JSZip) return window.JSZip;
+            } catch (error) {
+                // Try next CDN fallback.
+            }
+        }
+
+        return null;
+    }
+
     async function ensureAgPsd() {
         const existing = detectAgPsd();
         if (existing) return existing;
 
         const candidates = [
+            '../scripts/vendor/ag-psd.bundle.js',
             'https://cdn.jsdelivr.net/npm/ag-psd@26.0.0/dist/bundle.js',
             'https://unpkg.com/ag-psd@26.0.0/dist/bundle.js'
         ];
@@ -379,6 +402,7 @@
         const blobUrl = URL.createObjectURL(finalBlob);
 
         item.converted = blobUrl;
+        item.blob = finalBlob;
         item.outputName = outputName;
 
         const diffPercent = (((finalBlob.size - item.file.size) / item.file.size) * 100).toFixed(1);
@@ -489,14 +513,62 @@
         }
     });
 
-    downloadAllBtn.addEventListener('click', function () {
-        document.querySelectorAll('.btn-dl-single').forEach(function (btn, index) {
-            if (!btn.disabled) {
-                setTimeout(function () {
-                    btn.click();
-                }, index * 300);
+    function triggerDownload(href, name) {
+        const a = document.createElement('a');
+        a.href = href;
+        a.download = name;
+        a.click();
+    }
+
+    function t(key, fallback) {
+        return (window.GumiI18n && window.GumiI18n.t(key)) || fallback;
+    }
+
+    // Browsers block bursts of programmatic downloads, so "download all"
+    // bundles everything into a single ZIP instead of clicking each row.
+    downloadAllBtn.addEventListener('click', async function () {
+        const doneItems = pendingFiles.filter(function (item) { return item.blob && item.outputName; });
+        if (!doneItems.length) return;
+
+        if (doneItems.length === 1) {
+            triggerDownload(doneItems[0].converted, doneItems[0].outputName);
+            return;
+        }
+
+        const label = downloadAllBtn.querySelector('[data-i18n]');
+        const idleLabel = label ? label.textContent : '';
+        downloadAllBtn.disabled = true;
+        if (label) label.textContent = t('conv_zipping', 'Création du ZIP...');
+
+        try {
+            const JSZip = await ensureJSZip();
+            if (!JSZip) throw new Error('JSZip unavailable');
+
+            const zip = new JSZip();
+            const usedNames = new Set();
+
+            doneItems.forEach(function (item) {
+                // Different sources can yield the same output name; keep both.
+                let name = item.outputName;
+                for (let n = 2; usedNames.has(name); n++) {
+                    name = item.outputName.replace(/(\.[^.]+)$/, '-' + n + '$1');
+                }
+                usedNames.add(name);
+                zip.file(name, item.blob);
+            });
+
+            const zipBlob = await zip.generateAsync({ type: 'blob' });
+            const zipUrl = URL.createObjectURL(zipBlob);
+            triggerDownload(zipUrl, 'gumi-conversion.zip');
+            setTimeout(function () { URL.revokeObjectURL(zipUrl); }, 60000);
+        } catch (error) {
+            if (window.showToolToast) {
+                window.showToolToast(t('conv_zip_error', 'Impossible de créer le ZIP. Téléchargez les fichiers un par un.'), true);
             }
-        });
+        } finally {
+            if (label) label.textContent = idleLabel;
+            downloadAllBtn.disabled = false;
+        }
     });
 
     resetState();

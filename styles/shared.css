@@ -35,6 +35,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Remove the default ring for mouse/touch, but keep a clear, on-brand
@@ -89,40 +90,6 @@ body.with-footer .site-content {
     margin-bottom: max(45vh, 250px);
 }
 
-@keyframes fade-up {
-    from {
-        opacity: 0;
-        transform: translateY(16px) scale(0.985);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* Intro reveal used by animations.js (replaces the old GSAP timeline).
-   Ends at `transform: none` so nothing keeps a stacking context afterward. */
-@keyframes reveal-on-load {
-    from {
-        opacity: 0;
-        transform: translateY(24px) scale(0.985);
-    }
-    to {
-        opacity: 1;
-        transform: none;
-    }
-}
-
-.reveal-on-load {
-    animation: reveal-on-load 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .reveal-on-load {
-        animation: none;
-    }
-}
-
 .main-wrapper {
     width: min(100%, var(--content-max-width));
     max-width: var(--content-max-width);
@@ -149,15 +116,16 @@ body.with-footer .site-content {
     padding: 0 24px;
 }
 
-/* Dots gradient, fixed at the top of the viewport on every page.
-   Sits above the content sheet (z 2) but below the navbar (z 100). */
+/* Dots gradient at the top of the page: purely decorative, painted behind
+   the content (negative z-index) and scrolling away with it. On shell pages
+   the element lives inside .site-content so it stays above the cream sheet. */
 .dots-bg {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 250px;
-    z-index: 50;
+    z-index: -1;
     color: var(--text);
     pointer-events: none;
     -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
@@ -169,6 +137,26 @@ body.with-footer .site-content {
     bottom: 0;
     transform: rotate(180deg);
     height: 180px;
+}
+
+/* Skip link: hidden off-screen until keyboard focus brings it in. */
+.skip-link {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1000;
+    background: var(--text);
+    color: var(--bg);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 12px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    transform: translateY(calc(-100% - 24px));
+}
+
+.skip-link:focus {
+    transform: translateY(0);
 }
 
 /* === FLOATING NAVBAR (bottom attached) === */
@@ -427,6 +415,27 @@ button.primary:active:not(:disabled) {
     line-height: 1.2;
 }
 
+/* Letter-by-letter hero reveal (homepage). Words stay unbreakable so the
+   split into letter spans never changes line wrapping. */
+.hero-word {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.hero-letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.3em);
+    animation: hero-letter-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes hero-letter-in {
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
 .hero-image-container {
     position: relative;
     width: 100%;
@@ -524,7 +533,7 @@ button.primary:active:not(:disabled) {
 
 .card-image {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 9;
     border-radius: 1rem;
     overflow: hidden;
     background-color: var(--card-bg);
@@ -586,8 +595,6 @@ button.primary:active:not(:disabled) {
     transition: box-shadow 0.1s ease;
 }
 
-.tools-grid-full .tool-card { flex-direction: column; }
-
 .tool-card:active { box-shadow: var(--shadow-in); }
 
 .tool-icon {
@@ -601,8 +608,6 @@ button.primary:active:not(:disabled) {
     justify-content: center;
     flex-shrink: 0;
 }
-
-.tools-grid-full .tool-icon { margin-bottom: 24px; }
 
 .tool-icon svg { width: 28px; height: 28px; }
 
@@ -635,6 +640,14 @@ button.primary:active:not(:disabled) {
     -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 85%);
     mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 85%);
 }
+
+/* Unpublished experiment teaser: visible but not interactive. */
+.card.faded {
+    pointer-events: none;
+    opacity: 0.65;
+}
+
+.card.faded .card-image img { filter: grayscale(30%); }
 
 /* === FILTERS & SEARCH === */
 .controls-wrapper {
@@ -799,16 +812,6 @@ button.primary:active:not(:disabled) {
     margin: 0;
 }
 
-.footer-copyright {
-    position: absolute;
-    bottom: 1rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: rgba(249, 244, 239, 0.65);
-    width: 100%;
-    text-align: center;
-}
-
 /* === UTILITIES === */
 .visually-hidden {
     position: absolute;
@@ -853,12 +856,37 @@ button.primary:active:not(:disabled) {
     .experiences-left { position: relative; top: 0; }
     .tools-grid { grid-template-columns: 1fr; gap: 1.5rem; }
     .tools-grid .tool-card { padding: 1.5rem; }
+
+    /* One "coming soon" teaser is enough on the stacked mobile grid. */
+    .tools-grid .tool-card.faded ~ .tool-card.faded { display: none; }
 }
 
 @media (max-width: 600px) {
     .navbar { width: 90%; min-width: auto; padding: 0 12px; gap: 0.5rem; height: 50px; bottom: -70px; }
     .navbar a { padding: 6px 10px; font-size: 0.85rem; }
     .hero-image-container { aspect-ratio: 4 / 3; }
+    .hero-text { font-size: clamp(1.9rem, 8.5vw, 2.6rem); line-height: 1.15; }
+
+    /* Progressive blur behind the floating navbar; fades in with it
+       (navbar.js mirrors the navbar visibility on <body>). */
+    body::after {
+        content: '';
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 110px;
+        z-index: 99;
+        pointer-events: none;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        -webkit-mask-image: linear-gradient(to top, black 0%, black 25%, transparent 100%);
+        mask-image: linear-gradient(to top, black 0%, black 25%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    body.nav-visible::after { opacity: 1; }
 }
 
 @media (max-width: 360px) {

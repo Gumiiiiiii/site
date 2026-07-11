@@ -1,5 +1,8 @@
 (function () {
     const DICT = {
+        // Accessibility
+        skip_link: { fr: 'Aller au contenu', en: 'Skip to content' },
+
         // Navbar
         nav_experiments: { fr: 'Expérimentations', en: 'Experiments' },
         nav_tools: { fr: 'Outils', en: 'Tools' },
@@ -16,8 +19,8 @@
 
         // Experiment cards
         exp_card_ardacraft: {
-            fr: "Redesign du site d'ArdaCraft pour refléter l'ambition et l'ampleur du projet.",
-            en: "Redesigning the ArdaCraft website to reflect the project's ambition and scale."
+            fr: "De Webflow à une architecture décentralisée : comment j'ai repensé le site d'ArdaCraft.",
+            en: 'From Webflow to a decentralized architecture: how I rethought the ArdaCraft website.'
         },
         exp_card_shooting: {
             fr: "Peut-on remplacer un véritable shooting photo avec l'Intelligence Artificielle ?",
@@ -69,6 +72,11 @@
             fr: 'Mots de passe robustes et aléatoires, générés localement dans votre navigateur.',
             en: 'Strong random passwords, generated locally in your browser.'
         },
+        tool_sharepre_title: { fr: 'Aperçu de partage', en: 'Share preview' },
+        tool_sharepre_desc: {
+            fr: "Prévisualisez l'apparence de vos liens sur X, LinkedIn, WhatsApp, Discord et plus.",
+            en: 'Preview how your links look on X, LinkedIn, WhatsApp, Discord and more.'
+        },
         coming_soon: { fr: 'Bientôt disponible', en: 'Coming soon' },
         tool_contrast_title: { fr: 'Analyseur de contraste', en: 'Contrast checker' },
         tool_contrast_desc: {
@@ -96,8 +104,10 @@
         filter_web: { fr: 'Web', en: 'Web' },
         filter_dev: { fr: 'Développement', en: 'Development' },
         filter_utils: { fr: 'Utilitaires', en: 'Utilities' },
+        filter_marketing: { fr: 'Marketing', en: 'Marketing' },
 
         // Article template
+        published_on: { fr: 'Publié le', en: 'Published on' },
         toc_label: { fr: 'Sommaire', en: 'Contents' },
         read_next: { fr: 'À lire ensuite', en: 'Read next' },
         copy_link: { fr: 'Copier le lien', en: 'Copy the link' },
@@ -105,7 +115,8 @@
 
         // Contrast checker tool
         contrast_text_color: { fr: 'Couleur du texte', en: 'Text color' },
-        contrast_bg_color: { fr: 'Couleur de fond', en: 'Background color' },
+        contrast_bg_label: { fr: 'Arrière-plan', en: 'Background' },
+        contrast_or: { fr: 'ou', en: 'or' },
         contrast_ratio_label: { fr: 'Contraste', en: 'Contrast' },
         contrast_small: { fr: 'Petit texte', en: 'Small text' },
         contrast_large: { fr: 'Grand texte', en: 'Large text' },
@@ -118,7 +129,6 @@
         contrast_r3: { fr: 'Correct', en: 'Good' },
         contrast_r4: { fr: 'Très bon', en: 'Very good' },
         contrast_r5: { fr: 'Excellent', en: 'Excellent' },
-        contrast_bg_image: { fr: 'Image de fond', en: 'Background image' },
         contrast_add_image: { fr: 'Ajouter une image', en: 'Add an image' },
         contrast_remove_image: { fr: "Retirer l'image", en: 'Remove image' },
         contrast_img_note: {
@@ -132,10 +142,12 @@
 
         // Footer
         footer_title: { fr: "Envie d'échanger ?", en: 'Want to get in touch?' },
-        footer_byline: { fr: 'Conçu et développé par Pierre.', en: 'Designed and built by Pierre.' },
+        footer_byline: { fr: '© 2026 Gumi — Conçu et développé par Pierre.', en: '© 2026 Gumi — Designed and built by Pierre.' },
 
         // Tools shared
         back_tools: { fr: 'Retour aux outils', en: 'Back to tools' },
+        tooltip_offline: { fr: 'Fonctionne hors ligne', en: 'Works offline' },
+        tooltip_online: { fr: 'Connexion internet requise', en: 'Internet connection required' },
 
         // File converter tool
         conv_format_label: { fr: "Format d'export", en: 'Export format' },
@@ -154,6 +166,8 @@
         conv_dropzone_hint: { fr: '.psd, .pdf, .ai, images', en: '.psd, .pdf, .ai, images' },
         conv_clear: { fr: 'Vider', en: 'Clear' },
         conv_download_all: { fr: 'Tout télécharger', en: 'Download all' },
+        conv_zipping: { fr: 'Création du ZIP...', en: 'Creating ZIP...' },
+        conv_zip_error: { fr: 'Impossible de créer le ZIP. Téléchargez les fichiers un par un.', en: 'Could not create the ZIP. Download the files one by one.' },
         conv_tooltip: {
             fr: '<strong>Conversion 100% locale :</strong><br><br>1. Glissez des fichiers .psd, .ai, .pdf ou des images.<br>2. Choisissez le format de sortie.<br>3. (Optionnel) Ajustez compression, dimensions et renommage dans les paramètres avancés.<br><br><i>Aucune donnée n\'est envoyée sur nos serveurs.</i>',
             en: '<strong>100% local conversion:</strong><br><br>1. Drop .psd, .ai, .pdf files or images.<br>2. Pick the output format.<br>3. (Optional) Adjust compression, dimensions and renaming in the advanced settings.<br><br><i>No data is ever sent to our servers.</i>'
@@ -311,6 +325,37 @@
         pw_tooltip: {
             fr: '<strong>Génération 100% locale :</strong><br><br>1. Choisissez la longueur et les types de caractères.<br>2. Générez autant de fois que nécessaire.<br>3. Cliquez sur le mot de passe ou sur le bouton pour le copier.<br><br><i>Le tirage utilise le générateur cryptographique du navigateur. Rien n\'est envoyé ni stocké sur nos serveurs.</i>',
             en: '<strong>100% local generation:</strong><br><br>1. Choose the length and character types.<br>2. Generate as many times as you like.<br>3. Click the password or the button to copy it.<br><br><i>It uses the browser\'s cryptographic random generator. Nothing is sent to or stored on our servers.</i>'
+        },
+
+        // Share preview tool
+        sp_url_label: { fr: 'Lien à prévisualiser', en: 'Link to preview' },
+        sp_url_placeholder: { fr: 'https://votre-site.com/page', en: 'https://your-site.com/page' },
+        sp_fetch: { fr: 'Générer les aperçus', en: 'Generate previews' },
+        sp_fetching: { fr: 'Analyse du lien...', en: 'Analyzing link...' },
+        sp_placeholder: { fr: 'Les aperçus apparaîtront ici...', en: 'Your previews will appear here...' },
+        sp_from: { fr: 'De', en: 'From' },
+        sp_error_invalid: { fr: 'Veuillez entrer un lien valide.', en: 'Please enter a valid link.' },
+        sp_error_fetch: {
+            fr: 'Impossible de récupérer cette page. Vérifiez le lien puis réessayez.',
+            en: "Couldn't fetch this page. Check the link and try again."
+        },
+        sp_audit_title: { fr: 'Diagnostic des balises', en: 'Tag diagnostics' },
+        sp_a_ogtitle_ok: { fr: 'Balise og:title présente.', en: 'og:title tag present.' },
+        sp_a_ogtitle_bad: { fr: 'Balise og:title manquante : le titre de la page est utilisé à la place.', en: 'og:title tag missing: the page title is used instead.' },
+        sp_a_ogdesc_ok: { fr: 'Balise og:description présente.', en: 'og:description tag present.' },
+        sp_a_ogdesc_bad: { fr: 'Balise og:description manquante.', en: 'og:description tag missing.' },
+        sp_a_ogimage_ok: { fr: 'Balise og:image présente.', en: 'og:image tag present.' },
+        sp_a_ogimage_bad: { fr: "Balise og:image manquante : la plupart des plateformes n'afficheront pas de visuel.", en: "og:image tag missing: most platforms won't show a visual." },
+        sp_a_twcard_ok: { fr: 'Balise twitter:card présente.', en: 'twitter:card tag present.' },
+        sp_a_twcard_warn: { fr: 'Balise twitter:card absente : X utilisera un petit aperçu par défaut.', en: 'twitter:card tag missing: X will fall back to a small preview.' },
+        sp_a_title_long: { fr: 'Titre long (60+ caractères) : il sera tronqué sur plusieurs plateformes.', en: 'Long title (60+ characters): it will be truncated on several platforms.' },
+        sp_a_desc_long: { fr: 'Description longue (200+ caractères) : elle sera tronquée presque partout.', en: 'Long description (200+ characters): it will be truncated almost everywhere.' },
+        sp_a_img_ok: { fr: 'Image au bon format (1200×630 recommandé).', en: 'Image dimensions look good (1200×630 recommended).' },
+        sp_a_img_small: { fr: 'Image trop petite : 1200×630 px recommandé, 600 px de large minimum.', en: 'Image too small: 1200×630 px recommended, 600 px wide minimum.' },
+        sp_a_img_ratio: { fr: 'Ratio d\'image éloigné du 1,91:1 attendu : des recadrages sont probables.', en: 'Image ratio far from the expected 1.91:1: cropping is likely.' },
+        sp_tooltip: {
+            fr: "<strong>Visualisez vos liens avant de les partager.</strong><br><br>Collez un lien : l'outil lit ses balises Open Graph et affiche l'aperçu tel qu'il apparaîtra sur chaque plateforme, avec un diagnostic des balises manquantes.",
+            en: '<strong>See your links before you share them.</strong><br><br>Paste a link: the tool reads its Open Graph tags and shows the preview as it will appear on each platform, with a diagnostic of missing tags.'
         }
     };
 
@@ -368,6 +413,11 @@
         document.querySelectorAll('[data-i18n-title]').forEach((el) => {
             const entry = DICT[el.getAttribute('data-i18n-title')];
             if (entry && entry[lang]) el.setAttribute('title', entry[lang]);
+        });
+
+        document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+            const entry = DICT[el.getAttribute('data-i18n-aria')];
+            if (entry && entry[lang]) el.setAttribute('aria-label', entry[lang]);
         });
 
         document.dispatchEvent(new CustomEvent('gumi:lang', { detail: { lang } }));

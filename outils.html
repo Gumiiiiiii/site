@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
     <link rel="canonical" href="https://gumi.ch/outils">
+    <link rel="alternate" hreflang="fr" href="https://gumi.ch/outils">
+    <link rel="alternate" hreflang="en" href="https://gumi.ch/en/outils">
+    <link rel="alternate" hreflang="x-default" href="https://gumi.ch/outils">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Gumi.">
     <meta property="og:locale" content="fr_FR">
@@ -21,16 +24,20 @@
     <meta name="twitter:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
     <title>Outils - Gumi.</title>
     <meta name="description" content="Explorez les outils Gumi : conversion de fichiers, compression de vidéos, téléchargement de médias, QR code, contraste, texte de remplissage, mots de passe et édition de texte dans le navigateur.">
-    <link rel="icon" type="image/x-icon" href="media/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="media/favicon-32.png">
+    <link rel="apple-touch-icon" href="media/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
 
     <link rel="stylesheet" href="styles/shared.css">
 </head>
 <body class="shell-page">
-    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+    <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
 
     <nav class="navbar" data-navbar-root></nav>
 
-    <main class="site-content">
+    <main class="site-content" id="main">
+    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+
         <div class="container">
             <header class="hero">
                 <h1 data-i18n="tools_hero_title">Mes Outils</h1>
@@ -40,13 +47,14 @@
             <div class="controls-wrapper">
                 <div class="search-wrapper">
                     <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    <input type="text" class="search-input" placeholder="Rechercher un outil..." data-i18n-placeholder="search_tools">
+                    <input type="text" class="search-input" aria-label="Rechercher un outil" data-i18n-aria="search_tools" placeholder="Rechercher un outil..." data-i18n-placeholder="search_tools">
                 </div>
                 <div class="filters-group">
                     <button class="filter-btn active" data-filter="all"><span data-i18n="filter_all">Tous</span></button>
                     <button class="filter-btn" data-filter="design"><span data-i18n="filter_design">Design</span></button>
                     <button class="filter-btn" data-filter="dev"><span data-i18n="filter_dev">Développement</span></button>
                     <button class="filter-btn" data-filter="utils"><span data-i18n="filter_utils">Utilitaires</span></button>
+                    <button class="filter-btn" data-filter="marketing"><span data-i18n="filter_marketing">Marketing</span></button>
                 </div>
             </div>
 
@@ -100,6 +108,13 @@
                         <p class="tool-desc" data-i18n="tool_videocomp_desc">Compression locale de vidéos MP4, MOV, AVI, WebM et MKV, sans upload.</p>
                     </div>
                 </a>
+                <a href="tools/share-preview" class="tool-card" data-category="marketing">
+                    <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg></div>
+                    <div class="tool-text">
+                        <h3 class="tool-title" data-i18n="tool_sharepre_title">Aperçu de partage</h3>
+                        <p class="tool-desc" data-i18n="tool_sharepre_desc">Prévisualisez l'apparence de vos liens sur X, LinkedIn, WhatsApp, Discord et plus.</p>
+                    </div>
+                </a>
                 <a href="tools/password-generator" class="tool-card" data-category="utils">
                     <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>
                     <div class="tool-text">
@@ -116,5 +131,11 @@
     <script src="scripts/i18n.js"></script>
     <script src="scripts/navbar.js"></script>
     <script src="scripts/filters.js"></script>
+    <script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

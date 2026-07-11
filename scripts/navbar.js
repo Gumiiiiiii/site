@@ -86,6 +86,9 @@
         const shortPage = document.body.scrollHeight <= window.innerHeight + 150;
         const visible = shortPage || window.scrollY > 100;
         navbars.forEach((nav) => nav.classList.toggle('visible', visible));
+        // Mirrored on <body> so CSS-only companions (mobile progressive
+        // blur behind the navbar) can follow the same visibility.
+        document.body.classList.toggle('nav-visible', visible);
     }
 
     window.addEventListener('scroll', updateNavbarVisibility, { passive: true });

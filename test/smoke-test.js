@@ -23,7 +23,8 @@ function loadPage(url) {
     const virtualConsole = new VirtualConsole();
     virtualConsole.on('jsdomError', (err) => {
         const text = String(err.stack || err.message);
-        // Vendor smooth-scroll needs browser APIs jsdom lacks; not our code.
+        // Vendored third-party libs need browser APIs jsdom lacks; not our code.
+        if (text.includes('/scripts/vendor/')) return;
         if (text.includes('lenis.min.js')) return;
         // Vercel analytics scripts only exist on the production platform.
         if (text.includes('/_vercel/')) return;
@@ -61,6 +62,8 @@ const CHECKS = [
     { path: '/experiments', assert(d) {
         if (d.querySelectorAll('.experiments-grid .card').length !== 2) return 'expected 2 cards';
         if (d.querySelectorAll('.filter-btn[aria-pressed]').length === 0) return 'filters missing aria-pressed';
+        if (!d.querySelector('.card.faded .soon-badge')) return 'missing coming-soon teaser card';
+        if (d.querySelector('a.card[href*="ai-photoshoot"]')) return 'ai-photoshoot must not be linked while unpublished';
     } },
     { path: '/outils', assert(d) {
         if (d.querySelectorAll('.tool-card').length < 8) return 'expected 8+ tool cards';
@@ -68,13 +71,15 @@ const CHECKS = [
     { path: '/experiments/ardacraft', async assert(d, w) {
         if (d.getElementById('post-content').children.length === 0) return 'article body empty';
         if (d.querySelectorAll('.toc-item').length === 0) return 'TOC empty';
-        if (d.getElementById('read-next-link').getAttribute('href') !== 'ai-photoshoot') return 'bad read-next link';
+        // ai-photoshoot is unpublished, so the read-next section must be hidden.
+        if (d.querySelector('.read-next-section').style.display !== 'none') return 'read-next should be hidden';
         const frTitle = d.title;
         w.GumiI18n.set('en');
         if (d.title === frTitle) return 'language toggle did not re-render';
     } },
     { path: '/experiments/ai-photoshoot', assert(d) {
         if (d.getElementById('post-content').children.length === 0) return 'article body empty';
+        if (!d.querySelector('meta[name="robots"][content="noindex"]')) return 'missing noindex on unpublished article';
     } },
     { path: '/experiments-template?article=ardacraft', assert(d, w) {
         // jsdom does not navigate on location.replace; just check the page parsed.
@@ -90,6 +95,9 @@ const CHECKS = [
     { path: '/tools/placeholder-text' },
     { path: '/tools/video-compressor' },
     { path: '/tools/password-generator' },
+    { path: '/tools/share-preview', assert(d) {
+        if (!d.getElementById('sp-url')) return 'missing URL input';
+    } },
     { path: '/brand-guidelines' }
 ];
 

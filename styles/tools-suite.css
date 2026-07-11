@@ -356,6 +356,31 @@ button.primary:disabled {
     pointer-events: auto;
 }
 
+/* Offline/online status tag pinned at the bottom of the tooltip panel. */
+.tooltip-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid rgba(26, 26, 26, 0.08);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.tooltip-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: currentColor;
+}
+
+.tooltip-status.is-offline { color: var(--positive); }
+.tooltip-status.is-online { color: var(--accent); }
+
 /* On small screens the anchored panel would run past the viewport edge
    (and its hidden box widened the page): pin it to the bottom instead. */
 @media (max-width: 640px) {
@@ -450,7 +475,9 @@ button.primary:disabled {
     pointer-events: auto;
 }
 
-.floating-btn:disabled {
+/* Element selector matches button.primary:disabled specificity so the
+   later rule wins and the idle floating button is truly invisible. */
+button.floating-btn:disabled {
     transform: translateY(20px);
     opacity: 0;
     pointer-events: none;

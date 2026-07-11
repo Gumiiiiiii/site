@@ -4,7 +4,6 @@
     <url><loc>https://gumi.ch/outils</loc></url>
     <url><loc>https://gumi.ch/experiments</loc></url>
     <url><loc>https://gumi.ch/experiments/ardacraft</loc></url>
-    <url><loc>https://gumi.ch/experiments/ai-photoshoot</loc></url>
     <url><loc>https://gumi.ch/tools/file-converter</loc></url>
     <url><loc>https://gumi.ch/tools/video-compressor</loc></url>
     <url><loc>https://gumi.ch/tools/text-modifier</loc></url>
@@ -12,5 +11,19 @@
     <url><loc>https://gumi.ch/tools/placeholder-text</loc></url>
     <url><loc>https://gumi.ch/tools/password-generator</loc></url>
     <url><loc>https://gumi.ch/tools/qrcode</loc></url>
+    <url><loc>https://gumi.ch/tools/share-preview</loc></url>
     <url><loc>https://gumi.ch/brand-guidelines</loc></url>
+    <url><loc>https://gumi.ch/en/</loc></url>
+    <url><loc>https://gumi.ch/en/outils</loc></url>
+    <url><loc>https://gumi.ch/en/experiments</loc></url>
+    <url><loc>https://gumi.ch/en/experiments/ardacraft</loc></url>
+    <url><loc>https://gumi.ch/en/tools/file-converter</loc></url>
+    <url><loc>https://gumi.ch/en/tools/video-compressor</loc></url>
+    <url><loc>https://gumi.ch/en/tools/text-modifier</loc></url>
+    <url><loc>https://gumi.ch/en/tools/contrast-checker</loc></url>
+    <url><loc>https://gumi.ch/en/tools/placeholder-text</loc></url>
+    <url><loc>https://gumi.ch/en/tools/password-generator</loc></url>
+    <url><loc>https://gumi.ch/en/tools/qrcode</loc></url>
+    <url><loc>https://gumi.ch/en/tools/share-preview</loc></url>
+    <url><loc>https://gumi.ch/en/brand-guidelines</loc></url>
 </urlset>

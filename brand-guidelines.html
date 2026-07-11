@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
     <link rel="canonical" href="https://gumi.ch/brand-guidelines">
+    <link rel="alternate" hreflang="fr" href="https://gumi.ch/brand-guidelines">
+    <link rel="alternate" hreflang="en" href="https://gumi.ch/en/brand-guidelines">
+    <link rel="alternate" hreflang="x-default" href="https://gumi.ch/brand-guidelines">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Gumi.">
     <meta property="og:title" content="Gumi. Brand Guidelines">
@@ -19,7 +22,9 @@
     <meta name="twitter:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
     <title>Gumi. Brand Guidelines</title>
     <meta name="description" content="Les brand guidelines Gumi: ton, systeme visuel, palette, typographie et principes de conception pour garder une identite coherente.">
-    <link rel="icon" type="image/x-icon" href="media/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="media/favicon-32.png">
+    <link rel="apple-touch-icon" href="media/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
     
     <link rel="stylesheet" href="styles/shared.css">
     
@@ -319,13 +324,14 @@
     </style>
 </head>
 <body>
+    <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
 
     <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
     <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" aria-hidden="true"></div>
 
     <nav class="navbar" data-navbar-root></nav>
 
-    <header class="hero">
+    <header class="hero" id="main">
         <div class="last-update">Dernière mise à jour : Juillet 2026</div>
         <h1>Directives de Marque<span class="dot">.</span></h1>
         <p class="hero-sub">Le système de design et l'identité visuelle de référence pour mes outils et expérimentations personnels.</p>
@@ -648,7 +654,6 @@
     </script>
     <script src="scripts/i18n.js"></script>
     <script src="scripts/navbar.js"></script>
-    <script src="scripts/animations.js"></script>
     <script>
         // --- COPIER HEX/RGBA ---
         function copyHex(element, valueToCopy) {
@@ -728,5 +733,11 @@
             resizeTimeout = setTimeout(drawDots, 100);
         });
     </script>
+    <script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>
