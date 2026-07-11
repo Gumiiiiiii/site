@@ -148,12 +148,18 @@
         }
     }
 
+    // The swatches are plain buttons: their background carries the color
+    // and a click opens the shared GumiColorPicker popover.
+    function setSwatch(swatch, hex) {
+        swatch.style.backgroundColor = hex;
+    }
+
     function syncFrom(hexInput, swatchInput, assign) {
         const rgb = parseHex(hexInput.value);
         if (!rgb) return;
         assign(rgb);
         hexInput.value = toHex(rgb);
-        swatchInput.value = toHex(rgb);
+        setSwatch(swatchInput, toHex(rgb));
         update();
     }
 
@@ -175,7 +181,7 @@
             // The ratio is computed against the image's average color.
             currentBg = averageColor(img);
             bgHex.value = toHex(currentBg);
-            bgSwatch.value = toHex(currentBg);
+            setSwatch(bgSwatch, toHex(currentBg));
 
             previewPanel.style.backgroundImage = 'url(' + bgImageUrl + ')';
             previewPanel.style.backgroundSize = 'cover';
@@ -193,23 +199,31 @@
     bgHex.addEventListener('change', () => syncFrom(bgHex, bgSwatch, (rgb) => { currentBg = rgb; }));
     textHex.addEventListener('input', () => {
         const rgb = parseHex(textHex.value);
-        if (rgb) { currentText = rgb; textSwatch.value = toHex(rgb); update(); }
+        if (rgb) { currentText = rgb; setSwatch(textSwatch, toHex(rgb)); update(); }
     });
     bgHex.addEventListener('input', () => {
         const rgb = parseHex(bgHex.value);
-        if (rgb) { clearBgImage(); currentBg = rgb; bgSwatch.value = toHex(rgb); update(); }
+        if (rgb) { clearBgImage(); currentBg = rgb; setSwatch(bgSwatch, toHex(rgb)); update(); }
     });
 
-    textSwatch.addEventListener('input', () => {
-        currentText = parseHex(textSwatch.value);
-        textHex.value = toHex(currentText);
-        update();
+    window.GumiColorPicker.attach(textSwatch, {
+        get: () => toHex(currentText),
+        onChange: (hex) => {
+            currentText = parseHex(hex);
+            textHex.value = toHex(currentText);
+            setSwatch(textSwatch, toHex(currentText));
+            update();
+        }
     });
-    bgSwatch.addEventListener('input', () => {
-        clearBgImage();
-        currentBg = parseHex(bgSwatch.value);
-        bgHex.value = toHex(currentBg);
-        update();
+    window.GumiColorPicker.attach(bgSwatch, {
+        get: () => toHex(currentBg),
+        onChange: (hex) => {
+            clearBgImage();
+            currentBg = parseHex(hex);
+            bgHex.value = toHex(currentBg);
+            setSwatch(bgSwatch, toHex(currentBg));
+            update();
+        }
     });
 
     // Nudge the text color toward black or white until small-text AA (4.5:1) passes.
@@ -225,7 +239,7 @@
 
         currentText = fixed.map((c) => Math.round(c));
         textHex.value = toHex(currentText);
-        textSwatch.value = toHex(currentText);
+        setSwatch(textSwatch, toHex(currentText));
         update();
     });
 

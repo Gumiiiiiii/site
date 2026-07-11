@@ -4,7 +4,8 @@
 
     const fetchBtn = document.getElementById('sp-fetch-btn');
     const placeholder = document.getElementById('sp-placeholder');
-    const previews = document.getElementById('sp-previews');
+    const tabsBar = document.getElementById('sp-tabs');
+    const stage = document.getElementById('sp-stage');
     const auditPanel = document.getElementById('sp-audit');
     const auditList = document.getElementById('sp-audit-list');
 
@@ -12,6 +13,7 @@
 
     let lastData = null;
     let isFetching = false;
+    let activeIndex = 0;
 
     function t(key) {
         return window.GumiI18n ? window.GumiI18n.t(key) : key;
@@ -114,12 +116,35 @@
         };
     }
 
-    function renderPreviews(data) {
+    // One platform at a time: pills switch the stage between the mockups.
+    function buildTabs() {
+        if (tabsBar.childElementCount) return;
+        PLATFORMS.forEach((p, index) => {
+            const tab = document.createElement('button');
+            tab.type = 'button';
+            tab.className = 'sp-tab';
+            tab.textContent = p.name;
+            tab.addEventListener('click', () => {
+                activeIndex = index;
+                syncTabs();
+                if (lastData) renderPreview(lastData);
+            });
+            tabsBar.appendChild(tab);
+        });
+        syncTabs();
+    }
+
+    function syncTabs() {
+        Array.from(tabsBar.children).forEach((tab, index) => {
+            tab.classList.toggle('active', index === activeIndex);
+            tab.setAttribute('aria-pressed', index === activeIndex ? 'true' : 'false');
+        });
+    }
+
+    function renderPreview(data) {
         const d = displayData(data);
-        previews.innerHTML = PLATFORMS.map((p) =>
-            '<section class="sp-item"><h3 class="sp-platform">' + p.name + '</h3>'
-            + '<div class="sp-card ' + p.cls + '">' + p.render(d) + '</div></section>'
-        ).join('');
+        const p = PLATFORMS[activeIndex];
+        stage.innerHTML = '<div class="sp-card ' + p.cls + '">' + p.render(d) + '</div>';
     }
 
     function auditLines(data) {
@@ -170,10 +195,12 @@
     }
 
     function renderAll(data) {
-        renderPreviews(data);
+        buildTabs();
+        renderPreview(data);
         renderAudit(data);
         placeholder.style.display = 'none';
-        previews.hidden = false;
+        tabsBar.hidden = false;
+        stage.hidden = false;
     }
 
     function setLoading(loading) {

@@ -356,6 +356,99 @@ button.primary:disabled {
     pointer-events: auto;
 }
 
+/* === CUSTOM COLOR PICKER (GumiColorPicker, tools-common.js) === */
+.gumi-cp {
+    position: absolute;
+    z-index: 12002;
+    width: 248px;
+    padding: 14px;
+    background: #fff;
+    border-radius: 1rem;
+    border: 1px solid rgba(26, 26, 26, 0.04);
+    box-shadow: 0 15px 35px rgba(26, 26, 26, 0.12), 0 5px 15px rgba(26, 26, 26, 0.05);
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.gumi-cp.open { display: flex; }
+
+.gumi-cp-sv {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    border-radius: 0.7rem;
+    cursor: crosshair;
+    touch-action: none;
+    /* Saturation left→right, value bottom→top over the active hue. */
+    background-image: linear-gradient(to top, #000, rgba(0, 0, 0, 0)),
+        linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
+}
+
+.gumi-cp-thumb {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2.5px solid #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.gumi-cp-hue {
+    position: relative;
+    height: 14px;
+    border-radius: 100px;
+    cursor: pointer;
+    touch-action: none;
+    background: linear-gradient(to right,
+        #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);
+}
+
+.gumi-cp-hue-thumb {
+    position: absolute;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.gumi-cp-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.gumi-cp-preview {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 0.6rem;
+    box-shadow: inset 0 0 0 1px rgba(26, 26, 26, 0.08);
+}
+
+.gumi-cp-hex {
+    flex: 1;
+    min-width: 0;
+    height: 34px;
+    padding: 0 10px;
+    font-family: var(--font);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text);
+    background: var(--bg);
+    border: none;
+    border-radius: 0.6rem;
+    box-shadow: var(--shadow-in);
+    outline: none;
+}
+
 /* Offline/online status tag pinned at the bottom of the tooltip panel. */
 .tooltip-status {
     display: flex;

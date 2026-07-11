@@ -93,8 +93,10 @@ body.with-footer .site-content {
 .main-wrapper {
     width: min(100%, var(--content-max-width));
     max-width: var(--content-max-width);
-    margin: 3rem auto;
-    padding: 0 1.5rem;
+    /* Padding, not margin: a top margin here collapses through <body> and
+       drags the absolutely-positioned .dots-bg away from the page top. */
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
 }
 
 ::selection {
@@ -318,6 +320,12 @@ body.with-footer .site-content {
     margin-bottom: 3rem;
 }
 
+/* Tool pages use the full tool name as H1; size down slightly so the
+   longer titles stay on one line next to the info tooltip. */
+.header-container h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+}
+
 h1 {
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 900;
@@ -444,6 +452,21 @@ button.primary:active:not(:disabled) {
     padding: 0 4vw;
     aspect-ratio: 16 / 9;
     z-index: 2;
+}
+
+/* The hero image waits for the letter-by-letter text reveal (~1s) to
+   finish before fading in. `backwards` keeps it hidden during the delay. */
+@media (prefers-reduced-motion: no-preference) {
+    .hero-image-container {
+        animation: hero-image-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.05s backwards;
+    }
+}
+
+@keyframes hero-image-in {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
 }
 
 .hero-image-container img {
@@ -652,8 +675,10 @@ button.primary:active:not(:disabled) {
 /* === FILTERS & SEARCH === */
 .controls-wrapper {
     display: flex;
-    flex-direction: column;
-    gap: 24px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 32px;
     margin-bottom: 60px;
 }
 
@@ -661,6 +686,7 @@ button.primary:active:not(:disabled) {
     position: relative;
     width: 100%;
     max-width: 450px;
+    flex: 1 1 320px;
 }
 
 .search-input {
@@ -693,6 +719,12 @@ button.primary:active:not(:disabled) {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+@media (max-width: 760px) {
+    .controls-wrapper { flex-direction: column; align-items: stretch; }
+    .filters-group { justify-content: center; }
 }
 
 .filter-btn {

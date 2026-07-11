@@ -42,15 +42,35 @@
             width: 100%;
         }
 
-        .sp-previews { display: flex; flex-direction: column; gap: 1.75rem; width: 100%; }
+        .sp-tabs { display: flex; flex-wrap: wrap; gap: 8px; width: 100%; }
 
-        .sp-platform {
-            font-size: 0.8rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: rgba(26, 26, 26, 0.45);
-            margin-bottom: 0.6rem;
+        .sp-tab {
+            padding: 8px 14px;
+            border-radius: 100px;
+            border: none;
+            background-color: var(--bg);
+            box-shadow: var(--shadow-out);
+            font-family: var(--font);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sp-tab:hover { color: var(--accent); }
+
+        .sp-tab.active {
+            box-shadow: var(--shadow-in);
+            color: var(--accent);
+        }
+
+        .sp-stage { width: 100%; }
+
+        .sp-stage .sp-card { animation: sp-card-in 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        @keyframes sp-card-in {
+            from { opacity: 0; transform: translateY(10px); }
         }
 
         /* Platform mockups intentionally use the native system font stack,
@@ -190,7 +210,7 @@
         </a>
 
         <div class="header-container">
-            <h1>Aperçu de partage<span class="dot">.</span></h1>
+            <h1><span data-i18n="tool_sharepre_title">Aperçu de partage</span><span class="dot">.</span></h1>
             <div class="tooltip-wrapper no-select" style="margin-left: 10px;">
                 <button type="button" class="tooltip-icon" onclick="toggleTooltip(event)" aria-expanded="false" aria-label="Comment ça marche ?" title="Comment ça marche ?">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
@@ -226,7 +246,8 @@
 
             <div class="right-col">
                 <div class="sp-placeholder" id="sp-placeholder" data-i18n="sp_placeholder">Les aperçus apparaîtront ici...</div>
-                <div class="sp-previews" id="sp-previews" hidden></div>
+                <div class="sp-tabs no-select" id="sp-tabs" role="group" aria-label="Plateformes" hidden></div>
+                <div class="sp-stage" id="sp-stage" hidden></div>
             </div>
         </div>
     </div>
