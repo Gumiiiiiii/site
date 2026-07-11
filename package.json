@@ -1,9 +1,16 @@
 {
-  "name": "social-downloader",
+  "name": "gumi-site",
   "version": "1.0.0",
+  "scripts": {
+    "dev": "node dev-server.js",
+    "test": "node test/smoke-test.js"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "youtube-dl-exec": "^3.0.2"
+  },
+  "devDependencies": {
+    "jsdom": "^24.0.0"
   }
 }

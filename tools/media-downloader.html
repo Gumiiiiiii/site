@@ -2,14 +2,48 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}}catch(e){}})();</script>
+    <link rel="preload" href="../fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telechargeur de Medias - Gumi.</title>
-    <meta name="description" content="Telechargez un ou plusieurs medias depuis des URLs, avec extraction du lien direct et options de format.">
+    <meta name="theme-color" content="#F9F4EF">
+    <link rel="canonical" href="https://gumi.ch/tools/media-downloader">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Gumi.">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:title" content="Téléchargeur de médias - Gumi.">
+    <meta property="og:description" content="Téléchargez un ou plusieurs médias depuis vos liens, avec extraction du lien direct et options de format.">
+    <meta property="og:url" content="https://gumi.ch/tools/media-downloader">
+    <meta property="og:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Téléchargeur de médias - Gumi.">
+    <meta name="twitter:description" content="Téléchargez un ou plusieurs médias depuis vos liens, avec extraction du lien direct et options de format.">
+    <meta name="twitter:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
+    <title>Téléchargeur de médias - Gumi.</title>
+    <meta name="description" content="Téléchargez un ou plusieurs médias depuis vos liens, avec extraction du lien direct et options de format.">
+    <meta name="robots" content="noindex">
     <link rel="icon" type="image/x-icon" href="../media/favicon.ico">
 
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/shared.css">
     <link rel="stylesheet" href="../styles/tools-suite.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Téléchargeur de médias — Gumi.",
+        "description": "Extraction rapide de vidéos, audio et miniatures depuis vos liens.",
+        "url": "https://gumi.ch/tools/media-downloader",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "inLanguage": "fr",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+        }
+    }
+    </script>
 </head>
 <body>
     <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
@@ -19,18 +53,19 @@
     <div class="main-wrapper">
         <a href="../outils" class="back-link no-select" title="Retour aux outils">
             <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            Retour aux outils
+            <span data-i18n="back_tools">Retour aux outils</span>
         </a>
 
         <div class="header-container">
-            <h1>Medias<span class="dot">.</span></h1>
-            <div class="tooltip-wrapper no-select" onclick="toggleTooltip(event)">
-                <div class="tooltip-icon" title="Comment ca marche ?">
-                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                </div>
-                <div class="tooltip-content">
-                    <strong>Pre-chargement furtif :</strong><br><br>
-                    Collez vos liens (un par ligne). Le systeme pre-charge les medias en arriere-plan instantanement. Cliquez sur extraire pour recuperer vos fichiers.
+            <h1>Médias<span class="dot">.</span></h1>
+            <div class="tooltip-wrapper no-select">
+                <button type="button" class="tooltip-icon" onclick="toggleTooltip(event)" aria-expanded="false" aria-label="Comment ça marche ?" title="Comment ça marche ?">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                </button>
+                <div class="tooltip-content" data-i18n-html="md_tooltip">
+                    <strong>Pré-chargement furtif :</strong><br><br>
+                    Collez vos liens (un par ligne). Le système pré-charge les médias en arrière-plan instantanément. Cliquez sur extraire pour récupérer vos fichiers.<br><br>
+                    <i>Outil personnel, réservé à un usage privé : ne téléchargez que des contenus dont vous détenez les droits ou l'autorisation.</i>
                 </div>
             </div>
         </div>
@@ -38,29 +73,29 @@
         <div class="main-grid">
             <div class="left-col">
                 <div class="control-row">
-                    <div class="control-label">Liens des videos (un par ligne)</div>
+                    <div class="control-label" data-i18n="md_links_label">Liens des vidéos (un par ligne)</div>
                     <textarea id="urlInput" class="input-field" placeholder="https://instagram.com/...&#10;https://tiktok.com/..."></textarea>
-                    <button id="generate-btn" class="primary no-select" type="button" style="margin-top: 0.5rem;" disabled>Extraire les medias</button>
+                    <button id="generate-btn" class="primary no-select" type="button" style="margin-top: 0.5rem;" disabled data-i18n="md_extract_btn">Extraire les médias</button>
                 </div>
 
                 <div class="advanced-section">
                     <div class="advanced-header no-select" onclick="toggleAdvanced()">
-                        <span>Parametres avances</span>
+                        <span data-i18n="md_advanced">Paramètres avancés</span>
                         <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
                     <div class="advanced-content" id="adv-content">
                         <div class="adv-inner">
                             <div class="control-row" style="margin-bottom: 0;">
-                                <div class="control-label" style="font-size: 1rem; opacity: 0.8;">Format souhaite</div>
+                                <div class="control-label" style="font-size: 1rem; opacity: 0.8;" data-i18n="md_format_label">Format souhaité</div>
                                 <div class="actions-grid three-cols no-select">
-                                    <button class="secondary format-btn active" data-value="video_audio" type="button">Video + Son</button>
-                                    <button class="secondary format-btn" data-value="audio_only" type="button">Audio seul</button>
-                                    <button class="secondary format-btn" data-value="video_only" type="button">Video sans son</button>
+                                    <button class="secondary format-btn active" data-value="video_audio" type="button" data-i18n="md_video_audio">Vidéo + Son</button>
+                                    <button class="secondary format-btn" data-value="audio_only" type="button" data-i18n="md_audio_only">Audio seul</button>
+                                    <button class="secondary format-btn" data-value="video_only" type="button" data-i18n="md_video_only">Vidéo sans son</button>
                                 </div>
                             </div>
                             <div class="control-row" style="margin-bottom: 0;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
-                                    <span style="font-size: 1rem; font-weight: 800; color: var(--text); opacity: 0.8;">Extraire la miniature</span>
+                                    <span style="font-size: 1rem; font-weight: 800; color: var(--text); opacity: 0.8;" data-i18n="md_extract_thumb">Extraire la miniature</span>
                                     <label class="switch"><input type="checkbox" id="thumb-toggle"><span class="slider"></span></label>
                                 </div>
                             </div>
@@ -72,19 +107,19 @@
             <div class="right-col" id="resultArea">
                 <div class="status-container">
                     <svg viewBox="0 0 24 24" style="width: 48px; height: 48px; stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.4; margin-bottom: 0.5rem;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                    En attente de liens...
+                    <span data-i18n="md_waiting">En attente de liens...</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <button id="download-all-btn" class="primary floating-btn no-select hidden" type="button">
+    <button id="download-all-btn" class="primary floating-btn no-select hidden" type="button" disabled>
         <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-        <span>Tout telecharger (<span id="dl-count">0</span>)</span>
+        <span data-i18n="md_download_all">Tout télécharger</span> <span>(<span id="dl-count">0</span>)</span>
     </button>
 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.16/dist/lenis.min.js"></script>
+    <script src="../scripts/vendor/lenis.min.js"></script>
+    <script src="../scripts/i18n.js"></script>
     <script src="../scripts/navbar.js"></script>
     <script src="../scripts/animations.js"></script>
     <script src="../scripts/page-effects.js"></script>

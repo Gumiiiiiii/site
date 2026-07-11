@@ -1,15 +1,35 @@
 (function () {
+    function closeTooltip(wrapper) {
+        wrapper.classList.remove('active');
+        const trigger = wrapper.querySelector('.tooltip-icon');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    }
+
     document.addEventListener('click', function (event) {
         document.querySelectorAll('.tooltip-wrapper.active').forEach(function (wrapper) {
             if (!wrapper.contains(event.target)) {
-                wrapper.classList.remove('active');
+                closeTooltip(wrapper);
             }
+        });
+    });
+
+    // Escape closes any open tooltip and returns focus to its trigger.
+    document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Escape') return;
+        document.querySelectorAll('.tooltip-wrapper.active').forEach(function (wrapper) {
+            closeTooltip(wrapper);
+            const trigger = wrapper.querySelector('.tooltip-icon');
+            if (trigger) trigger.focus();
         });
     });
 
     window.toggleTooltip = function (event) {
         event.stopPropagation();
-        event.currentTarget.classList.toggle('active');
+        const trigger = event.currentTarget;
+        const wrapper = trigger.closest('.tooltip-wrapper');
+        if (!wrapper) return;
+        const isActive = wrapper.classList.toggle('active');
+        trigger.setAttribute('aria-expanded', isActive ? 'true' : 'false');
     };
 
     window.toggleAdvanced = function () {

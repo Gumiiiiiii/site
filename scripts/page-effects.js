@@ -37,7 +37,8 @@
         resizeTimeout = setTimeout(drawDots, 100);
     });
 
-    if (!window.Lenis) return;
+    // Respect reduced-motion: keep native scrolling, skip the smooth-scroll layer.
+    if (!window.Lenis || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const lenis = new window.Lenis({
         duration: 1.1,
@@ -57,4 +58,6 @@
     window.addEventListener('resize', function () {
         lenis.resize();
     });
+
+    window.gumiLenis = lenis;
 })();

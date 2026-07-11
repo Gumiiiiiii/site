@@ -2,14 +2,47 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}}catch(e){}})();</script>
+    <link rel="preload" href="../fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F9F4EF">
+    <link rel="canonical" href="https://gumi.ch/tools/text-modifier">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Gumi.">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:title" content="Modificateur de texte - Gumi.">
+    <meta property="og:description" content="Modifiez rapidement vos textes: casse, nettoyage, filtres avances et transformations, directement dans le navigateur.">
+    <meta property="og:url" content="https://gumi.ch/tools/text-modifier">
+    <meta property="og:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Modificateur de texte - Gumi.">
+    <meta name="twitter:description" content="Modifiez rapidement vos textes: casse, nettoyage, filtres avances et transformations, directement dans le navigateur.">
+    <meta name="twitter:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
     <title>Modificateur de Texte - Gumi.</title>
     <meta name="description" content="Modifiez rapidement vos textes: casse, nettoyage, filtres avances et transformations, directement dans le navigateur.">
     <link rel="icon" type="image/x-icon" href="../media/favicon.ico">
 
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/shared.css">
     <link rel="stylesheet" href="../styles/tools-suite.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Modificateur de texte — Gumi.",
+        "description": "Transformations, nettoyage et remplacements avancés directement dans le navigateur.",
+        "url": "https://gumi.ch/tools/text-modifier",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "inLanguage": "fr",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+        }
+    }
+    </script>
 </head>
 <body>
     <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
@@ -19,19 +52,19 @@
     <div class="main-wrapper">
         <a href="../outils" class="back-link no-select" title="Retour aux outils">
             <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            Retour aux outils
+            <span data-i18n="back_tools">Retour aux outils</span>
         </a>
 
         <div class="header-container">
             <h1>Texte<span class="dot">.</span></h1>
-            <div class="tooltip-wrapper no-select" onclick="toggleTooltip(event)">
-                <div class="tooltip-icon" title="Comment ca marche ?">
-                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                </div>
-                <div class="tooltip-content">
-                    <strong>Processus client-side :</strong><br><br>
-                    Modifiez instantanement votre texte. Combinez les formats de base avec des filtres avances.<br><br>
-                    <i>Aucune donnee n'est envoyee sur nos serveurs.</i>
+            <div class="tooltip-wrapper no-select">
+                <button type="button" class="tooltip-icon" onclick="toggleTooltip(event)" aria-expanded="false" aria-label="Comment ça marche ?" title="Comment ça marche ?">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                </button>
+                <div class="tooltip-content" data-i18n-html="txt_tooltip">
+                    <strong>Traitement côté client :</strong><br><br>
+                    Modifiez instantanément votre texte. Combinez les formats de base avec des filtres avancés.<br><br>
+                    <i>Aucune donnée n'est envoyée sur nos serveurs.</i>
                 </div>
             </div>
         </div>
@@ -39,44 +72,44 @@
         <div class="main-grid">
             <div class="left-col">
                 <div class="control-row">
-                    <div class="control-label">Texte source</div>
-                    <textarea id="source-text" class="input-field" placeholder="Collez ou tapez votre texte ici..."></textarea>
+                    <div class="control-label" data-i18n="txt_source">Texte source</div>
+                    <textarea id="source-text" class="input-field" placeholder="Collez ou tapez votre texte ici..." data-i18n-placeholder="txt_source_placeholder"></textarea>
                 </div>
 
                 <div class="control-row">
-                    <div class="control-label">Actions rapides</div>
+                    <div class="control-label" data-i18n="txt_quick_actions">Actions rapides</div>
                     <div class="actions-grid no-select">
-                        <button class="secondary modifier-btn" data-action="uppercase" type="button">MAJUSCULES</button>
-                        <button class="secondary modifier-btn" data-action="lowercase" type="button">minuscules</button>
-                        <button class="secondary modifier-btn" data-action="capitalize" type="button">Capitaliser mots</button>
-                        <button class="secondary modifier-btn" data-action="sentence" type="button">Casse phrase</button>
-                        <button class="secondary modifier-btn" data-action="slugify" type="button">format-slug-url</button>
-                        <button class="secondary modifier-btn" data-action="removeAccents" type="button">Sans accents</button>
-                        <button class="secondary modifier-btn" data-action="clean" type="button" style="grid-column: span 2;">Nettoyer les espaces</button>
+                        <button class="secondary modifier-btn" data-action="uppercase" type="button" data-i18n="txt_uppercase">MAJUSCULES</button>
+                        <button class="secondary modifier-btn" data-action="lowercase" type="button" data-i18n="txt_lowercase">minuscules</button>
+                        <button class="secondary modifier-btn" data-action="capitalize" type="button" data-i18n="txt_capitalize">Capitaliser mots</button>
+                        <button class="secondary modifier-btn" data-action="sentence" type="button" data-i18n="txt_sentence">Casse phrase</button>
+                        <button class="secondary modifier-btn" data-action="slugify" type="button" data-i18n="txt_slugify">format-slug-url</button>
+                        <button class="secondary modifier-btn" data-action="removeAccents" type="button" data-i18n="txt_remove_accents">Sans accents</button>
+                        <button class="secondary modifier-btn" data-action="clean" type="button" style="grid-column: span 2;" data-i18n="txt_clean">Nettoyer les espaces</button>
                     </div>
                 </div>
 
                 <div class="advanced-section">
                     <div class="advanced-header no-select" onclick="toggleAdvanced()">
-                        <span>Filtres avances</span>
+                        <span data-i18n="txt_advanced">Filtres avancés</span>
                         <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
                     <div class="advanced-content" id="adv-content">
                         <div class="adv-inner">
                             <div class="control-row" style="margin-bottom: 0;">
-                                <div class="control-label" style="font-size: 1rem; opacity: 0.8;">Ciblage par mots</div>
-                                <input type="text" id="target-words" class="input-field" style="min-height: auto; height: 54px;" placeholder="Ex: urgent, erreur">
+                                <div class="control-label" style="font-size: 1rem; opacity: 0.8;" data-i18n="txt_targeting">Ciblage par mots</div>
+                                <input type="text" id="target-words" class="input-field" style="min-height: auto; height: 54px;" placeholder="Ex: urgent, erreur" data-i18n-placeholder="txt_targeting_placeholder">
                                 <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
-                                    <button class="secondary modifier-btn" data-action="targetUpper" type="button" style="flex:1;">Cibles MAJ</button>
-                                    <button class="secondary modifier-btn" data-action="targetBold" type="button" style="flex:1;">Cibles **Gras**</button>
+                                    <button class="secondary modifier-btn" data-action="targetUpper" type="button" style="flex:1;" data-i18n="txt_target_upper">Cibles MAJ</button>
+                                    <button class="secondary modifier-btn" data-action="targetBold" type="button" style="flex:1;" data-i18n="txt_target_bold">Cibles **Gras**</button>
                                 </div>
                             </div>
 
                             <div class="control-row" style="margin-bottom: 0;">
-                                <div class="control-label" style="font-size: 1rem; opacity: 0.8;">Rechercher & Remplacer</div>
+                                <div class="control-label" style="font-size: 1rem; opacity: 0.8;" data-i18n="txt_find_replace">Rechercher &amp; Remplacer</div>
                                 <div style="display: flex; flex-direction: column; gap: 0.8rem;">
-                                    <input type="text" id="search-input" class="input-field" style="min-height: auto; height: 54px;" placeholder="Texte a rechercher...">
-                                    <input type="text" id="replace-input" class="input-field" style="min-height: auto; height: 54px;" placeholder="Remplacer par...">
+                                    <input type="text" id="search-input" class="input-field" style="min-height: auto; height: 54px;" placeholder="Texte à rechercher..." data-i18n-placeholder="txt_search_placeholder">
+                                    <input type="text" id="replace-input" class="input-field" style="min-height: auto; height: 54px;" placeholder="Remplacer par..." data-i18n-placeholder="txt_replace_placeholder">
                                 </div>
                             </div>
                         </div>
@@ -86,14 +119,14 @@
 
             <div class="right-col">
                 <div class="control-row" style="margin-bottom: 0; flex: 1; display: flex; flex-direction: column;">
-                    <div class="control-label" style="margin-bottom: 0.8rem;">Resultat</div>
-                    <textarea id="result-text" class="input-field" readonly placeholder="Le texte modifie apparaitra ici..." style="flex: 1;"></textarea>
+                    <div class="control-label" style="margin-bottom: 0.8rem;" data-i18n="txt_result">Résultat</div>
+                    <textarea id="result-text" class="input-field" readonly placeholder="Le texte modifié apparaîtra ici..." data-i18n-placeholder="txt_result_placeholder" style="flex: 1;"></textarea>
                 </div>
 
                 <div class="stats-container no-select">
-                    <div class="stat-item">Mots <span class="stat-val" id="word-count">0</span></div>
-                    <div class="stat-item">Caracteres <span class="stat-val" id="char-count">0</span></div>
-                    <div class="stat-item">Lignes <span class="stat-val" id="line-count">0</span></div>
+                    <div class="stat-item"><span data-i18n="txt_words">Mots</span> <span class="stat-val" id="word-count">0</span></div>
+                    <div class="stat-item"><span data-i18n="txt_chars">Caractères</span> <span class="stat-val" id="char-count">0</span></div>
+                    <div class="stat-item"><span data-i18n="txt_lines">Lignes</span> <span class="stat-val" id="line-count">0</span></div>
                 </div>
             </div>
         </div>
@@ -101,11 +134,11 @@
 
     <button id="copy-all-btn" class="primary floating-btn hidden no-select" type="button">
         <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-        Copier le resultat
+        <span data-i18n="txt_copy">Copier le résultat</span>
     </button>
 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.16/dist/lenis.min.js"></script>
+    <script src="../scripts/vendor/lenis.min.js"></script>
+    <script src="../scripts/i18n.js"></script>
     <script src="../scripts/navbar.js"></script>
     <script src="../scripts/animations.js"></script>
     <script src="../scripts/page-effects.js"></script>

@@ -288,12 +288,16 @@ button.primary:disabled {
 .tooltip-icon {
     width: 36px;
     height: 36px;
+    border: none;
+    padding: 0;
+    font-family: var(--font);
     border-radius: 50%;
     background: var(--bg);
     color: var(--text);
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     box-shadow: 2px 2px 5px rgba(26, 26, 26, 0.1), -2px -2px 5px rgba(255, 255, 255, 0.7);
     transition: all 0.3s ease;
 }

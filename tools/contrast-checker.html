@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}}catch(e){}})();</script>
+    <link rel="preload" href="../fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F9F4EF">
+    <link rel="canonical" href="https://gumi.ch/tools/contrast-checker">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Gumi.">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:title" content="Analyseur de contraste - Gumi.">
+    <meta property="og:description" content="Vérifiez le contraste de vos couleurs selon les normes WCAG : ratio, niveaux AA/AAA pour petit et grand texte, avec aperçu en direct.">
+    <meta property="og:url" content="https://gumi.ch/tools/contrast-checker">
+    <meta property="og:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Analyseur de contraste - Gumi.">
+    <meta name="twitter:description" content="Vérifiez le contraste de vos couleurs selon les normes WCAG : ratio, niveaux AA/AAA pour petit et grand texte, avec aperçu en direct.">
+    <meta name="twitter:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
+    <title>Analyseur de contraste - Gumi.</title>
+    <meta name="description" content="Vérifiez le contraste de vos couleurs selon les normes WCAG : ratio, niveaux AA/AAA pour petit et grand texte, avec aperçu en direct.">
+    <link rel="icon" type="image/x-icon" href="../media/favicon.ico">
+
+    <link rel="stylesheet" href="../styles/shared.css">
+    <link rel="stylesheet" href="../styles/tools-suite.css">
+
+    <style>
+        .color-input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .color-input-row .input-field {
+            height: 54px;
+            padding: 0 1rem;
+            text-align: left;
+            text-transform: uppercase;
+            flex: 1;
+        }
+
+        .color-swatch {
+            width: 54px;
+            height: 54px;
+            flex-shrink: 0;
+            border: none;
+            border-radius: 0.8em;
+            padding: 0;
+            cursor: pointer;
+            background: transparent;
+            box-shadow: 4px 4px 8px rgba(26,26,26,0.1), -4px -4px 8px rgba(255,255,255,0.7);
+        }
+        .color-swatch::-webkit-color-swatch-wrapper { padding: 4px; }
+        .color-swatch::-webkit-color-swatch { border: none; border-radius: 0.6em; }
+        .color-swatch::-moz-color-swatch { border: none; border-radius: 0.6em; }
+
+        /* Result card */
+        .contrast-result {
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(26, 26, 26, 0.04);
+            transition: background 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .contrast-result.is-fail { background: rgba(197, 106, 106, 0.12); }
+        .contrast-result.is-pass { background: rgba(96, 150, 117, 0.12); }
+
+        .contrast-headline {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .ratio-value {
+            font-size: 3.2rem;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+
+        .rating-block {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .rating-label { font-weight: 800; font-size: 1.05rem; }
+
+        /* Segment meter (replaces the star system) */
+        .contrast-meter { display: flex; gap: 5px; }
+        .contrast-meter span {
+            width: 22px;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(26, 26, 26, 0.12);
+            transition: background 0.3s ease;
+        }
+        .contrast-meter span.on.lvl-low { background: var(--negative); }
+        .contrast-meter span.on.lvl-mid { background: var(--accent); }
+        .contrast-meter span.on.lvl-high { background: var(--positive); }
+
+        .size-rows { display: flex; gap: 1rem; }
+        .size-row {
+            flex: 1;
+            background: var(--bg);
+            border-radius: 1rem;
+            padding: 0.9rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            border: 1px solid rgba(26, 26, 26, 0.05);
+        }
+        .size-row .size-label { font-weight: 700; font-size: 0.95rem; }
+        .chips { display: flex; gap: 6px; }
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 999px;
+            letter-spacing: 0.04em;
+        }
+        .chip.pass { background: rgba(96, 150, 117, 0.18); color: var(--positive); }
+        .chip.fail { background: rgba(197, 106, 106, 0.18); color: var(--negative); }
+
+        .contrast-footer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: rgba(26, 26, 26, 0.75);
+        }
+
+        .fix-link {
+            background: none;
+            border: none;
+            font-family: var(--font);
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--accent);
+            cursor: pointer;
+            padding: 0;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .fix-link:hover { color: var(--text); }
+        .fix-link.hidden { display: none; }
+
+        .color-input-row .secondary.hidden { display: none; }
+
+        .bg-image-note {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: rgba(26, 26, 26, 0.55);
+        }
+        .bg-image-note.hidden { display: none; }
+
+        /* Preview panel */
+        .preview-panel {
+            border-radius: 1.5rem;
+            min-height: 480px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 1.6rem;
+            padding: 3rem;
+            transition: background-color 0.3s ease;
+            border: 1px solid rgba(26, 26, 26, 0.06);
+        }
+
+        .preview-large {
+            font-size: clamp(1.6rem, 3vw, 2.6rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .preview-small {
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.6;
+            margin: 0;
+            max-width: 34rem;
+            transition: color 0.3s ease;
+        }
+
+        @media (max-width: 950px) {
+            .preview-panel { min-height: 320px; padding: 2rem; }
+            .size-rows { flex-direction: column; }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Analyseur de contraste — Gumi.",
+        "description": "Vérifiez l'accessibilité de vos palettes selon les normes de lisibilité WCAG.",
+        "url": "https://gumi.ch/tools/contrast-checker",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "inLanguage": "fr",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+
+    <nav class="navbar" data-navbar-root></nav>
+
+    <div class="main-wrapper">
+        <a href="../outils" class="back-link no-select" title="Retour aux outils">
+            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <span data-i18n="back_tools">Retour aux outils</span>
+        </a>
+
+        <div class="header-container">
+            <h1>Contraste<span class="dot">.</span></h1>
+            <div class="tooltip-wrapper no-select" style="margin-left: 10px;">
+                <button type="button" class="tooltip-icon" onclick="toggleTooltip(event)" aria-expanded="false" aria-label="Comment ça marche ?" title="Comment ça marche ?">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                </button>
+                <div class="tooltip-content" style="max-width: 340px;" data-i18n-html="contrast_tooltip">
+                    <strong>Comment ça marche ?</strong><br><br>
+                    Cet outil suit les Web Content Accessibility Guidelines (WCAG), qui définissent deux niveaux de contraste : AA (minimum) et AAA (renforcé).<br><br>
+                    AA : ratio d'au moins 4,5:1 pour le texte normal et 3:1 pour le grand texte (18pt+) ou le gras.<br>
+                    AAA : ratio d'au moins 7:1 pour le texte normal et 4,5:1 pour le grand texte ou le gras.<br><br>
+                    <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 800;">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="left-col">
+                <div class="controls-panel">
+                    <div class="control-row">
+                        <div class="control-label" data-i18n="contrast_text_color">Couleur du texte</div>
+                        <div class="color-input-row">
+                            <input type="text" id="text-hex" class="input-field" value="#1A1A1A" spellcheck="false" maxlength="7">
+                            <input type="color" id="text-swatch" class="color-swatch no-select" value="#1A1A1A" title="Couleur du texte">
+                        </div>
+                    </div>
+
+                    <div class="control-row">
+                        <div class="control-label" data-i18n="contrast_bg_color">Couleur de fond</div>
+                        <div class="color-input-row">
+                            <input type="text" id="bg-hex" class="input-field" value="#F9F4EF" spellcheck="false" maxlength="7">
+                            <input type="color" id="bg-swatch" class="color-swatch no-select" value="#F9F4EF" title="Couleur de fond">
+                        </div>
+                    </div>
+
+                    <div class="control-row">
+                        <div class="control-label" data-i18n="contrast_bg_image">Image de fond</div>
+                        <div class="color-input-row">
+                            <button type="button" id="bg-image-btn" class="secondary no-select" style="flex: 1;" data-i18n="contrast_add_image">Ajouter une image</button>
+                            <button type="button" id="bg-image-clear" class="secondary no-select hidden" style="flex: 1;" data-i18n="contrast_remove_image">Retirer l'image</button>
+                        </div>
+                        <input type="file" id="bg-image-input" accept="image/*" style="display: none;">
+                        <span class="bg-image-note hidden" id="bg-image-note"></span>
+                    </div>
+
+                    <div class="control-row">
+                        <div class="control-label" data-i18n="contrast_ratio_label">Contraste</div>
+                        <div class="contrast-result" id="contrast-result">
+                            <div class="contrast-headline">
+                                <div class="ratio-value" id="ratio-value">—</div>
+                                <div class="rating-block">
+                                    <div class="rating-label" id="rating-label"></div>
+                                    <div class="contrast-meter" id="contrast-meter" aria-hidden="true">
+                                        <span></span><span></span><span></span><span></span><span></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="size-rows">
+                                <div class="size-row">
+                                    <span class="size-label" data-i18n="contrast_small">Petit texte</span>
+                                    <div class="chips">
+                                        <span class="chip" id="chip-small-aa">AA</span>
+                                        <span class="chip" id="chip-small-aaa">AAA</span>
+                                    </div>
+                                </div>
+                                <div class="size-row">
+                                    <span class="size-label" data-i18n="contrast_large">Grand texte</span>
+                                    <div class="chips">
+                                        <span class="chip" id="chip-large-aa">AA</span>
+                                        <span class="chip" id="chip-large-aaa">AAA</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="contrast-footer">
+                                <span id="contrast-msg"></span>
+                                <button type="button" class="fix-link hidden" id="fix-btn" data-i18n="contrast_fix">Corriger automatiquement</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-col" style="padding: 0; background: transparent; border: none;">
+                <div class="preview-panel" id="preview-panel">
+                    <p class="preview-large" id="preview-large">À vaincre sans péril, on triomphe sans gloire</p>
+                    <p class="preview-small" id="preview-small">À vaincre sans péril, on triomphe sans gloire. Cette réplique du Cid de Corneille sert ici de texte d'essai : elle permet de juger la lisibilité d'un paragraphe courant dans la combinaison de couleurs choisie.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../scripts/vendor/lenis.min.js"></script>
+    <script src="../scripts/i18n.js"></script>
+    <script src="../scripts/navbar.js"></script>
+    <script src="../scripts/animations.js"></script>
+    <script src="../scripts/page-effects.js"></script>
+    <script src="../scripts/tools-common.js"></script>
+    <script src="../scripts/tool-contrast-checker.js"></script>
+</body>
+</html>

@@ -11,23 +11,24 @@
     const RENDER_API_BASE = 'https://site-xyvc.onrender.com/api/get-video';
     const LOCAL_API_BASE = 'http://localhost:10000/api/get-video';
 
+    function t(key, fallback) {
+        return window.GumiI18n ? window.GumiI18n.t(key) || fallback : fallback;
+    }
+
     function getApiCandidates() {
         const params = new URLSearchParams(window.location.search);
         const forced = params.get('api');
-        const sameOriginApi = window.location.origin + '/api/get-video';
-        const isFileProtocol = window.location.protocol === 'file:';
+        const isLocal = window.location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
 
         const candidates = [];
         if (forced) candidates.push(forced);
 
-        if (isFileProtocol) {
+        if (isLocal) {
             candidates.push(LOCAL_API_BASE);
             candidates.push(RENDER_API_BASE);
         } else {
             candidates.push('/api/get-video');
-            candidates.push(sameOriginApi);
             candidates.push(RENDER_API_BASE);
-            candidates.push(LOCAL_API_BASE);
         }
 
         return candidates.filter(function (value, index, arr) {
@@ -68,7 +69,7 @@
     }
 
     function setGenerateIdle() {
-        generateBtn.textContent = 'Extraire les medias';
+        generateBtn.textContent = t('md_extract_btn', 'Extraire les médias');
         generateBtn.disabled = extractUrls(urlInput.value).length === 0;
     }
 
@@ -124,7 +125,8 @@
 
     function renderUI() {
         if (requestedUrls.size === 0) {
-            resultArea.innerHTML = '<div class="status-container"><svg viewBox="0 0 24 24" style="width: 48px; height: 48px; stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.4; margin-bottom: 0.5rem;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>En attente de liens...</div>';
+            resultArea.innerHTML = '<div class="status-container"><svg viewBox="0 0 24 24" style="width: 48px; height: 48px; stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.4; margin-bottom: 0.5rem;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>' + escapeHtml(t('md_waiting', 'En attente de liens...')) + '</div>';
+            downloadAllBtn.disabled = true;
             downloadAllBtn.classList.remove('visible');
             downloadAllBtn.classList.add('hidden');
             setGenerateIdle();
@@ -155,12 +157,12 @@
 
             const extLabel = item.status === 'done' ? (item.requestedFormat === 'audio_only' ? 'MP3' : 'MP4') : '';
             const statusText = item.status === 'loading'
-                ? 'Extraction en cours...'
+                ? escapeHtml(t('md_extracting', 'Extraction en cours...'))
                 : item.status === 'warming'
                     ? (item.errorMessage || 'Reveil du serveur Render...')
                 : item.status === 'error'
                     ? (item.errorMessage || 'Erreur de lecture')
-                    : 'Media pret <span style="opacity:0.6; font-size: 0.8em;">(' + extLabel + ')</span>';
+                    : escapeHtml(t('md_card_ready', 'Média prêt')) + ' <span style="opacity:0.6; font-size: 0.8em;">(' + extLabel + ')</span>';
             const statusColor = item.status === 'done'
                 ? 'var(--positive)'
                 : item.status === 'warming'
@@ -170,7 +172,7 @@
                     : 'inherit';
 
             const actionBtn = item.status === 'done' && item.data && item.data.directLink
-                ? '<button class="icon-button btn-dl-one" data-url="' + escapeHtml(item.data.directLink) + '" data-ext="' + extLabel.toLowerCase() + '" data-source="' + escapeHtml(url) + '" title="Telecharger"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>'
+                ? '<button class="icon-button btn-dl-one" data-url="' + escapeHtml(item.data.directLink) + '" data-ext="' + extLabel.toLowerCase() + '" data-source="' + escapeHtml(url) + '" title="Télécharger"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>'
                 : '';
 
             html += '<div class="preview-card">' + thumbHtml + '<div class="preview-info"><div class="preview-title" title="' + escapeHtml(url) + '">' + escapeHtml(url) + '</div><div style="font-size:0.85rem; font-weight:700; opacity:0.8; color:' + statusColor + '">' + statusText + '</div></div>' + actionBtn + '</div>';
@@ -180,23 +182,24 @@
         resultArea.innerHTML = html;
 
         if (loadingCount > 0) {
-            generateBtn.innerHTML = '<span class="loader-btn" style="border-color:rgba(255,255,255,0.2); border-bottom-color:#fff;"></span> Extraction en cours...';
+            generateBtn.innerHTML = '<span class="loader-btn" style="border-color:rgba(255,255,255,0.2); border-bottom-color:#fff;"></span> ' + escapeHtml(t('md_extracting', 'Extraction en cours...'));
             generateBtn.disabled = true;
         } else if (readyCount > 0) {
-            const mediaWord = readyCount > 1 ? 'medias' : 'media';
-            const extraitWord = readyCount > 1 ? 'extraits' : 'extrait';
-            generateBtn.innerHTML = String(readyCount) + ' ' + mediaWord + ' ' + extraitWord;
+            const readyWord = readyCount > 1 ? t('md_ready_plural', 'médias extraits') : t('md_ready_single', 'média extrait');
+            generateBtn.textContent = String(readyCount) + ' ' + readyWord;
             generateBtn.disabled = false;
         } else {
-            generateBtn.textContent = 'Reessayer l\'extraction';
+            generateBtn.textContent = t('md_extract_retry', 'Réessayer l\'extraction');
             generateBtn.disabled = false;
         }
 
         if (readyCount > 0) {
+            downloadAllBtn.disabled = false;
             downloadAllBtn.classList.remove('hidden');
             downloadAllBtn.classList.add('visible');
             dlCount.textContent = String(readyCount);
         } else {
+            downloadAllBtn.disabled = true;
             downloadAllBtn.classList.remove('visible');
             downloadAllBtn.classList.add('hidden');
         }
@@ -222,7 +225,7 @@
                     status: 'warming',
                     data: null,
                     requestedFormat: format,
-                    errorMessage: 'Reveil du serveur Render... tentative ' + nextAttempt + '/5'
+                    errorMessage: t('md_warming', 'Réveil du serveur... tentative') + ' ' + nextAttempt + '/5'
                 });
                 if (requestedUrls.has(url)) renderUI();
 
@@ -232,7 +235,7 @@
                 return;
             }
 
-            const msg = 'Serveur API indisponible (essayez: node server.js)';
+            const msg = t('md_error_api', "Le serveur d'extraction est indisponible pour le moment. Réessayez dans quelques instants.");
             fetchCache.set(url, { status: 'error', data: null, requestedFormat: format, errorMessage: msg });
         }
 
@@ -262,10 +265,10 @@
             a.click();
             window.URL.revokeObjectURL(blobUrl);
             document.body.removeChild(a);
-            if (!isFallback && window.showToolToast) window.showToolToast('Telechargement lance avec succes !', false);
+            if (!isFallback && window.showToolToast) window.showToolToast(t('md_toast_started', 'Téléchargement lancé avec succès !'), false);
         } catch (error) {
             window.open(url, '_blank', 'noopener');
-            if (!isFallback && window.showToolToast) window.showToolToast('Fichier ouvert en securite. (Clic droit > Enregistrer sous...)', false);
+            if (!isFallback && window.showToolToast) window.showToolToast(t('md_toast_opened', 'Fichier ouvert dans un nouvel onglet. (Clic droit > Enregistrer sous...)'), false);
         }
     }
 
@@ -281,23 +284,32 @@
         thumbToggle.addEventListener('change', forceRefetch);
     }
 
+    // Debounced: without it, typing a URL by hand fires one doomed request
+    // (plus its retry chain) for every keystroke.
+    let inputDebounce = null;
+
     urlInput.addEventListener('input', function () {
         const currentUrls = extractUrls(urlInput.value);
-        currentUrls.forEach(function (url) {
-            if (!fetchCache.has(url)) fetchMedia(url);
-        });
 
         generateBtn.disabled = currentUrls.length === 0;
-        if (currentUrls.length === 0) {
-            requestedUrls.clear();
-            renderUI();
-        } else {
-            const requestedArr = Array.from(requestedUrls);
-            const sameUrls = currentUrls.length === requestedArr.length && currentUrls.every(function (u) { return requestedArr.includes(u); });
-            if (!sameUrls) setGenerateIdle();
-        }
-
         if (window.autoGrowTextarea) window.autoGrowTextarea(urlInput, 140);
+
+        clearTimeout(inputDebounce);
+        inputDebounce = setTimeout(function () {
+            const urls = extractUrls(urlInput.value);
+            urls.forEach(function (url) {
+                if (!fetchCache.has(url)) fetchMedia(url);
+            });
+
+            if (urls.length === 0) {
+                requestedUrls.clear();
+                renderUI();
+            } else {
+                const requestedArr = Array.from(requestedUrls);
+                const sameUrls = urls.length === requestedArr.length && urls.every(function (u) { return requestedArr.includes(u); });
+                if (!sameUrls) setGenerateIdle();
+            }
+        }, 450);
     });
 
     generateBtn.addEventListener('click', function () {
@@ -349,9 +361,9 @@
         }
 
         if (openedCount > 0 && window.showToolToast) {
-            window.showToolToast('Telechargements en cours.', false);
+            window.showToolToast(t('md_toast_downloads', 'Téléchargements en cours.'), false);
         } else if (openedCount === 0 && window.showToolToast) {
-            window.showToolToast('Aucun media pret. Verifiez le lien ou l\'API.', true);
+            window.showToolToast(t('md_toast_none', 'Aucun média prêt. Vérifiez vos liens puis réessayez.'), true);
         }
     });
 

@@ -1,50 +1,35 @@
-import youtubedl from 'youtube-dl-exec';
+import shared from './_lib/extract.cjs';
+
+const { ALLOWED_ORIGINS, isAllowedMediaUrl, isRateLimited, extractMedia } = shared;
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  const origin = req.headers.origin;
+  if (origin && ALLOWED_ORIGINS.has(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
+  }
+  if (req.method === 'OPTIONS') return res.status(204).end();
+
+  const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket?.remoteAddress;
+  if (isRateLimited(ip)) {
+    return res.status(429).json({ error: 'Too many requests, slow down.' });
+  }
 
   const { url, format = 'video_audio', thumb = 'false' } = req.query;
   if (!url) return res.status(400).json({ error: 'Missing URL' });
+  if (!isAllowedMediaUrl(url)) {
+    return res.status(400).json({ error: 'Unsupported or invalid URL' });
+  }
 
   try {
-    const output = await youtubedl(url, {
-      dumpJson: true,
-      noWarnings: true,
-      preferFreeFormats: true,
-      addHeader: ['referer:youtube.com', 'user-agent:Mozilla/5.0']
-    });
-
-    const formats = output.formats || [];
-    let selected = null;
-
-    if (format === 'audio_only') {
-      selected =
-        formats.find((f) => f.acodec !== 'none' && f.vcodec === 'none' && ['m4a', 'mp3', 'webm'].includes(f.ext)) ||
-        formats.find((f) => f.acodec !== 'none' && f.vcodec === 'none');
-    } else if (format === 'video_only') {
-      selected =
-        formats.find((f) => f.vcodec !== 'none' && f.acodec === 'none' && f.ext === 'mp4') ||
-        formats.find((f) => f.vcodec !== 'none' && f.acodec === 'none');
-    } else {
-      selected =
-        formats.find((f) => f.ext === 'mp4' && f.acodec !== 'none' && f.vcodec !== 'none') ||
-        formats.find((f) => f.acodec !== 'none' && f.vcodec !== 'none');
-    }
-
-    const fallbackLink = formats.find((f) => Boolean(f?.url))?.url || output.url || null;
-    const directLink = selected?.url || fallbackLink;
-    if (!directLink) {
+    const result = await extractMedia(url, format, String(thumb).toLowerCase() === 'true');
+    if (!result) {
       return res.status(422).json({ error: 'No downloadable format available for this URL' });
     }
-    const withThumb = String(thumb).toLowerCase() === 'true';
-
-    return res.status(200).json({
-      directLink,
-      thumbnailLink: withThumb ? output.thumbnail || null : null,
-      title: output.title || null
-    });
+    return res.status(200).json(result);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    console.error('get-video extraction failed:', error);
+    return res.status(500).json({ error: 'Extraction failed, please try again later.' });
   }
 }

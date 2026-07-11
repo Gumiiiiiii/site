@@ -2,12 +2,25 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}}catch(e){}})();</script>
+    <link rel="preload" href="fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F9F4EF">
+    <link rel="canonical" href="https://gumi.ch/brand-guidelines">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Gumi.">
+    <meta property="og:title" content="Gumi. Brand Guidelines">
+    <meta property="og:description" content="Les brand guidelines Gumi: ton, systeme visuel, palette, typographie et principes de conception pour garder une identite coherente.">
+    <meta property="og:url" content="https://gumi.ch/brand-guidelines">
+    <meta property="og:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gumi. Brand Guidelines">
+    <meta name="twitter:description" content="Les brand guidelines Gumi: ton, systeme visuel, palette, typographie et principes de conception pour garder une identite coherente.">
+    <meta name="twitter:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
     <title>Gumi. Brand Guidelines</title>
     <meta name="description" content="Les brand guidelines Gumi: ton, systeme visuel, palette, typographie et principes de conception pour garder une identite coherente.">
     <link rel="icon" type="image/x-icon" href="media/favicon.ico">
     
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/shared.css">
     
     <style>
@@ -42,7 +55,7 @@
             font-weight: 500;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            background-image: url('media/cream-paper.png');
             background-blend-mode: multiply;
             overflow-x: hidden;
         }
@@ -180,7 +193,7 @@
         
         .texture-display {
             background-color: rgba(26,26,26,0.04);
-            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            background-image: url('media/cream-paper.png');
             background-blend-mode: color-burn;
             display: flex;
             flex-direction: column;
@@ -470,7 +483,7 @@
         <div class="assets-grid">
             <div class="asset-card">
                 <div class="asset-preview">
-                    <img src="Gumi-Logotype.png" alt="Gumi Logotype" onerror="this.src='https://placehold.co/200x70/transparent/9C77F5?text=GUMI.'">
+                    <img src="media/Gumi-Logotype.png" alt="Gumi Logotype" onerror="this.src='https://placehold.co/200x70/transparent/9C77F5?text=GUMI.'">
                 </div>
                 <div class="asset-info">
                     <h4>Mot-symbole (Clair)</h4>
@@ -480,7 +493,7 @@
             
             <div class="asset-card dark-bg">
                 <div class="asset-preview">
-                    <img src="Gumi-Logotype.png" alt="Gumi Logotype Inverse" onerror="this.src='https://placehold.co/200x70/transparent/F9F4EF?text=GUMI.'" style="filter: brightness(0) invert(1);">
+                    <img src="media/Gumi-Logotype.png" alt="Gumi Logotype Inverse" onerror="this.src='https://placehold.co/200x70/transparent/F9F4EF?text=GUMI.'" style="filter: brightness(0) invert(1);">
                 </div>
                 <div class="asset-info">
                     <h4>Mot-symbole (Sombre)</h4>
@@ -490,7 +503,7 @@
 
             <div class="asset-card">
                 <div class="asset-preview small-logo">
-                    <img src="Gumi-small.png" alt="Gumi Monogramme" onerror="this.src='https://placehold.co/100x100/transparent/9C77F5?text=G.'">
+                    <img src="media/Gumi-small.png" alt="Gumi Monogramme" onerror="this.src='https://placehold.co/100x100/transparent/9C77F5?text=G.'">
                 </div>
                 <div class="asset-info">
                     <h4>Monogramme</h4>
@@ -616,7 +629,7 @@
         <span>GUMI<span class="dot">.</span></span>
     </footer>
 
-    <script src="https://unpkg.com/lenis@1.1.16/dist/lenis.min.js"></script>
+    <script src="scripts/vendor/lenis.min.js"></script>
     <script>
         const lenis = new Lenis({
             duration: 1.1,
@@ -633,7 +646,7 @@
 
         window.addEventListener('resize', () => lenis.resize());
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="scripts/i18n.js"></script>
     <script src="scripts/navbar.js"></script>
     <script src="scripts/animations.js"></script>
     <script>

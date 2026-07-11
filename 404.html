@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}}catch(e){}})();</script>
+    <link rel="preload" href="/fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F9F4EF">
+    <meta name="robots" content="noindex">
+    <title>Page introuvable | Gumi.</title>
+    <link rel="icon" type="image/x-icon" href="/media/favicon.ico">
+    <link rel="stylesheet" href="/styles/shared.css">
+    <style>
+        .nf-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            gap: 1.5rem;
+        }
+        .nf-code {
+            font-size: clamp(5rem, 18vw, 10rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -4px;
+        }
+        .nf-text {
+            font-size: 1.15rem;
+            max-width: 32rem;
+            opacity: 0.8;
+        }
+        .nf-text-en {
+            font-size: 0.95rem;
+            opacity: 0.55;
+        }
+    </style>
+</head>
+<body>
+    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+
+    <main class="nf-wrapper">
+        <div class="nf-code" aria-hidden="true">4<span class="dot">0</span>4</div>
+        <p class="nf-text">Cette page n'existe pas — ou n'existe plus.</p>
+        <p class="nf-text-en">This page doesn't exist — or doesn't anymore.</p>
+        <a href="/" class="btn-primary">Retour à l'accueil</a>
+    </main>
+
+    <script src="/scripts/page-effects.js"></script>
+</body>
+</html>

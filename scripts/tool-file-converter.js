@@ -96,6 +96,19 @@
     const clearBtn = document.getElementById('clear-btn');
     const resultsList = document.getElementById('results-list');
     const dlCount = document.getElementById('dl-count');
+    const resizeCheck = document.getElementById('resize-check');
+    const targetWInput = document.getElementById('target-w');
+    const targetHInput = document.getElementById('target-h');
+    const renameCheck = document.getElementById('rename-check');
+    const renamePrefix = document.getElementById('rename-prefix');
+
+    const OUTPUT = {
+        png: { mime: 'image/png', ext: '.png' },
+        jpeg: { mime: 'image/jpeg', ext: '.jpg' },
+        webp: { mime: 'image/webp', ext: '.webp' },
+        avif: { mime: 'image/avif', ext: '.avif' },
+        pdf: { mime: 'application/pdf', ext: '.pdf' }
+    };
 
     let pendingFiles = [];
     const uploadedFileNames = new Set();
@@ -108,6 +121,13 @@
     function extensionOf(fileName) {
         const parts = fileName.toLowerCase().split('.');
         return parts.length > 1 ? parts.pop() : '';
+    }
+
+    function formatBytes(bytes) {
+        if (!bytes) return '0 KB';
+        const k = 1024;
+        if (bytes < k * k) return (bytes / k).toFixed(1) + ' KB';
+        return (bytes / (k * k)).toFixed(2) + ' MB';
     }
 
     function resetState() {
@@ -127,17 +147,25 @@
     function rowTemplate(file, ext) {
         const row = document.createElement('div');
         row.className = 'result-item';
+
+        const isImage = file.type.startsWith('image/');
+        const preview = isImage
+            ? '<img src="' + URL.createObjectURL(file) + '" alt="preview">'
+            : ext;
+
         row.innerHTML =
-            '<div class="item-preview">' + ext + '</div>' +
+            '<div class="item-preview">' + preview + '</div>' +
             '<div class="item-info">' +
                 '<div class="item-title" title="' + file.name + '">' + truncateName(file.name) + '</div>' +
                 '<div class="item-meta">' +
                     '<span style="text-transform: uppercase; font-weight: 700;">' + ext + '</span>' +
+                    '<span class="meta-sep">&bull;</span>' +
+                    '<span>' + formatBytes(file.size) + '</span>' +
                     '<span class="meta-sep" style="margin: 0 4px;">-></span>' +
                     '<span class="status-info" style="opacity: 0.5;">En attente...</span>' +
                 '</div>' +
             '</div>' +
-            '<button class="icon-button btn-dl-single" disabled title="Telecharger">' +
+            '<button class="icon-button btn-dl-single" disabled title="Télécharger">' +
                 '<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>' +
             '</button>';
         return row;
@@ -145,7 +173,7 @@
 
     function refreshCounter() {
         if (pendingFiles.length > 0) {
-            fileCountTxt.textContent = pendingFiles.length + ' fichier(s) pret(s)';
+            fileCountTxt.textContent = pendingFiles.length + ' fichier(s) prêt(s)';
             fileCountTxt.style.color = 'var(--accent)';
             convertBtn.disabled = false;
             clearBtn.style.display = 'inline-flex';
@@ -222,7 +250,7 @@
         }
 
         if (!psd || !psd.image || typeof psd.image.toPng !== 'function') {
-            throw new Error('PSD non supporte ou invalide');
+            throw new Error('PSD non supporté ou invalide');
         }
 
         const img = psd.image.toPng();
@@ -262,14 +290,53 @@
         });
     }
 
-    async function convertOne(item, targetFormat) {
+    // Crop-and-cover the source canvas into the target dimensions (centered).
+    function resizeCanvas(source, targetW, targetH) {
+        const targetRatio = targetW / targetH;
+        const sourceRatio = source.width / source.height;
+        let sX = 0, sY = 0, sW = source.width, sH = source.height;
+
+        if (sourceRatio > targetRatio) {
+            sW = source.height * targetRatio;
+            sX = (source.width - sW) / 2;
+        } else {
+            sH = source.width / targetRatio;
+            sY = (source.height - sH) / 2;
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = targetW;
+        canvas.height = targetH;
+        canvas.getContext('2d').drawImage(source, sX, sY, sW, sH, 0, 0, targetW, targetH);
+        return canvas;
+    }
+
+    function readOptions() {
+        const selectedFormat = document.querySelector('input[name="out-format"]:checked');
+        const selectedQuality = document.querySelector('input[name="quality"]:checked');
+
+        return {
+            format: selectedFormat ? selectedFormat.value : 'png',
+            quality: selectedQuality ? parseFloat(selectedQuality.value) : 1,
+            doResize: resizeCheck && resizeCheck.checked,
+            targetW: parseInt(targetWInput && targetWInput.value, 10) || 2000,
+            targetH: parseInt(targetHInput && targetHInput.value, 10) || 1000,
+            doRename: renameCheck && renameCheck.checked,
+            prefix: (renamePrefix && renamePrefix.value.trim()) || 'image'
+        };
+    }
+
+    async function convertOne(item, opts, seqIndex) {
         const statusInfo = item.row.querySelector('.status-info');
         statusInfo.textContent = 'Traitement...';
 
         const ext = item.ext;
+        const output = OUTPUT[opts.format] || OUTPUT.png;
         let finalBlob = null;
+        let finalDims = null;
 
-        if (targetFormat === 'pdf' && (ext === 'ai' || ext === 'pdf')) {
+        if (opts.format === 'pdf' && (ext === 'ai' || ext === 'pdf') && !opts.doResize) {
+            // Passthrough keeps vector data intact for .ai/.pdf sources.
             finalBlob = item.file;
         } else {
             let canvas;
@@ -277,35 +344,52 @@
             else if (ext === 'psd') canvas = await getCanvasFromPSD(item.file);
             else canvas = await getCanvasFromImage(item.file);
 
-            if (targetFormat === 'pdf' && jsPDF) {
+            if (opts.doResize) {
+                canvas = resizeCanvas(canvas, opts.targetW, opts.targetH);
+                finalDims = opts.targetW + 'x' + opts.targetH;
+            }
+
+            if (opts.format === 'pdf' && jsPDF) {
                 const pdf = new jsPDF({
                     orientation: canvas.width > canvas.height ? 'l' : 'p',
                     unit: 'px',
                     format: [canvas.width, canvas.height]
                 });
-                pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, canvas.width, canvas.height);
+                pdf.addImage(canvas.toDataURL('image/jpeg', opts.quality), 'JPEG', 0, 0, canvas.width, canvas.height);
                 finalBlob = pdf.output('blob');
             } else {
-                const mime = targetFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
-                if (targetFormat === 'jpeg') {
+                if (opts.format === 'jpeg') {
                     const ctx = canvas.getContext('2d');
                     ctx.globalCompositeOperation = 'destination-over';
                     ctx.fillStyle = '#FFFFFF';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                 }
                 finalBlob = await new Promise(function (resolve) {
-                    canvas.toBlob(resolve, mime, 0.9);
+                    canvas.toBlob(resolve, output.mime, opts.quality);
                 });
+                if (!finalBlob) {
+                    throw new Error('Format ' + opts.format.toUpperCase() + ' non supporté par ce navigateur');
+                }
             }
         }
 
-        const outputName = item.file.name.replace(/\.[^/.]+$/, '') + '.' + targetFormat;
+        const outputName = opts.doRename
+            ? opts.prefix + '-' + seqIndex + output.ext
+            : item.file.name.replace(/\.[^/.]+$/, '') + output.ext;
         const blobUrl = URL.createObjectURL(finalBlob);
 
         item.converted = blobUrl;
         item.outputName = outputName;
 
-        statusInfo.innerHTML = '<span style="color: var(--positive); font-weight: 800; text-transform: uppercase;">' + targetFormat + '</span>';
+        const diffPercent = (((finalBlob.size - item.file.size) / item.file.size) * 100).toFixed(1);
+        const colorClass = finalBlob.size < item.file.size ? 'gain' : 'loss';
+        const diffSign = diffPercent > 0 ? '+' : '';
+
+        statusInfo.innerHTML =
+            '<span style="color: var(--positive); font-weight: 800; text-transform: uppercase;">' + opts.format + '</span>' +
+            ' <span class="meta-sep">&bull;</span> ' + formatBytes(finalBlob.size) +
+            (finalDims ? ' <span class="meta-sep">&bull;</span> ' + finalDims : '') +
+            ' <span class="meta-sep">&bull;</span> <span class="' + colorClass + '">' + diffSign + diffPercent + '%</span>';
         statusInfo.style.opacity = 1;
 
         const titleEl = item.row.querySelector('.item-title');
@@ -322,6 +406,23 @@
         };
 
         return true;
+    }
+
+    if (resizeCheck) {
+        resizeCheck.addEventListener('change', function (e) {
+            const isDisabled = !e.target.checked;
+            targetWInput.disabled = isDisabled;
+            targetHInput.disabled = isDisabled;
+            document.querySelectorAll('.spinner-btn').forEach(function (btn) {
+                btn.disabled = isDisabled;
+            });
+        });
+    }
+
+    if (renameCheck) {
+        renameCheck.addEventListener('change', function (e) {
+            renamePrefix.disabled = !e.target.checked;
+        });
     }
 
     dropZone.addEventListener('click', function () {
@@ -351,17 +452,21 @@
     clearBtn.addEventListener('click', resetState);
 
     convertBtn.addEventListener('click', async function () {
+        const idleLabel = convertBtn.textContent;
         convertBtn.disabled = true;
         convertBtn.textContent = 'Traitement en cours...';
 
-        const selected = document.querySelector('input[name="out-format"]:checked');
-        const targetFormat = selected ? selected.value : 'png';
-
+        const opts = readOptions();
         let successCount = 0;
+        let seqIndex = 1;
+
         for (const item of pendingFiles) {
             try {
-                const ok = await convertOne(item, targetFormat);
-                if (ok) successCount += 1;
+                const ok = await convertOne(item, opts, seqIndex);
+                if (ok) {
+                    successCount += 1;
+                    seqIndex += 1;
+                }
             } catch (error) {
                 const statusInfo = item.row.querySelector('.status-info');
                 statusInfo.innerHTML = '<span style="color: var(--negative); font-weight: 700;">Erreur: ' + (error && error.message ? error.message : 'conversion impossible') + '</span>';
@@ -369,7 +474,7 @@
             }
         }
 
-        convertBtn.textContent = 'Convertir les fichiers';
+        convertBtn.textContent = idleLabel;
         convertBtn.disabled = false;
 
         if (successCount > 0) {

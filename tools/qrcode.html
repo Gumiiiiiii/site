@@ -1,89 +1,80 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}}catch(e){}})();</script>
+    <link rel="preload" href="../fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F9F4EF">
+    <link rel="canonical" href="https://gumi.ch/tools/qrcode">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Gumi.">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:title" content="Générateur QR Code - Gumi.">
+    <meta property="og:description" content="Créez des QR codes personnalisés avec couleurs, formes et export PNG ou SVG dans l'outil Gumi.">
+    <meta property="og:url" content="https://gumi.ch/tools/qrcode">
+    <meta property="og:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Générateur QR Code - Gumi.">
+    <meta name="twitter:description" content="Créez des QR codes personnalisés avec couleurs, formes et export PNG ou SVG dans l'outil Gumi.">
+    <meta name="twitter:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
     <title>Générateur QR Code - Gumi.</title>
-    <meta name="description" content="Creez des QR codes personnalises avec couleurs, formes et export PNG ou SVG dans l'outil Gumi.">
+    <meta name="description" content="Créez des QR codes personnalisés avec couleurs, formes et export PNG ou SVG dans l'outil Gumi.">
     <link rel="icon" type="image/x-icon" href="../media/favicon.ico">
 
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/shared.css">
+    <link rel="stylesheet" href="../styles/tools-suite.css">
     <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
 
     <style>
-        .main-grid { display: grid; grid-template-columns: 450px 1fr; gap: 3rem; align-items: stretch; }
-
-        .controls-panel { display: flex; flex-direction: column; gap: 1.5rem; }
-        .control-row { display: flex; flex-direction: column; gap: 0.8rem; }
-        .control-label { font-weight: 700; font-size: 1.05rem; display: flex; justify-content: space-between; align-items: center; }
-
         .swatch-group { display: flex; gap: 12px; }
         .color-swatch {
             width: 38px; height: 38px; border-radius: 50%; cursor: pointer; border: 3px solid transparent;
             box-shadow: 4px 4px 8px rgba(26,26,26,0.1), -4px -4px 8px rgba(255,255,255,0.8);
-            transition: all 0.2s ease;
+            transition: all 0.2s ease; padding: 0;
         }
         .color-swatch.active {
             box-shadow: inset 3px 3px 6px rgba(26,26,26,0.2), inset -3px -3px 6px rgba(255,255,255,0.6);
             border-color: var(--accent); transform: scale(0.95);
         }
 
-        .segmented-control { margin: 0; display: flex; position: relative; align-items: center; background: var(--card-bg); padding: 0.4em; border-radius: 0.8em; box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7); height: 54px; width: 100%; }
-        .segmented-control input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
-        .segmented-control label { flex: 1; cursor: pointer; height: 100%; display: flex; align-items: center; justify-content: center; line-height: 1; text-align: center; font-size: 14px; font-weight: 700; color: rgba(26,26,26,0.5); z-index: 2; transition: color 0.3s ease; padding: 0 0.5rem; }
-        .segmented-control label:hover { color: var(--accent); }
-        .slider { position: absolute; top: 0.4em; bottom: 0.4em; left: 0.4em; border-radius: 0.5em; background: var(--bg); box-shadow: 3px 3px 6px rgba(26,26,26,0.04), -3px -3px 6px rgba(255,255,255,0.7); transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); z-index: 1; }
+        /* Slider positions for the shape (3) and format (2) segmented controls,
+           reusing the shared .segmented-control / .slider-format styles. */
+        .format-3 #s-square:checked ~ .slider-format { transform: translateX(0); }
+        .format-3 #s-rounded:checked ~ .slider-format { transform: translateX(100%); }
+        .format-3 #s-dots:checked ~ .slider-format { transform: translateX(200%); }
+        #s-square:checked ~ label[for="s-square"],
+        #s-rounded:checked ~ label[for="s-rounded"],
+        #s-dots:checked ~ label[for="s-dots"] { color: var(--text); }
 
-        .shape-select .slider { width: calc((100% - 0.8em) / 3); }
-        #s-square:checked ~ .slider { transform: translateX(0); }
-        #s-rounded:checked ~ .slider { transform: translateX(100%); }
-        #s-dots:checked ~ .slider { transform: translateX(200%); }
-        #s-square:checked ~ label[for="s-square"], #s-rounded:checked ~ label[for="s-rounded"], #s-dots:checked ~ label[for="s-dots"] { color: var(--text); }
-
-        .format-select .slider { width: calc((100% - 0.8em) / 2); }
-        #f-png:checked ~ .slider { transform: translateX(0); }
-        #f-svg:checked ~ .slider { transform: translateX(100%); }
-        #f-png:checked ~ label[for="f-png"], #f-svg:checked ~ label[for="f-svg"] { color: var(--text); }
-
-        .header-inline { display: flex; align-items: center; justify-content: center; gap: 0.8rem; position: relative; }
-        .info-button {
-            width: 2.25rem; height: 2.25rem; border: none; border-radius: 50%; background: var(--bg);
-            color: var(--text); display: inline-flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 4px 4px 8px rgba(26,26,26,0.08), -4px -4px 8px rgba(255,255,255,0.8);
-            transition: all 0.2s ease; padding: 0;
-        }
-        .info-button:hover { color: var(--accent); transform: translateY(-1px); }
-        .info-button.active { box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7); color: var(--accent); }
-        .info-button svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-        .info-panel {
-            position: absolute; top: calc(100% + 0.7rem); left: 50%; transform: translateX(-50%);
-            width: min(320px, calc(100vw - 2rem)); padding: 0.9rem 1rem; border-radius: 1rem;
-            background: rgba(255,255,255,0.97); border: 1px solid rgba(26,26,26,0.06);
-            box-shadow: 10px 10px 28px rgba(26,26,26,0.08); font-size: 0.92rem; line-height: 1.5; color: rgba(26,26,26,0.8);
-            display: none; z-index: 20;
-        }
-        .info-panel.active { display: block; }
-
-        .advanced-header { display: flex; justify-content: space-between; align-items: center; font-weight: 700; cursor: pointer; padding: 1rem 0; border-top: 1px solid rgba(26,26,26,0.1); color: var(--text); opacity: 0.6; transition: opacity 0.3s, color 0.3s; margin-top: 1rem;}
-        .advanced-header:hover { opacity: 1; color: var(--accent); }
-        .advanced-header svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2.5; transition: transform 0.3s ease; stroke-linecap: round; stroke-linejoin: round; }
-        .advanced-header.open { opacity: 1; border-bottom: none; }
-        .advanced-header.open svg { transform: rotate(180deg); }
-        .advanced-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .adv-inner { padding: 0.5rem 0 1.5rem 0; display: flex; flex-direction: column; gap: 1.5rem; }
-
-        .right-col { background: var(--card-bg); border-radius: 1.5rem; padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; border: 1px solid rgba(26,26,26,0.03); min-height: 500px; }
+        .right-col { align-items: center; justify-content: center; gap: 2rem; min-height: 500px; }
         .qr-container { padding: 2rem; background: #FFFFFF; border-radius: 1.5rem; box-shadow: 10px 10px 30px rgba(26,26,26,0.1); display: flex; justify-content: center; align-items: center; min-width: 300px; min-height: 300px; transition: background 0.3s; }
         .qr-placeholder { color: rgba(26,26,26,0.3); font-weight: 700; text-align: center; }
-        .export-group { display: flex; gap: 1rem; width: 100%; max-width: 320px; flex-direction: column; display: none; }
+        .export-group { display: none; flex-direction: column; gap: 1rem; width: 100%; max-width: 320px; }
 
         @media (max-width: 900px) {
-            .main-grid { grid-template-columns: 1fr; }
             .right-col { min-height: 400px; }
-            .info-panel { left: auto; right: 0; transform: none; }
         }
     </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Générateur de QR code — Gumi.",
+        "description": "QR codes personnalisés, prêts à partager ou exporter.",
+        "url": "https://gumi.ch/tools/qrcode",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "inLanguage": "fr",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+        }
+    }
+    </script>
 </head>
 <body>
     <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
@@ -93,17 +84,17 @@
     <div class="main-wrapper">
         <a href="../outils" class="back-link no-select" title="Retour aux outils">
             <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            Retour aux outils
+            <span data-i18n="back_tools">Retour aux outils</span>
         </a>
 
         <div class="header-container">
-            <div class="header-inline">
-                <h1>QR Code<span class="dot">.</span></h1>
-                <button class="info-button" type="button" aria-label="Informations" onclick="toggleInfo(event)">
-                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <h1>QR Code<span class="dot">.</span></h1>
+            <div class="tooltip-wrapper no-select" style="margin-left: 10px;">
+                <button type="button" class="tooltip-icon" onclick="toggleTooltip(event)" aria-expanded="false" aria-label="Comment ça marche ?" title="Comment ça marche ?">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                 </button>
-                <div class="info-panel" id="qr-info-panel">
-                    <strong>Créez un QR code rapide et propre.</strong><br>
+                <div class="tooltip-content" data-i18n-html="qr_tooltip">
+                    <strong>Créez un QR code rapide et propre.</strong><br><br>
                     Saisissez votre contenu, choisissez un style, puis exportez en PNG ou SVG.
                 </div>
             </div>
@@ -113,46 +104,46 @@
             <div class="left-col">
                 <div class="controls-panel">
                     <div class="control-row">
-                        <div class="control-label">Contenu (Lien, texte, email...)</div>
-                        <textarea id="qr-text" class="input-field" rows="4" placeholder="https://votre-lien.com"></textarea>
+                        <div class="control-label" data-i18n="qr_content_label">Contenu (lien, texte, email...)</div>
+                        <textarea id="qr-text" class="input-field" rows="4" placeholder="https://votre-lien.com" data-i18n-placeholder="qr_content_placeholder"></textarea>
                     </div>
 
                     <div class="advanced-section">
                         <div class="advanced-header no-select" onclick="toggleAdvanced()">
-                            <span>Style & Apparence</span>
+                            <span data-i18n="qr_style_appearance">Style &amp; apparence</span>
                             <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                         <div class="advanced-content" id="adv-content">
                             <div class="adv-inner">
                                 <div class="control-row">
-                                    <div class="control-label" style="font-size: 0.95rem;">Forme des points</div>
-                                    <div class="segmented-control shape-select no-select">
+                                    <div class="control-label" style="font-size: 0.95rem;" data-i18n="qr_dot_shape">Forme des points</div>
+                                    <div class="segmented-control format-3 no-select">
                                         <input type="radio" id="s-square" name="qr-shape" value="square" checked>
                                         <input type="radio" id="s-rounded" name="qr-shape" value="rounded">
                                         <input type="radio" id="s-dots" name="qr-shape" value="dots">
-                                        <div class="slider slider-shape"></div>
-                                        <label for="s-square">Carré</label>
-                                        <label for="s-rounded">Arrondi</label>
-                                        <label for="s-dots">Points</label>
+                                        <div class="slider-format"></div>
+                                        <label for="s-square" data-i18n="qr_shape_square">Carré</label>
+                                        <label for="s-rounded" data-i18n="qr_shape_rounded">Arrondi</label>
+                                        <label for="s-dots" data-i18n="qr_shape_dots">Points</label>
                                     </div>
                                 </div>
 
-                                <div class="control-row" style="flex-direction: row; gap: 2rem; margin-top: 0.5rem;">
+                                <div class="control-row" style="flex-direction: row; gap: 2rem; margin-bottom: 0;">
                                     <div style="flex:1;">
-                                        <div class="control-label" style="font-size: 0.95rem; margin-bottom: 12px;">Couleur Code</div>
+                                        <div class="control-label" style="font-size: 0.95rem; margin-bottom: 12px;" data-i18n="qr_color_code">Couleur du code</div>
                                         <div class="swatch-group" id="code-colors">
-                                            <div class="color-swatch active" style="background: #1A1A1A;" data-color="#1A1A1A"></div>
-                                            <div class="color-swatch" style="background: #9C77F5;" data-color="#9C77F5"></div>
-                                            <div class="color-swatch" style="background: #609675;" data-color="#609675"></div>
-                                            <div class="color-swatch" style="background: #C56A6A;" data-color="#C56A6A"></div>
+                                            <button type="button" class="color-swatch active" style="background: #1A1A1A;" data-color="#1A1A1A" aria-label="Noir"></button>
+                                            <button type="button" class="color-swatch" style="background: #9C77F5;" data-color="#9C77F5" aria-label="Violet"></button>
+                                            <button type="button" class="color-swatch" style="background: #609675;" data-color="#609675" aria-label="Vert"></button>
+                                            <button type="button" class="color-swatch" style="background: #C56A6A;" data-color="#C56A6A" aria-label="Rouge"></button>
                                         </div>
                                     </div>
                                     <div style="flex:1;">
-                                        <div class="control-label" style="font-size: 0.95rem; margin-bottom: 12px;">Couleur Fond</div>
+                                        <div class="control-label" style="font-size: 0.95rem; margin-bottom: 12px;" data-i18n="qr_color_bg">Couleur du fond</div>
                                         <div class="swatch-group" id="bg-colors">
-                                            <div class="color-swatch active" style="background: #FFFFFF;" data-color="#FFFFFF"></div>
-                                            <div class="color-swatch" style="background: #F9F4EF;" data-color="#F9F4EF"></div>
-                                            <div class="color-swatch" style="background: #E5E7EB;" data-color="#E5E7EB"></div>
+                                            <button type="button" class="color-swatch active" style="background: #FFFFFF;" data-color="#FFFFFF" aria-label="Blanc"></button>
+                                            <button type="button" class="color-swatch" style="background: #F9F4EF;" data-color="#F9F4EF" aria-label="Crème"></button>
+                                            <button type="button" class="color-swatch" style="background: #E5E7EB;" data-color="#E5E7EB" aria-label="Gris clair"></button>
                                         </div>
                                     </div>
                                 </div>
@@ -160,184 +151,38 @@
                         </div>
                     </div>
 
-                    <button id="generate-btn" class="primary no-select" style="margin-top: 1rem;">Générer le QR Code</button>
+                    <button id="generate-btn" class="primary no-select" style="margin-top: 1rem;" data-i18n="qr_generate">Générer le QR Code</button>
                 </div>
             </div>
 
             <div class="right-col">
                 <div class="qr-container" id="qr-container">
-                    <div class="qr-placeholder" id="qr-placeholder">Votre QR code<br>apparaîtra ici</div>
+                    <div class="qr-placeholder" id="qr-placeholder" data-i18n-html="qr_placeholder_hint">Votre QR code<br>apparaîtra ici</div>
                 </div>
 
                 <div class="export-group" id="export-group">
-                    <div class="segmented-control format-select no-select">
+                    <div class="segmented-control format-2 no-select">
                         <input type="radio" id="f-png" name="out-format" value="png" checked>
                         <input type="radio" id="f-svg" name="out-format" value="svg">
-                        <div class="slider slider-format"></div>
+                        <div class="slider-format"></div>
                         <label for="f-png">PNG</label>
                         <label for="f-svg">SVG</label>
                     </div>
                     <button id="download-btn" class="primary no-select">
-                        <svg viewBox="0 0 24 24" style="width: 20px; margin-right: 8px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Télécharger
+                        <svg viewBox="0 0 24 24" style="width: 20px; margin-right: 8px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        <span data-i18n="qr_download">Télécharger</span>
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="../scripts/vendor/lenis.min.js"></script>
+    <script src="../scripts/i18n.js"></script>
     <script src="../scripts/navbar.js"></script>
     <script src="../scripts/animations.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.16/dist/lenis.min.js"></script>
-    <script>
-        const lenis = new Lenis({
-            duration: 1.1,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smoothWheel: true,
-            touchMultiplier: 1.5
-        });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        window.addEventListener('resize', () => lenis.resize());
-    </script>
-    <script>
-        function toggleInfo(event) {
-            event.stopPropagation();
-            const button = event.currentTarget;
-            const panel = document.getElementById('qr-info-panel');
-            const isActive = panel.classList.toggle('active');
-            button.classList.toggle('active', isActive);
-        }
-
-        document.addEventListener('click', (event) => {
-            const panel = document.getElementById('qr-info-panel');
-            const button = document.querySelector('.info-button');
-            if (!panel.contains(event.target) && !button.contains(event.target)) {
-                panel.classList.remove('active');
-                button.classList.remove('active');
-            }
-        });
-
-        const dotContainers = document.querySelectorAll('.dynamic-dots');
-        let resizeTimeout;
-
-        function drawDots() {
-            if (!dotContainers.length) return;
-            const width = window.innerWidth;
-            dotContainers.forEach(container => {
-                const height = Number(container.dataset.height || 250);
-                const spacingX = 20;
-                const spacingY = 18;
-                let svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor" opacity="0.04">';
-
-                for (let y = 0; y <= height; y += spacingY) {
-                    const isOdd = Math.round(y / spacingY) % 2 !== 0;
-                    const offsetX = isOdd ? spacingX / 2 : 0;
-
-                    for (let x = offsetX; x <= width + spacingX; x += spacingX) {
-                        const nx = Math.abs(x - width / 2) / (width / 2);
-                        const baseRadius = 3.0 + (Math.pow(nx, 2.0) * 4.0);
-
-                        if (baseRadius > 0.3) {
-                            svg += `<circle cx="${x}" cy="${y}" r="${baseRadius.toFixed(2)}" />`;
-                        }
-                    }
-                }
-
-                svg += '</g></svg>';
-                container.innerHTML = svg;
-            });
-        }
-
-        drawDots();
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(drawDots, 100);
-        });
-    </script>
-    <script>
-        function toggleAdvanced() {
-            const header = document.querySelector('.advanced-header');
-            const content = document.getElementById('adv-content');
-            header.classList.toggle('open');
-            content.style.maxHeight = header.classList.contains('open') ? content.scrollHeight + 'px' : '0px';
-        }
-
-        let selectedCodeColor = '#1A1A1A';
-        let selectedBgColor = '#FFFFFF';
-
-        function setupSwatches(groupId, isBg) {
-            const group = document.getElementById(groupId);
-            const swatches = group.querySelectorAll('.color-swatch');
-            swatches.forEach(swatch => {
-                swatch.addEventListener('click', () => {
-                    swatches.forEach(s => s.classList.remove('active'));
-                    swatch.classList.add('active');
-                    if (isBg) {
-                        selectedBgColor = swatch.dataset.color;
-                    } else {
-                        selectedCodeColor = swatch.dataset.color;
-                    }
-                });
-            });
-        }
-        setupSwatches('code-colors', false);
-        setupSwatches('bg-colors', true);
-
-        const qrCodeObj = new QRCodeStyling({
-            width: 300,
-            height: 300,
-            margin: 10,
-            type: 'svg'
-        });
-
-        const qrContainer = document.getElementById('qr-container');
-        const exportGroup = document.getElementById('export-group');
-
-        document.getElementById('generate-btn').addEventListener('click', () => {
-            const text = document.getElementById('qr-text').value.trim();
-            const shape = document.querySelector('input[name="qr-shape"]:checked').value;
-
-            if (!text) {
-                alert('Veuillez entrer un texte ou un lien.');
-                return;
-            }
-
-            qrContainer.style.background = selectedBgColor;
-
-            qrCodeObj.update({
-                data: text,
-                dotsOptions: {
-                    color: selectedCodeColor,
-                    type: shape
-                },
-                backgroundOptions: {
-                    color: selectedBgColor,
-                },
-                cornersSquareOptions: {
-                    type: shape === 'dots' ? 'dot' : (shape === 'rounded' ? 'extra-rounded' : 'square')
-                },
-                cornersDotOptions: {
-                    type: shape === 'dots' ? 'dot' : 'square'
-                }
-            });
-
-            qrContainer.innerHTML = '';
-            qrCodeObj.append(qrContainer);
-            exportGroup.style.display = 'flex';
-        });
-
-        document.getElementById('download-btn').addEventListener('click', () => {
-            const format = document.querySelector('input[name="out-format"]:checked').value;
-            qrCodeObj.download({ name: 'QR_Code_Gumi', extension: format });
-        });
-    </script>
+    <script src="../scripts/page-effects.js"></script>
+    <script src="../scripts/tools-common.js"></script>
+    <script src="../scripts/tool-qrcode.js"></script>
 </body>
 </html>
-

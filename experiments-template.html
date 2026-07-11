@@ -3,97 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Template d’expérience - Gumi.</title>
-    <meta name="description" content="Modele de page d'experience Gumi pour presenter le contexte, l'approche et les resultats d'un projet.">
+    <meta name="robots" content="noindex">
+    <title>Redirection... | Gumi.</title>
     <link rel="icon" type="image/x-icon" href="media/favicon.ico">
-
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/shared.css">
-
-    <style>
-        body {
-            min-height: 100vh;
-        }
-
-        .article-shell {
-            background: rgba(255, 255, 255, 0.58);
-            border: 1px solid rgba(26, 26, 26, 0.06);
-            border-radius: 2rem;
-            padding: 2rem;
-            box-shadow: 12px 12px 32px rgba(26, 26, 26, 0.06), -12px -12px 32px rgba(255, 255, 255, 0.8);
-        }
-
-        .article-shell h1 {
-            font-size: clamp(2rem, 4.4vw, 3rem);
-            margin-bottom: 0.8rem;
-        }
-
-        .article-shell .intro {
-            font-size: 1rem;
-            color: rgba(26, 26, 26, 0.72);
-            font-weight: 600;
-            max-width: 46rem;
-            margin-bottom: 1.8rem;
-        }
-
-        .article-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1rem;
-            margin-top: 1.4rem;
-        }
-
-        .article-card {
-            background: rgba(26, 26, 26, 0.04);
-            border-radius: 1.2rem;
-            padding: 1.1rem;
-        }
-
-        .article-card h2 {
-            font-size: 1rem;
-            margin-bottom: 0.45rem;
-        }
-
-        .article-card p {
-            font-size: 0.92rem;
-            color: rgba(26, 26, 26, 0.72);
-            font-weight: 600;
-        }
-    </style>
+    <script>
+        // Legacy URL: articles now live at /experiments/<slug>.
+        (function () {
+            var known = { 'ardacraft': 1, 'ai-photoshoot': 1 };
+            var slug = new URLSearchParams(window.location.search).get('article');
+            window.location.replace(known[slug] ? 'experiments/' + slug : 'experiments');
+        })();
+    </script>
 </head>
 <body>
-    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
-    <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" aria-hidden="true"></div>
-
-    <nav class="navbar" data-navbar-root></nav>
-
-    <main class="main-wrapper">
-        <a href="experiments" class="back-link no-select" title="Retour aux expériences">
-            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            Retour aux expériences
-        </a>
-
-        <article class="article-shell">
-            <h1>Template d’expérience<span class="dot">.</span></h1>
-            <p class="intro">Ce modèle sert de base pour présenter une idée, un problème à résoudre, la direction explorée et les premiers résultats obtenus.</p>
-
-            <div class="article-grid">
-                <div class="article-card">
-                    <h2>Contexte</h2>
-                    <p>Décrire le besoin, la situation ou la frustration à l’origine de l’idée.</p>
-                </div>
-                <div class="article-card">
-                    <h2>Approche</h2>
-                    <p>Expliquer la direction choisie, les contraintes et les choix de conception.</p>
-                </div>
-                <div class="article-card">
-                    <h2>Résultat</h2>
-                    <p>Partager ce qui a fonctionné, ce qui reste à explorer et ce que cette expérience a appris.</p>
-                </div>
-            </div>
-        </article>
-    </main>
-
-    <script src="scripts/navbar.js"></script>
+    <p>Cette page a déménagé. <a href="experiments">Voir les expérimentations</a></p>
 </body>
 </html>

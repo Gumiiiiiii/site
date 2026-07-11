@@ -142,8 +142,9 @@
             window.getSelection().removeAllRanges();
         }
 
+        const copiedLabel = window.GumiI18n ? window.GumiI18n.t('txt_copied') : 'Copié !';
         const originalHtml = copyBtn.innerHTML;
-        copyBtn.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>Copie !';
+        copyBtn.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>' + copiedLabel;
         copyBtn.classList.add('success');
 
         setTimeout(function () {
