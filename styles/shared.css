@@ -1100,6 +1100,14 @@ button.primary:active:not(:disabled) {
     to   { clip-path: circle(var(--wipe-r) at var(--wipe-x) var(--wipe-y)); }
 }
 
+/* While the wipe plays, freeze every element's own transitions so their
+   colours/shadows jump straight to the dark values rather than animating
+   (which would flash the white neumorphic edges inside the revealed area).
+   The toggle icon's morph is exempt so it keeps animating with the wipe. */
+:root.theme-switching *:not(.theme-toggle-icon):not(.theme-toggle-icon *) {
+    transition: none !important;
+}
+
 /* ==========================================================================
    DARK THEME
    Applied via data-theme="dark" on <html> (set early, before first paint).

@@ -129,7 +129,12 @@
                 docEl.style.setProperty('--wipe-x', x + 'px');
                 docEl.style.setProperty('--wipe-y', y + 'px');
                 docEl.style.setProperty('--wipe-r', endRadius + 'px');
-                document.startViewTransition(applyTheme);
+                // Freeze component transitions for the duration of the wipe so
+                // the neumorphic highlights snap straight to their dark values
+                // instead of animating light->dark inside the revealed area.
+                docEl.classList.add('theme-switching');
+                const transition = document.startViewTransition(applyTheme);
+                transition.finished.finally(() => docEl.classList.remove('theme-switching'));
             });
         }
     });
