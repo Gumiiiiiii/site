@@ -184,4 +184,8 @@
     copyBtn.addEventListener('click', copyPassword);
 
     updateLengthControls();
+
+    // Show a password immediately so the tool is useful on arrival; the button
+    // then reads "Régénérer" and acts as an explicit reroll.
+    if (activeSets().length) generate();
 })();

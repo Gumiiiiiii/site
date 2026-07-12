@@ -22,6 +22,10 @@
             fr: "De Webflow à une architecture décentralisée : comment j'ai repensé le site d'ArdaCraft.",
             en: 'From Webflow to a decentralized architecture: how I rethought the ArdaCraft website.'
         },
+        exp_card_ardacraft_map: {
+            fr: "Utiliser le SEO pour faire grandir une communauté de passionnés : l'opportunité à 1 million de recherches par an.",
+            en: 'Using SEO to grow a community of enthusiasts: the one-million-searches-a-year opportunity.'
+        },
         exp_card_shooting: {
             fr: "Peut-on remplacer un véritable shooting photo avec l'Intelligence Artificielle ?",
             en: "Can Artificial Intelligence replace a real photo shoot?"
@@ -265,14 +269,15 @@
         qr_shape_dots: { fr: 'Points', en: 'Dots' },
         qr_color_code: { fr: 'Couleur du code', en: 'Code color' },
         qr_color_bg: { fr: 'Couleur du fond', en: 'Background color' },
+        qr_custom_color: { fr: 'Couleur personnalisée', en: 'Custom color' },
         qr_generate: { fr: 'Générer le QR Code', en: 'Generate QR code' },
         qr_placeholder_hint: { fr: 'Votre QR code<br>apparaîtra ici', en: 'Your QR code<br>will appear here' },
         qr_download: { fr: 'Télécharger', en: 'Download' },
         qr_empty_error: { fr: 'Veuillez entrer un texte ou un lien.', en: 'Please enter some text or a link.' },
         qr_lib_error: { fr: 'Bibliothèque QR indisponible.', en: 'QR library unavailable.' },
         qr_tooltip: {
-            fr: '<strong>Créez un QR code rapide et propre.</strong><br><br>Saisissez votre contenu, choisissez un style, puis exportez en PNG ou SVG.',
-            en: '<strong>Create a clean QR code in seconds.</strong><br><br>Enter your content, pick a style, then export as PNG or SVG.'
+            fr: '<strong>Créez un QR code rapide et propre.</strong><br><br>Saisissez votre contenu : l\'aperçu se met à jour en direct. Choisissez un style et n\'importe quelle couleur, puis exportez en PNG ou SVG.',
+            en: '<strong>Create a clean QR code in seconds.</strong><br><br>Type your content and the preview updates live. Pick a style and any color, then export as PNG or SVG.'
         },
 
         // Text modifier tool
@@ -352,6 +357,7 @@
         ph_medium: { fr: 'Moyen', en: 'Medium' },
         ph_long: { fr: 'Long', en: 'Long' },
         ph_generate: { fr: 'Générer le texte', en: 'Generate text' },
+        ph_regenerate: { fr: 'Régénérer', en: 'Regenerate' },
         ph_placeholder_hint: { fr: 'Votre texte apparaîtra ici...', en: 'Your text will appear here...' },
         ph_paragraphs: { fr: 'Paragraphes', en: 'Paragraphs' },
         ph_words: { fr: 'Mots', en: 'Words' },

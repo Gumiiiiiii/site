@@ -154,17 +154,27 @@
     }
 
     countMinus.addEventListener('click', function () {
-        if (paragraphCount > MIN_PARAGRAPHS) paragraphCount -= 1;
+        if (paragraphCount <= MIN_PARAGRAPHS) return;
+        paragraphCount -= 1;
         if (window.GumiPrefs) window.GumiPrefs.set('ph-count', paragraphCount);
         updateCountControls();
+        generate();
     });
 
     countPlus.addEventListener('click', function () {
-        if (paragraphCount < MAX_PARAGRAPHS) paragraphCount += 1;
+        if (paragraphCount >= MAX_PARAGRAPHS) return;
+        paragraphCount += 1;
         if (window.GumiPrefs) window.GumiPrefs.set('ph-count', paragraphCount);
         updateCountControls();
+        generate();
     });
 
+    // Language and size changes reflow the text live, no button press needed.
+    document.querySelectorAll('input[name="ph-lang"], input[name="ph-size"]').forEach(function (input) {
+        input.addEventListener('change', generate);
+    });
+
+    // The button now rerolls a fresh draft (the text already appears on load).
     generateBtn.addEventListener('click', generate);
 
     copyBtn.addEventListener('click', async function () {
@@ -193,4 +203,8 @@
     });
 
     updateCountControls();
+
+    // Generate on arrival so the tool shows real output immediately. The button
+    // reads "Régénérer" (via data-i18n) and rerolls a fresh draft.
+    generate();
 })();

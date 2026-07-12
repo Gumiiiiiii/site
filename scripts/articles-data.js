@@ -6,8 +6,7 @@ window.GUMI_ARTICLES = {
     'ardacraft': {
         cover: '/media/ardacraft-redesign-featured-image.webp',
         coverAlt: 'Aperçu de la refonte du site ArdaCraft',
-        // Restore to 'ai-photoshoot' once that article is published.
-        readNext: null,
+        readNext: 'ardacraft-map',
         published: '2026-07-11',
         title: {
             fr: "De Webflow à une architecture décentralisée : comment j'ai repensé le site d'ArdaCraft",
@@ -225,6 +224,177 @@ window.GUMI_ARTICLES = {
             <p>The community welcomed this new version very warmly; the site is considered far more useful and pleasant to use day to day. We received particularly enthusiastic feedback about the interactive map.</p>
             <p>ArdaCraft is a project grounded in deep research into geology, botany, history and their influence on Tolkien's world. Our map aims to bring all these scientific and narrative elements together for enthusiasts, establishing itself as the ultimate immersion tool into our universe (which will, incidentally, be the subject of a dedicated upcoming article!).</p>
             <p>As for what comes next? I'm already working on my next challenge: designing V3 of that famous interactive map.</p>
+            `
+        }
+    },
+
+    'ardacraft-map': {
+        cover: '/media/ardacraft-map-featured-image.webp',
+        coverAlt: 'La carte interactive de la Terre du Milieu conçue pour ArdaCraft',
+        readNext: 'ardacraft',
+        published: '2026-07-12',
+        title: {
+            fr: "Utiliser le SEO pour faire grandir une communauté de passionnés : l'opportunité à 1 million de recherches par an",
+            en: 'Using SEO to Grow a Community of Enthusiasts: The One-Million-Searches-a-Year Opportunity'
+        },
+        excerpt: {
+            fr: "Comment j'ai transformé plus d'un million de recherches annuelles autour de la Terre du Milieu en un véritable levier d'acquisition pour ArdaCraft, grâce à une carte interactive.",
+            en: 'How I turned over a million annual searches around Middle-earth into a real acquisition channel for ArdaCraft, through an interactive map.'
+        },
+        html: {
+            fr: `
+            <div class="abstract">
+                <p><strong>+1 000 000 de recherches par an</strong> autour des cartes de la Terre du Milieu : un marché massif que personne ne servait vraiment bien.</p>
+                <p><strong>330 000 clics/an</strong> de potentiel en première position, pour une difficulté SEO estimée à seulement 36 % (« Possible »).</p>
+                <p><strong>50 % de notre trafic hors-marque</strong> généré à lui seul par la carte interactive, en quelques mois à peine.</p>
+            </div>
+
+            <p><em>Comment nous avons transformé un volume de recherche massif autour de la Terre du Milieu en un levier d'acquisition concret pour ArdaCraft, grâce à notre carte interactive.</em></p>
+
+            <h2>L'opportunité : un million de recherches à portée de main</h2>
+            <p>Dans ma quête constante de nouvelles opportunités pour faire grandir <strong>ArdaCraft</strong>, j'ai décidé de me pencher sérieusement sur notre stratégie SEO. C'est en analysant le marché autour de l'univers de Tolkien qu'un segment précis a immédiatement capté mon attention : les recherches de cartes. Les données Semrush étaient sans appel, révélant un écosystème de <strong>plus d'un million de recherches par an</strong> en incluant toutes les variantes du mot-clé « middle earth map ».</p>
+            <p>En creusant les chiffres, j'ai découvert une opportunité de trafic incroyable : le potentiel s'élevait à <strong>plus de 330 000 clics par an</strong> à aller chercher en première position. Pourtant, l'indicateur de difficulté de Semrush (le <em>Keyword Difficulty</em>) restait très accessible, avec un score de seulement <strong>36 % (qualifié de « Possible » par l'outil)</strong>. Une analyse de la SERP a rapidement confirmé mon intuition : les trois premiers résultats étaient tous des cartes interactives, preuve que Google attend un outil dynamique pour satisfaire les internautes.</p>
+            <p>C'est là que le lien avec ArdaCraft est devenu une évidence. Nous disposions déjà d'atouts uniques pour apporter une valeur inestimable aux utilisateurs : des données géographiques précises (biomes, régions, coordonnées de notre carte Minecraft), des milliers de photos uniques pour illustrer concrètement chaque lieu, et surtout une communauté de passionnés connaissant les textes de Tolkien sur le bout des doigts pour garantir une exactitude absolue.</p>
+            <p>C'est pour offrir cette expérience supérieure que j'ai pris la décision de lancer notre propre <a href="https://ardacraft.me/map/middle-earth-interactive-map" target="_blank" rel="noopener">carte interactive de la Terre du Milieu</a>. Voici comment nous avons transformé ces données de recherche et nos forces communautaires en un projet concret, conçu dès le premier jour pour conquérir le sommet de Google.</p>
+
+            <hr />
+
+            <h2>L'analyse de la SERP : repérer les failles pour faire mieux</h2>
+            <p>Pour dépasser les acteurs déjà installés, il ne suffisait pas de dupliquer ce qu'ils faisaient. J'ai passé du temps à disséquer les cartes du Top 3 de Google. Mon constat a été simple : elles étaient globalement bonnes, mais souffraient toutes de compromis majeurs. La plupart étaient presque inutilisables sur mobile, et chacune possédait une fonctionnalité intéressante que les autres n'avaient pas. L'information et l'expérience étaient fragmentées.</p>
+            <p>Ma stratégie produit a donc été limpide : concevoir l'outil ultime en cumulant toutes les fonctionnalités existantes, tout en y ajoutant nos propres innovations. Pour l'interface (UI) et l'ergonomie (UX), j'ai choisi de ne pas réinventer la roue. Je me suis basé sur les standards universels de <strong>Google Maps</strong>, un outil que tout le monde sait déjà manipuler, pour offrir une navigation immédiatement fluide et intuitive.</p>
+
+            <figure class="image-breakout">
+                <img src="/media/ardacraft-map-google-comparison.webp" alt="La carte interactive d'ArdaCraft présentée à côté de Google Maps, montrant une interface et une ergonomie volontairement familières" width="1920" height="1080" loading="lazy">
+                <figcaption>Le parti pris d'ergonomie : reprendre les codes de Google Maps pour que la prise en main soit immédiate.</figcaption>
+            </figure>
+
+            <h2>Le lancement de la V1 : la réalité technique</h2>
+            <p>La création de cette carte s'est faite en plusieurs étapes. La V1 a d'abord servi de <em>proof of concept</em>. Son but était simple : prouver l'intérêt de l'outil auprès de notre communauté et valider nos intuitions. Sur cette première version, les principaux défis se concentraient sur les fonctionnalités et l'accès à une donnée de qualité.</p>
+            <p>La difficulté majeure a résidé dans la collecte et le placement de ces données : tracer le chemin précis du voyage de Frodon, par exemple, exige que quelqu'un saisisse manuellement plusieurs milliers de coordonnées géographiques distinctes. Au-delà de ce travail de titan, il a fallu construire une interface capable d'afficher cette masse d'informations sans saturer l'écran ni perdre l'utilisateur — tout en gérant un lourd travail de <em>bug fixing</em> à mesure que le code se complexifiait.</p>
+
+            <h2>La V2 : UX, mobile et gamification</h2>
+            <p>Le redesign global de notre site web a été l'opportunité parfaite pour reconstruire intégralement la page de la carte et lancer la V2. J'en ai profité pour affiner l'UI et corriger plusieurs frictions ergonomiques que j'avais clairement identifiées grâce aux données de Microsoft Clarity. Pour tester l'engagement de nos utilisateurs et explorer de nouvelles pistes de rétention, j'ai également intégré une brique de <em>gamification</em> sous forme de mini-jeux.</p>
+            <p>L'un des plus grands défis de cette V2 a été le mobile. Souvent, la solution de facilité consiste à couper la moitié des fonctionnalités sur smartphone. Ici, l'intégralité des fonctionnalités majeures a été conservée sur mobile ; seuls deux jeux et quelques éléments d'information très secondaires ont été laissés de côté, à la marge, pour préserver la fluidité de la navigation tactile.</p>
+
+            <figure class="image-breakout">
+                <img src="/media/ardacraft-map-mobile-screens.webp" alt="Plusieurs écrans mobiles de la carte interactive d'ArdaCraft, montrant les fonctionnalités conservées sur smartphone" width="1920" height="1080" loading="lazy">
+                <figcaption>Sur mobile, presque rien n'a été sacrifié : les fonctionnalités majeures sont toutes là, réagencées pour le tactile.</figcaption>
+            </figure>
+
+            <hr />
+
+            <h2>Les résultats chiffrés : quand la réalité technique rencontre le SEO</h2>
+            <p>Lancer un outil aussi lourd sur un projet communautaire implique des arbitrages constants. Les données de notre Google Search Console résument parfaitement cette aventure, rythmée par les lancements et les contraintes de serveurs :</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align: left;">Mois</th>
+                        <th style="text-align: center;">Clics</th>
+                        <th style="text-align: center;">Impressions</th>
+                        <th style="text-align: left;">Contexte produit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td style="text-align: left;"><strong>Décembre 2025</strong></td><td style="text-align: center;">1 500</td><td style="text-align: center;">108 000</td><td style="text-align: left;">Lancement officiel de la V1</td></tr>
+                    <tr><td style="text-align: left;"><strong>Janvier 2026</strong></td><td style="text-align: center;">2 710</td><td style="text-align: center;">196 000</td><td style="text-align: left;">Mise en pause à la mi-mois (surcoûts)</td></tr>
+                    <tr><td style="text-align: left;"><strong>Février 2026</strong></td><td style="text-align: center;">4 640</td><td style="text-align: center;">179 000</td><td style="text-align: left;">Mois complet en ligne — pic de trafic</td></tr>
+                    <tr><td style="text-align: left;"><strong>Mars 2026</strong></td><td style="text-align: center;">1 550</td><td style="text-align: center;">97 100</td><td style="text-align: left;">Mise en pause à la mi-mois (surcoûts)</td></tr>
+                    <tr><td style="text-align: left;"><strong>Avril 2026</strong></td><td style="text-align: center;">2 220</td><td style="text-align: center;">213 000</td><td style="text-align: left;">Stabilisation des impressions</td></tr>
+                    <tr><td style="text-align: left;"><strong>Mai 2026</strong></td><td style="text-align: center;">1 850</td><td style="text-align: center;">179 000</td><td style="text-align: left;">Transition technique</td></tr>
+                    <tr><td style="text-align: left;"><strong>Juin 2026</strong></td><td style="text-align: center;">1 360</td><td style="text-align: center;">175 000</td><td style="text-align: left;">Lancement de la V2 sur le nouveau site</td></tr>
+                </tbody>
+            </table>
+
+            <p>L'analyse de ces chiffres est pleine d'enseignements. Le potentiel est immense — on frôle les 200 000 impressions mensuelles très rapidement — mais avoir dû couper le site à la moitié du mois en janvier et en mars, pour préserver notre budget, nous a sans doute coûté cher en référencement. Google n'aime pas l'instabilité, et ces coupures ont freiné notre dynamique de croissance.</p>
+
+            <h3>La preuve par le trafic « hors-marque »</h3>
+            <p>Malgré ces perturbations techniques, l'impact stratégique est incontestable. Depuis février, la Google Search Console permet d'isoler très facilement les requêtes « non-brandées » (les recherches qui ne contiennent pas le nom d'ArdaCraft). Le verdict est sans appel : <strong>la carte représente à elle seule 50 % de notre trafic hors-marque</strong>.</p>
+            <p>C'est la preuve du bien-fondé de ce choix stratégique : nous avons réussi à capter une audience de purs curieux et de passionnés de Tolkien qui ignoraient tout de notre existence avant de chercher une carte sur Google.</p>
+
+            <hr />
+
+            <h2>Objectif V3 : vers la version finale</h2>
+            <p>Bonne nouvelle : la migration vers notre nouvelle architecture décentralisée (WordPress, GraphQL, Cloudflare, Webstudio) nous offre enfin un système fiable, scalable et financièrement viable. Fini l'épée de Damoclès des surcoûts liés au volume de trafic.</p>
+            <p>La prochaine étape est donc tracée : la <strong>V3 de la carte interactive</strong>. Pour moi, ce sera la version finale et complète de l'outil. Le chantier consistera à corriger les derniers bugs restants, affiner la qualité de nos coordonnées et peaufiner les détails d'affichage.</p>
+            <p>Aujourd'hui, la base technique est robuste et le contenu d'une richesse inégalée. Une fois cette V3 déployée, nos efforts basculeront sur le dernier pilier essentiel de notre stratégie d'acquisition : le <strong>netlinking</strong>. Nous concentrerons nos efforts sur une grande campagne de communication entièrement axée sur la valeur unique de cet outil, afin d'aller chercher les backlinks nécessaires pour installer durablement et définitivement ArdaCraft au sommet de Google.</p>
+            `,
+            en: `
+            <div class="abstract">
+                <p><strong>+1,000,000 searches per year</strong> around Middle-earth maps: a massive market no one was really serving well.</p>
+                <p><strong>330,000 clicks/year</strong> of potential in the first position, for an SEO difficulty estimated at just 36% ("Possible").</p>
+                <p><strong>50% of our non-brand traffic</strong> generated by the interactive map alone, in just a few months.</p>
+            </div>
+
+            <p><em>How we turned a massive volume of searches around Middle-earth into a concrete acquisition lever for ArdaCraft, thanks to our interactive map.</em></p>
+
+            <h2>The Opportunity: A Million Searches Within Reach</h2>
+            <p>In my constant search for new opportunities to grow <strong>ArdaCraft</strong>, I decided to take our SEO strategy seriously. While analyzing the market around Tolkien's universe, one specific segment immediately caught my attention: map searches. The Semrush data was unequivocal, revealing an ecosystem of <strong>more than one million searches per year</strong> when including every variant of the keyword "middle earth map".</p>
+            <p>Digging into the numbers, I discovered an incredible traffic opportunity: the potential amounted to <strong>more than 330,000 clicks per year</strong> up for grabs in the first position. Yet Semrush's difficulty indicator (the <em>Keyword Difficulty</em>) remained very accessible, with a score of just <strong>36% (labeled "Possible" by the tool)</strong>. A quick SERP analysis confirmed my intuition: the top three results were all interactive maps — proof that Google expects a dynamic tool to satisfy users.</p>
+            <p>That's when the connection with ArdaCraft became obvious. We already had unique assets to deliver priceless value to users: precise geographic data (biomes, regions, coordinates from our Minecraft map), thousands of unique photos to concretely illustrate each location, and above all a community of enthusiasts who know Tolkien's texts inside out to guarantee absolute accuracy.</p>
+            <p>To offer that superior experience, I decided to launch our own <a href="https://ardacraft.me/map/middle-earth-interactive-map" target="_blank" rel="noopener">interactive map of Middle-earth</a>. Here's how we turned that search data and our community strengths into a concrete project, designed from day one to conquer the top of Google.</p>
+
+            <hr />
+
+            <h2>SERP Analysis: Spotting the Gaps to Do Better</h2>
+            <p>To surpass the established players, duplicating what they did wasn't enough. I spent time dissecting the maps in Google's Top 3. My conclusion was simple: they were generally good, but they all suffered from major compromises. Most were nearly unusable on mobile, and each had one interesting feature the others lacked. The information and the experience were fragmented.</p>
+            <p>My product strategy was therefore clear: build the ultimate tool by combining every existing feature, while adding our own innovations. For the interface (UI) and usability (UX), I chose not to reinvent the wheel. I based everything on the universal standards of <strong>Google Maps</strong>, a tool everyone already knows how to use, to offer immediately smooth and intuitive navigation.</p>
+
+            <figure class="image-breakout">
+                <img src="/media/ardacraft-map-google-comparison.webp" alt="ArdaCraft's interactive map shown next to Google Maps, illustrating a deliberately familiar interface and usability" width="1920" height="1080" loading="lazy">
+                <figcaption>The usability bet: borrowing Google Maps' conventions so the learning curve is immediate.</figcaption>
+            </figure>
+
+            <h2>The V1 Launch: Technical Reality</h2>
+            <p>Building this map happened in several stages. V1 first served as a <em>proof of concept</em>. Its goal was simple: prove the tool's value to our community and validate our assumptions. On this first version, the main challenges centered on features and access to quality data.</p>
+            <p>The major difficulty lay in collecting and placing that data: tracing the precise path of Frodo's journey, for example, requires someone to manually enter several thousand distinct geographic coordinates. Beyond this titanic work, we had to build an interface capable of displaying this mass of information without saturating the screen or losing the user — all while handling heavy <em>bug fixing</em> as the code grew more complex.</p>
+
+            <h2>V2: UX, Mobile and Gamification</h2>
+            <p>The global redesign of our website was the perfect opportunity to completely rebuild the map page and launch V2. I took the chance to refine the UI and fix several ergonomic frictions I had clearly identified thanks to Microsoft Clarity data. To test user engagement and explore new retention avenues, I also added a <em>gamification</em> layer in the form of mini-games.</p>
+            <p>One of V2's biggest challenges was mobile. Often, the easy way out is to cut half the features on smartphones. Here, all the major features were kept on mobile; only two games and a few very secondary informational elements were left aside, at the margins, to preserve the fluidity of touch navigation.</p>
+
+            <figure class="image-breakout">
+                <img src="/media/ardacraft-map-mobile-screens.webp" alt="Several mobile screens of ArdaCraft's interactive map, showing the features kept on smartphones" width="1920" height="1080" loading="lazy">
+                <figcaption>On mobile, almost nothing was sacrificed: the major features are all there, rearranged for touch.</figcaption>
+            </figure>
+
+            <hr />
+
+            <h2>The Numbers: When Technical Reality Meets SEO</h2>
+            <p>Launching such a heavy tool on a community project involves constant trade-offs. Our Google Search Console data perfectly sums up this adventure, punctuated by launches and server constraints:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align: left;">Month</th>
+                        <th style="text-align: center;">Clicks</th>
+                        <th style="text-align: center;">Impressions</th>
+                        <th style="text-align: left;">Product context</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td style="text-align: left;"><strong>December 2025</strong></td><td style="text-align: center;">1,500</td><td style="text-align: center;">108,000</td><td style="text-align: left;">Official V1 launch</td></tr>
+                    <tr><td style="text-align: left;"><strong>January 2026</strong></td><td style="text-align: center;">2,710</td><td style="text-align: center;">196,000</td><td style="text-align: left;">Paused mid-month (to avoid overspend)</td></tr>
+                    <tr><td style="text-align: left;"><strong>February 2026</strong></td><td style="text-align: center;">4,640</td><td style="text-align: center;">179,000</td><td style="text-align: left;">Full month online — traffic peak</td></tr>
+                    <tr><td style="text-align: left;"><strong>March 2026</strong></td><td style="text-align: center;">1,550</td><td style="text-align: center;">97,100</td><td style="text-align: left;">Paused mid-month (to avoid overspend)</td></tr>
+                    <tr><td style="text-align: left;"><strong>April 2026</strong></td><td style="text-align: center;">2,220</td><td style="text-align: center;">213,000</td><td style="text-align: left;">Impressions stabilizing</td></tr>
+                    <tr><td style="text-align: left;"><strong>May 2026</strong></td><td style="text-align: center;">1,850</td><td style="text-align: center;">179,000</td><td style="text-align: left;">Technical transition</td></tr>
+                    <tr><td style="text-align: left;"><strong>June 2026</strong></td><td style="text-align: center;">1,360</td><td style="text-align: center;">175,000</td><td style="text-align: left;">V2 launch on the new site</td></tr>
+                </tbody>
+            </table>
+
+            <p>These figures are full of lessons. The potential is immense — we brush against 200,000 monthly impressions very quickly — but having to take the site down mid-month in January and March, to protect our budget, likely cost us dearly in rankings. Google doesn't like instability, and these interruptions slowed our growth momentum.</p>
+
+            <h3>The Proof Through "Non-Brand" Traffic</h3>
+            <p>Despite these technical disruptions, the strategic impact is undeniable. Since February, Google Search Console makes it easy to isolate "non-branded" queries (searches that don't contain the ArdaCraft name). The verdict is clear: <strong>the map alone accounts for 50% of our non-brand traffic</strong>.</p>
+            <p>It's the definitive proof of this strategic choice: we managed to capture an audience of pure newcomers and Tolkien enthusiasts who knew nothing of our existence before searching for a map on Google.</p>
+
+            <hr />
+
+            <h2>Goal V3: Toward the Final Version</h2>
+            <p>The good news is that migrating to our new decentralized architecture (WordPress, GraphQL, Cloudflare, Webstudio) finally gives us a reliable, scalable and financially viable system. No more sword of Damocles of costs tied to traffic volume.</p>
+            <p>The next step is therefore set: <strong>V3 of the interactive map</strong>. For me, this will be the final, complete version of the tool. The work will consist of fixing the last remaining bugs, refining the quality of our coordinates and polishing display details.</p>
+            <p>Today, the technical foundation is robust and the content unmatched in richness. Once V3 is deployed, our efforts will shift to the last essential pillar of our acquisition strategy: <strong>link building</strong>. We'll focus on a large communication campaign built entirely around the unique value of this tool, to earn the backlinks needed to durably and definitively establish ArdaCraft at the top of Google.</p>
             `
         }
     },

@@ -43,6 +43,11 @@
             box-shadow: inset 3px 3px 6px rgba(26,26,26,0.2), inset -3px -3px 6px rgba(255,255,255,0.6);
             border-color: var(--accent); transform: scale(0.95);
         }
+        /* "Any color" trigger: a rainbow wheel until a custom color is chosen,
+           after which JS fills it with that color (keeping the .active ring). */
+        .color-swatch-custom {
+            background: conic-gradient(from 0deg, #F55, #FF5, #5F5, #5FF, #59F, #F5F, #F55);
+        }
 
         /* Slider positions for the shape (3) and format (2) segmented controls,
            reusing the shared .segmented-control / .slider-format styles. */
@@ -148,6 +153,7 @@
                                             <button type="button" class="color-swatch" style="background: #9C77F5;" data-color="#9C77F5" aria-label="Violet"></button>
                                             <button type="button" class="color-swatch" style="background: #609675;" data-color="#609675" aria-label="Vert"></button>
                                             <button type="button" class="color-swatch" style="background: #C56A6A;" data-color="#C56A6A" aria-label="Rouge"></button>
+                                            <button type="button" class="color-swatch color-swatch-custom" id="code-custom" aria-haspopup="dialog" data-i18n-aria="qr_custom_color" data-i18n-title="qr_custom_color" aria-label="Couleur personnalisée" title="Couleur personnalisée"></button>
                                         </div>
                                     </div>
                                     <div style="flex:1;">
@@ -156,20 +162,20 @@
                                             <button type="button" class="color-swatch active" style="background: #FFFFFF;" data-color="#FFFFFF" aria-label="Blanc"></button>
                                             <button type="button" class="color-swatch" style="background: #F9F4EF;" data-color="#F9F4EF" aria-label="Crème"></button>
                                             <button type="button" class="color-swatch" style="background: #E5E7EB;" data-color="#E5E7EB" aria-label="Gris clair"></button>
+                                            <button type="button" class="color-swatch color-swatch-custom" id="bg-custom" aria-haspopup="dialog" data-i18n-aria="qr_custom_color" data-i18n-title="qr_custom_color" aria-label="Couleur personnalisée" title="Couleur personnalisée"></button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <button id="generate-btn" class="primary no-select" style="margin-top: 1rem;" data-i18n="qr_generate">Générer le QR Code</button>
                 </div>
             </div>
 
             <div class="right-col">
                 <div class="qr-container" id="qr-container">
                     <div class="qr-placeholder" id="qr-placeholder" data-i18n-html="qr_placeholder_hint">Votre QR code<br>apparaîtra ici</div>
+                    <div id="qr-mount" style="display: none;"></div>
                 </div>
 
                 <div class="export-group" id="export-group">
@@ -184,6 +190,7 @@
                         <svg viewBox="0 0 24 24" style="width: 20px; margin-right: 8px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                         <span data-i18n="qr_download">Télécharger</span>
                     </button>
+                    <button id="qr-share" class="secondary no-select" data-i18n="share_link">Copier le lien de partage</button>
                 </div>
             </div>
         </div>

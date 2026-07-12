@@ -1,10 +1,12 @@
 (function () {
     const qrContainer = document.getElementById('qr-container');
-    const generateBtn = document.getElementById('generate-btn');
-    if (!qrContainer || !generateBtn) return;
+    const qrMount = document.getElementById('qr-mount');
+    const placeholder = document.getElementById('qr-placeholder');
+    if (!qrContainer || !qrMount) return;
 
     const exportGroup = document.getElementById('export-group');
     const qrText = document.getElementById('qr-text');
+    const shareBtn = document.getElementById('qr-share');
 
     let selectedCodeColor = '#1A1A1A';
     let selectedBgColor = '#FFFFFF';
@@ -13,57 +15,94 @@
         return window.GumiI18n ? window.GumiI18n.t(key) || fallback : fallback;
     }
 
-    function setupSwatches(groupId, onPick) {
-        const group = document.getElementById(groupId);
-        if (!group) return;
-        const swatches = group.querySelectorAll('.color-swatch');
-
-        // Restore the last picked color for this group, if still offered.
-        const saved = window.GumiPrefs && window.GumiPrefs.get('swatch:' + groupId);
-        swatches.forEach(function (swatch) {
-            if (saved && swatch.dataset.color === saved) {
-                swatches.forEach(function (s) { s.classList.remove('active'); });
-                swatch.classList.add('active');
-                onPick(saved);
-            }
-            swatch.addEventListener('click', function () {
-                swatches.forEach(function (s) { s.classList.remove('active'); });
-                swatch.classList.add('active');
-                onPick(swatch.dataset.color);
-                if (window.GumiPrefs) window.GumiPrefs.set('swatch:' + groupId, swatch.dataset.color);
-            });
-        });
-    }
-
-    setupSwatches('code-colors', function (color) { selectedCodeColor = color; });
-    setupSwatches('bg-colors', function (color) { selectedBgColor = color; });
-
     if (typeof QRCodeStyling === 'undefined') {
-        generateBtn.disabled = true;
         if (window.showToolToast) window.showToolToast(t('qr_lib_error', 'Bibliothèque QR indisponible.'), true);
         return;
     }
 
-    const qrCodeObj = new QRCodeStyling({
-        width: 300,
-        height: 300,
-        margin: 10,
-        type: 'svg'
+    const qrCodeObj = new QRCodeStyling({ width: 300, height: 300, margin: 10, type: 'svg' });
+    let hasRendered = false;
+    let renderTimer = null;
+
+    // One color group = preset swatches + a custom "any color" wheel that opens
+    // the shared color picker. Whatever is active (preset or custom) is applied
+    // live and persisted so it survives a reload.
+    function setupColorGroup(groupId, customId, fallback, apply) {
+        const group = document.getElementById(groupId);
+        if (!group) return;
+        const customBtn = document.getElementById(customId);
+        const presets = Array.from(group.querySelectorAll('.color-swatch:not(.color-swatch-custom)'));
+
+        function clearActive() {
+            group.querySelectorAll('.color-swatch').forEach(function (s) { s.classList.remove('active'); });
+        }
+        function resetCustomWheel() {
+            if (customBtn) { customBtn.style.background = ''; customBtn.removeAttribute('data-value'); }
+        }
+        function selectPreset(swatch, persist) {
+            clearActive();
+            swatch.classList.add('active');
+            resetCustomWheel();
+            apply(swatch.dataset.color);
+            if (persist && window.GumiPrefs) window.GumiPrefs.set('swatch:' + groupId, swatch.dataset.color);
+        }
+        function selectCustom(hex, persist) {
+            clearActive();
+            if (customBtn) {
+                customBtn.classList.add('active');
+                customBtn.style.background = hex;
+                customBtn.setAttribute('data-value', hex);
+            }
+            apply(hex);
+            if (persist && window.GumiPrefs) window.GumiPrefs.set('swatch:' + groupId, hex);
+        }
+
+        presets.forEach(function (swatch) {
+            swatch.addEventListener('click', function () { selectPreset(swatch, true); });
+        });
+        if (customBtn && window.GumiColorPicker) {
+            window.GumiColorPicker.attach(customBtn, {
+                get: function () { return customBtn.getAttribute('data-value') || fallback; },
+                onChange: function (hex) { selectCustom(hex, true); }
+            });
+        }
+
+        // Restore last choice: a saved preset re-activates it; anything else is
+        // treated as a custom color.
+        const saved = window.GumiPrefs && window.GumiPrefs.get('swatch:' + groupId);
+        const match = saved && presets.find(function (s) {
+            return s.dataset.color.toUpperCase() === String(saved).toUpperCase();
+        });
+        if (match) selectPreset(match, false);
+        else if (saved) selectCustom(saved, false);
+        else {
+            const active = presets.find(function (s) { return s.classList.contains('active'); }) || presets[0];
+            if (active) apply(active.dataset.color);
+        }
+    }
+
+    setupColorGroup('code-colors', 'code-custom', '#9C77F5', function (color) {
+        selectedCodeColor = color; scheduleRender();
+    });
+    setupColorGroup('bg-colors', 'bg-custom', '#F9F4EF', function (color) {
+        selectedBgColor = color; scheduleRender();
     });
 
-    function generate() {
+    function render() {
         const text = qrText.value.trim();
+
+        // Empty content: fall back to the placeholder, no error, nothing to export.
         if (!text) {
-            if (window.showToolToast) window.showToolToast(t('qr_empty_error', 'Veuillez entrer un texte ou un lien.'), true);
-            qrText.focus();
+            qrMount.style.display = 'none';
+            if (placeholder) placeholder.style.display = '';
+            qrContainer.style.background = '#FFFFFF';
+            exportGroup.style.display = 'none';
+            if (window.GumiUrlState) window.GumiUrlState.set({ data: null });
             return;
         }
 
         const shape = document.querySelector('input[name="qr-shape"]:checked').value;
         qrContainer.style.background = selectedBgColor;
-
-        // Keep the content shareable via ?data=… (style is already persisted).
-        if (window.GumiUrlState) window.GumiUrlState.set({ data: text });
 
         qrCodeObj.update({
             data: text,
@@ -72,29 +111,60 @@
             cornersSquareOptions: {
                 type: shape === 'dots' ? 'dot' : (shape === 'rounded' ? 'extra-rounded' : 'square')
             },
-            cornersDotOptions: {
-                type: shape === 'dots' ? 'dot' : 'square'
-            }
+            cornersDotOptions: { type: shape === 'dots' ? 'dot' : 'square' }
         });
 
-        qrContainer.innerHTML = '';
-        qrCodeObj.append(qrContainer);
+        qrMount.innerHTML = '';
+        qrCodeObj.append(qrMount);
+        if (placeholder) placeholder.style.display = 'none';
+        qrMount.style.display = '';
         exportGroup.style.display = 'flex';
+
+        // Keep the content shareable via ?data=…
+        if (window.GumiUrlState) window.GumiUrlState.set({ data: text });
+        hasRendered = true;
     }
 
-    generateBtn.addEventListener('click', generate);
+    // Debounced so typing and dragging the color picker stay smooth; the QR
+    // only re-renders once input settles.
+    function scheduleRender() {
+        clearTimeout(renderTimer);
+        renderTimer = setTimeout(render, 160);
+    }
+
+    qrText.addEventListener('input', scheduleRender);
+    document.querySelectorAll('input[name="qr-shape"]').forEach(function (radio) {
+        radio.addEventListener('change', render);
+    });
 
     document.getElementById('download-btn').addEventListener('click', function () {
+        if (!hasRendered) return;
         const format = document.querySelector('input[name="out-format"]:checked').value;
         qrCodeObj.download({ name: 'QR_Code_Gumi', extension: format });
     });
 
-    // Deep link: ?data=… prefills the content and renders immediately.
+    if (shareBtn) {
+        shareBtn.addEventListener('click', async function () {
+            try {
+                await navigator.clipboard.writeText(window.GumiUrlState.shareUrl());
+            } catch (err) {
+                const helper = document.createElement('textarea');
+                helper.value = window.GumiUrlState.shareUrl();
+                document.body.appendChild(helper);
+                helper.select();
+                document.execCommand('copy');
+                helper.remove();
+            }
+            if (window.showToolToast) window.showToolToast(t('share_copied', 'Lien copié !'));
+        });
+    }
+
+    // Deep link: ?data=… prefills the content; the tool renders it live.
     if (window.GumiUrlState) {
         const shared = window.GumiUrlState.get('data');
-        if (shared) {
-            qrText.value = shared;
-            generate();
-        }
+        if (shared) qrText.value = shared;
     }
+    render();
+
+    document.addEventListener('gumi:lang', function () { if (hasRendered) render(); });
 })();

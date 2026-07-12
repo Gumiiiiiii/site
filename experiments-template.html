@@ -11,7 +11,7 @@
     <script>
         // Legacy URL: articles now live at /experiments/<slug>.
         (function () {
-            var known = { 'ardacraft': 1, 'ai-photoshoot': 1 };
+            var known = { 'ardacraft': 1, 'ardacraft-map': 1, 'ai-photoshoot': 1 };
             var slug = new URLSearchParams(window.location.search).get('article');
             window.location.replace(known[slug] ? 'experiments/' + slug : 'experiments');
         })();

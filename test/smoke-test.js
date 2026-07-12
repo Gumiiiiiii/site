@@ -56,11 +56,12 @@ const CHECKS = [
     { path: '/', assert(d) {
         if (!d.title.includes('Gumi')) return 'bad title: ' + d.title;
         if (d.querySelectorAll('.navbar a').length < 3) return 'navbar not injected';
-        if (d.querySelectorAll('.experiences-right .card').length !== 2) return 'expected 2 experiment cards';
+        if (d.querySelectorAll('.experiences-right .card').length !== 3) return 'expected 3 experiment cards';
         if (!d.querySelector('.footer-byline')) return 'missing footer byline';
     } },
     { path: '/experiments', assert(d) {
-        if (d.querySelectorAll('.experiments-grid .card').length !== 2) return 'expected 2 cards';
+        if (d.querySelectorAll('.experiments-grid .card').length !== 3) return 'expected 3 cards';
+        if (!d.querySelector('a.card[href$="ardacraft-map"]')) return 'missing map article card';
         if (d.querySelectorAll('.filter-btn[aria-pressed]').length === 0) return 'filters missing aria-pressed';
         if (!d.querySelector('.card.faded .soon-badge')) return 'missing coming-soon teaser card';
         if (d.querySelector('a.card[href*="ai-photoshoot"]')) return 'ai-photoshoot must not be linked while unpublished';
@@ -71,8 +72,18 @@ const CHECKS = [
     { path: '/experiments/ardacraft', async assert(d, w) {
         if (d.getElementById('post-content').children.length === 0) return 'article body empty';
         if (d.querySelectorAll('.toc-item').length === 0) return 'TOC empty';
-        // ai-photoshoot is unpublished, so the read-next section must be hidden.
-        if (d.querySelector('.read-next-section').style.display !== 'none') return 'read-next should be hidden';
+        // Now links forward to the published map article.
+        if (d.querySelector('.read-next-section').style.display === 'none') return 'read-next should be visible';
+        if (d.getElementById('read-next-link').getAttribute('href') !== 'ardacraft-map') return 'read-next should link to ardacraft-map';
+        const frTitle = d.title;
+        w.GumiI18n.set('en');
+        if (d.title === frTitle) return 'language toggle did not re-render';
+    } },
+    { path: '/experiments/ardacraft-map', async assert(d, w) {
+        if (d.getElementById('post-content').children.length === 0) return 'article body empty';
+        if (d.querySelectorAll('.toc-item').length === 0) return 'TOC empty';
+        if (!d.querySelector('.article-content table')) return 'results table missing';
+        if (d.getElementById('read-next-link').getAttribute('href') !== 'ardacraft') return 'read-next should link to ardacraft';
         const frTitle = d.title;
         w.GumiI18n.set('en');
         if (d.title === frTitle) return 'language toggle did not re-render';
@@ -104,7 +115,14 @@ const CHECKS = [
     { path: '/tools/palette', assert(d) {
         if (d.querySelectorAll('#pal-swatches .pal-swatch').length < 4) return 'palette not generated';
     } },
-    { path: '/brand-guidelines' }
+    { path: '/brand-guidelines' },
+    { path: '/grazie', assert(d) {
+        if (!d.querySelector('meta[name="robots"][content*="noindex"]')) return 'secret page must be noindex';
+        if (!d.getElementById('gate')) return 'password gate missing';
+        if (d.querySelectorAll('#code-group .grazie-digit').length !== 3) return 'expected 3 code fields';
+        if (d.getElementById('reveal').classList.contains('show')) return 'reveal should start hidden';
+        if (!d.getElementById('start-btn')) return 'start button missing';
+    } }
 ];
 
 async function main() {
