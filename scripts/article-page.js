@@ -85,6 +85,11 @@
             metaDesc.setAttribute('content', article.excerpt[lang]);
         }
         titleEl.textContent = article.title[lang];
+        // Keep the brand accent dot at the end of the title.
+        const titleDot = document.createElement('span');
+        titleDot.className = 'dot';
+        titleDot.textContent = '.';
+        titleEl.appendChild(titleDot);
 
         if (dateEl && article.published) {
             const date = new Date(article.published + 'T00:00:00');
