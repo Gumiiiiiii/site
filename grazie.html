@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F9F4EF">
+    <!-- Secret treasure-hunt page: keep it out of search and out of the sitemap. -->
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preload" href="fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <title>· · ·</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="media/favicon-32.png">
+    <link rel="apple-touch-icon" href="media/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="styles/shared.css">
+
+    <style>
+        .grazie-main {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6vh 6vw;
+            position: relative;
+            z-index: 2;
+        }
+
+        .grazie-card {
+            width: 100%;
+            max-width: 30rem;
+            background: var(--bg);
+            background-image: url('media/cream-paper.png');
+            background-blend-mode: multiply;
+            border-radius: 1.6rem;
+            padding: clamp(2rem, 5vw, 3.2rem);
+            box-shadow: var(--shadow-out);
+            text-align: center;
+        }
+
+        .grazie-eyebrow {
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.4rem;
+        }
+
+        .grazie-lock {
+            width: 46px;
+            height: 46px;
+            margin: 0 auto 1.4rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: var(--text);
+            box-shadow: var(--shadow-out);
+        }
+        .grazie-lock svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+        .grazie-card h1 {
+            font-size: clamp(1.9rem, 6vw, 2.6rem);
+            margin-bottom: 0.8rem;
+        }
+
+        .grazie-sub {
+            font-weight: 500;
+            opacity: 0.75;
+            line-height: 1.5;
+            margin-bottom: 2rem;
+        }
+
+        .grazie-form { display: flex; flex-direction: column; gap: 0.9rem; }
+
+        .grazie-code {
+            display: flex;
+            gap: 0.7rem;
+            justify-content: center;
+        }
+        .grazie-digit {
+            width: clamp(56px, 18vw, 66px);
+            height: clamp(64px, 20vw, 74px);
+            text-align: center;
+            font-family: var(--font);
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: var(--text);
+            background: var(--bg);
+            border: none;
+            border-radius: 0.9em;
+            box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7);
+            transition: box-shadow 0.2s ease, color 0.2s ease;
+        }
+        .grazie-digit:focus {
+            box-shadow: inset 5px 5px 10px rgba(26,26,26,0.15), inset -5px -5px 10px rgba(255,255,255,0.9);
+        }
+        .grazie-digit.filled { color: var(--accent); }
+
+        .grazie-error {
+            min-height: 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--negative);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .grazie-error.show { opacity: 1; }
+
+        /* Reveal (post-unlock) state */
+        #reveal { display: none; }
+        #reveal.show { display: block; }
+
+        .grazie-warning {
+            display: flex;
+            gap: 0.8rem;
+            text-align: left;
+            background: rgba(197, 106, 106, 0.09);
+            border: 1px solid rgba(197, 106, 106, 0.25);
+            border-radius: 1rem;
+            padding: 1.1rem 1.2rem;
+            margin-bottom: 1.6rem;
+            line-height: 1.45;
+        }
+        .grazie-warning svg { flex-shrink: 0; width: 22px; height: 22px; stroke: var(--negative); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; margin-top: 2px; }
+        .grazie-warning strong { display: block; margin-bottom: 0.2rem; }
+        .grazie-warning span { font-weight: 500; opacity: 0.85; font-size: 0.95rem; }
+
+        .grazie-ready-note {
+            margin-top: 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0.7;
+        }
+
+        /* Fullscreen video overlay (also the graceful fallback if the browser
+           refuses the fullscreen request — the video still plays here). */
+        .grazie-player {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #000;
+            border: none;
+        }
+        .grazie-player[hidden] { display: none; }
+
+        /* Gentle shake on a wrong code, unless reduced motion is preferred. */
+        @media (prefers-reduced-motion: no-preference) {
+            .shake { animation: grazie-shake 0.4s ease; }
+            @keyframes grazie-shake {
+                0%, 100% { transform: translateX(0); }
+                20%, 60% { transform: translateX(-7px); }
+                40%, 80% { transform: translateX(7px); }
+            }
+            .fade-in { animation: grazie-fade 0.5s ease both; }
+            @keyframes grazie-fade {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+
+    <main class="grazie-main">
+        <div class="grazie-card">
+
+            <!-- STEP 1 — the gate -->
+            <section id="gate">
+                <p class="grazie-eyebrow">Chasse au trésor</p>
+                <div class="grazie-lock" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+                </div>
+                <h1>Le mot de passe<span class="dot">.</span></h1>
+                <p class="grazie-sub">Bravo, vous avez trouvé l'URL secrète. Entrez le code pour débloquer la suite.</p>
+
+                <form class="grazie-form" id="gate-form" autocomplete="off" novalidate>
+                    <div class="grazie-code" id="code-group">
+                        <input type="text" class="grazie-digit" maxlength="1" inputmode="numeric" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Chiffre 1 sur 3">
+                        <input type="text" class="grazie-digit" maxlength="1" inputmode="numeric" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Chiffre 2 sur 3">
+                        <input type="text" class="grazie-digit" maxlength="1" inputmode="numeric" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Chiffre 3 sur 3">
+                    </div>
+                    <button type="submit" class="primary no-select">Valider</button>
+                    <p class="grazie-error" id="error" role="alert" aria-live="assertive"></p>
+                </form>
+            </section>
+
+            <!-- STEP 2 — the reveal -->
+            <section id="reveal" aria-hidden="true">
+                <div class="grazie-lock" aria-hidden="true" style="color: var(--positive);">
+                    <svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 7.9-1"></path></svg>
+                </div>
+                <h1>Débloqué<span class="dot">.</span></h1>
+
+                <div class="grazie-warning" role="note">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <div>
+                        <strong>Assurez-vous d'être prêt·e avant de lancer la vidéo.</strong>
+                        <span>En cliquant, elle démarrera <em>immédiatement</em>, en plein écran et avec le son. Installez-vous confortablement.</span>
+                    </div>
+                </div>
+
+                <button type="button" class="primary no-select" id="start-btn">Je suis prêt·e — lancer la vidéo</button>
+                <p class="grazie-ready-note">Plein écran et son au premier clic. Pas de retour en arrière.</p>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- The surprise is mounted here on the final click, then sent fullscreen. -->
+    <iframe id="player" class="grazie-player" hidden
+            title="Surprise"
+            allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+            allowfullscreen></iframe>
+
+    <script src="scripts/page-effects.js"></script>
+    <script>
+        (function () {
+            // The code from step one of the hunt. Kept exact, per the puzzle.
+            var PASSWORD = '7 7 7';
+            // TODO: swap this placeholder for the real reward video ID.
+            var VIDEO_ID = 'dQw4w9WgXcQ';
+
+            var gate = document.getElementById('gate');
+            var reveal = document.getElementById('reveal');
+            var form = document.getElementById('gate-form');
+            var group = document.getElementById('code-group');
+            var digits = Array.prototype.slice.call(group.querySelectorAll('.grazie-digit'));
+            var errorEl = document.getElementById('error');
+            var startBtn = document.getElementById('start-btn');
+            var player = document.getElementById('player');
+
+            // Each box needs its own "7"; join them to compare with the code.
+            var EXPECTED = PASSWORD.replace(/\s/g, ''); // "7 7 7" -> "777"
+
+            function isComplete() {
+                return digits.every(function (d) { return d.value.length === 1; });
+            }
+            function entered() {
+                return digits.map(function (d) { return d.value; }).join('');
+            }
+
+            function unlock() {
+                gate.style.display = 'none';
+                reveal.classList.add('show', 'fade-in');
+                reveal.setAttribute('aria-hidden', 'false');
+                startBtn.focus();
+            }
+
+            function fail() {
+                errorEl.textContent = 'Ce n’est pas le bon code. Réessayez.';
+                errorEl.classList.add('show');
+                group.classList.remove('shake');
+                void group.offsetWidth; // reflow so the shake can retrigger
+                group.classList.add('shake');
+                digits.forEach(function (d) { d.value = ''; d.classList.remove('filled'); });
+                digits[0].focus();
+            }
+
+            function attempt() {
+                if (entered() === EXPECTED) unlock();
+                else fail();
+            }
+
+            digits.forEach(function (digit, i) {
+                digit.addEventListener('input', function () {
+                    errorEl.classList.remove('show');
+                    // Keep a single, non-space character per box.
+                    digit.value = digit.value.replace(/\s/g, '').slice(-1);
+                    digit.classList.toggle('filled', digit.value.length === 1);
+                    if (digit.value && i < digits.length - 1) digits[i + 1].focus();
+                    if (isComplete()) attempt();
+                });
+                digit.addEventListener('keydown', function (event) {
+                    // Backspace on an empty box steps back to the previous one.
+                    if (event.key === 'Backspace' && !digit.value && i > 0) {
+                        digits[i - 1].focus();
+                    }
+                });
+                digit.addEventListener('focus', function () { digit.select(); });
+            });
+
+            // Pasting "777" (or "7 7 7") spreads across the boxes.
+            group.addEventListener('paste', function (event) {
+                event.preventDefault();
+                var chars = (event.clipboardData || window.clipboardData).getData('text').replace(/\s/g, '').split('');
+                digits.forEach(function (d, idx) {
+                    d.value = chars[idx] || '';
+                    d.classList.toggle('filled', d.value.length === 1);
+                });
+                digits[Math.min(chars.length, digits.length - 1)].focus();
+                if (isComplete()) attempt();
+            });
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                attempt();
+            });
+
+            // The single decisive click: start playback AND go fullscreen, both
+            // driven by this one user gesture so the browser allows sound + FS.
+            startBtn.addEventListener('click', function () {
+                player.src = 'https://www.youtube-nocookie.com/embed/' + VIDEO_ID +
+                    '?autoplay=1&rel=0&modestbranding=1&playsinline=0';
+                player.hidden = false;
+
+                var request = player.requestFullscreen
+                    || player.webkitRequestFullscreen
+                    || player.webkitEnterFullscreen
+                    || player.msRequestFullscreen;
+                if (request) {
+                    try { request.call(player); } catch (err) { /* overlay still plays */ }
+                }
+            });
+
+            // Leaving fullscreen tears the video down and returns to the reveal.
+            document.addEventListener('fullscreenchange', function () {
+                if (!document.fullscreenElement && !player.hidden) {
+                    player.hidden = true;
+                    player.src = '';
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
