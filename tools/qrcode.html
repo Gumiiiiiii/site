@@ -36,11 +36,11 @@
         .swatch-group { display: flex; gap: 12px; }
         .color-swatch {
             width: 38px; height: 38px; border-radius: 50%; cursor: pointer; border: 3px solid transparent;
-            box-shadow: 4px 4px 8px rgba(26,26,26,0.1), -4px -4px 8px rgba(255,255,255,0.8);
+            box-shadow: 4px 4px 8px rgba(26,26,26,0.1), -4px -4px 8px var(--neu-hi);
             transition: all 0.2s ease; padding: 0;
         }
         .color-swatch.active {
-            box-shadow: inset 3px 3px 6px rgba(26,26,26,0.2), inset -3px -3px 6px rgba(255,255,255,0.6);
+            box-shadow: inset 3px 3px 6px rgba(26,26,26,0.2), inset -3px -3px 6px var(--neu-hi);
             border-color: var(--accent); transform: scale(0.95);
         }
         /* "Any color" trigger: a rainbow wheel until a custom color is chosen,

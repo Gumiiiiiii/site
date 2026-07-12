@@ -20,6 +20,7 @@
 :root {
     --bg: #F9F4EF;
     --text: #1A1A1A;
+    --text-rgb: 26, 26, 26;
     --accent: #9C77F5;
     --accent-light: #D1BFFF;
     --positive: #609675;
@@ -29,6 +30,12 @@
     --content-max-width: 90rem;
     --shadow-out: 6px 6px 12px #e0dad5, -6px -6px 12px rgba(255, 255, 255, 0.4);
     --shadow-in: inset 4px 4px 8px #e0dad5, inset -4px -4px 8px rgba(255, 255, 255, 0.4);
+    /* Neumorphic highlight — bright in light, whisper-faint in dark so the
+       raised/inset components stop glowing white on the dark background. */
+    --neu-hi: rgba(255, 255, 255, 0.7);
+    /* Elevated panels (tooltips, popovers, the colour picker) — plain white
+       in light, a raised dark surface in dark rather than a jarring white box. */
+    --surface: #fff;
 }
 
 *, *::before, *::after {
@@ -179,8 +186,8 @@ body.with-footer .site-content {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 0 24px;
-    gap: 1.5rem;
+    padding: 0 20px;
+    gap: 0.85rem;
     z-index: 100;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
     visibility: hidden;
@@ -215,6 +222,23 @@ body.with-footer .site-content {
     color: var(--accent);
 }
 
+/* Three groups — logo / links / controls — divided by hairline separators
+   that sit where the "/"s were in the layout sketch. */
+.nav-group {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.nav-sep {
+    width: 1px;
+    height: 22px;
+    flex-shrink: 0;
+    border-radius: 1px;
+    background: var(--text);
+    opacity: 0.14;
+}
+
 .nav-logo {
     display: inline-flex;
     align-items: center;
@@ -229,18 +253,32 @@ body.with-footer .site-content {
 
 /* === LANG TOGGLE (sliding FR/EN) === */
 .lang-btn {
+    width: 34px;
+    height: 34px;
+    padding: 0;
     background: transparent;
     border: none;
+    border-radius: 50%;
     color: var(--text);
     font-family: var(--font);
     font-weight: 700;
     font-size: 0.95rem;
     cursor: pointer;
-    padding: 0 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s ease;
+}
+.lang-btn:hover { background: rgba(26, 26, 26, 0.06); }
+:root[data-theme="dark"] .lang-btn:hover { background: rgba(255, 255, 255, 0.08); }
+
+/* The 24px window clips the slider to a single row inside the round button.
+   Kept as a block (not flex) so the slider keeps its natural 48px height and
+   translateY(-50%) travels a full row rather than half of one. */
+.lang-window {
     height: 24px;
     overflow: hidden;
-    display: inline-flex;
-    align-items: flex-start;
 }
 
 .lang-slider {
@@ -293,7 +331,7 @@ body.with-footer .site-content {
     gap: 8px;
     font-weight: 700;
     font-size: 15px;
-    color: rgba(26, 26, 26, 0.65);
+    color: rgba(var(--text-rgb), 0.65);
     text-decoration: none;
     transition: color 0.3s ease;
     margin-bottom: 1.5rem;
@@ -772,7 +810,9 @@ button.primary:active:not(:disabled) {
 .filter-btn:hover .filter-count,
 .filter-btn.active .filter-count {
     background-color: var(--accent-light);
-    color: var(--text);
+    /* --accent-light is light purple in both themes, so the count must stay
+       dark — var(--text) would turn it near-white and unreadable in dark. */
+    color: #1A1A1A;
 }
 
 /* === FOOTER (homepage only) === */
@@ -992,7 +1032,8 @@ button.primary:active:not(:disabled) {
 @media (max-width: 360px) {
     .navbar { padding: 0 8px; gap: 0.25rem; }
     .navbar a { padding: 6px 6px; font-size: 0.8rem; }
-    .lang-btn { padding: 0 8px; }
+    .lang-btn, .theme-btn { width: 30px; height: 30px; }
+    .nav-sep { height: 18px; }
 }
 
 /* ==========================================================================
@@ -1014,12 +1055,50 @@ button.primary:active:not(:disabled) {
     transition: color 0.2s ease, background 0.2s ease;
 }
 .theme-btn:hover { background: rgba(26, 26, 26, 0.06); color: var(--accent); }
-.theme-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.theme-btn .theme-icon-moon { display: block; }
-.theme-btn .theme-icon-sun { display: none; }
+.theme-btn svg { width: 20px; height: 20px; }
 :root[data-theme="dark"] .theme-btn:hover { background: rgba(255, 255, 255, 0.08); }
-:root[data-theme="dark"] .theme-btn .theme-icon-moon { display: none; }
-:root[data-theme="dark"] .theme-btn .theme-icon-sun { display: block; }
+
+/* Animated sun <-> moon morph: light = full sun with rays; dark fades the
+   rays out and slides a masked cut-out over the disc to bite a crescent.
+   State is driven purely by [data-theme] so it stays in sync with the
+   theme set before first paint. */
+.theme-toggle-cutout { transition: transform 0.5s cubic-bezier(0.54, -0.42, 0.29, 1.3); }
+/* Disc scales around its own centre; light state shrinks it straight back. */
+.theme-toggle-core { transform-box: view-box; transform-origin: 12px 12px; transition: transform 0.35s ease; }
+/* Rays fade one at a time so they flick in clockwise from the top as the sun
+   reforms. DOM order is N/E/S/W then the four diagonals, so the delays below
+   are assigned by position, not source order. */
+.theme-toggle-rays line { transition: opacity 0.12s linear; }
+.theme-toggle-rays line:nth-child(1) { transition-delay: 0.22s; }  /* N  */
+.theme-toggle-rays line:nth-child(5) { transition-delay: 0.25s; }  /* NE */
+.theme-toggle-rays line:nth-child(2) { transition-delay: 0.28s; }  /* E  */
+.theme-toggle-rays line:nth-child(6) { transition-delay: 0.31s; }  /* SE */
+.theme-toggle-rays line:nth-child(3) { transition-delay: 0.34s; }  /* S  */
+.theme-toggle-rays line:nth-child(7) { transition-delay: 0.37s; }  /* SW */
+.theme-toggle-rays line:nth-child(4) { transition-delay: 0.40s; }  /* W  */
+.theme-toggle-rays line:nth-child(8) { transition-delay: 0.43s; }  /* NW */
+:root[data-theme="dark"] .theme-toggle-cutout { transform: translateX(-7px); transition: transform 0.5s cubic-bezier(0.21, 0.17, 0.43, 1.43); }
+/* Grow the crescent once the cut-out has slid across, with a small overshoot. */
+:root[data-theme="dark"] .theme-toggle-core { transform: scale(1.4); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.45s; }
+/* Going dark, the rays just blink out together — no stagger. */
+:root[data-theme="dark"] .theme-toggle-rays line { opacity: 0; transition: opacity 0.12s linear; }
+
+@media (prefers-reduced-motion: reduce) {
+    .theme-toggle-rays line, .theme-toggle-cutout, .theme-toggle-core { transition: none; }
+}
+
+/* Theme change reveals the new palette with a circular wipe that grows from
+   the toggle button (origin + end radius set in navbar.js). The old frame
+   stays put underneath while the new one clips in on top. Browsers without
+   the View Transitions API simply snap — navbar.js skips the animation. */
+::view-transition-old(root) { animation: none; }
+::view-transition-new(root) {
+    animation: theme-wipe 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes theme-wipe {
+    from { clip-path: circle(0 at var(--wipe-x) var(--wipe-y)); }
+    to   { clip-path: circle(var(--wipe-r) at var(--wipe-x) var(--wipe-y)); }
+}
 
 /* ==========================================================================
    DARK THEME
@@ -1030,6 +1109,9 @@ button.primary:active:not(:disabled) {
 :root[data-theme="dark"] {
     --bg: #1B1A1F;
     --text: #F1ECE4;
+    --text-rgb: 241, 236, 228;
+    --neu-hi: rgba(255, 255, 255, 0.04);
+    --surface: #2A2831;
     --accent: #B49BFF;
     --accent-light: #D8CAFF;
     --positive: #6FA783;

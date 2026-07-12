@@ -23,7 +23,7 @@
     margin: 0;
     font-size: 0.95rem;
     font-weight: 700;
-    color: rgba(26, 26, 26, 0.55);
+    color: rgba(var(--text-rgb), 0.55);
     text-transform: uppercase;
     letter-spacing: 0.06em;
 }
@@ -72,7 +72,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
-    border-bottom: 1px solid rgba(26, 26, 26, 0.1);
+    border-bottom: 1px solid rgba(var(--text-rgb), 0.1);
 }
 
 .toc-toggle {
@@ -384,7 +384,7 @@
     max-width: 1200px;
     margin: 6rem auto 0 auto;
     padding: 4rem 24px 0 24px;
-    border-top: 1px solid rgba(26, 26, 26, 0.1);
+    border-top: 1px solid rgba(var(--text-rgb), 0.1);
     width: 100%;
 }
 
@@ -406,12 +406,12 @@
     background-color: var(--bg);
     padding: 1.5rem;
     border-radius: 2rem;
-    box-shadow: 10px 10px 20px rgba(26, 26, 26, 0.05), -10px -10px 20px rgba(255, 255, 255, 0.8);
+    box-shadow: 10px 10px 20px rgba(26, 26, 26, 0.05), -10px -10px 20px var(--neu-hi);
     transition: box-shadow 0.2s ease;
 }
 
 .read-next-card:active {
-    box-shadow: inset 6px 6px 12px rgba(26, 26, 26, 0.05), inset -6px -6px 12px rgba(255, 255, 255, 0.8);
+    box-shadow: inset 6px 6px 12px rgba(26, 26, 26, 0.05), inset -6px -6px 12px var(--neu-hi);
 }
 
 .read-next-card .card-image {
