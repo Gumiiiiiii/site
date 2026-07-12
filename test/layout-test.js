@@ -59,6 +59,17 @@ const CHECKS = [
         }
     },
     {
+        name: 'article: featured cover renders at 16:9',
+        async run(page) {
+            await page.goto(BASE + '/experiments/ardacraft-map', { waitUntil: 'networkidle0' });
+            const ratio = await page.evaluate(() => {
+                const rect = document.getElementById('article-cover').getBoundingClientRect();
+                return rect.width / rect.height;
+            });
+            if (Math.abs(ratio - 16 / 9) > 0.02) throw new Error('cover ratio is ' + ratio.toFixed(3) + ', expected 1.778');
+        }
+    },
+    {
         name: 'contrast checker: custom color picker opens',
         async run(page) {
             await page.goto(BASE + '/tools/contrast-checker', { waitUntil: 'networkidle0' });
