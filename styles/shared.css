@@ -1029,11 +1029,22 @@ button.primary:active:not(:disabled) {
     body.nav-visible::after { opacity: 1; }
 }
 
+/* Below ~460px the logo + long "Expérimentations" label + both controls no
+   longer leave room for the decorative separators, which pushed the theme
+   toggle off the edge of the pill. Drop the separators and tighten spacing so
+   every control stays reachable; separators remain on wider phones/tablets. */
+@media (max-width: 460px) {
+    .nav-sep { display: none; }
+    .navbar { gap: 0.4rem; padding: 0 10px; }
+    .nav-group { gap: 0.1rem; }
+    .navbar a { padding: 6px 8px; }
+    .nav-logo { padding: 8px 6px !important; }
+}
+
 @media (max-width: 360px) {
-    .navbar { padding: 0 8px; gap: 0.25rem; }
+    .navbar { padding: 0 8px; gap: 0.3rem; }
     .navbar a { padding: 6px 6px; font-size: 0.8rem; }
     .lang-btn, .theme-btn { width: 30px; height: 30px; }
-    .nav-sep { height: 18px; }
 }
 
 /* ==========================================================================
