@@ -97,9 +97,13 @@ async function extractMedia(url, format, withThumb) {
     const directLink = (selected && selected.url) || fallbackLink;
     if (!directLink) return null;
 
+    // The thumbnail is always returned so the result card can show a preview;
+    // the `withThumb` flag only controls whether the client also offers it as
+    // a separate download. (yt-dlp already includes it in the dump, so this is
+    // free.)
     return {
         directLink,
-        thumbnailLink: withThumb ? output.thumbnail || null : null,
+        thumbnailLink: output.thumbnail || null,
         title: output.title || null
     };
 }

@@ -8,9 +8,9 @@
     const formatBtns = document.querySelectorAll('.format-btn');
     const thumbToggle = document.getElementById('thumb-toggle');
     const dlCount = document.getElementById('dl-count');
-    // Primary backend: Oracle Cloud Always Free VM (no cold starts).
-    // sslip.io maps the VM's public IP to a hostname Caddy holds a TLS cert for.
-    const ORACLE_API_BASE = 'https://141.145.212.205.sslip.io/api/get-video';
+    // Primary backend: Oracle Cloud Always Free VM (no cold starts),
+    // fronted by Caddy (auto-HTTPS) at api.gumi.ch.
+    const ORACLE_API_BASE = 'https://api.gumi.ch/api/get-video';
     const RENDER_API_BASE = 'https://site-xyvc.onrender.com/api/get-video';
     const LOCAL_API_BASE = 'http://localhost:10000/api/get-video';
 
