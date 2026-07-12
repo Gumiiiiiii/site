@@ -224,7 +224,14 @@
         },
 
         // Footer
+        footer_status: { fr: 'Ouvert aux collaborations & opportunités', en: 'Open to collaborations & opportunities' },
         footer_title: { fr: "Envie d'échanger ?", en: 'Want to get in touch?' },
+        footer_invite: {
+            fr: 'Un projet, une idée, ou juste envie de dire bonjour ? Ma boîte mail est toujours ouverte.',
+            en: 'A project, an idea, or just want to say hi? My inbox is always open.'
+        },
+        footer_copy: { fr: 'Copier', en: 'Copy' },
+        footer_copied: { fr: 'Copié !', en: 'Copied!' },
         footer_byline: { fr: '© 2026 Gumi — Conçu et développé par Pierre.', en: '© 2026 Gumi — Designed and built by Pierre.' },
 
         // Tools shared
