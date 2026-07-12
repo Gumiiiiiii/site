@@ -421,6 +421,10 @@ button.primary:active:not(:disabled) {
     font-size: clamp(1.5rem, 4vw, 3rem);
     font-weight: 600;
     line-height: 1.2;
+    /* The letter-by-letter reveal boxes each glyph in its own span, which
+       suppresses kerning; disabling kerning here too keeps the width identical
+       when the animation ends and the plain text is restored (no snap). */
+    font-kerning: none;
 }
 
 /* Letter-by-letter hero reveal (homepage). Words stay unbreakable so the
