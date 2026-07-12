@@ -19,12 +19,8 @@ window.GUMI_ARTICLES = {
         html: {
             fr: `
             <div class="abstract">
-                <p><strong>-90 % de coûts d'hébergement</strong> par rapport au forfait supérieur que Webflow nous imposait — et deux fois moins qu'avant la migration.</p>
-                <p><strong>150 heures sur 3 mois</strong> pour migrer vers une architecture décentralisée : WordPress et Webstudio reliés en headless via GraphQL.</p>
-                <p><strong>3× plus d'utilisation</strong> des fonctionnalités clés (recherche, filtres, tri) sur l'une des pages les plus visitées, grâce à une optimisation UX guidée par les données.</p>
+                <p>Cette expérimentation a consisté à repenser entièrement le site d'ArdaCraft pour lever le goulot d'étranglement qui freinait la croissance de la communauté. En <strong>150 heures réparties sur 3 mois</strong>, j'ai migré de Webflow vers une architecture décentralisée (WordPress et Webstudio en headless via GraphQL), divisant nos coûts d'hébergement par dix (<strong>-90 %</strong>). Côté expérience, une refonte guidée par les données a multiplié jusqu'à <strong>3× l'usage des fonctionnalités clés</strong> sur l'une de nos pages les plus visitées.</p>
             </div>
-
-            <p><em>Participer au succès d'une communauté de passionnés tout en me challengeant et en développant de nouvelles compétences : retour sur un chantier de 150 heures.</em></p>
 
             <h2>Le contexte : un succès massif, un goulot d'étranglement réel</h2>
             <p>ArdaCraft est un projet collaboratif international dont l'ambition est de recréer minutieusement la <a href="https://ardacraft.me/" target="_blank" rel="noopener">Terre du Milieu</a> (l'univers du <em>Seigneur des Anneaux</em> et du <em>Hobbit</em>). J'ai rejoint l'aventure initialement pour créer des vidéos, avant de prendre plus de responsabilités pour me challenger et explorer de nouveaux horizons.</p>
@@ -123,12 +119,8 @@ window.GUMI_ARTICLES = {
             `,
             en: `
             <div class="abstract">
-                <p><strong>-90% hosting costs</strong> compared to the higher Webflow tier we were being pushed onto — and half of what we paid before the migration.</p>
-                <p><strong>150 hours over 3 months</strong> to migrate to a decentralized architecture: WordPress and Webstudio connected headless via GraphQL.</p>
-                <p><strong>3× more usage</strong> of key features (search, filters, sorting) on one of our most visited pages, thanks to data-driven UX optimization.</p>
+                <p>This experiment was about completely rethinking ArdaCraft's website to clear the bottleneck that was holding the community's growth back. In <strong>150 hours over 3 months</strong>, I migrated from Webflow to a decentralized architecture (WordPress and Webstudio, headless via GraphQL), cutting our hosting costs tenfold (<strong>-90%</strong>). On the experience side, a data-driven redesign boosted usage of key features by up to <strong>3×</strong> on one of our most visited pages.</p>
             </div>
-
-            <p><em>Contributing to the success of a passionate community while challenging myself and building new skills: a look back at a 150-hour project.</em></p>
 
             <h2>The Context: Massive Success, a Very Real Bottleneck</h2>
             <p>ArdaCraft is an international collaborative project whose ambition is to meticulously recreate <a href="https://ardacraft.me/" target="_blank" rel="noopener">Middle-earth</a> (the universe of <em>The Lord of the Rings</em> and <em>The Hobbit</em>). I initially joined the adventure to create videos, before taking on more responsibilities to challenge myself and explore new horizons.</p>
@@ -244,12 +236,8 @@ window.GUMI_ARTICLES = {
         html: {
             fr: `
             <div class="abstract">
-                <p><strong>+1 000 000 de recherches par an</strong> autour des cartes de la Terre du Milieu : un marché massif que personne ne servait vraiment bien.</p>
-                <p><strong>330 000 clics/an</strong> de potentiel en première position, pour une difficulté SEO estimée à seulement 36 % (« Possible »).</p>
-                <p><strong>50 % de notre trafic hors-marque</strong> généré à lui seul par la carte interactive, en quelques mois à peine.</p>
+                <p>Cette expérimentation a consisté à transformer un marché de <strong>plus d'un million de recherches par an</strong> autour des cartes de la Terre du Milieu en un véritable levier d'acquisition pour ArdaCraft. En concevant la carte interactive la plus complète du web — pensée pour le mobile et calquée sur les codes de Google Maps — je visais un potentiel de <strong>330 000 clics par an</strong> sur un mot-clé pourtant jugé accessible (difficulté SEO de <strong>36 %</strong>). Résultat : en quelques mois, la carte génère déjà <strong>50 % de notre trafic hors-marque</strong>.</p>
             </div>
-
-            <p><em>Comment nous avons transformé un volume de recherche massif autour de la Terre du Milieu en un levier d'acquisition concret pour ArdaCraft, grâce à notre carte interactive.</em></p>
 
             <h2>L'opportunité : un million de recherches à portée de main</h2>
             <p>Dans ma quête constante de nouvelles opportunités pour faire grandir <strong>ArdaCraft</strong>, j'ai décidé de me pencher sérieusement sur notre stratégie SEO. C'est en analysant le marché autour de l'univers de Tolkien qu'un segment précis a immédiatement capté mon attention : les recherches de cartes. Les données Semrush étaient sans appel, révélant un écosystème de <strong>plus d'un million de recherches par an</strong> en incluant toutes les variantes du mot-clé « middle earth map ».</p>
@@ -321,12 +309,8 @@ window.GUMI_ARTICLES = {
             `,
             en: `
             <div class="abstract">
-                <p><strong>+1,000,000 searches per year</strong> around Middle-earth maps: a massive market no one was really serving well.</p>
-                <p><strong>330,000 clicks/year</strong> of potential in the first position, for an SEO difficulty estimated at just 36% ("Possible").</p>
-                <p><strong>50% of our non-brand traffic</strong> generated by the interactive map alone, in just a few months.</p>
+                <p>This experiment was about turning a market of <strong>over 1,000,000 searches a year</strong> around Middle-earth maps into a real acquisition channel for ArdaCraft. By building the web's most complete interactive map — mobile-friendly and modeled on Google Maps' conventions — I was chasing a potential <strong>330,000 clicks a year</strong> on a keyword rated surprisingly accessible (an SEO difficulty of just <strong>36%</strong>). The result: within a few months, the map already drives <strong>50% of our non-brand traffic</strong>.</p>
             </div>
-
-            <p><em>How we turned a massive volume of searches around Middle-earth into a concrete acquisition lever for ArdaCraft, thanks to our interactive map.</em></p>
 
             <h2>The Opportunity: A Million Searches Within Reach</h2>
             <p>In my constant search for new opportunities to grow <strong>ArdaCraft</strong>, I decided to take our SEO strategy seriously. While analyzing the market around Tolkien's universe, one specific segment immediately caught my attention: map searches. The Semrush data was unequivocal, revealing an ecosystem of <strong>more than one million searches per year</strong> when including every variant of the keyword "middle earth map".</p>
