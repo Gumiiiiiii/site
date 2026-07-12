@@ -33,22 +33,6 @@
     <script src="../scripts/vendor/qr-code-styling.js"></script>
 
     <style>
-        .swatch-group { display: flex; gap: 12px; }
-        .color-swatch {
-            width: 38px; height: 38px; border-radius: 50%; cursor: pointer; border: 3px solid transparent;
-            box-shadow: 4px 4px 8px rgba(26,26,26,0.1), -4px -4px 8px var(--neu-hi);
-            transition: all 0.2s ease; padding: 0;
-        }
-        .color-swatch.active {
-            box-shadow: inset 3px 3px 6px rgba(26,26,26,0.2), inset -3px -3px 6px var(--neu-hi);
-            border-color: var(--accent); transform: scale(0.95);
-        }
-        /* "Any color" trigger: a rainbow wheel until a custom color is chosen,
-           after which JS fills it with that color (keeping the .active ring). */
-        .color-swatch-custom {
-            background: conic-gradient(from 0deg, #F55, #FF5, #5F5, #5FF, #59F, #F5F, #F55);
-        }
-
         /* Slider positions for the shape (3) and format (2) segmented controls,
            reusing the shared .segmented-control / .slider-format styles. */
         .format-3 #s-square:checked ~ .slider-format { transform: translateX(0); }
@@ -59,7 +43,7 @@
         #s-dots:checked ~ label[for="s-dots"] { color: var(--text); }
 
         .right-col { align-items: center; justify-content: center; gap: 2rem; min-height: 500px; }
-        .qr-container { padding: 2rem; background: #FFFFFF; border-radius: 1.5rem; box-shadow: 10px 10px 30px rgba(26,26,26,0.1); display: flex; justify-content: center; align-items: center; min-width: 300px; min-height: 300px; transition: background 0.3s; }
+        .qr-container { padding: 2rem; background: #FFFFFF; border-radius: 1.5rem; box-shadow: 10px 10px 30px var(--neu-lo); display: flex; justify-content: center; align-items: center; min-width: 300px; min-height: 300px; transition: background 0.3s; }
         .qr-placeholder { color: rgba(26,26,26,0.65); font-weight: 700; text-align: center; }
         .export-group { display: none; flex-direction: column; gap: 1rem; width: 100%; max-width: 320px; }
 
@@ -148,21 +132,16 @@
                                 <div class="control-row" style="flex-direction: row; gap: 2rem; margin-bottom: 0;">
                                     <div style="flex:1;">
                                         <div class="control-label" style="font-size: 0.95rem; margin-bottom: 12px;" data-i18n="qr_color_code">Couleur du code</div>
-                                        <div class="swatch-group" id="code-colors">
-                                            <button type="button" class="color-swatch active" style="background: #1A1A1A;" data-color="#1A1A1A" aria-label="Noir"></button>
-                                            <button type="button" class="color-swatch" style="background: #9C77F5;" data-color="#9C77F5" aria-label="Violet"></button>
-                                            <button type="button" class="color-swatch" style="background: #609675;" data-color="#609675" aria-label="Vert"></button>
-                                            <button type="button" class="color-swatch" style="background: #C56A6A;" data-color="#C56A6A" aria-label="Rouge"></button>
-                                            <button type="button" class="color-swatch color-swatch-custom" id="code-custom" aria-haspopup="dialog" data-i18n-aria="qr_custom_color" data-i18n-title="qr_custom_color" aria-label="Couleur personnalisée" title="Couleur personnalisée"></button>
+                                        <div class="color-field-row">
+                                            <input type="text" id="code-hex" class="input-field" value="#1A1A1A" spellcheck="false" maxlength="7" aria-label="Code couleur du code (hex)">
+                                            <button type="button" id="code-swatch" class="color-field-swatch no-select" style="background-color: #1A1A1A;" title="Choisir la couleur" aria-haspopup="dialog"></button>
                                         </div>
                                     </div>
                                     <div style="flex:1;">
                                         <div class="control-label" style="font-size: 0.95rem; margin-bottom: 12px;" data-i18n="qr_color_bg">Couleur du fond</div>
-                                        <div class="swatch-group" id="bg-colors">
-                                            <button type="button" class="color-swatch active" style="background: #FFFFFF;" data-color="#FFFFFF" aria-label="Blanc"></button>
-                                            <button type="button" class="color-swatch" style="background: #F9F4EF;" data-color="#F9F4EF" aria-label="Crème"></button>
-                                            <button type="button" class="color-swatch" style="background: #E5E7EB;" data-color="#E5E7EB" aria-label="Gris clair"></button>
-                                            <button type="button" class="color-swatch color-swatch-custom" id="bg-custom" aria-haspopup="dialog" data-i18n-aria="qr_custom_color" data-i18n-title="qr_custom_color" aria-label="Couleur personnalisée" title="Couleur personnalisée"></button>
+                                        <div class="color-field-row">
+                                            <input type="text" id="bg-hex" class="input-field" value="#FFFFFF" spellcheck="false" maxlength="7" aria-label="Code couleur du fond (hex)">
+                                            <button type="button" id="bg-swatch" class="color-field-swatch no-select" style="background-color: #FFFFFF;" title="Choisir la couleur" aria-haspopup="dialog"></button>
                                         </div>
                                     </div>
                                 </div>

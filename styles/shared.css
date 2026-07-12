@@ -30,9 +30,12 @@
     --content-max-width: 90rem;
     --shadow-out: 6px 6px 12px #e0dad5, -6px -6px 12px rgba(255, 255, 255, 0.4);
     --shadow-in: inset 4px 4px 8px #e0dad5, inset -4px -4px 8px rgba(255, 255, 255, 0.4);
-    /* Neumorphic highlight — bright in light, whisper-faint in dark so the
-       raised/inset components stop glowing white on the dark background. */
+    /* Neumorphic shadow pair — highlight (top-left) and low/shadow (bottom-
+       right). In light both are subtle; in dark the highlight fades and the
+       shadow deepens to near-black so raised buttons keep their edges against
+       the dark background (their fill equals the page colour). */
     --neu-hi: rgba(255, 255, 255, 0.7);
+    --neu-lo: rgba(26, 26, 26, 0.1);
     /* Elevated panels (tooltips, popovers, the colour picker) — plain white
        in light, a raised dark surface in dark rather than a jarring white box. */
     --surface: #fff;
@@ -1129,7 +1132,8 @@ button.primary:active:not(:disabled) {
     --bg: #1B1A1F;
     --text: #F1ECE4;
     --text-rgb: 241, 236, 228;
-    --neu-hi: rgba(255, 255, 255, 0.04);
+    --neu-hi: rgba(255, 255, 255, 0.06);
+    --neu-lo: rgba(0, 0, 0, 0.5);
     --surface: #2A2831;
     --accent: #B49BFF;
     --accent-light: #D8CAFF;

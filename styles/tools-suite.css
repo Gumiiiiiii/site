@@ -48,7 +48,7 @@ button.secondary {
     background: var(--bg);
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 4px 4px 8px rgba(26, 26, 26, 0.1), -4px -4px 8px var(--neu-hi);
+    box-shadow: 4px 4px 8px var(--neu-lo), -4px -4px 8px var(--neu-hi);
     border: none;
     font-family: var(--font);
 }
@@ -58,12 +58,12 @@ button.secondary:hover {
 }
 
 button.secondary:active {
-    box-shadow: inset 3px 3px 6px rgba(26, 26, 26, 0.1), inset -3px -3px 6px var(--neu-hi);
+    box-shadow: inset 3px 3px 6px var(--neu-lo), inset -3px -3px 6px var(--neu-hi);
 }
 
 button.secondary.active {
     color: var(--accent);
-    box-shadow: inset 4px 4px 8px rgba(26, 26, 26, 0.1), inset -4px -4px 8px var(--neu-hi);
+    box-shadow: inset 4px 4px 8px var(--neu-lo), inset -4px -4px 8px var(--neu-hi);
 }
 
 button.primary:disabled {
@@ -71,7 +71,7 @@ button.primary:disabled {
     cursor: not-allowed;
     background: rgba(26, 26, 26, 0.4);
     color: rgba(255, 255, 255, 0.8);
-    box-shadow: 2px 2px 6px rgba(26, 26, 26, 0.1) !important;
+    box-shadow: 2px 2px 6px var(--neu-lo) !important;
 }
 
 .icon-button {
@@ -85,7 +85,7 @@ button.primary:disabled {
     background: var(--bg);
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 4px 4px 8px rgba(26, 26, 26, 0.1), -4px -4px 8px var(--neu-hi);
+    box-shadow: 4px 4px 8px var(--neu-lo), -4px -4px 8px var(--neu-hi);
     padding: 0;
     text-decoration: none;
     flex-shrink: 0;
@@ -97,7 +97,7 @@ button.primary:disabled {
 }
 
 .icon-button:active:not(:disabled) {
-    box-shadow: inset 3px 3px 6px rgba(26, 26, 26, 0.1), inset -3px -3px 6px var(--neu-hi);
+    box-shadow: inset 3px 3px 6px var(--neu-lo), inset -3px -3px 6px var(--neu-hi);
 }
 
 .icon-button svg {
@@ -136,6 +136,33 @@ button.primary:disabled {
     justify-content: space-between;
     align-items: center;
     color: var(--text);
+}
+
+/* Shared colour input used across tools (palette, QR generator, …): a hex
+   text field paired with a swatch that opens the colour picker. Keeps colour
+   selection consistent from one tool to the next. */
+.color-field-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.color-field-row .input-field {
+    height: 54px;
+    padding: 0 1rem;
+    text-align: left;
+    text-transform: uppercase;
+    flex: 1;
+    min-width: 0;
+}
+.color-field-swatch {
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
+    border: 4px solid var(--bg);
+    border-radius: 0.8em;
+    padding: 0;
+    cursor: pointer;
+    box-shadow: 4px 4px 8px var(--neu-lo), -4px -4px 8px var(--neu-hi);
 }
 
 .actions-grid {
@@ -204,7 +231,7 @@ button.primary:disabled {
     background: var(--card-bg);
     padding: 0.4em;
     border-radius: 0.8em;
-    box-shadow: inset 3px 3px 6px rgba(26, 26, 26, 0.1), inset -3px -3px 6px var(--neu-hi);
+    box-shadow: inset 3px 3px 6px var(--neu-lo), inset -3px -3px 6px var(--neu-hi);
     height: 54px;
     width: 100%;
 }
@@ -304,7 +331,7 @@ button.primary:disabled {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 2px 2px 5px rgba(26, 26, 26, 0.1), -2px -2px 5px var(--neu-hi);
+    box-shadow: 2px 2px 5px var(--neu-lo), -2px -2px 5px var(--neu-hi);
     transition: all 0.3s ease;
 }
 
@@ -323,7 +350,7 @@ button.primary:disabled {
 }
 
 .tooltip-wrapper.active .tooltip-icon {
-    box-shadow: inset 2px 2px 5px rgba(26, 26, 26, 0.1), inset -2px -2px 5px var(--neu-hi);
+    box-shadow: inset 2px 2px 5px var(--neu-lo), inset -2px -2px 5px var(--neu-hi);
     color: var(--accent);
 }
 
@@ -343,7 +370,7 @@ button.primary:disabled {
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 15px 35px rgba(26, 26, 26, 0.1), 0 5px 15px rgba(26, 26, 26, 0.04);
+    box-shadow: 0 15px 35px var(--neu-lo), 0 5px 15px rgba(26, 26, 26, 0.04);
     border: 1px solid rgba(var(--text-rgb), 0.04);
     pointer-events: none;
     z-index: 12001;
@@ -743,7 +770,7 @@ button.floating-btn:disabled {
     justify-content: center;
     background: var(--bg);
     border-radius: 1.5em;
-    box-shadow: inset 5px 5px 12px rgba(26, 26, 26, 0.1), inset -5px -5px 12px var(--neu-hi);
+    box-shadow: inset 5px 5px 12px var(--neu-lo), inset -5px -5px 12px var(--neu-hi);
     text-align: center;
     gap: 0.8rem;
     transition: all 0.3s ease;

@@ -24,67 +24,50 @@
     let hasRendered = false;
     let renderTimer = null;
 
-    // One color group = preset swatches + a custom "any color" wheel that opens
-    // the shared color picker. Whatever is active (preset or custom) is applied
-    // live and persisted so it survives a reload.
-    function setupColorGroup(groupId, customId, fallback, apply) {
-        const group = document.getElementById(groupId);
-        if (!group) return;
-        const customBtn = document.getElementById(customId);
-        const presets = Array.from(group.querySelectorAll('.color-swatch:not(.color-swatch-custom)'));
+    // Colour input = hex text field + swatch that opens the shared colour
+    // picker (same pattern as the palette tool). The value is applied live and
+    // persisted so it survives a reload.
+    function normalizeHex(value) {
+        const m = /^#?([0-9a-fA-F]{6})$/.exec(String(value || '').trim());
+        return m ? '#' + m[1].toUpperCase() : null;
+    }
+    function setupColorField(hexId, swatchId, prefKey, fallback, apply) {
+        const hexInput = document.getElementById(hexId);
+        const swatchBtn = document.getElementById(swatchId);
+        if (!hexInput || !swatchBtn) return;
 
-        function clearActive() {
-            group.querySelectorAll('.color-swatch').forEach(function (s) { s.classList.remove('active'); });
-        }
-        function resetCustomWheel() {
-            if (customBtn) { customBtn.style.background = ''; customBtn.removeAttribute('data-value'); }
-        }
-        function selectPreset(swatch, persist) {
-            clearActive();
-            swatch.classList.add('active');
-            resetCustomWheel();
-            apply(swatch.dataset.color);
-            if (persist && window.GumiPrefs) window.GumiPrefs.set('swatch:' + groupId, swatch.dataset.color);
-        }
-        function selectCustom(hex, persist) {
-            clearActive();
-            if (customBtn) {
-                customBtn.classList.add('active');
-                customBtn.style.background = hex;
-                customBtn.setAttribute('data-value', hex);
-            }
+        function setColor(hex, persist) {
+            hexInput.value = hex;
+            swatchBtn.style.backgroundColor = hex;
             apply(hex);
-            if (persist && window.GumiPrefs) window.GumiPrefs.set('swatch:' + groupId, hex);
+            if (persist && window.GumiPrefs) window.GumiPrefs.set(prefKey, hex);
         }
 
-        presets.forEach(function (swatch) {
-            swatch.addEventListener('click', function () { selectPreset(swatch, true); });
+        // Live-apply while typing a valid hex, but don't clobber what the user
+        // is mid-typing in the field itself.
+        hexInput.addEventListener('input', function () {
+            const hex = normalizeHex(hexInput.value);
+            if (!hex) return;
+            swatchBtn.style.backgroundColor = hex;
+            apply(hex);
+            if (window.GumiPrefs) window.GumiPrefs.set(prefKey, hex);
         });
-        if (customBtn && window.GumiColorPicker) {
-            window.GumiColorPicker.attach(customBtn, {
-                get: function () { return customBtn.getAttribute('data-value') || fallback; },
-                onChange: function (hex) { selectCustom(hex, true); }
+
+        if (window.GumiColorPicker) {
+            window.GumiColorPicker.attach(swatchBtn, {
+                get: function () { return normalizeHex(hexInput.value) || fallback; },
+                onChange: function (hex) { setColor(hex, true); }
             });
         }
 
-        // Restore last choice: a saved preset re-activates it; anything else is
-        // treated as a custom color.
-        const saved = window.GumiPrefs && window.GumiPrefs.get('swatch:' + groupId);
-        const match = saved && presets.find(function (s) {
-            return s.dataset.color.toUpperCase() === String(saved).toUpperCase();
-        });
-        if (match) selectPreset(match, false);
-        else if (saved) selectCustom(saved, false);
-        else {
-            const active = presets.find(function (s) { return s.classList.contains('active'); }) || presets[0];
-            if (active) apply(active.dataset.color);
-        }
+        const saved = window.GumiPrefs && window.GumiPrefs.get(prefKey);
+        setColor(normalizeHex(saved) || normalizeHex(hexInput.value) || fallback, false);
     }
 
-    setupColorGroup('code-colors', 'code-custom', '#9C77F5', function (color) {
+    setupColorField('code-hex', 'code-swatch', 'qr-code-color', '#1A1A1A', function (color) {
         selectedCodeColor = color; scheduleRender();
     });
-    setupColorGroup('bg-colors', 'bg-custom', '#F9F4EF', function (color) {
+    setupColorField('bg-hex', 'bg-swatch', 'qr-bg-color', '#FFFFFF', function (color) {
         selectedBgColor = color; scheduleRender();
     });
 
