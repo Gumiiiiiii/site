@@ -20,7 +20,8 @@ const MIME = {
     '.ico': 'image/x-icon',
     '.webp': 'image/webp',
     '.woff2': 'font/woff2',
-    '.webmanifest': 'application/manifest+json'
+    '.webmanifest': 'application/manifest+json',
+    '.xml': 'application/xml; charset=utf-8'
 };
 
 http.createServer((req, res) => {

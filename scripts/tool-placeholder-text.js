@@ -15,7 +15,8 @@
 
     const MIN_PARAGRAPHS = 1;
     const MAX_PARAGRAPHS = 20;
-    let paragraphCount = 3;
+    let paragraphCount = Math.max(MIN_PARAGRAPHS, Math.min(MAX_PARAGRAPHS,
+        Number(window.GumiPrefs && window.GumiPrefs.get('ph-count', 3)) || 3));
     let currentText = '';
 
     const WORDS = {
@@ -154,11 +155,13 @@
 
     countMinus.addEventListener('click', function () {
         if (paragraphCount > MIN_PARAGRAPHS) paragraphCount -= 1;
+        if (window.GumiPrefs) window.GumiPrefs.set('ph-count', paragraphCount);
         updateCountControls();
     });
 
     countPlus.addEventListener('click', function () {
         if (paragraphCount < MAX_PARAGRAPHS) paragraphCount += 1;
+        if (window.GumiPrefs) window.GumiPrefs.set('ph-count', paragraphCount);
         updateCountControls();
     });
 

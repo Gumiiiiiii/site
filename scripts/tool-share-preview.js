@@ -13,7 +13,9 @@
 
     let lastData = null;
     let isFetching = false;
-    let activeIndex = 0;
+    let activeIndex = window.GumiPrefs
+        ? Math.min(8, Math.max(0, Number(window.GumiPrefs.get('sp-platform', 0)) || 0))
+        : 0;
 
     function t(key) {
         return window.GumiI18n ? window.GumiI18n.t(key) : key;
@@ -126,6 +128,7 @@
             tab.textContent = p.name;
             tab.addEventListener('click', () => {
                 activeIndex = index;
+                if (window.GumiPrefs) window.GumiPrefs.set('sp-platform', index);
                 syncTabs();
                 if (lastData) renderPreview(lastData);
             });

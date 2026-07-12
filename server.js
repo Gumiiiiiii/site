@@ -10,6 +10,9 @@ app.use(cors({
     methods: ['GET']
 }));
 
+// Cheap liveness probe for uptime monitors and keep-warm pings.
+app.get('/health', (req, res) => res.json({ ok: true }));
+
 app.get('/api/get-video', async (req, res) => {
     const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket.remoteAddress;
     if (isRateLimited(ip)) {

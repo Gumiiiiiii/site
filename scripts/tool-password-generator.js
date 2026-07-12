@@ -24,7 +24,8 @@
 
     const MIN_LENGTH = 4;
     const MAX_LENGTH = 64;
-    let passwordLength = 16;
+    let passwordLength = Math.max(MIN_LENGTH, Math.min(MAX_LENGTH,
+        Number(window.GumiPrefs && window.GumiPrefs.get('pw-length', 16)) || 16));
     let currentPassword = '';
 
     const SETS = {
@@ -160,12 +161,14 @@
 
     lenMinus.addEventListener('click', function () {
         if (passwordLength > MIN_LENGTH) passwordLength -= 1;
+        if (window.GumiPrefs) window.GumiPrefs.set('pw-length', passwordLength);
         updateLengthControls();
         if (currentPassword) generate();
     });
 
     lenPlus.addEventListener('click', function () {
         if (passwordLength < MAX_LENGTH) passwordLength += 1;
+        if (window.GumiPrefs) window.GumiPrefs.set('pw-length', passwordLength);
         updateLengthControls();
         if (currentPassword) generate();
     });

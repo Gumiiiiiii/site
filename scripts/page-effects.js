@@ -37,6 +37,17 @@
         resizeTimeout = setTimeout(drawDots, 100);
     });
 
+    // Offline support: the service worker precaches the tools so the
+    // "works offline" tooltip tags hold true. Skipped on localhost so the
+    // dev server always serves fresh files.
+    if ('serviceWorker' in navigator &&
+        window.location.protocol === 'https:' &&
+        !['localhost', '127.0.0.1'].includes(window.location.hostname)) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('/sw.js').catch(function () {});
+        });
+    }
+
     // Respect reduced-motion: keep native scrolling, skip the smooth-scroll layer.
     if (!window.Lenis || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 

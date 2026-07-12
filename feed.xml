@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+    <title>Gumi. — Expérimentations</title>
+    <link>https://gumi.ch/experiments</link>
+    <atom:link href="https://gumi.ch/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Expérimentations digitales et retours d'expérience de Pierre (Gumi) : design, développement web et nouvelles technologies.</description>
+    <language>fr</language>
+    <item>
+        <title>De Webflow à une architecture décentralisée : comment j'ai repensé le site d'ArdaCraft</title>
+        <link>https://gumi.ch/experiments/ardacraft</link>
+        <guid isPermaLink="true">https://gumi.ch/experiments/ardacraft</guid>
+        <pubDate>Sat, 11 Jul 2026 00:00:00 GMT</pubDate>
+        <description>Participer au succès d'une communauté de passionnés tout en me challengeant et en développant de nouvelles compétences : retour sur un chantier de 150 heures.</description>
+    </item>
+</channel>
+</rss>

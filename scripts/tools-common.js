@@ -74,6 +74,85 @@
         element.style.height = element.scrollHeight + 'px';
     };
 
+    // Per-tool preference storage: each tool page gets one localStorage entry
+    // keyed by its path (the /en prefix is stripped so both languages share
+    // the same preferences). Settings only, never user content.
+    window.GumiPrefs = (function () {
+        const KEY = 'gumi-prefs:' + window.location.pathname.replace(/^\/en(?=\/|$)/, '');
+
+        function read() {
+            try {
+                return JSON.parse(localStorage.getItem(KEY)) || {};
+            } catch (err) {
+                return {};
+            }
+        }
+
+        function write(prefs) {
+            try {
+                localStorage.setItem(KEY, JSON.stringify(prefs));
+            } catch (err) {
+                // Storage full or blocked: preferences just don't persist.
+            }
+        }
+
+        return {
+            read,
+            get(name, fallback) {
+                const prefs = read();
+                return name in prefs ? prefs[name] : fallback;
+            },
+            set(name, value) {
+                const prefs = read();
+                prefs[name] = value;
+                write(prefs);
+            }
+        };
+    })();
+
+    // Auto-persistence for the common controls: radios (by name) and
+    // checkboxes (by id) are restored on load and saved on change. Restores
+    // dispatch a change event so dependent UI (disabled inputs, sliders)
+    // stays consistent. Runs on DOMContentLoaded, after the tool scripts
+    // have built any dynamic controls.
+    function autoPersistInputs() {
+        const prefs = window.GumiPrefs.read();
+
+        Object.keys(prefs).forEach(function (key) {
+            if (key.indexOf('radio:') === 0) {
+                const el = document.querySelector(
+                    'input[type="radio"][name="' + CSS.escape(key.slice(6)) + '"][value="' + CSS.escape(String(prefs[key])) + '"]'
+                );
+                if (el && !el.checked) {
+                    el.checked = true;
+                    el.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            } else if (key.indexOf('check:') === 0) {
+                const el = document.getElementById(key.slice(6));
+                if (el && el.type === 'checkbox' && el.checked !== prefs[key]) {
+                    el.checked = Boolean(prefs[key]);
+                    el.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+        });
+
+        document.addEventListener('change', function (event) {
+            const el = event.target;
+            if (!(el instanceof HTMLInputElement)) return;
+            if (el.type === 'radio' && el.name) {
+                window.GumiPrefs.set('radio:' + el.name, el.value);
+            } else if (el.type === 'checkbox' && el.id) {
+                window.GumiPrefs.set('check:' + el.id, el.checked);
+            }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', autoPersistInputs);
+    } else {
+        autoPersistInputs();
+    }
+
     // Custom color picker popover, replacing the native <input type="color">
     // dialog so the tools keep one visual language. One popover is shared by
     // every trigger on the page. Usage:
@@ -132,8 +211,8 @@
             panel.className = 'gumi-cp';
             panel.setAttribute('role', 'dialog');
             panel.innerHTML =
-                '<div class="gumi-cp-sv"><div class="gumi-cp-thumb"></div></div>' +
-                '<div class="gumi-cp-hue"><div class="gumi-cp-hue-thumb"></div></div>' +
+                '<div class="gumi-cp-sv" tabindex="0" aria-label="Saturation et luminosité (flèches pour ajuster)"><div class="gumi-cp-thumb"></div></div>' +
+                '<div class="gumi-cp-hue" tabindex="0" aria-label="Teinte (flèches pour ajuster)"><div class="gumi-cp-hue-thumb"></div></div>' +
                 '<div class="gumi-cp-row"><span class="gumi-cp-preview"></span>' +
                 '<input class="gumi-cp-hex" spellcheck="false" maxlength="7" aria-label="Hex"></div>';
             document.body.appendChild(panel);
@@ -152,6 +231,28 @@
             });
             bindDrag(hueTrack, (x) => {
                 current.h = x * 360;
+                emit();
+            });
+
+            // Keyboard parity with the native color input: arrows nudge the
+            // values, Shift makes bigger steps.
+            svArea.addEventListener('keydown', (event) => {
+                const step = event.shiftKey ? 0.1 : 0.02;
+                if (event.key === 'ArrowLeft') current.s = Math.max(0, current.s - step);
+                else if (event.key === 'ArrowRight') current.s = Math.min(1, current.s + step);
+                else if (event.key === 'ArrowUp') current.v = Math.min(1, current.v + step);
+                else if (event.key === 'ArrowDown') current.v = Math.max(0, current.v - step);
+                else return;
+                event.preventDefault();
+                emit();
+            });
+            hueTrack.addEventListener('keydown', (event) => {
+                const step = event.shiftKey ? 15 : 3;
+                if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') current.h -= step;
+                else if (event.key === 'ArrowRight' || event.key === 'ArrowUp') current.h += step;
+                else return;
+                event.preventDefault();
+                current.h = (current.h + 360) % 360;
                 emit();
             });
 
@@ -232,6 +333,7 @@
             }
             panel.style.left = Math.max(12, left) + 'px';
             panel.style.top = top + 'px';
+            svArea.focus();
         }
 
         function close() {

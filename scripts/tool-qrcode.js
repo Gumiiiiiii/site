@@ -17,11 +17,20 @@
         const group = document.getElementById(groupId);
         if (!group) return;
         const swatches = group.querySelectorAll('.color-swatch');
+
+        // Restore the last picked color for this group, if still offered.
+        const saved = window.GumiPrefs && window.GumiPrefs.get('swatch:' + groupId);
         swatches.forEach(function (swatch) {
+            if (saved && swatch.dataset.color === saved) {
+                swatches.forEach(function (s) { s.classList.remove('active'); });
+                swatch.classList.add('active');
+                onPick(saved);
+            }
             swatch.addEventListener('click', function () {
                 swatches.forEach(function (s) { s.classList.remove('active'); });
                 swatch.classList.add('active');
                 onPick(swatch.dataset.color);
+                if (window.GumiPrefs) window.GumiPrefs.set('swatch:' + groupId, swatch.dataset.color);
             });
         });
     }

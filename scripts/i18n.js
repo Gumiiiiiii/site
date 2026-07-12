@@ -47,16 +47,6 @@
             fr: 'Transformations, nettoyage et remplacements avancés directement dans le navigateur.',
             en: 'Advanced transformations, cleanup and replacements right in the browser.'
         },
-        tool_palette_title: { fr: 'Générateur de palettes', en: 'Palette generator' },
-        tool_palette_desc: {
-            fr: 'Créez des palettes de couleurs harmonieuses et exportez-les en un clic.',
-            en: 'Create harmonious color palettes and export them in one click.'
-        },
-        tool_mockup_title: { fr: 'Générateur de mockups', en: 'Mockup generator' },
-        tool_mockup_desc: {
-            fr: 'Créez des mises en situation photo-réalistes pour vos designs en un clic.',
-            en: 'Create photo-realistic showcases for your designs in one click.'
-        },
         tool_placeholder_title: { fr: 'Texte de remplissage', en: 'Placeholder text' },
         tool_placeholder_desc: {
             fr: 'Générez du faux texte lorem ipsum, anglais ou français, calibré en paragraphes.',
@@ -71,6 +61,11 @@
         tool_password_desc: {
             fr: 'Mots de passe robustes et aléatoires, générés localement dans votre navigateur.',
             en: 'Strong random passwords, generated locally in your browser.'
+        },
+        tool_social_title: { fr: 'Formats réseaux sociaux', en: 'Social media formats' },
+        tool_social_desc: {
+            fr: 'Déclinez un visuel aux formats Instagram, X, LinkedIn, YouTube et plus, en local.',
+            en: 'Crop one visual into Instagram, X, LinkedIn, YouTube formats and more, locally.'
         },
         tool_sharepre_title: { fr: 'Aperçu de partage', en: 'Share preview' },
         tool_sharepre_desc: {
@@ -138,6 +133,80 @@
         contrast_tooltip: {
             fr: "<strong>Comment ça marche ?</strong><br><br>Cet outil suit les Web Content Accessibility Guidelines (WCAG), qui définissent deux niveaux de contraste : AA (minimum) et AAA (renforcé).<br><br>AA : ratio d'au moins 4,5:1 pour le texte normal et 3:1 pour le grand texte (18pt+) ou le gras.<br>AAA : ratio d'au moins 7:1 pour le texte normal et 4,5:1 pour le grand texte ou le gras.<br><br><a href=\"https://www.w3.org/WAI/standards-guidelines/wcag/\" target=\"_blank\" rel=\"noopener\" style=\"color: var(--accent); font-weight: 800;\">En savoir plus</a>",
             en: "<strong>How does it work?</strong><br><br>This tool follows the Web Content Accessibility Guidelines (WCAG), which define two contrast levels: AA (minimum) and AAA (enhanced).<br><br>AA: a ratio of at least 4.5:1 for normal text and 3:1 for large text (18pt+) or bold text.<br>AAA: a ratio of at least 7:1 for normal text and 4.5:1 for large text or bold text.<br><br><a href=\"https://www.w3.org/WAI/standards-guidelines/wcag/\" target=\"_blank\" rel=\"noopener\" style=\"color: var(--accent); font-weight: 800;\">Learn more</a>"
+        },
+
+        // Document titles + meta descriptions (tab title / search snippet).
+        // Article pages manage their own title in article-page.js.
+        doc_home_title: { fr: 'Gumi. — Outils web & expérimentations', en: 'Gumi. — Web tools & experiments' },
+        doc_home_desc: {
+            fr: 'Gumi rassemble des outils web pratiques et des expérimentations digitales, conçus par curiosité pour donner vie à des idées.',
+            en: 'Gumi gathers practical web tools and digital experiments, built out of curiosity to bring ideas to life.'
+        },
+        doc_outils_title: { fr: 'Outils - Gumi.', en: 'Tools - Gumi.' },
+        doc_outils_desc: {
+            fr: 'Explorez les outils Gumi : conversion de fichiers, compression de vidéos, téléchargement de médias, QR code, contraste, texte de remplissage, mots de passe et édition de texte dans le navigateur.',
+            en: 'Explore the Gumi tools: file conversion, video compression, media download, QR codes, contrast, filler text, passwords and text editing in the browser.'
+        },
+        doc_exp_title: { fr: 'Expérimentations - Gumi.', en: 'Experiments - Gumi.' },
+        doc_exp_desc: {
+            fr: 'Découvrez les expérimentations de Gumi : concepts exploratoires, concepts visuels et prototypes pour repousser les limites des technologies actuelles.',
+            en: "Discover Gumi's experiments: exploratory concepts, visual ideas and prototypes pushing the limits of current technologies."
+        },
+        doc_brand_title: { fr: 'Gumi. Brand Guidelines', en: 'Gumi. Brand Guidelines' },
+        doc_brand_desc: {
+            fr: 'Les brand guidelines Gumi: ton, systeme visuel, palette, typographie et principes de conception pour garder une identite coherente.',
+            en: 'The Gumi brand guidelines: tone, visual system, palette, typography and design principles for a coherent identity.'
+        },
+        doc_404_title: { fr: 'Page introuvable | Gumi.', en: 'Page not found | Gumi.' },
+        doc_conv_title: { fr: 'Convertisseur de fichiers - Gumi.', en: 'File converter - Gumi.' },
+        doc_conv_desc: {
+            fr: 'Convertissez localement des fichiers PDF, PSD, AI et images vers PNG, JPG, WebP, AVIF ou PDF, avec compression, redimensionnement et renommage.',
+            en: 'Convert PDF, PSD, AI files and images to PNG, JPG, WebP, AVIF or PDF locally, with compression, resizing and renaming.'
+        },
+        doc_qr_title: { fr: 'Générateur QR Code - Gumi.', en: 'QR code generator - Gumi.' },
+        doc_qr_desc: {
+            fr: "Créez des QR codes personnalisés avec couleurs, formes et export PNG ou SVG dans l'outil Gumi.",
+            en: 'Create custom QR codes with colors, shapes and PNG or SVG export in the Gumi tool.'
+        },
+        doc_media_title: { fr: 'Téléchargeur de médias - Gumi.', en: 'Media downloader - Gumi.' },
+        doc_media_desc: {
+            fr: 'Téléchargez un ou plusieurs médias depuis vos liens, avec extraction du lien direct et options de format.',
+            en: 'Download one or more media files from your links, with direct-link extraction and format options.'
+        },
+        doc_txt_title: { fr: 'Modificateur de Texte - Gumi.', en: 'Text modifier - Gumi.' },
+        doc_txt_desc: {
+            fr: 'Modifiez rapidement vos textes: casse, nettoyage, filtres avances et transformations, directement dans le navigateur.',
+            en: 'Quickly transform your text: case, cleanup, advanced filters and replacements, right in the browser.'
+        },
+        doc_contrast_title: { fr: 'Analyseur de contraste - Gumi.', en: 'Contrast checker - Gumi.' },
+        doc_contrast_desc: {
+            fr: 'Vérifiez le contraste de vos couleurs selon les normes WCAG : ratio, niveaux AA/AAA pour petit et grand texte, avec aperçu en direct.',
+            en: 'Check your color contrast against WCAG standards: ratio, AA/AAA levels for small and large text, with a live preview.'
+        },
+        doc_ph_title: { fr: 'Texte de remplissage - Gumi.', en: 'Placeholder text - Gumi.' },
+        doc_ph_desc: {
+            fr: 'Générez du texte de remplissage lorem ipsum, pseudo-anglais ou pseudo-français, avec contrôle du nombre et de la taille des paragraphes.',
+            en: 'Generate lorem ipsum, English-ish or French-ish filler text, with control over paragraph count and size.'
+        },
+        doc_vc_title: { fr: 'Compresseur de vidéos - Gumi.', en: 'Video compressor - Gumi.' },
+        doc_vc_desc: {
+            fr: 'Compressez localement vos vidéos MP4, MOV, AVI, WebM et MKV dans le navigateur, sans upload, avec choix de la qualité et de la résolution.',
+            en: 'Compress MP4, MOV, AVI, WebM and MKV videos locally in the browser, no upload, with quality and resolution options.'
+        },
+        doc_pw_title: { fr: 'Générateur de mots de passe - Gumi.', en: 'Password generator - Gumi.' },
+        doc_pw_desc: {
+            fr: 'Générez des mots de passe robustes et aléatoires localement dans votre navigateur : longueur, majuscules, chiffres, symboles et indicateur de solidité.',
+            en: 'Generate strong random passwords locally in your browser: length, uppercase, digits, symbols and a strength indicator.'
+        },
+        doc_sp_title: { fr: 'Aperçu de partage - Gumi.', en: 'Share preview - Gumi.' },
+        doc_sp_desc: {
+            fr: "Prévisualisez l'apparence de vos liens sur X, LinkedIn, Facebook, WhatsApp, Discord et plus, et vérifiez vos balises Open Graph.",
+            en: 'Preview how your links look on X, LinkedIn, Facebook, WhatsApp, Discord and more, and check your Open Graph tags.'
+        },
+        doc_sr_title: { fr: 'Formats réseaux sociaux - Gumi.', en: 'Social media formats - Gumi.' },
+        doc_sr_desc: {
+            fr: 'Déclinez un visuel aux formats Instagram, X, LinkedIn, YouTube et plus : recadrage local avec point focal, sans upload.',
+            en: 'Crop one visual into Instagram, X, LinkedIn, YouTube formats and more: local cropping with a focal point, no upload.'
         },
 
         // Footer
@@ -327,6 +396,37 @@
             en: '<strong>100% local generation:</strong><br><br>1. Choose the length and character types.<br>2. Generate as many times as you like.<br>3. Click the password or the button to copy it.<br><br><i>It uses the browser\'s cryptographic random generator. Nothing is sent to or stored on our servers.</i>'
         },
 
+        // Social formats tool
+        sr_dropzone: { fr: 'Déposez votre visuel ici', en: 'Drop your visual here' },
+        sr_dropzone_hint: { fr: 'PNG, JPG, WebP...', en: 'PNG, JPG, WebP...' },
+        sr_focal_label: { fr: 'Point focal', en: 'Focal point' },
+        sr_focal_hint: {
+            fr: 'Déplacez le point : chaque format restera cadré dessus.',
+            en: 'Move the dot: every format stays framed around it.'
+        },
+        sr_output_label: { fr: 'Format de sortie', en: 'Output format' },
+        sr_formats_label: { fr: 'Formats à générer', en: 'Formats to generate' },
+        sr_export_btn: { fr: 'Générer les formats', en: 'Generate formats' },
+        sr_exporting: { fr: 'Génération...', en: 'Generating...' },
+        sr_download: { fr: 'Télécharger', en: 'Download' },
+        sr_download_all: { fr: 'Tout télécharger', en: 'Download all' },
+        sr_placeholder: { fr: 'Vos déclinaisons apparaîtront ici...', en: 'Your exports will appear here...' },
+        sr_err_image: { fr: 'Veuillez déposer une image.', en: 'Please drop an image.' },
+        sr_err_none: { fr: 'Cochez au moins un format.', en: 'Select at least one format.' },
+        sr_err_export: { fr: "L'export a échoué, réessayez.", en: 'Export failed, please try again.' },
+        sr_f_post: { fr: 'Post', en: 'Post' },
+        sr_f_portrait: { fr: 'Portrait', en: 'Portrait' },
+        sr_f_story: { fr: 'Story / Reel', en: 'Story / Reel' },
+        sr_f_cover: { fr: 'Couverture', en: 'Cover' },
+        sr_f_header: { fr: 'Bannière', en: 'Header' },
+        sr_f_banner: { fr: 'Bannière', en: 'Banner' },
+        sr_f_thumb: { fr: 'Miniature', en: 'Thumbnail' },
+        sr_f_pin: { fr: 'Épingle', en: 'Pin' },
+        sr_tooltip: {
+            fr: "<strong>Un visuel, tous les formats :</strong><br><br>1. Déposez une image.<br>2. Placez le point focal : chaque recadrage restera centré dessus.<br>3. Cochez les formats voulus et exportez.<br><br><i>Le recadrage se fait dans votre navigateur, aucune image n'est envoyée sur nos serveurs.</i>",
+            en: '<strong>One visual, every format:</strong><br><br>1. Drop an image.<br>2. Place the focal point: every crop stays centered on it.<br>3. Tick the formats you need and export.<br><br><i>Cropping happens in your browser, no image is ever sent to our servers.</i>'
+        },
+
         // Share preview tool
         sp_url_label: { fr: 'Lien à prévisualiser', en: 'Link to preview' },
         sp_url_placeholder: { fr: 'https://votre-site.com/page', en: 'https://your-site.com/page' },
@@ -403,6 +503,12 @@
         document.querySelectorAll('[data-i18n-html]').forEach((el) => {
             const entry = DICT[el.getAttribute('data-i18n-html')];
             if (entry && entry[lang]) el.innerHTML = entry[lang];
+        });
+
+        // <meta> tags translated via their content attribute (description).
+        document.querySelectorAll('[data-i18n-content]').forEach((el) => {
+            const entry = DICT[el.getAttribute('data-i18n-content')];
+            if (entry && entry[lang]) el.setAttribute('content', entry[lang]);
         });
 
         document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {

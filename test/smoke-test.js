@@ -98,6 +98,9 @@ const CHECKS = [
     { path: '/tools/share-preview', assert(d) {
         if (!d.getElementById('sp-url')) return 'missing URL input';
     } },
+    { path: '/tools/social-formats', assert(d) {
+        if (d.querySelectorAll('#sr-format-list .sr-format-row').length < 10) return 'format list not built';
+    } },
     { path: '/brand-guidelines' }
 ];
 

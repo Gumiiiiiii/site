@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}}catch(e){}})();</script>
+    <link rel="preload" href="../fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F9F4EF">
+    <link rel="canonical" href="https://gumi.ch/tools/social-formats">
+    <link rel="alternate" hreflang="fr" href="https://gumi.ch/tools/social-formats">
+    <link rel="alternate" hreflang="en" href="https://gumi.ch/en/tools/social-formats">
+    <link rel="alternate" hreflang="x-default" href="https://gumi.ch/tools/social-formats">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Gumi.">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:title" content="Formats réseaux sociaux - Gumi.">
+    <meta property="og:description" content="Déclinez un visuel aux formats Instagram, X, LinkedIn, YouTube et plus : recadrage local avec point focal, sans upload.">
+    <meta property="og:url" content="https://gumi.ch/tools/social-formats">
+    <meta property="og:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Formats réseaux sociaux - Gumi.">
+    <meta name="twitter:description" content="Déclinez un visuel aux formats Instagram, X, LinkedIn, YouTube et plus : recadrage local avec point focal, sans upload.">
+    <meta name="twitter:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
+    <title data-i18n="doc_sr_title">Formats réseaux sociaux - Gumi.</title>
+    <meta name="description" data-i18n-content="doc_sr_desc" content="Déclinez un visuel aux formats Instagram, X, LinkedIn, YouTube et plus : recadrage local avec point focal, sans upload.">
+    <link rel="icon" type="image/png" sizes="32x32" href="../media/favicon-32.png">
+    <link rel="apple-touch-icon" href="../media/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <link rel="stylesheet" href="../styles/shared.css">
+    <link rel="stylesheet" href="../styles/tools-suite.css">
+
+    <style>
+        /* Focal point picker: the dot marks where every crop stays centered. */
+        .sr-focal {
+            position: relative;
+            display: none;
+            width: 100%;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-out);
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .sr-focal img {
+            display: block;
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            background: rgba(26, 26, 26, 0.04);
+        }
+
+        .sr-focal-dot {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            background: rgba(156, 119, 245, 0.85);
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .sr-focal-hint {
+            font-size: 0.8rem;
+            font-weight: 600;
+            opacity: 0.6;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .sr-format-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 100%;
+        }
+
+        .sr-format-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 9px 12px;
+            border-radius: 0.8rem;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .sr-format-row:hover { background: rgba(26, 26, 26, 0.04); }
+
+        .sr-format-row input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .sr-format-name { font-weight: 700; font-size: 0.95rem; flex: 1; }
+        .sr-format-dims { font-size: 0.8rem; font-weight: 700; opacity: 0.45; }
+
+        .sr-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 1.25rem;
+            width: 100%;
+        }
+
+        .sr-card {
+            background: var(--bg);
+            border-radius: 1.2rem;
+            box-shadow: var(--shadow-out);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sr-card-thumb {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: contain;
+            background: rgba(26, 26, 26, 0.05);
+            display: block;
+        }
+
+        .sr-card-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 3px; }
+        .sr-card-title { font-weight: 800; font-size: 0.9rem; }
+        .sr-card-meta { font-size: 0.78rem; font-weight: 700; opacity: 0.5; }
+
+        .sr-card-dl {
+            margin-top: 9px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 9px 0;
+            border: none;
+            border-radius: 0.7rem;
+            background: var(--text);
+            color: var(--bg);
+            font-family: var(--font);
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .sr-card-dl:hover { opacity: 0.85; }
+        .sr-card-dl svg { width: 15px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+        .sr-placeholder {
+            color: rgba(26, 26, 26, 0.3);
+            font-weight: 700;
+            text-align: center;
+            padding: 4rem 1rem;
+            width: 100%;
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Formats réseaux sociaux — Gumi.",
+        "description": "Déclinez un visuel aux formats Instagram, X, LinkedIn, YouTube et plus : recadrage local avec point focal, sans upload.",
+        "url": "https://gumi.ch/tools/social-formats",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "inLanguage": "fr",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+        }
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
+    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+
+    <nav class="navbar" data-navbar-root></nav>
+
+    <div class="main-wrapper" id="main" role="main">
+        <a href="../outils" class="back-link no-select" title="Retour aux outils">
+            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <span data-i18n="back_tools">Retour aux outils</span>
+        </a>
+
+        <div class="header-container">
+            <h1><span data-i18n="tool_social_title">Formats réseaux sociaux</span><span class="dot">.</span></h1>
+            <div class="tooltip-wrapper no-select" style="margin-left: 10px;">
+                <button type="button" class="tooltip-icon" onclick="toggleTooltip(event)" aria-expanded="false" aria-label="Comment ça marche ?" title="Comment ça marche ?">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                </button>
+                <div class="tooltip-content">
+                    <div data-i18n-html="sr_tooltip">
+                        <strong>Un visuel, tous les formats :</strong><br><br>
+                        1. Déposez une image.<br>
+                        2. Placez le point focal : chaque recadrage restera centré dessus.<br>
+                        3. Cochez les formats voulus et exportez.<br><br>
+                        <i>Le recadrage se fait dans votre navigateur, aucune image n'est envoyée sur nos serveurs.</i>
+                    </div>
+                    <div class="tooltip-status is-offline">
+                        <span class="tooltip-status-dot" aria-hidden="true"></span>
+                        <span data-i18n="tooltip_offline">Fonctionne hors ligne</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="left-col">
+                <div class="controls-panel">
+                    <div id="drop-zone" class="drop-zone no-select" tabindex="0">
+                        <div class="drop-zone-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg></div>
+                        <p data-i18n="sr_dropzone">Déposez votre visuel ici</p>
+                        <span class="text-small" data-i18n="sr_dropzone_hint">PNG, JPG, WebP...</span>
+                    </div>
+                    <input type="file" id="file-input" accept="image/*" style="display:none;">
+
+                    <div class="control-row" style="margin-top: 1.25rem;">
+                        <div class="control-label" data-i18n="sr_focal_label">Point focal</div>
+                        <div class="sr-focal" id="sr-focal">
+                            <img id="sr-focal-img" alt="">
+                            <div class="sr-focal-dot" id="sr-focal-dot" style="left: 50%; top: 50%;"></div>
+                        </div>
+                        <span class="sr-focal-hint" id="sr-focal-hint" data-i18n="sr_focal_hint">Déplacez le point : chaque format restera cadré dessus.</span>
+                    </div>
+
+                    <div class="control-row">
+                        <div class="control-label" data-i18n="sr_output_label">Format de sortie</div>
+                        <div class="segmented-control format-3 no-select">
+                            <input type="radio" id="sr-jpg" name="sr-format" value="jpeg" checked>
+                            <input type="radio" id="sr-png" name="sr-format" value="png">
+                            <input type="radio" id="sr-webp" name="sr-format" value="webp">
+                            <div class="slider-format"></div>
+                            <label for="sr-jpg">JPG</label>
+                            <label for="sr-png">PNG</label>
+                            <label for="sr-webp">WebP</label>
+                        </div>
+                    </div>
+
+                    <div class="control-row">
+                        <div class="control-label" data-i18n="sr_formats_label">Formats à générer</div>
+                        <div class="sr-format-list" id="sr-format-list"></div>
+                    </div>
+
+                    <button id="sr-export-btn" class="primary no-select" style="margin-top: 1rem;" disabled data-i18n="sr_export_btn">Générer les formats</button>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <div class="sr-placeholder" id="sr-placeholder" data-i18n="sr_placeholder">Vos déclinaisons apparaîtront ici...</div>
+                <div class="sr-results" id="sr-results" hidden></div>
+            </div>
+        </div>
+    </div>
+
+    <button id="sr-download-all" class="primary floating-btn no-select hidden">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        <span data-i18n="sr_download_all">Tout télécharger</span>
+    </button>
+
+    <script src="../scripts/vendor/lenis.min.js"></script>
+    <script src="../scripts/i18n.js"></script>
+    <script src="../scripts/navbar.js"></script>
+    <script src="../scripts/page-effects.js"></script>
+    <script src="../scripts/tools-common.js"></script>
+    <script src="../scripts/tool-social-formats.js"></script>
+    <script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+</body>
+</html>

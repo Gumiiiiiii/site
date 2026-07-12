@@ -8,6 +8,9 @@
     const formatBtns = document.querySelectorAll('.format-btn');
     const thumbToggle = document.getElementById('thumb-toggle');
     const dlCount = document.getElementById('dl-count');
+    // Primary backend: Oracle Cloud Always Free VM (no cold starts).
+    // sslip.io maps the VM's public IP to a hostname Caddy holds a TLS cert for.
+    const ORACLE_API_BASE = 'https://141.145.212.205.sslip.io/api/get-video';
     const RENDER_API_BASE = 'https://site-xyvc.onrender.com/api/get-video';
     const LOCAL_API_BASE = 'http://localhost:10000/api/get-video';
 
@@ -25,8 +28,11 @@
 
         if (isLocal) {
             candidates.push(LOCAL_API_BASE);
+            candidates.push(ORACLE_API_BASE);
             candidates.push(RENDER_API_BASE);
         } else {
+            // Oracle VM first, then Vercel and Render as fallbacks.
+            candidates.push(ORACLE_API_BASE);
             candidates.push('/api/get-video');
             candidates.push(RENDER_API_BASE);
         }

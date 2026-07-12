@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "node dev-server.js",
-    "test": "node test/smoke-test.js"
+    "test": "node test/smoke-test.js && node test/layout-test.js",
+    "test:smoke": "node test/smoke-test.js",
+    "test:layout": "node test/layout-test.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -11,6 +13,7 @@
     "youtube-dl-exec": "^3.0.2"
   },
   "devDependencies": {
-    "jsdom": "^24.0.0"
+    "jsdom": "^24.0.0",
+    "puppeteer-core": "^25.3.0"
   }
 }
