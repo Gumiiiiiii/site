@@ -76,6 +76,15 @@
     let currentBg = [249, 244, 239];
     let bgImageUrl = null;
 
+    // Restore shared colors from the URL (?text=RRGGBB&bg=RRGGBB) so a specific
+    // check can be linked. URL wins over the defaults above.
+    if (window.GumiUrlState) {
+        const urlText = parseHex(window.GumiUrlState.get('text') || '');
+        const urlBg = parseHex(window.GumiUrlState.get('bg') || '');
+        if (urlText) currentText = urlText;
+        if (urlBg) currentBg = urlBg;
+    }
+
     function averageColor(img) {
         const size = 32;
         const canvas = document.createElement('canvas');
@@ -146,6 +155,15 @@
             bgImageNote.textContent = t('contrast_img_note');
             bgImageNote.classList.remove('hidden');
         }
+
+        // Keep the URL shareable (skip while an image defines the background,
+        // since a pasted image can't be encoded in a link).
+        if (window.GumiUrlState && !bgImageUrl) {
+            window.GumiUrlState.set({
+                text: toHex(currentText).replace('#', ''),
+                bg: toHex(currentBg).replace('#', '')
+            });
+        }
     }
 
     // The swatches are plain buttons: their background carries the color
@@ -169,8 +187,7 @@
         update();
     });
 
-    bgImageInput.addEventListener('change', (e) => {
-        const file = e.target.files && e.target.files[0];
+    function loadBgImage(file) {
         if (!file || !file.type.startsWith('image/')) return;
 
         clearBgImage();
@@ -192,8 +209,20 @@
             update();
         };
         img.src = bgImageUrl;
+    }
+
+    bgImageInput.addEventListener('change', (e) => {
+        loadBgImage(e.target.files && e.target.files[0]);
         bgImageInput.value = '';
     });
+
+    // Paste a screenshot to sample its average color as the background.
+    if (window.GumiPaste) {
+        window.GumiPaste.onImage((file) => {
+            loadBgImage(file);
+            if (window.showToolToast) window.showToolToast(t('paste_added', 'Image collée ajoutée.'));
+        });
+    }
 
     textHex.addEventListener('change', () => syncFrom(textHex, textSwatch, (rgb) => { currentText = rgb; }));
     bgHex.addEventListener('change', () => syncFrom(bgHex, bgSwatch, (rgb) => { currentBg = rgb; }));
@@ -242,6 +271,13 @@
         setSwatch(textSwatch, toHex(currentText));
         update();
     });
+
+    // Reflect the active colors (which may have come from the URL) in the
+    // hex inputs and swatches before the first render.
+    textHex.value = toHex(currentText);
+    bgHex.value = toHex(currentBg);
+    setSwatch(textSwatch, toHex(currentText));
+    setSwatch(bgSwatch, toHex(currentBg));
 
     document.addEventListener('gumi:lang', update);
     update();

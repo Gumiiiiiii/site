@@ -62,6 +62,11 @@
             fr: 'Mots de passe robustes et aléatoires, générés localement dans votre navigateur.',
             en: 'Strong random passwords, generated locally in your browser.'
         },
+        tool_palette_title: { fr: 'Générateur de palettes', en: 'Palette generator' },
+        tool_palette_desc: {
+            fr: 'Créez des palettes de couleurs harmonieuses à partir d\'une couleur de base, en local.',
+            en: 'Build harmonious color palettes from a base color, locally.'
+        },
         tool_social_title: { fr: 'Formats réseaux sociaux', en: 'Social media formats' },
         tool_social_desc: {
             fr: 'Déclinez un visuel aux formats Instagram, X, LinkedIn, YouTube et plus, en local.',
@@ -208,6 +213,11 @@
             fr: 'Déclinez un visuel aux formats Instagram, X, LinkedIn, YouTube et plus : recadrage local avec point focal, sans upload.',
             en: 'Crop one visual into Instagram, X, LinkedIn, YouTube formats and more: local cropping with a focal point, no upload.'
         },
+        doc_palette_title: { fr: 'Générateur de palettes - Gumi.', en: 'Palette generator - Gumi.' },
+        doc_palette_desc: {
+            fr: 'Créez des palettes de couleurs harmonieuses à partir d\'une couleur de base et exportez-les en HEX ou variables CSS, dans le navigateur.',
+            en: 'Build harmonious color palettes from a base color and export them as HEX or CSS variables, in the browser.'
+        },
 
         // Footer
         footer_title: { fr: "Envie d'échanger ?", en: 'Want to get in touch?' },
@@ -217,6 +227,9 @@
         back_tools: { fr: 'Retour aux outils', en: 'Back to tools' },
         tooltip_offline: { fr: 'Fonctionne hors ligne', en: 'Works offline' },
         tooltip_online: { fr: 'Connexion internet requise', en: 'Internet connection required' },
+        paste_added: { fr: 'Image collée ajoutée.', en: 'Pasted image added.' },
+        share_link: { fr: 'Copier le lien de partage', en: 'Copy share link' },
+        share_copied: { fr: 'Lien copié !', en: 'Link copied!' },
 
         // File converter tool
         conv_format_label: { fr: "Format d'export", en: 'Export format' },
@@ -394,6 +407,23 @@
         pw_tooltip: {
             fr: '<strong>Génération 100% locale :</strong><br><br>1. Choisissez la longueur et les types de caractères.<br>2. Générez autant de fois que nécessaire.<br>3. Cliquez sur le mot de passe ou sur le bouton pour le copier.<br><br><i>Le tirage utilise le générateur cryptographique du navigateur. Rien n\'est envoyé ni stocké sur nos serveurs.</i>',
             en: '<strong>100% local generation:</strong><br><br>1. Choose the length and character types.<br>2. Generate as many times as you like.<br>3. Click the password or the button to copy it.<br><br><i>It uses the browser\'s cryptographic random generator. Nothing is sent to or stored on our servers.</i>'
+        },
+
+        // Palette generator tool
+        pal_seed_label: { fr: 'Couleur de base', en: 'Base color' },
+        pal_harmony_label: { fr: "Type d'harmonie", en: 'Harmony type' },
+        pal_h_complementary: { fr: 'Complément.', en: 'Complement.' },
+        pal_h_analogous: { fr: 'Analogue', en: 'Analogous' },
+        pal_h_triadic: { fr: 'Triade', en: 'Triadic' },
+        pal_h_tetradic: { fr: 'Tétrade', en: 'Tetradic' },
+        pal_h_mono: { fr: 'Mono', en: 'Mono' },
+        pal_copy_hex: { fr: 'Copier les HEX', en: 'Copy HEX' },
+        pal_copy_css: { fr: 'Copier en CSS', en: 'Copy as CSS' },
+        pal_copy_one: { fr: 'Copier', en: 'Copy' },
+        pal_copied: { fr: 'Copié !', en: 'Copied!' },
+        pal_tooltip: {
+            fr: "<strong>Des palettes harmonieuses en un clic :</strong><br><br>Choisissez une couleur de base et un type d'harmonie. Cliquez une couleur pour copier son code, ou exportez toute la palette en HEX ou variables CSS.<br><br><i>Tout est calculé localement, rien n'est envoyé sur nos serveurs.</i>",
+            en: '<strong>Harmonious palettes in one click:</strong><br><br>Pick a base color and a harmony type. Click a color to copy its code, or export the whole palette as HEX or CSS variables.<br><br><i>Everything is computed locally, nothing is sent to our servers.</i>'
         },
 
         // Social formats tool

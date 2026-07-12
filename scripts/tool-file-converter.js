@@ -473,6 +473,14 @@
         handleFiles(e.target.files);
     });
 
+    // Paste a screenshot straight from the clipboard.
+    if (window.GumiPaste) {
+        window.GumiPaste.onImage(function (file) {
+            handleFiles([file]);
+            if (window.showToolToast) window.showToolToast(t('paste_added', 'Image collée ajoutée.'));
+        });
+    }
+
     clearBtn.addEventListener('click', resetState);
 
     convertBtn.addEventListener('click', async function () {

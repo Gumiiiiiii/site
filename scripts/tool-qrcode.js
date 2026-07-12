@@ -51,7 +51,7 @@
         type: 'svg'
     });
 
-    generateBtn.addEventListener('click', function () {
+    function generate() {
         const text = qrText.value.trim();
         if (!text) {
             if (window.showToolToast) window.showToolToast(t('qr_empty_error', 'Veuillez entrer un texte ou un lien.'), true);
@@ -61,6 +61,9 @@
 
         const shape = document.querySelector('input[name="qr-shape"]:checked').value;
         qrContainer.style.background = selectedBgColor;
+
+        // Keep the content shareable via ?data=… (style is already persisted).
+        if (window.GumiUrlState) window.GumiUrlState.set({ data: text });
 
         qrCodeObj.update({
             data: text,
@@ -77,10 +80,21 @@
         qrContainer.innerHTML = '';
         qrCodeObj.append(qrContainer);
         exportGroup.style.display = 'flex';
-    });
+    }
+
+    generateBtn.addEventListener('click', generate);
 
     document.getElementById('download-btn').addEventListener('click', function () {
         const format = document.querySelector('input[name="out-format"]:checked').value;
         qrCodeObj.download({ name: 'QR_Code_Gumi', extension: format });
     });
+
+    // Deep link: ?data=… prefills the content and renders immediately.
+    if (window.GumiUrlState) {
+        const shared = window.GumiUrlState.get('data');
+        if (shared) {
+            qrText.value = shared;
+            generate();
+        }
+    }
 })();

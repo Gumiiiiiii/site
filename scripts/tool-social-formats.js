@@ -128,6 +128,20 @@
     });
     window.addEventListener('resize', paintFocal);
 
+    // Keyboard access to the focal point (a11y parity with the mouse):
+    // arrows nudge it, Shift for larger steps.
+    focalBox.addEventListener('keydown', (event) => {
+        if (!sourceImg) return;
+        const step = event.shiftKey ? 0.1 : 0.02;
+        if (event.key === 'ArrowLeft') focal.x = Math.max(0, focal.x - step);
+        else if (event.key === 'ArrowRight') focal.x = Math.min(1, focal.x + step);
+        else if (event.key === 'ArrowUp') focal.y = Math.max(0, focal.y - step);
+        else if (event.key === 'ArrowDown') focal.y = Math.min(1, focal.y + step);
+        else return;
+        event.preventDefault();
+        paintFocal();
+    });
+
     // Cover-crop the source around the focal point, clamped to the edges.
     function cropFor(format) {
         const sw = sourceImg.naturalWidth;
@@ -288,6 +302,14 @@
         loadImage(event.target.files && event.target.files[0]);
         fileInput.value = '';
     });
+
+    // Paste a screenshot straight from the clipboard.
+    if (window.GumiPaste) {
+        window.GumiPaste.onImage((file) => {
+            loadImage(file);
+            if (window.showToolToast) window.showToolToast(t('paste_added', 'Image collée ajoutée.'));
+        });
+    }
 
     exportBtn.addEventListener('click', runExport);
 

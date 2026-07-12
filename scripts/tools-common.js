@@ -123,22 +123,25 @@
                 const el = document.querySelector(
                     'input[type="radio"][name="' + CSS.escape(key.slice(6)) + '"][value="' + CSS.escape(String(prefs[key])) + '"]'
                 );
-                if (el && !el.checked) {
+                if (el && !el.hasAttribute('data-no-persist') && !el.checked) {
                     el.checked = true;
                     el.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             } else if (key.indexOf('check:') === 0) {
                 const el = document.getElementById(key.slice(6));
-                if (el && el.type === 'checkbox' && el.checked !== prefs[key]) {
+                if (el && !el.hasAttribute('data-no-persist') && el.type === 'checkbox' && el.checked !== prefs[key]) {
                     el.checked = Boolean(prefs[key]);
                     el.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
         });
 
+        // Controls a tool manages itself (e.g. because it also syncs them to
+        // the URL) opt out with data-no-persist so this generic layer doesn't
+        // fight the tool's own restore logic.
         document.addEventListener('change', function (event) {
             const el = event.target;
-            if (!(el instanceof HTMLInputElement)) return;
+            if (!(el instanceof HTMLInputElement) || el.hasAttribute('data-no-persist')) return;
             if (el.type === 'radio' && el.name) {
                 window.GumiPrefs.set('radio:' + el.name, el.value);
             } else if (el.type === 'checkbox' && el.id) {
@@ -152,6 +155,63 @@
     } else {
         autoPersistInputs();
     }
+
+    // Clipboard image paste: calls back with the first image File found when
+    // the user pastes (Ctrl/Cmd+V) anywhere on the page, unless focus is in a
+    // text field. Lets the image tools accept a screenshot without saving it.
+    window.GumiPaste = {
+        onImage(callback) {
+            document.addEventListener('paste', function (event) {
+                // Only ever acts on an image in the clipboard; a text paste has
+                // no image item, so text fields keep their normal behavior.
+                const items = (event.clipboardData && event.clipboardData.items) || [];
+                for (const item of items) {
+                    if (item.kind === 'file' && item.type.startsWith('image/')) {
+                        const file = item.getAsFile();
+                        if (file) {
+                            event.preventDefault();
+                            callback(file);
+                            return;
+                        }
+                    }
+                }
+            });
+        }
+    };
+
+    // Shareable tool state through the URL query string. Tools register their
+    // parameters; state is read on load (URL wins over saved prefs) and the
+    // URL is kept in sync via history.replaceState so it can be copied/shared.
+    window.GumiUrlState = {
+        read() {
+            return new URLSearchParams(window.location.search);
+        },
+        get(name) {
+            const value = this.read().get(name);
+            return value === null ? undefined : value;
+        },
+        // Merge the given key/values into the query string without reloading.
+        set(values) {
+            const params = this.read();
+            Object.keys(values).forEach(function (key) {
+                const v = values[key];
+                if (v === null || v === undefined || v === '') params.delete(key);
+                else params.set(key, String(v));
+            });
+            const qs = params.toString();
+            const url = window.location.pathname + (qs ? '?' + qs : '') + window.location.hash;
+            try {
+                window.history.replaceState(null, '', url);
+            } catch (err) {
+                // Some sandboxed contexts refuse replaceState; sharing just
+                // won't reflect the latest state, which is non-fatal.
+            }
+        },
+        // Absolute URL for the current state, for a "copy link" button.
+        shareUrl() {
+            return window.location.href;
+        }
+    };
 
     // Custom color picker popover, replacing the native <input type="color">
     // dialog so the tools keep one visual language. One popover is shared by

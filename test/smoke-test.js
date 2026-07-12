@@ -101,6 +101,9 @@ const CHECKS = [
     { path: '/tools/social-formats', assert(d) {
         if (d.querySelectorAll('#sr-format-list .sr-format-row').length < 10) return 'format list not built';
     } },
+    { path: '/tools/palette', assert(d) {
+        if (d.querySelectorAll('#pal-swatches .pal-swatch').length < 4) return 'palette not generated';
+    } },
     { path: '/brand-guidelines' }
 ];
 
