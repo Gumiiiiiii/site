@@ -7,6 +7,7 @@
         nav_experiments: { fr: 'Expérimentations', en: 'Experiments' },
         nav_tools: { fr: 'Outils', en: 'Tools' },
         nav_lang_title: { fr: 'Changer la langue', en: 'Switch language' },
+        nav_theme_title: { fr: 'Changer le thème', en: 'Switch theme' },
 
         // Homepage
         home_hero: {

@@ -994,3 +994,99 @@ button.primary:active:not(:disabled) {
     .navbar a { padding: 6px 6px; font-size: 0.8rem; }
     .lang-btn { padding: 0 8px; }
 }
+
+/* ==========================================================================
+   THEME TOGGLE (sun / moon in the navbar)
+   ========================================================================== */
+.theme-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+.theme-btn:hover { background: rgba(26, 26, 26, 0.06); color: var(--accent); }
+.theme-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.theme-btn .theme-icon-moon { display: block; }
+.theme-btn .theme-icon-sun { display: none; }
+:root[data-theme="dark"] .theme-btn:hover { background: rgba(255, 255, 255, 0.08); }
+:root[data-theme="dark"] .theme-btn .theme-icon-moon { display: none; }
+:root[data-theme="dark"] .theme-btn .theme-icon-sun { display: block; }
+
+/* ==========================================================================
+   DARK THEME
+   Applied via data-theme="dark" on <html> (set early, before first paint).
+   Additive only: it remaps the design tokens and patches the components whose
+   light colors are hardcoded, leaving the light theme completely untouched.
+   ========================================================================== */
+:root[data-theme="dark"] {
+    --bg: #1B1A1F;
+    --text: #F1ECE4;
+    --accent: #B49BFF;
+    --accent-light: #D8CAFF;
+    --positive: #6FA783;
+    --negative: #D98B8B;
+    --card-bg: rgba(255, 255, 255, 0.055);
+    --shadow-out: 6px 6px 14px rgba(0, 0, 0, 0.5), -5px -5px 12px rgba(255, 255, 255, 0.025);
+    --shadow-in: inset 4px 4px 8px rgba(0, 0, 0, 0.5), inset -4px -4px 8px rgba(255, 255, 255, 0.025);
+}
+
+/* Page surfaces — the cream-paper texture belongs to the light theme. */
+:root[data-theme="dark"] body { background-image: none; }
+:root[data-theme="dark"] body.shell-page { background-color: #121116; }
+:root[data-theme="dark"] .site-content {
+    background-image: none;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Neumorphic components whose light shadows are hardcoded. */
+:root[data-theme="dark"] button.primary,
+:root[data-theme="dark"] .btn-primary {
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.45), -5px -5px 12px rgba(255, 255, 255, 0.04), inset 1px 1px 2px rgba(255, 255, 255, 0.06);
+}
+:root[data-theme="dark"] button.primary:hover:not(:disabled),
+:root[data-theme="dark"] .btn-primary:hover:not(:disabled) {
+    color: var(--bg);
+    background: #FFFFFF;
+}
+:root[data-theme="dark"] button.primary:active:not(:disabled),
+:root[data-theme="dark"] .btn-primary:active {
+    box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.6), inset -4px -4px 8px rgba(255, 255, 255, 0.04);
+}
+:root[data-theme="dark"] .input-field {
+    box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.5), inset -3px -3px 6px rgba(255, 255, 255, 0.03);
+}
+:root[data-theme="dark"] .input-field:focus {
+    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.55), inset -5px -5px 10px rgba(255, 255, 255, 0.04);
+}
+:root[data-theme="dark"] .card {
+    box-shadow: 10px 10px 22px rgba(0, 0, 0, 0.4), -8px -8px 20px rgba(255, 255, 255, 0.018);
+}
+:root[data-theme="dark"] .card:active {
+    box-shadow: inset 6px 6px 12px rgba(0, 0, 0, 0.45), inset -6px -6px 12px rgba(255, 255, 255, 0.018);
+}
+
+/* Frosted navbar glass, inverted. */
+:root[data-theme="dark"] .navbar {
+    background: rgba(27, 26, 31, 0.72);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* The footer stays a dark, elevated surface instead of inverting to light. */
+:root[data-theme="dark"] .contact-section {
+    background-color: #121116;
+    color: var(--text);
+}
+
+/* Article surfaces that would otherwise invert to a bright block. */
+:root[data-theme="dark"] .article-content th { background-color: rgba(255, 255, 255, 0.08); color: var(--text); }
+:root[data-theme="dark"] .article-content pre { background-color: #121116; color: var(--text); }
+:root[data-theme="dark"] .article-content tr:nth-child(even) td { background-color: rgba(255, 255, 255, 0.03); }
