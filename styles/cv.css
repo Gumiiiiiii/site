@@ -51,15 +51,19 @@
     margin-top: 1.8rem;
 }
 
+/* Secondary button: same geometry as .btn-primary (54px, 0.8em radius),
+   ghost fill so the primary keeps the visual priority. */
 .cv-btn-ghost {
     display: inline-flex;
     align-items: center;
-    padding: 0.7rem 1.4rem;
-    border-radius: 100px;
+    justify-content: center;
+    height: 54px;
+    padding: 0 1.7em;
+    border-radius: 0.8em;
     border: 1.5px solid rgba(var(--text-rgb), 0.25);
     color: var(--text);
     font-family: var(--font);
-    font-size: 0.95rem;
+    font-size: 16px;
     font-weight: 700;
     text-decoration: none;
     background: transparent;

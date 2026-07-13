@@ -241,7 +241,7 @@
             en: "Pierre Gumilar, Digital Marketing Manager. From strategy to execution: SEO, content, e-commerce, data. 3 years at Lindt & Sprüngli, and a portfolio that proves I ship what I design."
         },
         cv_photo_alt: { fr: 'Portrait de Pierre Gumilar', en: 'Portrait of Pierre Gumilar' },
-        cv_cta_write: { fr: "M'écrire", en: 'Get in touch' },
+        cv_cta_write: { fr: 'Me contacter', en: 'Contact me' },
         cv_cta_pdf: { fr: 'CV PDF (1 page)', en: 'Resume PDF (1 page)' },
         cv_stat1_label: { fr: 'de trafic organique', en: 'organic traffic' },
         cv_stat1_src: { fr: 'SEO · Lindt & Sprüngli', en: 'SEO · Lindt & Sprüngli' },
@@ -269,10 +269,10 @@
         cv_case3_tag: { fr: 'Consulting indépendant', en: 'Independent consulting' },
         cv_case3_title: { fr: 'Refondre un site client et tripler son trafic', en: 'Rebuild a client site and triple its traffic' },
         cv_case3_desc: {
-            fr: "Audit puis refonte complète d'un site WordPress (HTML, CSS, JS), et campagnes d'acquisition B2B sur Google Ads pour d'autres clients.",
-            en: 'Audit then full rebuild of a WordPress site (HTML, CSS, JS), plus B2B acquisition campaigns on Google Ads for other clients.'
+            fr: "Audit complet, refonte WordPress de A à Z (HTML, CSS, JS), et pilotage de campagnes d'acquisition B2B sur Google Ads pour d'autres clients.",
+            en: 'Full audit, WordPress rebuild from scratch (HTML, CSS, JS), plus B2B acquisition campaigns on Google Ads for other clients.'
         },
-        cv_case3_result: { fr: '+300 % de trafic, CTR moyen 7 %, CPC à 0,45 €', en: '+300% traffic, 7% average CTR, €0.45 CPC' },
+        cv_case3_result: { fr: '+300 % de trafic après la refonte', en: '+300% traffic after the rebuild' },
         cv_case_link: { fr: "Lire l'étude complète", en: 'Read the full study' },
         cv_sec_reco: { fr: 'Ils ont travaillé avec moi', en: 'They worked with me' },
         cv_reco_pending: { fr: "Exemple : la vraie citation arrive", en: 'Sample: real quote coming' },
