@@ -2,7 +2,7 @@
 // function in api/get-video.js via api/_lib/extract.cjs.
 const express = require('express');
 const cors = require('cors');
-const { ALLOWED_ORIGINS, isAllowedMediaUrl, isRateLimited, extractMedia } = require('./api/_lib/extract.cjs');
+const { ALLOWED_ORIGINS, isAllowedMediaUrl, clientIp, isRateLimited, extractMedia } = require('./api/_lib/extract.cjs');
 
 const app = express();
 app.use(cors({
@@ -43,8 +43,7 @@ function releaseSlot() {
 app.get('/health', (req, res) => res.json({ ok: true, active, queued: waiters.length }));
 
 app.get('/api/get-video', async (req, res) => {
-    const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket.remoteAddress;
-    if (isRateLimited(ip)) {
+    if (isRateLimited(clientIp(req))) {
         return res.status(429).json({ error: 'Too many requests, slow down.' });
     }
 

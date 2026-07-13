@@ -91,6 +91,12 @@ WantedBy=timers.target
 UNIT
 
 echo "== 5/6 Caddy (auto-HTTPS) =="
+# Note on X-Forwarded-For: Caddy >= 2.5 drops client-supplied X-Forwarded-*
+# headers by default (no trusted_proxies configured), so the header reaching
+# server.js contains only the real client IP. The rate limiter additionally
+# reads the LAST entry (api/_lib/extract.cjs clientIp), so a spoofed header
+# is harmless even behind an appending proxy. Keep both properties in mind
+# before adding trusted_proxies here.
 sudo tee /etc/caddy/Caddyfile >/dev/null <<CADDY
 $DOMAIN {
     reverse_proxy localhost:10000

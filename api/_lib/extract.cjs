@@ -43,6 +43,20 @@ const RATE_WINDOW_MS = 60 * 1000;
 const RATE_MAX_REQUESTS = 15;
 const rateHits = new Map();
 
+// Client IP for rate limiting. X-Forwarded-For can arrive with
+// client-supplied entries prepended (appending proxies put the real IP
+// last), so only the LAST entry — added by our own proxy (Caddy, Render,
+// Vercel) — is trustworthy. Taking the first would let anyone rotate a
+// fake header to bypass the rate limit.
+function clientIp(req) {
+    const forwarded = String(req.headers['x-forwarded-for'] || '')
+        .split(',')
+        .map((part) => part.trim())
+        .filter(Boolean);
+    if (forwarded.length) return forwarded[forwarded.length - 1];
+    return (req.socket && req.socket.remoteAddress) || 'unknown';
+}
+
 function isRateLimited(ip) {
     const now = Date.now();
     const key = String(ip || 'unknown');
@@ -108,4 +122,4 @@ async function extractMedia(url, format, withThumb) {
     };
 }
 
-module.exports = { ALLOWED_ORIGINS, isAllowedMediaUrl, isRateLimited, extractMedia };
+module.exports = { ALLOWED_ORIGINS, isAllowedMediaUrl, clientIp, isRateLimited, extractMedia };

@@ -1,6 +1,6 @@
 import shared from './_lib/meta.cjs';
 
-const { ALLOWED_ORIGINS, isRateLimited, fetchPageMeta } = shared;
+const { ALLOWED_ORIGINS, clientIp, isRateLimited, fetchPageMeta } = shared;
 
 export default async function handler(req, res) {
   const origin = req.headers.origin;
@@ -11,8 +11,7 @@ export default async function handler(req, res) {
   }
   if (req.method === 'OPTIONS') return res.status(204).end();
 
-  const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket?.remoteAddress;
-  if (isRateLimited(ip)) {
+  if (isRateLimited(clientIp(req))) {
     return res.status(429).json({ error: 'Too many requests, slow down.' });
   }
 
