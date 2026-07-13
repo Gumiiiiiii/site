@@ -292,6 +292,10 @@
         cv_skill6_t: { fr: 'GenAI', en: 'GenAI' },
         cv_skill6_d: { fr: "Usage quotidien outillé. Une conférence d'une heure animée sur le sujet.", en: 'Daily hands-on use. Gave a one-hour talk on the topic.' },
         cv_tools_label: { fr: 'La boîte à outils, au quotidien', en: 'The everyday toolbox' },
+        cv_tools_g1: { fr: 'IA générative', en: 'GenAI' },
+        cv_tools_g2: { fr: 'Création', en: 'Design' },
+        cv_tools_g3: { fr: 'Data & SEO', en: 'Data & SEO' },
+        cv_tools_g4: { fr: 'Web & e-commerce', en: 'Web & e-commerce' },
         cv_sec_path: { fr: 'Parcours', en: 'Background' },
         cv_tl_exp: { fr: 'Expérience', en: 'Experience' },
         cv_tl_edu: { fr: 'Formation & langues', en: 'Education & languages' },
@@ -315,11 +319,18 @@
         cv_spec3_v: { fr: 'France, Belgique, Suisse, Luxembourg · sur site ou remote', en: 'France, Belgium, Switzerland, Luxembourg · on-site or remote' },
         cv_spec4_t: { fr: 'Disponibilité', en: 'Availability' },
         cv_spec4_v: { fr: 'Immédiate', en: 'Immediate' },
-        cv_contact_title: { fr: 'Parlons-en', en: "Let's talk" },
-        cv_contact_perso: {
-            fr: 'Le reste du temps, je cours longtemps et je prends des photos.',
-            en: 'The rest of the time, I run long distances and take photos.'
+        cv_sec_perso: { fr: 'À côté du travail', en: 'Outside work' },
+        cv_perso1_t: { fr: 'Photographie', en: 'Photography' },
+        cv_perso1_d: {
+            fr: "Une pratique de longue date, et l'origine de mon œil pour la direction artistique et l'image produit.",
+            en: 'A long-standing practice, and where my eye for art direction and product imagery comes from.'
         },
+        cv_perso2_t: { fr: 'Endurance', en: 'Endurance' },
+        cv_perso2_d: {
+            fr: 'Marathons, trails, un Ironman 70.3. Le goût des objectifs qui se gagnent à la régularité.',
+            en: 'Marathons, trails, one Ironman 70.3. A taste for goals earned through consistency.'
+        },
+        cv_contact_title: { fr: 'Parlons-en', en: "Let's talk" },
         cv_copy: { fr: "Copier l'adresse", en: 'Copy address' },
         cv_copied: { fr: 'Copié !', en: 'Copied!' },
 
