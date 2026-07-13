@@ -1,0 +1,327 @@
+/* CV landing (cv.html, served at pierre.gumi.ch/cv). Hidden page: not in
+   the sitemap, the feed or the nav; noindex in the HTML and via header.
+   Builds on shared.css tokens so both themes come for free. */
+
+.cv-page .site-content {
+    max-width: 68rem;
+    margin: 0 auto;
+    padding: 0 5vw;
+}
+
+/* === HERO === */
+.cv-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 16rem;
+    gap: 3rem;
+    align-items: center;
+    padding: 130px 0 70px;
+}
+
+.cv-avail {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--positive);
+    margin-bottom: 1.1rem;
+}
+
+.cv-hero h1 {
+    font-size: clamp(2.1rem, 5.5vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin-bottom: 1.1rem;
+}
+
+.cv-hero h1 .dot { color: var(--accent); }
+
+.cv-hero-sub {
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    line-height: 1.6;
+    max-width: 34rem;
+    opacity: 0.85;
+    font-weight: 500;
+}
+
+.cv-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 1.8rem;
+}
+
+.cv-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.7rem 1.4rem;
+    border-radius: 100px;
+    border: 1.5px solid rgba(var(--text-rgb), 0.25);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.cv-btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+.cv-photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 1.5rem;
+    object-fit: cover;
+    box-shadow: var(--shadow-out);
+}
+
+/* === STATS === */
+.cv-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    padding-bottom: 4.5rem;
+}
+
+.cv-stat {
+    background: var(--card-bg);
+    border-radius: 1.25rem;
+    padding: 1.4rem 1.5rem;
+    text-decoration: none;
+    color: var(--text);
+    display: block;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+a.cv-stat:hover { transform: translateY(-3px); }
+
+.cv-stat b {
+    display: block;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+}
+
+.cv-stat span { font-size: 0.88rem; opacity: 0.75; font-weight: 500; }
+
+.cv-stat small {
+    display: block;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-top: 0.45rem;
+    letter-spacing: 0.03em;
+}
+
+/* === SECTIONS === */
+.cv-section { padding-bottom: 4.5rem; }
+
+.cv-section > h2 {
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.8rem;
+}
+
+.cv-section > h2 .dot { color: var(--accent); }
+
+/* === CASE STUDIES === */
+.cv-case {
+    display: grid;
+    grid-template-columns: 17rem minmax(0, 1fr);
+    gap: 1.75rem;
+    align-items: center;
+    background: var(--card-bg);
+    border-radius: 1.5rem;
+    padding: 1.75rem;
+}
+
+.cv-case + .cv-case { margin-top: 1.25rem; }
+
+.cv-case-visual {
+    border-radius: 1rem;
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    background: rgba(var(--text-rgb), 0.05);
+}
+
+.cv-case-visual img { width: 100%; height: 100%; object-fit: cover; }
+
+.cv-case-visual svg { width: 100%; height: 100%; display: block; }
+
+.cv-case h3 { font-size: 1.2rem; font-weight: 750; margin-bottom: 0.4rem; letter-spacing: -0.01em; }
+
+.cv-case p { font-size: 0.95rem; opacity: 0.8; line-height: 1.55; }
+
+.cv-case-result {
+    display: block;
+    color: var(--positive);
+    font-weight: 700;
+    font-size: 0.92rem;
+    margin-top: 0.6rem;
+}
+
+.cv-case-link {
+    display: inline-block;
+    margin-top: 0.7rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.cv-case-link:hover { text-decoration: underline; }
+
+/* === SKILLS === */
+.cv-skills {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.cv-skill {
+    background: var(--card-bg);
+    border-radius: 1.1rem;
+    padding: 1.3rem 1.4rem;
+}
+
+.cv-skill h3 { font-size: 1rem; font-weight: 750; margin-bottom: 0.35rem; }
+
+.cv-skill p { font-size: 0.88rem; opacity: 0.78; line-height: 1.5; }
+
+/* === TIMELINE === */
+.cv-tl-row {
+    display: grid;
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+    gap: 1.25rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(var(--text-rgb), 0.1);
+    font-size: 0.98rem;
+}
+
+.cv-tl-row:last-child { border-bottom: none; }
+
+.cv-tl-row .cv-dates {
+    opacity: 0.6;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding-top: 0.1em;
+}
+
+/* === LOOKING FOR === */
+.cv-spec {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.cv-spec div { border-left: 2px solid var(--accent); padding-left: 1rem; }
+
+.cv-spec dt {
+    font-size: 0.72rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.cv-spec dd { font-weight: 700; font-size: 1rem; margin: 0; }
+
+/* === CONTACT === */
+.cv-contact {
+    text-align: center;
+    padding: 2rem 0 6rem;
+}
+
+.cv-contact h2 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.8rem;
+}
+
+.cv-contact h2 .dot { color: var(--accent); }
+
+.cv-contact-perso {
+    max-width: 30rem;
+    margin: 0 auto 1.6rem;
+    font-size: 0.98rem;
+    opacity: 0.75;
+    line-height: 1.55;
+}
+
+.cv-contact .cv-cta-row { justify-content: center; margin-top: 0; }
+
+.cv-mail {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 1.4rem;
+}
+
+.cv-mail:hover { text-decoration: underline; }
+
+.cv-byline { margin-top: 3.5rem; font-size: 0.85rem; opacity: 0.55; }
+
+/* Sticky CTA: desktop only, the mobile navbar owns the bottom of the
+   screen. Appears once the hero CTA has scrolled away. */
+.cv-sticky {
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    z-index: 90;
+    display: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 100px;
+    background: var(--text);
+    color: var(--bg);
+    font-family: var(--font);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: var(--shadow-out);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+.cv-sticky.visible { opacity: 1; transform: none; pointer-events: auto; }
+
+@media (min-width: 900px) {
+    .cv-sticky { display: inline-block; }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+    .cv-stats { grid-template-columns: repeat(2, 1fr); }
+    .cv-skills { grid-template-columns: repeat(2, 1fr); }
+    .cv-spec { grid-template-columns: repeat(2, 1fr); }
+    .cv-case { grid-template-columns: 1fr; }
+    .cv-case-visual { max-height: 14rem; }
+}
+
+@media (max-width: 600px) {
+    .cv-hero {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+        padding: 96px 0 48px;
+    }
+    .cv-hero-photo { order: -1; }
+    .cv-photo { width: 9.5rem; }
+    .cv-stats, .cv-skills { grid-template-columns: 1fr; gap: 0.9rem; }
+    .cv-spec { grid-template-columns: 1fr; gap: 1rem; }
+    .cv-section { padding-bottom: 3.25rem; }
+    .cv-tl-row { grid-template-columns: 6.5rem minmax(0, 1fr); gap: 0.9rem; }
+}

@@ -39,9 +39,12 @@
 
     // Offline support: the service worker precaches the tools so the
     // "works offline" tooltip tags hold true. Skipped on localhost so the
-    // dev server always serves fresh files.
+    // dev server always serves fresh files, and on pierre.gumi.ch (the CV
+    // landing) where precaching the whole site under a second origin would
+    // just duplicate the cache.
     if ('serviceWorker' in navigator &&
         window.location.protocol === 'https:' &&
+        window.location.hostname !== 'pierre.gumi.ch' &&
         !['localhost', '127.0.0.1'].includes(window.location.hostname)) {
         window.addEventListener('load', function () {
             navigator.serviceWorker.register('/sw.js').catch(function () {});

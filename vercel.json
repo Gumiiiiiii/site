@@ -1,10 +1,30 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "pierre.gumi.ch" }],
+      "destination": "/cv",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     { "source": "/en", "destination": "/index.html" },
     { "source": "/en/:path*", "destination": "/:path*" }
   ],
   "headers": [
+    {
+      "source": "/cv",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    {
+      "source": "/en/cv",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [

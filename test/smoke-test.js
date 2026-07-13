@@ -58,6 +58,8 @@ const CHECKS = [
         if (d.querySelectorAll('.navbar a').length < 3) return 'navbar not injected';
         if (d.querySelectorAll('.experiences-right .card').length !== 3) return 'expected 3 experiment cards';
         if (!d.querySelector('.footer-byline')) return 'missing footer byline';
+        // The CV landing stays hidden: no public page may link to it.
+        if (d.querySelector('a[href="/cv"], a[href="cv"], a[href*="pierre.gumi.ch"]')) return 'CV page must not be linked from the homepage';
     } },
     { path: '/experiments', assert(d) {
         if (d.querySelectorAll('.experiments-grid .card').length !== 3) return 'expected 3 cards';
@@ -114,6 +116,16 @@ const CHECKS = [
     } },
     { path: '/tools/palette', assert(d) {
         if (d.querySelectorAll('#pal-swatches .pal-swatch').length < 4) return 'palette not generated';
+    } },
+    // CV landing (pierre.gumi.ch/cv): hidden page, must be noindex and
+    // never linked from the public pages.
+    { path: '/cv', assert(d) {
+        if (!d.querySelector('meta[name="robots"][content*="noindex"]')) return 'CV page must be noindex';
+        if (!d.querySelector('a[href^="mailto:pierregumilar"]')) return 'missing mailto CTA';
+        if (d.querySelectorAll('.cv-stat').length !== 4) return 'expected 4 stat cards';
+        if (d.querySelectorAll('.cv-case').length !== 3) return 'expected 3 case studies';
+        if (d.querySelectorAll('.cv-tl-row').length < 7) return 'timeline incomplete';
+        if (d.body.textContent.includes('—')) return 'em dash found in CV copy';
     } },
     { path: '/brand-guidelines' },
     { path: '/grazie', assert(d) {
