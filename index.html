@@ -187,19 +187,8 @@
 
     <footer class="contact-section" id="contact">
         <div class="footer-content" id="footer-content">
-            <span class="footer-status">
-                <span class="footer-status-dot" aria-hidden="true"></span>
-                <span data-i18n="footer_status">Ouvert aux collaborations &amp; opportunités</span>
-            </span>
             <h2 class="footer-title" data-i18n="footer_title">Envie d'échanger ?</h2>
-            <p class="footer-invite" data-i18n="footer_invite">Un projet, une idée, ou juste envie de dire bonjour&nbsp;? Ma boîte mail est toujours ouverte.</p>
-            <div class="footer-actions">
-                <a href="mailto:pierre@gumi.ch" class="footer-mail">pierre@gumi.ch</a>
-                <button type="button" class="footer-copy" id="footer-copy" data-i18n-title="footer_copy" title="Copier l'adresse" aria-label="Copier l'adresse e-mail">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    <span class="footer-copy-label" data-i18n="footer_copy">Copier</span>
-                </button>
-            </div>
+            <a href="mailto:pierre@gumi.ch" class="footer-mail">pierre@gumi.ch</a>
             <p class="footer-byline" data-i18n="footer_byline">© 2026 Gumi — Conçu et développé par Pierre.</p>
         </div>
     </footer>
@@ -288,39 +277,6 @@
 
             window.addEventListener('scroll', onScroll, { passive: true });
             onScroll();
-        })();
-    </script>
-    <script>
-        // Copy-to-clipboard on the contact email. Separate from the motion
-        // block above so it runs even under prefers-reduced-motion.
-        (function () {
-            const btn = document.getElementById('footer-copy');
-            if (!btn) return;
-            const label = btn.querySelector('.footer-copy-label');
-            const t = function (key, fallback) {
-                return (window.GumiI18n && window.GumiI18n.t(key)) || fallback;
-            };
-            let resetTimer = null;
-            btn.addEventListener('click', async function () {
-                const email = 'pierre@gumi.ch';
-                try {
-                    await navigator.clipboard.writeText(email);
-                } catch (err) {
-                    const helper = document.createElement('textarea');
-                    helper.value = email;
-                    document.body.appendChild(helper);
-                    helper.select();
-                    document.execCommand('copy');
-                    helper.remove();
-                }
-                btn.classList.add('copied');
-                if (label) label.textContent = t('footer_copied', 'Copié !');
-                clearTimeout(resetTimer);
-                resetTimer = setTimeout(function () {
-                    btn.classList.remove('copied');
-                    if (label) label.textContent = t('footer_copy', 'Copier');
-                }, 2000);
-            });
         })();
     </script>
     <script>
