@@ -97,8 +97,8 @@
         },
         tools_hero_title: { fr: 'Mes Outils', en: 'My Tools' },
         tools_hero_sub: {
-            fr: "Une collection d'utilitaires développés pour accélérer mon flux de travail et celui de mes proches, tout en explorant de nouvelles technologies.",
-            en: 'A collection of utilities built to speed up my workflow and that of the people around me, while exploring new technologies.'
+            fr: "Une collection d'utilitaires développés pour accélérer mon flux de travail et celui de mes proches.",
+            en: 'A collection of utilities built to speed up my workflow and that of the people around me.'
         },
         search_experiments: { fr: 'Rechercher une expérimentation...', en: 'Search experiments...' },
         search_tools: { fr: 'Rechercher un outil...', en: 'Search tools...' },
