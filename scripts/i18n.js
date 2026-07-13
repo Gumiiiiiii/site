@@ -234,11 +234,11 @@
             fr: "Responsable marketing digital, de la stratégie à l'exécution : SEO, contenu, e-commerce, data. Disponible pour un CDI.",
             en: 'Digital marketing manager, from strategy to execution: SEO, content, e-commerce, data. Open to full-time roles.'
         },
-        cv_avail: { fr: 'Disponible · CDI Marketing digital / Growth', en: 'Available · Full-time Digital marketing / Growth' },
+        cv_avail: { fr: 'Disponible immédiatement pour un CDI, sur site ou à distance.', en: 'Available now for a full-time role, on-site or remote.' },
         cv_hero_title: { fr: "Je transforme l'attention en croissance mesurable", en: 'I turn attention into measurable growth' },
         cv_hero_sub: {
-            fr: "Pierre Gumilar, Responsable Marketing Digital. De la stratégie à l'exécution : SEO, contenu, e-commerce, data. 2,5 ans chez Lindt & Sprüngli, et un portfolio qui prouve que je livre moi-même ce que je conçois.",
-            en: "Pierre Gumilar, Digital Marketing Manager. From strategy to execution: SEO, content, e-commerce, data. 2.5 years at Lindt & Sprüngli, and a portfolio that proves I ship what I design."
+            fr: "Pierre Gumilar, Responsable Marketing Digital. De la stratégie à l'exécution : SEO, contenu, e-commerce, data. 3 ans chez Lindt & Sprüngli, et un portfolio qui prouve que je livre moi-même ce que je conçois.",
+            en: "Pierre Gumilar, Digital Marketing Manager. From strategy to execution: SEO, content, e-commerce, data. 3 years at Lindt & Sprüngli, and a portfolio that proves I ship what I design."
         },
         cv_photo_alt: { fr: 'Portrait de Pierre Gumilar', en: 'Portrait of Pierre Gumilar' },
         cv_cta_write: { fr: "M'écrire", en: 'Get in touch' },
@@ -251,26 +251,33 @@
         cv_stat3_src: { fr: 'optimisation · Lindt & Sprüngli', en: 'optimization · Lindt & Sprüngli' },
         cv_stat4_label: { fr: 'recherches par an captées', en: 'yearly searches captured' },
         cv_stat4_src: { fr: "SEO produit · l'étude est en ligne", en: 'product SEO · the study is public' },
-        cv_sec_cases: { fr: 'Trois projets, trois preuves', en: 'Three projects, three proofs' },
-        cv_case1_title: { fr: 'De 8 000 à 115 000 followers en 3 mois', en: 'From 8,000 to 115,000 followers in 3 months' },
+        cv_sec_cases: { fr: 'Trois contextes, trois preuves', en: 'Three settings, three proofs' },
+        cv_case1_tag: { fr: 'Lindt & Sprüngli · CDI', en: 'Lindt & Sprüngli · full-time' },
+        cv_case1_title: { fr: "Piloter le contenu e-commerce d'une marque iconique", en: 'Running e-commerce content for an iconic brand' },
         cv_case1_desc: {
-            fr: 'Stratégie social media pour un projet communautaire international : formats, cadence, itération sur la data. Des dizaines de millions de vues organiques.',
-            en: 'Social media strategy for an international community project: formats, cadence, data-driven iteration. Tens of millions of organic views.'
+            fr: "3 ans chez Lindt & Sprüngli : 7 000+ assets produits (direction artistique, photo, 3D), stratégie SEO, structuration de la donnée produit et coordination des agences, développeurs et équipes internes.",
+            en: '3 years at Lindt & Sprüngli: 7,000+ assets produced (art direction, photo, 3D), SEO strategy, product data structuring, and coordination across agencies, developers and internal teams.'
         },
-        cv_case1_result: { fr: "x14 sur l'audience, zéro budget média", en: '14x audience growth, zero media budget' },
+        cv_case1_result: { fr: '+180 % de trafic organique, +1000 % de donnée produit', en: '+180% organic traffic, +1000% product data' },
+        cv_case2_tag: { fr: 'ArdaCraft · projet communautaire', en: 'ArdaCraft · community project' },
         cv_case2_title: { fr: '1 million de recherches par an, zéro concurrent sérieux', en: 'One million yearly searches, no serious competitor' },
         cv_case2_desc: {
-            fr: "Identifier l'opportunité SEO, concevoir une carte interactive, la positionner en référence sur son sujet.",
-            en: 'Spot the SEO opportunity, design an interactive map, make it the reference on its topic.'
+            fr: "Identifier l'opportunité SEO, concevoir une carte interactive, la positionner en référence sur son sujet. Sur le même projet : de 8 000 à 115 000 followers en 3 mois, sans budget média.",
+            en: 'Spot the SEO opportunity, design an interactive map, make it the reference on its topic. Same project: from 8,000 to 115,000 followers in 3 months, zero media budget.'
         },
         cv_case2_result: { fr: "un levier d'acquisition durable", en: 'a lasting acquisition channel' },
-        cv_case3_title: { fr: 'Une refonte guidée par les données', en: 'A data-driven redesign' },
+        cv_case3_tag: { fr: 'Consulting indépendant', en: 'Independent consulting' },
+        cv_case3_title: { fr: 'Refondre et faire décoller un site client', en: 'Rebuild and relaunch a client website' },
         cv_case3_desc: {
-            fr: "Migration de Webflow vers une architecture headless, décisions issues de l'analytics, 150 heures sur 3 mois.",
-            en: 'Migration from Webflow to a headless architecture, analytics-driven decisions, 150 hours over 3 months.'
+            fr: "Audit puis refonte complète d'un site WordPress (HTML, CSS, JS), et campagnes d'acquisition B2B sur Google Ads pour d'autres clients.",
+            en: 'Audit then full rebuild of a WordPress site (HTML, CSS, JS), plus B2B acquisition campaigns on Google Ads for other clients.'
         },
-        cv_case3_result: { fr: "x3 l'usage des fonctionnalités clés, 90 % de coûts en moins", en: '3x key feature usage, 90% lower costs' },
+        cv_case3_result: { fr: '+300 % de trafic, CTR moyen 7 %, CPC à 0,45 €', en: '+300% traffic, 7% average CTR, €0.45 CPC' },
         cv_case_link: { fr: "Lire l'étude complète", en: 'Read the full study' },
+        cv_sec_reco: { fr: 'Ils ont travaillé avec moi', en: 'They worked with me' },
+        cv_reco_pending: { fr: "Exemple : la vraie citation arrive", en: 'Sample: real quote coming' },
+        cv_reco1_role: { fr: 'Digital Marketing · ma manager chez Lindt & Sprüngli', en: 'Digital Marketing · my manager at Lindt & Sprüngli' },
+        cv_reco2_role: { fr: 'Senior Digital E-commerce Manager · collègue chez Lindt & Sprüngli', en: 'Senior Digital E-commerce Manager · colleague at Lindt & Sprüngli' },
         cv_sec_skills: { fr: 'Ce que je fais', en: 'What I do' },
         cv_skill1_t: { fr: 'Acquisition & SEO', en: 'Acquisition & SEO' },
         cv_skill1_d: { fr: 'Semrush, Search Console, netlinking. Preuve : +180 % de trafic organique chez Lindt.', en: 'Semrush, Search Console, link building. Proof: +180% organic traffic at Lindt.' },
@@ -285,6 +292,8 @@
         cv_skill6_t: { fr: 'GenAI', en: 'GenAI' },
         cv_skill6_d: { fr: "Usage quotidien outillé. Une conférence d'une heure animée sur le sujet.", en: 'Daily hands-on use. Gave a one-hour talk on the topic.' },
         cv_sec_path: { fr: 'Parcours', en: 'Background' },
+        cv_tl_exp: { fr: 'Expérience', en: 'Experience' },
+        cv_tl_edu: { fr: 'Formation & langues', en: 'Education & languages' },
         cv_tl_now: { fr: '2023 · auj.', en: '2023 · now' },
         cv_tl1: { fr: 'E-Commerce Content Manager · Lindt & Sprüngli, Paris', en: 'E-Commerce Content Manager · Lindt & Sprüngli, Paris' },
         cv_tl_since: { fr: 'depuis 2022', en: 'since 2022' },
@@ -307,8 +316,8 @@
         cv_spec4_v: { fr: 'Immédiate', en: 'Immediate' },
         cv_contact_title: { fr: 'Parlons-en', en: "Let's talk" },
         cv_contact_perso: {
-            fr: "Et quand je ne suis pas devant un dashboard : Ironman 70.3, marathons, et un appareil photo à la main.",
-            en: "And when I'm not behind a dashboard: Ironman 70.3, marathons, and a camera in hand."
+            fr: 'Le reste du temps, je cours longtemps et je prends des photos.',
+            en: 'The rest of the time, I run long distances and take photos.'
         },
         cv_copy: { fr: "Copier l'adresse", en: 'Copy address' },
         cv_copied: { fr: 'Copié !', en: 'Copied!' },

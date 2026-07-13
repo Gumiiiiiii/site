@@ -125,6 +125,8 @@ const CHECKS = [
         if (d.querySelectorAll('.cv-stat').length !== 4) return 'expected 4 stat cards';
         if (d.querySelectorAll('.cv-case').length !== 3) return 'expected 3 case studies';
         if (d.querySelectorAll('.cv-tl-row').length < 7) return 'timeline incomplete';
+        if (d.querySelectorAll('.cv-tl-group').length !== 2) return 'timeline should split experience/education';
+        if (d.querySelectorAll('.cv-quote').length !== 2) return 'expected 2 recommendation quotes';
         if (d.body.textContent.includes('—')) return 'em dash found in CV copy';
     } },
     { path: '/brand-guidelines' },
