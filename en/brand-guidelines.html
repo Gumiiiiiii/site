@@ -45,6 +45,20 @@
             --radius:  2.5rem;
             --card-bg: rgba(26, 26, 26, 0.04);
             --content-max-width: 90rem;
+            /* Neumorphic highlights, dimmed in dark (see shared.css --neu-hi) */
+            --hi: rgba(255, 255, 255, 0.7);
+            --hi-strong: rgba(255, 255, 255, 0.8);
+        }
+
+        :root[data-theme="dark"] {
+            --hi: rgba(255, 255, 255, 0.04);
+            --hi-strong: rgba(255, 255, 255, 0.05);
+        }
+
+        /* The paper grain belongs to the light theme (same rule as the site). */
+        :root[data-theme="dark"] .texture-display {
+            background-image: none;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.35);
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -108,7 +122,7 @@
         .section h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 15px; }
         .section-intro { font-size: 1.1rem; max-width: 700px; opacity: 0.7; margin-bottom: 60px; line-height: 1.6; font-weight: 600; }
 
-        .voice-pillar { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; margin-bottom: 80px; padding-bottom: 80px; border-bottom: 1px solid rgba(26,26,26,0.1); }
+        .voice-pillar { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; margin-bottom: 80px; padding-bottom: 80px; border-bottom: 1px solid rgba(var(--text-rgb), 0.1); }
         .voice-pillar:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
         .pillar-desc h3 { font-size: 2rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: -1px; }
         .pillar-desc p { opacity: 0.7; font-size: 1.1rem; }
@@ -136,7 +150,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(26,26,26,0.04);
+            box-shadow: 0 10px 30px rgba(var(--text-rgb), 0.04);
             cursor: pointer;
             transition: transform 0.3s ease;
         }
@@ -147,12 +161,12 @@
         .circle-60 { width: 550px; height: 550px; background: var(--card-bg); color: var(--text); right: 5%; z-index: 1; }
         .circle-30 { width: 350px; height: 350px; background: var(--text); color: var(--bg); left: 15%; bottom: 10%; z-index: 2; }
         .circle-10 { width: 140px; height: 140px; background: var(--accent); color: var(--bg); left: 25%; top: 15%; z-index: 3; }
-        .circle-10 small { color: rgba(249, 244, 239, 0.7); }
+        .circle-10 small { opacity: 0.75; }
 
         .swatch-sub { font-size: 1rem; opacity: 0.7; margin-bottom: 1.5rem; max-width: 640px; font-weight: 600; line-height: 1.6; }
 
         .asset-dl { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
-        .asset-dl a { font-size: 0.85rem; font-weight: 700; color: var(--accent); text-decoration: none; padding: 0.45rem 0.95rem; border: 1.5px solid rgba(26,26,26,0.15); border-radius: 100px; transition: border-color 0.2s ease; }
+        .asset-dl a { font-size: 0.85rem; font-weight: 700; color: var(--accent); text-decoration: none; padding: 0.45rem 0.95rem; border: 1.5px solid rgba(var(--text-rgb), 0.15); border-radius: 100px; transition: border-color 0.2s ease; }
         .asset-dl a:hover { border-color: var(--accent); }
         .asset-card.dark-bg .asset-dl a { border-color: rgba(249,244,239,0.25); color: var(--accent-light); }
         .asset-card.dark-bg .asset-dl a:hover { border-color: var(--accent-light); }
@@ -160,18 +174,18 @@
         .opacity-section { margin-top: 80px; }
         .opacity-section h3, .semantic-colors-section h3 { font-size: 1.5rem; font-weight: 900; margin-bottom: 1.5rem; letter-spacing: -0.5px; }
         .opacity-grid { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-        .opacity-box { flex: 1; min-width: 120px; height: 100px; border-radius: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: transform 0.3s ease; box-shadow: 0 10px 30px rgba(26,26,26,0.04); }
+        .opacity-box { flex: 1; min-width: 120px; height: 100px; border-radius: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: transform 0.3s ease; box-shadow: 0 10px 30px rgba(var(--text-rgb), 0.04); }
         .opacity-box:hover { transform: scale(1.02); }
         .opacity-box.dark-bg { color: var(--bg); }
-        .opacity-box.dark-bg small { color: rgba(249, 244, 239, 0.7); }
+        .opacity-box.dark-bg small { opacity: 0.75; }
         .opacity-box.light-bg { color: var(--text); }
-        .opacity-box.light-bg small { color: rgba(26, 26, 26, 0.7); }
+        .opacity-box.light-bg small { opacity: 0.75; }
         .ob-content { display: flex; flex-direction: column; align-items: center; pointer-events: none; }
         .ob-content span { font-weight: 900; font-size: 1.3rem; margin-bottom: 2px; }
         .ob-content small { font-weight: 600; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; transition: color 0.3s; }
 
         .type-specimen { background: var(--card-bg); padding: 50px; border-radius: var(--radius); display: flex; flex-direction: column; gap: 2.5rem; }
-        .type-row { display: flex; flex-direction: column; gap: 0.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(26,26,26,0.1); }
+        .type-row { display: flex; flex-direction: column; gap: 0.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(var(--text-rgb), 0.1); }
         .type-row:last-child { border-bottom: none; padding-bottom: 0; }
         .type-label { font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
         .type-demo { margin: 0; }
@@ -183,7 +197,7 @@
         .icons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 1.5rem; }
         .icon-box { background: var(--card-bg); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; cursor: default;}
         .icon-box svg { width: 28px; height: 28px; stroke-width: 2.5; stroke: currentColor; fill: none; transition: color 0.3s ease; stroke-linecap: round; stroke-linejoin: round; }
-        .icon-box:hover { background: rgba(26,26,26,0.1); }
+        .icon-box:hover { background: rgba(var(--text-rgb), 0.1); }
         .icon-box:hover svg { color: var(--accent); }
 
         .assets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
@@ -194,8 +208,8 @@
         .asset-preview.small-logo img { max-height: 100px; }
         .asset-info { padding: 1.5rem 2rem 2rem; }
         .asset-info h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .asset-info p { font-size: 1rem; color: rgba(26,26,26,0.7); font-weight: 500; }
-        .asset-card.dark-bg .asset-info p { color: rgba(249, 244, 239, 0.7); }
+        .asset-info p { font-size: 1rem; color: rgba(var(--text-rgb), 0.7); font-weight: 500; }
+        .asset-card.dark-bg .asset-info p { color: var(--bg); opacity: 0.8; }
 
         .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 220px); gap: 1.5rem; }
         .bento-item { border-radius: 1.5rem; overflow: hidden; position: relative; background: var(--card-bg); }
@@ -205,7 +219,7 @@
         .bento-small-2 { grid-column: 3; grid-row: 2; }
         
         .texture-display {
-            background-color: rgba(26,26,26,0.04);
+            background-color: rgba(var(--text-rgb), 0.04);
             background-image: url('media/cream-paper.png');
             background-blend-mode: color-burn;
             display: flex;
@@ -216,7 +230,7 @@
             width: 100%;
             height: 100%;
             color: var(--text);
-            box-shadow: inset 0 0 40px rgba(26,26,26,0.1);
+            box-shadow: inset 0 0 40px rgba(var(--text-rgb), 0.1);
         }
         .texture-display span { font-weight: 900; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 0; }
 
@@ -225,23 +239,31 @@
 
         button.secondary, button.primary, .icon-button, .segmented-control, .input-field, .drop-zone, .exp-card, .tool-card { border: none !important; outline: none !important; }
 
-        button.secondary { height: 54px; display: flex; align-items: center; justify-content: center; width: 100%; color: var(--text); padding: 0 1.7em; font-size: 16px; font-weight: 700; border-radius: 0.5em; background: var(--bg); cursor: pointer; transition: all 0.3s ease; box-shadow: 4px 4px 8px rgba(26,26,26,0.1), -4px -4px 8px rgba(255,255,255,0.7); font-family: var(--font); }
+        button.secondary { height: 54px; display: flex; align-items: center; justify-content: center; width: 100%; color: var(--text); padding: 0 1.7em; font-size: 16px; font-weight: 700; border-radius: 0.5em; background: var(--bg); cursor: pointer; transition: all 0.3s ease; box-shadow: 4px 4px 8px rgba(var(--text-rgb), 0.1), -4px -4px 8px var(--hi); font-family: var(--font); }
         button.secondary:hover { color: var(--accent); }
-        button.secondary:active { box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7); }
+        button.secondary:active { box-shadow: inset 3px 3px 6px rgba(var(--text-rgb), 0.1), inset -3px -3px 6px var(--hi); }
 
-        button.primary { height: 54px; display: flex; align-items: center; justify-content: center; width: 100%; color: var(--bg); padding: 0 1.7em; font-size: 16px; font-weight: 700; border-radius: 0.5em; background: var(--text); cursor: pointer; transition: all 0.3s ease; box-shadow: 6px 6px 12px rgba(26,26,26,0.15), -6px -6px 12px rgba(255,255,255,0.8), inset 1px 1px 2px rgba(255, 255, 255, 0.15); font-family: var(--font); }
+        button.primary { height: 54px; display: flex; align-items: center; justify-content: center; width: 100%; color: var(--bg); padding: 0 1.7em; font-size: 16px; font-weight: 700; border-radius: 0.5em; background: var(--text); cursor: pointer; transition: all 0.3s ease; box-shadow: 6px 6px 12px rgba(var(--text-rgb), 0.15), -6px -6px 12px var(--hi-strong), inset 1px 1px 2px rgba(255, 255, 255, 0.15); font-family: var(--font); }
         button.primary:hover { color: var(--accent-light); }
         button.primary:active { box-shadow: inset 4px 4px 8px rgba(0,0,0,0.8), inset -4px -4px 8px rgba(255,255,255,0.05); }
 
-        .icon-button { display: flex; justify-content: center; align-items: center; width: 54px; height: 54px; border-radius: 50%; color: var(--text); background: var(--bg); cursor: pointer; transition: all 0.3s ease; box-shadow: 4px 4px 8px rgba(26,26,26,0.1), -4px -4px 8px rgba(255,255,255,0.7); padding: 0; align-self: flex-start; }
+        .icon-button { display: flex; justify-content: center; align-items: center; width: 54px; height: 54px; border-radius: 50%; color: var(--text); background: var(--bg); cursor: pointer; transition: all 0.3s ease; box-shadow: 4px 4px 8px rgba(var(--text-rgb), 0.1), -4px -4px 8px var(--hi); padding: 0; align-self: flex-start; }
         .icon-button:hover { color: var(--accent); }
-        .icon-button:active { box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7); }
+        .icon-button:active { box-shadow: inset 3px 3px 6px rgba(var(--text-rgb), 0.1), inset -3px -3px 6px var(--hi); }
         .icon-button svg { width: 1.4rem; height: 1.4rem; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+
+
+        button.ghost { height: 54px; display: flex; align-items: center; justify-content: center; width: 100%; color: var(--text); padding: 0 1.7em; font-size: 16px; font-weight: 700; border-radius: 0.5em; background: transparent; border: 1.5px solid rgba(var(--text-rgb), 0.25) !important; cursor: pointer; transition: all 0.3s ease; font-family: var(--font); }
+        button.ghost:hover { border-color: var(--accent) !important; color: var(--accent); }
+
+        .chip-cluster { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .brand-tag { font-size: 0.76rem; font-weight: 700; color: var(--accent); background: rgba(156, 119, 245, 0.12); padding: 0.28rem 0.75rem; border-radius: 100px; }
+        .brand-chip { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.42rem 0.85rem; border-radius: 100px; background: var(--card-bg); font-size: 0.85rem; font-weight: 600; opacity: 0.85; }
 
         .toggle-label { display: inline-flex; align-items: center; cursor: pointer; color: var(--text); }
         .toggle-state { display: none; }
-        .toggle { position: relative; height: 32px; width: 64px; border-radius: 16px; background: rgba(197, 106, 106, 0.15); box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7); transition: background 0.3s ease; }
-        .indicator { position: absolute; top: 4px; left: 4px; height: 24px; width: 24px; background: var(--bg); border-radius: 50%; box-shadow: 2px 2px 4px rgba(26,26,26,0.15), -2px -2px 4px rgba(255,255,255,0.8); transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
+        .toggle { position: relative; height: 32px; width: 64px; border-radius: 16px; background: rgba(197, 106, 106, 0.15); box-shadow: inset 3px 3px 6px rgba(var(--text-rgb), 0.1), inset -3px -3px 6px var(--hi); transition: background 0.3s ease; }
+        .indicator { position: absolute; top: 4px; left: 4px; height: 24px; width: 24px; background: var(--bg); border-radius: 50%; box-shadow: 2px 2px 4px rgba(var(--text-rgb), 0.15), -2px -2px 4px var(--hi-strong); transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
         .toggle-state:checked + .toggle { background: rgba(96, 150, 117, 0.15); }
         .toggle-state:checked + .toggle .indicator { transform: translateX(32px); }
         .toggle-text { margin-left: 16px; font-weight: 700; color: var(--negative); transition: color 0.3s ease; width: 85px; }
@@ -249,52 +271,52 @@
         .toggle-state:not(:checked) ~ .toggle-text::before { content: 'Désactivé'; }
         .toggle-state:checked ~ .toggle-text::before { content: 'Activé'; }
 
-        .segmented-control { margin: 0; display: flex; position: relative; align-items: center; background: var(--card-bg); padding: 0.4em; border-radius: 0.7em; box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7); width: 100%; height: 54px; }
+        .segmented-control { margin: 0; display: flex; position: relative; align-items: center; background: var(--card-bg); padding: 0.4em; border-radius: 0.7em; box-shadow: inset 3px 3px 6px rgba(var(--text-rgb), 0.1), inset -3px -3px 6px var(--hi); width: 100%; height: 54px; }
         .segmented-control input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
-        .segmented-control label { flex: 1; cursor: pointer; height: 100%; display: flex; align-items: center; justify-content: center; line-height: 1; text-align: center; font-size: 14px; font-weight: 700; color: rgba(26,26,26,0.7); z-index: 2; transition: color 0.3s ease; }
+        .segmented-control label { flex: 1; cursor: pointer; height: 100%; display: flex; align-items: center; justify-content: center; line-height: 1; text-align: center; font-size: 14px; font-weight: 700; color: rgba(var(--text-rgb), 0.7); z-index: 2; transition: color 0.3s ease; }
         .segmented-control label:hover { color: var(--accent); }
-        .slider { position: absolute; top: 0.4em; bottom: 0.4em; left: 0.4em; width: calc((100% - 0.8em) / 3); border-radius: 0.4em; background: var(--bg); box-shadow: 3px 3px 6px rgba(26,26,26,0.04), -3px -3px 6px rgba(255,255,255,0.7); transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); z-index: 1; }
+        .slider { position: absolute; top: 0.4em; bottom: 0.4em; left: 0.4em; width: calc((100% - 0.8em) / 3); border-radius: 0.4em; background: var(--bg); box-shadow: 3px 3px 6px rgba(var(--text-rgb), 0.04), -3px -3px 6px var(--hi); transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); z-index: 1; }
         #high:checked ~ .slider { transform: translateX(0); }
         #medium:checked ~ .slider { transform: translateX(100%); }
         #low:checked ~ .slider { transform: translateX(200%); }
         #high:checked ~ label[for="high"], #medium:checked ~ label[for="medium"], #low:checked ~ label[for="low"] { color: var(--text); }
 
         .tooltip-wrapper { position: relative; display: inline-flex; cursor: pointer; z-index: 20; }
-        .tooltip-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--bg); color: var(--text); display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 5px rgba(26,26,26,0.1), -2px -2px 5px rgba(255,255,255,0.7); transition: all 0.3s ease; }
+        .tooltip-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--bg); color: var(--text); display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 5px rgba(var(--text-rgb), 0.1), -2px -2px 5px var(--hi); transition: all 0.3s ease; }
         .tooltip-icon svg { width: 18px; height: 18px; stroke-width: 2.5; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round;}
         .tooltip-wrapper:hover .tooltip-icon { color: var(--accent); }
-        .tooltip-wrapper.active .tooltip-icon { box-shadow: inset 2px 2px 5px rgba(26,26,26,0.1), inset -2px -2px 5px rgba(255,255,255,0.7); color: var(--accent); }
-        .tooltip-content { position: absolute; bottom: calc(100% + 12px); left: 0; background: #FFFFFF; color: var(--text); padding: 1rem; border-radius: 0.8rem; font-size: 0.9rem; font-weight: 600; text-align: left; width: max-content; max-width: 240px; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 15px 35px rgba(26,26,26,0.1), 0 5px 15px rgba(26,26,26,0.04); border: 1px solid rgba(26,26,26,0.04); pointer-events: none; }
+        .tooltip-wrapper.active .tooltip-icon { box-shadow: inset 2px 2px 5px rgba(var(--text-rgb), 0.1), inset -2px -2px 5px var(--hi); color: var(--accent); }
+        .tooltip-content { position: absolute; bottom: calc(100% + 12px); left: 0; background: var(--surface); color: var(--text); padding: 1rem; border-radius: 0.8rem; font-size: 0.9rem; font-weight: 600; text-align: left; width: max-content; max-width: 240px; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 15px 35px rgba(var(--text-rgb), 0.1), 0 5px 15px rgba(var(--text-rgb), 0.04); border: 1px solid rgba(var(--text-rgb), 0.04); pointer-events: none; }
         .tooltip-wrapper.active .tooltip-content { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
 
-        .input-field { height: 54px; background: var(--bg); padding: 0 1.2em; font-size: 16px; font-family: inherit; color: var(--text); border-radius: 0.5em; box-shadow: inset 3px 3px 6px rgba(26,26,26,0.1), inset -3px -3px 6px rgba(255,255,255,0.7); transition: all 0.3s ease; width: 100%; font-weight: 600;}
-        .input-field:focus { box-shadow: inset 5px 5px 10px rgba(26,26,26,0.1), inset -5px -5px 10px rgba(255,255,255,0.7); }
-        .input-field::placeholder { color: rgba(26,26,26,0.4); }
+        .input-field { height: 54px; background: var(--bg); padding: 0 1.2em; font-size: 16px; font-family: inherit; color: var(--text); border-radius: 0.5em; box-shadow: inset 3px 3px 6px rgba(var(--text-rgb), 0.1), inset -3px -3px 6px var(--hi); transition: all 0.3s ease; width: 100%; font-weight: 600;}
+        .input-field:focus { box-shadow: inset 5px 5px 10px rgba(var(--text-rgb), 0.1), inset -5px -5px 10px var(--hi); }
+        .input-field::placeholder { color: rgba(var(--text-rgb), 0.4); }
 
-        .drop-zone { width: 100%; padding: 2.5rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg); border-radius: 1em; box-shadow: inset 5px 5px 12px rgba(26,26,26,0.1), inset -5px -5px 12px rgba(255,255,255,0.7); text-align: center; gap: 1rem; transition: all 0.3s ease; cursor: pointer; }
+        .drop-zone { width: 100%; padding: 2.5rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg); border-radius: 1em; box-shadow: inset 5px 5px 12px rgba(var(--text-rgb), 0.1), inset -5px -5px 12px var(--hi); text-align: center; gap: 1rem; transition: all 0.3s ease; cursor: pointer; }
         .drop-zone:hover p, .drop-zone:hover .text-small, .drop-zone:hover .drop-zone-icon { color: var(--accent); opacity: 1; }
         .drop-zone-icon { width: 60px; height: 60px; margin-bottom: 0.5rem; opacity: 0.4; color: var(--text); transition: all 0.3s ease; }
         .drop-zone-icon svg { width: 100%; height: 100%; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-        .drop-zone p { margin: 0; color: rgba(26,26,26,0.7); font-size: 16px; font-weight: 700; transition: color 0.3s ease; }
-        .drop-zone .text-small { color: rgba(26,26,26,0.4); font-size: 14px; font-weight: 600; transition: color 0.3s ease; }
+        .drop-zone p { margin: 0; color: rgba(var(--text-rgb), 0.7); font-size: 16px; font-weight: 700; transition: color 0.3s ease; }
+        .drop-zone .text-small { color: rgba(var(--text-rgb), 0.4); font-size: 14px; font-weight: 600; transition: color 0.3s ease; }
 
-        .exp-card { background: var(--bg); border-radius: 1.5rem; padding: 1.5rem; box-shadow: 6px 6px 14px rgba(26,26,26,0.1), -6px -6px 14px rgba(255,255,255,0.7); display: flex; flex-direction: column; gap: 1rem; width: 100%; transition: all 0.3s ease; cursor: pointer; }
-        .exp-card:hover { box-shadow: 12px 12px 24px rgba(26,26,26,0.1), -12px -12px 24px rgba(255,255,255,0.7); }
+        .exp-card { background: var(--bg); border-radius: 1.5rem; padding: 1.5rem; box-shadow: 6px 6px 14px rgba(var(--text-rgb), 0.1), -6px -6px 14px var(--hi); display: flex; flex-direction: column; gap: 1rem; width: 100%; transition: all 0.3s ease; cursor: pointer; }
+        .exp-card:hover { box-shadow: 12px 12px 24px rgba(var(--text-rgb), 0.1), -12px -12px 24px var(--hi); }
         .exp-card:hover h3 { color: var(--accent); }
-        .exp-card:active { box-shadow: inset 3px 3px 8px rgba(26,26,26,0.1), inset -3px -3px 8px rgba(255,255,255,0.7); }
+        .exp-card:active { box-shadow: inset 3px 3px 8px rgba(var(--text-rgb), 0.1), inset -3px -3px 8px var(--hi); }
         .exp-cover { width: 100%; height: 140px; border-radius: 1rem; background: var(--card-bg); overflow: hidden; }
         .exp-cover img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
         .exp-content h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--text); transition: color 0.3s ease; }
-        .exp-content p { font-size: 0.9rem; color: rgba(26,26,26,0.7); line-height: 1.5; margin: 0; font-weight: 500;}
+        .exp-content p { font-size: 0.9rem; color: rgba(var(--text-rgb), 0.7); line-height: 1.5; margin: 0; font-weight: 500;}
 
-        .tool-card { background: var(--bg); border-radius: 1.5rem; padding: 1.5rem; box-shadow: 6px 6px 14px rgba(26,26,26,0.1), -6px -6px 14px rgba(255,255,255,0.7); display: flex; align-items: flex-start; gap: 1.2rem; width: 100%; transition: all 0.3s ease; cursor: pointer; }
-        .tool-card:hover { box-shadow: 12px 12px 24px rgba(26,26,26,0.1), -12px -12px 24px rgba(255,255,255,0.7); }
+        .tool-card { background: var(--bg); border-radius: 1.5rem; padding: 1.5rem; box-shadow: 6px 6px 14px rgba(var(--text-rgb), 0.1), -6px -6px 14px var(--hi); display: flex; align-items: flex-start; gap: 1.2rem; width: 100%; transition: all 0.3s ease; cursor: pointer; }
+        .tool-card:hover { box-shadow: 12px 12px 24px rgba(var(--text-rgb), 0.1), -12px -12px 24px var(--hi); }
         .tool-card:hover h3 { color: var(--accent); }
-        .tool-card:active { box-shadow: inset 3px 3px 8px rgba(26,26,26,0.1), inset -3px -3px 8px rgba(255,255,255,0.7); }
+        .tool-card:active { box-shadow: inset 3px 3px 8px rgba(var(--text-rgb), 0.1), inset -3px -3px 8px var(--hi); }
         .tool-icon-wrapper { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); }
         .tool-icon-wrapper svg { width: 26px; height: 26px; stroke-width: 2.5; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; }
         .tool-content h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.2rem; color: var(--text); transition: color 0.3s ease; }
-        .tool-content p { font-size: 0.9rem; color: rgba(26,26,26,0.7); line-height: 1.4; margin: 0; font-weight: 500;}
+        .tool-content p { font-size: 0.9rem; color: rgba(var(--text-rgb), 0.7); line-height: 1.4; margin: 0; font-weight: 500;}
 
         .footer {
             position: relative;
@@ -370,12 +392,16 @@
         <div class="voice-pillar">
             <div class="pillar-desc">
                 <h3>Écrire comme un humain</h3>
-                <p>La ponctuation reste simple : deux-points, virgules, parenthèses. Le tiret cadratin est banni de toute la copy, il signale un texte généré et casse l'authenticité.</p>
+                <p>L'IA peut aider à écrire, mais tout ce qui trahit un texte généré doit disparaître : tirets cadratins, structures en miroir (« ce n'est pas X, c'est Y »), superlatifs creux, emojis décoratifs, listes surformatées. Le texte final doit sonner comme quelqu'un qui parle.</p>
             </div>
             <div class="pillar-examples">
                 <div class="example-pair">
                     <div class="example-do"><span class="example-icon">✅</span> <span>"Un objectif clair : créer de l'impact, pour l'utilisateur et pour l'entreprise."</span></div>
                     <div class="example-dont"><span class="example-icon">🚫</span> <span>"Un objectif clair — créer de l'impact — pour l'utilisateur et l'entreprise."</span></div>
+                </div>
+                <div class="example-pair">
+                    <div class="example-do"><span class="example-icon">✅</span> <span>"La refonte a triplé le trafic en six mois."</span></div>
+                    <div class="example-dont"><span class="example-icon">🚫</span> <span>"Ce n'est pas une simple refonte, c'est une transformation radicale de l'expérience ✨"</span></div>
                 </div>
             </div>
         </div>
@@ -472,21 +498,21 @@
         </div>
 
         <div class="opacity-section">
-            <h3>Nuances d'opacité (Noir #1A1A1A)</h3>
+            <h3>Nuances d'opacité (encre)</h3>
             <div class="opacity-grid no-select">
-                <div class="opacity-box dark-bg" style="background: rgba(26,26,26,1);" onclick="copyHex(this, 'rgba(26, 26, 26, 1)')" title="Copier la valeur rgba">
+                <div class="opacity-box dark-bg" style="background: rgba(var(--text-rgb), 1);" onclick="copyHex(this, 'rgba(26, 26, 26, 1)')" title="Copier la valeur rgba">
                     <div class="ob-content"><span>100%</span><small>Texte</small></div>
                 </div>
-                <div class="opacity-box dark-bg" style="background: rgba(26,26,26,0.7);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.7)')" title="Copier la valeur rgba">
+                <div class="opacity-box dark-bg" style="background: rgba(var(--text-rgb), 0.7);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.7)')" title="Copier la valeur rgba">
                     <div class="ob-content"><span>70%</span><small>Détails</small></div>
                 </div>
-                <div class="opacity-box dark-bg" style="background: rgba(26,26,26,0.4);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.4)')" title="Copier la valeur rgba">
+                <div class="opacity-box dark-bg" style="background: rgba(var(--text-rgb), 0.4);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.4)')" title="Copier la valeur rgba">
                     <div class="ob-content"><span>40%</span><small>Icônes</small></div>
                 </div>
-                <div class="opacity-box light-bg" style="background: rgba(26,26,26,0.1);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.1)')" title="Copier la valeur rgba">
+                <div class="opacity-box light-bg" style="background: rgba(var(--text-rgb), 0.1);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.1)')" title="Copier la valeur rgba">
                     <div class="ob-content"><span>10%</span><small>Ombres</small></div>
                 </div>
-                <div class="opacity-box light-bg" style="background: rgba(26,26,26,0.04);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.04)')" title="Copier la valeur rgba">
+                <div class="opacity-box light-bg" style="background: rgba(var(--text-rgb), 0.04);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.04)')" title="Copier la valeur rgba">
                     <div class="ob-content"><span>4%</span><small>Fonds</small></div>
                 </div>
             </div>
@@ -582,7 +608,7 @@
             </div>
 
             <div class="asset-card">
-                <div class="asset-preview" style="background-image: url('media/cream-paper.png'); background-color: rgba(26,26,26,0.06); background-blend-mode: color-burn;"></div>
+                <div class="asset-preview" style="background-image: url('media/cream-paper.png'); background-color: rgba(var(--text-rgb), 0.06); background-blend-mode: color-burn;"></div>
                 <div class="asset-info">
                     <h4>Texture papier</h4>
                     <p>Tuile de 158x144 px, semi-transparente (alpha de 8 à 79 %, 38 % en moyenne). À poser en mode Produit (multiply) à 100 % sur le fond crème pour retrouver le rendu du site : un assombrissement moyen d'environ 8 %.</p>
@@ -637,6 +663,7 @@
             <div class="ui-column">
                 <button class="secondary no-select" type="button">Bouton clair</button>
                 <button class="primary no-select" type="button">Bouton sombre</button>
+                <button class="ghost no-select" type="button">Bouton fantôme</button>
                 <button class="icon-button no-select" aria-label="Télécharger" type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -711,6 +738,12 @@
                         <h3>Convertisseur</h3>
                         <p>Optimisation WebP, PNG, JPG directe dans le navigateur.</p>
                     </div>
+                </div>
+
+                <div class="chip-cluster no-select">
+                    <span class="brand-tag">Contexte du projet</span>
+                    <span class="brand-chip">Chip outil</span>
+                    <span class="brand-chip">Chip outil</span>
                 </div>
             </div>
 
