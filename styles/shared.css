@@ -946,6 +946,19 @@ button.primary:active:not(:disabled) {
     .hero-image-container { aspect-ratio: 4 / 3; }
     .hero-text { font-size: clamp(1.9rem, 8.5vw, 2.6rem); line-height: 1.15; }
 
+    /* Compact the category-page header: at desktop spacing, the hero +
+       search + wrapped filter rows filled a whole phone viewport and the
+       actual cards started below the fold. */
+    .hero { padding: 88px 0 32px; }
+    .hero h1 { margin-bottom: 14px; }
+    .controls-wrapper { gap: 14px; margin-bottom: 32px; }
+    .filters-group { gap: 8px; }
+    .filter-btn { padding: 8px 14px; font-size: 0.9rem; }
+    .filter-count { width: 20px; height: 20px; font-size: 0.78rem; margin-left: 6px; }
+
+    /* Long experiment titles read better one step down on small screens. */
+    .card-title { font-size: 1.1rem; }
+
     /* Progressive blur behind the floating navbar; fades in with it
        (navbar.js mirrors the navbar visibility on <body>). */
     body::after {

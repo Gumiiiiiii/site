@@ -88,6 +88,39 @@ const CHECKS = [
         }
     },
     {
+        name: 'mobile: category header leaves room for the cards',
+        async run(page) {
+            await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
+            try {
+                await page.goto(BASE + '/outils', { waitUntil: 'networkidle0' });
+                const gridTop = await page.evaluate(() => Math.round(document.querySelector('.grid-target').getBoundingClientRect().top));
+                // Hero + search + filters once filled the whole first viewport.
+                if (gridTop > 844 - 60) throw new Error('tools grid starts at ' + gridTop + 'px in an 844px viewport');
+            } finally {
+                await page.setViewport({ width: 1440, height: 900 });
+            }
+        }
+    },
+    {
+        name: 'mobile: hero text fully faded before its sticky container ends',
+        async run(page) {
+            await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
+            try {
+                await page.goto(BASE + '/', { waitUntil: 'networkidle0' });
+                const opacity = await page.evaluate(async () => {
+                    const section = document.querySelector('.hero-section');
+                    const container = document.querySelector('.hero-text-container');
+                    window.scrollTo(0, section.offsetHeight - container.offsetHeight);
+                    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+                    return Number(getComputedStyle(document.getElementById('hero-text')).opacity);
+                });
+                if (opacity > 0.01) throw new Error('hero text still at opacity ' + opacity + ' when it unsticks');
+            } finally {
+                await page.setViewport({ width: 1440, height: 900 });
+            }
+        }
+    },
+    {
         name: 'social formats: focal point and format list are wired',
         async run(page) {
             await page.goto(BASE + '/tools/social-formats', { waitUntil: 'networkidle0' });

@@ -198,6 +198,8 @@
             if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
             const heroText = document.getElementById('hero-text');
+            const heroSection = document.querySelector('.hero-section');
+            const heroTextContainer = document.querySelector('.hero-text-container');
             const footerContent = document.getElementById('footer-content');
             const contact = document.getElementById('contact');
 
@@ -256,7 +258,13 @@
                 const windowHeight = window.innerHeight;
 
                 if (heroText) {
-                    const fadeEnd = windowHeight * 0.85;
+                    // The text must be fully transparent BEFORE its sticky
+                    // container starts scrolling again, or it visibly floats
+                    // half-faded above the image (short 4:3 image on mobile).
+                    const stickyTravel = heroSection && heroTextContainer
+                        ? (heroSection.offsetHeight - heroTextContainer.offsetHeight) * 0.9
+                        : Infinity;
+                    const fadeEnd = Math.max(1, Math.min(windowHeight * 0.85, stickyTravel));
                     heroText.style.opacity = Math.max(0, Math.min(1, 1 - (scroll / fadeEnd)));
                 }
 
