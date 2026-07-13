@@ -13,6 +13,8 @@ experiments/<slug>.html     Pages d'articles statiques (SEO), contenu rendu par
 experiments-template.html   Ancienne URL — simple redirection vers experiments/<slug>
 tools/*.html                Un fichier par outil (traitement 100% navigateur,
                             sauf le téléchargeur de médias qui appelle l'API)
+en/                         Pages anglaises GÉNÉRÉES par build/prerender-en.js
+                            (ne pas éditer à la main ; committées pour Vercel)
 api/get-video.js            Fonction Vercel (extraction de médias via yt-dlp)
 api/_lib/extract.cjs        Logique partagée entre la fonction Vercel et server.js
 server.js                   Même API en serveur Express autonome (Render)
@@ -27,14 +29,17 @@ media/                      Images, favicon, texture
 ```
 npm install        # sans Python local : YOUTUBE_DL_SKIP_PYTHON_CHECK=1 npm install
 npm run dev        # http://localhost:4173 — reproduit cleanUrls + le préfixe /en/ de Vercel
-npm test           # smoke test jsdom : charge chaque page, échoue sur erreur JS
+npm run build:en   # régénère en/ (pages anglaises pré-rendues pour le SEO)
+npm test           # vérifie la fraîcheur de en/ + smoke test jsdom + tests de layout
 node server.js     # API d'extraction en local (port 10000), nécessite yt-dlp + Python
 ```
 
 ## Déploiement
 
 - **Vercel** : statique + `api/get-video.js`. `vercel.json` gère `cleanUrls` et la
-  réécriture `/en/*` → `/*` (la langue est appliquée côté client via localStorage).
+  réécriture `/en/*` → `/*` — celle-ci ne sert plus que les assets partagés : les
+  pages `/en/*` sont des vrais fichiers pré-rendus dans `en/` (les fichiers
+  existants ont priorité sur les réécritures).
 - **Render** : `server.js` sert la même API d'extraction en secours (le client
   bascule automatiquement, voir `scripts/tool-media-downloader.js`).
 
@@ -45,10 +50,15 @@ node server.js     # API d'extraction en local (port 10000), nécessite yt-dlp +
    canonical, balises OG, JSON-LD, `<h1>`, image de couverture et
    `window.GUMI_ARTICLE_SLUG`.
 3. Ajouter la carte dans `experiments.html` (et l'accueil si souhaité).
-4. Ajouter l'URL dans `sitemap.xml`.
+4. Ajouter l'URL (FR + EN) dans `sitemap.xml` et l'item dans `feed.xml`.
+5. `npm run build:en` puis committer `en/` (sinon `npm test` échoue).
 
 ## Ajouter un outil
 
 1. Copier une page de `tools/` et son script `scripts/tool-*.js`.
 2. Ajouter les clés de traduction dans `scripts/i18n.js`.
-3. Ajouter la carte dans `outils.html` (et l'accueil si souhaité), plus `sitemap.xml`.
+3. Ajouter la carte dans `outils.html` (et l'accueil si souhaité), plus
+   l'URL (FR + EN) dans `sitemap.xml`.
+4. Dans `sw.js` : ajouter la page et le script à `CORE_ASSETS` et incrémenter
+   `VERSION` (sinon le badge « fonctionne hors ligne » ment).
+5. `npm run build:en` puis committer `en/` (sinon `npm test` échoue).
