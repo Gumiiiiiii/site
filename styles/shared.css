@@ -1101,12 +1101,18 @@ button.primary:active:not(:disabled) {
     .theme-toggle-rays line, .theme-toggle-cutout, .theme-toggle-core { transition: none; }
 }
 
+/* Cross-fade between pages on same-origin navigations (progressive
+   enhancement — unsupported browsers just navigate normally). */
+@view-transition { navigation: auto; }
+
 /* Theme change reveals the new palette with a circular wipe that grows from
    the toggle button (origin + end radius set in navbar.js). The old frame
-   stays put underneath while the new one clips in on top. Browsers without
-   the View Transitions API simply snap — navbar.js skips the animation. */
-::view-transition-old(root) { animation: none; }
-::view-transition-new(root) {
+   stays put underneath while the new one clips in on top. Scoped to the
+   .theme-switching class navbar.js sets, so page navigations keep the plain
+   cross-fade above rather than inheriting this wipe. Browsers without the
+   View Transitions API simply snap — navbar.js skips the animation. */
+:root.theme-switching::view-transition-old(root) { animation: none; }
+:root.theme-switching::view-transition-new(root) {
     animation: theme-wipe 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 @keyframes theme-wipe {
