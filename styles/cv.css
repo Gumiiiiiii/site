@@ -268,30 +268,48 @@ a.cv-stat:hover { transform: translateY(-3px); }
     padding: 1.3rem 1.4rem;
 }
 
-.cv-skill-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: rgba(156, 119, 245, 0.12);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0.8rem;
-}
-
-.cv-skill-icon svg {
-    width: 20px;
-    height: 20px;
-    stroke: var(--accent);
-    stroke-width: 2.2;
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
 .cv-skill h3 { font-size: 1rem; font-weight: 750; margin-bottom: 0.35rem; }
 
 .cv-skill p { font-size: 0.88rem; opacity: 0.78; line-height: 1.5; }
+
+/* Tool cloud: real product logos (simple-icons paths, inlined) as quiet
+   chips; monochrome so 22 brand colors don't shout over the page. */
+.cv-tools-label {
+    margin-top: 1.75rem;
+    margin-bottom: 0.8rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    opacity: 0.6;
+}
+
+.cv-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.cv-tool {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.42rem 0.85rem;
+    border-radius: 100px;
+    background: var(--card-bg);
+    font-size: 0.85rem;
+    font-weight: 600;
+    opacity: 0.85;
+    transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.cv-tool svg {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+    flex-shrink: 0;
+    opacity: 0.8;
+}
+
+.cv-tool:hover { color: var(--accent); opacity: 1; }
 
 /* === TIMELINE === */
 .cv-tl-group + .cv-tl-group { margin-top: 2.25rem; }

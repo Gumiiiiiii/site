@@ -249,14 +249,14 @@
         cv_stat2_src: { fr: 'croissance communautaire', en: 'community growth' },
         cv_stat3_label: { fr: 'de ventes e-commerce', en: 'e-commerce sales' },
         cv_stat3_src: { fr: 'optimisation · Lindt & Sprüngli', en: 'optimization · Lindt & Sprüngli' },
-        cv_stat4_label: { fr: 'recherches par an captées', en: 'yearly searches captured' },
+        cv_stat4_label: { fr: 'recherches par an ciblées', en: 'yearly searches targeted' },
         cv_stat4_src: { fr: "SEO produit · l'étude est en ligne", en: 'product SEO · the study is public' },
         cv_sec_cases: { fr: 'Trois contextes, trois preuves', en: 'Three settings, three proofs' },
         cv_case1_tag: { fr: 'Lindt & Sprüngli · CDI', en: 'Lindt & Sprüngli · full-time' },
-        cv_case1_title: { fr: "Piloter le contenu e-commerce d'une marque iconique", en: 'Running e-commerce content for an iconic brand' },
+        cv_case1_title: { fr: 'Piloter le contenu e-commerce de Lindt & Sprüngli', en: 'Running e-commerce content at Lindt & Sprüngli' },
         cv_case1_desc: {
-            fr: "3 ans chez Lindt & Sprüngli : 7 000+ assets produits (direction artistique, photo, 3D), stratégie SEO, structuration de la donnée produit et coordination des agences, développeurs et équipes internes.",
-            en: '3 years at Lindt & Sprüngli: 7,000+ assets produced (art direction, photo, 3D), SEO strategy, product data structuring, and coordination across agencies, developers and internal teams.'
+            fr: "7 000+ assets produits en 3 ans (direction artistique, photo, 3D), stratégie SEO, structuration de la donnée produit et coordination des agences, développeurs et équipes internes.",
+            en: '7,000+ assets produced over 3 years (art direction, photo, 3D), SEO strategy, product data structuring, and coordination across agencies, developers and internal teams.'
         },
         cv_case1_result: { fr: '+180 % de trafic organique, +1000 % de donnée produit', en: '+180% organic traffic, +1000% product data' },
         cv_case2_tag: { fr: 'ArdaCraft · projet communautaire', en: 'ArdaCraft · community project' },
@@ -267,7 +267,7 @@
         },
         cv_case2_result: { fr: "un levier d'acquisition durable", en: 'a lasting acquisition channel' },
         cv_case3_tag: { fr: 'Consulting indépendant', en: 'Independent consulting' },
-        cv_case3_title: { fr: 'Refondre et faire décoller un site client', en: 'Rebuild and relaunch a client website' },
+        cv_case3_title: { fr: 'Refondre un site client et tripler son trafic', en: 'Rebuild a client site and triple its traffic' },
         cv_case3_desc: {
             fr: "Audit puis refonte complète d'un site WordPress (HTML, CSS, JS), et campagnes d'acquisition B2B sur Google Ads pour d'autres clients.",
             en: 'Audit then full rebuild of a WordPress site (HTML, CSS, JS), plus B2B acquisition campaigns on Google Ads for other clients.'
@@ -291,6 +291,7 @@
         cv_skill5_d: { fr: 'Figma, Webflow, Webstudio, HTML/CSS/JS. Je livre moi-même ce que je conçois.', en: 'Figma, Webflow, Webstudio, HTML/CSS/JS. I ship what I design myself.' },
         cv_skill6_t: { fr: 'GenAI', en: 'GenAI' },
         cv_skill6_d: { fr: "Usage quotidien outillé. Une conférence d'une heure animée sur le sujet.", en: 'Daily hands-on use. Gave a one-hour talk on the topic.' },
+        cv_tools_label: { fr: 'La boîte à outils, au quotidien', en: 'The everyday toolbox' },
         cv_sec_path: { fr: 'Parcours', en: 'Background' },
         cv_tl_exp: { fr: 'Expérience', en: 'Experience' },
         cv_tl_edu: { fr: 'Formation & langues', en: 'Education & languages' },
