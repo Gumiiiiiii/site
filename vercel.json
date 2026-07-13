@@ -6,6 +6,18 @@
       "has": [{ "type": "host", "value": "pierre.gumi.ch" }],
       "destination": "/cv",
       "permanent": false
+    },
+    {
+      "source": "/cv",
+      "missing": [{ "type": "host", "value": "pierre.gumi.ch" }],
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/en/cv",
+      "missing": [{ "type": "host", "value": "pierre.gumi.ch" }],
+      "destination": "/en",
+      "permanent": false
     }
   ],
   "rewrites": [
