@@ -152,6 +152,18 @@ async function main() {
             }
         }
 
+        // The raw /en/ markup must be English BEFORE any script runs — this is
+        // what crawlers see (the jsdom checks above execute i18n.js, which
+        // would mask a missing pre-render).
+        const enRes = await fetch(BASE + '/en/', { headers: { connection: 'close' } });
+        const enBody = await enRes.text();
+        const okEn = enRes.status === 200
+            && enBody.includes('<html lang="en"')
+            && enBody.includes('content="en_US"')
+            && enBody.includes('https://gumi.ch/en/');
+        console.log((okEn ? ' ok ' : 'FAIL') + '  /en/ (static English markup)');
+        if (!okEn) failures += 1;
+
         // Custom 404 page is served for unknown paths.
         const res = await fetch(BASE + '/definitely-not-a-page');
         const body = await res.text();
@@ -163,7 +175,9 @@ async function main() {
     }
 
     console.log(failures === 0 ? '\nAll smoke tests passed.' : '\n' + failures + ' failure(s).');
-    process.exit(failures === 0 ? 0 : 1);
+    // No process.exit(): on Windows it can abort (libuv async.c assertion)
+    // while jsdom/undici handles are still closing. Let the loop drain.
+    process.exitCode = failures === 0 ? 0 : 1;
 }
 
 main();

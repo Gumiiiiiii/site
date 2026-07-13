@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "node dev-server.js",
-    "test": "node test/smoke-test.js && node test/layout-test.js",
+    "build:en": "node build/prerender-en.js",
+    "test": "node build/prerender-en.js --check && node test/smoke-test.js && node test/layout-test.js",
     "test:smoke": "node test/smoke-test.js",
     "test:layout": "node test/layout-test.js"
   },

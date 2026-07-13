@@ -5,7 +5,7 @@
 // deploy is picked up on the next visit; the cache is the offline fallback.
 // One cache for precache + runtime, so a network refresh overwrites the
 // precached copy instead of being shadowed by it.
-const VERSION = 'gumi-sw-v7';
+const VERSION = 'gumi-sw-v8';
 const CACHE_NAME = VERSION;
 
 const CORE_ASSETS = [
@@ -75,12 +75,11 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Mirror the vercel.json /en rewrite so both language URLs hit one cache entry.
+// The /en/* documents are pre-rendered English pages (build/prerender-en.js),
+// distinct from their French counterparts, so language URLs no longer share a
+// cache entry; only the query string is dropped.
 function cacheKeyFor(url) {
     const parsed = new URL(url);
-    if (parsed.pathname === '/en' || parsed.pathname.startsWith('/en/')) {
-        parsed.pathname = parsed.pathname.slice(3) || '/';
-    }
     parsed.search = '';
     return parsed.href;
 }

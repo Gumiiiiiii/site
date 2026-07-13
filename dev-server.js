@@ -24,6 +24,20 @@ const MIME = {
     '.xml': 'application/xml; charset=utf-8'
 };
 
+// Resolves a URL path the way the static handler below does (directory
+// index + cleanUrls) and reports whether a real file backs it.
+function resolvesToFile(urlPath) {
+    if (urlPath.endsWith('/')) urlPath += 'index.html';
+    let filePath = path.normalize(path.join(ROOT, urlPath));
+    if (!filePath.startsWith(ROOT)) return false;
+    if (!path.extname(filePath) && fs.existsSync(filePath + '.html')) {
+        filePath += '.html';
+    } else if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+        filePath = path.join(filePath, 'index.html');
+    }
+    return fs.existsSync(filePath) && fs.statSync(filePath).isFile();
+}
+
 http.createServer((req, res) => {
     let urlPath;
     try {
@@ -33,8 +47,9 @@ http.createServer((req, res) => {
         return res.end('Bad request');
     }
 
-    // /en prefix rewrite (same as vercel.json).
-    if (urlPath === '/en' || urlPath.startsWith('/en/')) {
+    // /en prefix rewrite, mimicking Vercel: real files win (the pre-rendered
+    // pages in en/), the rewrite only kicks in as a fallback (shared assets).
+    if ((urlPath === '/en' || urlPath.startsWith('/en/')) && !resolvesToFile(urlPath)) {
         urlPath = urlPath.slice(3) || '/';
     }
 
@@ -61,9 +76,13 @@ http.createServer((req, res) => {
         return res.end('Forbidden');
     }
 
-    // cleanUrls: extensionless paths resolve to .html files.
+    // cleanUrls: extensionless paths resolve to .html files, which win over
+    // a same-named directory (Vercel behavior: /experiments serves
+    // experiments.html, /en serves en/index.html).
     if (!path.extname(filePath) && fs.existsSync(filePath + '.html')) {
         filePath += '.html';
+    } else if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+        filePath = path.join(filePath, 'index.html');
     }
 
     fs.readFile(filePath, (err, data) => {
