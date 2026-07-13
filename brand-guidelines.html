@@ -149,6 +149,14 @@
         .circle-10 { width: 140px; height: 140px; background: var(--accent); color: var(--bg); left: 25%; top: 15%; z-index: 3; }
         .circle-10 small { color: rgba(249, 244, 239, 0.7); }
 
+        .swatch-sub { font-size: 1rem; opacity: 0.7; margin-bottom: 1.5rem; max-width: 640px; font-weight: 600; line-height: 1.6; }
+
+        .asset-dl { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
+        .asset-dl a { font-size: 0.85rem; font-weight: 700; color: var(--accent); text-decoration: none; padding: 0.45rem 0.95rem; border: 1.5px solid rgba(26,26,26,0.15); border-radius: 100px; transition: border-color 0.2s ease; }
+        .asset-dl a:hover { border-color: var(--accent); }
+        .asset-card.dark-bg .asset-dl a { border-color: rgba(249,244,239,0.25); color: var(--accent-light); }
+        .asset-card.dark-bg .asset-dl a:hover { border-color: var(--accent-light); }
+
         .opacity-section { margin-top: 80px; }
         .opacity-section h3, .semantic-colors-section h3 { font-size: 1.5rem; font-weight: 900; margin-bottom: 1.5rem; letter-spacing: -0.5px; }
         .opacity-grid { display: flex; gap: 1.5rem; flex-wrap: wrap; }
@@ -361,6 +369,19 @@
 
         <div class="voice-pillar">
             <div class="pillar-desc">
+                <h3>Écrire comme un humain</h3>
+                <p>La ponctuation reste simple : deux-points, virgules, parenthèses. Le tiret cadratin est banni de toute la copy, il signale un texte généré et casse l'authenticité.</p>
+            </div>
+            <div class="pillar-examples">
+                <div class="example-pair">
+                    <div class="example-do"><span class="example-icon">✅</span> <span>"Un objectif clair : créer de l'impact, pour l'utilisateur et pour l'entreprise."</span></div>
+                    <div class="example-dont"><span class="example-icon">🚫</span> <span>"Un objectif clair — créer de l'impact — pour l'utilisateur et l'entreprise."</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="voice-pillar">
+            <div class="pillar-desc">
                 <h3>Partager le processus</h3>
                 <p>Je communique efficacement les enjeux et les délais afin d'avoir un contexte clair.</p>
             </div>
@@ -394,6 +415,47 @@
             <div class="color-circle circle-10" onclick="copyHex(this, '#9C77F5')" title="Copier la couleur">
                 <span>10%</span>
                 <small>#9C77F5</small>
+            </div>
+        </div>
+
+        <div class="semantic-colors-section" style="margin-top: 80px;">
+            <h3>Déclinaisons de l'accent</h3>
+            <p class="swatch-sub">Le violet existe en deux intensités par thème : l'accent porte l'action et les liens, sa version claire sert aux survols sur fonds sombres. Le thème sombre éclaircit les deux pour préserver le contraste.</p>
+            <div class="opacity-grid no-select">
+                <div class="opacity-box dark-bg" style="background: #9C77F5;" onclick="copyHex(this, '#9C77F5')" title="Copier la couleur">
+                    <div class="ob-content"><span>Accent</span><small>#9C77F5 · clair</small></div>
+                </div>
+                <div class="opacity-box light-bg" style="background: #D1BFFF;" onclick="copyHex(this, '#D1BFFF')" title="Copier la couleur">
+                    <div class="ob-content"><span>Accent light</span><small>#D1BFFF · clair</small></div>
+                </div>
+                <div class="opacity-box dark-bg" style="background: #B49BFF;" onclick="copyHex(this, '#B49BFF')" title="Copier la couleur">
+                    <div class="ob-content"><span>Accent</span><small>#B49BFF · sombre</small></div>
+                </div>
+                <div class="opacity-box light-bg" style="background: #D8CAFF;" onclick="copyHex(this, '#D8CAFF')" title="Copier la couleur">
+                    <div class="ob-content"><span>Accent light</span><small>#D8CAFF · sombre</small></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="semantic-colors-section" style="margin-top: 80px;">
+            <h3>Thème sombre</h3>
+            <p class="swatch-sub">Le site vit dans les deux thèmes (bascule dans la barre de navigation). Le sombre n'est pas une inversion : le fond tire vers le violet-noir, le texte vers l'ivoire, et les couleurs sémantiques sont ravivées pour rester lisibles.</p>
+            <div class="opacity-grid no-select">
+                <div class="opacity-box dark-bg" style="background: #1B1A1F;" onclick="copyHex(this, '#1B1A1F')" title="Copier la couleur">
+                    <div class="ob-content"><span>Fond</span><small>#1B1A1F</small></div>
+                </div>
+                <div class="opacity-box dark-bg" style="background: #2A2831;" onclick="copyHex(this, '#2A2831')" title="Copier la couleur">
+                    <div class="ob-content"><span>Surface</span><small>#2A2831</small></div>
+                </div>
+                <div class="opacity-box light-bg" style="background: #F1ECE4;" onclick="copyHex(this, '#F1ECE4')" title="Copier la couleur">
+                    <div class="ob-content"><span>Texte</span><small>#F1ECE4</small></div>
+                </div>
+                <div class="opacity-box dark-bg" style="background: #6FA783;" onclick="copyHex(this, '#6FA783')" title="Copier la couleur">
+                    <div class="ob-content"><span>Positif</span><small>#6FA783</small></div>
+                </div>
+                <div class="opacity-box dark-bg" style="background: #D98B8B;" onclick="copyHex(this, '#D98B8B')" title="Copier la couleur">
+                    <div class="ob-content"><span>Négatif</span><small>#D98B8B</small></div>
+                </div>
             </div>
         </div>
 
@@ -484,7 +546,7 @@
     <section class="section" id="assets">
         <div class="section-label">05</div>
         <h2>Ressources de marque</h2>
-        <p class="section-intro">Mes logos officiels pour les différents contextes d'affichage.</p>
+        <p class="section-intro">Mes logos officiels et les matières du système, téléchargeables pour les adaptations de visuels.</p>
         
         <div class="assets-grid">
             <div class="asset-card">
@@ -494,6 +556,7 @@
                 <div class="asset-info">
                     <h4>Mot-symbole (Clair)</h4>
                     <p>Logo principal pour la navigation et les fonds clairs.</p>
+                    <div class="asset-dl"><a href="media/Gumi-Logotype.png" download>Télécharger PNG</a></div>
                 </div>
             </div>
             
@@ -514,6 +577,30 @@
                 <div class="asset-info">
                     <h4>Monogramme</h4>
                     <p>Pour les espaces compacts : avatars, favicons.</p>
+                    <div class="asset-dl"><a href="media/Gumi-small.png" download>Télécharger PNG</a></div>
+                </div>
+            </div>
+
+            <div class="asset-card">
+                <div class="asset-preview" style="background-image: url('media/cream-paper.png'); background-color: rgba(26,26,26,0.06); background-blend-mode: color-burn;"></div>
+                <div class="asset-info">
+                    <h4>Texture papier</h4>
+                    <p>Tuile de 158x144 px, semi-transparente (alpha de 8 à 79 %, 38 % en moyenne). À poser en mode Produit (multiply) à 100 % sur le fond crème pour retrouver le rendu du site : un assombrissement moyen d'environ 8 %.</p>
+                    <div class="asset-dl"><a href="media/cream-paper.png" download>Télécharger PNG</a></div>
+                </div>
+            </div>
+
+            <div class="asset-card">
+                <div class="asset-preview" style="padding: 1rem;">
+                    <img src="media/gumi-dots-full.png" alt="Motif de points Gumi" style="max-height: 160px; width: 100%; object-fit: cover; opacity: 0.3; border-radius: 1rem;">
+                </div>
+                <div class="asset-info">
+                    <h4>Motif de points</h4>
+                    <p>Grille de 20x18 px en quinconce, rayon de 3 à 7 px croissant vers les bords. Le site le pose en encre à 4 % d'opacité ; la version pleine intensité se teinte et se dose librement. Export 3200x500, fond transparent.</p>
+                    <div class="asset-dl">
+                        <a href="media/gumi-dots-full.png" download>Pleine intensité</a>
+                        <a href="media/gumi-dots-subtle.png" download>Rendu site (4 %)</a>
+                    </div>
                 </div>
             </div>
         </div>
