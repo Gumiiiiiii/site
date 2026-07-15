@@ -46,6 +46,7 @@
         }
 
         .grazie-lock {
+            position: relative;
             width: 46px;
             height: 46px;
             margin: 0 auto 1.4rem auto;
@@ -95,6 +96,10 @@
             box-shadow: inset 5px 5px 10px rgba(26,26,26,0.15), inset -5px -5px 10px rgba(255,255,255,0.9);
         }
         .grazie-digit.filled { color: var(--accent); }
+        .grazie-digit.correct {
+            color: var(--positive);
+            box-shadow: inset 3px 3px 6px rgba(96, 150, 117, 0.22), inset -3px -3px 6px rgba(255, 255, 255, 0.7);
+        }
 
         .grazie-error {
             min-height: 1.2rem;
@@ -109,28 +114,6 @@
         /* Reveal (post-unlock) state */
         #reveal { display: none; }
         #reveal.show { display: block; }
-
-        .grazie-warning {
-            display: flex;
-            gap: 0.8rem;
-            text-align: left;
-            background: rgba(197, 106, 106, 0.09);
-            border: 1px solid rgba(197, 106, 106, 0.25);
-            border-radius: 1rem;
-            padding: 1.1rem 1.2rem;
-            margin-bottom: 1.6rem;
-            line-height: 1.45;
-        }
-        .grazie-warning svg { flex-shrink: 0; width: 22px; height: 22px; stroke: var(--negative); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; margin-top: 2px; }
-        .grazie-warning strong { display: block; margin-bottom: 0.2rem; }
-        .grazie-warning span { font-weight: 500; opacity: 0.85; font-size: 0.95rem; }
-
-        .grazie-ready-note {
-            margin-top: 0.9rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            opacity: 0.7;
-        }
 
         /* Fullscreen video overlay (also the graceful fallback if the browser
            refuses the fullscreen request — the video still plays here). */
@@ -156,6 +139,35 @@
                 from { opacity: 0; transform: translateY(10px); }
                 to { opacity: 1; transform: translateY(0); }
             }
+
+            /* Success: the three digits hop green in sequence, then the
+               unlocked padlock pops in behind a single ring pulse. */
+            .grazie-digit.correct {
+                animation: grazie-hop 0.45s ease both;
+                animation-delay: calc(var(--i, 0) * 80ms);
+            }
+            @keyframes grazie-hop {
+                0%, 100% { transform: translateY(0) scale(1); }
+                45% { transform: translateY(-10px) scale(1.06); }
+            }
+
+            .lock-pop { animation: grazie-lock-pop 0.55s cubic-bezier(0.2, 1.5, 0.4, 1) both; }
+            @keyframes grazie-lock-pop {
+                from { transform: scale(0.5); }
+                to { transform: scale(1); }
+            }
+            .lock-pop::after {
+                content: '';
+                position: absolute;
+                inset: -5px;
+                border-radius: 50%;
+                border: 2px solid var(--positive);
+                animation: grazie-ring 0.7s ease-out 0.1s both;
+            }
+            @keyframes grazie-ring {
+                from { transform: scale(0.85); opacity: 0.85; }
+                to { transform: scale(1.65); opacity: 0; }
+            }
         }
     </style>
 </head>
@@ -172,7 +184,7 @@
                     <svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
                 </div>
                 <h1>Le mot de passe<span class="dot">.</span></h1>
-                <p class="grazie-sub">Bravo, vous avez trouvé l'URL secrète. Entrez le code pour débloquer la suite.</p>
+                <p class="grazie-sub">Trois chiffres pour débloquer la suite.</p>
 
                 <form class="grazie-form" id="gate-form" autocomplete="off" novalidate>
                     <div class="grazie-code" id="code-group">
@@ -187,21 +199,13 @@
 
             <!-- STEP 2 — the reveal -->
             <section id="reveal" aria-hidden="true">
-                <div class="grazie-lock" aria-hidden="true" style="color: var(--positive);">
+                <div class="grazie-lock" id="reveal-lock" aria-hidden="true" style="color: var(--positive);">
                     <svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 7.9-1"></path></svg>
                 </div>
                 <h1>Débloqué<span class="dot">.</span></h1>
+                <p class="grazie-sub">La vidéo démarre aussitôt, plein écran et avec le son.</p>
 
-                <div class="grazie-warning" role="note">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                    <div>
-                        <strong>Assurez-vous d'être prêt·e avant de lancer la vidéo.</strong>
-                        <span>En cliquant, elle démarrera <em>immédiatement</em>, en plein écran et avec le son. Installez-vous confortablement.</span>
-                    </div>
-                </div>
-
-                <button type="button" class="primary no-select" id="start-btn">Je suis prêt·e : lancer la vidéo</button>
-                <p class="grazie-ready-note">Plein écran et son au premier clic. Pas de retour en arrière.</p>
+                <button type="button" class="primary no-select" id="start-btn">Lancer la vidéo</button>
             </section>
 
         </div>
@@ -218,8 +222,7 @@
         (function () {
             // The code from step one of the hunt. Kept exact, per the puzzle.
             var PASSWORD = '7 7 7';
-            // TODO: swap this placeholder for the real reward video ID.
-            var VIDEO_ID = 'dQw4w9WgXcQ';
+            var VIDEO_ID = 'ojO1AFqEook';
 
             var gate = document.getElementById('gate');
             var reveal = document.getElementById('reveal');
@@ -227,8 +230,15 @@
             var group = document.getElementById('code-group');
             var digits = Array.prototype.slice.call(group.querySelectorAll('.grazie-digit'));
             var errorEl = document.getElementById('error');
+            var revealLock = document.getElementById('reveal-lock');
             var startBtn = document.getElementById('start-btn');
             var player = document.getElementById('player');
+
+            var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            // Long enough for the third digit to finish its hop; skipped entirely
+            // when the visitor asked for less motion.
+            var REVEAL_DELAY = reducedMotion ? 0 : 700;
+            var unlocked = false;
 
             // Each box needs its own "7"; join them to compare with the code.
             var EXPECTED = PASSWORD.replace(/\s/g, ''); // "7 7 7" -> "777"
@@ -241,10 +251,23 @@
             }
 
             function unlock() {
-                gate.style.display = 'none';
-                reveal.classList.add('show', 'fade-in');
-                reveal.setAttribute('aria-hidden', 'false');
-                startBtn.focus();
+                unlocked = true;
+                errorEl.classList.remove('show');
+                // Let the correct code land before swapping panels: the digits go
+                // green and hop, one after the other.
+                digits.forEach(function (d, i) {
+                    d.style.setProperty('--i', i);
+                    d.classList.add('correct');
+                    d.blur();
+                    d.readOnly = true;
+                });
+                setTimeout(function () {
+                    gate.style.display = 'none';
+                    reveal.classList.add('show', 'fade-in');
+                    reveal.setAttribute('aria-hidden', 'false');
+                    if (!reducedMotion) revealLock.classList.add('lock-pop');
+                    startBtn.focus();
+                }, REVEAL_DELAY);
             }
 
             function fail() {
@@ -258,6 +281,7 @@
             }
 
             function attempt() {
+                if (unlocked) return;
                 if (entered() === EXPECTED) unlock();
                 else fail();
             }
