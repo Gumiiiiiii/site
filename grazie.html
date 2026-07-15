@@ -14,6 +14,11 @@
     <link rel="stylesheet" href="styles/shared.css">
 
     <style>
+        :root {
+            /* Close bar height, plus the notch on phones that have one. */
+            --grazie-bar-h: calc(env(safe-area-inset-top, 0px) + 56px);
+        }
+
         .grazie-main {
             min-height: 100vh;
             display: flex;
@@ -116,15 +121,68 @@
         #reveal.show { display: block; }
 
         /* Fullscreen video overlay (also the graceful fallback if the browser
-           refuses the fullscreen request — the video still plays here). */
+           refuses the fullscreen request: the video still plays here). */
         .grazie-player {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            /* An iframe is a replaced element: inset alone leaves it at its
+               intrinsic 300x150 and quietly ignores right/bottom, so it has to
+               be sized outright. Only fullscreen was hiding this before. */
+            width: 100%;
+            height: 100%;
             z-index: 9999;
             background: #000;
             border: none;
         }
         .grazie-player[hidden] { display: none; }
+
+        /* The way out when fullscreen was refused, which is always the case on
+           iOS Safari: an iframe cannot be fullscreened there, only a video
+           element. A higher z-index does not win against the iframe (fullscreen
+           promotes it to the top layer, which outranks z-index entirely), so
+           instead the video is shrunk out from under this bar. No overlap means
+           paint order never matters and the button is always tappable. */
+        .grazie-player.is-boxed {
+            top: var(--grazie-bar-h);
+            height: calc(100% - var(--grazie-bar-h));
+        }
+
+        .grazie-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--grazie-bar-h);
+            z-index: 9999;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: env(safe-area-inset-top, 0px) 0.7rem 0 0;
+        }
+        .grazie-bar[hidden] { display: none; }
+
+        /* 44px: Apple's minimum tap target, so it is thumb-sized on a phone. */
+        .grazie-close {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .grazie-close svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2.4; stroke-linecap: round; }
+        /* Focused on open so Escape reaches this page, which on a phone would
+           otherwise ring the button for a tap that never used a keyboard. */
+        .grazie-close:focus { outline: none; }
+        .grazie-close:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
         /* Gentle shake on a wrong code, unless reduced motion is preferred. */
         @media (prefers-reduced-motion: no-preference) {
@@ -216,13 +274,18 @@
             title="Surprise"
             allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
             allowfullscreen></iframe>
+    <div class="grazie-bar" id="close-bar" hidden>
+        <button type="button" class="grazie-close" id="close-btn" aria-label="Fermer la vidéo">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+        </button>
+    </div>
 
     <script src="scripts/page-effects.js"></script>
     <script>
         (function () {
             // The code from step one of the hunt. Kept exact, per the puzzle.
             var PASSWORD = '7 7 7';
-            var VIDEO_ID = 'ojO1AFqEook';
+            var VIDEO_ID = 'QsVzq08xO2A';
 
             var gate = document.getElementById('gate');
             var reveal = document.getElementById('reveal');
@@ -233,6 +296,8 @@
             var revealLock = document.getElementById('reveal-lock');
             var startBtn = document.getElementById('start-btn');
             var player = document.getElementById('player');
+            var closeBtn = document.getElementById('close-btn');
+            var closeBar = document.getElementById('close-bar');
 
             var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             // Long enough for the third digit to finish its hop; skipped entirely
@@ -321,6 +386,29 @@
                 attempt();
             });
 
+            function fullscreenActive() {
+                return document.fullscreenElement || document.webkitFullscreenElement || null;
+            }
+
+            function closePlayer() {
+                if (player.hidden) return;
+                player.hidden = true;
+                player.src = '';
+                player.classList.remove('is-boxed');
+                closeBar.hidden = true;
+                startBtn.focus();
+            }
+
+            // Fullscreen was refused: give the video its own close bar instead.
+            // Focus moves to the button so Escape still reaches this document
+            // rather than disappearing into the cross-origin YouTube frame.
+            function showCloseBar() {
+                if (player.hidden || !closeBar.hidden) return;
+                player.classList.add('is-boxed');
+                closeBar.hidden = false;
+                closeBtn.focus();
+            }
+
             // The single decisive click: start playback AND go fullscreen, both
             // driven by this one user gesture so the browser allows sound + FS.
             startBtn.addEventListener('click', function () {
@@ -332,17 +420,53 @@
                     || player.webkitRequestFullscreen
                     || player.webkitEnterFullscreen
                     || player.msRequestFullscreen;
-                if (request) {
-                    try { request.call(player); } catch (err) { /* overlay still plays */ }
+                if (!request) { showCloseBar(); return; } // iOS Safari
+                try {
+                    var result = request.call(player);
+                    // It rejects asynchronously, so the catch below never sees
+                    // it: that is what left visitors stuck with no way out.
+                    if (result && typeof result.catch === 'function') {
+                        result.catch(showCloseBar);
+                    }
+                } catch (err) { showCloseBar(); }
+                // Last resort for browsers that neither fullscreen nor reject.
+                setTimeout(function () {
+                    if (!fullscreenActive()) showCloseBar();
+                }, 700);
+            });
+
+            closeBtn.addEventListener('click', function () {
+                if (fullscreenActive()) {
+                    var exit = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+                    // The fullscreenchange teardown takes it from here.
+                    if (exit) {
+                        try {
+                            var left = exit.call(document);
+                            if (left && typeof left.catch === 'function') left.catch(function () {});
+                        } catch (err) { /* fall through to the manual close */ }
+                    }
                 }
+                closePlayer();
+            });
+
+            // Escape leaves a real fullscreen on its own (and the teardown below
+            // catches it). This is for the overlay-only fallback, where nothing
+            // is fullscreen and Escape would otherwise do nothing at all.
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape' && !player.hidden && !fullscreenActive()) closePlayer();
             });
 
             // Leaving fullscreen tears the video down and returns to the reveal.
-            document.addEventListener('fullscreenchange', function () {
-                if (!document.fullscreenElement && !player.hidden) {
-                    player.hidden = true;
-                    player.src = '';
-                }
+            ['fullscreenchange', 'webkitfullscreenchange'].forEach(function (evt) {
+                document.addEventListener(evt, function () {
+                    if (fullscreenActive()) {
+                        // Fullscreen did engage after all: the bar is redundant.
+                        player.classList.remove('is-boxed');
+                        closeBar.hidden = true;
+                    } else {
+                        closePlayer();
+                    }
+                });
             });
         })();
     </script>
