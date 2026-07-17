@@ -231,14 +231,14 @@
         // CV landing (pierre.gumi.ch, hidden page)
         doc_cv_title: { fr: 'Pierre Gumilar · Responsable Marketing Digital', en: 'Pierre Gumilar · Digital Marketing Manager' },
         doc_cv_desc: {
-            fr: "Responsable marketing digital, de la stratégie à l'exécution : SEO, contenu, e-commerce, data. Disponible pour un CDI.",
-            en: 'Digital marketing manager, from strategy to execution: SEO, content, e-commerce, data. Open to full-time roles.'
+            fr: "Responsable marketing digital : SEO, contenu, e-commerce, data. Des résultats mesurés chez Lindt & Sprüngli. Disponible pour un CDI.",
+            en: 'Digital marketing manager: SEO, content, e-commerce, data. Measured results at Lindt & Sprüngli. Open to full-time roles.'
         },
         cv_avail: { fr: 'Disponible immédiatement pour un CDI, sur site ou à distance.', en: 'Available now for a full-time role, on-site or remote.' },
-        cv_hero_title: { fr: "Je transforme l'attention en croissance mesurable", en: 'I turn attention into measurable growth' },
+        cv_hero_title: { fr: 'Je conçois, je livre, je mesure', en: 'I design, I ship, I measure' },
         cv_hero_sub: {
-            fr: "Pierre Gumilar, Responsable Marketing Digital. De la stratégie à l'exécution : SEO, contenu, e-commerce, data. 3 ans chez Lindt & Sprüngli, et un portfolio qui prouve que je livre moi-même ce que je conçois.",
-            en: "Pierre Gumilar, Digital Marketing Manager. From strategy to execution: SEO, content, e-commerce, data. 3 years at Lindt & Sprüngli, and a portfolio that proves I ship what I design."
+            fr: "Pierre Gumilar, Responsable Marketing Digital. SEO, contenu, e-commerce, data : 3 ans chez Lindt & Sprüngli, et un portfolio pour le prouver.",
+            en: 'Pierre Gumilar, Digital Marketing Manager. SEO, content, e-commerce, data: 3 years at Lindt & Sprüngli, and a portfolio to prove it.'
         },
         cv_photo_alt: { fr: 'Portrait de Pierre Gumilar', en: 'Portrait of Pierre Gumilar' },
         cv_cta_write: { fr: 'Me contacter', en: 'Contact me' },
@@ -246,31 +246,34 @@
         cv_stat1_label: { fr: 'de trafic organique', en: 'organic traffic' },
         cv_stat1_src: { fr: 'SEO · Lindt & Sprüngli', en: 'SEO · Lindt & Sprüngli' },
         cv_stat2_label: { fr: 'followers en 3 mois', en: 'followers in 3 months' },
-        cv_stat2_src: { fr: 'croissance communautaire', en: 'community growth' },
-        cv_stat3_label: { fr: 'de ventes e-commerce', en: 'e-commerce sales' },
-        cv_stat3_src: { fr: 'optimisation · Lindt & Sprüngli', en: 'optimization · Lindt & Sprüngli' },
-        cv_stat4_label: { fr: 'recherches par an ciblées', en: 'yearly searches targeted' },
-        cv_stat4_src: { fr: "SEO produit · l'étude est en ligne", en: 'product SEO · the study is public' },
+        cv_stat2_src: { fr: "ArdaCraft · l'étude est en ligne", en: 'ArdaCraft · the study is public' },
+        cv_stat3_label: { fr: 'fiches produits enrichies', en: 'enriched product pages' },
+        cv_stat3_src: { fr: 'PIM · Lindt & Sprüngli', en: 'PIM · Lindt & Sprüngli' },
+        cv_stat4_label: { fr: 'de trafic client après refonte', en: 'client traffic after the rebuild' },
+        cv_stat4_src: { fr: 'consulting indépendant', en: 'independent consulting' },
+        cv_stat5_label: { fr: 'assets produits en 3 ans', en: 'assets produced in 3 years' },
+        cv_stat5_src: { fr: 'contenu · Lindt & Sprüngli', en: 'content · Lindt & Sprüngli' },
         cv_sec_cases: { fr: 'Trois contextes, trois preuves', en: 'Three settings, three proofs' },
         cv_case1_tag: { fr: 'Lindt & Sprüngli · CDI', en: 'Lindt & Sprüngli · full-time' },
         cv_case1_title: { fr: 'Piloter le contenu e-commerce de Lindt & Sprüngli', en: 'Running e-commerce content at Lindt & Sprüngli' },
         cv_case1_desc: {
-            fr: "7 000+ assets produits en 3 ans (direction artistique, photo, 3D), stratégie SEO, structuration de la donnée produit et coordination des agences, développeurs et équipes internes.",
-            en: '7,000+ assets produced over 3 years (art direction, photo, 3D), SEO strategy, product data structuring, and coordination across agencies, developers and internal teams.'
+            fr: "7 000+ assets produits en 3 ans (direction artistique, photo, 3D), stratégie SEO, structuration de la donnée produit, et un rôle d'interface quotidien entre agences, développeurs et équipes internes.",
+            en: '7,000+ assets produced over 3 years (art direction, photo, 3D), SEO strategy, product data structuring, and a daily interface role between agencies, developers and internal teams.'
         },
-        cv_case1_result: { fr: '+180 % de trafic organique, de 300 à 5 000 fiches produits', en: '+180% organic traffic, from 300 to 5,000 product pages' },
+        cv_case1_result: { fr: '+180 % de trafic organique, de 300 à 5 000 fiches produits', en: '+180% organic traffic, from 300 to 5,000 product pages' },
+        cv_case1_mosaic_alt: { fr: 'Sélection de photos produits réalisées pour Lindt', en: 'A selection of product photos shot for Lindt' },
         cv_case2_tag: { fr: 'ArdaCraft · projet communautaire', en: 'ArdaCraft · community project' },
         cv_case2_title: { fr: '1 million de recherches par an, zéro concurrent sérieux', en: 'One million yearly searches, no serious competitor' },
         cv_case2_desc: {
             fr: "Identifier l'opportunité SEO, concevoir une carte interactive, la positionner en référence sur son sujet. Sur le même projet : de 8 000 à 115 000 followers en 3 mois, sans budget média.",
             en: 'Spot the SEO opportunity, design an interactive map, make it the reference on its topic. Same project: from 8,000 to 115,000 followers in 3 months, zero media budget.'
         },
-        cv_case2_result: { fr: "un levier d'acquisition durable", en: 'a lasting acquisition channel' },
+        cv_case2_result: { fr: 'une carte positionnée sur 1 M de recherches par an', en: 'a map positioned on 1M yearly searches' },
         cv_case3_tag: { fr: 'Consulting indépendant', en: 'Independent consulting' },
         cv_case3_title: { fr: 'Refondre un site client et tripler son trafic', en: 'Rebuild a client site and triple its traffic' },
         cv_case3_desc: {
-            fr: "Audit complet, refonte WordPress de A à Z (HTML, CSS, JS), et pilotage de campagnes d'acquisition B2B sur Google Ads pour d'autres clients.",
-            en: 'Full audit, WordPress rebuild from scratch (HTML, CSS, JS), plus B2B acquisition campaigns on Google Ads for other clients.'
+            fr: "Audit complet, refonte WordPress faite main (HTML, CSS, JS), et pilotage de campagnes d'acquisition B2B sur Google Ads pour d'autres clients.",
+            en: 'Full audit, hand-built WordPress rebuild (HTML, CSS, JS), plus B2B acquisition campaigns on Google Ads for other clients.'
         },
         cv_case3_result: { fr: '+300 % de trafic après la refonte', en: '+300% traffic after the rebuild' },
         cv_case_link: { fr: "Lire l'étude complète", en: 'Read the full study' },
@@ -278,19 +281,20 @@
         cv_reco_pending: { fr: "Exemple : la vraie citation arrive", en: 'Sample: real quote coming' },
         cv_reco1_role: { fr: 'Digital Marketing · ma manager chez Lindt & Sprüngli', en: 'Digital Marketing · my manager at Lindt & Sprüngli' },
         cv_reco2_role: { fr: 'Senior Digital E-commerce Manager · collègue chez Lindt & Sprüngli', en: 'Senior Digital E-commerce Manager · colleague at Lindt & Sprüngli' },
-        cv_sec_skills: { fr: 'Ce que je fais', en: 'What I do' },
+        cv_reco3_role: { fr: 'Senior Communication Manager · collègue chez Lindt & Sprüngli', en: 'Senior Communication Manager · colleague at Lindt & Sprüngli' },
+        cv_sec_skills: { fr: "Six expertises, chiffres à l'appui", en: 'Six skills, backed by numbers' },
         cv_skill1_t: { fr: 'Acquisition & SEO', en: 'Acquisition & SEO' },
-        cv_skill1_d: { fr: 'Semrush, Search Console, netlinking. Preuve : +180 % de trafic organique chez Lindt.', en: 'Semrush, Search Console, link building. Proof: +180% organic traffic at Lindt.' },
+        cv_skill1_d: { fr: 'Semrush, Search Console, netlinking. Preuve : <b>+180 %</b> de trafic organique chez Lindt.', en: 'Semrush, Search Console, link building. Proof: <b>+180%</b> organic traffic at Lindt.' },
         cv_skill2_t: { fr: 'Data & analytics', en: 'Data & analytics' },
-        cv_skill2_d: { fr: 'GA4, Looker Studio, Clarity. Des reportings qui décident, pas qui décorent.', en: 'GA4, Looker Studio, Clarity. Reports that drive decisions, not decoration.' },
+        cv_skill2_d: { fr: "GA4, Looker Studio, Clarity. Suivi de KPIs, dashboards et analyses pour piloter le SEO et l'e-commerce.", en: 'GA4, Looker Studio, Clarity. KPI tracking, dashboards and analyses to steer SEO and e-commerce.' },
         cv_skill3_t: { fr: 'Contenu & social', en: 'Content & social' },
-        cv_skill3_d: { fr: '7 000+ assets supervisés : direction artistique, photo, 3D. Des dizaines de millions de vues organiques.', en: '7,000+ assets supervised: art direction, photo, 3D. Tens of millions of organic views.' },
+        cv_skill3_d: { fr: '<b>7&nbsp;000+</b> assets supervisés : direction artistique, photo, 3D. Des <b>dizaines de millions</b> de vues organiques.', en: '<b>7,000+</b> assets supervised: art direction, photo, 3D. <b>Tens of millions</b> of organic views.' },
         cv_skill4_t: { fr: 'E-commerce & PIM', en: 'E-commerce & PIM' },
-        cv_skill4_d: { fr: 'Magento, Salsify. Un catalogue passé de 300 à 5 000 fiches produits, enrichies et structurées.', en: 'Magento, Salsify. A catalog grown from 300 to 5,000 product pages, enriched and structured.' },
+        cv_skill4_d: { fr: 'Magento, Salsify. Un catalogue passé de <b>300 à 5&nbsp;000</b> fiches produits, enrichies et structurées.', en: 'Magento, Salsify. A catalog grown from <b>300 to 5,000</b> product pages, enriched and structured.' },
         cv_skill5_t: { fr: 'Design & intégration', en: 'Design & build' },
         cv_skill5_d: { fr: 'Figma, Webflow, Webstudio, HTML/CSS/JS. Je livre moi-même ce que je conçois.', en: 'Figma, Webflow, Webstudio, HTML/CSS/JS. I ship what I design myself.' },
         cv_skill6_t: { fr: 'GenAI', en: 'GenAI' },
-        cv_skill6_d: { fr: "Usage quotidien outillé. Une conférence d'une heure animée sur le sujet.", en: 'Daily hands-on use. Gave a one-hour talk on the topic.' },
+        cv_skill6_d: { fr: "Bien au-delà du chat : agents de code dans l'IDE (Claude Code), automatisations. Une conférence d'une heure animée sur le sujet.", en: 'Well beyond chat: coding agents in the IDE (Claude Code), automations. Gave a one-hour talk on the topic.' },
         cv_tools_label: { fr: 'La boîte à outils, au quotidien', en: 'The everyday toolbox' },
         cv_tools_g1: { fr: 'IA générative', en: 'GenAI' },
         cv_tools_g2: { fr: 'Création', en: 'Design' },

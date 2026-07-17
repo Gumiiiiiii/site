@@ -122,11 +122,11 @@ const CHECKS = [
     { path: '/cv', assert(d) {
         if (!d.querySelector('meta[name="robots"][content*="noindex"]')) return 'CV page must be noindex';
         if (!d.querySelector('a[href^="mailto:pierregumilar"]')) return 'missing mailto CTA';
-        if (d.querySelectorAll('.cv-stat').length !== 4) return 'expected 4 stat cards';
+        if (d.querySelectorAll('.cv-stat').length !== 5) return 'expected 5 stat cards';
         if (d.querySelectorAll('.cv-case').length !== 3) return 'expected 3 case studies';
         if (d.querySelectorAll('.cv-tl-row').length < 7) return 'timeline incomplete';
         if (d.querySelectorAll('.cv-tl-group').length !== 2) return 'timeline should split experience/education';
-        if (d.querySelectorAll('.cv-quote').length !== 2) return 'expected 2 recommendation quotes';
+        if (d.querySelectorAll('.cv-quote').length !== 3) return 'expected 3 recommendation quotes';
         if (d.querySelectorAll('.cv-tool').length < 20) return 'tool cloud incomplete';
         if (d.body.textContent.includes('—')) return 'em dash found in CV copy';
     } },
