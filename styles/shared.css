@@ -1055,19 +1055,15 @@ button.primary:active:not(:disabled) {
 @view-transition { navigation: auto; }
 
 /* Theme change reveals the new palette with a circular wipe that grows from
-   the toggle button (origin + end radius set in navbar.js). The old frame
-   stays put underneath while the new one clips in on top. Scoped to the
-   .theme-switching class navbar.js sets, so page navigations keep the plain
-   cross-fade above rather than inheriting this wipe. Browsers without the
-   View Transitions API simply snap — navbar.js skips the animation. */
+   the toggle button. The wipe itself is a JS animation on the new-frame
+   pseudo (navbar.js) because Safari does not resolve :root inline custom
+   properties inside ::view-transition pseudos; here we only disable the
+   default cross-fade. Scoped to the .theme-switching class navbar.js sets,
+   so page navigations keep the plain cross-fade above rather than
+   inheriting this. Browsers without the View Transitions API simply snap —
+   navbar.js skips the animation. */
 :root.theme-switching::view-transition-old(root) { animation: none; }
-:root.theme-switching::view-transition-new(root) {
-    animation: theme-wipe 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-@keyframes theme-wipe {
-    from { clip-path: circle(0 at var(--wipe-x) var(--wipe-y)); }
-    to   { clip-path: circle(var(--wipe-r) at var(--wipe-x) var(--wipe-y)); }
-}
+:root.theme-switching::view-transition-new(root) { animation: none; }
 
 /* While the wipe plays, freeze every element's own transitions so their
    colours/shadows jump straight to the dark values rather than animating

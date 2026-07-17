@@ -118,6 +118,10 @@
 
                 // Circular wipe growing out from the toggle (low-centre of the
                 // viewport) to the farthest corner, so it always fills the page.
+                // Driven from JS with explicit pixel values: Safari does not
+                // resolve :root inline custom properties inside the
+                // ::view-transition pseudos, which made the circle open from
+                // the top-left corner on iOS when this went through CSS vars.
                 const rect = themeBtn.getBoundingClientRect();
                 const x = rect.left + rect.width / 2;
                 const y = rect.top + rect.height / 2;
@@ -126,14 +130,24 @@
                     Math.max(y, window.innerHeight - y)
                 );
                 const docEl = document.documentElement;
-                docEl.style.setProperty('--wipe-x', x + 'px');
-                docEl.style.setProperty('--wipe-y', y + 'px');
-                docEl.style.setProperty('--wipe-r', endRadius + 'px');
                 // Freeze component transitions for the duration of the wipe so
                 // the neumorphic highlights snap straight to their dark values
                 // instead of animating light->dark inside the revealed area.
                 docEl.classList.add('theme-switching');
                 const transition = document.startViewTransition(applyTheme);
+                transition.ready.then(() => {
+                    docEl.animate(
+                        { clipPath: [
+                            'circle(0px at ' + x + 'px ' + y + 'px)',
+                            'circle(' + endRadius + 'px at ' + x + 'px ' + y + 'px)'
+                        ] },
+                        {
+                            duration: 500,
+                            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                            pseudoElement: '::view-transition-new(root)'
+                        }
+                    );
+                }).catch(() => {});
                 transition.finished.finally(() => docEl.classList.remove('theme-switching'));
             });
         }
