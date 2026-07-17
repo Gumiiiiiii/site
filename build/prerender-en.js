@@ -25,7 +25,7 @@ const CHECK_MODE = process.argv.includes('--check');
 
 // Pages worth an English copy: everything indexable. Excluded on purpose:
 // 404.html (Vercel only serves the root one), experiments-template.html
-// (legacy redirect stub), grazie.html (noindex, personal).
+// (legacy redirect stub).
 const PAGES = [
     'index.html',
     'outils.html',

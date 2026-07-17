@@ -130,14 +130,7 @@ const CHECKS = [
         if (d.querySelectorAll('.cv-tool').length < 20) return 'tool cloud incomplete';
         if (d.body.textContent.includes('—')) return 'em dash found in CV copy';
     } },
-    { path: '/brand-guidelines' },
-    { path: '/grazie', assert(d) {
-        if (!d.querySelector('meta[name="robots"][content*="noindex"]')) return 'secret page must be noindex';
-        if (!d.getElementById('gate')) return 'password gate missing';
-        if (d.querySelectorAll('#code-group .grazie-digit').length !== 3) return 'expected 3 code fields';
-        if (d.getElementById('reveal').classList.contains('show')) return 'reveal should start hidden';
-        if (!d.getElementById('start-btn')) return 'start button missing';
-    } }
+    { path: '/brand-guidelines' }
 ];
 
 async function main() {
