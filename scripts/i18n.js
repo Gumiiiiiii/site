@@ -258,7 +258,7 @@
             fr: "7 000+ assets produits en 3 ans (direction artistique, photo, 3D), stratégie SEO, structuration de la donnée produit et coordination des agences, développeurs et équipes internes.",
             en: '7,000+ assets produced over 3 years (art direction, photo, 3D), SEO strategy, product data structuring, and coordination across agencies, developers and internal teams.'
         },
-        cv_case1_result: { fr: '+180 % de trafic organique, +1000 % de donnée produit', en: '+180% organic traffic, +1000% product data' },
+        cv_case1_result: { fr: '+180 % de trafic organique, de 300 à 5 000 fiches produits', en: '+180% organic traffic, from 300 to 5,000 product pages' },
         cv_case2_tag: { fr: 'ArdaCraft · projet communautaire', en: 'ArdaCraft · community project' },
         cv_case2_title: { fr: '1 million de recherches par an, zéro concurrent sérieux', en: 'One million yearly searches, no serious competitor' },
         cv_case2_desc: {
@@ -286,7 +286,7 @@
         cv_skill3_t: { fr: 'Contenu & social', en: 'Content & social' },
         cv_skill3_d: { fr: '7 000+ assets supervisés : direction artistique, photo, 3D. Des dizaines de millions de vues organiques.', en: '7,000+ assets supervised: art direction, photo, 3D. Tens of millions of organic views.' },
         cv_skill4_t: { fr: 'E-commerce & PIM', en: 'E-commerce & PIM' },
-        cv_skill4_d: { fr: 'Magento, Salsify. +1000 % sur la qualité et la quantité de la donnée produit.', en: 'Magento, Salsify. +1000% on product data quality and coverage.' },
+        cv_skill4_d: { fr: 'Magento, Salsify. Un catalogue passé de 300 à 5 000 fiches produits, enrichies et structurées.', en: 'Magento, Salsify. A catalog grown from 300 to 5,000 product pages, enriched and structured.' },
         cv_skill5_t: { fr: 'Design & intégration', en: 'Design & build' },
         cv_skill5_d: { fr: 'Figma, Webflow, Webstudio, HTML/CSS/JS. Je livre moi-même ce que je conçois.', en: 'Figma, Webflow, Webstudio, HTML/CSS/JS. I ship what I design myself.' },
         cv_skill6_t: { fr: 'GenAI', en: 'GenAI' },
@@ -296,6 +296,7 @@
         cv_tools_g2: { fr: 'Création', en: 'Design' },
         cv_tools_g3: { fr: 'Data & SEO', en: 'Data & SEO' },
         cv_tools_g4: { fr: 'Web & e-commerce', en: 'Web & e-commerce' },
+        cv_tools_g5: { fr: 'Bureautique & projets', en: 'Office & projects' },
         cv_sec_path: { fr: 'Parcours', en: 'Background' },
         cv_tl_exp: { fr: 'Expérience', en: 'Experience' },
         cv_tl_edu: { fr: 'Formation & langues', en: 'Education & languages' },

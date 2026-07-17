@@ -462,10 +462,22 @@ a.cv-stat:hover { transform: translateY(-3px); }
     text-decoration: none;
     font-weight: 700;
     display: inline-block;
-    margin-bottom: 1.4rem;
+    margin-bottom: 0.4rem;
 }
 
 .cv-mail:hover { text-decoration: underline; }
+
+.cv-phone {
+    display: block;
+    font-size: clamp(0.98rem, 2vw, 1.15rem);
+    font-weight: 700;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.8;
+    margin-bottom: 1.4rem;
+}
+
+.cv-phone:hover { color: var(--accent); opacity: 1; }
 
 .cv-byline { margin-top: 3.5rem; font-size: 0.85rem; opacity: 0.55; }
 
