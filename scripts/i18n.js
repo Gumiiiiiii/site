@@ -234,7 +234,7 @@
             fr: "Responsable marketing digital : SEO, contenu, e-commerce, data. Des résultats mesurés chez Lindt & Sprüngli. Disponible pour un CDI.",
             en: 'Digital marketing manager: SEO, content, e-commerce, data. Measured results at Lindt & Sprüngli. Open to full-time roles.'
         },
-        cv_avail: { fr: 'Disponible immédiatement pour un CDI, sur site ou à distance.', en: 'Available now for a full-time role, on-site or remote.' },
+        cv_avail: { fr: 'Disponible dès septembre 2026 pour un CDI, sur site ou à distance.', en: 'Available from September 2026 for a full-time role, on-site or remote.' },
         cv_hero_title: { fr: 'Je conçois, je livre, je mesure', en: 'I design, I ship, I measure' },
         cv_hero_sub: {
             fr: "Pierre Gumilar, Responsable Marketing Digital. SEO, contenu, e-commerce, data : 3 ans chez Lindt & Sprüngli, et un portfolio pour le prouver.",
@@ -304,11 +304,11 @@
         cv_sec_path: { fr: 'Parcours', en: 'Background' },
         cv_tl_exp: { fr: 'Expérience', en: 'Experience' },
         cv_tl_edu: { fr: 'Formation & langues', en: 'Education & languages' },
-        cv_tl_now: { fr: '2023 · auj.', en: '2023 · now' },
+        cv_tl_now: { fr: '2023 · août 2026', en: '2023 · Aug 2026' },
         cv_tl1: { fr: 'E-Commerce Content Manager · Lindt & Sprüngli, Paris', en: 'E-Commerce Content Manager · Lindt & Sprüngli, Paris' },
         cv_tl_since: { fr: 'depuis 2022', en: 'since 2022' },
         cv_tl2: { fr: 'Consulting & projets indépendants · multi-secteurs', en: 'Consulting & independent projects · multi-industry' },
-        cv_tl3: { fr: 'Assistant Marketing Digital · Lindt & Sprüngli, Paris', en: 'Digital Marketing Assistant · Lindt & Sprüngli, Paris' },
+        cv_tl3: { fr: 'Assistant Marketing Digital (stage) · Lindt & Sprüngli, Paris', en: 'Digital Marketing Assistant (internship) · Lindt & Sprüngli, Paris' },
         cv_tl4: { fr: 'Assistant SEO Manager · Nutri & Co, Aix-en-Provence', en: 'SEO Manager Assistant · Nutri & Co, Aix-en-Provence' },
         cv_tl5: { fr: 'Assistant Marketing Opérationnel · EXKI, Bruxelles', en: 'Operational Marketing Assistant · EXKI, Brussels' },
         cv_tl6: { fr: 'MSc Marketing & Services Management · IAE Aix School of Management', en: 'MSc Marketing & Services Management · IAE Aix School of Management' },
@@ -323,7 +323,7 @@
         cv_spec3_t: { fr: 'Mobilité', en: 'Location' },
         cv_spec3_v: { fr: 'France, Belgique, Suisse, Luxembourg · sur site ou remote', en: 'France, Belgium, Switzerland, Luxembourg · on-site or remote' },
         cv_spec4_t: { fr: 'Disponibilité', en: 'Availability' },
-        cv_spec4_v: { fr: 'Immédiate', en: 'Immediate' },
+        cv_spec4_v: { fr: 'Septembre 2026', en: 'September 2026' },
         cv_sec_perso: { fr: 'À côté du travail', en: 'Outside work' },
         cv_perso1_t: { fr: 'Photographie', en: 'Photography' },
         cv_perso1_d: {
@@ -672,6 +672,13 @@
         document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
             const entry = DICT[el.getAttribute('data-i18n-aria')];
             if (entry && entry[lang]) el.setAttribute('aria-label', entry[lang]);
+        });
+
+        // Links with a language-specific target (study pages, PDFs): the
+        // original href is the French one, data-href-en holds the English one.
+        document.querySelectorAll('[data-href-en]').forEach((el) => {
+            if (!el.dataset.hrefFr) el.dataset.hrefFr = el.getAttribute('href');
+            el.setAttribute('href', lang === 'en' ? el.dataset.hrefEn : el.dataset.hrefFr);
         });
 
         document.dispatchEvent(new CustomEvent('gumi:lang', { detail: { lang } }));
