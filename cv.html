@@ -78,6 +78,56 @@
             <div class="cv-stat"><b data-i18n-html="cv_stat4_num">+300 %</b><span data-i18n="cv_stat4_label">trafic client</span><small data-i18n="cv_stat4_src">refonte · consulting indépendant</small></div>
         </section>
 
+        <!-- Une citation ne se traduit pas : ce sont les mots de son auteur,
+             signés de son nom et liés à son profil. Le blockquote porte donc
+             son lang= d'origine et reste identique en FR et en EN ; seule la
+             ligne de rôle passe par l'i18n.
+             Céline et Solenne : cartes d'exemple gardées en commentaire plus
+             bas, en attente de leurs vrais textes. Pour les activer : sortir
+             la carte du commentaire, retirer le badge .cv-quote-pending, poser
+             le bon lang= sur le blockquote, remplacer la photo de Solenne
+             (placeholder initiales) et monter le compte attendu dans
+             test/smoke-test.js. -->
+        <section class="cv-section">
+            <h2><span data-i18n="cv_sec_reco">Ils ont travaillé avec moi</span><span class="dot">.</span></h2>
+            <div class="cv-quotes">
+                <figure class="cv-quote">
+                    <blockquote lang="en">“I had the pleasure of working closely with Pierre for over two years. One of his best qualities is his curiosity. He has a great way of blending creative thinking with deep technical skills. Because of his personal projects, he is always on top of the latest trends, and I learned a lot from him, especially regarding E-commerce and general digital topics. What I admire most is that his knowledge goes way beyond his daily tasks. He brings a broad perspective to everything he touches. On top of that, he is a good collaborator, highly organized, and has a sharp, critical mind. Pierre always knows exactly how to bring out the absolute best in every project.”</blockquote>
+                    <figcaption>
+                        <img src="media/michele-rossi.webp" alt="Michele Rossi" width="96" height="96" loading="lazy">
+                        <div>
+                            <a href="https://www.linkedin.com/in/michele-rossi92/" rel="noopener">Michele Rossi<svg viewBox="0 0 24 24" aria-hidden="true" class="cv-li"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
+                            <span data-i18n="cv_reco2_role">Senior Digital E-commerce Manager · collègue chez Lindt &amp; Sprüngli</span>
+                        </div>
+                    </figcaption>
+                </figure>
+                <!--
+                <figure class="cv-quote">
+                    <span class="cv-quote-pending" data-i18n="cv_reco_pending">Exemple : la vraie citation arrive</span>
+                    <blockquote>« Pierre a repris notre production de contenu e-commerce de bout en bout. Sur [projet précis], il a livré [résultat concret] en coordonnant l'agence et les équipes internes, sans qu'on ait besoin de repasser derrière lui. »</blockquote>
+                    <figcaption>
+                        <img src="media/celine-hummer.webp" alt="Céline Hummer" width="96" height="96" loading="lazy">
+                        <div>
+                            <a href="https://www.linkedin.com/in/celinehummer/" rel="noopener">Céline Hummer<svg viewBox="0 0 24 24" aria-hidden="true" class="cv-li"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
+                            <span data-i18n="cv_reco1_role">Digital Marketing · ma manager chez Lindt &amp; Sprüngli</span>
+                        </div>
+                    </figcaption>
+                </figure>
+                <figure class="cv-quote">
+                    <span class="cv-quote-pending" data-i18n="cv_reco_pending">Exemple : la vraie citation arrive</span>
+                    <blockquote>« Sur [campagne ou lancement mené ensemble], Pierre a [contribution concrète] en faisant le pont entre e-commerce et communication. [Une qualité vécue : clair, réactif, force de proposition]. »</blockquote>
+                    <figcaption>
+                        <img src="media/solenne-antakli.webp" alt="Solenne Antakli" width="96" height="96" loading="lazy">
+                        <div>
+                            <a href="https://www.linkedin.com/in/solenne-antakli-bb50ba2a/" rel="noopener">Solenne Antakli<svg viewBox="0 0 24 24" aria-hidden="true" class="cv-li"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
+                            <span data-i18n="cv_reco3_role">Senior Communication Manager · collègue chez Lindt &amp; Sprüngli</span>
+                        </div>
+                    </figcaption>
+                </figure>
+                -->
+            </div>
+        </section>
+
         <section class="cv-section">
             <h2><span data-i18n="cv_sec_cases">Trois contextes, trois preuves</span><span class="dot">.</span></h2>
 
@@ -127,56 +177,6 @@
                     <span class="cv-case-result" data-i18n="cv_case3_result">+300 % de trafic après la refonte</span>
                 </div>
             </article>
-        </section>
-
-        <!-- Une citation ne se traduit pas : ce sont les mots de son auteur,
-             signés de son nom et liés à son profil. Le blockquote porte donc
-             son lang= d'origine et reste identique en FR et en EN ; seule la
-             ligne de rôle passe par l'i18n.
-             Céline et Solenne : cartes d'exemple gardées en commentaire plus
-             bas, en attente de leurs vrais textes. Pour les activer : sortir
-             la carte du commentaire, retirer le badge .cv-quote-pending, poser
-             le bon lang= sur le blockquote, remplacer la photo de Solenne
-             (placeholder initiales) et monter le compte attendu dans
-             test/smoke-test.js. -->
-        <section class="cv-section">
-            <h2><span data-i18n="cv_sec_reco">Ils ont travaillé avec moi</span><span class="dot">.</span></h2>
-            <div class="cv-quotes">
-                <figure class="cv-quote">
-                    <blockquote lang="en">“I had the pleasure of working closely with Pierre for over two years. One of his best qualities is his curiosity. He has a great way of blending creative thinking with deep technical skills. Because of his personal projects, he is always on top of the latest trends, and I learned a lot from him, especially regarding E-commerce and general digital topics. What I admire most is that his knowledge goes way beyond his daily tasks. He brings a broad perspective to everything he touches. On top of that, he is a good collaborator, highly organized, and has a sharp, critical mind. Pierre always knows exactly how to bring out the absolute best in every project.”</blockquote>
-                    <figcaption>
-                        <img src="media/michele-rossi.webp" alt="Michele Rossi" width="96" height="96" loading="lazy">
-                        <div>
-                            <a href="https://www.linkedin.com/in/michele-rossi92/" rel="noopener">Michele Rossi<svg viewBox="0 0 24 24" aria-hidden="true" class="cv-li"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
-                            <span data-i18n="cv_reco2_role">Senior Digital E-commerce Manager · collègue chez Lindt &amp; Sprüngli</span>
-                        </div>
-                    </figcaption>
-                </figure>
-                <!--
-                <figure class="cv-quote">
-                    <span class="cv-quote-pending" data-i18n="cv_reco_pending">Exemple : la vraie citation arrive</span>
-                    <blockquote>« Pierre a repris notre production de contenu e-commerce de bout en bout. Sur [projet précis], il a livré [résultat concret] en coordonnant l'agence et les équipes internes, sans qu'on ait besoin de repasser derrière lui. »</blockquote>
-                    <figcaption>
-                        <img src="media/celine-hummer.webp" alt="Céline Hummer" width="96" height="96" loading="lazy">
-                        <div>
-                            <a href="https://www.linkedin.com/in/celinehummer/" rel="noopener">Céline Hummer<svg viewBox="0 0 24 24" aria-hidden="true" class="cv-li"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
-                            <span data-i18n="cv_reco1_role">Digital Marketing · ma manager chez Lindt &amp; Sprüngli</span>
-                        </div>
-                    </figcaption>
-                </figure>
-                <figure class="cv-quote">
-                    <span class="cv-quote-pending" data-i18n="cv_reco_pending">Exemple : la vraie citation arrive</span>
-                    <blockquote>« Sur [campagne ou lancement mené ensemble], Pierre a [contribution concrète] en faisant le pont entre e-commerce et communication. [Une qualité vécue : clair, réactif, force de proposition]. »</blockquote>
-                    <figcaption>
-                        <img src="media/solenne-antakli.webp" alt="Solenne Antakli" width="96" height="96" loading="lazy">
-                        <div>
-                            <a href="https://www.linkedin.com/in/solenne-antakli-bb50ba2a/" rel="noopener">Solenne Antakli<svg viewBox="0 0 24 24" aria-hidden="true" class="cv-li"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
-                            <span data-i18n="cv_reco3_role">Senior Communication Manager · collègue chez Lindt &amp; Sprüngli</span>
-                        </div>
-                    </figcaption>
-                </figure>
-                -->
-            </div>
         </section>
 
         <section class="cv-section">
