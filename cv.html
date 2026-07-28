@@ -14,15 +14,15 @@
     <meta property="og:locale" content="fr_FR">
     <meta property="og:locale:alternate" content="en_US">
     <meta property="og:title" content="Pierre Gumilar · Responsable Marketing Digital">
-    <meta property="og:description" content="SEO, contenu, e-commerce, data. Des résultats mesurés chez Lindt &amp; Sprüngli. Disponible pour un CDI.">
+    <meta property="og:description" content="SEO, contenu, e-commerce, data. Trois ans chez Lindt &amp; Sprüngli, un portfolio fait main. Disponible en septembre 2026.">
     <meta property="og:url" content="https://pierre.gumi.ch/cv">
     <meta property="og:image" content="https://pierre.gumi.ch/media/pierre-gumilar.jpg">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Pierre Gumilar · Responsable Marketing Digital">
-    <meta name="twitter:description" content="SEO, contenu, e-commerce, data. Des résultats mesurés chez Lindt &amp; Sprüngli. Disponible pour un CDI.">
+    <meta name="twitter:description" content="SEO, contenu, e-commerce, data. Trois ans chez Lindt &amp; Sprüngli, un portfolio fait main. Disponible en septembre 2026.">
     <meta name="twitter:image" content="https://pierre.gumi.ch/media/pierre-gumilar.jpg">
     <title data-i18n="doc_cv_title">Pierre Gumilar · Responsable Marketing Digital</title>
-    <meta name="description" data-i18n-content="doc_cv_desc" content="Responsable marketing digital : SEO, contenu, e-commerce, data. Des résultats mesurés chez Lindt &amp; Sprüngli. Disponible pour un CDI.">
+    <meta name="description" data-i18n-content="doc_cv_desc" content="Responsable marketing digital : SEO, contenu, e-commerce, data. Trois ans chez Lindt &amp; Sprüngli, un portfolio fait main. Disponible en septembre 2026.">
     <link rel="icon" type="image/png" sizes="32x32" href="media/favicon-32.png">
     <link rel="apple-touch-icon" href="media/apple-touch-icon.png">
 
@@ -62,11 +62,13 @@
                 <p class="cv-avail-line" data-i18n="cv_avail">Disponible dès septembre 2026 pour un CDI, sur site ou à distance.</p>
             </div>
             <div class="cv-hero-photo">
-                <img src="media/pierre-gumilar.jpg" alt="Portrait de Pierre Gumilar" data-i18n-aria="cv_photo_alt" class="cv-photo" width="800" height="800" fetchpriority="high">
+                <!-- 512px WebP for display (shown at 256 CSS px); the 800px JPEG
+                     stays as og:image, social scrapers being unreliable with WebP. -->
+                <img src="media/pierre-gumilar-512.webp" alt="Portrait de Pierre Gumilar" data-i18n-aria="cv_photo_alt" class="cv-photo" width="512" height="512" fetchpriority="high">
             </div>
         </header>
 
-        <section class="cv-stats" aria-label="Résultats clés">
+        <section class="cv-stats" aria-label="Résultats clés" data-i18n-aria="cv_stats_aria">
             <!-- Une grammaire pour les cinq cartes : le chiffre, ce qu'il mesure
                  (groupe nominal, jamais une préposition), puis « discipline ·
                  contexte ». Les trois preuves Lindt d'abord, puis ArdaCraft et
@@ -143,8 +145,8 @@
                 <div>
                     <span class="cv-case-tag" data-i18n="cv_case1_tag">Lindt &amp; Sprüngli · CDI</span>
                     <h3 data-i18n="cv_case1_title">Piloter le contenu e-commerce de Lindt &amp; Sprüngli</h3>
-                    <p data-i18n="cv_case1_desc">7 000+ assets produits en 3 ans (direction artistique, photo, 3D), stratégie SEO, structuration de la donnée produit, et un rôle d'interface quotidien entre agences, développeurs et équipes internes.</p>
-                    <span class="cv-case-result" data-i18n="cv_case1_result">+180 % de trafic organique, de 500 à 5&nbsp;000 fiches produits</span>
+                    <p data-i18n="cv_case1_desc">Direction artistique, photo et 3D sur toute la production visuelle, stratégie SEO, structuration de la donnée produit, et un rôle d'interface quotidien entre agences, développeurs et équipes internes.</p>
+                    <span class="cv-case-result" data-i18n="cv_case1_result">+180 % de trafic organique en trois ans</span>
                 </div>
             </article>
 
@@ -155,7 +157,7 @@
                 <div>
                     <span class="cv-case-tag" data-i18n="cv_case2_tag">ArdaCraft · projet communautaire</span>
                     <h3 data-i18n="cv_case2_title">1 million de recherches par an, zéro concurrent sérieux</h3>
-                    <p data-i18n="cv_case2_desc">Identifier l'opportunité SEO, concevoir une carte interactive, la positionner en référence sur son sujet. Sur le même projet : de 8 000 à 115 000 followers en 3 mois, sans budget média.</p>
+                    <p data-i18n="cv_case2_desc">Identifier l'opportunité SEO, concevoir une carte interactive, la positionner en référence sur son sujet. Et faire décoller le compte social qui va avec, sans un euro de budget média.</p>
                     <span class="cv-case-result" data-i18n="cv_case2_result">une carte positionnée sur 1&nbsp;M de recherches par an</span>
                     <a class="cv-case-link" href="https://gumi.ch/experiments/ardacraft-map" data-href-en="https://gumi.ch/en/experiments/ardacraft-map" data-i18n="cv_case_link">Lire l'étude complète</a>
                 </div>
@@ -173,8 +175,8 @@
                 <div>
                     <span class="cv-case-tag" data-i18n="cv_case3_tag">Consulting indépendant</span>
                     <h3 data-i18n="cv_case3_title">Refondre un site client et tripler son trafic</h3>
-                    <p data-i18n="cv_case3_desc">Audit complet, refonte WordPress faite main (HTML, CSS, JS), et pilotage de campagnes Google Ads pour d'autres clients : 568 conversions en deux mois, à 1,99 € l'unité.</p>
-                    <span class="cv-case-result" data-i18n="cv_case3_result">+300 % de trafic après la refonte</span>
+                    <p data-i18n="cv_case3_desc">Audit complet, refonte WordPress faite main (HTML, CSS, JS), et pilotage des campagnes Google Ads pour d'autres clients.</p>
+                    <span class="cv-case-result" data-i18n="cv_case3_result">+300 % de trafic après la refonte, 568 conversions payantes en deux mois</span>
                 </div>
             </article>
         </section>

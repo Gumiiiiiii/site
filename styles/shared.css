@@ -25,6 +25,12 @@
     --accent-light: #D1BFFF;
     --positive: #609675;
     --negative: #C56A6A;
+    /* Ink variants: --accent and --positive are tuned as fills and for the
+       dark theme, and drop under 4.5:1 when used as small text on the light
+       surfaces. Use these whenever the colour carries body-sized text; the
+       display values above stay untouched so nothing else on the site moves. */
+    --accent-ink: #6B45C9;
+    --positive-ink: #3F7355;
     --font: 'Urbanist', sans-serif;
     --card-bg: rgba(26, 26, 26, 0.04);
     --content-max-width: 90rem;
@@ -1090,6 +1096,10 @@ button.primary:active:not(:disabled) {
     --accent-light: #D8CAFF;
     --positive: #6FA783;
     --negative: #D98B8B;
+    /* On dark surfaces the display values already clear 4.5:1, so the ink
+       variants simply follow them. */
+    --accent-ink: #B49BFF;
+    --positive-ink: #6FA783;
     --card-bg: rgba(255, 255, 255, 0.055);
     --shadow-out: 6px 6px 14px rgba(0, 0, 0, 0.5), -5px -5px 12px rgba(255, 255, 255, 0.025);
     --shadow-in: inset 4px 4px 8px rgba(0, 0, 0, 0.5), inset -4px -4px 8px rgba(255, 255, 255, 0.025);

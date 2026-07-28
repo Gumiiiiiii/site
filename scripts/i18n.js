@@ -264,25 +264,25 @@
         cv_case1_tag: { fr: 'Lindt & Sprüngli · CDI', en: 'Lindt & Sprüngli · full-time' },
         cv_case1_title: { fr: 'Piloter le contenu e-commerce de Lindt & Sprüngli', en: 'Running e-commerce content at Lindt & Sprüngli' },
         cv_case1_desc: {
-            fr: "7 000+ assets produits en 3 ans (direction artistique, photo, 3D), stratégie SEO, structuration de la donnée produit, et un rôle d'interface quotidien entre agences, développeurs et équipes internes.",
-            en: '7,000+ assets produced over 3 years (art direction, photo, 3D), SEO strategy, product data structuring, and a daily interface role between agencies, developers and internal teams.'
+            fr: "Direction artistique, photo et 3D sur toute la production visuelle, stratégie SEO, structuration de la donnée produit, et un rôle d'interface quotidien entre agences, développeurs et équipes internes.",
+            en: 'Art direction, photo and 3D across the whole visual output, SEO strategy, product data structuring, and a daily interface role between agencies, developers and internal teams.'
         },
-        cv_case1_result: { fr: '+180 % de trafic organique, de 500 à 5 000 fiches produits', en: '+180% organic traffic, from 500 to 5,000 product pages' },
+        cv_case1_result: { fr: '+180 % de trafic organique en trois ans', en: '+180% organic traffic over three years' },
         cv_case1_mosaic_alt: { fr: 'Sélection de photos produits réalisées pour Lindt', en: 'A selection of product photos shot for Lindt' },
         cv_case2_tag: { fr: 'ArdaCraft · projet communautaire', en: 'ArdaCraft · community project' },
         cv_case2_title: { fr: '1 million de recherches par an, zéro concurrent sérieux', en: 'One million yearly searches, no serious competitor' },
         cv_case2_desc: {
-            fr: "Identifier l'opportunité SEO, concevoir une carte interactive, la positionner en référence sur son sujet. Sur le même projet : de 8 000 à 115 000 followers en 3 mois, sans budget média.",
-            en: 'Spot the SEO opportunity, design an interactive map, make it the reference on its topic. Same project: from 8,000 to 115,000 followers in 3 months, zero media budget.'
+            fr: "Identifier l'opportunité SEO, concevoir une carte interactive, la positionner en référence sur son sujet. Et faire décoller le compte social qui va avec, sans un euro de budget média.",
+            en: 'Spot the SEO opportunity, design an interactive map, make it the reference on its topic. And get the social account that goes with it off the ground, without a euro of media budget.'
         },
         cv_case2_result: { fr: 'une carte positionnée sur 1 M de recherches par an', en: 'a map positioned on 1M yearly searches' },
         cv_case3_tag: { fr: 'Consulting indépendant', en: 'Independent consulting' },
         cv_case3_title: { fr: 'Refondre un site client et tripler son trafic', en: 'Rebuild a client site and triple its traffic' },
         cv_case3_desc: {
-            fr: "Audit complet, refonte WordPress faite main (HTML, CSS, JS), et pilotage de campagnes Google Ads pour d'autres clients : 568 conversions en deux mois, à 1,99 € l'unité.",
-            en: 'Full audit, hand-built WordPress rebuild (HTML, CSS, JS), plus Google Ads campaigns for other clients: 568 conversions in two months, at €1.99 each.'
+            fr: "Audit complet, refonte WordPress faite main (HTML, CSS, JS), et pilotage des campagnes Google Ads pour d'autres clients.",
+            en: 'Full audit, hand-built WordPress rebuild (HTML, CSS, JS), plus running the Google Ads campaigns for other clients.'
         },
-        cv_case3_result: { fr: '+300 % de trafic après la refonte', en: '+300% traffic after the rebuild' },
+        cv_case3_result: { fr: '+300 % de trafic après la refonte, 568 conversions payantes en deux mois', en: '+300% traffic after the rebuild, 568 paid conversions in two months' },
         cv_case_link: { fr: "Lire l'étude complète", en: 'Read the full study' },
         cv_sec_reco: { fr: 'Ils ont travaillé avec moi', en: 'They worked with me' },
         cv_reco_pending: { fr: "Exemple : la vraie citation arrive", en: 'Sample: real quote coming' },
