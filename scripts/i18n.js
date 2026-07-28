@@ -237,8 +237,8 @@
         cv_avail: { fr: 'Disponible dès septembre 2026 pour un CDI, sur site ou à distance.', en: 'Available from September 2026 for a full-time role, on-site or remote.' },
         cv_hero_title: { fr: 'Pierre · Responsable Marketing Digital', en: 'Pierre · Digital Marketing Manager' },
         cv_hero_sub: {
-            fr: "De mes trois ans chez Lindt & Sprüngli (SEO, data, e-commerce) à mes projets perso, j'aime donner vie à mes idées. Vous trouverez un aperçu de ces réalisations dans mon portfolio.",
-            en: "From three years at Lindt & Sprüngli (SEO, data, e-commerce) to my own side projects, I like bringing my ideas to life. You'll find an overview of that work in my portfolio."
+            fr: "De mes trois ans chez Lindt & Sprüngli (SEO, data, e-commerce) à mes projets perso, j'aime donner vie à mes idées. Vous trouverez un aperçu de ces réalisations ci-dessous :",
+            en: "From three years at Lindt & Sprüngli (SEO, data, e-commerce) to my own side projects, I like bringing my ideas to life. You'll find an overview of that work below:"
         },
         cv_photo_alt: { fr: 'Portrait de Pierre Gumilar', en: 'Portrait of Pierre Gumilar' },
         cv_cta_write: { fr: 'Me contacter', en: 'Contact me' },
@@ -254,8 +254,8 @@
         cv_stat3_num: { fr: '<span class="cv-from">500 →</span> 5&nbsp;000', en: '<span class="cv-from">500 →</span> 5,000' },
         cv_stat3_label: { fr: 'fiches produits enrichies', en: 'enriched product pages' },
         cv_stat3_src: { fr: 'PIM · Lindt & Sprüngli', en: 'PIM · Lindt & Sprüngli' },
-        cv_stat4_num: { fr: '0,45 €', en: '€0.45' },
-        cv_stat4_label: { fr: 'CPC en acquisition B2B', en: 'CPC on B2B acquisition' },
+        cv_stat4_num: { fr: '1,99 €', en: '€1.99' },
+        cv_stat4_label: { fr: 'coût par conversion', en: 'cost per conversion' },
         cv_stat4_src: { fr: 'Google Ads · consulting indépendant', en: 'Google Ads · independent consulting' },
         cv_stat5_num: { fr: '7&nbsp;000+', en: '7,000+' },
         cv_stat5_label: { fr: 'assets produits en 3 ans', en: 'assets produced in 3 years' },
@@ -279,8 +279,8 @@
         cv_case3_tag: { fr: 'Consulting indépendant', en: 'Independent consulting' },
         cv_case3_title: { fr: 'Refondre un site client et tripler son trafic', en: 'Rebuild a client site and triple its traffic' },
         cv_case3_desc: {
-            fr: "Audit complet, refonte WordPress faite main (HTML, CSS, JS), et pilotage de campagnes d'acquisition B2B sur Google Ads pour d'autres clients.",
-            en: 'Full audit, hand-built WordPress rebuild (HTML, CSS, JS), plus B2B acquisition campaigns on Google Ads for other clients.'
+            fr: "Audit complet, refonte WordPress faite main (HTML, CSS, JS), et pilotage de campagnes Google Ads pour d'autres clients : 568 conversions en deux mois, à 1,99 € l'unité.",
+            en: 'Full audit, hand-built WordPress rebuild (HTML, CSS, JS), plus Google Ads campaigns for other clients: 568 conversions in two months, at €1.99 each.'
         },
         cv_case3_result: { fr: '+300 % de trafic après la refonte', en: '+300% traffic after the rebuild' },
         cv_case_link: { fr: "Lire l'étude complète", en: 'Read the full study' },
@@ -289,19 +289,23 @@
         cv_reco1_role: { fr: 'Digital Marketing · ma manager chez Lindt & Sprüngli', en: 'Digital Marketing · my manager at Lindt & Sprüngli' },
         cv_reco2_role: { fr: 'Senior Digital E-commerce Manager · collègue chez Lindt & Sprüngli', en: 'Senior Digital E-commerce Manager · colleague at Lindt & Sprüngli' },
         cv_reco3_role: { fr: 'Senior Communication Manager · collègue chez Lindt & Sprüngli', en: 'Senior Communication Manager · colleague at Lindt & Sprüngli' },
-        cv_sec_skills: { fr: "Six expertises, chiffres à l'appui", en: 'Six skills, backed by numbers' },
+        // Les chiffres de cette section doublonnaient la bande de stats du
+        // haut de page : à force de répéter les mêmes preuves, elle sonnait
+        // creux. Chaque carte dit maintenant ce que je fais concrètement, et
+        // les chiffres restent là où ils sont vérifiables.
+        cv_sec_skills: { fr: 'Ce que je sais faire', en: 'What I can do' },
         cv_skill1_t: { fr: 'Acquisition & SEO', en: 'Acquisition & SEO' },
-        cv_skill1_d: { fr: 'Semrush, Search Console, netlinking. Preuve : <b>+180 %</b> de trafic organique chez Lindt.', en: 'Semrush, Search Console, link building. Proof: <b>+180%</b> organic traffic at Lindt.' },
+        cv_skill1_d: { fr: "Audit technique, arborescence, netlinking, suivi de positions. Trois ans à piloter le SEO d'un catalogue e-commerce qui grossit.", en: 'Technical audits, site structure, link building, rank tracking. Three years steering SEO on a growing e-commerce catalog.' },
         cv_skill2_t: { fr: 'Data & analytics', en: 'Data & analytics' },
-        cv_skill2_d: { fr: "GA4, Looker Studio, Clarity. Suivi de KPIs, dashboards et analyses pour piloter le SEO et l'e-commerce.", en: 'GA4, Looker Studio, Clarity. KPI tracking, dashboards and analyses to steer SEO and e-commerce.' },
+        cv_skill2_d: { fr: "GA4, Looker Studio, Clarity. Je construis les tableaux de bord sur lesquels j'arbitre ensuite, et je vais chercher le chiffre moi-même.", en: 'GA4, Looker Studio, Clarity. I build the dashboards I then decide on, and I go get the number myself.' },
         cv_skill3_t: { fr: 'Contenu & social', en: 'Content & social' },
-        cv_skill3_d: { fr: '<b>7&nbsp;000+</b> assets supervisés : direction artistique, photo, 3D. Des <b>dizaines de millions</b> de vues organiques.', en: '<b>7,000+</b> assets supervised: art direction, photo, 3D. <b>Tens of millions</b> of organic views.' },
+        cv_skill3_d: { fr: 'Direction artistique, shootings photo, 3D. Je cadre le besoin, je brief les prestataires, je valide ce qui part en ligne.', en: 'Art direction, photo shoots, 3D. I frame the need, brief the providers, and sign off what goes live.' },
         cv_skill4_t: { fr: 'E-commerce & PIM', en: 'E-commerce & PIM' },
-        cv_skill4_d: { fr: 'Magento, Salsify. Un catalogue passé de <b>500 à 5&nbsp;000</b> fiches produits, enrichies et structurées.', en: 'Magento, Salsify. A catalog grown from <b>500 to 5,000</b> product pages, enriched and structured.' },
+        cv_skill4_d: { fr: 'Magento, Salsify. Structuration de la donnée produit : modèle, attributs, enrichissement, puis la mise en ligne qui suit.', en: 'Magento, Salsify. Structuring product data: model, attributes, enrichment, then the publishing that follows.' },
         cv_skill5_t: { fr: 'Design & intégration', en: 'Design & build' },
-        cv_skill5_d: { fr: 'Figma, Webflow, Webstudio, HTML/CSS/JS. Je livre moi-même ce que je conçois.', en: 'Figma, Webflow, Webstudio, HTML/CSS/JS. I ship what I design myself.' },
+        cv_skill5_d: { fr: "Figma, Webflow, HTML/CSS/JS. Cette page et les outils du portfolio sont faits main : c'est le plus simple à vérifier.", en: 'Figma, Webflow, HTML/CSS/JS. This page and the portfolio tools are hand-built: that one is the easiest to check.' },
         cv_skill6_t: { fr: 'GenAI', en: 'GenAI' },
-        cv_skill6_d: { fr: "Bien au-delà du chat : agents de code dans l'IDE (Claude Code), automatisations. Une conférence d'une heure animée sur le sujet.", en: 'Well beyond chat: coding agents in the IDE (Claude Code), automations. Gave a one-hour talk on the topic.' },
+        cv_skill6_d: { fr: "Agents de code dans l'IDE, automatisations. J'ai animé une conférence d'une heure sur le sujet.", en: "Coding agents in the IDE, automations. I gave a one-hour talk on the topic." },
         cv_tools_label: { fr: 'La boîte à outils, au quotidien', en: 'The everyday toolbox' },
         cv_tools_g1: { fr: 'IA générative', en: 'GenAI' },
         cv_tools_g2: { fr: 'Création', en: 'Design' },
@@ -335,6 +339,7 @@
         cv_spec4_t: { fr: 'Disponibilité', en: 'Availability' },
         cv_spec4_v: { fr: 'Septembre 2026', en: 'September 2026' },
         cv_sec_perso: { fr: 'À côté du travail', en: 'Outside work' },
+        cv_perso1_alt: { fr: 'Photo produit que j\'ai réalisée pour Lindt : coffret Dubai Chocolate', en: 'Product photo I shot for Lindt: Dubai Chocolate gift bag' },
         cv_perso1_t: { fr: 'Photographie', en: 'Photography' },
         cv_perso1_d: {
             fr: "Une pratique de longue date, et l'origine de mon œil pour la direction artistique et l'image produit.",
