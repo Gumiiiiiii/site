@@ -235,10 +235,10 @@
             en: 'Digital marketing manager: SEO, content, e-commerce, data. Measured results at Lindt & Sprüngli. Open to full-time roles.'
         },
         cv_avail: { fr: 'Disponible dès septembre 2026 pour un CDI, sur site ou à distance.', en: 'Available from September 2026 for a full-time role, on-site or remote.' },
-        cv_hero_title: { fr: 'Je conçois, je livre, je mesure', en: 'I design, I ship, I measure' },
+        cv_hero_title: { fr: 'Pierre · Responsable Marketing Digital', en: 'Pierre · Digital Marketing Manager' },
         cv_hero_sub: {
-            fr: "Je suis Pierre Gumilar, Responsable Marketing Digital. SEO, contenu, e-commerce, data : 3 ans chez Lindt & Sprüngli, et un portfolio pour le prouver.",
-            en: "I'm Pierre Gumilar, Digital Marketing Manager. SEO, content, e-commerce, data: 3 years at Lindt & Sprüngli, and a portfolio to prove it."
+            fr: "De mes trois ans chez Lindt & Sprüngli (SEO, data, e-commerce) à mes projets perso, j'aime donner vie à mes idées. Vous trouverez un aperçu de ces réalisations dans mon portfolio.",
+            en: "From three years at Lindt & Sprüngli (SEO, data, e-commerce) to my own side projects, I like bringing my ideas to life. You'll find an overview of that work in my portfolio."
         },
         cv_photo_alt: { fr: 'Portrait de Pierre Gumilar', en: 'Portrait of Pierre Gumilar' },
         cv_cta_write: { fr: 'Me contacter', en: 'Contact me' },
@@ -254,9 +254,9 @@
         cv_stat3_num: { fr: '<span class="cv-from">500 →</span> 5&nbsp;000', en: '<span class="cv-from">500 →</span> 5,000' },
         cv_stat3_label: { fr: 'fiches produits enrichies', en: 'enriched product pages' },
         cv_stat3_src: { fr: 'PIM · Lindt & Sprüngli', en: 'PIM · Lindt & Sprüngli' },
-        cv_stat4_num: { fr: '+300 %', en: '+300%' },
-        cv_stat4_label: { fr: 'trafic client', en: 'client traffic' },
-        cv_stat4_src: { fr: 'refonte · consulting indépendant', en: 'rebuild · independent consulting' },
+        cv_stat4_num: { fr: '0,45 €', en: '€0.45' },
+        cv_stat4_label: { fr: 'CPC en acquisition B2B', en: 'CPC on B2B acquisition' },
+        cv_stat4_src: { fr: 'Google Ads · consulting indépendant', en: 'Google Ads · independent consulting' },
         cv_stat5_num: { fr: '7&nbsp;000+', en: '7,000+' },
         cv_stat5_label: { fr: 'assets produits en 3 ans', en: 'assets produced in 3 years' },
         cv_stat5_src: { fr: 'contenu · Lindt & Sprüngli', en: 'content · Lindt & Sprüngli' },
