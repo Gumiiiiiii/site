@@ -329,16 +329,29 @@
         (function () {
             // CTA de contact : il vit dans la barre d'action du bas plutôt que
             // dans un bouton flottant à part, pour n'avoir qu'une seule zone
-            // d'action à l'écran. navbar.js reconstruit toujours la barre par
-            // innerHTML, donc l'injection ne peut pas se dupliquer.
-            const controls = document.querySelector('.navbar .nav-group--controls');
+            // d'action à l'écran. Un lien comme les autres, dans son propre
+            // groupe entre les liens et les réglages, séparé par les mêmes
+            // filets. navbar.js reconstruit toujours la barre par innerHTML,
+            // donc l'injection ne peut pas se dupliquer.
+            const navbar = document.querySelector('.navbar');
+            const controls = navbar && navbar.querySelector('.nav-group--controls');
             if (controls) {
+                const group = document.createElement('div');
+                group.className = 'nav-group nav-group--cta';
+
                 const cta = document.createElement('a');
                 cta.className = 'cv-nav-cta';
                 cta.href = 'mailto:pierregumilar@gmail.com';
                 cta.setAttribute('data-i18n', 'cv_cta_write');
                 cta.textContent = (window.GumiI18n && window.GumiI18n.t('cv_cta_write')) || 'Me contacter';
-                controls.appendChild(cta);
+                group.appendChild(cta);
+
+                const sep = document.createElement('span');
+                sep.className = 'nav-sep';
+                sep.setAttribute('aria-hidden', 'true');
+
+                navbar.insertBefore(group, controls);
+                navbar.insertBefore(sep, controls);
             }
 
             // Copie de l'adresse (même mécanique que le footer du portfolio).

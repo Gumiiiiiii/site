@@ -516,23 +516,14 @@ a.cv-stat:hover { transform: translateY(-3px); }
 .cv-byline { margin-top: 3.5rem; font-size: 0.85rem; opacity: 0.55; }
 
 /* Contact CTA docked in the navbar instead of floating in its own corner:
-   one action bar at the bottom of the screen, not two. Injected into the
-   controls group by the inline script in cv.html. */
-.navbar .cv-nav-cta {
-    padding: 8px 18px;
-    border-radius: 100px;
-    background: var(--text);
-    color: var(--bg);
-    white-space: nowrap;
-    transition: opacity 0.2s ease;
-}
+   one action bar at the bottom of the screen, not two. Injected as a plain
+   link in its own group by the inline script in cv.html, so it inherits the
+   navbar link styling and sits between the same hairline separators. */
 
-.navbar .cv-nav-cta:hover { color: var(--bg); opacity: 0.85; }
-
-/* Under the tablet width the bar cannot hold the portfolio links and the
-   contact CTA at once (it would scroll the CTA off-screen). On a CV landing
-   the CTA wins; the logo still leads back to the portfolio. */
-@media (max-width: 800px) {
+/* Measured: the full bar (logo, links, CTA, settings) needs about 650px of
+   viewport. Below that the portfolio links give way rather than the CTA,
+   which would otherwise scroll off-screen; the logo still leads back. */
+@media (max-width: 680px) {
     .cv-page .navbar .nav-group--links,
     .cv-page .navbar .nav-sep:first-of-type { display: none; }
 }

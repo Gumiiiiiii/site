@@ -148,24 +148,29 @@ const CHECKS = [
         }
     },
     {
-        name: 'CV mobile: the contact CTA stays inside the navbar',
+        name: 'CV: the contact CTA never overflows the navbar',
         async run(page) {
-            await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
+            // The bar holds the portfolio links only above ~650px; below that
+            // they are hidden so the CTA stays reachable. Check both sides.
             try {
-                await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
-                const nav = await page.evaluate(() => {
-                    const bar = document.querySelector('.navbar');
-                    const cta = document.querySelector('.navbar .cv-nav-cta');
-                    if (!cta) return { missing: true };
-                    return {
-                        overflow: bar.scrollWidth - bar.clientWidth,
-                        ctaRight: Math.round(cta.getBoundingClientRect().right),
-                        barRight: Math.round(bar.getBoundingClientRect().right)
-                    };
-                });
-                if (nav.missing) throw new Error('contact CTA is not in the navbar');
-                if (nav.overflow > 0) throw new Error('navbar overflows by ' + nav.overflow + 'px, the CTA scrolls off-screen');
-                if (nav.ctaRight > nav.barRight) throw new Error('CTA is clipped by the navbar edge');
+                for (const width of [320, 390, 600, 680, 700, 900, 1440]) {
+                    await page.setViewport({ width, height: 844 });
+                    await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
+                    const nav = await page.evaluate(() => {
+                        const bar = document.querySelector('.navbar');
+                        const cta = document.querySelector('.navbar .cv-nav-cta');
+                        if (!cta) return { missing: true };
+                        const barBox = bar.getBoundingClientRect();
+                        const ctaBox = cta.getBoundingClientRect();
+                        return {
+                            overflow: bar.scrollWidth - bar.clientWidth,
+                            clipped: ctaBox.right > barBox.right + 0.5 || ctaBox.left < barBox.left - 0.5
+                        };
+                    });
+                    if (nav.missing) throw new Error('contact CTA is not in the navbar at ' + width + 'px');
+                    if (nav.overflow > 0) throw new Error('navbar overflows by ' + nav.overflow + 'px at ' + width + 'px');
+                    if (nav.clipped) throw new Error('CTA is clipped by the navbar edge at ' + width + 'px');
+                }
             } finally {
                 await page.setViewport({ width: 1440, height: 900 });
             }
