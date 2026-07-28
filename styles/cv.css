@@ -83,14 +83,17 @@
 }
 
 /* === STATS === */
+/* Six columns used as "three then two": a flat row of five left the ranges
+   (500 -> 5 000) no room, and the second row stays centred on the first. */
 .cv-stats {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 1.25rem;
     padding-bottom: 4.5rem;
 }
 
 .cv-stat {
+    grid-column: span 2;
     background: var(--card-bg);
     border-radius: 1.25rem;
     padding: 1.4rem 1.5rem;
@@ -99,6 +102,8 @@
     display: block;
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+.cv-stat:nth-child(4) { grid-column: 2 / span 2; }
 
 a.cv-stat:hover { transform: translateY(-3px); }
 
@@ -110,6 +115,15 @@ a.cv-stat:hover { transform: translateY(-3px); }
     font-variant-numeric: tabular-nums;
     line-height: 1.1;
     white-space: nowrap;
+}
+
+/* Ranges keep a single dominant figure: the starting value steps back so
+   every card carries the same visual weight. */
+.cv-stat b .cv-from {
+    font-size: 0.58em;
+    font-weight: 700;
+    opacity: 0.45;
+    letter-spacing: 0;
 }
 
 .cv-stat span { font-size: 0.88rem; opacity: 0.75; font-weight: 500; }
@@ -148,10 +162,12 @@ a.cv-stat:hover { transform: translateY(-3px); }
 
 .cv-case + .cv-case { margin-top: 1.25rem; }
 
+/* 16:9 for the three visuals: the ArdaCraft study card is authored at that
+   ratio, so it now shows uncropped and the mosaic and the chart follow it. */
 .cv-case-visual {
     border-radius: 1rem;
     overflow: hidden;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 16 / 9;
     background: rgba(var(--text-rgb), 0.05);
 }
 
@@ -499,38 +515,32 @@ a.cv-stat:hover { transform: translateY(-3px); }
 
 .cv-byline { margin-top: 3.5rem; font-size: 0.85rem; opacity: 0.55; }
 
-/* Sticky CTA: desktop only, the mobile navbar owns the bottom of the
-   screen. Appears once the hero CTA has scrolled away. */
-.cv-sticky {
-    position: fixed;
-    right: 2rem;
-    bottom: 2rem;
-    z-index: 90;
-    display: none;
-    padding: 0.8rem 1.5rem;
+/* Contact CTA docked in the navbar instead of floating in its own corner:
+   one action bar at the bottom of the screen, not two. Injected into the
+   controls group by the inline script in cv.html. */
+.navbar .cv-nav-cta {
+    padding: 8px 18px;
     border-radius: 100px;
     background: var(--text);
     color: var(--bg);
-    font-family: var(--font);
-    font-size: 0.95rem;
-    font-weight: 700;
-    text-decoration: none;
-    box-shadow: var(--shadow-out);
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    pointer-events: none;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
 }
 
-.cv-sticky.visible { opacity: 1; transform: none; pointer-events: auto; }
+.navbar .cv-nav-cta:hover { color: var(--bg); opacity: 0.85; }
 
-@media (min-width: 900px) {
-    .cv-sticky { display: inline-block; }
+/* Under the tablet width the bar cannot hold the portfolio links and the
+   contact CTA at once (it would scroll the CTA off-screen). On a CV landing
+   the CTA wins; the logo still leads back to the portfolio. */
+@media (max-width: 800px) {
+    .cv-page .navbar .nav-group--links,
+    .cv-page .navbar .nav-sep:first-of-type { display: none; }
 }
 
 /* === RESPONSIVE === */
 @media (max-width: 900px) {
     .cv-stats { grid-template-columns: repeat(2, 1fr); }
+    .cv-stat, .cv-stat:nth-child(4) { grid-column: auto; }
     /* 5 cards on 2 columns: the lone last one spans the full row. */
     .cv-stat:last-child:nth-child(odd) { grid-column: 1 / -1; }
     .cv-skills { grid-template-columns: repeat(2, 1fr); }

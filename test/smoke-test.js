@@ -125,8 +125,13 @@ const CHECKS = [
         if (d.querySelectorAll('.cv-stat').length !== 5) return 'expected 5 stat cards';
         if (d.querySelectorAll('.cv-case').length !== 3) return 'expected 3 case studies';
         if (d.querySelectorAll('.cv-tl-row').length < 7) return 'timeline incomplete';
-        if (d.querySelectorAll('.cv-tl-group').length !== 2) return 'timeline should split experience/education';
-        if (d.querySelectorAll('.cv-quote').length !== 3) return 'expected 3 recommendation quotes';
+        if (d.querySelectorAll('.cv-tl-group').length !== 3) return 'timeline should split experience/education/languages';
+        // Recommandations : section commentée dans cv.html tant que les vraies
+        // citations ne sont pas arrivées. Réactiver la ligne ci-dessous en même
+        // temps que la section.
+        // if (d.querySelectorAll('.cv-quote').length !== 3) return 'expected 3 recommendation quotes';
+        if (d.querySelectorAll('.cv-quote').length !== 0) return 'recommendation quotes should stay hidden until they are real';
+        if (!d.querySelector('.navbar .cv-nav-cta')) return 'contact CTA should be docked in the navbar';
         if (d.querySelectorAll('.cv-tool').length < 20) return 'tool cloud incomplete';
         if (d.body.textContent.includes('—')) return 'em dash found in CV copy';
     } },

@@ -121,6 +121,57 @@ const CHECKS = [
         }
     },
     {
+        name: 'CV: the three case visuals share the 16:9 of the study card',
+        async run(page) {
+            await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
+            const ratios = await page.evaluate(() =>
+                [...document.querySelectorAll('.cv-case-visual')].map((el) => {
+                    const rect = el.getBoundingClientRect();
+                    return rect.width / rect.height;
+                })
+            );
+            if (ratios.length !== 3) throw new Error('expected 3 case visuals, got ' + ratios.length);
+            const off = ratios.filter((r) => Math.abs(r - 16 / 9) > 0.02);
+            if (off.length) throw new Error('visual ratio(s) ' + off.map((r) => r.toFixed(3)).join(', ') + ', expected 1.778');
+        }
+    },
+    {
+        name: 'CV: stat figures fit inside their card',
+        async run(page) {
+            await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
+            const overflow = await page.evaluate(() =>
+                [...document.querySelectorAll('.cv-stat b')]
+                    .filter((b) => b.scrollWidth > b.clientWidth + 1)
+                    .map((b) => b.textContent.trim())
+            );
+            if (overflow.length) throw new Error('figure(s) overflowing: ' + overflow.join(' / '));
+        }
+    },
+    {
+        name: 'CV mobile: the contact CTA stays inside the navbar',
+        async run(page) {
+            await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
+            try {
+                await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
+                const nav = await page.evaluate(() => {
+                    const bar = document.querySelector('.navbar');
+                    const cta = document.querySelector('.navbar .cv-nav-cta');
+                    if (!cta) return { missing: true };
+                    return {
+                        overflow: bar.scrollWidth - bar.clientWidth,
+                        ctaRight: Math.round(cta.getBoundingClientRect().right),
+                        barRight: Math.round(bar.getBoundingClientRect().right)
+                    };
+                });
+                if (nav.missing) throw new Error('contact CTA is not in the navbar');
+                if (nav.overflow > 0) throw new Error('navbar overflows by ' + nav.overflow + 'px, the CTA scrolls off-screen');
+                if (nav.ctaRight > nav.barRight) throw new Error('CTA is clipped by the navbar edge');
+            } finally {
+                await page.setViewport({ width: 1440, height: 900 });
+            }
+        }
+    },
+    {
         name: 'social formats: focal point and format list are wired',
         async run(page) {
             await page.goto(BASE + '/tools/social-formats', { waitUntil: 'networkidle0' });

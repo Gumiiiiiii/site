@@ -54,7 +54,7 @@
         <header class="cv-hero">
             <div>
                 <h1 id="cv-hero-title"><span data-i18n="cv_hero_title">Je conçois, je livre, je mesure</span><span class="dot">.</span></h1>
-                <p class="cv-hero-sub" data-i18n="cv_hero_sub">Pierre Gumilar, Responsable Marketing Digital. SEO, contenu, e-commerce, data : 3 ans chez Lindt &amp; Sprüngli, et un portfolio pour le prouver.</p>
+                <p class="cv-hero-sub" data-i18n="cv_hero_sub">Je suis Pierre Gumilar, Responsable Marketing Digital. SEO, contenu, e-commerce, data : 3 ans chez Lindt &amp; Sprüngli, et un portfolio pour le prouver.</p>
                 <div class="cv-cta-row" id="cv-hero-cta">
                     <a href="mailto:pierregumilar@gmail.com" class="btn-primary" data-i18n="cv_cta_write">Me contacter</a>
                     <a href="media/Pierre-Gumilar-CV.pdf" class="cv-btn-ghost" download data-i18n="cv_cta_pdf">CV PDF (1 page)</a>
@@ -67,11 +67,15 @@
         </header>
 
         <section class="cv-stats" aria-label="Résultats clés">
-            <div class="cv-stat"><b>+180 %</b><span data-i18n="cv_stat1_label">de trafic organique</span><small data-i18n="cv_stat1_src">SEO · Lindt &amp; Sprüngli</small></div>
-            <div class="cv-stat"><b>8k → 115k</b><span data-i18n="cv_stat2_label">followers en 3 mois</span><small data-i18n="cv_stat2_src">ArdaCraft · l'étude est en ligne</small></div>
-            <div class="cv-stat"><b>7&nbsp;000+</b><span data-i18n="cv_stat5_label">assets produits en 3 ans</span><small data-i18n="cv_stat5_src">contenu · Lindt &amp; Sprüngli</small></div>
-            <div class="cv-stat"><b>300 → 5&nbsp;000</b><span data-i18n="cv_stat3_label">fiches produits enrichies</span><small data-i18n="cv_stat3_src">PIM · Lindt &amp; Sprüngli</small></div>
-            <div class="cv-stat"><b>+300 %</b><span data-i18n="cv_stat4_label">de trafic client après refonte</span><small data-i18n="cv_stat4_src">consulting indépendant</small></div>
+            <!-- Une grammaire pour les cinq cartes : le chiffre, ce qu'il mesure
+                 (groupe nominal, jamais une préposition), puis « discipline ·
+                 contexte ». Les trois preuves Lindt d'abord, puis ArdaCraft et
+                 le consulting : le même ordre que les études de cas plus bas. -->
+            <div class="cv-stat"><b data-i18n-html="cv_stat1_num">+180 %</b><span data-i18n="cv_stat1_label">trafic organique</span><small data-i18n="cv_stat1_src">SEO · Lindt &amp; Sprüngli</small></div>
+            <div class="cv-stat"><b data-i18n-html="cv_stat3_num"><span class="cv-from">500 →</span> 5&nbsp;000</b><span data-i18n="cv_stat3_label">fiches produits enrichies</span><small data-i18n="cv_stat3_src">PIM · Lindt &amp; Sprüngli</small></div>
+            <div class="cv-stat"><b data-i18n-html="cv_stat5_num">7&nbsp;000+</b><span data-i18n="cv_stat5_label">assets produits en 3 ans</span><small data-i18n="cv_stat5_src">contenu · Lindt &amp; Sprüngli</small></div>
+            <div class="cv-stat"><b data-i18n-html="cv_stat2_num"><span class="cv-from">8&nbsp;000 →</span> 115&nbsp;000</b><span data-i18n="cv_stat2_label">followers en 3 mois</span><small data-i18n="cv_stat2_src">social · ArdaCraft</small></div>
+            <div class="cv-stat"><b data-i18n-html="cv_stat4_num">+300 %</b><span data-i18n="cv_stat4_label">trafic client</span><small data-i18n="cv_stat4_src">refonte · consulting indépendant</small></div>
         </section>
 
         <section class="cv-section">
@@ -90,7 +94,7 @@
                     <span class="cv-case-tag" data-i18n="cv_case1_tag">Lindt &amp; Sprüngli · CDI</span>
                     <h3 data-i18n="cv_case1_title">Piloter le contenu e-commerce de Lindt &amp; Sprüngli</h3>
                     <p data-i18n="cv_case1_desc">7 000+ assets produits en 3 ans (direction artistique, photo, 3D), stratégie SEO, structuration de la donnée produit, et un rôle d'interface quotidien entre agences, développeurs et équipes internes.</p>
-                    <span class="cv-case-result" data-i18n="cv_case1_result">+180 % de trafic organique, de 300 à 5&nbsp;000 fiches produits</span>
+                    <span class="cv-case-result" data-i18n="cv_case1_result">+180 % de trafic organique, de 500 à 5&nbsp;000 fiches produits</span>
                 </div>
             </article>
 
@@ -125,11 +129,15 @@
             </article>
         </section>
 
-        <!-- Les citations ci-dessous sont des EXEMPLES (badge visible) pour
-             que Céline, Michele et Solenne visualisent le format attendu :
-             courtes, concrètes, un projet ou un résultat précis. À remplacer
-             par leurs vrais textes avant tout partage à des recruteurs.
-             Photo de Solenne : placeholder initiales, à remplacer aussi. -->
+        <!-- SECTION MASQUÉE. Les citations ci-dessous sont des EXEMPLES (badge
+             visible) pour que Céline, Michele et Solenne visualisent le format
+             attendu : courtes, concrètes, un projet ou un résultat précis.
+             Tant que leurs vrais textes ne sont pas arrivés, la section reste
+             hors ligne. Pour la remettre : supprimer les deux marqueurs de
+             commentaire qui l'encadrent, retirer les badges .cv-quote-pending,
+             remplacer la photo de Solenne (placeholder initiales) et réactiver
+             l'assertion .cv-quote dans test/smoke-test.js. -->
+        <!--
         <section class="cv-section">
             <h2><span data-i18n="cv_sec_reco">Ils ont travaillé avec moi</span><span class="dot">.</span></h2>
             <div class="cv-quotes">
@@ -168,6 +176,7 @@
                 </figure>
             </div>
         </section>
+        -->
 
         <section class="cv-section">
             <h2><span data-i18n="cv_sec_skills">Six expertises, chiffres à l'appui</span><span class="dot">.</span></h2>
@@ -182,7 +191,7 @@
                     <h3 data-i18n="cv_skill3_t">Contenu &amp; social</h3><p data-i18n-html="cv_skill3_d"><b>7&nbsp;000+</b> assets supervisés : direction artistique, photo, 3D. Des <b>dizaines de millions</b> de vues organiques.</p>
                 </div>
                 <div class="cv-skill">
-                    <h3 data-i18n="cv_skill4_t">E-commerce &amp; PIM</h3><p data-i18n-html="cv_skill4_d">Magento, Salsify. Un catalogue passé de <b>300 à 5&nbsp;000</b> fiches produits, enrichies et structurées.</p>
+                    <h3 data-i18n="cv_skill4_t">E-commerce &amp; PIM</h3><p data-i18n-html="cv_skill4_d">Magento, Salsify. Un catalogue passé de <b>500 à 5&nbsp;000</b> fiches produits, enrichies et structurées.</p>
                 </div>
                 <div class="cv-skill">
                     <h3 data-i18n="cv_skill5_t">Design &amp; intégration</h3><p data-i18n="cv_skill5_d">Figma, Webflow, Webstudio, HTML/CSS/JS. Je livre moi-même ce que je conçois.</p>
@@ -258,10 +267,14 @@
                 <div class="cv-tl-row"><span class="cv-dates">2020</span><span data-i18n="cv_tl5">Assistant Marketing Opérationnel · EXKI, Bruxelles</span></div>
             </div>
             <div class="cv-tl-group">
-                <h3 data-i18n="cv_tl_edu">Formation &amp; langues</h3>
+                <h3 data-i18n="cv_tl_edu">Formation</h3>
                 <div class="cv-tl-row"><span class="cv-dates">2019 · 2022</span><span data-i18n="cv_tl6">MSc Marketing &amp; Services Management · IAE Aix School of Management</span></div>
                 <div class="cv-tl-row"><span class="cv-dates">2018 · 2019</span><span data-i18n="cv_tl7">DUETI Business · University of the West of Scotland</span></div>
-                <div class="cv-tl-row"><span class="cv-dates" data-i18n="cv_tl_lang_label">langues</span><span data-i18n="cv_tl8">Anglais courant, C1 (TOEIC 940). Présentations et réunions en contexte international.</span></div>
+            </div>
+            <div class="cv-tl-group">
+                <h3 data-i18n="cv_tl_lang">Langues</h3>
+                <div class="cv-tl-row"><span class="cv-dates" data-i18n="cv_tl_lang_fr_label">français</span><span data-i18n="cv_tl_lang_fr">Langue natale.</span></div>
+                <div class="cv-tl-row"><span class="cv-dates" data-i18n="cv_tl_lang_en_label">anglais</span><span data-i18n="cv_tl8">Courant, C1 (TOEIC 940). Présentations et réunions en contexte international.</span></div>
             </div>
         </section>
 
@@ -308,28 +321,25 @@
         </section>
     </main>
 
-    <a href="mailto:pierregumilar@gmail.com" class="cv-sticky" id="cv-sticky" data-i18n="cv_cta_write">Me contacter</a>
-
     <script src="scripts/vendor/lenis.min.js"></script>
     <script src="scripts/page-effects.js"></script>
     <script src="scripts/i18n.js"></script>
     <script src="scripts/navbar.js"></script>
     <script>
         (function () {
-            // CTA sticky (desktop) : visible une fois le CTA du hero sorti de
-            // l'écran, masqué à nouveau au niveau du bloc contact.
-            const sticky = document.getElementById('cv-sticky');
-            const heroCta = document.getElementById('cv-hero-cta');
-            const contact = document.getElementById('cv-contact');
-
-            function updateSticky() {
-                if (!sticky || !heroCta || !contact) return;
-                const heroGone = heroCta.getBoundingClientRect().bottom < 0;
-                const contactVisible = contact.getBoundingClientRect().top < window.innerHeight;
-                sticky.classList.toggle('visible', heroGone && !contactVisible);
+            // CTA de contact : il vit dans la barre d'action du bas plutôt que
+            // dans un bouton flottant à part, pour n'avoir qu'une seule zone
+            // d'action à l'écran. navbar.js reconstruit toujours la barre par
+            // innerHTML, donc l'injection ne peut pas se dupliquer.
+            const controls = document.querySelector('.navbar .nav-group--controls');
+            if (controls) {
+                const cta = document.createElement('a');
+                cta.className = 'cv-nav-cta';
+                cta.href = 'mailto:pierregumilar@gmail.com';
+                cta.setAttribute('data-i18n', 'cv_cta_write');
+                cta.textContent = (window.GumiI18n && window.GumiI18n.t('cv_cta_write')) || 'Me contacter';
+                controls.appendChild(cta);
             }
-            window.addEventListener('scroll', updateSticky, { passive: true });
-            updateSticky();
 
             // Copie de l'adresse (même mécanique que le footer du portfolio).
             const btn = document.getElementById('cv-copy');
