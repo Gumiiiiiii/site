@@ -268,19 +268,20 @@ a.cv-stat:hover { transform: translateY(-3px); }
 
 /* Stacked, one per row. Reading order carries the priority (the paying
    client first), so the layout does not have to compensate for three very
-   unequal lengths. Each quote caps its measure: full-width prose at this
-   column width would otherwise run well past a comfortable line. */
-.cv-quote blockquote { max-width: 46rem; }
-
+   unequal lengths.
+   The quote and its attribution sit side by side: a full-width card with a
+   capped measure left half of itself empty, and the text column width now
+   sets a comfortable line on its own. */
 
 .cv-quote {
     background: var(--card-bg);
     border-radius: 1.5rem;
     padding: 1.75rem;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.1rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    gap: 2.25rem;
+    align-items: start;
 }
 
 
@@ -302,7 +303,6 @@ a.cv-stat:hover { transform: translateY(-3px); }
     display: flex;
     align-items: center;
     gap: 0.85rem;
-    margin-top: auto;
 }
 
 .cv-quote figcaption img {
@@ -582,6 +582,7 @@ a.cv-stat:hover { transform: translateY(-3px); }
 
 /* === RESPONSIVE === */
 @media (max-width: 900px) {
+    .cv-quote { grid-template-columns: 1fr; gap: 1.1rem; }
     .cv-stats { grid-template-columns: repeat(2, 1fr); }
     .cv-stat, .cv-stat:nth-child(4) { grid-column: auto; }
     /* 5 cards on 2 columns: the lone last one spans the full row. */
