@@ -285,7 +285,6 @@
         cv_case3_result: { fr: '+300 % de trafic après la refonte, 568 conversions payantes en deux mois', en: '+300% traffic after the rebuild, 568 paid conversions in two months' },
         cv_case_link: { fr: "Lire l'étude complète", en: 'Read the full study' },
         cv_sec_reco: { fr: 'Ils ont travaillé avec moi', en: 'They worked with me' },
-        cv_reco_pending: { fr: "Exemple : la vraie citation arrive", en: 'Sample: real quote coming' },
         cv_reco1_role: { fr: 'Digital Marketing · ma manager chez Lindt & Sprüngli', en: 'Digital Marketing · my manager at Lindt & Sprüngli' },
         cv_reco2_role: { fr: 'Senior Digital E-commerce Manager · Lindt & Sprüngli', en: 'Senior Digital E-commerce Manager · Lindt & Sprüngli' },
         cv_reco3_role: { fr: 'Senior Communication Manager · Lindt & Sprüngli', en: 'Senior Communication Manager · Lindt & Sprüngli' },
