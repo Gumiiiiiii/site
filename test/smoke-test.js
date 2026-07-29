@@ -137,6 +137,11 @@ const CHECKS = [
         if (d.querySelectorAll('.cv-quote figcaption [data-i18n$="_role"]').length !== 3) return 'a recommendation is missing its role line';
         if (!d.querySelector('a[href*="cal.com"]')) return 'missing the booking CTA';
         if (!d.querySelector('script[src*="_vercel/insights"]')) return 'CV page is missing Vercel Analytics';
+        // hreflang must be reciprocal and name an x-default.
+        const alts = [...d.querySelectorAll('link[rel="alternate"][hreflang]')].map((l) => l.getAttribute('hreflang'));
+        for (const lang of ['fr', 'en', 'x-default']) {
+            if (!alts.includes(lang)) return 'missing hreflang ' + lang;
+        }
         if (!d.querySelector('.navbar .cv-nav-cta')) return 'contact CTA should be docked in the navbar';
         // The wall was deliberately halved: it sat between the proof and the
         // CTA. What matters is that the recruiter search terms survived.

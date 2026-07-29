@@ -9,6 +9,13 @@
     <!-- Page cachée : jamais indexée, accessible uniquement par lien direct. -->
     <meta name="robots" content="noindex">
     <link rel="canonical" href="https://pierre.gumi.ch/cv">
+    <!-- Les deux URL servent ce même fichier ; i18n.js rend l'anglais quand le
+         chemin commence par /en/. Pas de en/cv.html statique : il masquerait ce
+         rendu et remplacerait une page anglaise qui fonctionne par une page
+         vide. x-default pointe le français, langue principale du site. -->
+    <link rel="alternate" hreflang="fr" href="https://pierre.gumi.ch/cv">
+    <link rel="alternate" hreflang="en" href="https://pierre.gumi.ch/en/cv">
+    <link rel="alternate" hreflang="x-default" href="https://pierre.gumi.ch/cv">
     <meta property="og:type" content="profile">
     <meta property="og:site_name" content="Gumi.">
     <meta property="og:locale" content="fr_FR">
