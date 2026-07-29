@@ -249,7 +249,7 @@ window.GUMI_ARTICLES = {
             en: 'Using SEO to Grow a Community of Enthusiasts: The One-Million-Searches-a-Year Opportunity'
         },
         excerpt: {
-            fr: "Comment j'ai transformé plus d'un million de recherches annuelles autour de la Terre du Milieu en un véritable levier d'acquisition pour ArdaCraft, grâce à une carte interactive.",
+            fr: "Comment j'ai transformé plus d'un million de recherches annuelles autour de la Terre du Milieu en canal d'acquisition pour ArdaCraft, grâce à une carte interactive.",
             en: 'How I turned over a million annual searches around Middle-earth into a real acquisition channel for ArdaCraft, through an interactive map.'
         },
         html: {
@@ -445,11 +445,11 @@ window.GUMI_ARTICLES = {
 
             <blockquote>
                 <p>« Le coût marginal d'une image supplémentaire tombe à zéro. C'est ça, la vraie rupture : on ne réfléchit plus en nombre de clichés, on réfléchit en directions créatives. »</p>
-                <footer>— Note de carnet, jour 12 de l'expérimentation</footer>
+                <footer>, Note de carnet, jour 12 de l'expérimentation</footer>
             </blockquote>
 
             <h3>Ce qui coince encore</h3>
-            <p>La fidélité produit reste le talon d'Achille. Logos déformés, proportions légèrement fausses, coutures qui n'existent pas : sur un objet que le client connaît par cœur, ces écarts sont éliminatoires. Le taux de déchet est brutal — moins de 7% des générations étaient exploitables telles quelles — et chaque correction fine (redresser un logo, corriger un reflet) ramène vers la retouche manuelle qu'on espérait éviter.</p>
+            <p>La fidélité produit reste le talon d'Achille. Logos déformés, proportions légèrement fausses, coutures qui n'existent pas : sur un objet que le client connaît par cœur, ces écarts sont éliminatoires. Le taux de déchet est brutal, moins de 7% des générations étaient exploitables telles quelles, et chaque correction fine (redresser un logo, corriger un reflet) ramène vers la retouche manuelle qu'on espérait éviter.</p>
 
             <table>
                 <thead>
@@ -489,7 +489,7 @@ window.GUMI_ARTICLES = {
             </table>
 
             <h2>Alors, verdict ?</h2>
-            <p>Non, l'IA ne remplace pas encore un vrai shooting quand la fidélité produit est critique — packaging, e-commerce, catalogue. Mais elle a déjà gagné sur un autre terrain : les visuels d'ambiance, les moodboards clients, les tests de direction artistique et les déclinaisons pour les réseaux sociaux. Mon flux de travail a d'ailleurs changé depuis : je génère les ambiances en IA, je valide une direction avec le client, puis je ne shoote en studio que la direction retenue. Le shooting n'a pas disparu — il est devenu la dernière étape d'un entonnoir beaucoup plus large.</p>
+            <p>Non, l'IA ne remplace pas encore un vrai shooting quand la fidélité produit est critique, packaging, e-commerce, catalogue. Mais elle a déjà gagné sur un autre terrain : les visuels d'ambiance, les moodboards clients, les tests de direction artistique et les déclinaisons pour les réseaux sociaux. Mon flux de travail a d'ailleurs changé depuis : je génère les ambiances en IA, je valide une direction avec le client, puis je ne shoote en studio que la direction retenue. Le shooting n'a pas disparu, il est devenu la dernière étape d'un entonnoir beaucoup plus large.</p>
             `,
             en: `
             <div class="abstract">
@@ -520,11 +520,11 @@ window.GUMI_ARTICLES = {
 
             <blockquote>
                 <p>"The marginal cost of one more image drops to zero. That's the real disruption: you stop thinking in number of shots and start thinking in creative directions."</p>
-                <footer>— Notebook entry, day 12 of the experiment</footer>
+                <footer>, Notebook entry, day 12 of the experiment</footer>
             </blockquote>
 
             <h3>What Still Falls Short</h3>
-            <p>Product fidelity remains the Achilles' heel. Distorted logos, slightly wrong proportions, seams that don't exist: on an object the client knows by heart, these deviations are disqualifying. The waste rate is brutal — less than 7% of generations were usable as-is — and every fine correction (straightening a logo, fixing a reflection) drags you back to the manual retouching you hoped to avoid.</p>
+            <p>Product fidelity remains the Achilles' heel. Distorted logos, slightly wrong proportions, seams that don't exist: on an object the client knows by heart, these deviations are disqualifying. The waste rate is brutal, less than 7% of generations were usable as-is, and every fine correction (straightening a logo, fixing a reflection) drags you back to the manual retouching you hoped to avoid.</p>
 
             <table>
                 <thead>
@@ -564,7 +564,7 @@ window.GUMI_ARTICLES = {
             </table>
 
             <h2>So, the Verdict?</h2>
-            <p>No, AI doesn't replace a real shoot yet when product fidelity is critical — packaging, e-commerce, catalogs. But it has already won on another front: mood visuals, client moodboards, art direction tests and social media variations. My workflow has actually changed since: I generate moods with AI, validate a direction with the client, then only shoot the chosen direction in the studio. The photo shoot hasn't disappeared — it has become the final step of a much wider funnel.</p>
+            <p>No, AI doesn't replace a real shoot yet when product fidelity is critical, packaging, e-commerce, catalogs. But it has already won on another front: mood visuals, client moodboards, art direction tests and social media variations. My workflow has actually changed since: I generate moods with AI, validate a direction with the client, then only shoot the chosen direction in the studio. The photo shoot hasn't disappeared, it has become the final step of a much wider funnel.</p>
             `
         }
     }
