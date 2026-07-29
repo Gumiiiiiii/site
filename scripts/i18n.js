@@ -234,32 +234,38 @@
             fr: "Responsable marketing digital : SEO, contenu, e-commerce, data. Des résultats mesurés chez Lindt & Sprüngli. Disponible pour un CDI.",
             en: 'Digital marketing manager: SEO, content, e-commerce, data. Measured results at Lindt & Sprüngli. Open to full-time roles.'
         },
-        cv_avail: { fr: 'Disponible dès septembre 2026 pour un CDI, sur site ou à distance.', en: 'Available from September 2026 for a full-time role, on-site or remote.' },
-        cv_hero_title: { fr: 'Pierre · Responsable Marketing Digital', en: 'Pierre · Digital Marketing Manager' },
-        cv_hero_sub: {
-            fr: "De mes trois ans chez Lindt & Sprüngli (SEO, data, e-commerce) à mes projets perso, j'aime donner vie à mes idées. Vous trouverez un aperçu de ces réalisations ci-dessous :",
-            en: "From three years at Lindt & Sprüngli (SEO, data, e-commerce) to my own side projects, I like bringing my ideas to life. You'll find an overview of that work below:"
+        cv_avail: {
+            fr: 'Disponible en septembre 2026 · CDI · France, Belgique, Suisse, Luxembourg · sur site ou remote',
+            en: 'Available September 2026 · full-time · France, Belgium, Switzerland, Luxembourg · on-site or remote'
         },
+        cv_hero_title: { fr: 'Pierre · E-commerce & marketing digital', en: 'Pierre · E-commerce & digital marketing' },
+        cv_hero_sub: {
+            fr: "Trois ans chez Lindt & Sprüngli à piloter le contenu e-commerce. Donnée produit sur Magento et Salsify, SEO, direction artistique. Le catalogue est passé de 500 à 5 000 fiches enrichies pendant que le trafic organique gagnait 180 %.",
+            en: 'Three years at Lindt & Sprüngli running e-commerce content. Product data on Magento and Salsify, SEO, art direction. The catalog went from 500 to 5,000 enriched pages while organic traffic gained 180%.'
+        },
+        cv_cta_book: { fr: 'Réserver 20 min', en: 'Book 20 min' },
+        cv_reco0_role: { fr: 'Dirigeant · Emeraude Aventure', en: 'Founder · Emeraude Aventure' },
+        cv_reco_more: { fr: 'Lire la suite', en: 'Read more' },
         cv_photo_alt: { fr: 'Portrait de Pierre Gumilar', en: 'Portrait of Pierre Gumilar' },
         cv_cta_write: { fr: 'Me contacter', en: 'Contact me' },
         cv_cta_pdf: { fr: 'CV PDF (1 page)', en: 'Resume PDF (1 page)' },
         // Stats : les chiffres passent par l'i18n parce que la typographie des
         // nombres change de langue (espace avant le %, séparateur de milliers).
         cv_stat1_num: { fr: '+180 %', en: '+180%' },
-        cv_stat1_label: { fr: 'trafic organique', en: 'organic traffic' },
-        cv_stat1_src: { fr: 'SEO · Lindt & Sprüngli', en: 'SEO · Lindt & Sprüngli' },
-        cv_stat2_num: { fr: '<span class="cv-from">8&nbsp;000 →</span> 115&nbsp;000', en: '<span class="cv-from">8,000 →</span> 115,000' },
-        cv_stat2_label: { fr: 'followers en 3 mois', en: 'followers in 3 months' },
-        cv_stat2_src: { fr: 'social · ArdaCraft', en: 'social · ArdaCraft' },
-        cv_stat3_num: { fr: '<span class="cv-from">500 →</span> 5&nbsp;000', en: '<span class="cv-from">500 →</span> 5,000' },
+        cv_stat1_label: { fr: 'trafic organique en 3 ans', en: 'organic traffic in 3 years' },
+        cv_stat1_src: { fr: 'Lindt & Sprüngli', en: 'Lindt & Sprüngli' },
+        cv_stat2_num: { fr: '27,3 M', en: '27.3M' },
+        cv_stat2_label: { fr: 'vues', en: 'views' },
+        cv_stat2_src: { fr: '24 vidéos ArdaCraft', en: '24 ArdaCraft videos' },
+        cv_stat3_num: { fr: '<span class="cv-from">500 →</span> 5 000', en: '<span class="cv-from">500 →</span> 5,000' },
         cv_stat3_label: { fr: 'fiches produits enrichies', en: 'enriched product pages' },
-        cv_stat3_src: { fr: 'PIM · Lindt & Sprüngli', en: 'PIM · Lindt & Sprüngli' },
+        cv_stat3_src: { fr: 'Magento, Salsify', en: 'Magento, Salsify' },
         cv_stat4_num: { fr: '1,99 €', en: '€1.99' },
-        cv_stat4_label: { fr: 'coût par conversion', en: 'cost per conversion' },
-        cv_stat4_src: { fr: 'Google Ads · consulting indépendant', en: 'Google Ads · independent consulting' },
-        cv_stat5_num: { fr: '7&nbsp;000+', en: '7,000+' },
+        cv_stat4_label: { fr: 'par réservation', en: 'per booking' },
+        cv_stat4_src: { fr: 'Google Ads, Emeraude Aventure', en: 'Google Ads, Emeraude Aventure' },
+        cv_stat5_num: { fr: '7 000+', en: '7,000+' },
         cv_stat5_label: { fr: 'assets produits en 3 ans', en: 'assets produced in 3 years' },
-        cv_stat5_src: { fr: 'contenu · Lindt & Sprüngli', en: 'content · Lindt & Sprüngli' },
+        cv_stat5_src: { fr: 'Lindt & Sprüngli', en: 'Lindt & Sprüngli' },
         cv_sec_cases: { fr: 'Trois contextes, trois preuves', en: 'Three settings, three proofs' },
         cv_case1_tag: { fr: 'Lindt & Sprüngli · CDI', en: 'Lindt & Sprüngli · full-time' },
         cv_case1_title: { fr: 'Piloter le contenu e-commerce de Lindt & Sprüngli', en: 'Running e-commerce content at Lindt & Sprüngli' },
@@ -287,8 +293,8 @@
         cv_sec_reco: { fr: 'Ils ont travaillé avec moi', en: 'They worked with me' },
         cv_reco_pending: { fr: "Exemple : la vraie citation arrive", en: 'Sample: real quote coming' },
         cv_reco1_role: { fr: 'Digital Marketing · ma manager chez Lindt & Sprüngli', en: 'Digital Marketing · my manager at Lindt & Sprüngli' },
-        cv_reco2_role: { fr: 'Senior Digital E-commerce Manager · collègue chez Lindt & Sprüngli', en: 'Senior Digital E-commerce Manager · colleague at Lindt & Sprüngli' },
-        cv_reco3_role: { fr: 'Senior Communication Manager · collègue chez Lindt & Sprüngli', en: 'Senior Communication Manager · colleague at Lindt & Sprüngli' },
+        cv_reco2_role: { fr: 'Senior Digital E-commerce Manager · Lindt & Sprüngli', en: 'Senior Digital E-commerce Manager · Lindt & Sprüngli' },
+        cv_reco3_role: { fr: 'Senior Communication Manager · Lindt & Sprüngli', en: 'Senior Communication Manager · Lindt & Sprüngli' },
         // Les chiffres de cette section doublonnaient la bande de stats du
         // haut de page : à force de répéter les mêmes preuves, elle sonnait
         // creux. Chaque carte dit maintenant ce que je fais concrètement, et

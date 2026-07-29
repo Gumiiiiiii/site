@@ -264,6 +264,50 @@ a.cv-stat:hover { transform: translateY(-3px); }
     letter-spacing: -0.01em;
 }
 
+.cv-quote blockquote p { margin: 0; }
+.cv-quote blockquote p + p { margin-top: 0.8rem; }
+
+/* Long testimonial: the second paragraph collapses so the card stays level
+   with its neighbours. The professional substance is in the first one, which
+   is never hidden. */
+.cv-quote-more > summary {
+    cursor: pointer;
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent-ink);
+    list-style: none;
+}
+
+.cv-quote-more > summary::-webkit-details-marker { display: none; }
+.cv-quote-more > summary::after { content: ' +'; }
+.cv-quote-more[open] > summary::after { content: ' −'; }
+.cv-quote-more[open] > summary { margin-bottom: 0.8rem; }
+
+/* No photo available: initials in the same 46px slot as the avatars, so the
+   three cards keep one caption rhythm. */
+.cv-quote-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(var(--text-rgb), 0.09);
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+}
+
+.cv-quote-name {
+    display: block;
+    font-weight: 750;
+    color: var(--text);
+    font-size: 0.95rem;
+}
+
 .cv-quote figcaption {
     display: flex;
     align-items: center;

@@ -53,13 +53,17 @@
 
         <header class="cv-hero">
             <div>
-                <h1 id="cv-hero-title"><span data-i18n="cv_hero_title">Pierre · Responsable Marketing Digital</span><span class="dot">.</span></h1>
-                <p class="cv-hero-sub" data-i18n="cv_hero_sub">De mes trois ans chez Lindt &amp; Sprüngli (SEO, data, e-commerce) à mes projets perso, j'aime donner vie à mes idées. Vous trouverez un aperçu de ces réalisations ci-dessous :</p>
+                <h1 id="cv-hero-title"><span data-i18n="cv_hero_title">Pierre · E-commerce &amp; marketing digital</span><span class="dot">.</span></h1>
+                <p class="cv-hero-sub" data-i18n="cv_hero_sub">Trois ans chez Lindt &amp; Sprüngli à piloter le contenu e-commerce. Donnée produit sur Magento et Salsify, SEO, direction artistique. Le catalogue est passé de 500 à 5 000 fiches enrichies pendant que le trafic organique gagnait 180 %.</p>
                 <div class="cv-cta-row" id="cv-hero-cta">
-                    <a href="mailto:pierregumilar@gmail.com" class="btn-primary" data-i18n="cv_cta_write">Me contacter</a>
-                    <a href="media/Pierre-Gumilar-CV.pdf" class="cv-btn-ghost" download data-i18n="cv_cta_pdf">CV PDF (1 page)</a>
+                    <a href="mailto:pierregumilar@gmail.com" class="btn-primary" data-track="contact_mail" data-i18n="cv_cta_write">Me contacter</a>
+                    <a href="https://cal.com/pierre-gumi/20min" class="cv-btn-ghost" rel="noopener" data-track="book_call" data-i18n="cv_cta_book">Réserver 20 min</a>
+                    <a href="media/Pierre-Gumilar-CV.pdf" class="cv-btn-ghost" download data-track="pdf_download" data-i18n="cv_cta_pdf">CV PDF (1 page)</a>
                 </div>
-                <p class="cv-avail-line" data-i18n="cv_avail">Disponible dès septembre 2026 pour un CDI, sur site ou à distance.</p>
+                <!-- Availability and mobility belong here, not only in the block
+                     at the bottom: a reader who leaves at 20% scroll never sees
+                     that one. -->
+                <p class="cv-avail-line" data-i18n="cv_avail">Disponible en septembre 2026 · CDI · France, Belgique, Suisse, Luxembourg · sur site ou remote</p>
             </div>
             <div class="cv-hero-photo">
                 <!-- 512px WebP for display (shown at 256 CSS px); the 800px JPEG
@@ -73,26 +77,33 @@
                  (groupe nominal, jamais une préposition), puis « discipline ·
                  contexte ». Les trois preuves Lindt d'abord, puis ArdaCraft et
                  le consulting : le même ordre que les études de cas plus bas. -->
-            <div class="cv-stat"><b data-i18n-html="cv_stat1_num">+180 %</b><span data-i18n="cv_stat1_label">trafic organique</span><small data-i18n="cv_stat1_src">SEO · Lindt &amp; Sprüngli</small></div>
-            <div class="cv-stat"><b data-i18n-html="cv_stat3_num"><span class="cv-from">500 →</span> 5&nbsp;000</b><span data-i18n="cv_stat3_label">fiches produits enrichies</span><small data-i18n="cv_stat3_src">PIM · Lindt &amp; Sprüngli</small></div>
-            <div class="cv-stat"><b data-i18n-html="cv_stat5_num">7&nbsp;000+</b><span data-i18n="cv_stat5_label">assets produits en 3 ans</span><small data-i18n="cv_stat5_src">contenu · Lindt &amp; Sprüngli</small></div>
-            <div class="cv-stat"><b data-i18n-html="cv_stat2_num"><span class="cv-from">8&nbsp;000 →</span> 115&nbsp;000</b><span data-i18n="cv_stat2_label">followers en 3 mois</span><small data-i18n="cv_stat2_src">social · ArdaCraft</small></div>
-            <div class="cv-stat"><b data-i18n-html="cv_stat4_num">1,99 €</b><span data-i18n="cv_stat4_label">coût par conversion</span><small data-i18n="cv_stat4_src">Google Ads · consulting indépendant</small></div>
+            <div class="cv-stat"><b data-i18n-html="cv_stat3_num"><span class="cv-from">500 →</span> 5&nbsp;000</b><span data-i18n="cv_stat3_label">fiches produits enrichies</span><small data-i18n="cv_stat3_src">Magento, Salsify</small></div>
+            <div class="cv-stat"><b data-i18n-html="cv_stat1_num">+180 %</b><span data-i18n="cv_stat1_label">trafic organique en 3 ans</span><small data-i18n="cv_stat1_src">Lindt &amp; Sprüngli</small></div>
+            <div class="cv-stat"><b data-i18n-html="cv_stat4_num">1,99 €</b><span data-i18n="cv_stat4_label">par réservation</span><small data-i18n="cv_stat4_src">Google Ads, Emeraude Aventure</small></div>
+            <div class="cv-stat"><b data-i18n-html="cv_stat5_num">7&nbsp;000+</b><span data-i18n="cv_stat5_label">assets produits en 3 ans</span><small data-i18n="cv_stat5_src">Lindt &amp; Sprüngli</small></div>
+            <div class="cv-stat"><b data-i18n-html="cv_stat2_num">27,3 M</b><span data-i18n="cv_stat2_label">vues</span><small data-i18n="cv_stat2_src">24 vidéos ArdaCraft</small></div>
         </section>
 
         <!-- Une citation ne se traduit pas : ce sont les mots de son auteur,
-             signés de son nom et liés à son profil. Le blockquote porte donc
-             son lang= d'origine et reste identique en FR et en EN ; seule la
-             ligne de rôle passe par l'i18n.
-             Céline et Solenne : cartes d'exemple gardées en commentaire plus
-             bas, en attente de leurs vrais textes. Pour les activer : sortir
-             la carte du commentaire, retirer le badge .cv-quote-pending, poser
-             le bon lang= sur le blockquote, remplacer la photo de Solenne
-             (placeholder initiales) et monter le compte attendu dans
-             test/smoke-test.js. -->
+             signés de son nom et liés à son profil. Chaque blockquote porte
+             donc son lang= d'origine et reste identique en FR et en EN ; seule
+             la ligne de rôle passe par l'i18n.
+             Ordre voulu : le client d'abord (un client payant qui attribue un
+             résultat commercial pèse plus qu'un collègue), puis le pair
+             e-commerce, puis la relation de travail. -->
         <section class="cv-section">
             <h2><span data-i18n="cv_sec_reco">Ils ont travaillé avec moi</span><span class="dot">.</span></h2>
             <div class="cv-quotes">
+                <figure class="cv-quote">
+                    <blockquote lang="fr">« Pierre s'est occupé de nos campagnes Google Ads chez Émeraude Aventure cette saison. En deux mois, il nous a généré plus de 500 réservations directes, pour un coût sous les 2 € par réservation. Il a clairement sa part dans la réussite de cet été, qui est la meilleure saison que j'ai eue. Je recommande son travail sans problème. »</blockquote>
+                    <figcaption>
+                        <span class="cv-quote-initials" aria-hidden="true">LG</span>
+                        <div>
+                            <span class="cv-quote-name">Lilian Gourlay</span>
+                            <span data-i18n="cv_reco0_role">Dirigeant · Emeraude Aventure</span>
+                        </div>
+                    </figcaption>
+                </figure>
                 <figure class="cv-quote">
                     <blockquote lang="en">“I had the pleasure of working closely with Pierre for over two years. One of his best qualities is his curiosity. He has a great way of blending creative thinking with deep technical skills. Because of his personal projects, he is always on top of the latest trends, and I learned a lot from him, especially regarding E-commerce and general digital topics. What I admire most is that his knowledge goes way beyond his daily tasks. He brings a broad perspective to everything he touches. On top of that, he is a good collaborator, highly organized, and has a sharp, critical mind. Pierre always knows exactly how to bring out the absolute best in every project.”</blockquote>
                     <figcaption>
@@ -103,30 +114,22 @@
                         </div>
                     </figcaption>
                 </figure>
-                <!--
                 <figure class="cv-quote">
-                    <span class="cv-quote-pending" data-i18n="cv_reco_pending">Exemple : la vraie citation arrive</span>
-                    <blockquote>« Pierre a repris notre production de contenu e-commerce de bout en bout. Sur [projet précis], il a livré [résultat concret] en coordonnant l'agence et les équipes internes, sans qu'on ait besoin de repasser derrière lui. »</blockquote>
-                    <figcaption>
-                        <img src="media/celine-hummer.webp" alt="Céline Hummer" width="96" height="96" loading="lazy">
-                        <div>
-                            <a href="https://www.linkedin.com/in/celinehummer/" rel="noopener">Céline Hummer<svg viewBox="0 0 24 24" aria-hidden="true" class="cv-li"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
-                            <span data-i18n="cv_reco1_role">Digital Marketing · ma manager chez Lindt &amp; Sprüngli</span>
-                        </div>
-                    </figcaption>
-                </figure>
-                <figure class="cv-quote">
-                    <span class="cv-quote-pending" data-i18n="cv_reco_pending">Exemple : la vraie citation arrive</span>
-                    <blockquote>« Sur [campagne ou lancement mené ensemble], Pierre a [contribution concrète] en faisant le pont entre e-commerce et communication. [Une qualité vécue : clair, réactif, force de proposition]. »</blockquote>
+                    <blockquote lang="fr">
+                        <p>« J'ai eu le plaisir de travailler avec Pierre chez Lindt &amp; Sprüngli pendant deux ans. Sa créativité, son sens du détail et sa capacité à concevoir des contenus à la fois engageants et performants ont été de véritables atouts pour notre équipe. Il sait transformer des idées en projets concrets tout en gardant constamment à l'esprit les enjeux business et les attentes des consommateurs.</p>
+                        <details class="cv-quote-more">
+                            <summary data-i18n="cv_reco_more">Lire la suite</summary>
+                            <p>Au-delà de ses compétences techniques, Pierre est une personne investie, à l'écoute et toujours prête à apporter son aide. Son esprit collaboratif, sa fiabilité et sa bonne humeur font de lui un collègue avec lequel il est particulièrement agréable de travailler. »</p>
+                        </details>
+                    </blockquote>
                     <figcaption>
                         <img src="media/solenne-antakli.webp" alt="Solenne Antakli" width="96" height="96" loading="lazy">
                         <div>
                             <a href="https://www.linkedin.com/in/solenne-antakli-bb50ba2a/" rel="noopener">Solenne Antakli<svg viewBox="0 0 24 24" aria-hidden="true" class="cv-li"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
-                            <span data-i18n="cv_reco3_role">Senior Communication Manager · collègue chez Lindt &amp; Sprüngli</span>
+                            <span data-i18n="cv_reco3_role">Senior Communication Manager · Lindt &amp; Sprüngli</span>
                         </div>
                     </figcaption>
                 </figure>
-                -->
             </div>
         </section>
 
@@ -324,6 +327,12 @@
         </section>
     </main>
 
+    <!-- Vercel Web Analytics : sans cookie, sans identifiant persistant, donc
+         sans bandeau de consentement. Présent sur les 19 autres pages du site,
+         il manquait ici. -->
+    <script defer src="/_vercel/insights/script.js"></script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+
     <script src="scripts/vendor/lenis.min.js"></script>
     <script src="scripts/page-effects.js"></script>
     <script src="scripts/i18n.js"></script>
@@ -356,6 +365,38 @@
                 navbar.insertBefore(group, controls);
                 navbar.insertBefore(sep, controls);
             }
+
+            // Mesure : un seul point de passage vers Vercel Analytics. Si les
+            // événements personnalisés ne sont pas actifs sur le plan, window.va
+            // est absent et la fonction ne fait rien, la page ne casse pas.
+            function track(name, data) {
+                try {
+                    if (typeof window.va === 'function') window.va('event', { name: name, data: data || {} });
+                } catch (e) {}
+            }
+
+            // Les CTA portent data-track ; un seul écouteur pour les trois.
+            document.querySelectorAll('[data-track]').forEach(function (el) {
+                el.addEventListener('click', function () {
+                    track(el.getAttribute('data-track'), { placement: 'hero' });
+                });
+            });
+
+            // Profondeur de lecture : une seule fois, au premier passage des 75 %.
+            let depthSent = false;
+            function checkDepth() {
+                if (depthSent) return;
+                const doc = document.documentElement;
+                const scrollable = doc.scrollHeight - window.innerHeight;
+                if (scrollable <= 0) return;
+                if ((window.scrollY / scrollable) >= 0.75) {
+                    depthSent = true;
+                    track('scroll_75');
+                    window.removeEventListener('scroll', checkDepth);
+                }
+            }
+            window.addEventListener('scroll', checkDepth, { passive: true });
+            checkDepth();
 
             // Copie de l'adresse (même mécanique que le footer du portfolio).
             const btn = document.getElementById('cv-copy');

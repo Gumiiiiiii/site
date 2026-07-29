@@ -126,11 +126,17 @@ const CHECKS = [
         if (d.querySelectorAll('.cv-case').length !== 3) return 'expected 3 case studies';
         if (d.querySelectorAll('.cv-tl-row').length < 7) return 'timeline incomplete';
         if (d.querySelectorAll('.cv-tl-group').length !== 3) return 'timeline should split experience/education/languages';
-        // Recommandations : seule celle de Michele est réelle pour l'instant,
-        // les deux autres attendent leurs textes en commentaire dans cv.html.
-        // Monter ce compte à mesure qu'elles arrivent.
-        if (d.querySelectorAll('.cv-quote').length !== 1) return 'expected the 1 real recommendation quote';
+        if (d.querySelectorAll('.cv-quote').length !== 3) return 'expected 3 recommendation quotes';
         if (d.querySelector('.cv-quote-pending')) return 'a placeholder quote went live on the page';
+        // The client quote leads: a paying client attributing a commercial
+        // result outranks a colleague.
+        // "Aventure" and not "Emeraude": the quote is verbatim and spells it
+        // "Émeraude", the proof line spells it "Emeraude".
+        if (!d.querySelector('.cv-quote:first-child blockquote').textContent.includes('Aventure')) return 'the client recommendation should come first';
+        // Each quote must be attributable: name plus role.
+        if (d.querySelectorAll('.cv-quote figcaption [data-i18n$="_role"]').length !== 3) return 'a recommendation is missing its role line';
+        if (!d.querySelector('a[href*="cal.com"]')) return 'missing the booking CTA';
+        if (!d.querySelector('script[src*="_vercel/insights"]')) return 'CV page is missing Vercel Analytics';
         if (!d.querySelector('.navbar .cv-nav-cta')) return 'contact CTA should be docked in the navbar';
         if (d.querySelectorAll('.cv-tool').length < 20) return 'tool cloud incomplete';
         if (d.body.textContent.includes('—')) return 'em dash found in CV copy';
