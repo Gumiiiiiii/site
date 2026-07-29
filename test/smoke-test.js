@@ -138,7 +138,14 @@ const CHECKS = [
         if (!d.querySelector('a[href*="cal.com"]')) return 'missing the booking CTA';
         if (!d.querySelector('script[src*="_vercel/insights"]')) return 'CV page is missing Vercel Analytics';
         if (!d.querySelector('.navbar .cv-nav-cta')) return 'contact CTA should be docked in the navbar';
-        if (d.querySelectorAll('.cv-tool').length < 20) return 'tool cloud incomplete';
+        // The wall was deliberately halved: it sat between the proof and the
+        // CTA. What matters is that the recruiter search terms survived.
+        const tools = [...d.querySelectorAll('.cv-tool')].map((t) => t.textContent);
+        if (tools.length < 8) return 'tool cloud too thin (' + tools.length + ')';
+        if (tools.length > 16) return 'tool cloud grew back (' + tools.length + ')';
+        for (const must of ['Magento', 'Salsify']) {
+            if (!tools.some((t) => t.includes(must))) return must + ' missing from the tool cloud';
+        }
         if (d.body.textContent.includes('—')) return 'em dash found in CV copy';
     } },
     { path: '/brand-guidelines' }

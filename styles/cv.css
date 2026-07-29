@@ -223,6 +223,43 @@ a.cv-stat:hover { transform: translateY(-3px); }
 
 .cv-case-link:hover { text-decoration: underline; }
 
+/* Discretion note under the Lindt card: deliberately not a callout box. A
+   frame would draw the eye to what is being withheld. */
+.cv-case-note {
+    margin-top: 0.7rem;
+    font-size: 0.82rem;
+    font-style: italic;
+    opacity: 0.72;
+}
+
+/* Tier label above a group of proofs, quieter than an h2 so the section
+   still reads as one block. */
+.cv-proof-label {
+    margin: 2.25rem 0 0.9rem;
+    font-size: 0.88rem;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+    color: var(--accent-ink);
+}
+
+/* Consulting: lines, not cards. Two short engagements do not deserve the
+   same visual weight as three years of proof. */
+.cv-proof-lines {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.6rem;
+}
+
+.cv-proof-lines li {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    opacity: 0.85;
+    padding-left: 1rem;
+    border-left: 2px solid rgba(var(--text-rgb), 0.14);
+}
+
 /* === RECOMMANDATIONS === */
 .cv-quotes {
     display: grid;
