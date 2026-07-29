@@ -26,9 +26,9 @@
 }
 
 .cv-hero h1 {
-    font-size: clamp(2.1rem, 5.5vw, 3.6rem);
-    font-weight: 700;
-    line-height: 1.08;
+    font-size: clamp(2.3rem, 6vw, 4.2rem);
+    font-weight: 400;
+    line-height: 1.04;
     letter-spacing: -0.02em;
     text-wrap: balance;
     margin-bottom: 1.1rem;
@@ -51,15 +51,19 @@
     margin-top: 1.8rem;
 }
 
-/* Secondary button: same geometry as .btn-primary (54px, 0.8em radius),
-   ghost fill so the primary keeps the visual priority. */
+/* Secondary button: same geometry as .btn-primary (54px tall), ghost fill so
+   the primary keeps the visual priority.
+   Full pills rather than rounded rectangles, scoped to this page so the
+   shared .btn-primary keeps its shape on the rest of the site. */
+.cv-page .btn-primary,
+.cv-page .cv-btn-ghost { border-radius: 100px; }
+
 .cv-btn-ghost {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     height: 54px;
     padding: 0 1.7em;
-    border-radius: 0.8em;
     border: 1.5px solid rgba(var(--text-rgb), 0.25);
     color: var(--text);
     font-family: var(--font);
@@ -127,7 +131,9 @@ a.cv-stat:hover { transform: translateY(-3px); }
 .cv-stat b .cv-from {
     font-size: 0.58em;
     font-weight: 700;
-    opacity: 0.45;
+    /* 0.45 read nicely but measured 2.79:1, and the starting value of a range
+       is data, not decoration, so it has to clear 4.5. */
+    opacity: 0.68;
     letter-spacing: 0;
 }
 
@@ -143,13 +149,26 @@ a.cv-stat:hover { transform: translateY(-3px); }
 }
 
 /* === SECTIONS === */
-.cv-section { padding-bottom: 4.5rem; }
+.cv-section { padding-bottom: 6rem; }
 
-.cv-section > h2 {
-    font-size: clamp(1.5rem, 3vw, 2.1rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.8rem;
+/* A hairline above each heading, borrowed from superside.com, where sections
+   open on a rule rather than on whitespace alone. It gives the page an
+   editorial rhythm and costs no markup. */
+.cv-section > h2,
+.cv-contact > h2 {
+    font-size: clamp(1.8rem, 3.6vw, 2.9rem);
+    font-weight: 450;
+    letter-spacing: -0.025em;
+    line-height: 1.06;
+    margin-bottom: 2.4rem;
+}
+
+.cv-section > h2::before {
+    content: '';
+    display: block;
+    height: 1px;
+    background: rgba(var(--text-rgb), 0.16);
+    margin-bottom: 1.7rem;
 }
 
 .cv-section > h2 .dot { color: var(--accent); }
@@ -235,10 +254,11 @@ a.cv-stat:hover { transform: translateY(-3px); }
 /* Tier label above a group of proofs, quieter than an h2 so the section
    still reads as one block. */
 .cv-proof-label {
-    margin: 2.25rem 0 0.9rem;
-    font-size: 0.88rem;
+    margin: 2.75rem 0 1rem;
+    font-size: 0.76rem;
     font-weight: 750;
-    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
     color: var(--accent-ink);
 }
 
