@@ -141,11 +141,11 @@ const CHECKS = [
             if (!alts.includes(lang)) return 'missing hreflang ' + lang;
         }
         if (!d.querySelector('.navbar .cv-nav-cta')) return 'contact CTA should be docked in the navbar';
-        // The wall was deliberately halved: it sat between the proof and the
-        // CTA. What matters is that the recruiter search terms survived.
+        // The wall is deliberately exhaustive: the one-page PDF is the
+        // constrained artefact, this page is where every tool name can live,
+        // and recruiters do screen on them.
         const tools = [...d.querySelectorAll('.cv-tool')].map((t) => t.textContent);
-        if (tools.length < 8) return 'tool cloud too thin (' + tools.length + ')';
-        if (tools.length > 16) return 'tool cloud grew back (' + tools.length + ')';
+        if (tools.length < 24) return 'tool cloud too thin (' + tools.length + ')';
         for (const must of ['Magento', 'Salsify']) {
             if (!tools.some((t) => t.includes(must))) return must + ' missing from the tool cloud';
         }
