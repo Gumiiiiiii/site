@@ -71,8 +71,30 @@ function transform(source, articles) {
         postContent.querySelectorAll('h2, h3').forEach((h, i) => h.setAttribute('id', 'heading-' + i));
     }
 
-    const desc = document.querySelector('meta[name="description"]');
-    if (desc && article.excerpt && article.excerpt.fr) desc.setAttribute('content', article.excerpt.fr);
+    // Title and description live in five places on these shells. Syncing only
+    // meta[name=description] let og:, twitter: and the JSON-LD drift, which is
+    // how a rewritten excerpt kept being served in the share preview.
+    if (article.excerpt && article.excerpt.fr) {
+        for (const sel of ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]']) {
+            const el = document.querySelector(sel);
+            if (el) el.setAttribute('content', article.excerpt.fr);
+        }
+    }
+    for (const sel of ['meta[property="og:title"]', 'meta[name="twitter:title"]']) {
+        const el = document.querySelector(sel);
+        if (el) el.setAttribute('content', article.title.fr);
+    }
+    document.querySelectorAll('script[type="application/ld+json"]').forEach((script) => {
+        try {
+            const json = JSON.parse(script.textContent);
+            if (json['@type'] !== 'BlogPosting') return;
+            json.headline = article.title.fr;
+            if (article.excerpt && article.excerpt.fr) json.description = article.excerpt.fr;
+            script.textContent = '\n' + JSON.stringify(json, null, 4) + '\n    ';
+        } catch (err) {
+            // Malformed JSON-LD: leave it alone rather than corrupt it.
+        }
+    });
 
     const dateEl = document.getElementById('article-date');
     if (dateEl && article.published) dateEl.textContent = frenchDate(article.published);
