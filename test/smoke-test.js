@@ -122,17 +122,15 @@ const CHECKS = [
     { path: '/cv', assert(d) {
         if (!d.querySelector('meta[name="robots"][content*="noindex"]')) return 'CV page must be noindex';
         if (!d.querySelector('a[href^="mailto:pierregumilar"]')) return 'missing mailto CTA';
-        if (d.querySelectorAll('.cv-stat').length !== 5) return 'expected 5 stat cards';
-        if (d.querySelectorAll('.cv-case').length !== 3) return 'expected 3 case studies';
+        if (d.querySelectorAll('.cv-stat').length !== 4) return 'expected 4 stat cards';
+        if (d.querySelectorAll('.cv-case').length !== 4) return 'expected 4 proof cards';
+        if (d.querySelectorAll('.cv-case .cv-case-tag').length !== 4) return 'a proof card is missing its tag';
         if (d.querySelectorAll('.cv-tl-row').length < 7) return 'timeline incomplete';
         if (d.querySelectorAll('.cv-tl-group').length !== 3) return 'timeline should split experience/education/languages';
         if (d.querySelectorAll('.cv-quote').length !== 3) return 'expected 3 recommendation quotes';
         if (d.querySelector('.cv-quote-pending')) return 'a placeholder quote went live on the page';
-        // The client quote leads: a paying client attributing a commercial
-        // result outranks a colleague.
-        // "Aventure" and not "Emeraude": the quote is verbatim and spells it
-        // "Émeraude", the proof line spells it "Emeraude".
-        if (!d.querySelector('.cv-quote:first-child blockquote').textContent.includes('Aventure')) return 'the client recommendation should come first';
+        // The e-commerce peer leads now, then the client, then the colleague.
+        if (!d.querySelector('.cv-quote:first-child blockquote').textContent.includes('E-commerce')) return 'the e-commerce peer should come first';
         // Each quote must be attributable: name plus role.
         if (d.querySelectorAll('.cv-quote figcaption [data-i18n$="_role"]').length !== 3) return 'a recommendation is missing its role line';
         if (!d.querySelector('a[href*="cal.com"]')) return 'missing the booking CTA';

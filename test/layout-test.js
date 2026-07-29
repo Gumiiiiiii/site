@@ -121,7 +121,7 @@ const CHECKS = [
         }
     },
     {
-        name: 'CV: the three case visuals share the 16:9 of the study card',
+        name: 'CV: every proof visual shares the 16:9 of the study cards',
         async run(page) {
             await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
             const ratios = await page.evaluate(() =>
@@ -130,7 +130,7 @@ const CHECKS = [
                     return rect.width / rect.height;
                 })
             );
-            if (ratios.length !== 3) throw new Error('expected 3 case visuals, got ' + ratios.length);
+            if (ratios.length !== 4) throw new Error('expected 4 proof visuals, got ' + ratios.length);
             const off = ratios.filter((r) => Math.abs(r - 16 / 9) > 0.02);
             if (off.length) throw new Error('visual ratio(s) ' + off.map((r) => r.toFixed(3)).join(', ') + ', expected 1.778');
         }

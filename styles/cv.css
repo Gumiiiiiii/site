@@ -26,9 +26,9 @@
 }
 
 .cv-hero h1 {
-    font-size: clamp(2.3rem, 6vw, 4.2rem);
-    font-weight: 400;
-    line-height: 1.04;
+    font-size: clamp(2.1rem, 5.5vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1.08;
     letter-spacing: -0.02em;
     text-wrap: balance;
     margin-bottom: 1.1rem;
@@ -51,19 +51,15 @@
     margin-top: 1.8rem;
 }
 
-/* Secondary button: same geometry as .btn-primary (54px tall), ghost fill so
-   the primary keeps the visual priority.
-   Full pills rather than rounded rectangles, scoped to this page so the
-   shared .btn-primary keeps its shape on the rest of the site. */
-.cv-page .btn-primary,
-.cv-page .cv-btn-ghost { border-radius: 100px; }
-
+/* Secondary button: same geometry as .btn-primary (54px, 0.8em radius),
+   ghost fill so the primary keeps the visual priority. */
 .cv-btn-ghost {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     height: 54px;
     padding: 0 1.7em;
+    border-radius: 0.8em;
     border: 1.5px solid rgba(var(--text-rgb), 0.25);
     color: var(--text);
     font-family: var(--font);
@@ -87,19 +83,18 @@
 }
 
 /* === STATS === */
-/* Six columns used as "three then two", the second row centred on the first.
-   A bento with one tall hero tile was tried and dropped: a card holding one
-   figure and two short lines cannot fill twice the height, so it read as a
-   hole next to the dense grid beside it. Equal tiles, equal weight. */
+/* Four figures on one row. Five never divided cleanly: three then two left
+   the second row begging for a third card, and a bento with one tall tile was
+   tried and dropped, since a card holding one figure and two short lines
+   cannot fill twice the height. */
 .cv-stats {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.25rem;
     padding-bottom: 4.5rem;
 }
 
 .cv-stat {
-    grid-column: span 2;
     background: var(--card-bg);
     border-radius: 1.25rem;
     padding: 1.4rem 1.5rem;
@@ -110,9 +105,6 @@
     justify-content: center;
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
-/* Second row: two cards the width of the first row's, centred under it. */
-.cv-stat:nth-child(4) { grid-column: 2 / span 2; }
 
 a.cv-stat:hover { transform: translateY(-3px); }
 
@@ -149,26 +141,13 @@ a.cv-stat:hover { transform: translateY(-3px); }
 }
 
 /* === SECTIONS === */
-.cv-section { padding-bottom: 6rem; }
+.cv-section { padding-bottom: 4.5rem; }
 
-/* A hairline above each heading, borrowed from superside.com, where sections
-   open on a rule rather than on whitespace alone. It gives the page an
-   editorial rhythm and costs no markup. */
-.cv-section > h2,
-.cv-contact > h2 {
-    font-size: clamp(1.8rem, 3.6vw, 2.9rem);
-    font-weight: 450;
-    letter-spacing: -0.025em;
-    line-height: 1.06;
-    margin-bottom: 2.4rem;
-}
-
-.cv-section > h2::before {
-    content: '';
-    display: block;
-    height: 1px;
-    background: rgba(var(--text-rgb), 0.16);
-    margin-bottom: 1.7rem;
+.cv-section > h2 {
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.8rem;
 }
 
 .cv-section > h2 .dot { color: var(--accent); }
@@ -254,11 +233,10 @@ a.cv-stat:hover { transform: translateY(-3px); }
 /* Tier label above a group of proofs, quieter than an h2 so the section
    still reads as one block. */
 .cv-proof-label {
-    margin: 2.75rem 0 1rem;
-    font-size: 0.76rem;
+    margin: 2.25rem 0 0.9rem;
+    font-size: 0.88rem;
     font-weight: 750;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.02em;
     color: var(--accent-ink);
 }
 
@@ -604,9 +582,6 @@ a.cv-stat:hover { transform: translateY(-3px); }
 @media (max-width: 900px) {
     .cv-quote { grid-template-columns: 1fr; gap: 1.1rem; }
     .cv-stats { grid-template-columns: repeat(2, 1fr); }
-    .cv-stat, .cv-stat:nth-child(4) { grid-column: auto; }
-    /* 5 cards on 2 columns: the lone last one spans the full row. */
-    .cv-stat:last-child:nth-child(odd) { grid-column: 1 / -1; }
     .cv-skills { grid-template-columns: repeat(2, 1fr); }
     .cv-spec { grid-template-columns: repeat(2, 1fr); }
     .cv-spec div:nth-child(odd) { border-left: none; padding-left: 0; }
