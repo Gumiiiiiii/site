@@ -292,7 +292,7 @@
         cv_case4_alt: { fr: "Le site ArdaCraft après refonte", en: "The ArdaCraft site after the rebuild" },
         cv_case2_alt: { fr: "Carte interactive de la Terre du Milieu", en: "Interactive map of Middle-earth" },
         cv_proof_consulting: { fr: "Consulting · clients payants", en: "Consulting · paying clients" },
-        cv_consult1: { fr: "Emeraude Aventure (base nautique, Bretagne), Google Ads, en cours. 1,99 € par réservation.", en: "Emeraude Aventure (watersports base, Brittany), Google Ads, ongoing. €1.99 per booking." },
+        cv_consult1: { fr: "Emeraude Aventure (base nautique, Bretagne), Google Ads, en cours. 568 réservations attribuées en deux mois, 1,99 € l'unité.", en: "Emeraude Aventure (watersports base, Brittany), Google Ads, ongoing. 568 attributed bookings in two months, €1.99 each." },
         cv_consult2: { fr: "Modularte (mobilier outdoor, Italie), 2023-2025, refonte et SEO.", en: "Modularte (outdoor furniture, Italy), 2023-2025, rebuild and SEO." },
         cv_sec_skills: { fr: "Ce que je sais faire", en: "What I can do" },
         cv_skill1_t: { fr: "Acquisition & SEO", en: "Acquisition & SEO" },

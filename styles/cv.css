@@ -263,24 +263,15 @@ a.cv-stat:hover { transform: translateY(-3px); }
 /* === RECOMMANDATIONS === */
 .cv-quotes {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: 1.25rem;
 }
 
-/* The three testimonials are very unequal in length: roughly 330, 660 and
-   700 characters. Side by side in a plain two-column grid, the short one was
-   stretched to its neighbour's height and left a hole above its caption,
-   which is what made the block look disordered. So the client quote, the
-   short one and the one that leads by intent, becomes a full-width lead, and
-   the two Lindt quotes pair off below at nearly identical lengths. */
-.cv-quote:first-child { grid-column: 1 / -1; }
+/* Stacked, one per row. Reading order carries the priority (the paying
+   client first), so the layout does not have to compensate for three very
+   unequal lengths. Each quote caps its measure: full-width prose at this
+   column width would otherwise run well past a comfortable line. */
+.cv-quote blockquote { max-width: 46rem; }
 
-/* A full-width paragraph would run past a comfortable measure, so the lead
-   caps its line length and reads a touch larger. */
-.cv-quote:first-child blockquote {
-    max-width: 46rem;
-    font-size: 1.15rem;
-}
 
 .cv-quote {
     background: var(--card-bg);
@@ -308,7 +299,6 @@ a.cv-stat:hover { transform: translateY(-3px); }
 
 
 .cv-quote figcaption {
-    margin-top: auto;
     display: flex;
     align-items: center;
     gap: 0.85rem;
@@ -601,7 +591,6 @@ a.cv-stat:hover { transform: translateY(-3px); }
     .cv-spec div:nth-child(odd) { border-left: none; padding-left: 0; }
     .cv-case { grid-template-columns: 1fr; }
     .cv-case-visual { max-height: 14rem; }
-    .cv-quotes { grid-template-columns: 1fr; }
     .cv-perso { grid-template-columns: 1fr; }
 }
 
