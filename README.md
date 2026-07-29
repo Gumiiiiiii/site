@@ -33,7 +33,9 @@ media/                      Images, favicon, texture
 ```
 npm install           # sans Python local : YOUTUBE_DL_SKIP_PYTHON_CHECK=1 npm install
 npm run dev           # http://localhost:4173 — reproduit cleanUrls + le préfixe /en/ de Vercel
-npm run build         # les deux pré-rendus ci-dessous, dans l'ordre
+npm run build:all     # les deux pré-rendus ci-dessous, dans l'ordre
+                      # (ne jamais nommer ce script « build » : Vercel le
+                      #  détecterait et l'exécuterait au déploiement)
 npm run build:articles # injecte les corps d'articles FR dans experiments/*.html
 npm run build:en      # régénère en/ (pages anglaises pré-rendues pour le SEO)
 npm test              # fraîcheur des deux pré-rendus + smoke test jsdom + tests de layout

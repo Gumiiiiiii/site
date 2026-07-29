@@ -5,7 +5,8 @@
     "dev": "node dev-server.js",
     "build:articles": "node build/prerender-articles.js",
     "build:en": "node build/prerender-en.js",
-    "build": "node build/prerender-articles.js && node build/prerender-en.js",
+    "_comment": "Do NOT add a script named exactly 'build': Vercel auto-detects it and switches the project from zero-config static serving to running it at deploy time, which broke a deploy. The generated output (experiments/ bodies, en/) is committed, so no build step is needed there.",
+    "build:all": "node build/prerender-articles.js && node build/prerender-en.js",
     "test": "node build/prerender-articles.js --check && node build/prerender-en.js --check && node test/smoke-test.js && node test/layout-test.js",
     "test:smoke": "node test/smoke-test.js",
     "test:layout": "node test/layout-test.js"
