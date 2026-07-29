@@ -62,7 +62,7 @@ const CHECKS = [
         if (d.querySelector('a[href="/cv"], a[href="cv"], a[href*="pierre.gumi.ch"]')) return 'CV page must not be linked from the homepage';
     } },
     { path: '/experiments', assert(d) {
-        if (d.querySelectorAll('.experiments-grid .card').length !== 3) return 'expected 3 cards';
+        if (d.querySelectorAll('.experiments-grid .card').length !== 4) return 'expected 4 cards';
         if (!d.querySelector('a.card[href$="ardacraft-map"]')) return 'missing map article card';
         if (d.querySelectorAll('.filter-btn[aria-pressed]').length === 0) return 'filters missing aria-pressed';
         if (!d.querySelector('.card.faded .soon-badge')) return 'missing coming-soon teaser card';
@@ -85,7 +85,7 @@ const CHECKS = [
         if (d.getElementById('post-content').children.length === 0) return 'article body empty';
         if (d.querySelectorAll('.toc-item').length === 0) return 'TOC empty';
         if (!d.querySelector('.article-content table')) return 'results table missing';
-        if (d.getElementById('read-next-link').getAttribute('href') !== 'ardacraft') return 'read-next should link to ardacraft';
+        if (d.getElementById('read-next-link').getAttribute('href') !== 'ardacraft-social') return 'read-next should link to ardacraft-social';
         const frTitle = d.title;
         w.GumiI18n.set('en');
         if (d.title === frTitle) return 'language toggle did not re-render';

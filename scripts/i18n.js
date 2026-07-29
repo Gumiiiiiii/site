@@ -293,6 +293,9 @@
         // haut de page : à force de répéter les mêmes preuves, elle sonnait
         // creux. Chaque carte dit maintenant ce que je fais concrètement, et
         // les chiffres restent là où ils sont vérifiables.
+        cv_proof_social: { fr: "Production & distribution", en: "Production & distribution" },
+        cv_proof_social_link: { fr: "27,3 M de vues sur 24 vidéos ArdaCraft, l’étude complète", en: "27.3M views on 24 ArdaCraft videos, the full study" },
+        exp_card_ardacraft_social: { fr: "Emprunter les codes du voyage pour filmer la Terre du Milieu : 27 millions de vues en sept mois.", en: "Borrowing travel-reel grammar to film Middle-earth: 27 million views in seven months." },
         cv_sec_proof: { fr: "Ce que j'ai livré", en: "What I have shipped" },
         cv_case1_note: { fr: "Je ne publie pas le détail de mon travail chez Lindt. J'en parle volontiers en entretien.", en: "I do not publish the detail of my work at Lindt. Happy to go through it in an interview." },
         cv_proof_arda: { fr: "ArdaCraft · projet communautaire", en: "ArdaCraft · community project" },
