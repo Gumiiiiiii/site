@@ -8,8 +8,12 @@ Site portfolio personnel : une collection d'outils web et d'expérimentations (a
 index.html                  Accueil
 outils.html                 Liste des outils
 experiments.html            Liste des expérimentations
-experiments/<slug>.html     Pages d'articles statiques (SEO), contenu rendu par
-                            scripts/article-page.js depuis scripts/articles-data.js
+experiments/<slug>.html     Pages d'articles. Le corps est PRÉ-RENDU dans le
+                            fichier par build/prerender-articles.js depuis
+                            scripts/articles-data.js (les moteurs qui n'exécutent
+                            pas JS doivent voir le texte). article-page.js
+                            re-rend la même chose au runtime pour la bascule FR/EN.
+                            Écrire dans articles-data.js, puis `npm run build`.
 experiments-template.html   Ancienne URL — simple redirection vers experiments/<slug>
 tools/*.html                Un fichier par outil (traitement 100% navigateur,
                             sauf le téléchargeur de médias qui appelle l'API)
@@ -27,10 +31,12 @@ media/                      Images, favicon, texture
 ## Développement
 
 ```
-npm install        # sans Python local : YOUTUBE_DL_SKIP_PYTHON_CHECK=1 npm install
-npm run dev        # http://localhost:4173 — reproduit cleanUrls + le préfixe /en/ de Vercel
-npm run build:en   # régénère en/ (pages anglaises pré-rendues pour le SEO)
-npm test           # vérifie la fraîcheur de en/ + smoke test jsdom + tests de layout
+npm install           # sans Python local : YOUTUBE_DL_SKIP_PYTHON_CHECK=1 npm install
+npm run dev           # http://localhost:4173 — reproduit cleanUrls + le préfixe /en/ de Vercel
+npm run build         # les deux pré-rendus ci-dessous, dans l'ordre
+npm run build:articles # injecte les corps d'articles FR dans experiments/*.html
+npm run build:en      # régénère en/ (pages anglaises pré-rendues pour le SEO)
+npm test              # fraîcheur des deux pré-rendus + smoke test jsdom + tests de layout
 node server.js     # API d'extraction en local (port 10000), nécessite yt-dlp + Python
 ```
 

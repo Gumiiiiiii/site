@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "node dev-server.js",
+    "build:articles": "node build/prerender-articles.js",
     "build:en": "node build/prerender-en.js",
-    "test": "node build/prerender-en.js --check && node test/smoke-test.js && node test/layout-test.js",
+    "build": "node build/prerender-articles.js && node build/prerender-en.js",
+    "test": "node build/prerender-articles.js --check && node build/prerender-en.js --check && node test/smoke-test.js && node test/layout-test.js",
     "test:smoke": "node test/smoke-test.js",
     "test:layout": "node test/layout-test.js"
   },

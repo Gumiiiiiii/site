@@ -177,6 +177,20 @@ async function main() {
         console.log((okEn ? ' ok ' : 'FAIL') + '  /en/ (static English markup)');
         if (!okEn) failures += 1;
 
+        // Article bodies must be in the raw HTML, not injected client-side.
+        // The jsdom checks above run article-page.js, which would hide the
+        // regression; crawlers that skip JavaScript would see an empty shell.
+        for (const slug of ['ardacraft', 'ardacraft-map', 'ai-photoshoot']) {
+            const artRes = await fetch(BASE + '/experiments/' + slug, { headers: { connection: 'close' } });
+            const artBody = await artRes.text();
+            const empty = /id="post-content"[^>]*>\s*<\/article>/.test(artBody);
+            const headings = (artBody.match(/<h2/g) || []).length;
+            const okArt = artRes.status === 200 && !empty && headings >= 3;
+            const why = empty ? 'post-content is empty' : 'only ' + headings + ' h2 in the served HTML';
+            console.log((okArt ? ' ok ' : 'FAIL') + '  /experiments/' + slug + ' (body server-rendered)' + (okArt ? '' : '  → ' + why));
+            if (!okArt) failures += 1;
+        }
+
         // Custom 404 page is served for unknown paths.
         const res = await fetch(BASE + '/definitely-not-a-page');
         const body = await res.text();

@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
+<!DOCTYPE html><html lang="fr"><head>
     <meta charset="UTF-8">
     <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
-    <link rel="preload" href="../fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
     <link rel="canonical" href="https://gumi.ch/experiments/ardacraft">
@@ -22,7 +20,7 @@
     <meta name="twitter:description" content="Refonte complète du site d'ArdaCraft : design immersif, UX guidée par les données et migration de Webflow vers une architecture headless (WordPress + Webstudio via GraphQL). Retour sur 150 heures de travail.">
     <meta name="twitter:image" content="https://gumi.ch/media/ardacraft-redesign-featured-image.webp">
     <title>De Webflow à une architecture décentralisée : le site d'ArdaCraft | Gumi.</title>
-    <meta name="description" content="Refonte complète du site d'ArdaCraft : design immersif, UX guidée par les données et migration de Webflow vers une architecture headless (WordPress + Webstudio via GraphQL). Retour sur 150 heures de travail.">
+    <meta name="description" content="Participer au succès d'une communauté de passionnés tout en me challengeant et en développant de nouvelles compétences : retour sur un chantier de 150 heures.">
     <link rel="icon" type="image/png" sizes="32x32" href="../media/favicon-32.png">
     <link rel="apple-touch-icon" href="../media/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
@@ -47,7 +45,7 @@
 <body class="shell-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
 
-    <nav class="navbar" data-navbar-root></nav>
+    <nav class="navbar" data-navbar-root=""></nav>
 
     <main class="site-content" id="main">
     <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
@@ -57,7 +55,7 @@
         <section class="article-hero">
             <header class="article-header">
                 <h1 class="article-title" id="article-title">De Webflow à une architecture décentralisée : comment j'ai repensé le site d'ArdaCraft<span class="dot">.</span></h1>
-                <p class="article-date" id="article-date"></p>
+                <p class="article-date" id="article-date">Publié le 11 juillet 2026</p>
             </header>
 
             <div class="featured-image-wrapper">
@@ -70,7 +68,7 @@
             <div class="article-toolbar">
                 <button id="tocToggle" class="toc-toggle">
                     <span data-i18n="toc_label">Sommaire</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
                 </button>
                 <div class="share-actions">
                     <span id="copy-feedback" class="copy-feedback" aria-live="polite"></span>
@@ -89,18 +87,117 @@
         </div>
 
         <!-- POST CONTENT — populated by article-page.js -->
-        <article class="article-content" id="post-content"></article>
+        <article class="article-content" id="post-content">
+            <div class="abstract">
+                <p>Cette expérimentation a consisté à repenser entièrement le site d'ArdaCraft pour lever le goulot d'étranglement qui freinait la croissance de la communauté. En <strong>150 heures réparties sur 3 mois</strong>, j'ai migré de Webflow vers une architecture décentralisée (WordPress et Webstudio en headless via GraphQL), divisant nos coûts d'hébergement par dix (<strong>-90 %</strong>). Côté expérience, une refonte guidée par les données a multiplié jusqu'à <strong>3× l'usage des fonctionnalités clés</strong> sur l'une de nos pages les plus visitées.</p>
+            </div>
+
+            <h2 id="heading-0">Le contexte : un succès massif, un goulot d'étranglement réel</h2>
+            <p>ArdaCraft est un projet collaboratif international dont l'ambition est de recréer minutieusement la <a href="https://ardacraft.me/" target="_blank" rel="noopener">Terre du Milieu</a> (l'univers du <em>Seigneur des Anneaux</em> et du <em>Hobbit</em>). J'ai rejoint l'aventure initialement pour créer des vidéos, avant de prendre plus de responsabilités pour me challenger et explorer de nouveaux horizons.</p>
+            <p>Il y a quelques années, le projet a connu un immense succès sur les réseaux sociaux, cumulant des dizaines de millions de vues sur nos Reels. Pourtant, je n'étais pas satisfait : le nombre de visiteurs réels sur le projet ne décollait pas. J'ai vite compris le problème. Notre site web était un goulot d'étranglement. Pour un utilisateur curieux, comprendre comment commencer la visite du monde relevait du parcours du combattant.</p>
+
+            <figure class="image-breakout">
+                <img src="/media/ardacraft-experiments-location-gallery.webp" alt="Six panoramas de la Terre du Milieu recréée dans ArdaCraft : champs cultivés de la Comté, collines brumeuses, falaises, village fleuri et tour de garde fortifiée" width="1920" height="1080" loading="lazy">
+                <figcaption>L'ampleur du projet : quelques-uns des 316 lieux recréés bloc par bloc par la communauté.</figcaption>
+            </figure>
+
+            <h2 id="heading-1">Le problème : la rançon du succès et l'impasse financière</h2>
+            <p>En collaboration avec un autre membre, j'ai reconstruit un site mais plus complet et aligné sur nos objectifs : agrandir la communauté et imposer ArdaCraft comme une référence auprès des fans de Tolkien.</p>
+            <p>Développée sur Webflow, cette première refonte a été un succès critique. Portée par notre stratégie de communication, elle a attiré plus de 217 000 visiteurs la première année. C'est là que les ennuis ont commencé.</p>
+            <p>Nous avons atteint la limite de notre abonnement Webflow. Passer au forfait supérieur aurait <strong>multiplié nos coûts par cinq</strong>. Pour un projet communautaire qui survit uniquement grâce aux dons, c'était impossible. Il nous fallait une solution capable de grandir avec nous sans vider notre trésorerie.</p>
+
+            <h3 id="heading-2">Notre nouvelle architecture technique</h3>
+            <p>Pour contourner cette contrainte financière, nous avons migré vers une solution décentralisée. J'ai dû apprendre à maîtriser plusieurs nouveaux outils. Le défi était de taille : il a fallu déplacer des milliers de points de données et faire communiquer WordPress et Webstudio via GraphQL pour gérer dynamiquement des centaines de pages en mode <em>headless</em>. J'ai même dû concevoir un script Python sur mesure pour compresser des milliers d'images au format WebP et optimiser les performances.</p>
+            <p>Ce chantier de refonte et de migration m'a demandé <strong>bien 150 heures de travail étalées sur 3 mois</strong>. Bien que j'aie été le contributeur principal sur cette partie, je suis profondément reconnaissant envers toutes les personnes de l'équipe qui m'ont donné un coup de main de temps en temps ; leur soutien constant a été un moteur indispensable pour avancer.</p>
+            <p>Je me suis basé sur 3 piliers :</p>
+            <ul>
+                <li><strong>L'impact visuel</strong> : un design marquant pour faire ressortir notre personnalité.</li>
+                <li><strong>L'efficacité du parcours</strong> : une navigation logique pour guider le visiteur.</li>
+                <li><strong>L'adaptabilité</strong> : une expérience fluide du smartphone à l'ordinateur.</li>
+            </ul>
+
+            <hr>
+
+            <h2 id="heading-3">1. L'impact visuel : immersion avant tout</h2>
+
+            <figure class="image-breakout">
+                <img src="/media/ardacraft-experiments-before-after.webp" alt="Comparaison avant/après de la page des lieux : l'ancienne interface utilitaire à gauche, la nouvelle version immersive aux accents dorés à droite" width="1920" height="1080" loading="lazy">
+                <figcaption>Avant / après : la page des lieux, passée d'une liste utilitaire à une vitrine immersive.</figcaption>
+            </figure>
+
+            <p>Redesigner l'intégralité des pages a été une tâche colossale. Après une phase de recherche sur Figma, j'ai introduit des concepts visuels forts : l'utilisation extensive de la couleur « or », des effets « brillants » sur les éléments interactifs et du <em>glassmorphism</em>.</p>
+            <p>Mon maître-mot était l'<strong>immersion</strong>. Comment faire des choix créatifs forts sans dégrader la navigation ? La clé a été la subtilité : travailler avec des images en fond, des dégradés, utiliser le <em>glassmorphism</em> avec parcimonie et réduire drastiquement le nombre d'éléments visibles à l'écran.</p>
+
+            <figure class="image-breakout">
+                <img src="/media/ardacraft-experiments-process.webp" alt="Processus de design en deux exemples : une maquette Figma face à la page finale en ligne, puis un croquis papier face à sa page finale en ligne" width="1920" height="1080" loading="lazy">
+                <figcaption>Mon flux de travail réel : une fois le style établi sur une dizaine de pages, je passais du croquis papier ou de la maquette Figma directement à l'implémentation — en affinant les idées en cours de route.</figcaption>
+            </figure>
+
+            <p>S'il est presque impossible de mesurer l'impact réel d'un nouveau design sur un projet associatif comme le nôtre, le gain est ailleurs : nous disposons enfin d'une belle cohérence visuelle sur l'intégralité des pages, et le site agit désormais comme un pilier fort de l'identité de marque (<em>brand identity</em>) d'ArdaCraft.</p>
+
+            <hr>
+
+            <h2 id="heading-4">2. L'efficacité du parcours : analyser les données pour simplifier</h2>
+            <p>Pour optimiser le parcours, je me suis appuyé sur <a href="https://clarity.microsoft.com/" target="_blank" rel="noopener">Microsoft Clarity</a>, un outil d'analyse UX qui permet de visualiser le comportement des utilisateurs (via des cartes de chaleur ou des enregistrements de sessions). Le constat a été simple : la plupart des éléments coupés par le bas de l'écran (<em>viewport</em>) n'étaient jamais utilisés. J'ai donc remonté ces fonctionnalités clés en haut de page pour les rendre immédiatement accessibles.</p>
+            <p>La page listant tous les lieux du <em>Seigneur des Anneaux</em> est l'une des plus visitées. En appliquant cette logique, les résultats ont été immédiats. À trafic comparable entre décembre 2025 et juin 2026, l'utilisation des fonctionnalités a bondi :</p>
+
+            <div class="table-scroll"><table>
+                <thead>
+                    <tr>
+                        <th style="text-align: left;">Fonctionnalité</th>
+                        <th style="text-align: center;">Utilisation en décembre 2025</th>
+                        <th style="text-align: center;">Utilisation en juin 2026</th>
+                        <th style="text-align: center;">Évolution globale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: left;"><strong>Recherche</strong></td>
+                        <td style="text-align: center;">2,98 %</td>
+                        <td style="text-align: center;">5,09 %</td>
+                        <td style="text-align: center;"><strong>+ 71 %</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;"><strong>Filtres</strong></td>
+                        <td style="text-align: center;">1,17 %</td>
+                        <td style="text-align: center;">7,64 %</td>
+                        <td style="text-align: center;"><strong>+ 555 %</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;"><strong>Tri</strong></td>
+                        <td style="text-align: center;">1,55 %</td>
+                        <td style="text-align: center;">4,99 %</td>
+                        <td style="text-align: center;"><strong>+ 222 %</strong></td>
+                    </tr>
+                </tbody>
+            </table></div>
+
+            <p>Ces modifications sont un grand succès, et nous allons continuer à optimiser cette expérience.</p>
+
+            <hr>
+
+            <h2 id="heading-5">3. L'adaptabilité : penser enfin aux mobiles</h2>
+            <p>De nombreuses fonctionnalités majeures, comme la carte interactive ou les filtres, n'étaient tout simplement pas adaptées aux smartphones. L'un des grands chantiers a donc été de repenser ces éléments pour le mobile.</p>
+            <p>Nous avions également remarqué que l'ancien menu mobile était délaissé car trop complexe. La nouvelle version propose un menu extrêmement simple, ce qui a radicalement facilité la navigation de nos utilisateurs nomades.</p>
+
+            <hr>
+
+            <h2 id="heading-6">Et après ?</h2>
+            <p>La communauté a très bien accueilli cette nouvelle mouture, le site est jugé bien plus utile et agréable au quotidien. Nous avons notamment reçu de nombreux commentaires enthousiastes sur la carte interactive.</p>
+            <p>ArdaCraft est un projet qui se base sur des recherches approfondies touchant à la géologie, la botanique, l'histoire et leurs influences sur le monde de Tolkien. Notre carte a pour ambition de regrouper tous ces éléments scientifiques et narratifs pour les mettre à la disposition des passionnés, s'imposant comme l'outil ultime d'immersion dans notre univers (ce qui fera d'ailleurs l'objet d'un prochain article dédié !).</p>
+            <p>Quant à la suite ? Je planche déjà sur mon prochain défi : concevoir la V3 de cette fameuse carte interactive.</p>
+            </article>
 
         <!-- FULL-WIDTH: READ NEXT SECTION — populated by article-page.js -->
         <section class="read-next-section">
             <h2 class="read-next-title" data-i18n="read_next">À lire ensuite</h2>
-            <a href="../experiments" class="read-next-card" id="read-next-link">
+            <a href="ardacraft-map" class="read-next-card" id="read-next-link">
                 <div class="card-image">
-                    <img id="read-next-image" src="" alt="" loading="lazy">
+                    <img id="read-next-image" src="/media/ardacraft-map-featured-image.webp" alt="La carte interactive de la Terre du Milieu conçue pour ArdaCraft" loading="lazy">
                 </div>
                 <div class="card-content">
-                    <h3 class="card-title" id="read-next-title-text"></h3>
-                    <p class="card-desc" id="read-next-desc"></p>
+                    <h3 class="card-title" id="read-next-title-text">Utiliser le SEO pour faire grandir une communauté de passionnés : l'opportunité à 1 million de recherches par an</h3>
+                    <p class="card-desc" id="read-next-desc">Comment j'ai transformé plus d'un million de recherches annuelles autour de la Terre du Milieu en un véritable levier d'acquisition pour ArdaCraft, grâce à une carte interactive.</p>
                 </div>
             </a>
         </section>
@@ -118,7 +215,8 @@
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 </script>
-<script defer src="/_vercel/insights/script.js"></script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
-</body>
-</html>
+<script defer="" src="/_vercel/insights/script.js"></script>
+<script defer="" src="/_vercel/speed-insights/script.js"></script>
+
+
+</body></html>

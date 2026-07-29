@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
+<!DOCTYPE html><html lang="fr"><head>
     <meta charset="UTF-8">
     <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
-    <link rel="preload" href="../fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
     <!-- Unpublished draft: remove the noindex once the article goes live. -->
@@ -49,7 +47,7 @@
 <body class="shell-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
 
-    <nav class="navbar" data-navbar-root></nav>
+    <nav class="navbar" data-navbar-root=""></nav>
 
     <main class="site-content" id="main">
     <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
@@ -59,11 +57,11 @@
         <section class="article-hero">
             <header class="article-header">
                 <h1 class="article-title" id="article-title">Peut-on remplacer un véritable shooting photo avec l'Intelligence Artificielle ?<span class="dot">.</span></h1>
-                <p class="article-date" id="article-date"></p>
+                <p class="article-date" id="article-date">Publié le 11 juillet 2026</p>
             </header>
 
             <div class="featured-image-wrapper">
-                <img id="article-cover" src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2000&auto=format&fit=crop" alt="Studio photo avec éclairage professionnel" fetchpriority="high">
+                <img id="article-cover" src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&amp;w=2000&amp;auto=format&amp;fit=crop" alt="Studio photo avec éclairage professionnel" fetchpriority="high">
             </div>
         </section>
 
@@ -72,7 +70,7 @@
             <div class="article-toolbar">
                 <button id="tocToggle" class="toc-toggle">
                     <span data-i18n="toc_label">Sommaire</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
                 </button>
                 <div class="share-actions">
                     <span id="copy-feedback" class="copy-feedback" aria-live="polite"></span>
@@ -91,18 +89,92 @@
         </div>
 
         <!-- POST CONTENT — populated by article-page.js -->
-        <article class="article-content" id="post-content"></article>
+        <article class="article-content" id="post-content">
+            <div class="abstract">
+                <p><strong>-95% de budget</strong> par visuel généré comparé à une journée de shooting produit traditionnelle avec photographe et studio.</p>
+                <p><strong>40 visuels retenus sur 600 générés</strong> : un taux de déchet énorme, mais un itération quasi instantanée et illimitée.</p>
+                <p><strong>Verdict nuancé</strong> : bluffant pour les ambiances et les arrière-plans, encore fragile pour la fidélité produit et la cohérence des détails.</p>
+            </div>
+
+            <h2 id="heading-0">Pourquoi cette expérimentation ?</h2>
+            <p>Un shooting photo professionnel, même modeste, mobilise un photographe, un studio, du matériel d'éclairage et une demi-journée de post-production. Pour une petite marque ou un projet personnel, le budget grimpe vite au-delà du millier d'euros pour une poignée de visuels. En parallèle, les générateurs d'images par IA promettent des résultats « photoréalistes » en quelques secondes. J'ai voulu vérifier cette promesse avec un cas concret : produire le visuel de lancement d'un objet réel, dans plusieurs ambiances, en comparant systématiquement le résultat IA à une référence photographiée en studio.</p>
+
+            <h2 id="heading-1">Le protocole</h2>
+            <p>Pour que la comparaison soit honnête, j'ai fixé des règles strictes dès le départ : même objet, mêmes ambiances cibles, même temps de post-production maximum, et un jury de cinq personnes qui ignoraient quelle image provenait de quelle méthode.</p>
+
+            <ul>
+                <li><strong>Référence studio :</strong> une matinée de shooting classique, 35 clichés, 6 images finales retouchées.</li>
+                <li><strong>Pipeline IA :</strong> photos smartphone de l'objet, entraînement d'un modèle personnalisé, puis génération massive avec des prompts d'ambiance.</li>
+                <li><strong>Évaluation :</strong> test à l'aveugle sur la fidélité du produit, la qualité de la lumière et l'envie d'achat déclarée.</li>
+            </ul>
+
+            <figure class="image-breakout">
+                <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&amp;w=2000&amp;auto=format&amp;fit=crop" alt="Studio photo avec éclairage professionnel">
+                <figcaption>Le dispositif studio de référence : ce que l'IA doit égaler pour prétendre remplacer un shooting.</figcaption>
+            </figure>
+
+            <h3 id="heading-2">Ce que l'IA fait remarquablement bien</h3>
+            <p>Sur les ambiances, les matières d'arrière-plan et la lumière global, les résultats sont sidérants. Un « produit posé sur du marbre au soleil couchant » sort en trente secondes avec une lumière que j'aurais mis une heure à installer en studio. L'itération est le vrai super-pouvoir : changer de décor, d'heure de la journée ou de palette ne coûte rien, là où chaque variation en studio implique de re-shooter.</p>
+
+            <blockquote>
+                <p>« Le coût marginal d'une image supplémentaire tombe à zéro. C'est ça, la vraie rupture : on ne réfléchit plus en nombre de clichés, on réfléchit en directions créatives. »</p>
+                <footer>— Note de carnet, jour 12 de l'expérimentation</footer>
+            </blockquote>
+
+            <h3 id="heading-3">Ce qui coince encore</h3>
+            <p>La fidélité produit reste le talon d'Achille. Logos déformés, proportions légèrement fausses, coutures qui n'existent pas : sur un objet que le client connaît par cœur, ces écarts sont éliminatoires. Le taux de déchet est brutal — moins de 7% des générations étaient exploitables telles quelles — et chaque correction fine (redresser un logo, corriger un reflet) ramène vers la retouche manuelle qu'on espérait éviter.</p>
+
+            <div class="table-scroll"><table>
+                <thead>
+                    <tr>
+                        <th>Critère</th>
+                        <th>Shooting studio</th>
+                        <th>Pipeline IA</th>
+                        <th>Gagnant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Coût par visuel final</td>
+                        <td>~180 €</td>
+                        <td>~9 €</td>
+                        <td><strong>IA</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Fidélité du produit</td>
+                        <td>Parfaite</td>
+                        <td>Aléatoire</td>
+                        <td><strong>Studio</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Variété des ambiances</td>
+                        <td>Limitée par le décor</td>
+                        <td>Quasi illimitée</td>
+                        <td><strong>IA</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Test à l'aveugle (préférence)</td>
+                        <td>58%</td>
+                        <td>42%</td>
+                        <td><strong>Studio</strong></td>
+                    </tr>
+                </tbody>
+            </table></div>
+
+            <h2 id="heading-4">Alors, verdict ?</h2>
+            <p>Non, l'IA ne remplace pas encore un vrai shooting quand la fidélité produit est critique — packaging, e-commerce, catalogue. Mais elle a déjà gagné sur un autre terrain : les visuels d'ambiance, les moodboards clients, les tests de direction artistique et les déclinaisons pour les réseaux sociaux. Mon flux de travail a d'ailleurs changé depuis : je génère les ambiances en IA, je valide une direction avec le client, puis je ne shoote en studio que la direction retenue. Le shooting n'a pas disparu — il est devenu la dernière étape d'un entonnoir beaucoup plus large.</p>
+            </article>
 
         <!-- FULL-WIDTH: READ NEXT SECTION — populated by article-page.js -->
         <section class="read-next-section">
             <h2 class="read-next-title" data-i18n="read_next">À lire ensuite</h2>
-            <a href="../experiments" class="read-next-card" id="read-next-link">
+            <a href="ardacraft" class="read-next-card" id="read-next-link">
                 <div class="card-image">
-                    <img id="read-next-image" src="" alt="" loading="lazy">
+                    <img id="read-next-image" src="/media/ardacraft-redesign-featured-image.webp" alt="Aperçu de la refonte du site ArdaCraft" loading="lazy">
                 </div>
                 <div class="card-content">
-                    <h3 class="card-title" id="read-next-title-text"></h3>
-                    <p class="card-desc" id="read-next-desc"></p>
+                    <h3 class="card-title" id="read-next-title-text">De Webflow à une architecture décentralisée : comment j'ai repensé le site d'ArdaCraft</h3>
+                    <p class="card-desc" id="read-next-desc">Participer au succès d'une communauté de passionnés tout en me challengeant et en développant de nouvelles compétences : retour sur un chantier de 150 heures.</p>
                 </div>
             </a>
         </section>
@@ -120,7 +192,8 @@
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 </script>
-<script defer src="/_vercel/insights/script.js"></script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
-</body>
-</html>
+<script defer="" src="/_vercel/insights/script.js"></script>
+<script defer="" src="/_vercel/speed-insights/script.js"></script>
+
+
+</body></html>
