@@ -1,6 +1,11 @@
-/* CV landing (cv.html, served at pierre.gumi.ch/cv). Hidden page: not in
-   the sitemap, the feed or the nav; noindex in the HTML and via header.
-   Builds on shared.css tokens so both themes come for free. */
+/* CV landing (cv.html, served at pierre.gumi.ch/cv and /en/cv). Hidden page:
+   not in the sitemap, the feed or the nav; noindex in the HTML and via header.
+   Builds on shared.css tokens so both themes come for free.
+
+   Composition: the page deliberately stops being a stack of identical
+   rectangles. The metrics are one divided panel, the two large projects
+   alternate image and text, and the third is a compact card with no visual.
+   The toolkit is a dense multi-column grid rather than a tall column. */
 
 /* Full-width sheet (texture and dots run edge to edge on desktop);
    the content column is capped by the horizontal padding alone. */
@@ -9,47 +14,147 @@
     padding-right: max(5vw, calc(50vw - 34rem));
 }
 
-/* === HERO === */
-.cv-hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 16rem;
-    gap: 3rem;
-    align-items: center;
-    padding: 140px 0 110px;
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
 }
 
-.cv-avail-line {
-    margin-top: 1.1rem;
+/* === NAVBAR, VARIANTE CV ==================================================
+   Une seule surface sticky sur cette page : la barre partagée est ramenée en
+   haut, toujours visible, et porte les ancres. Les autres routes gardent la
+   pilule du bas, cette variante n'existe que sous .navbar--cv. */
+.navbar.navbar--cv {
+    top: 16px;
+    bottom: auto;
+    height: 54px;
+    padding: 0 14px;
+    gap: 0.5rem;
+    transition: none;
+    visibility: visible;
+}
+
+.navbar--cv .cv-nav-link {
+    position: relative;
     font-size: 0.92rem;
-    font-weight: 600;
-    color: var(--positive-ink);
+    padding: 8px 12px;
+}
+
+/* État actif : la couleur ne suffit jamais seule, un trait la double. */
+.navbar--cv .cv-nav-link.active { color: var(--accent-ink); }
+
+.navbar--cv .cv-nav-link.active::after {
+    content: '';
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 2px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent-ink);
+}
+
+.navbar--cv .cv-nav-cta {
+    padding: 8px 16px;
+    border-radius: 100px;
+    background: var(--text);
+    color: var(--bg);
+    font-size: 0.9rem;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+}
+
+.navbar--cv .cv-nav-cta:hover { color: var(--bg); opacity: 0.85; }
+
+/* Bouton « Sections » : mobile uniquement. */
+.navbar--cv .cv-nav-sections {
+    display: none;
+    min-height: 44px;
+    padding: 0 14px;
+    border: 1.5px solid rgba(var(--text-rgb), 0.25);
+    border-radius: 100px;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.navbar--cv .cv-nav-sections[aria-expanded="true"] { border-color: var(--accent); color: var(--accent-ink); }
+
+.cv-sections-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.6rem;
+    border-radius: 1.1rem;
+    background: var(--bg);
+    border: 1px solid rgba(var(--text-rgb), 0.14);
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.14);
+}
+
+.cv-sections-menu[hidden] { display: none; }
+
+.cv-menu-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.9rem;
+    border-radius: 0.7rem;
+    font-size: 0.98rem;
+}
+
+.cv-menu-link:hover { background: rgba(var(--text-rgb), 0.07); }
+
+/* La barre est fixe : le contenu commence dessous. */
+.cv-page .site-content { padding-top: 3.5rem; }
+
+/* === HERO ================================================================= */
+.cv-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 17rem;
+    gap: 3.5rem;
+    align-items: center;
+    padding: 92px 0 84px;
 }
 
 .cv-hero h1 {
-    font-size: clamp(2.1rem, 5.5vw, 3.6rem);
+    font-size: clamp(2.1rem, 5.2vw, 3.5rem);
     font-weight: 700;
-    line-height: 1.08;
-    letter-spacing: -0.02em;
+    line-height: 1.06;
+    letter-spacing: -0.025em;
     text-wrap: balance;
-    margin-bottom: 1.1rem;
+    margin-bottom: 1.2rem;
 }
 
 .cv-hero h1 .dot { color: var(--accent); }
 
 .cv-hero-sub {
-    font-size: clamp(1rem, 1.6vw, 1.15rem);
-    line-height: 1.6;
-    max-width: 34rem;
-    opacity: 0.85;
+    font-size: clamp(1rem, 1.5vw, 1.12rem);
+    line-height: 1.65;
+    max-width: 36rem;
+    opacity: 0.88;
     font-weight: 500;
 }
 
 .cv-cta-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.9rem;
-    margin-top: 1.8rem;
+    gap: 0.75rem;
+    margin-top: 1.9rem;
 }
+
+.cv-cta-row--center { justify-content: center; }
 
 /* Secondary button: same geometry as .btn-primary (54px, 0.8em radius),
    ghost fill so the primary keeps the visual priority. */
@@ -57,8 +162,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 54px;
-    padding: 0 1.7em;
+    min-height: 54px;
+    padding: 0 1.6em;
     border-radius: 0.8em;
     border: 1.5px solid rgba(var(--text-rgb), 0.25);
     color: var(--text);
@@ -71,384 +176,292 @@
     transition: border-color 0.2s ease, color 0.2s ease;
 }
 
-.cv-btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+.cv-btn-ghost:hover { border-color: var(--accent); color: var(--accent-ink); }
+
+.cv-avail-line {
+    margin-top: 1.3rem;
+    font-size: 0.94rem;
+    font-weight: 600;
+    color: var(--positive-ink);
+}
 
 .cv-photo {
     width: 100%;
     height: auto;
     aspect-ratio: 1 / 1;
-    border-radius: 1.5rem;
+    border-radius: 1.6rem;
     object-fit: cover;
     box-shadow: var(--shadow-out);
 }
 
-/* === STATS === */
-/* Four figures on one row. Five never divided cleanly: three then two left
-   the second row begging for a third card, and a bento with one tall tile was
-   tried and dropped, since a card holding one figure and two short lines
-   cannot fill twice the height. */
-.cv-stats {
+/* === SECTIONS ============================================================= */
+.cv-section { padding-bottom: 6.5rem; scroll-margin-top: 5.5rem; }
+.cv-kpi-section { padding-bottom: 6.5rem; }
+
+/* Titre à gauche, contexte à droite : l'en-tête porte deux niveaux
+   d'information au lieu d'un seul. */
+.cv-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 22rem;
+    gap: 3rem;
+    align-items: start;
+    margin-bottom: 2.6rem;
+}
+
+.cv-head h2 {
+    font-size: clamp(1.55rem, 3vw, 2.15rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin: 0;
+}
+
+.cv-head h2 .dot { color: var(--accent); }
+
+.cv-head p {
+    margin: 0.35rem 0 0;
+    font-size: 0.98rem;
+    line-height: 1.65;
+    opacity: 0.82;
+}
+
+/* === RÉSULTATS CLÉS =======================================================
+   Un seul panneau divisé plutôt que quatre tuiles : les chiffres se lisent
+   comme un ensemble, et la page compte une rangée de rectangles en moins. */
+.cv-kpis {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-    padding-bottom: 8.5rem;
-}
-
-.cv-stat {
     background: var(--card-bg);
-    border-radius: 1.25rem;
-    padding: 1.9rem 1.75rem;
-    text-decoration: none;
-    color: var(--text);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 1.5rem;
+    padding: 0.5rem;
 }
 
-a.cv-stat:hover { transform: translateY(-3px); }
+.cv-kpi {
+    padding: 1.5rem 1.6rem;
+    border-left: 1px solid rgba(var(--text-rgb), 0.12);
+}
 
-.cv-stat b {
+.cv-kpi:first-child { border-left: none; }
+
+.cv-kpi b {
     display: block;
-    font-size: clamp(1.4rem, 1.9vw, 2.2rem);
+    font-size: clamp(1.5rem, 2.2vw, 2.2rem);
     font-weight: 800;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     font-variant-numeric: tabular-nums;
-    line-height: 1.1;
+    line-height: 1.05;
     white-space: nowrap;
 }
 
-/* Ranges keep a single dominant figure: the starting value steps back so
-   every card carries the same visual weight. */
-.cv-stat b .cv-from {
-    font-size: 0.58em;
+/* La valeur de départ d'une fourchette recule sans descendre sous le seuil
+   de contraste : c'est une donnée, pas un ornement. */
+.cv-kpi b .cv-from {
+    font-size: 0.55em;
     font-weight: 700;
-    /* 0.45 read nicely but measured 2.79:1, and the starting value of a range
-       is data, not decoration, so it has to clear 4.5. */
     opacity: 0.68;
     letter-spacing: 0;
 }
 
-.cv-stat span { font-size: 0.88rem; opacity: 0.75; font-weight: 500; }
-
-.cv-stat small {
+.cv-kpi span {
     display: block;
-    font-size: 0.74rem;
-    font-weight: 700;
-    color: var(--accent-ink);
-    margin-top: 0.45rem;
-    letter-spacing: 0.03em;
-}
-
-/* === SECTIONS === */
-/* Sections sit far apart, which is most of what makes the reference pages
-   feel calm. Nearly double the old gap. */
-.cv-section { padding-bottom: 8.5rem; }
-
-.cv-section > h2 {
-    font-size: clamp(1.5rem, 3vw, 2.1rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 2.8rem;
-}
-
-.cv-section > h2 .dot { color: var(--accent); }
-
-/* === CASE STUDIES === */
-.cv-case {
-    display: grid;
-    grid-template-columns: 17rem minmax(0, 1fr);
-    gap: 2.5rem;
-    align-items: center;
-    background: var(--card-bg);
-    border-radius: 1.5rem;
-    padding: 2.25rem;
-}
-
-.cv-case + .cv-case { margin-top: 1.75rem; }
-
-/* 16:9 for the three visuals: the ArdaCraft study card is authored at that
-   ratio, so it now shows uncropped and the mosaic and the chart follow it. */
-.cv-case-visual {
-    border-radius: 1rem;
-    overflow: hidden;
-    aspect-ratio: 16 / 9;
-    background: rgba(var(--text-rgb), 0.05);
-}
-
-.cv-case-visual img { width: 100%; height: 100%; object-fit: cover; }
-
-/* Real shoot photos in place of an abstract chart: 3x2 mosaic filling the
-   same visual slot. */
-.cv-case-mosaic {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 3px;
-}
-
-.cv-case-visual svg { width: 100%; height: 100%; display: block; }
-
-.cv-case-tag {
-    display: inline-block;
-    font-size: 0.76rem;
-    font-weight: 700;
-    color: var(--accent-ink);
-    background: rgba(156, 119, 245, 0.12);
-    padding: 0.28rem 0.75rem;
-    border-radius: 100px;
-    margin-bottom: 0.65rem;
-}
-
-.cv-case h3 { font-size: 1.2rem; font-weight: 750; margin-bottom: 0.4rem; letter-spacing: -0.01em; }
-
-.cv-case p { font-size: 0.95rem; opacity: 0.8; line-height: 1.55; }
-
-.cv-case-result {
-    display: block;
-    color: var(--positive-ink);
-    font-weight: 700;
+    margin-top: 0.55rem;
     font-size: 0.92rem;
-    margin-top: 0.6rem;
+    font-weight: 600;
+    line-height: 1.4;
+    opacity: 0.9;
 }
 
-.cv-case-link {
-    display: inline-block;
-    margin-top: 0.7rem;
-    font-size: 0.9rem;
+.cv-kpi small {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.78rem;
     font-weight: 700;
-    color: var(--accent-ink);
-    text-decoration: none;
-}
-
-.cv-case-link:hover { text-decoration: underline; }
-
-/* Discretion note under the Lindt card: deliberately not a callout box. A
-   frame would draw the eye to what is being withheld. */
-.cv-case-note {
-    margin-top: 0.7rem;
-    font-size: 0.82rem;
-    font-style: italic;
-    opacity: 0.72;
-}
-
-/* Tier label above a group of proofs, quieter than an h2 so the section
-   still reads as one block. */
-.cv-proof-label {
-    margin: 2.25rem 0 0.9rem;
-    font-size: 0.88rem;
-    font-weight: 750;
     letter-spacing: 0.02em;
     color: var(--accent-ink);
 }
 
-/* Consulting: lines, not cards. Two short engagements do not deserve the
-   same visual weight as three years of proof. */
-.cv-proof-lines {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+/* === RÉALISATIONS =========================================================
+   Alternance éditoriale : Lindt image à gauche, ArdaCraft image à droite,
+   Émeraude sans image. Trois rythmes, pas trois fois le même bloc. */
+.cv-work {
     display: grid;
-    gap: 0.6rem;
-}
-
-.cv-proof-lines li {
-    font-size: 0.95rem;
-    line-height: 1.55;
-    opacity: 0.85;
-    padding-left: 1rem;
-    border-left: 2px solid rgba(var(--text-rgb), 0.14);
-}
-
-/* === RECOMMANDATIONS === */
-.cv-quotes {
-    display: grid;
-    gap: 1.75rem;
-}
-
-/* Stacked, one per row. Reading order carries the priority, so the layout
-   does not have to compensate for three very unequal lengths.
-   The quote and its attribution sit side by side: a full-width card with a
-   capped measure left half of itself empty, and the text column width now
-   sets a comfortable line on its own. */
-
-.cv-quote {
+    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    gap: 2.75rem;
+    align-items: center;
     background: var(--card-bg);
-    border-radius: 1.5rem;
-    padding: 2.5rem;
-    margin: 0;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 15rem;
-    gap: 3rem;
-    /* Centred, not top-aligned: now that the quotes are set large the cards
-       are tall, and an attribution pinned to the top left a void under it. */
-    align-items: center;
+    border-radius: 1.75rem;
+    padding: 2.25rem;
 }
 
+.cv-work + .cv-work { margin-top: 1.75rem; }
 
-/* The testimonial is the strongest thing on the page, so it is set as the
-   largest text in its section rather than as body copy. */
-.cv-quote blockquote {
-    margin: 0;
-    font-size: clamp(1.1rem, 1.6vw, 1.45rem);
-    font-weight: 500;
-    line-height: 1.5;
-    letter-spacing: -0.015em;
+/* Lindt : la réalisation principale, un cran plus généreuse. */
+.cv-work--lead {
+    grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
+    padding: 2.75rem;
 }
 
-.cv-quote blockquote p { margin: 0; }
-.cv-quote blockquote p + p { margin-top: 0.8rem; }
-
-
-
-
-.cv-quote figcaption {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
+/* ArdaCraft : le visuel passe à droite. Le gabarit de colonnes est inversé
+   en même temps que l'ordre, sinon le texte hérite de la piste étroite. */
+.cv-work:nth-of-type(2) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
 }
 
-.cv-quote figcaption img {
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    object-fit: cover;
+.cv-work:nth-of-type(2) .cv-work-visual { order: 2; }
+
+/* Émeraude : une seule colonne, sans visuel, mais marquée par un filet
+   d'accent pour qu'elle ne devienne jamais du sous-texte. */
+.cv-work--compact {
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-left: 3px solid var(--accent);
 }
 
-.cv-quote figcaption a {
-    display: block;
+.cv-work-label {
+    display: inline-block;
+    font-size: 0.78rem;
     font-weight: 750;
-    color: var(--text);
-    text-decoration: none;
-    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    color: var(--accent-ink);
+    background: rgba(156, 119, 245, 0.13);
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    margin-bottom: 0.9rem;
 }
 
-.cv-quote figcaption a:hover { color: var(--accent); }
+.cv-work-body h3 {
+    font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+    font-weight: 750;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    margin-bottom: 0.7rem;
+}
 
-/* LinkedIn mark beside the name: the "go verify" affordance. */
-.cv-quote figcaption a .cv-li {
-    width: 13px;
-    height: 13px;
-    fill: currentColor;
-    margin-left: 0.35rem;
-    vertical-align: -1.5px;
+.cv-work-body p {
+    font-size: 0.97rem;
+    line-height: 1.65;
+    opacity: 0.85;
+}
+
+.cv-work-body p + p { margin-top: 0.8rem; }
+
+.cv-work-note {
+    margin-top: 0.9rem;
+    font-size: 0.86rem;
+    font-style: italic;
     opacity: 0.75;
 }
 
-.cv-quote figcaption span {
-    display: block;
-    font-size: 0.82rem;
-    opacity: 0.65;
-}
-
-/* === SKILLS === */
-.cv-skills {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-}
-
-.cv-skill {
-    background: var(--card-bg);
-    border-radius: 1.1rem;
-    padding: 1.3rem 1.4rem;
-}
-
-.cv-skill h3 { font-size: 1rem; font-weight: 750; margin-bottom: 0.35rem; }
-
-.cv-skill p { font-size: 0.88rem; opacity: 0.78; line-height: 1.5; }
-
-/* The figures inside skill descriptions pop in accent so the proof reads
-   before the sentence does. */
-.cv-skill p b { color: var(--accent); font-weight: 800; }
-
-/* Tool cloud: real product logos (simple-icons paths, inlined) as quiet
-   chips; monochrome so 22 brand colors don't shout over the page. */
-.cv-tools-label {
-    margin-top: 1.75rem;
-    margin-bottom: 0.8rem;
-    font-size: 0.88rem;
-    font-weight: 700;
-    opacity: 0.72;
-}
-
-.cv-tools-groups { display: grid; gap: 0.9rem; }
-
-.cv-tools-row {
-    display: grid;
-    grid-template-columns: 9.5rem minmax(0, 1fr);
-    gap: 0.5rem 1rem;
-    align-items: start;
-}
-
-.cv-tools-cat {
-    font-size: 0.78rem;
-    font-weight: 700;
-    opacity: 0.55;
-    padding-top: 0.55rem;
-}
-
-@media (max-width: 600px) {
-    .cv-tools-row { grid-template-columns: 1fr; gap: 0.4rem; }
-    .cv-tools-cat { padding-top: 0; }
-}
-
-.cv-tools {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.cv-tool {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    padding: 0.42rem 0.85rem;
-    border-radius: 100px;
-    background: var(--card-bg);
-    font-size: 0.85rem;
-    font-weight: 600;
-    opacity: 0.85;
-    transition: color 0.2s ease, opacity 0.2s ease;
-}
-
-.cv-tool svg {
-    width: 15px;
-    height: 15px;
-    fill: currentColor;
-    flex-shrink: 0;
-    opacity: 0.8;
-}
-
-/* Tools without a licensable mark get a drawn stand-in (lettered tile or
-   plain glyph), stroke-based to stay visually quiet next to real logos. */
-.cv-tool svg.glyph {
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.cv-tool:hover { color: var(--accent); opacity: 1; }
-
-/* === TIMELINE === */
-.cv-tl-group + .cv-tl-group { margin-top: 3.25rem; }
-
-.cv-tl-group h3 {
-    font-size: 1.02rem;
+.cv-work-cta {
+    display: inline-block;
+    margin-top: 1.1rem;
+    font-size: 0.93rem;
     font-weight: 750;
     color: var(--accent-ink);
-    margin-bottom: 0.4rem;
+    text-decoration: none;
+}
+
+.cv-work-cta::after { content: ' \2192'; }
+.cv-work-cta:hover { text-decoration: underline; }
+
+/* Preuves : des puces courtes et scannables, pas des phrases. */
+.cv-proofs {
+    list-style: none;
+    margin: 1.1rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+}
+
+.cv-proofs li {
+    position: relative;
+    padding-left: 1.1rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+.cv-proofs li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--positive-ink);
+}
+
+.cv-proofs--inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.6rem;
+}
+
+.cv-proof-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 1.4rem;
+    margin-top: 1.3rem;
+}
+
+.cv-proof-groups h4 {
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.72;
+    margin-bottom: 0.2rem;
+}
+
+.cv-proof-groups .cv-proofs { margin-top: 0.5rem; }
+
+/* Compositions d'images : une mosaïque pour Lindt, un triptyque pour
+   ArdaCraft. Un seul visuel par réalisation. */
+.cv-work-visual { border-radius: 1.2rem; overflow: hidden; }
+
+.cv-mosaic {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 3px;
+    aspect-ratio: 3 / 2;
+}
+
+.cv-mosaic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.cv-triptych {
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 3px;
+    aspect-ratio: 3 / 2;
+}
+
+.cv-triptych img:first-child { grid-row: 1 / 3; }
+
+.cv-triptych img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* === PARCOURS ============================================================= */
+.cv-tl-group + .cv-tl-group { margin-top: 2.5rem; }
+
+.cv-tl-group h3 {
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    margin-bottom: 0.5rem;
 }
 
 .cv-tl-row {
     display: grid;
-    grid-template-columns: 8.5rem minmax(0, 1fr);
+    grid-template-columns: 10rem minmax(0, 1fr);
     gap: 1.25rem;
-    padding: 0.8rem 0;
+    padding: 0.75rem 0;
     border-bottom: 1px solid rgba(var(--text-rgb), 0.1);
-    font-size: 0.98rem;
+    font-size: 0.97rem;
+    line-height: 1.5;
 }
 
 .cv-tl-row:last-child { border-bottom: none; }
@@ -461,7 +474,150 @@ a.cv-stat:hover { transform: translateY(-3px); }
     padding-top: 0.1em;
 }
 
-/* === PERSONAL === */
+/* === COMPÉTENCES ========================================================== */
+.cv-skills {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+.cv-skill {
+    background: var(--card-bg);
+    border-radius: 1.25rem;
+    padding: 1.5rem 1.5rem 1.6rem;
+}
+
+.cv-skill h3 {
+    font-size: 1rem;
+    font-weight: 750;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.45rem;
+}
+
+.cv-skill p { font-size: 0.9rem; line-height: 1.6; opacity: 0.85; }
+
+/* === BOÎTE À OUTILS =======================================================
+   Grille dense : tous les noms restent en texte, mais la hauteur occupée
+   tombe de plusieurs écrans à un seul bloc. Aucun accordéon, aucune jauge. */
+.cv-tools-title {
+    margin: 3.25rem 0 1.25rem;
+    font-size: 1.05rem;
+    font-weight: 750;
+    letter-spacing: -0.01em;
+}
+
+.cv-tools-title .dot { color: var(--accent); }
+
+.cv-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem 1rem;
+    background: var(--card-bg);
+    border-radius: 1.5rem;
+    padding: 1.75rem;
+}
+
+.cv-tools-cell h4 {
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    margin-bottom: 0.7rem;
+}
+
+.cv-tools-cell ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.cv-tools-cell li {
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.2;
+    padding: 0.34rem 0.62rem;
+    border-radius: 0.55rem;
+    background: rgba(var(--text-rgb), 0.06);
+    white-space: nowrap;
+}
+
+/* === TÉMOIGNAGES ==========================================================
+   Empilés, en entier, sans carrousel ni repli. La citation est le plus gros
+   texte de sa section, l'attribution vit à côté. */
+.cv-quotes { display: grid; gap: 1.5rem; }
+
+.cv-quote {
+    background: var(--card-bg);
+    border-radius: 1.75rem;
+    padding: 2.25rem;
+    margin: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    gap: 2.75rem;
+    align-items: center;
+}
+
+.cv-quote blockquote {
+    margin: 0;
+    font-size: clamp(1.05rem, 1.5vw, 1.32rem);
+    font-weight: 500;
+    line-height: 1.55;
+    letter-spacing: -0.012em;
+}
+
+.cv-quote blockquote p { margin: 0; }
+.cv-quote blockquote p + p { margin-top: 0.9rem; }
+
+.cv-quote figcaption { display: flex; align-items: center; gap: 0.9rem; }
+
+.cv-quote figcaption img {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.cv-quote figcaption a {
+    display: block;
+    font-weight: 750;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.96rem;
+}
+
+.cv-quote figcaption a:hover { color: var(--accent-ink); }
+
+/* Le repère LinkedIn, l'invitation à vérifier. */
+.cv-quote figcaption a .cv-li {
+    width: 13px;
+    height: 13px;
+    fill: currentColor;
+    margin-left: 0.35rem;
+    vertical-align: -1.5px;
+    opacity: 0.75;
+}
+
+.cv-quote figcaption span {
+    display: block;
+    font-size: 0.85rem;
+    opacity: 0.75;
+    line-height: 1.4;
+}
+
+.cv-quote-translated {
+    margin-top: 0.35rem;
+    font-size: 0.76rem !important;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    opacity: 0.6 !important;
+}
+
+/* === À CÔTÉ DU TRAVAIL ==================================================== */
 .cv-perso {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -474,7 +630,7 @@ a.cv-stat:hover { transform: translateY(-3px); }
     align-items: flex-start;
     background: var(--card-bg);
     border-radius: 1.5rem;
-    padding: 2rem 2.25rem;
+    padding: 1.9rem 2rem;
 }
 
 .cv-perso-item svg {
@@ -482,19 +638,16 @@ a.cv-stat:hover { transform: translateY(-3px); }
     height: 26px;
     flex-shrink: 0;
     margin-top: 0.15rem;
-    stroke: var(--accent);
+    stroke: var(--accent-ink);
     stroke-width: 2;
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
 }
 
-/* Photography card: an actual frame instead of a camera icon. The point of
-   that line is the eye, so it should be shown rather than described. */
+/* La carte photographie montre une image plutôt que de décrire un regard. */
 .cv-perso-photo img {
     width: 6.5rem;
-    /* height:auto is required: the width/height attributes give the image a
-       definite height, and aspect-ratio is ignored when both are definite. */
     height: auto;
     aspect-ratio: 2 / 3;
     object-fit: cover;
@@ -502,110 +655,157 @@ a.cv-stat:hover { transform: translateY(-3px); }
     flex-shrink: 0;
 }
 
-.cv-perso-item h3 { font-size: 1rem; font-weight: 750; margin-bottom: 0.3rem; }
+.cv-perso-item h3 { font-size: 1rem; font-weight: 750; margin-bottom: 0.35rem; }
+.cv-perso-item p { font-size: 0.93rem; opacity: 0.85; line-height: 1.6; }
 
-.cv-perso-item p { font-size: 0.92rem; opacity: 0.78; line-height: 1.55; }
-
-/* === LOOKING FOR === */
+/* === CE QUE JE RECHERCHE ================================================== */
 .cv-spec {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.25rem;
     background: var(--card-bg);
     border-radius: 1.5rem;
-    padding: 2.25rem;
+    padding: 2rem;
     margin: 0;
 }
 
-.cv-spec div + div { border-left: 1px solid rgba(var(--text-rgb), 0.1); padding-left: 1.25rem; }
+.cv-spec div + div { border-left: 1px solid rgba(var(--text-rgb), 0.12); padding-left: 1.25rem; }
 
 .cv-spec dt {
-    font-size: 0.78rem;
-    opacity: 0.72;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
+    font-size: 0.76rem;
+    opacity: 0.75;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
 }
 
-.cv-spec dd { font-weight: 750; font-size: 1.02rem; margin: 0; line-height: 1.4; }
+.cv-spec dd { font-weight: 700; font-size: 1rem; margin: 0; line-height: 1.45; }
 
-/* === CONTACT === */
+/* === CONTACT ============================================================== */
 .cv-contact {
     text-align: center;
-    padding: 2rem 0 6rem;
+    padding: 1rem 0 5rem;
+    scroll-margin-top: 5.5rem;
 }
 
 .cv-contact h2 {
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
     font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.8rem;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.7rem;
 }
 
 .cv-contact h2 .dot { color: var(--accent); }
 
-.cv-contact .cv-cta-row { justify-content: center; margin-top: 0; }
+.cv-contact-intro {
+    max-width: 34rem;
+    margin: 0 auto 2rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    opacity: 0.85;
+}
 
 .cv-mail {
-    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    display: block;
+    font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+    font-weight: 750;
     color: var(--accent-ink);
     text-decoration: none;
-    font-weight: 700;
-    display: inline-block;
-    margin-bottom: 0.4rem;
+    letter-spacing: -0.02em;
 }
 
 .cv-mail:hover { text-decoration: underline; }
 
 .cv-phone {
-    display: block;
-    font-size: clamp(0.98rem, 2vw, 1.15rem);
-    font-weight: 700;
-    text-decoration: none;
-    color: inherit;
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--text);
     opacity: 0.8;
-    margin-bottom: 1.4rem;
+    text-decoration: none;
 }
 
-.cv-phone:hover { color: var(--accent); opacity: 1; }
+.cv-phone:hover { color: var(--accent-ink); opacity: 1; }
 
-.cv-byline { margin-top: 3.5rem; font-size: 0.85rem; opacity: 0.72; }
+.cv-byline { margin-top: 3.25rem; font-size: 0.86rem; opacity: 0.72; }
 
-/* Contact CTA docked in the navbar instead of floating in its own corner:
-   one action bar at the bottom of the screen, not two. Injected as a plain
-   link in its own group by the inline script in cv.html, so it inherits the
-   navbar link styling and sits between the same hairline separators. */
-
-/* Measured: the full bar (logo, links, CTA, settings) needs about 650px of
-   viewport. Below that the portfolio links give way rather than the CTA,
-   which would otherwise scroll off-screen; the logo still leads back. */
-@media (max-width: 680px) {
-    .cv-page .navbar .nav-group--links,
-    .cv-page .navbar .nav-sep:first-of-type { display: none; }
-}
-
-/* === RESPONSIVE === */
-@media (max-width: 900px) {
-    .cv-quote { grid-template-columns: 1fr; gap: 1.1rem; }
-    .cv-stats { grid-template-columns: repeat(2, 1fr); }
+/* === RESPONSIVE =========================================================== */
+@media (max-width: 1080px) {
+    .cv-tools-grid { grid-template-columns: repeat(3, 1fr); }
     .cv-skills { grid-template-columns: repeat(2, 1fr); }
+    .cv-head { grid-template-columns: minmax(0, 1fr) 18rem; gap: 2rem; }
+}
+
+@media (max-width: 900px) {
+    /* La barre passe en mode mobile : ancres dans le menu Sections. */
+    .navbar--cv .nav-group--cv-links { display: none; }
+    .navbar--cv .cv-nav-sections { display: inline-flex; align-items: center; }
+
+    .cv-hero { grid-template-columns: 1fr; gap: 2.25rem; padding: 76px 0 60px; }
+    .cv-hero-photo { order: -1; max-width: 13rem; }
+
+    .cv-head { grid-template-columns: 1fr; gap: 0.75rem; }
+
+    /* KPI en 2x2 : les libellés longs gardent leur place. */
+    .cv-kpis { grid-template-columns: repeat(2, 1fr); }
+    .cv-kpi:nth-child(-n+2) { border-top: none; }
+    .cv-kpi:nth-child(odd) { border-left: none; }
+    .cv-kpi:nth-child(n+3) { border-top: 1px solid rgba(var(--text-rgb), 0.12); }
+
+    .cv-work, .cv-work--lead { grid-template-columns: 1fr; gap: 1.75rem; padding: 1.75rem; }
+    .cv-work:nth-of-type(2) .cv-work-visual { order: 0; }
+    .cv-proof-groups { grid-template-columns: 1fr; gap: 1rem; }
+
+    .cv-quote { grid-template-columns: 1fr; gap: 1.4rem; }
+    .cv-perso { grid-template-columns: 1fr; }
     .cv-spec { grid-template-columns: repeat(2, 1fr); }
     .cv-spec div:nth-child(odd) { border-left: none; padding-left: 0; }
-    .cv-case { grid-template-columns: 1fr; }
-    .cv-case-visual { max-height: 14rem; }
-    .cv-perso { grid-template-columns: 1fr; }
+    .cv-tools-grid { grid-template-columns: repeat(2, 1fr); }
+    .cv-section { padding-bottom: 4.5rem; }
 }
 
 @media (max-width: 600px) {
-    .cv-hero {
-        grid-template-columns: 1fr;
-        gap: 1.75rem;
-        padding: 96px 0 48px;
+    /* En haut d'écran, la pilule centrée n'a plus de sens : la barre prend
+       toute la largeur, ce qui lui redonne la place que ses contrôles
+       demandent. */
+    .navbar.navbar--cv {
+        left: 8px;
+        right: 8px;
+        width: auto;
+        max-width: none;
+        min-width: 0;
+        transform: none;
+        padding: 0 6px;
+        gap: 0.25rem;
     }
-    .cv-hero-photo { order: -1; }
-    .cv-photo { width: 9.5rem; }
-    .cv-stats, .cv-skills { grid-template-columns: 1fr; gap: 0.9rem; }
+    .navbar--cv .cv-nav-sections { padding: 0 9px; font-size: 0.83rem; }
+    .navbar--cv .cv-nav-cta { padding: 8px 9px; font-size: 0.83rem; }
+    /* Les filets n'ont plus de place utile sur une barre aussi étroite. */
+    .navbar--cv .nav-sep { display: none; }
+    .navbar--cv .nav-logo img { width: 30px; height: 30px; }
+
+    .cv-page .site-content { padding-top: 3rem; }
+    .cv-hero { padding: 68px 0 48px; }
+    .cv-hero-photo { max-width: 10.5rem; }
+    .cv-cta-row .btn-primary, .cv-cta-row .cv-btn-ghost { flex: 1 1 100%; }
+
+    /* Une colonne : un libellé de KPI ne doit jamais être écrasé. */
+    .cv-kpis { grid-template-columns: 1fr; }
+    .cv-kpi { border-left: none; border-top: 1px solid rgba(var(--text-rgb), 0.12); }
+    .cv-kpi:first-child { border-top: none; }
+
+    .cv-skills { grid-template-columns: 1fr; }
     .cv-spec { grid-template-columns: 1fr; gap: 1rem; }
     .cv-spec div + div { border-left: none; padding-left: 0; }
-    .cv-section { padding-bottom: 3.25rem; }
-    .cv-tl-row { grid-template-columns: 6.5rem minmax(0, 1fr); gap: 0.9rem; }
+    .cv-tl-row { grid-template-columns: 7rem minmax(0, 1fr); gap: 0.9rem; }
+    .cv-proofs--inline { display: grid; gap: 0.4rem; }
+    .cv-work--compact { padding: 1.6rem 1.6rem 1.6rem 1.4rem; }
+}
+
+/* Mouvement réduit : plus d'apparitions ni de transitions décoratives. */
+@media (prefers-reduced-motion: reduce) {
+    .cv-page * { scroll-behavior: auto !important; }
+    .cv-btn-ghost, .navbar--cv .cv-nav-cta { transition: none; }
 }

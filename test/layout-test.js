@@ -121,18 +121,18 @@ const CHECKS = [
         }
     },
     {
-        name: 'CV: every proof visual shares the 16:9 of the study cards',
+        name: 'CV: the two work compositions keep their 3:2 frame',
         async run(page) {
             await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
             const ratios = await page.evaluate(() =>
-                [...document.querySelectorAll('.cv-case-visual')].map((el) => {
-                    const rect = el.getBoundingClientRect();
-                    return rect.width / rect.height;
+                [...document.querySelectorAll('.cv-mosaic, .cv-triptych')].map((el) => {
+                    const r = el.getBoundingClientRect();
+                    return r.width / r.height;
                 })
             );
-            if (ratios.length !== 4) throw new Error('expected 4 proof visuals, got ' + ratios.length);
-            const off = ratios.filter((r) => Math.abs(r - 16 / 9) > 0.02);
-            if (off.length) throw new Error('visual ratio(s) ' + off.map((r) => r.toFixed(3)).join(', ') + ', expected 1.778');
+            if (ratios.length !== 2) throw new Error('expected 2 compositions, got ' + ratios.length);
+            const off = ratios.filter((r) => Math.abs(r - 1.5) > 0.03);
+            if (off.length) throw new Error('ratio(s) ' + off.map((r) => r.toFixed(3)).join(', ') + ', expected 1.5');
         }
     },
     {
@@ -148,7 +148,7 @@ const CHECKS = [
         }
     },
     {
-        name: 'CV: the contact CTA never overflows the navbar',
+        name: 'CV: the sticky bar never overflows, at any width',
         async run(page) {
             // The bar holds the portfolio links only above ~650px; below that
             // they are hidden so the CTA stays reachable. Check both sides.
@@ -158,7 +158,7 @@ const CHECKS = [
                     await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
                     const nav = await page.evaluate(() => {
                         const bar = document.querySelector('.navbar');
-                        const cta = document.querySelector('.navbar .cv-nav-cta');
+                        const cta = document.querySelector('.navbar--cv .cv-nav-cta');
                         if (!cta) return { missing: true };
                         const barBox = bar.getBoundingClientRect();
                         const ctaBox = cta.getBoundingClientRect();

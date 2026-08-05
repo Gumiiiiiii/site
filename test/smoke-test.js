@@ -121,34 +121,42 @@ const CHECKS = [
     // never linked from the public pages.
     { path: '/cv', assert(d) {
         if (!d.querySelector('meta[name="robots"][content*="noindex"]')) return 'CV page must be noindex';
+        if (d.querySelectorAll('h1').length !== 1) return 'exactly one h1 expected';
+        // Architecture and anchors from the brief.
+        for (const id of ['resultats', 'realisations', 'parcours', 'competences', 'temoignages', 'contact']) {
+            if (!d.getElementById(id)) return 'missing anchor #' + id;
+        }
+        if (d.querySelectorAll('.cv-kpi').length !== 4) return 'expected 4 KPIs';
+        if (d.querySelectorAll('.cv-work').length !== 3) return 'expected exactly 3 pieces of work';
+        if (/Modularte/.test(d.body.textContent)) return 'Modularte should be gone';
+        // ArdaCraft: one card, one CTA, to /experiments.
+        const arda = [...d.querySelectorAll('a')].filter((a) => (a.getAttribute('href') || '').includes('gumi.ch/experiments'));
+        if (arda.length !== 1) return 'ArdaCraft should have exactly one CTA, found ' + arda.length;
+        // The million searches is an opportunity, never traffic obtained.
+        if (!/opportunit/i.test(d.body.textContent)) return 'the million searches must be framed as an opportunity';
+        // The 1,200 total and the 500+ attributed must never be conflated.
+        if (/1[\s ]?200 réservations attribu/i.test(d.body.textContent)) return '1,200 must not be described as attributed';
+        if (d.querySelectorAll('.cv-quote').length !== 3) return 'expected 3 testimonials';
+        if (d.querySelector('.cv-quote details, .cv-quote-pending')) return 'testimonials must be shown in full';
+        // Toolkit stays exhaustive and in real text.
+        const tools = [...d.querySelectorAll('.cv-tools-cell li')].map((t) => t.textContent.trim());
+        if (tools.length !== 26) return 'expected 26 tools, got ' + tools.length;
+        for (const must of ['Magento', 'Salsify', 'Microsoft Clarity', 'DaVinci Resolve']) {
+            if (!tools.includes(must)) return must + ' missing from the toolkit';
+        }
         if (!d.querySelector('a[href^="mailto:pierregumilar"]')) return 'missing mailto CTA';
-        if (d.querySelectorAll('.cv-stat').length !== 4) return 'expected 4 stat cards';
-        if (d.querySelectorAll('.cv-case').length !== 4) return 'expected 4 proof cards';
-        if (d.querySelectorAll('.cv-case .cv-case-tag').length !== 4) return 'a proof card is missing its tag';
-        if (d.querySelectorAll('.cv-tl-row').length < 7) return 'timeline incomplete';
-        if (d.querySelectorAll('.cv-tl-group').length !== 3) return 'timeline should split experience/education/languages';
-        if (d.querySelectorAll('.cv-quote').length !== 3) return 'expected 3 recommendation quotes';
-        if (d.querySelector('.cv-quote-pending')) return 'a placeholder quote went live on the page';
-        // The e-commerce peer leads now, then the client, then the colleague.
-        if (!d.querySelector('.cv-quote:first-child blockquote').textContent.includes('E-commerce')) return 'the e-commerce peer should come first';
-        // Each quote must be attributable: name plus role.
-        if (d.querySelectorAll('.cv-quote figcaption [data-i18n$="_role"]').length !== 3) return 'a recommendation is missing its role line';
-        if (!d.querySelector('a[href*="cal.com"]')) return 'missing the booking CTA';
-        if (!d.querySelector('script[src*="_vercel/insights"]')) return 'CV page is missing Vercel Analytics';
-        // hreflang must be reciprocal and name an x-default.
+        if (!d.querySelector('a[href*="cal.com"]')) return 'missing booking CTA';
+        if (!d.querySelector('a[href*="linkedin.com/in/pierre-gumilar"]')) return 'missing LinkedIn CTA';
+        if (!d.querySelector('a[href$="Pierre-Gumilar-CV.pdf"]')) return 'missing PDF CTA';
+        // One sticky surface: the shared bottom pill must not also render.
+        if (d.querySelectorAll('[data-navbar-root]').length !== 1) return 'expected a single navbar root';
+        if (!d.querySelector('.navbar--cv')) return 'CV navbar variant did not render';
+        if (!d.querySelector('.cv-nav-sections[aria-expanded="false"]')) return 'Sections toggle missing or not announced';
         const alts = [...d.querySelectorAll('link[rel="alternate"][hreflang]')].map((l) => l.getAttribute('hreflang'));
         for (const lang of ['fr', 'en', 'x-default']) {
             if (!alts.includes(lang)) return 'missing hreflang ' + lang;
         }
-        if (!d.querySelector('.navbar .cv-nav-cta')) return 'contact CTA should be docked in the navbar';
-        // The wall is deliberately exhaustive: the one-page PDF is the
-        // constrained artefact, this page is where every tool name can live,
-        // and recruiters do screen on them.
-        const tools = [...d.querySelectorAll('.cv-tool')].map((t) => t.textContent);
-        if (tools.length < 24) return 'tool cloud too thin (' + tools.length + ')';
-        for (const must of ['Magento', 'Salsify']) {
-            if (!tools.some((t) => t.includes(must))) return must + ' missing from the tool cloud';
-        }
+        if (!d.querySelector('script[src*="_vercel/insights"]')) return 'CV page is missing Vercel Analytics';
         if (d.body.textContent.includes('—')) return 'em dash found in CV copy';
     } },
     { path: '/brand-guidelines' }
