@@ -92,6 +92,9 @@ function applyArticle(document, source, articles) {
         titleEl.appendChild(dot);
     }
 
+    const abstract = document.getElementById('article-abstract');
+    if (abstract) abstract.innerHTML = (article.abstract && article.abstract.en) || '';
+
     const postContent = document.getElementById('post-content');
     if (postContent && article.html) postContent.innerHTML = article.html.en;
 

@@ -204,7 +204,7 @@ async function main() {
         // Article bodies must be in the raw HTML, not injected client-side.
         // The jsdom checks above run article-page.js, which would hide the
         // regression; crawlers that skip JavaScript would see an empty shell.
-        for (const slug of ['ardacraft', 'ardacraft-map', 'ai-photoshoot']) {
+        for (const slug of ['ardacraft', 'ardacraft-map', 'ai-photoshoot', 'ardacraft-social']) {
             const artRes = await fetch(BASE + '/experiments/' + slug, { headers: { connection: 'close' } });
             const artBody = await artRes.text();
             const empty = /id="post-content"[^>]*>\s*<\/article>/.test(artBody);
@@ -213,6 +213,25 @@ async function main() {
             const why = empty ? 'post-content is empty' : 'only ' + headings + ' h2 in the served HTML';
             console.log((okArt ? ' ok ' : 'FAIL') + '  /experiments/' + slug + ' (body server-rendered)' + (okArt ? '' : '  → ' + why));
             if (!okArt) failures += 1;
+        }
+
+        // ardacraft-social: the abstract is rendered above the cover and the
+        // table of contents, and the follower chart appears once (as the
+        // cover) rather than twice.
+        for (const [label, url] of [['/experiments/ardacraft-social', BASE + '/experiments/ardacraft-social'],
+            ['/en/experiments/ardacraft-social', BASE + '/en/experiments/ardacraft-social']]) {
+            const raw = await (await fetch(url, { headers: { connection: 'close' } })).text();
+            const absAt = raw.indexOf('id="article-abstract"');
+            const problems = [];
+            if (absAt < 0 || raw.indexOf('class="abstract"', absAt) < 0) problems.push('abstract not rendered');
+            if (absAt > raw.indexOf('id="article-cover"')) problems.push('abstract comes after the cover');
+            if (absAt > raw.indexOf('toolbar-wrapper')) problems.push('abstract comes after the table of contents');
+            if (raw.includes('chart-figure')) problems.push('the chart is still duplicated in the body');
+            const caps = (raw.match(/class="reel-caption"/g) || []).length;
+            if (caps !== 3) problems.push(caps + ' reel captions, expected 3');
+            console.log((problems.length ? 'FAIL' : ' ok ') + '  ' + label + ' (abstract above the cover)'
+                + (problems.length ? '  → ' + problems.join('; ') : ''));
+            if (problems.length) failures += 1;
         }
 
         // Custom 404 page is served for unknown paths.

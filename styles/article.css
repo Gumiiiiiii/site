@@ -250,6 +250,44 @@
     font-size: 1.3rem;
 }
 
+/* An abstract can also sit outside the body, between the sticky title and the
+   cover, so the summary lands before the visual and the table of contents.
+   Same z-index as the cover: both scroll up over the sticky header. The card
+   itself is translucent, so the wrapper carries the page's own opaque surface
+   — without it the title reads straight through the abstract while scrolling. */
+.article-abstract {
+    position: relative;
+    z-index: 2;
+    padding: 0 24px 2.5rem;
+    background-color: var(--bg);
+    background-image: url('../media/cream-paper.png');
+    background-blend-mode: multiply;
+}
+
+:root[data-theme="dark"] .article-abstract { background-image: none; }
+
+.article-abstract .abstract {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* A full-length summary at body-copy size fills a whole phone screen before
+   the cover ever appears; tighten it there. */
+@media (max-width: 600px) {
+    .abstract { padding: 1.75rem 1.5rem; }
+    .abstract p { font-size: 1.05rem; margin-bottom: 1rem; }
+    .abstract strong { font-size: 1.12rem; }
+}
+
+.article-abstract h2 {
+    margin: 0 0 1.5rem 0;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(var(--text-rgb), 0.6);
+}
+
 .article-content ul:not(.toc-list), .article-content ol:not(.toc-list) {
     margin-bottom: 1.8rem;
     padding-left: 1.5rem;
@@ -513,6 +551,13 @@
 }
 
 .reel-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+
+.article-content .reel-caption {
+    margin: 0.8rem 0 0;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    opacity: 0.75;
+}
 
 .reel-play {
     width: 46px;

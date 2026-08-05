@@ -9,6 +9,7 @@
     const titleEl = document.getElementById('article-title');
     const dateEl = document.getElementById('article-date');
     const coverEl = document.getElementById('article-cover');
+    const abstractEl = document.getElementById('article-abstract');
     const postContent = document.getElementById('post-content');
     const tocList = document.getElementById('toc-list');
     const readNextLink = document.getElementById('read-next-link');
@@ -98,6 +99,14 @@
                 lang === 'fr' ? 'fr-FR' : 'en-US',
                 { year: 'numeric', month: 'long', day: 'numeric' }
             );
+        }
+
+        // Optional: an abstract rendered above the cover rather than inside
+        // the body. Articles without one leave the container empty.
+        if (abstractEl) {
+            const abstract = article.abstract && article.abstract[lang];
+            abstractEl.innerHTML = abstract || '';
+            abstractEl.hidden = !abstract;
         }
 
         if (coverEl.getAttribute('src') !== article.cover) coverEl.src = article.cover;

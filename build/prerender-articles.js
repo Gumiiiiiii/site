@@ -52,6 +52,9 @@ function transform(source, articles) {
     const dom = new JSDOM(source);
     const document = dom.window.document;
 
+    const abstract = document.getElementById('article-abstract');
+    if (abstract) abstract.innerHTML = (article.abstract && article.abstract.fr) || '';
+
     const postContent = document.getElementById('post-content');
     if (postContent && article.html && article.html.fr) {
         postContent.innerHTML = article.html.fr;
