@@ -136,7 +136,9 @@ const CHECKS = [
         if (!/opportunit/i.test(d.body.textContent)) return 'the million searches must be framed as an opportunity';
         // The 1,200 total and the 500+ attributed must never be conflated.
         if (/1[\s ]?200 réservations attribu/i.test(d.body.textContent)) return '1,200 must not be described as attributed';
-        if (d.querySelectorAll('.cv-quote').length !== 3) return 'expected 3 testimonials';
+        if (d.querySelectorAll('.cv-quote').length !== 4) return 'expected 4 testimonials';
+        // Chaque citation dit d'abord de qui elle vient : manager, collègue, client.
+        if (d.querySelectorAll('.cv-quote .cv-quote-rel').length !== 4) return 'every testimonial needs its working relationship';
         if (d.querySelector('.cv-quote details, .cv-quote-pending')) return 'testimonials must be shown in full';
         // Toolkit stays exhaustive and in real text.
         const tools = [...d.querySelectorAll('.cv-tools-cell li')].map((t) => t.textContent.trim());

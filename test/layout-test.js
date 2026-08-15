@@ -148,6 +148,26 @@ const CHECKS = [
         }
     },
     {
+        // Les spans de l'attribution sont en display:block — une règle d'auteur
+        // qui écrase le display:none de [hidden]. La mention « traduit » ne doit
+        // apparaître qu'en anglais.
+        name: 'CV: the translated marker stays hidden in French',
+        async run(page) {
+            await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
+            const shown = await page.evaluate(() =>
+                [...document.querySelectorAll('.cv-quote-translated')]
+                    .filter((el) => getComputedStyle(el).display !== 'none').length
+            );
+            if (shown) throw new Error(shown + ' translated marker(s) visible on the French page');
+            const en = await page.evaluate(() => {
+                window.GumiI18n.set('en');
+                return [...document.querySelectorAll('.cv-quote-translated')]
+                    .filter((el) => getComputedStyle(el).display !== 'none').length;
+            });
+            if (en !== 3) throw new Error('expected 3 translated markers in English, got ' + en);
+        }
+    },
+    {
         name: 'CV: the sticky bar never overflows, at any width',
         async run(page) {
             // The bar holds the portfolio links only above ~650px; below that

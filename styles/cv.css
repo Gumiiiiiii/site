@@ -609,6 +609,23 @@
     line-height: 1.4;
 }
 
+/* Le display:block ci-dessus est une règle d'auteur : elle l'emporte sur le
+   display:none que le navigateur applique à [hidden]. Sans cette ligne, la
+   mention « traduit du français » resterait affichée en français. */
+.cv-quote figcaption span[hidden] { display: none; }
+
+/* La relation de travail, au-dessus du nom : c'est elle qui situe la
+   recommandation (ma manager, un client, une autre équipe). */
+.cv-quote figcaption .cv-quote-rel {
+    margin-bottom: 0.3rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    opacity: 1;
+}
+
 .cv-quote-translated {
     margin-top: 0.35rem;
     font-size: 0.76rem !important;
