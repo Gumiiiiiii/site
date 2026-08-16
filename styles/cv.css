@@ -903,8 +903,8 @@
     background-image:
         radial-gradient(circle, var(--dot-ink) 1.4px, transparent 1.5px),
         radial-gradient(circle, var(--dot-ink) 1.4px, transparent 1.5px);
-    background-size: 20px 36px, 20px 36px;
-    background-position: 0 0, 10px 18px;
+    background-size: 28px 48px, 28px 48px;
+    background-position: 0 0, 14px 24px;
     -webkit-mask-image: linear-gradient(to bottom,
         rgba(0, 0, 0, 0) 0,
         rgba(0, 0, 0, 0) var(--cv-dots-hero),
@@ -930,8 +930,28 @@
     background-position: center var(--cv-dots-hero), center bottom;
     /* Taille naturelle : étirer la tuile transformerait les points en ovales,
        alors que la spec de marque parle de cercles. */
-    background-size: 800px 720px, 800px 720px;
+    background-size: 840px 720px, 840px 720px;
+    /* Sans ce fondu, la tuile s'arrête net sur le semis et laisse une
+       couture. Chaque dégradé s'éteint donc avant de le rejoindre. */
+    -webkit-mask-image: linear-gradient(to bottom,
+        #000 0,
+        #000 calc(var(--cv-dots-hero) + 240px),
+        transparent calc(var(--cv-dots-hero) + 700px),
+        transparent calc(100% - 700px),
+        #000 calc(100% - 240px),
+        #000 100%);
+    mask-image: linear-gradient(to bottom,
+        #000 0,
+        #000 calc(var(--cv-dots-hero) + 240px),
+        transparent calc(var(--cv-dots-hero) + 700px),
+        transparent calc(100% - 700px),
+        #000 calc(100% - 240px),
+        #000 100%);
 }
+
+/* La page portait déjà son propre dégradé de points en haut (.dots-bg,
+   shared.css) : il faisait doublon avec celui-ci. Un seul système. */
+.cv-page .dots-bg { display: none; }
 
 /* La trame est un fond : tout le contenu passe devant. */
 .cv-page .site-content > * { position: relative; z-index: 1; }
