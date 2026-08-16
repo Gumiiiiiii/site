@@ -915,6 +915,31 @@
    shared.css) : il faisait doublon avec celui-ci. Un seul système. */
 .cv-page .dots-bg { display: none; }
 
+/* Le dégradé d'entrée : exactement la même grille, même origine, mais des
+   points plus gros, qui s'effacent en descendant. Un gros point se pose sur
+   le petit, au même centre — les points paraissent rétrécir vers le semis
+   sans qu'aucun décalage soit possible. */
+.cv-page .site-content::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        radial-gradient(circle, var(--dot-ink) 3.1px, transparent 3.3px),
+        radial-gradient(circle, var(--dot-ink) 3.1px, transparent 3.3px);
+    background-size: 36px 64px, 36px 64px;
+    background-position: 0 0, 18px 32px;
+    -webkit-mask-image: linear-gradient(to bottom,
+        rgba(0, 0, 0, 0.9) 0,
+        rgba(0, 0, 0, 0.28) 24vh,
+        rgba(0, 0, 0, 0) 48vh);
+    mask-image: linear-gradient(to bottom,
+        rgba(0, 0, 0, 0.9) 0,
+        rgba(0, 0, 0, 0.28) 24vh,
+        rgba(0, 0, 0, 0) 48vh);
+}
+
 /* La trame est un fond : tout le contenu passe devant. */
 .cv-page .site-content > * { position: relative; z-index: 1; }
 
