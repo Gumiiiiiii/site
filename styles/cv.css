@@ -826,3 +826,124 @@
     .cv-page * { scroll-behavior: auto !important; }
     .cv-btn-ghost, .navbar--cv .cv-nav-cta { transition: none; }
 }
+
+/* ==========================================================================
+   REFONTE 2026 · FONDATIONS (couleur + texture)
+   Seule la page CV consomme cette palette. Les jetons vivent dans
+   shared.css pour que le reste du site puisse suivre plus tard.
+
+   Deux accents, deux rôles chacun, et rien d'autre :
+     prune      → liens et états interactifs · point signature après les titres
+     terracotta → labels de catégorie et badges, uniquement
+   Ce qui perdait le violet ne le remplace pas par une autre couleur :
+   l'onglet actif du menu passe au noir du texte, les filets décoratifs à
+   un gris neutre. Une couleur qui ne dit rien de plus qu'une graisse ou
+   qu'un trait ne mérite pas un rôle.
+   ========================================================================== */
+
+/* Le violet vif devient prune : les 19 usages existants suivent le jeton,
+   puis les exceptions ci-dessous reprennent ceux qui changent de rôle. */
+.cv-page {
+    --accent: var(--plum);
+    --accent-ink: var(--plum);
+    --accent-light: var(--plum-soft);
+}
+
+/* Labels de catégorie et badges : terracotta. C'est le seul endroit où
+   elle apparaît, ce qui la rend lisible comme un rôle et non comme une
+   décoration. */
+.cv-page .cv-kpi small,
+.cv-page .cv-work-label,
+.cv-page .cv-tl-group h3,
+.cv-page .cv-tools-cell h4,
+.cv-page .cv-quote figcaption .cv-quote-rel {
+    color: var(--terracotta);
+}
+
+/* L'onglet actif ne se signale plus par la couleur mais par le noir du
+   texte et sa graisse — l'indicateur sous le libellé fait le reste. */
+.navbar--cv .cv-nav-link.active { color: var(--text); font-weight: 800; }
+.navbar--cv .cv-nav-link.active::after { background: var(--text); }
+
+/* Filets et icônes : neutres. Ils structurent, ils ne signalent rien. */
+.cv-page .cv-work--compact { border-left-color: var(--rule); }
+.cv-page .cv-perso-item svg { stroke: var(--plum-soft); }
+
+/* --- Papier pointillé -----------------------------------------------------
+   Le motif de la marque, pas une trame inventée : grille de 20x18 px en
+   quinconce, rayon croissant de 3 à 7 px vers les bords (voir la page
+   brand-guidelines, « Motif de points »). La marque fait courir ce dégradé
+   horizontalement ; ici il court verticalement — les points grossissent
+   vers le haut et vers le bas de la page, et s'effacent en un semis de
+   carnet au milieu.
+
+   Le grain cream-paper est retiré sur cette page : une seule matière de
+   fond, jamais deux superposées.
+
+   media/cv-dots-{top,bottom}.webp sont générés à cette spec (800x720,
+   40 colonnes, se répètent en repeat-x). Le semis du milieu, lui, est un
+   simple couple de radial-gradients : deux couches décalées d'un demi-pas
+   reconstituent le quinconce sans image.
+
+   --cv-dots-hero : hauteur approximative du hero, au-dessus de laquelle la
+   page reste vierge de points. À réaccorder quand le hero sera reconstruit. */
+.cv-page .site-content {
+    --cv-dots-hero: 78vh;
+    background-image: none;
+    position: relative;
+}
+
+/* Le semis de carnet, continu sur tout le corps de page. */
+.cv-page .site-content::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        radial-gradient(var(--dot-ink) 1.5px, transparent 1.6px),
+        radial-gradient(var(--dot-ink) 1.5px, transparent 1.6px);
+    background-size: 20px 36px, 20px 36px;
+    background-position: 0 0, 10px 18px;
+    -webkit-mask-image: linear-gradient(to bottom,
+        rgba(0, 0, 0, 0) 0,
+        rgba(0, 0, 0, 0) var(--cv-dots-hero),
+        rgba(0, 0, 0, 0.55) calc(var(--cv-dots-hero) + 14vh),
+        rgba(0, 0, 0, 0.55) 100%);
+    mask-image: linear-gradient(to bottom,
+        rgba(0, 0, 0, 0) 0,
+        rgba(0, 0, 0, 0) var(--cv-dots-hero),
+        rgba(0, 0, 0, 0.55) calc(var(--cv-dots-hero) + 14vh),
+        rgba(0, 0, 0, 0.55) 100%);
+}
+
+/* Les deux dégradés de la marque : un en haut sous le hero, un en bas. */
+.cv-page .site-content::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.07;
+    background-image: url('../media/cv-dots-top.webp'), url('../media/cv-dots-bottom.webp');
+    background-repeat: repeat-x, repeat-x;
+    background-position: center var(--cv-dots-hero), center bottom;
+    /* Taille naturelle : étirer la tuile transformerait les points en ovales,
+       alors que la spec de marque parle de cercles. */
+    background-size: 800px 720px, 800px 720px;
+}
+
+/* La trame est un fond : tout le contenu passe devant. */
+.cv-page .site-content > * { position: relative; z-index: 1; }
+
+/* Sombre : fonctionnel, pas encore dessiné (décision de Pierre — le thème
+   sombre sera traité comme une section à part entière). Les points passent
+   en clair pour ne pas disparaître, sans plus de réglage. */
+:root[data-theme="dark"] .cv-page .site-content {
+    --dot-ink: rgba(255, 255, 255, 0.16);
+}
+
+:root[data-theme="dark"] .cv-page .site-content::after {
+    opacity: 0.14;
+    filter: invert(1);
+}

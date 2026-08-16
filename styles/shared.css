@@ -31,6 +31,18 @@
        display values above stay untouched so nothing else on the site moves. */
     --accent-ink: #6B45C9;
     --positive-ink: #3F7355;
+
+    /* === Refonte 2026 · palette du CV =====================================
+       Deux accents, pas plus : une prune grisée et une terracotta. Définis
+       ici pour que le reste du site puisse les adopter plus tard ; pour
+       l'instant seule la page CV les consomme (voir styles/cv.css).
+       Contrastes vérifiés sur --bg #F9F4EF : prune 6,5:1, terracotta 5,0:1,
+       tous deux au-dessus du 4,5:1 exigé pour du texte courant. */
+    --plum: #6C4F63;          /* liens, états interactifs, point signature */
+    --plum-soft: #8A6E82;     /* le même, éteint : états au repos, filets */
+    --terracotta: #A25436;    /* labels de catégorie et badges, uniquement */
+    --rule: rgba(26, 26, 26, 0.14);   /* filets et traits décoratifs, neutres */
+    --dot-ink: rgba(94, 74, 60, 0.42); /* la texture pointillée, ton papier */
     --font: 'Urbanist', sans-serif;
     --card-bg: rgba(26, 26, 26, 0.04);
     --content-max-width: 90rem;
