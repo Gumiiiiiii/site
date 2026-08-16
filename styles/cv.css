@@ -870,30 +870,23 @@
 .cv-page .cv-perso-item svg { stroke: var(--plum-soft); }
 
 /* --- Papier pointillé -----------------------------------------------------
-   Le motif de la marque, pas une trame inventée : grille de 20x18 px en
-   quinconce, rayon croissant de 3 à 7 px vers les bords (voir la page
-   brand-guidelines, « Motif de points »). La marque fait courir ce dégradé
-   horizontalement ; ici il court verticalement — les points grossissent
-   vers le haut et vers le bas de la page, et s'effacent en un semis de
-   carnet au milieu.
+   Une grille unique, en quinconce, sur toute la hauteur de page : deux
+   radial-gradients décalés d'un demi-pas. Le dégradé du haut et celui du
+   bas ne sont pas un second calque — c'est la même grille, simplement plus
+   opaque à ses deux extrémités. C'est la seule façon d'être certain que le
+   dégradé tombe exactement sur les points du semis.
 
    Le grain cream-paper est retiré sur cette page : une seule matière de
-   fond, jamais deux superposées.
-
-   media/cv-dots-{top,bottom}.webp sont générés à cette spec (800x720,
-   40 colonnes, se répètent en repeat-x). Le semis du milieu, lui, est un
-   simple couple de radial-gradients : deux couches décalées d'un demi-pas
-   reconstituent le quinconce sans image.
-
-   --cv-dots-hero : hauteur approximative du hero, au-dessus de laquelle la
-   page reste vierge de points. À réaccorder quand le hero sera reconstruit. */
+   fond, jamais deux superposées. */
 .cv-page .site-content {
-    --cv-dots-hero: 78vh;
     background-image: none;
     position: relative;
 }
 
-/* Le semis de carnet, continu sur tout le corps de page. */
+/* Une seule trame pour toute la page : même grille, même origine, donc les
+   dégradés du haut et du bas tombent forcément sur les mêmes points que le
+   semis du milieu. C'est l'opacité qui fait le dégradé, pas le rayon —
+   deux calques de tailles différentes ne pouvaient pas s'aligner. */
 .cv-page .site-content::before {
     content: '';
     position: absolute;
@@ -903,51 +896,20 @@
     background-image:
         radial-gradient(circle, var(--dot-ink) 1.4px, transparent 1.5px),
         radial-gradient(circle, var(--dot-ink) 1.4px, transparent 1.5px);
-    background-size: 28px 48px, 28px 48px;
-    background-position: 0 0, 14px 24px;
+    background-size: 36px 64px, 36px 64px;
+    background-position: 0 0, 18px 32px;
     -webkit-mask-image: linear-gradient(to bottom,
-        rgba(0, 0, 0, 0) 0,
-        rgba(0, 0, 0, 0) var(--cv-dots-hero),
-        rgba(0, 0, 0, 0.32) calc(var(--cv-dots-hero) + 14vh),
-        rgba(0, 0, 0, 0.32) 100%);
+        rgba(0, 0, 0, 1) 0,
+        rgba(0, 0, 0, 0.22) 34vh,
+        rgba(0, 0, 0, 0.22) calc(100% - 46vh),
+        rgba(0, 0, 0, 1) 100%);
     mask-image: linear-gradient(to bottom,
-        rgba(0, 0, 0, 0) 0,
-        rgba(0, 0, 0, 0) var(--cv-dots-hero),
-        rgba(0, 0, 0, 0.32) calc(var(--cv-dots-hero) + 14vh),
-        rgba(0, 0, 0, 0.32) 100%);
+        rgba(0, 0, 0, 1) 0,
+        rgba(0, 0, 0, 0.22) 34vh,
+        rgba(0, 0, 0, 0.22) calc(100% - 46vh),
+        rgba(0, 0, 0, 1) 100%);
 }
 
-/* Les deux dégradés de la marque : un en haut sous le hero, un en bas. */
-.cv-page .site-content::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.04;
-    background-image: url('../media/cv-dots-top.webp'), url('../media/cv-dots-bottom.webp');
-    background-repeat: repeat-x, repeat-x;
-    background-position: center var(--cv-dots-hero), center bottom;
-    /* Taille naturelle : étirer la tuile transformerait les points en ovales,
-       alors que la spec de marque parle de cercles. */
-    background-size: 840px 720px, 840px 720px;
-    /* Sans ce fondu, la tuile s'arrête net sur le semis et laisse une
-       couture. Chaque dégradé s'éteint donc avant de le rejoindre. */
-    -webkit-mask-image: linear-gradient(to bottom,
-        #000 0,
-        #000 calc(var(--cv-dots-hero) + 240px),
-        transparent calc(var(--cv-dots-hero) + 700px),
-        transparent calc(100% - 700px),
-        #000 calc(100% - 240px),
-        #000 100%);
-    mask-image: linear-gradient(to bottom,
-        #000 0,
-        #000 calc(var(--cv-dots-hero) + 240px),
-        transparent calc(var(--cv-dots-hero) + 700px),
-        transparent calc(100% - 700px),
-        #000 calc(100% - 240px),
-        #000 100%);
-}
 
 /* La page portait déjà son propre dégradé de points en haut (.dots-bg,
    shared.css) : il faisait doublon avec celui-ci. Un seul système. */
@@ -963,7 +925,3 @@
     --dot-ink: rgba(255, 255, 255, 0.16);
 }
 
-:root[data-theme="dark"] .cv-page .site-content::after {
-    opacity: 0.14;
-    filter: invert(1);
-}
