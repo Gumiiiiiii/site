@@ -42,7 +42,7 @@
     --plum-soft: #8A6E82;     /* le même, éteint : états au repos, filets */
     --terracotta: #A25436;    /* labels de catégorie et badges, uniquement */
     --rule: rgba(26, 26, 26, 0.14);   /* filets et traits décoratifs, neutres */
-    --dot-ink: rgba(94, 74, 60, 0.42); /* la texture pointillée, ton papier */
+    --dot-ink: rgba(94, 74, 60, 0.22); /* la texture pointillée, ton papier */
     --font: 'Urbanist', sans-serif;
     --card-bg: rgba(26, 26, 26, 0.04);
     --content-max-width: 90rem;
