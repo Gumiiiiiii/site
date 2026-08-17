@@ -253,17 +253,26 @@
     color: var(--text);
     text-decoration: none;
     cursor: pointer;
+    /* Le cercle du survol, repris du site : il apparaît derrière l'icône. */
+    border-radius: 50%;
     opacity: 0.5;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.25s ease, background 0.2s ease;
 }
 
 .fond-outil:hover,
-.fond-outil:focus-visible { opacity: 1; }
+.fond-outil:focus-visible { opacity: 1; background: rgba(26, 26, 26, 0.06); }
+
+:root[data-theme="dark"] .fond-outil:hover,
+:root[data-theme="dark"] .fond-outil:focus-visible { background: rgba(255, 255, 255, 0.08); }
 
 .fond-outil svg { width: 19px; height: 19px; }
 
-.fond-outil-lang {
-    font-size: 0.78rem;
+/* Le bouton de langue emprunte tout son mécanisme à shared.css ; il ne reste
+   qu'à lui rendre la taille de cible des deux autres. */
+.fond-outil.lang-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 0.82rem;
     font-weight: 800;
     letter-spacing: 0.04em;
 }
@@ -489,6 +498,117 @@ html { scroll-behavior: smooth; }
 
     .fond-projet-interieur { grid-template-columns: minmax(0, 1fr); }
     .fond-projet-interieur > *:first-child { padding-bottom: 1.25rem; }
+}
+
+/* === PIED DE PAGE =========================================================
+   « Ce que je recherche » et « Parlons-en » réunis en un seul bloc, posé en
+   fin de colonne. fond-titre.js lui donne son top et cale la hauteur de la
+   page dessus.
+
+   Il suit la colonne de contenu à gauche plutôt que le bord du viewport :
+   sinon le rail, qui reste fixe et centré, passerait par-dessus. */
+.fond-page .fond-pied {
+    position: absolute;
+    left: var(--fond-marge);
+    right: max(1.5rem, 5vw);
+    padding: clamp(1.75rem, 3.5vw, 3rem);
+    border: 1px solid rgba(var(--text-rgb), 0.14);
+    border-radius: 1.25rem;
+    /* Le semis du fond est rogné par les angles arrondis. */
+    overflow: hidden;
+}
+
+/* Pas de z-index négatif ici : le bloc n'a pas de fond à lui, le semis
+   passerait donc sous la feuille crème et disparaîtrait. Il reste au-dessus,
+   et c'est le contenu qui monte d'un cran. */
+.fond-pied-semis {
+    position: absolute;
+    inset: 0;
+    color: var(--text);
+    pointer-events: none;
+}
+
+.fond-pied-semis svg { display: block; }
+
+.fond-pied-contenu {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: clamp(2rem, 4vw, 3rem);
+}
+
+.fond-pied-titre {
+    margin: 0;
+    font-size: clamp(1.8rem, 3.6vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1;
+}
+
+.fond-pied-specs,
+.fond-pied-liens {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem clamp(1rem, 3vw, 2.5rem);
+    margin: 0;
+}
+
+/* Le libellé recule, la valeur porte. Même traitement dans les deux rangées
+   pour qu'elles se lisent comme un seul tableau. */
+.fond-pied-specs dt,
+.fond-pied-liens a span {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: rgba(var(--text-rgb), 0.45);
+}
+
+.fond-pied-specs dd {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.fond-pied-liens a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* Le soulignement n'apparaît qu'au survol, mais le lien reste identifiable
+   sans lui : il est dans une colonne libellée, sous un intitulé explicite. */
+.fond-pied-liens a:hover,
+.fond-pied-liens a:focus-visible { text-decoration: underline; text-underline-offset: 0.25em; }
+
+.fond-pied-signature {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding-top: clamp(1.5rem, 3vw, 2.5rem);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: rgba(var(--text-rgb), 0.45);
+}
+
+.fond-pied-signature img { height: 20px; width: auto; display: block; }
+
+@media (max-width: 900px) {
+    .fond-page .fond-pied {
+        left: var(--fond-marge);
+        right: 1.25rem;
+    }
+
+    .fond-pied-specs,
+    .fond-pied-liens { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .fond-pied-signature { justify-self: start; }
 }
 
 /* Comme .dots-bg, mais sur toute la hauteur : c'est le semis qui relie les

@@ -46,10 +46,6 @@
              data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
         <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80"
              data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
-        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80"
-             data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
-        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80"
-             data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
 
         <!-- HERO : dans le viewport, le portrait, la phrase et les quatre
              chiffres cles alignes en bas d ecran. Les chiffres sont ceux du CV,
@@ -94,8 +90,16 @@
                     </g>
                 </svg>
             </button>
-            <button type="button" class="fond-outil" data-fond-lang title="Changer la langue" aria-label="Changer la langue">
-                <span class="fond-outil-lang" aria-hidden="true">FR</span>
+            <!-- Meme structure que le bouton de langue du site : la fenetre
+                 de 24 px rogne le rail FR/EN, qui glisse d une ligne au
+                 survol pour montrer la langue vers laquelle on va. -->
+            <button type="button" class="fond-outil lang-btn no-select" data-fond-lang title="Changer la langue" aria-label="Changer la langue">
+                <span class="lang-window">
+                    <span class="lang-slider">
+                        <span>FR</span>
+                        <span>EN</span>
+                    </span>
+                </span>
             </button>
             <!-- Lucide « mail », geometrie et graisse d origine (2), pour tenir
                  le meme trait que les rayons du soleil juste a cote. -->
@@ -114,7 +118,6 @@
             <a href="#competences"><span>Compétences</span></a>
             <a href="#temoignages"><span>Avis</span></a>
             <a href="#perso"><span>Perso</span></a>
-            <a href="#recherche"><span>Recherche</span></a>
             <a href="#contact"><span>Contact</span></a>
         </nav>
 
@@ -225,8 +228,37 @@
         <h2 class="fond-titre" id="competences">Ce que je peux apporter.</h2>
         <h2 class="fond-titre" id="temoignages">Ce qu'en disent mes collègues et clients.</h2>
         <h2 class="fond-titre" id="perso">À côté du travail.</h2>
-        <h2 class="fond-titre" id="recherche">Ce que je recherche aujourd'hui.</h2>
-        <h2 class="fond-titre" id="contact">Parlons-en.</h2>
+
+        <!-- PIED DE PAGE : « ce que je recherche » et « parlons-en » ne font
+             plus qu'un bloc. Il garde ses marges sur les trois bords de la
+             page, et son fond est un semis dont la densité se concentre sur
+             deux coins opposés (voir data-fade dans page-effects.js). -->
+        <footer class="fond-pied" id="contact">
+            <div class="fond-pied-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22"
+                 data-spacing-y="20" data-stagger="off" data-radius="2.5"
+                 data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
+
+            <div class="fond-pied-contenu">
+                <h2 class="fond-pied-titre">Parlons-en.</h2>
+
+                <dl class="fond-pied-specs">
+                    <div><dt>Contrat</dt><dd>CDI</dd></div>
+                    <div><dt>R&ocirc;le</dt><dd>E-commerce / marketing digital</dd></div>
+                    <div><dt>Mobilit&eacute;</dt><dd>France, Belgique, Suisse, Luxembourg &middot; sur site ou remote</dd></div>
+                    <div><dt>Disponibilit&eacute;</dt><dd>Septembre 2026</dd></div>
+                </dl>
+
+                <div class="fond-pied-liens">
+                    <a href="mailto:pierregumilar@gmail.com"><span>E-mail</span>pierregumilar@gmail.com</a>
+                    <a href="tel:+33651611217"><span>T&eacute;l&eacute;phone</span>+33 6 51 61 12 17</a>
+                    <a href="https://www.linkedin.com/in/pierre-gumilar/" rel="noopener"><span>R&eacute;seau</span>LinkedIn</a>
+                    <a href="media/Pierre-Gumilar-CV.pdf" download><span>Document</span>CV PDF (1 page)</a>
+                </div>
+
+                <p class="fond-pied-signature">Con&ccedil;u par
+                    <img src="media/Gumi-small.png" alt="Gumi" width="56" height="56"></p>
+            </div>
+        </footer>
     </div>
     <script src="scripts/page-effects.js"></script>
     <script src="scripts/fond-titre.js"></script>

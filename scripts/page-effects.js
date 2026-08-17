@@ -19,6 +19,15 @@
             const spacingY = Number(container.dataset.spacingY || 18);
             const opacity = container.dataset.opacity || '0.04';
             const fixedRadius = container.dataset.radius ? Number(container.dataset.radius) : null;
+            // data-fade="diagonale" : la densité se concentre sur deux coins
+            // opposés, haut-gauche et bas-droite, et s'éteint sur les deux
+            // autres. Portée par l'opacité de chaque point, qui se multiplie
+            // à celle du groupe.
+            const fade = container.dataset.fade || '';
+            // Les fonds pleine largeur se calent sur la fenêtre ; un motif
+            // enfermé dans un bloc doit se caler sur ce bloc, sinon sa moitié
+            // droite est rognée et ses coins ne tombent pas où on croit.
+            const span = container.dataset.width === 'auto' ? container.offsetWidth : width;
             let svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor" opacity="' + opacity + '">';
 
             // Un semis clairsemé doit rester sur les rangées non décalées du
@@ -29,8 +38,8 @@
                 const isOdd = Math.round(y / spacingY) % 2 !== 0;
                 const offsetX = (stagger && isOdd) ? spacingX / 2 : 0;
 
-                for (let x = offsetX; x <= width + spacingX; x += spacingX) {
-                    const nx = Math.abs(x - width / 2) / (width / 2);
+                for (let x = offsetX; x <= span + spacingX; x += spacingX) {
+                    const nx = Math.abs(x - span / 2) / (span / 2);
                     // data-radius : un rayon constant, au lieu du rayon qui
                     // grossit vers les bords gauche et droit.
                     const baseRadius = fixedRadius !== null
@@ -38,7 +47,21 @@
                         : 3.0 + Math.pow(nx, 2.0) * 4.0;
 
                     if (baseRadius > 0.3) {
-                        svg += '<circle cx="' + x + '" cy="' + y + '" r="' + baseRadius.toFixed(2) + '" />';
+                        let attrs = '';
+                        if (fade === 'diagonale' && height > 0) {
+                            const u = x / span;
+                            const v = y / height;
+                            // Deux foyers, l'un dans chaque coin de la
+                            // diagonale ; on garde le plus proche des deux.
+                            const coin = Math.max(
+                                1 - Math.min(1, Math.hypot(u, v) / 0.85),
+                                1 - Math.min(1, Math.hypot(1 - u, 1 - v) / 0.85)
+                            );
+                            // Un plancher, pour que les deux autres coins
+                            // restent très faibles plutôt que vides.
+                            attrs = ' opacity="' + (0.12 + 0.88 * coin * coin).toFixed(3) + '"';
+                        }
+                        svg += '<circle cx="' + x + '" cy="' + y + '" r="' + baseRadius.toFixed(2) + '"' + attrs + ' />';
                     }
                 }
             }

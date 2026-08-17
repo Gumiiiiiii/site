@@ -49,28 +49,31 @@
         });
     }
 
-    // Langue. Attention : cette page d'essai n'a pas encore de version
-    // anglaise. Le bouton tient l'état partagé du site (clé site-lang, attribut
-    // lang) et affiche la langue en cours ; il ne traduit rien tant que le
-    // contenu n'a pas ses clés i18n.
+    // Langue. Le glissement FR/EN est entièrement dans shared.css : ce code ne
+    // fait que poser les deux classes dont il dépend. is-en dit quelle langue
+    // est en cours ; hover-locked fige le rail après un clic, sinon il
+    // repartirait aussitôt vers l'autre langue puisque le curseur est encore
+    // sur le bouton.
+    //
+    // Attention : cette page d'essai n'a pas encore de version anglaise. Le
+    // bouton tient l'état partagé du site et rien de plus.
     var langue = document.querySelector('[data-fond-lang]');
     if (langue) {
-        var etiquette = langue.querySelector('.fond-outil-lang');
-
-        function courante() {
+        var courante = function () {
             if (window.GumiI18n) return window.GumiI18n.get();
             try { return localStorage.getItem('site-lang') === 'en' ? 'en' : 'fr'; } catch (e) { return 'fr'; }
-        }
+        };
 
-        function afficher() {
+        var afficher = function () {
             var lang = courante();
-            if (etiquette) etiquette.textContent = lang.toUpperCase();
+            langue.classList.toggle('is-en', lang === 'en');
             langue.setAttribute('aria-label', lang === 'fr' ? 'Passer en anglais' : 'Passer en français');
-        }
+        };
 
         afficher();
 
         langue.addEventListener('click', function () {
+            langue.classList.add('hover-locked');
             if (window.GumiI18n) {
                 window.GumiI18n.toggle();
             } else {
@@ -79,6 +82,10 @@
                 racine.lang = suivante;
             }
             afficher();
+        });
+
+        langue.addEventListener('mouseleave', function () {
+            langue.classList.remove('hover-locked');
         });
     }
 })();

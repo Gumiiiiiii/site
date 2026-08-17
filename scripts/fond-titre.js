@@ -12,9 +12,16 @@
     var MARGE = 20;           // respiration de part et d'autre du titre
     var AIR_SECTION = 48;     // entre la rangée du titre et son contenu
     var AIR_APRES = 120;      // entre la fin d'un contenu et le titre suivant
+    var AIR_PIED = 200;       // entre le dernier contenu et le pied de page
+    // Sous le pied de page. Il en faut au moins 180 : c'est la hauteur du
+    // dégradé de points qui ferme la page (.dots-bg-bottom), et ses points
+    // sont bien plus gros que le semis du bloc — s'ils passaient dessous, les
+    // deux trames se mélangeraient.
+    var MARGE_BAS = 220;
 
     var titres = Array.prototype.slice.call(document.querySelectorAll('.fond-titre'));
     var lignes = Array.prototype.slice.call(document.querySelectorAll('.fond-ligne'));
+    var pied = document.querySelector('.fond-pied');
     var contenu = document.querySelector('.site-content');
     if (!titres.length || !contenu) return;
 
@@ -90,10 +97,20 @@
             );
         });
 
-        // La page se dimensionne sur son contenu : de quoi loger la dernière
-        // section, plus un écran pour le dégradé du bas. Changer la hauteur
-        // oblige à redessiner le semis, qui la suit (data-height="auto").
-        var voulue = bas + window.innerHeight;
+        // Le pied de page ferme la colonne : il se pose après le dernier
+        // contenu, et c'est lui qui donne alors sa hauteur à la page.
+        var voulue;
+        if (pied) {
+            var hautPied = rangeeSous(bas + AIR_PIED);
+            pied.style.top = hautPied + 'px';
+            voulue = hautPied + pied.offsetHeight + MARGE_BAS;
+        } else {
+            // Sans pied, un écran de rab pour le dégradé du bas.
+            voulue = bas + window.innerHeight;
+        }
+
+        // La page se dimensionne sur son contenu. Changer la hauteur oblige à
+        // redessiner le semis, qui la suit (data-height="auto").
         // parseInt('') vaut NaN, et toute comparaison avec NaN est fausse :
         // sans le repli à 0, la hauteur n'était jamais posée au premier tour.
         var actuelle = parseInt(contenu.style.minHeight || '0', 10);
@@ -121,6 +138,8 @@
         sections.forEach(function (section) {
             if (section) observateur.observe(section);
         });
+        // Le pied change de hauteur quand ses colonnes se replient.
+        if (pied) observateur.observe(pied);
     }
 
     // Le reste de la page peut avoir besoin de forcer un replacement.
