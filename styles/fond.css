@@ -94,10 +94,15 @@
     font-weight: 700;
 }
 
-/* Les chiffres, alignés sur le bas de l'écran. */
+/* Les chiffres, alignés sur le bas de l'écran.
+
+   Les colonnes se dimensionnent sur leur contenu, et non en quatre parts
+   égales : à parts égales, « Réservations attribuées à Google Ads » passait à
+   la ligne et son chiffre remontait, seul, au-dessus des trois autres. */
 .fond-hero-chiffres {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(4, auto);
+    justify-content: space-between;
     gap: clamp(1rem, 3vw, 2.5rem);
     align-items: end;
 }
@@ -122,6 +127,10 @@
     font-size: 0.9rem;
     font-weight: 600;
     line-height: 1.35;
+    /* Filet de sécurité : si la largeur vient à manquer et qu'un libellé
+       passe malgré tout sur deux lignes, ils la réservent tous et les quatre
+       chiffres restent alignés. */
+    min-height: 2.7em;
 }
 
 .fond-kpi small {
@@ -185,7 +194,13 @@
 }
 
 .fond-rail a:hover { opacity: 0.65; }
-.fond-rail a[aria-current="true"] { opacity: 1; }
+
+/* La page est en noir et blanc, et la couleur d'accent n'y sert qu'à une
+   chose : dire ce qui est actif ou ce qu'on est en train de toucher. C'est sa
+   seule règle sur cette page — d'où sa rareté.
+   --accent-ink et non --accent : sur du texte de cette taille, le violet clair
+   ne passe pas le rapport de 4,5:1. */
+.fond-rail a[aria-current="true"] { opacity: 1; color: var(--accent-ink); }
 
 /* Mobile : plus que les points. Le mot reste lisible par les lecteurs
    d'écran, la zone tactile déborde largement du point. */
@@ -412,7 +427,7 @@ html { scroll-behavior: smooth; }
 
 .fond-projet-icone svg { width: 20px; height: 20px; }
 .fond-projet-tete:hover .fond-projet-icone { opacity: 1; }
-.fond-projet[data-ouvert] .fond-projet-icone { opacity: 1; }
+.fond-projet[data-ouvert] .fond-projet-icone { opacity: 1; color: var(--accent); }
 
 /* Ouvrir vers une hauteur inconnue : la seule façon de l'animer est de faire
    passer une piste de grille de 0fr à 1fr. L'enfant doit donc porter le
@@ -740,7 +755,12 @@ html { scroll-behavior: smooth; }
 }
 
 .fond-avis-fleche:hover,
-.fond-avis-fleche:focus-visible { opacity: 1; background: rgba(var(--text-rgb), 0.05); }
+.fond-avis-fleche:focus-visible {
+    opacity: 1;
+    color: var(--accent-ink);
+    border-color: rgba(var(--text-rgb), 0.28);
+    background: rgba(var(--text-rgb), 0.05);
+}
 .fond-avis-fleche svg { width: 18px; height: 18px; }
 
 /* La carte qui dépasse est tranchée net par le bord du cadre. On la laisse
@@ -950,6 +970,7 @@ html { scroll-behavior: smooth; }
 
 .fond-pied-liens a:hover .fond-lien-icone,
 .fond-pied-liens a:focus-visible .fond-lien-icone {
+    color: var(--accent-ink);
     width: 16px;
     margin-right: 0.4rem;
     opacity: 1;
@@ -991,10 +1012,13 @@ html { scroll-behavior: smooth; }
 /* La signature vit dans le coin de la fenêtre, pas dans le bloc, et ne se
    montre qu'une fois le bas de la page atteint — fond-rail.js pose la classe.
    Elle reste discrète : c'est un crédit, pas une information. */
+/* Meme hauteur de boite et meme bas que les outils du coin oppose : c est
+   ce qui met les deux sur le meme axe. */
 .fond-signature {
     position: fixed;
     right: var(--fond-bord);
-    bottom: 1.5rem;
+    bottom: 1.25rem;
+    min-height: 44px;
     z-index: 20;
     display: flex;
     align-items: center;

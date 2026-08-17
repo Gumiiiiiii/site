@@ -62,6 +62,20 @@
         window.requestAnimationFrame(marquer);
     }
 
+    // Les ancres passent par Lenis quand il est là. Sans cela, deux moteurs de
+    // défilement se disputeraient le même geste : celui du navigateur
+    // (scroll-behavior) et celui de Lenis, et le saut arriverait en deux
+    // temps. Le décalage reprend le scroll-margin-top des titres.
+    liens.forEach(function (a, i) {
+        a.addEventListener('click', function (e) {
+            var cible = cibles[i];
+            if (!cible || !window.gumiLenis) return;
+            e.preventDefault();
+            window.gumiLenis.scrollTo(cible, { offset: -window.innerHeight * 0.35 });
+            history.replaceState(null, '', a.getAttribute('href'));
+        });
+    });
+
     marquer();
     window.addEventListener('scroll', planifier, { passive: true });
     window.addEventListener('resize', planifier);

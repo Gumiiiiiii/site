@@ -94,14 +94,17 @@
     // Respect reduced-motion: keep native scrolling, skip the smooth-scroll layer.
     if (!window.Lenis || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const lenis = new window.Lenis({
+    // Une page peut demander un réglage plus discret en posant
+    // window.gumiLenisOptions avant ce script. Les valeurs du site restent la
+    // base : une page ne surcharge que ce qu'elle veut changer.
+    const lenis = new window.Lenis(Object.assign({
         duration: 1.1,
         easing: function (t) {
             return Math.min(1, 1.001 - Math.pow(2, -10 * t));
         },
         smoothWheel: true,
         touchMultiplier: 1.5
-    });
+    }, window.gumiLenisOptions || {}));
 
     function raf(time) {
         lenis.raf(time);
