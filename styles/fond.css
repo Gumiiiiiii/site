@@ -44,7 +44,10 @@
    aucune position absolue, donc rien à recalculer au redimensionnement. */
 .fond-hero-haut {
     display: grid;
-    align-content: start;
+    /* Le bloc est centré dans la hauteur qui lui reste, entre le haut de
+       l'écran et les chiffres : posé en haut, il laissait un vide de près de
+       300 px sous la phrase. */
+    align-content: center;
 }
 
 .fond-hero-photo {
@@ -625,6 +628,89 @@ html { scroll-behavior: smooth; }
     .fond-boite-cat { padding-top: 0; }
 }
 
+/* === PASSIONS =============================================================
+   Deux cartes qui s'emboîtent. Le bord droit de la première et le bord gauche
+   de la seconde suivent exactement la même diagonale : deux clip-path miroir,
+   et un chevauchement de --biais qui les fait coïncider au pixel. La marge
+   négative est indispensable — sans elle les deux droites seraient parallèles
+   mais séparées. */
+.fond-passions {
+    --biais: clamp(2rem, 5vw, 4.5rem);
+    display: grid;
+    /* La seconde carte est ramenée de --biais vers la gauche : sans cette
+       correction sur la première colonne, elle finirait d'autant plus large
+       que l'autre. */
+    grid-template-columns: calc(50% + var(--biais) / 2) minmax(0, 1fr);
+    align-items: stretch;
+}
+
+.fond-passion {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    margin: 0;
+    border-radius: 1.25rem;
+    background-color: var(--bg);
+    background-image: linear-gradient(rgba(var(--text-rgb), 0.035), rgba(var(--text-rgb), 0.035));
+    overflow: hidden;
+    clip-path: polygon(0 0, 100% 0, calc(100% - var(--biais)) 100%, 0 100%);
+}
+
+.fond-passion--droite {
+    margin-left: calc(var(--biais) * -1);
+    clip-path: polygon(var(--biais) 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Hauteur fixe et non pas ratio : les deux cartes n'ont pas exactement la
+   même largeur, un ratio ferait donc démarrer les deux textes à des hauteurs
+   différentes. */
+.fond-passion img {
+    display: block;
+    width: 100%;
+    height: clamp(13rem, 24vw, 19rem);
+    object-fit: cover;
+}
+
+/* Le texte se tient à l'écart de la diagonale, sinon la dernière ligne
+   passerait derrière la coupe. */
+.fond-passion-texte {
+    padding: clamp(1.1rem, 2.5vw, 1.6rem);
+    padding-right: calc(var(--biais) + 1rem);
+}
+
+.fond-passion--droite .fond-passion-texte {
+    padding-right: clamp(1.1rem, 2.5vw, 1.6rem);
+    padding-left: calc(var(--biais) + 1rem);
+}
+
+.fond-passion-texte h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.fond-passion-texte p {
+    margin: 0;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    color: rgba(var(--text-rgb), 0.7);
+}
+
+/* Sous 760 px la diagonale n'a plus de place : les deux cartes se rangent
+   l'une sous l'autre, sans coupe. */
+@media (max-width: 760px) {
+    .fond-passions { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+
+    .fond-passion,
+    .fond-passion--droite {
+        margin-left: 0;
+        clip-path: none;
+    }
+
+    .fond-passion-texte,
+    .fond-passion--droite .fond-passion-texte { padding: 1.1rem; }
+}
+
 /* === AVIS =================================================================
    Un carrousel : une carte par avis, deux flèches en haut à droite. La carte
    suivante dépasse volontairement du cadre — c'est le seul indice qu'il y en
@@ -657,7 +743,14 @@ html { scroll-behavior: smooth; }
 .fond-avis-fleche:focus-visible { opacity: 1; background: rgba(var(--text-rgb), 0.05); }
 .fond-avis-fleche svg { width: 18px; height: 18px; }
 
-.fond-avis-cadre { overflow: hidden; }
+/* La carte qui dépasse est tranchée net par le bord du cadre. On la laisse
+   plutôt se dissoudre dans la page : le fondu dit « ça continue » là où la
+   coupe disait « c'est cassé ». */
+.fond-avis-cadre {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 5.5rem), transparent 100%);
+    mask-image: linear-gradient(to right, #000 calc(100% - 5.5rem), transparent 100%);
+}
 
 .fond-avis-piste {
     display: flex;
@@ -791,6 +884,10 @@ html { scroll-behavior: smooth; }
 
 .fond-bloc-semis svg { display: block; }
 
+/* Le même contenant autour des quatre champs d'expertise, mais sans semis :
+   le motif diagonal appartient au bloc de contact. */
+.fond-bloc--champs { padding: clamp(1.5rem, 3vw, 2.25rem); }
+
 .fond-pied-specs,
 .fond-pied-liens { position: relative; z-index: 1; }
 
@@ -822,6 +919,7 @@ html { scroll-behavior: smooth; }
 }
 
 .fond-pied-liens a {
+    display: block;
     color: var(--text);
     text-decoration: none;
     font-size: 0.95rem;
@@ -829,10 +927,66 @@ html { scroll-behavior: smooth; }
     line-height: 1.4;
 }
 
-/* Le soulignement n'apparaît qu'au survol, mais le lien reste identifiable
-   sans lui : il est dans une colonne libellée, sous un intitulé explicite. */
-.fond-pied-liens a:hover,
-.fond-pied-liens a:focus-visible { text-decoration: underline; text-underline-offset: 0.25em; }
+/* Au survol, l'icône se déplie à gauche et pousse la valeur. Elle est repliée
+   par une largeur nulle plutôt que masquée : c'est ce qui rend le décalage
+   du texte continu au lieu de brutal. */
+.fond-lien-valeur {
+    display: inline-flex;
+    align-items: center;
+}
+
+.fond-lien-icone {
+    width: 0;
+    height: 16px;
+    flex-shrink: 0;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                margin-right 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.2s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fond-lien-icone--plein { fill: currentColor; }
+
+.fond-pied-liens a:hover .fond-lien-icone,
+.fond-pied-liens a:focus-visible .fond-lien-icone {
+    width: 16px;
+    margin-right: 0.4rem;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Seule la valeur se souligne — le libellé de la colonne n'est pas le lien. */
+.fond-pied-liens a:hover b,
+.fond-pied-liens a:focus-visible b {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+}
+
+.fond-pied-liens b { font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+    .fond-lien-icone { transition: none; }
+}
+
+/* Les drapeaux tiennent la place des noms de pays. */
+.fond-drapeaux { display: inline-flex; gap: 0.35rem; vertical-align: -0.15em; }
+
+.fond-drapeau {
+    width: 21px;
+    height: 14px;
+    border-radius: 2px;
+    display: block;
+    box-shadow: 0 0 0 1px rgba(var(--text-rgb), 0.12) inset;
+}
+
+.fond-mobilite-note {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(var(--text-rgb), 0.6);
+}
 
 /* La signature vit dans le coin de la fenêtre, pas dans le bloc, et ne se
    montre qu'une fois le bas de la page atteint — fond-rail.js pose la classe.

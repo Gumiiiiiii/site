@@ -37,17 +37,17 @@
              fond-titre.js la place sur la rangée choisie. Elle est uniforme sur
              toute la largeur : tous les points de la ligne sont assombris. -->
         <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80"
-             data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
+             data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
         <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80"
-             data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
+             data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
         <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80"
-             data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
+             data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
         <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80"
-             data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
+             data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
         <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80"
-             data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
+             data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
         <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80"
-             data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
+             data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
 
         <!-- HERO : dans le viewport, le portrait, la phrase et les quatre
              chiffres cles alignes en bas d ecran. Les chiffres sont ceux du CV,
@@ -126,7 +126,7 @@
 
         <!-- Les titres de sections de pierre.gumi.ch/cv, dans l'ordre de la
              page. Une rangée assombrie par titre, ci-dessus. -->
-        <h2 class="fond-titre" id="realisations">Quelques projets et leurs résultats.</h2>
+        <h2 class="fond-titre" id="realisations">Quelques projets et leurs résultats</h2>
         <!-- Une ligne par projet : le nom, la phrase qui le résume, et une
              flèche qui bascule vers le bas quand le contenu s'ouvre. Le corps
              met les médias à gauche et le texte à droite.
@@ -232,7 +232,7 @@
             </div>
         </div>
 
-        <h2 class="fond-titre" id="parcours">Mon parcours, en bref.</h2>
+        <h2 class="fond-titre" id="parcours">Mon parcours, en bref</h2>
         <!-- Trois groupes, une ligne par entrée : la date à gauche, le reste à
              droite. Contenu repris tel quel du CV. -->
         <div class="fond-section fond-parcours">
@@ -256,7 +256,7 @@
             </div>
         </div>
 
-        <h2 class="fond-titre" id="competences">Ce que je peux apporter.</h2>
+        <h2 class="fond-titre" id="competences">Ce que je peux apporter</h2>
         <!-- Quatre champs d'expertise, puis la boîte à outils. Les logos sont
              des tracés simple-icons (CC0), inlinés ; les outils dont les
              ayants droit ont retiré la marque n'en ont pas. -->
@@ -264,6 +264,7 @@
             <p class="fond-competences-intro">Aujourd'hui, je me sens particuli&egrave;rement &agrave; l'aise
                 dans les 4 champs d'expertise ci-dessous&nbsp;:</p>
 
+            <div class="fond-bloc fond-bloc--champs">
             <div class="fond-champs">
                 <div class="fond-champ">
                     <h3>E-commerce et donn&eacute;e produit</h3>
@@ -281,6 +282,7 @@
                     <h3>Produit digital et analytics</h3>
                     <p>Concevoir des parcours et des interfaces, lire les usages, construire les tableaux de bord utiles et am&eacute;liorer l'exp&eacute;rience &agrave; partir des donn&eacute;es.</p>
                 </div>
+            </div>
             </div>
 
             <p class="fond-boite-intro">Mes exp&eacute;riences professionnelles et personnelles m'am&egrave;nent
@@ -341,7 +343,7 @@
                 </div>
             </div>
         </div>
-        <h2 class="fond-titre" id="temoignages">Ce qu'en disent mes collègues et clients.</h2>
+        <h2 class="fond-titre" id="temoignages">Ce qu'en disent mes collègues et clients</h2>
         <!-- Carrousel : une carte par avis, deux flèches en haut à droite, et
              un défilement sans fin obtenu par duplication du jeu de cartes
              (voir scripts/fond-avis.js). La carte suivante dépasse du cadre :
@@ -412,14 +414,43 @@
                 </div>
             </div>
         </div>
-        <h2 class="fond-titre" id="perso">À côté du travail.</h2>
+        <h2 class="fond-titre" id="perso">Mes deux passions</h2>
+        <!-- Deux cartes qui s'emboîtent : le bord droit de la première et le
+             bord gauche de la seconde suivent la même diagonale, obtenue par
+             deux clip-path miroir et un chevauchement de --biais. C'est le
+             lien entre les deux passions, dit par la forme.
+
+             La photo d'endurance est un placeholder explicite. -->
+        <div class="fond-section fond-passions">
+            <article class="fond-passion">
+                <img src="media/pierre-shoot-dubai.webp"
+                     alt="Photo produit que j'ai r&eacute;alis&eacute;e pour Lindt : coffret Dubai Chocolate"
+                     width="420" height="630" loading="lazy">
+                <div class="fond-passion-texte">
+                    <h3>La photographie</h3>
+                    <p>Le passe-temps qui me permet de m'&eacute;vader cr&eacute;ativement et l'origine
+                        de mon app&eacute;tence pour la direction artistique et l'image produit.</p>
+                </div>
+            </article>
+
+            <article class="fond-passion fond-passion--droite">
+                <img src="media/placeholder-endurance.webp"
+                     alt="Placeholder : photo de course &agrave; venir"
+                     width="1200" height="900" loading="lazy">
+                <div class="fond-passion-texte">
+                    <h3>Les sports d'endurance</h3>
+                    <p>Amateur de grands espaces et d'exploration, j'adore d&eacute;couvrir de
+                        nouveaux endroits en courant et en me d&eacute;passant.</p>
+                </div>
+            </article>
+        </div>
 
         <!-- CONTACT : le titre reste sur sa rangée de points, hors du bloc.
              Le bloc, lui, réunit « ce que je recherche » et « parlons-en » :
              un fond légèrement plus dense que le papier, et par-dessus un
              semis dont la densité se concentre sur deux coins opposés (voir
              data-fade dans page-effects.js). -->
-        <h2 class="fond-titre" id="contact">Parlons-en.</h2>
+        <h2 class="fond-titre" id="contact">Parlons-en</h2>
         <div class="fond-section fond-contact">
             <p class="fond-contact-intro">Si mon profil vous int&eacute;resse ou si vous avez une question,
                 n'h&eacute;sitez pas &agrave; me contacter&nbsp;! :)</p>
@@ -431,7 +462,20 @@
                 <dl class="fond-pied-specs">
                     <div><dt>Contrat</dt><dd>CDI</dd></div>
                     <div><dt>R&ocirc;le</dt><dd>E-commerce / marketing digital</dd></div>
-                    <div><dt>Mobilit&eacute;</dt><dd>France, Belgique, Suisse, Luxembourg &middot; sur site ou remote</dd></div>
+                    <!-- Les drapeaux sont dessines ici plutot qu ecrits en
+                         emoji : Windows n a pas de glyphe de drapeau et
+                         afficherait « FR BE CH LU ». Chacun garde le nom du
+                         pays dans son <title>, seule source pour un lecteur
+                         d ecran. -->
+                    <div><dt>Mobilit&eacute;</dt><dd>
+                        <span class="fond-drapeaux">
+                            <svg class="fond-drapeau" viewBox="0 0 30 20" role="img"><title>France</title><rect width="10" height="20" fill="#002395"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ED2939"/></svg>
+                            <svg class="fond-drapeau" viewBox="0 0 30 20" role="img"><title>Belgique</title><rect width="10" height="20" fill="#000"/><rect x="10" width="10" height="20" fill="#FDDA24"/><rect x="20" width="10" height="20" fill="#EF3340"/></svg>
+                            <svg class="fond-drapeau" viewBox="0 0 30 20" role="img"><title>Suisse</title><rect width="30" height="20" fill="#FF0000"/><rect x="13" y="4.5" width="4" height="11" fill="#fff"/><rect x="9.5" y="8" width="11" height="4" fill="#fff"/></svg>
+                            <svg class="fond-drapeau" viewBox="0 0 30 20" role="img"><title>Luxembourg</title><rect width="30" height="6.67" fill="#EA141C"/><rect y="6.67" width="30" height="6.66" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#00A1DE"/></svg>
+                        </span>
+                        <span class="fond-mobilite-note">sur site ou remote</span>
+                    </dd></div>
                     <div><dt>Disponibilit&eacute;</dt><dd>Septembre 2026</dd></div>
                 </dl>
             </div>
@@ -440,11 +484,41 @@
                 <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22"
                      data-spacing-y="20" data-stagger="off" data-radius="2.5"
                      data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
+                <!-- Au survol, l'icône se déplie à gauche de la valeur et
+                     pousse le texte ; seule la valeur se souligne, pas son
+                     libellé. -->
                 <div class="fond-pied-liens">
-                    <a href="mailto:pierregumilar@gmail.com"><span>E-mail</span>pierregumilar@gmail.com</a>
-                    <a href="tel:+33651611217"><span>T&eacute;l&eacute;phone</span>+33 6 51 61 12 17</a>
-                    <a href="https://www.linkedin.com/in/pierre-gumilar/" rel="noopener"><span>R&eacute;seau</span>LinkedIn</a>
-                    <a href="media/Pierre-Gumilar-CV.pdf" download><span>Document</span>CV PDF (1 page)</a>
+                    <a href="mailto:pierregumilar@gmail.com">
+                        <span class="fond-lien-label">E-mail</span>
+                        <span class="fond-lien-valeur">
+                            <svg class="fond-lien-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                            <b>pierregumilar@gmail.com</b>
+                        </span>
+                    </a>
+                    <a href="tel:+33651611217">
+                        <span class="fond-lien-label">T&eacute;l&eacute;phone</span>
+                        <span class="fond-lien-valeur">
+                            <svg class="fond-lien-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            <b>+33 6 51 61 12 17</b>
+                        </span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/pierre-gumilar/" rel="noopener">
+                        <span class="fond-lien-label">R&eacute;seau</span>
+                        <span class="fond-lien-valeur">
+                            <svg class="fond-lien-icone fond-lien-icone--plein" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+                            <b>LinkedIn</b>
+                        </span>
+                    </a>
+                    <a href="media/Pierre-Gumilar-CV.pdf" download>
+                        <span class="fond-lien-label">Document</span>
+                        <span class="fond-lien-valeur">
+                            <svg class="fond-lien-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M7 10l5 5 5-5"></path><path d="M12 15V3"></path></svg>
+                            <b>CV PDF (1 page)</b>
+                        </span>
+                    </a>
                 </div>
             </div>
         </div>

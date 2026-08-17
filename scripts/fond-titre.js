@@ -10,6 +10,10 @@
     var PAS_Y = 72;           // pas vertical du semis (voir fond.html)
     var ECART_RANGEES = 4;    // rangées minimales entre deux titres
     var MARGE = 20;           // respiration de part et d'autre du titre
+    // Part de la rangée qui subsiste aux bords de l'écran. La rangée est
+    // maintenant tracée à 0,18 d'opacité ; 0,46 de 0,18 fait 0,083, la valeur
+    // uniforme qu'elle avait avant qu'on la fasse varier.
+    var PLANCHER = 0.46;
     var AIR_SECTION = 48;     // entre la rangée du titre et son contenu
     var AIR_APRES = 120;      // entre la fin d'un contenu et le titre suivant
     // Sous le pied de page. Il en faut au moins 180 : c'est la hauteur du
@@ -71,13 +75,19 @@
                 // La rangée s'interrompt sur toute la largeur du titre : les
                 // points sont centrés sur la ligne de base, donc ceux que le
                 // texte recouvre seraient coupés en deux par les lettres.
+                //
+                // Et elle s'éclaircit en s'éloignant du titre. La rangée est
+                // dessinée à pleine force (voir data-opacity dans fond.html) ;
+                // c'est ce masque qui la ramène, aux deux extrémités de
+                // l'écran, à PLANCHER de cette force — soit exactement la
+                // teinte qu'avait la rangée uniforme d'avant.
                 var r = titre.getBoundingClientRect();
                 var debut = Math.round(r.left) - MARGE;
                 var fin = Math.round(r.right) + MARGE;
                 var masque = 'linear-gradient(to right,' +
-                    ' #000 0, #000 ' + debut + 'px,' +
+                    ' rgba(0,0,0,' + PLANCHER + ') 0, #000 ' + debut + 'px,' +
                     ' transparent ' + debut + 'px, transparent ' + fin + 'px,' +
-                    ' #000 ' + fin + 'px, #000 100%)';
+                    ' #000 ' + fin + 'px, rgba(0,0,0,' + PLANCHER + ') 100%)';
                 ligne.style.webkitMaskImage = masque;
                 ligne.style.maskImage = masque;
             }
