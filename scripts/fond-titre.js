@@ -20,7 +20,9 @@
 
     var titres = Array.prototype.slice.call(document.querySelectorAll('.fond-titre'));
     var lignes = Array.prototype.slice.call(document.querySelectorAll('.fond-ligne'));
-    var pied = document.querySelector('.fond-pied');
+    // La section qui ferme la page : sa présence remplace l'écran de rab par
+    // une simple marge basse.
+    var pied = document.querySelector('.fond-contact');
     var contenu = document.querySelector('.site-content');
     if (!titres.length || !contenu) return;
 
