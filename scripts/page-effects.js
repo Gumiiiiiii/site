@@ -18,6 +18,7 @@
             const spacingX = Number(container.dataset.spacingX || 20);
             const spacingY = Number(container.dataset.spacingY || 18);
             const opacity = container.dataset.opacity || '0.04';
+            const fixedRadius = container.dataset.radius ? Number(container.dataset.radius) : null;
             let svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor" opacity="' + opacity + '">';
 
             // Un semis clairsemé doit rester sur les rangées non décalées du
@@ -30,7 +31,11 @@
 
                 for (let x = offsetX; x <= width + spacingX; x += spacingX) {
                     const nx = Math.abs(x - width / 2) / (width / 2);
-                    const baseRadius = 3.0 + Math.pow(nx, 2.0) * 4.0;
+                    // data-radius : un rayon constant, au lieu du rayon qui
+                    // grossit vers les bords gauche et droit.
+                    const baseRadius = fixedRadius !== null
+                        ? fixedRadius
+                        : 3.0 + Math.pow(nx, 2.0) * 4.0;
 
                     if (baseRadius > 0.3) {
                         svg += '<circle cx="' + x + '" cy="' + y + '" r="' + baseRadius.toFixed(2) + '" />';

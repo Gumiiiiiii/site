@@ -17,12 +17,13 @@
          même motif que sur gumi.ch. Le semis du milieu, lui, est un simple
          fond CSS (voir styles/fond.css). -->
     <div class="site-content">
-        <!-- Le semis : même dessin, même rayon croissant vers les bords
-             gauche et droit, simplement échantillonné un point sur quatre
-             (80 = 4x20, 72 = 4x18). Il tombe donc pile sur la trame des
-             dégradés, et sur leurs rangées non décalées. -->
+        <!-- Le semis : même trame que les dégradés, échantillonnée un point
+             sur quatre (80 = 4x20, 72 = 4x18), sur leurs rangées non
+             décalées. Rayon constant et petit, et la même opacité que les
+             dégradés pour que l'encre soit identique. -->
         <div class="fond-semis dynamic-dots" data-height="auto" data-spacing-x="80"
-             data-spacing-y="72" data-stagger="off" data-opacity="0.05" aria-hidden="true"></div>
+             data-spacing-y="72" data-stagger="off" data-radius="1.6"
+             data-opacity="0.04" aria-hidden="true"></div>
         <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
         <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" aria-hidden="true"></div>
     </div>
