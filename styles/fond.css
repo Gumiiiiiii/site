@@ -1,36 +1,25 @@
 /* Page d'essai du fond pointillé. Rien d'autre que la matière : pas de
    navbar, pas de contenu, pas de pied de page.
 
-   Les points ne peuvent pas être un background CSS répété : leur
-   espacement change le long de la page, alors qu'une répétition impose
-   une période constante. Ils sont donc dessinés en SVG par
-   scripts/fond-dots.js, qui porte tous les réglages. */
+   Les deux dégradés sont ceux du site (.dots-bg, dessinés par
+   page-effects.js) : même grille 20x18 en quinconce, même rayon qui
+   grossit vers les bords gauche et droit, même fondu vers le bas. Rien
+   n'est réécrit ici.
+
+   Ce fichier ne fait que deux choses : donner de la hauteur à la page, et
+   poser entre les deux dégradés le semis discret de 72 px. */
 
 .fond-page .site-content {
-    /* Le grain cream-paper est retiré : les points sont la seule matière. */
-    background-image: none;
+    /* Le grain cream-paper laisse la place aux points : le semis du milieu
+       est la seule matière de fond, les dégradés se posent par-dessus. */
+    background-image: radial-gradient(circle, rgba(94, 74, 60, 0.16) 1.6px, transparent 1.7px);
+    background-size: 72px 72px;
     /* Trois écrans : dégradé du haut, semis, dégradé du bas. */
     min-height: 300vh;
     padding: 0;
 }
 
-/* Encre opaque : c'est le réglage « opacite » de fond-dots.js qui règle la
-   discrétion des points, sinon les deux transparences se multiplient et la
-   trame disparaît. */
-.fond-page .fond-dots {
-    position: absolute;
-    inset: 0;
-    color: #5E4A3C;
-    pointer-events: none;
-}
-
-.fond-page .fond-dots svg {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
-
-/* Sombre : la même trame, en clair, pour rester lisible sur le fond foncé. */
-:root[data-theme="dark"] .fond-page .fond-dots {
-    color: #FFFFFF;
+/* Sombre : le semis passe en clair pour rester lisible. */
+:root[data-theme="dark"] .fond-page .site-content {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.14) 1.6px, transparent 1.7px);
 }

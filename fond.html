@@ -5,17 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>Fond pointillé | Gumi.</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="styles/shared.css">
     <link rel="stylesheet" href="styles/fond.css">
 </head>
 <body class="shell-page fond-page">
-    <!-- Page d'essai : rien d'autre que le fond. Trois écrans de haut, pour
-         que le dégradé du haut, le semis du milieu et le dégradé du bas
-         soient visibles séparément. -->
+    <!-- Page d'essai : rien que le fond. Trois écrans de haut, pour que le
+         dégradé du haut, le semis et le dégradé du bas se lisent séparément.
+
+         Les deux dégradés ne sont pas réécrits ici : ce sont les .dots-bg
+         du site, dessinés par scripts/page-effects.js, donc exactement le
+         même motif que sur gumi.ch. Le semis du milieu, lui, est un simple
+         fond CSS (voir styles/fond.css). -->
     <div class="site-content">
-        <div class="fond-dots" aria-hidden="true"></div>
+        <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+        <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" aria-hidden="true"></div>
     </div>
-    <script src="scripts/fond-dots.js"></script>
+    <script src="scripts/page-effects.js"></script>
 </body>
 </html>
