@@ -40,8 +40,11 @@
     font-size: 0.82rem;
     font-weight: 700;
     letter-spacing: 0.01em;
-    opacity: 0.3;
-    transition: opacity 0.2s ease;
+    /* L'entrée s'efface à mesure qu'elle s'éloigne de la section courante.
+       --eloignement est posé par fond-rail.js ; le plancher évite qu'une
+       entrée lointaine disparaisse tout à fait. */
+    opacity: max(0.07, calc(0.34 - (var(--eloignement, 1) - 1) * 0.07));
+    transition: opacity 0.25s ease;
 }
 
 .fond-rail a:hover { opacity: 0.65; }
@@ -54,7 +57,7 @@
 
     .fond-rail a {
         padding: 9px 14px;
-        opacity: 0.25;
+        opacity: max(0.06, calc(0.28 - (var(--eloignement, 1) - 1) * 0.06));
     }
 
     .fond-rail a::before {

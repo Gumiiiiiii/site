@@ -31,6 +31,10 @@
         liens.forEach(function (a, i) {
             if (i === actif) a.setAttribute('aria-current', 'true');
             else a.removeAttribute('aria-current');
+            // Éloignement à la section courante : c'est la feuille de style
+            // qui en tire l'opacité, pour que le survol et l'état courant
+            // puissent encore la reprendre.
+            a.style.setProperty('--eloignement', Math.abs(i - actif));
         });
     }
 
