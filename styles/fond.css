@@ -16,12 +16,26 @@
     padding: 0;
 }
 
-/* Comme .dots-bg, mais sur toute la hauteur et sans fondu : c'est le
-   semis qui relie les deux dégradés. */
+/* Comme .dots-bg, mais sur toute la hauteur : c'est le semis qui relie les
+   deux dégradés.
+
+   Il ne commence qu'une fois le dégradé éteint. Sans ça, un point sur
+   quatre du dégradé recevait aussi un point du semis, au même endroit :
+   les deux opacités de 0,04 se cumulaient à près de 0,08 et ces
+   points-là ressortaient plus foncés que leurs voisins. Les deux couches
+   se passent maintenant le relais au lieu de se superposer — le fondu
+   du semis est l'exact inverse de celui des dégradés (250 px en haut,
+   180 px en bas, les hauteurs déclarées dans fond.html). */
 .fond-page .fond-semis {
     position: absolute;
     inset: 0;
     z-index: -1;
     color: var(--text);
     pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom,
+        transparent 0, #000 250px,
+        #000 calc(100% - 180px), transparent 100%);
+    mask-image: linear-gradient(to bottom,
+        transparent 0, #000 250px,
+        #000 calc(100% - 180px), transparent 100%);
 }
