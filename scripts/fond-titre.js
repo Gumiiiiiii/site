@@ -29,6 +29,22 @@
         titre.removeChild(repere);
 
         titre.style.top = (cible - ecart) + 'px';
+
+        // La rangée s'interrompt sur toute la largeur du titre. Les points
+        // sont centrés sur la ligne de base : ceux que le texte recouvre
+        // seraient coupés en deux par les lettres, et une moitié de point
+        // qui dépasse d'un jambage se lit comme une scorie. La ligne est
+        // donc percée d'un trou, avec une marge de respiration.
+        var MARGE = 20;
+        var r = titre.getBoundingClientRect();
+        var debut = Math.round(r.left) - MARGE;
+        var fin = Math.round(r.right) + MARGE;
+        var masque = 'linear-gradient(to right,' +
+            ' #000 0, #000 ' + debut + 'px,' +
+            ' transparent ' + debut + 'px, transparent ' + fin + 'px,' +
+            ' #000 ' + fin + 'px, #000 100%)';
+        ligne.style.webkitMaskImage = masque;
+        ligne.style.maskImage = masque;
     }
 
     // Les polices changent les métriques une fois chargées : on replace le
