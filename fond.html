@@ -26,7 +26,18 @@
              data-opacity="0.04" aria-hidden="true"></div>
         <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
         <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" aria-hidden="true"></div>
+
+        <!-- La rangée assombrie : une seule ligne de points (data-height="0"),
+             sur la même trame que le semis. Son opacité de 0,083 s'ajoute aux
+             0,04 du semis déjà présent dessous, ce qui donne 0,12 à l'écran.
+             fond-titre.js la place sur la rangée choisie et lui donne son
+             dégradé horizontal. -->
+        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80"
+             data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
+
+        <h1 class="fond-titre">Titre d'exemple</h1>
     </div>
     <script src="scripts/page-effects.js"></script>
+    <script src="scripts/fond-titre.js"></script>
 </body>
 </html>

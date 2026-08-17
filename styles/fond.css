@@ -16,6 +16,35 @@
     padding: 0;
 }
 
+/* === TITRE POSÉ SUR LA TRAME ==============================================
+   Le titre s'écrit sur une rangée de points, et cette rangée est plus
+   foncée que les autres. Les positions viennent de fond-titre.js. */
+.fond-page .fond-titre {
+    position: absolute;
+    left: max(5vw, calc(50vw - 34rem));
+    margin: 0;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    /* Interligne à 1 : la ligne de base est alors prévisible, et c'est elle
+       qu'on aligne sur la rangée de points. */
+    line-height: 1;
+}
+
+/* La rangée assombrie : une seule ligne de points. Le conteneur est plat,
+   les points débordent de part et d'autre — d'où overflow: visible. */
+.fond-page .fond-ligne {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    z-index: -1;
+    color: var(--text);
+    pointer-events: none;
+}
+
+.fond-page .fond-ligne svg { overflow: visible; }
+
 /* Comme .dots-bg, mais sur toute la hauteur : c'est le semis qui relie les
    deux dégradés.
 
