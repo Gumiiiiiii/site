@@ -8,7 +8,8 @@
 (function () {
     var REGLAGES = {
         bande: 1.0,        // hauteur de chaque dégradé, en écrans (100vh)
-        pasBord: 24,       // espacement des points au bord, en px
+        pasBordX: 20,      // espacement horizontal au bord (celui de .dots-bg)
+        pasBordY: 18,      // espacement vertical au bord (celui de .dots-bg)
         pasCentre: 72,     // espacement des points au milieu, en px
         rayonBord: 5.0,    // rayon d'un point au bord
         rayonCentre: 1.6,  // rayon d'un point au milieu
@@ -40,17 +41,25 @@
 
             // Le pas vertical suit la même courbe que le pas horizontal :
             // on avance donc rangée par rangée, sans grille fixe.
-            for (var y = 0; y <= hauteur; ) {
+            //
+            // Le quinconce du bord (une rangée sur deux décalée d'un demi-pas,
+            // comme .dots-bg) s'efface en même temps que les points s'espacent :
+            // au milieu le décalage vaut zéro, la grille redevient carrée.
+            // Sans ça, la bande et le semis se rejoindraient sur une couture.
+            var rangee = 0;
+            for (var y = 0; y <= hauteur; rangee++) {
                 var t = avancement(y, hauteur, bande);
-                var pas = melange(REGLAGES.pasBord, REGLAGES.pasCentre, t);
+                var pasX = melange(REGLAGES.pasBordX, REGLAGES.pasCentre, t);
+                var pasY = melange(REGLAGES.pasBordY, REGLAGES.pasCentre, t);
                 var rayon = melange(REGLAGES.rayonBord, REGLAGES.rayonCentre, t);
+                var decalage = (rangee % 2) ? (pasX / 2) * (1 - t) : 0;
 
-                for (var x = pas / 2; x <= largeur; x += pas) {
+                for (var x = decalage + pasX / 2; x <= largeur; x += pasX) {
                     parts.push('<circle cx="' + x.toFixed(1) +
                         '" cy="' + y.toFixed(1) +
                         '" r="' + rayon.toFixed(2) + '"/>');
                 }
-                y += pas;
+                y += pasY;
             }
 
             conteneur.innerHTML =
