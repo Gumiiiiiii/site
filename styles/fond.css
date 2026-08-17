@@ -213,7 +213,11 @@
 
     .fond-rail a {
         padding: 9px 14px;
-        opacity: max(0.06, calc(0.28 - (var(--eloignement, 1) - 1) * 0.06));
+        /* Plancher haut, volontairement : sur un point de 7 px, un voisin a
+           0,06 est invisible. Seul le point actif se voyait, et il semblait
+           donc se teleporter d un cran a chaque changement de section au lieu
+           de se deplacer dans une colonne visible. */
+        opacity: max(0.22, calc(0.42 - (var(--eloignement, 1) - 1) * 0.05));
     }
 
     .fond-rail a::before {
@@ -318,8 +322,9 @@ html { scroll-behavior: smooth; }
 .fond-page { --fond-marge: max(11rem, calc(50vw - 34rem)); }
 
 @media (max-width: 760px) {
-    /* Le rail se reduit a des points : la colonne peut se resserrer. */
-    .fond-page { --fond-marge: 3.25rem; }
+    /* Le rail se réduit à des points : la colonne peut se resserrer nettement.
+       --fond-bord suit, sinon le point mordrait sur le texte. */
+    .fond-page { --fond-marge: 2.25rem; --fond-bord: 0.75rem; }
 }
 
 .fond-page .fond-titre {
@@ -816,7 +821,10 @@ html { scroll-behavior: smooth; }
     padding: clamp(1.25rem, 2.5vw, 1.75rem);
     border: 1px solid rgba(var(--text-rgb), 0.14);
     border-radius: 1rem;
-    background: rgba(var(--text-rgb), 0.022);
+    /* Opaque, et pas juste teintee : les points du semis traversaient la
+       carte et se melaient au texte. */
+    background-color: var(--bg);
+    background-image: linear-gradient(rgba(var(--text-rgb), 0.022), rgba(var(--text-rgb), 0.022));
 }
 
 .fond-avis-tete {
@@ -884,8 +892,25 @@ html { scroll-behavior: smooth; }
    rattrape une partie du vide sans toucher au texte. */
 .fond-avis-carte--court blockquote { font-size: 1.08rem; line-height: 1.65; }
 
+/* Sur mobile, le carrousel sort de la colonne et va d'un bord à l'autre de
+   l'écran : la carte suivante déborde à droite, et celle qu'on quitte s'en va
+   par la gauche. C'est le rembourrage de la piste, et non la marge de la
+   section, qui aligne la carte active sur le reste de la page — sinon la
+   translation calculée en JS décalerait tout d'autant. */
 @media (max-width: 760px) {
-    .fond-avis-carte { width: 84%; }
+    .fond-page .fond-avis { left: 0; right: 0; }
+
+    .fond-avis-fleches { padding-right: var(--fond-marge); }
+
+    .fond-avis-piste { padding-left: var(--fond-marge); }
+
+    .fond-avis-carte { width: 82%; }
+
+    /* Le fondu se resserre : à 88 px il aurait avalé tout le débord. */
+    .fond-avis-cadre {
+        -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 1.5rem), transparent 100%);
+        mask-image: linear-gradient(to right, #000 calc(100% - 1.5rem), transparent 100%);
+    }
 }
 
 /* === PIED DE PAGE =========================================================
@@ -980,6 +1005,13 @@ html { scroll-behavior: smooth; }
 .fond-lien-valeur {
     display: inline-flex;
     align-items: center;
+}
+
+/* Sans min-width, un enfant de flex ne descend pas sous sa largeur
+   min-content : l adresse mail debordait de sa colonne au lieu de se couper. */
+.fond-pied-liens b {
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 .fond-lien-icone {
