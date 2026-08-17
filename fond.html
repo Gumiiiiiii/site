@@ -2,6 +2,10 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <!-- Le thème est posé avant le premier rendu, sinon la page clignote en
+         clair avant de passer au sombre. Même script que les autres pages. -->
+    <script>(function(){try{if(localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
+    <link rel="preload" href="fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>Fond pointillé | Gumi.</title>
@@ -70,6 +74,40 @@
             </div>
         </header>
 
+        <!-- Thème, langue, contact : des icônes posées sur le papier, sur le
+             meme axe vertical que le rail. -->
+        <div class="fond-outils">
+            <button type="button" class="fond-outil" data-fond-theme title="Changer le th&egrave;me" aria-label="Changer le th&egrave;me">
+                <svg class="theme-toggle-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <mask id="theme-toggle-mask">
+                        <rect x="0" y="0" width="100%" height="100%" fill="white"></rect>
+                        <circle class="theme-toggle-cutout" cx="24" cy="10" r="6" fill="black"></circle>
+                    </mask>
+                    <circle class="theme-toggle-core" cx="12" cy="12" r="6" fill="currentColor" mask="url(#theme-toggle-mask)"></circle>
+                    <g class="theme-toggle-rays" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="12" y1="3" x2="12" y2="1"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="12" y1="3" x2="12" y2="1" transform="rotate(45 12 12)"></line>
+                        <line x1="21" y1="12" x2="23" y2="12" transform="rotate(45 12 12)"></line>
+                        <line x1="12" y1="21" x2="12" y2="23" transform="rotate(45 12 12)"></line>
+                        <line x1="1" y1="12" x2="3" y2="12" transform="rotate(45 12 12)"></line>
+                    </g>
+                </svg>
+            </button>
+            <button type="button" class="fond-outil" data-fond-lang title="Changer la langue" aria-label="Changer la langue">
+                <span class="fond-outil-lang" aria-hidden="true">FR</span>
+            </button>
+            <a class="fond-outil" href="mailto:pierregumilar@gmail.com" title="Me contacter" aria-label="Me contacter">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2.5" y="5" width="19" height="14" rx="2.5"></rect>
+                    <path d="M3.5 7.5 12 13l8.5-5.5"></path>
+                </svg>
+            </a>
+        </div>
+
         <nav class="fond-rail" aria-label="Sections de la page">
             <a href="#resultats"><span>Résultats</span></a>
             <a href="#realisations"><span>Projets</span></a>
@@ -95,5 +133,6 @@
     <script src="scripts/page-effects.js"></script>
     <script src="scripts/fond-titre.js"></script>
     <script src="scripts/fond-rail.js"></script>
+    <script src="scripts/fond-outils.js"></script>
 </body>
 </html>
