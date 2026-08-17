@@ -2,9 +2,8 @@
 // sa ligne de base tombe exactement sur une rangée, et cette rangée-là est
 // plus foncée que les autres.
 //
-// Tout se calcule ici parce que la rangée choisie dépend de la hauteur de
-// la fenêtre, et que le dégradé de la rangée dépend de la largeur réelle
-// du titre une fois composé.
+// Le placement se calcule ici parce que la rangée choisie dépend de la
+// hauteur de la fenêtre.
 (function () {
     var PAS_Y = 72;   // pas vertical du semis (voir fond.html)
 
@@ -30,17 +29,6 @@
         titre.removeChild(repere);
 
         titre.style.top = (cible - ecart) + 'px';
-
-        // La rangée est pleine derrière le titre et s'éteint vers les deux
-        // bords de la page — où il ne reste que le semis, à son opacité
-        // normale.
-        var r = titre.getBoundingClientRect();
-        var masque = 'linear-gradient(to right, transparent 0,' +
-            ' #000 ' + Math.round(r.left) + 'px,' +
-            ' #000 ' + Math.round(r.right) + 'px,' +
-            ' transparent 100%)';
-        ligne.style.webkitMaskImage = masque;
-        ligne.style.maskImage = masque;
     }
 
     // Les polices changent les métriques une fois chargées : on replace le
