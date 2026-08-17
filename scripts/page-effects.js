@@ -7,14 +7,26 @@
         const width = window.innerWidth;
 
         dotContainers.forEach((container) => {
-            const height = Number(container.dataset.height || 250);
-            const spacingX = 20;
-            const spacingY = 18;
-            let svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor" opacity="0.04">';
+            // data-height="auto" : le motif couvre toute la hauteur de son
+            // conteneur au lieu d'une bande fixe.
+            const height = container.dataset.height === 'auto'
+                ? container.offsetHeight
+                : Number(container.dataset.height || 250);
+            // Le pas est réglable pour qu'un semis clairsemé puisse tomber
+            // exactement sur la même trame que les dégradés : il suffit d'en
+            // prendre un multiple. Valeurs d'origine par défaut.
+            const spacingX = Number(container.dataset.spacingX || 20);
+            const spacingY = Number(container.dataset.spacingY || 18);
+            const opacity = container.dataset.opacity || '0.04';
+            let svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor" opacity="' + opacity + '">';
+
+            // Un semis clairsemé doit rester sur les rangées non décalées du
+            // quinconce, sinon il retombe entre les points des dégradés.
+            const stagger = container.dataset.stagger !== 'off';
 
             for (let y = 0; y <= height; y += spacingY) {
                 const isOdd = Math.round(y / spacingY) % 2 !== 0;
-                const offsetX = isOdd ? spacingX / 2 : 0;
+                const offsetX = (stagger && isOdd) ? spacingX / 2 : 0;
 
                 for (let x = offsetX; x <= width + spacingX; x += spacingX) {
                     const nx = Math.abs(x - width / 2) / (width / 2);

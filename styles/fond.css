@@ -1,25 +1,27 @@
 /* Page d'essai du fond pointillé. Rien d'autre que la matière : pas de
    navbar, pas de contenu, pas de pied de page.
 
-   Les deux dégradés sont ceux du site (.dots-bg, dessinés par
-   page-effects.js) : même grille 20x18 en quinconce, même rayon qui
-   grossit vers les bords gauche et droit, même fondu vers le bas. Rien
-   n'est réécrit ici.
+   Tout est dessiné par scripts/page-effects.js, le code du site : les deux
+   dégradés (.dots-bg) et le semis du milieu (.fond-semis) sortent de la
+   même boucle, avec la même grille 20x18 et le même rayon qui grossit vers
+   les bords gauche et droit. Le semis n'en prend qu'un point sur quatre.
 
-   Ce fichier ne fait que deux choses : donner de la hauteur à la page, et
-   poser entre les deux dégradés le semis discret de 72 px. */
+   Ce fichier ne fait que donner sa hauteur à la page et placer le semis. */
 
 .fond-page .site-content {
-    /* Le grain cream-paper laisse la place aux points : le semis du milieu
-       est la seule matière de fond, les dégradés se posent par-dessus. */
-    background-image: radial-gradient(circle, rgba(94, 74, 60, 0.16) 1.6px, transparent 1.7px);
-    background-size: 72px 72px;
+    /* Le grain cream-paper laisse la place aux points. */
+    background-image: none;
     /* Trois écrans : dégradé du haut, semis, dégradé du bas. */
     min-height: 300vh;
     padding: 0;
 }
 
-/* Sombre : le semis passe en clair pour rester lisible. */
-:root[data-theme="dark"] .fond-page .site-content {
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.14) 1.6px, transparent 1.7px);
+/* Comme .dots-bg, mais sur toute la hauteur et sans fondu : c'est le
+   semis qui relie les deux dégradés. */
+.fond-page .fond-semis {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    color: var(--text);
+    pointer-events: none;
 }
