@@ -30,9 +30,10 @@
     }
 
     function placer() {
-        // Le premier titre tombe un écran plus bas, arrondi à la rangée la
-        // plus proche : il doit tomber sur la trame, pas à côté.
-        var premiere = Math.round(window.innerHeight / PAS_Y) * PAS_Y;
+        // Le premier titre passe sous le hero, qui occupe tout le viewport :
+        // on prend la première rangée située après lui, et non la plus
+        // proche — sinon le titre remonte dans l'écran, sous les chiffres.
+        var premiere = Math.ceil((window.innerHeight + 120) / PAS_Y) * PAS_Y;
         var derniere = premiere;
 
         titres.forEach(function (titre, i) {

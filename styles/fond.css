@@ -16,6 +16,109 @@
     padding: 0;
 }
 
+/* === HERO =================================================================
+   Un écran, pas plus : le portrait et la phrase en haut, les quatre chiffres
+   collés au bas du viewport. La phrase est grise, et seuls les mots qui
+   portent l'information reviennent au noir — c'est le contraste qui fait la
+   hiérarchie, pas la taille.
+
+   La photo de montagne prévue au brief n'est pas encore là. */
+.fond-hero {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    padding: clamp(5rem, 12vh, 9rem) max(1.5rem, 5vw) clamp(2rem, 5vh, 3.5rem);
+    padding-left: var(--fond-marge);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: 2rem;
+}
+
+.fond-hero-haut {
+    display: grid;
+    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+}
+
+.fond-hero-photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 1.5rem;
+}
+
+.fond-hero-phrase {
+    margin: 0;
+    max-width: 24ch;
+    font-size: clamp(1.5rem, 2.7vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    /* Le gris n'est pas décoratif : c'est lui qui laisse ressortir le noir. */
+    color: rgba(var(--text-rgb), 0.42);
+}
+
+.fond-hero-phrase strong {
+    color: var(--text);
+    font-weight: 700;
+}
+
+/* Les chiffres, alignés sur le bas de l'écran. */
+.fond-hero-chiffres {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(1rem, 3vw, 2.5rem);
+    align-items: end;
+}
+
+.fond-kpi b {
+    display: block;
+    font-size: clamp(1.4rem, 2.4vw, 2.1rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* La borne basse d'une fourchette est une donnée, pas un ornement : elle
+   recule sans devenir illisible. */
+.fond-kpi b span { opacity: 0.45; font-weight: 700; }
+
+.fond-kpi > span {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.fond-kpi small {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(var(--text-rgb), 0.5);
+}
+
+@media (max-width: 900px) {
+    .fond-hero { height: auto; min-height: 100vh; }
+
+    .fond-hero-haut {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.75rem;
+    }
+
+    .fond-hero-photo { width: min(60%, 15rem); }
+    .fond-hero-phrase { max-width: none; }
+
+    .fond-hero-chiffres { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+}
+
 /* === RAIL DE NAVIGATION ===================================================
    Fixe, centré verticalement à gauche. Des mots sur desktop, des points sur
    mobile — mais le libellé reste toujours dans le DOM : sur mobile il est
