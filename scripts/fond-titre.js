@@ -3,17 +3,26 @@
 // cette rangée-là est plus foncée que les autres.
 //
 // Le placement se calcule ici parce que les rangées visées dépendent de la
-// hauteur de la fenêtre, et que le trou dans chaque rangée dépend de la
-// largeur réelle du titre une fois composé.
+// hauteur de la fenêtre, de la largeur réelle du titre une fois composé, et
+// maintenant de la hauteur du contenu placé sous chaque titre — un contenu
+// qui change de taille quand on déplie un projet.
 (function () {
     var PAS_Y = 72;           // pas vertical du semis (voir fond.html)
-    var ECART_RANGEES = 4;    // rangées entre deux titres
+    var ECART_RANGEES = 4;    // rangées minimales entre deux titres
     var MARGE = 20;           // respiration de part et d'autre du titre
+    var AIR_SECTION = 48;     // entre la rangée du titre et son contenu
+    var AIR_APRES = 120;      // entre la fin d'un contenu et le titre suivant
 
     var titres = Array.prototype.slice.call(document.querySelectorAll('.fond-titre'));
     var lignes = Array.prototype.slice.call(document.querySelectorAll('.fond-ligne'));
     var contenu = document.querySelector('.site-content');
     if (!titres.length || !contenu) return;
+
+    // Le contenu d'un titre, s'il en a un : le .fond-section qui le suit.
+    var sections = titres.map(function (titre) {
+        var suivant = titre.nextElementSibling;
+        return (suivant && suivant.classList.contains('fond-section')) ? suivant : null;
+    });
 
     var minuteur;
 
@@ -29,43 +38,62 @@
         return ecart;
     }
 
+    // La rangée de points la plus proche, en descendant.
+    function rangeeSous(y) {
+        return Math.ceil(y / PAS_Y) * PAS_Y;
+    }
+
     function placer() {
         // Le premier titre passe sous le hero, qui occupe tout le viewport :
         // on prend la première rangée située après lui, et non la plus
         // proche — sinon le titre remonte dans l'écran, sous les chiffres.
-        var premiere = Math.ceil((window.innerHeight + 120) / PAS_Y) * PAS_Y;
-        var derniere = premiere;
+        var cible = rangeeSous(window.innerHeight + 120);
+        var bas = cible;
 
         titres.forEach(function (titre, i) {
-            var cible = premiere + i * ECART_RANGEES * PAS_Y;
-            derniere = cible;
-
             titre.style.top = (cible - ecartLigneDeBase(titre)) + 'px';
+            bas = cible;
 
             var ligne = lignes[i];
-            if (!ligne) return;
-            // La boîte fait 16 px de haut et son tracé est recentré de 8 px
-            // (voir fond.css) : on la pose donc 8 px au-dessus de la rangée.
-            ligne.style.top = (cible - 8) + 'px';
+            if (ligne) {
+                // La boîte fait 16 px de haut et son tracé est recentré de 8 px
+                // (voir fond.css) : on la pose donc 8 px au-dessus de la rangée.
+                ligne.style.top = (cible - 8) + 'px';
 
-            // La rangée s'interrompt sur toute la largeur du titre : les
-            // points sont centrés sur la ligne de base, donc ceux que le
-            // texte recouvre seraient coupés en deux par les lettres.
-            var r = titre.getBoundingClientRect();
-            var debut = Math.round(r.left) - MARGE;
-            var fin = Math.round(r.right) + MARGE;
-            var masque = 'linear-gradient(to right,' +
-                ' #000 0, #000 ' + debut + 'px,' +
-                ' transparent ' + debut + 'px, transparent ' + fin + 'px,' +
-                ' #000 ' + fin + 'px, #000 100%)';
-            ligne.style.webkitMaskImage = masque;
-            ligne.style.maskImage = masque;
+                // La rangée s'interrompt sur toute la largeur du titre : les
+                // points sont centrés sur la ligne de base, donc ceux que le
+                // texte recouvre seraient coupés en deux par les lettres.
+                var r = titre.getBoundingClientRect();
+                var debut = Math.round(r.left) - MARGE;
+                var fin = Math.round(r.right) + MARGE;
+                var masque = 'linear-gradient(to right,' +
+                    ' #000 0, #000 ' + debut + 'px,' +
+                    ' transparent ' + debut + 'px, transparent ' + fin + 'px,' +
+                    ' #000 ' + fin + 'px, #000 100%)';
+                ligne.style.webkitMaskImage = masque;
+                ligne.style.maskImage = masque;
+            }
+
+            // Le contenu se pose sous la rangée du titre, et c'est lui qui
+            // décide alors où tombe le titre suivant.
+            var section = sections[i];
+            if (section) {
+                section.style.top = (cible + AIR_SECTION) + 'px';
+                bas = cible + AIR_SECTION + section.offsetHeight;
+            }
+
+            // Titre suivant : jamais moins de ECART_RANGEES rangées plus bas,
+            // et toujours après la fin du contenu qu'on vient de poser.
+            cible = Math.max(
+                cible + ECART_RANGEES * PAS_Y,
+                rangeeSous(bas + AIR_APRES)
+            );
         });
 
-        // La page se dimensionne sur son contenu : de quoi loger le dernier
-        // titre, plus un écran pour le dégradé du bas. Changer la hauteur
+        // La page se dimensionne sur son contenu : de quoi loger la dernière
+        // section, plus un écran pour le dégradé du bas. Changer la hauteur
         // oblige à redessiner le semis, qui la suit (data-height="auto").
-        var voulue = derniere + window.innerHeight;
+        var voulue = bas + window.innerHeight;
         // parseInt('') vaut NaN, et toute comparaison avec NaN est fausse :
         // sans le repli à 0, la hauteur n'était jamais posée au premier tour.
         var actuelle = parseInt(contenu.style.minHeight || '0', 10);
@@ -84,4 +112,17 @@
         clearTimeout(minuteur);
         minuteur = setTimeout(placer, 120);
     });
+
+    // Une section qui grandit (un projet qu'on déplie, une image qui arrive)
+    // repousse tout ce qui la suit : on suit sa hauteur au lieu d'attendre la
+    // fin d'une animation dont on ne connaît pas la durée ici.
+    if (window.ResizeObserver) {
+        var observateur = new ResizeObserver(placer);
+        sections.forEach(function (section) {
+            if (section) observateur.observe(section);
+        });
+    }
+
+    // Le reste de la page peut avoir besoin de forcer un replacement.
+    window.fondPlacer = placer;
 })();

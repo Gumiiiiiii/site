@@ -50,8 +50,6 @@
              data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
         <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80"
              data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
-        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80"
-             data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
 
         <!-- HERO : dans le viewport, le portrait, la phrase et les quatre
              chiffres cles alignes en bas d ecran. Les chiffres sont ceux du CV,
@@ -99,17 +97,18 @@
             <button type="button" class="fond-outil" data-fond-lang title="Changer la langue" aria-label="Changer la langue">
                 <span class="fond-outil-lang" aria-hidden="true">FR</span>
             </button>
+            <!-- Lucide « mail », geometrie et graisse d origine (2), pour tenir
+                 le meme trait que les rayons du soleil juste a cote. -->
             <a class="fond-outil" href="mailto:pierregumilar@gmail.com" title="Me contacter" aria-label="Me contacter">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <rect x="2.5" y="5" width="19" height="14" rx="2.5"></rect>
-                    <path d="M3.5 7.5 12 13l8.5-5.5"></path>
+                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                 </svg>
             </a>
         </div>
 
         <nav class="fond-rail" aria-label="Sections de la page">
-            <a href="#resultats"><span>Résultats</span></a>
             <a href="#realisations"><span>Projets</span></a>
             <a href="#parcours"><span>Parcours</span></a>
             <a href="#competences"><span>Compétences</span></a>
@@ -121,8 +120,107 @@
 
         <!-- Les titres de sections de pierre.gumi.ch/cv, dans l'ordre de la
              page. Une rangée assombrie par titre, ci-dessus. -->
-        <h2 class="fond-titre" id="resultats">Résultats clés</h2>
         <h2 class="fond-titre" id="realisations">Quelques projets et leurs résultats.</h2>
+        <!-- Une ligne par projet : le nom, la phrase qui le résume, et une
+             flèche qui bascule vers le bas quand le contenu s'ouvre. Le corps
+             met les médias à gauche et le texte à droite.
+
+             Textes et chiffres repris tels quels du CV. Émeraude Aventure
+             n'a aucun visuel dans le dépôt : sa ligne s'ouvre sur du texte
+             seul plutôt que sur une image générique. -->
+        <div class="fond-section fond-projets">
+            <div class="fond-projet">
+                <button type="button" class="fond-projet-tete" aria-expanded="false" aria-controls="projet-lindt">
+                    <span class="fond-projet-nom">Lindt &amp; Spr&uuml;ngli</span>
+                    <span class="fond-projet-resume">Faire grandir le contenu e-commerce sans perdre en coh&eacute;rence.</span>
+                    <span class="fond-projet-icone" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    </span>
+                </button>
+                <div class="fond-projet-corps" id="projet-lindt" inert>
+                    <div class="fond-projet-interieur">
+                        <div class="fond-projet-medias fond-projet-medias--mosaique" role="img"
+                             aria-label="S&eacute;lection de contenus e-commerce et de photographies produits r&eacute;alis&eacute;s ou coordonn&eacute;s pour Lindt">
+                            <img src="media/lindt-shoot-tablette-texture.webp" alt="" width="640" height="640" loading="lazy">
+                            <img src="media/lindt-shoot-signature.webp" alt="" width="640" height="640" loading="lazy">
+                            <img src="media/lindt-shoot-lumiere.webp" alt="" width="640" height="640" loading="lazy">
+                            <img src="media/lindt-shoot-chocolat-noir.webp" alt="" width="640" height="640" loading="lazy">
+                            <img src="media/lindt-shoot-geste.webp" alt="" width="640" height="640" loading="lazy">
+                            <img src="media/lindt-shoot-noel.webp" alt="" width="640" height="640" loading="lazy">
+                        </div>
+                        <div class="fond-projet-texte">
+                            <span class="fond-projet-label">Lindt &amp; Spr&uuml;ngli &middot; CDI &middot; 2023 &ndash; ao&ucirc;t 2026</span>
+                            <p>Chez Lindt, je fais le lien entre la donn&eacute;e produit, les contenus et leur diffusion en ligne. Je structure le catalogue et le PIM Salsify, coordonne les contenus pour Amazon et les e-retailers, et pilote les shootings ainsi que la direction artistique.</p>
+                            <p>Sur plus de 7&nbsp;000 assets, mon r&ocirc;le consiste principalement &agrave; coordonner. J'en produis aussi une partie, puis je les valide et les diffuse. J'ai &eacute;galement structur&eacute; les m&eacute;thodes de travail pour rendre l'enrichissement et la validation plus simples &agrave; l'&eacute;chelle du catalogue.</p>
+                            <ul class="fond-preuves">
+                                <li>500 &rarr; 5&nbsp;000 fiches enrichies</li>
+                                <li>+180&nbsp;% de trafic organique sur lindt.fr, de fin 2023 &agrave; mi-2026</li>
+                                <li>7&nbsp;000+ assets coordonn&eacute;s</li>
+                                <li>Salsify &middot; Magento &middot; Amazon &middot; e-retail</li>
+                                <li>Shootings &middot; direction artistique</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fond-projet">
+                <button type="button" class="fond-projet-tete" aria-expanded="false" aria-controls="projet-ardacraft">
+                    <span class="fond-projet-nom">ArdaCraft</span>
+                    <span class="fond-projet-resume">Construire et faire grandir un &eacute;cosyst&egrave;me digital.</span>
+                    <span class="fond-projet-icone" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    </span>
+                </button>
+                <div class="fond-projet-corps" id="projet-ardacraft" inert>
+                    <div class="fond-projet-interieur">
+                        <div class="fond-projet-medias" role="img"
+                             aria-label="Aper&ccedil;us du site, de la carte interactive et de la croissance sociale d'ArdaCraft">
+                            <img src="media/ardacraft-redesign-card.webp" alt="" width="1200" height="675" loading="lazy">
+                            <img src="media/ardacraft-map-card.webp" alt="" width="1200" height="675" loading="lazy">
+                            <img src="media/ardacraft-social-card.webp" alt="" width="1200" height="675" loading="lazy">
+                        </div>
+                        <div class="fond-projet-texte">
+                            <span class="fond-projet-label">ArdaCraft &middot; projet communautaire</span>
+                            <p>ArdaCraft est le projet o&ugrave; j'exp&eacute;rimente le plus. J'y ai men&eacute; la refonte du site, con&ccedil;u une carte interactive &agrave; partir d'une opportunit&eacute; SEO et d&eacute;velopp&eacute; une nouvelle approche des formats vid&eacute;o.</p>
+                            <p>Ces chantiers partent de probl&egrave;mes diff&eacute;rents, mais suivent la m&ecirc;me logique : observer ce qui fonctionne ailleurs, l'adapter au contexte d'ArdaCraft, puis mesurer ce qui change r&eacute;ellement.</p>
+                            <ul class="fond-preuves">
+                                <li>Co&ucirc;ts d'h&eacute;bergement divis&eacute;s par 10</li>
+                                <li>Usage des filtres multipli&eacute; par 6,5</li>
+                                <li>50&nbsp;% du trafic hors marque d&eacute;sormais g&eacute;n&eacute;r&eacute; par la carte</li>
+                                <li>27,3 millions de vues sur 24 vid&eacute;os</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fond-projet">
+                <button type="button" class="fond-projet-tete" aria-expanded="false" aria-controls="projet-emeraude">
+                    <span class="fond-projet-nom">&Eacute;meraude Aventure</span>
+                    <span class="fond-projet-resume">Transformer un budget m&eacute;dia en r&eacute;servations directes.</span>
+                    <span class="fond-projet-icone" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    </span>
+                </button>
+                <div class="fond-projet-corps" id="projet-emeraude" inert>
+                    <div class="fond-projet-interieur fond-projet-interieur--sans-media">
+                        <div class="fond-projet-texte">
+                            <span class="fond-projet-label">&Eacute;meraude Aventure &middot; mission ind&eacute;pendante &middot; Google Ads</span>
+                            <p>Pour &Eacute;meraude Aventure, une base nautique bretonne, j'ai structur&eacute; et optimis&eacute; les campagnes Google Ads avec un objectif simple : g&eacute;n&eacute;rer davantage de r&eacute;servations directes tout en ma&icirc;trisant leur co&ucirc;t d'acquisition.</p>
+                            <ul class="fond-preuves">
+                                <li>500+ r&eacute;servations attribu&eacute;es</li>
+                                <li>1,99&nbsp;&euro; par r&eacute;servation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <h2 class="fond-titre" id="parcours">Mon parcours, en bref.</h2>
         <h2 class="fond-titre" id="competences">Ce que je peux apporter.</h2>
         <h2 class="fond-titre" id="temoignages">Ce qu'en disent mes collègues et clients.</h2>
@@ -134,5 +232,6 @@
     <script src="scripts/fond-titre.js"></script>
     <script src="scripts/fond-rail.js"></script>
     <script src="scripts/fond-outils.js"></script>
+    <script src="scripts/fond-projets.js"></script>
 </body>
 </html>
