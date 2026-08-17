@@ -43,7 +43,9 @@
 
             var ligne = lignes[i];
             if (!ligne) return;
-            ligne.style.top = cible + 'px';
+            // La boîte fait 16 px de haut et son tracé est recentré de 8 px
+            // (voir fond.css) : on la pose donc 8 px au-dessus de la rangée.
+            ligne.style.top = (cible - 8) + 'px';
 
             // La rangée s'interrompt sur toute la largeur du titre : les
             // points sont centrés sur la ligne de base, donc ceux que le

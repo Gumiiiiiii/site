@@ -31,17 +31,25 @@
     line-height: 1;
 }
 
-/* La rangée assombrie : une seule ligne de points. Le conteneur est plat,
-   les points débordent de part et d'autre — d'où overflow: visible. */
+/* La rangée assombrie : une seule ligne de points.
+
+   La boîte doit être assez haute pour contenir ses points. Le masque qui
+   perce la rangée sous le titre a un mask-clip à border-box par défaut :
+   sur une boîte d'1 px, il rognait chaque point à une lamelle d'1 px et le
+   reste disparaissait. D'où une hauteur de 16 px, avec le tracé recentré
+   dedans (fond-titre.js pose le haut de la boîte à 8 px au-dessus de la
+   rangée visée). */
 .fond-page .fond-ligne {
     position: absolute;
     left: 0;
     right: 0;
-    height: 1px;
+    height: 16px;
     z-index: -1;
     color: var(--text);
     pointer-events: none;
 }
+
+.fond-page .fond-ligne svg { transform: translateY(8px); }
 
 /* display: block est indispensable, pas cosmétique. Un <svg> est inline :
    il se pose sur une ligne de texte, et dans un conteneur d'1 px de haut le
