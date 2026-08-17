@@ -43,7 +43,12 @@
     pointer-events: none;
 }
 
-.fond-page .fond-ligne svg { overflow: visible; }
+/* display: block est indispensable, pas cosmétique. Un <svg> est inline :
+   il se pose sur une ligne de texte, et dans un conteneur d'1 px de haut le
+   strut du line-height le décalait d'environ 18 px vers le bas — la rangée
+   assombrie tombait alors sous la grille au lieu de coïncider avec elle. */
+.fond-page .fond-ligne svg,
+.fond-page .fond-semis svg { display: block; overflow: visible; }
 
 /* Comme .dots-bg, mais sur toute la hauteur : c'est le semis qui relie les
    deux dégradés.
