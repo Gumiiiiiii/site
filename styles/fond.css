@@ -32,7 +32,10 @@
     /* Le bas est plus généreux qu'il n'y paraît : les outils fixes du coin
        inférieur gauche passent sous les chiffres, ils ont besoin de la
        place. */
-    padding: clamp(5rem, 12vh, 9rem) var(--fond-marge) clamp(4.5rem, 9vh, 5.5rem);
+    /* Le bas reprend exactement l axe des outils du coin gauche : leur boite
+       s arrete a 1,25rem du bord et l icone est centree dans ses 44 px, soit
+       12,5 px de rembourrage. */
+    padding: clamp(5rem, 12vh, 9rem) var(--fond-marge) calc(1.25rem + 12.5px);
     display: grid;
     grid-template-rows: 1fr auto;
     gap: 2rem;
@@ -123,7 +126,6 @@
 
 .fond-kpi > span {
     display: block;
-    margin-top: 0.5rem;
     font-size: 0.9rem;
     font-weight: 600;
     line-height: 1.35;
@@ -651,17 +653,24 @@ html { scroll-behavior: smooth; }
    mais séparées. */
 .fond-passions {
     --biais: clamp(2rem, 5vw, 4.5rem);
+    --ecart: 1.25rem;
+    /* Ce dont il faut rapprocher la seconde carte pour que l'écart entre les
+       deux diagonales vaille --ecart et pas --ecart + --biais. */
+    --decalage: calc(var(--biais) - var(--ecart));
     display: grid;
-    /* La seconde carte est ramenée de --biais vers la gauche : sans cette
-       correction sur la première colonne, elle finirait d'autant plus large
-       que l'autre. */
-    grid-template-columns: calc(50% + var(--biais) / 2) minmax(0, 1fr);
+    /* La première colonne est élargie d'autant : sans cette correction, la
+       seconde carte finirait plus large que l'autre. */
+    grid-template-columns: calc(50% + var(--decalage) / 2) minmax(0, 1fr);
     align-items: stretch;
 }
 
+/* Image à gauche, texte à droite. Les deux bords qui se font face suivent la
+   même diagonale, mais les cartes ne se touchent plus : elles se répondent à
+   distance constante. */
 .fond-passion {
     display: grid;
-    grid-template-rows: auto 1fr;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    align-items: center;
     margin: 0;
     border-radius: 1.25rem;
     background-color: var(--bg);
@@ -671,30 +680,36 @@ html { scroll-behavior: smooth; }
 }
 
 .fond-passion--droite {
-    margin-left: calc(var(--biais) * -1);
+    margin-left: calc(var(--decalage) * -1);
     clip-path: polygon(var(--biais) 0, 100% 0, 100% 100%, 0 100%);
 }
 
-/* Hauteur fixe et non pas ratio : les deux cartes n'ont pas exactement la
-   même largeur, un ratio ferait donc démarrer les deux textes à des hauteurs
-   différentes. */
+/* L'image occupe toute la hauteur de la carte : c'est elle qui donne au bloc
+   sa tenue, et la diagonale la traverse quand elle est du bon côté. */
 .fond-passion img {
     display: block;
     width: 100%;
-    height: clamp(13rem, 24vw, 19rem);
+    height: 100%;
+    min-height: clamp(11rem, 18vw, 14rem);
     object-fit: cover;
+    grid-row: 1;
 }
 
 /* Le texte se tient à l'écart de la diagonale, sinon la dernière ligne
    passerait derrière la coupe. */
 .fond-passion-texte {
-    padding: clamp(1.1rem, 2.5vw, 1.6rem);
-    padding-right: calc(var(--biais) + 1rem);
+    grid-row: 1;
+    padding: clamp(1.1rem, 2.5vw, 1.5rem);
+    padding-right: calc(var(--biais) + 0.75rem);
 }
 
+/* Sur la carte de droite, la diagonale tombe du côté de l'image : c'est elle
+   qui la reçoit, le texte reprend un rembourrage normal. */
+.fond-passion--droite img { grid-column: 1; }
+
 .fond-passion--droite .fond-passion-texte {
-    padding-right: clamp(1.1rem, 2.5vw, 1.6rem);
-    padding-left: calc(var(--biais) + 1rem);
+    padding-right: clamp(1.1rem, 2.5vw, 1.5rem);
+    padding-left: clamp(1.1rem, 2.5vw, 1.5rem);
 }
 
 .fond-passion-texte h3 {
@@ -720,10 +735,21 @@ html { scroll-behavior: smooth; }
     .fond-passion--droite {
         margin-left: 0;
         clip-path: none;
+        /* L'image et le texte repassent l'un sous l'autre : à cette largeur,
+           deux colonnes ne laisseraient au texte qu'une poignée de mots par
+           ligne. */
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .fond-passion img,
+    .fond-passion--droite img {
+        grid-row: auto;
+        grid-column: auto;
+        height: 12rem;
     }
 
     .fond-passion-texte,
-    .fond-passion--droite .fond-passion-texte { padding: 1.1rem; }
+    .fond-passion--droite .fond-passion-texte { grid-row: auto; padding: 1.1rem; }
 }
 
 /* === AVIS =================================================================
@@ -904,9 +930,10 @@ html { scroll-behavior: smooth; }
 
 .fond-bloc-semis svg { display: block; }
 
-/* Le même contenant autour des quatre champs d'expertise, mais sans semis :
-   le motif diagonal appartient au bloc de contact. */
-.fond-bloc--champs { padding: clamp(1.5rem, 3vw, 2.25rem); }
+/* Chaque champ d'expertise a son propre contenant — quatre blocs, pas un
+   seul qui les rassemble. Sans semis : le motif diagonal appartient au bloc
+   de contact. */
+.fond-champ { padding: clamp(1.1rem, 2.5vw, 1.6rem); }
 
 .fond-pied-specs,
 .fond-pied-liens { position: relative; z-index: 1; }
@@ -922,7 +949,7 @@ html { scroll-behavior: smooth; }
 /* Le libellé recule, la valeur porte. Même traitement dans les deux rangées
    pour qu'elles se lisent comme un seul tableau. */
 .fond-pied-specs dt,
-.fond-pied-liens a span {
+.fond-lien-label {
     display: block;
     margin-bottom: 0.4rem;
     font-size: 0.76rem;
@@ -961,9 +988,9 @@ html { scroll-behavior: smooth; }
     flex-shrink: 0;
     opacity: 0;
     transform: translateX(-4px);
-    transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-                margin-right 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 0.2s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                margin-right 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.35s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .fond-lien-icone--plein { fill: currentColor; }
