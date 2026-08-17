@@ -46,11 +46,13 @@
              data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
         <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80"
              data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
+        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80"
+             data-stagger="off" data-radius="3" data-opacity="0.083" aria-hidden="true"></div>
 
         <!-- HERO : dans le viewport, le portrait, la phrase et les quatre
              chiffres cles alignes en bas d ecran. Les chiffres sont ceux du CV,
              inchanges. La photo de montagne du brief manque encore. -->
-        <header class="fond-hero">
+        <header class="fond-hero" id="intro">
             <div class="fond-hero-haut">
                 <img class="fond-hero-photo" src="media/pierre-gumilar-512.webp"
                      alt="Portrait de Pierre Gumilar" width="512" height="512" fetchpriority="high">
@@ -113,6 +115,7 @@
         </div>
 
         <nav class="fond-rail" aria-label="Sections de la page">
+            <a href="#intro"><span>Intro</span></a>
             <a href="#realisations"><span>Projets</span></a>
             <a href="#parcours"><span>Parcours</span></a>
             <a href="#competences"><span>Compétences</span></a>
@@ -138,7 +141,7 @@
                     <span class="fond-projet-resume">Faire grandir le contenu e-commerce sans perdre en coh&eacute;rence.</span>
                     <span class="fond-projet-icone" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                             stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path class="fond-plus-barre" d="M12 5v14"></path></svg>
                     </span>
                 </button>
                 <div class="fond-projet-corps" id="projet-lindt" inert>
@@ -174,7 +177,7 @@
                     <span class="fond-projet-resume">Construire et faire grandir un &eacute;cosyst&egrave;me digital.</span>
                     <span class="fond-projet-icone" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                             stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path class="fond-plus-barre" d="M12 5v14"></path></svg>
                     </span>
                 </button>
                 <div class="fond-projet-corps" id="projet-ardacraft" inert>
@@ -206,11 +209,16 @@
                     <span class="fond-projet-resume">Transformer un budget m&eacute;dia en r&eacute;servations directes.</span>
                     <span class="fond-projet-icone" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                             stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path class="fond-plus-barre" d="M12 5v14"></path></svg>
                     </span>
                 </button>
                 <div class="fond-projet-corps" id="projet-emeraude" inert>
-                    <div class="fond-projet-interieur fond-projet-interieur--sans-media">
+                    <div class="fond-projet-interieur">
+                        <div class="fond-projet-medias">
+                            <img src="media/emeraude-aventure-kayak.webp"
+                                 alt="Sortie en kayak de mer encadr&eacute;e par &Eacute;meraude Aventure"
+                                 width="1400" height="933" loading="lazy">
+                        </div>
                         <div class="fond-projet-texte">
                             <span class="fond-projet-label">&Eacute;meraude Aventure &middot; mission ind&eacute;pendante &middot; Google Ads</span>
                             <p>Pour &Eacute;meraude Aventure, une base nautique bretonne, j'ai structur&eacute; et optimis&eacute; les campagnes Google Ads avec un objectif simple : g&eacute;n&eacute;rer davantage de r&eacute;servations directes tout en ma&icirc;trisant leur co&ucirc;t d'acquisition.</p>
@@ -227,20 +235,94 @@
         <h2 class="fond-titre" id="parcours">Mon parcours, en bref.</h2>
         <h2 class="fond-titre" id="competences">Ce que je peux apporter.</h2>
         <h2 class="fond-titre" id="temoignages">Ce qu'en disent mes collègues et clients.</h2>
+        <!-- Carrousel : une carte par avis, deux flèches en haut à droite, et
+             un défilement sans fin obtenu par duplication du jeu de cartes
+             (voir scripts/fond-avis.js). La carte suivante dépasse du cadre :
+             c'est ce qui dit qu'il y en a d'autres.
+
+             Citations, noms, rôles et relations repris tels quels du CV. -->
+        <div class="fond-section fond-avis">
+            <div class="fond-avis-fleches">
+                <button type="button" class="fond-avis-fleche" data-avis-prec aria-label="Avis pr&eacute;c&eacute;dent">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+                </button>
+                <button type="button" class="fond-avis-fleche" data-avis-suiv aria-label="Avis suivant">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </button>
+            </div>
+
+            <div class="fond-avis-cadre">
+                <div class="fond-avis-piste">
+                    <figure class="fond-avis-carte">
+                        <figcaption class="fond-avis-tete">
+                            <img src="media/michele-rossi.webp" alt="" width="96" height="96" loading="lazy">
+                            <div>
+                                <span class="fond-avis-rel">Coll&egrave;gue dans mon &eacute;quipe</span>
+                                <a href="https://www.linkedin.com/in/michele-rossi92/" rel="noopener">Michele Rossi</a>
+                                <span class="fond-avis-role">Senior Digital E-commerce Manager &middot; Lindt &amp; Spr&uuml;ngli</span>
+                            </div>
+                        </figcaption>
+                        <blockquote lang="en">&ldquo;I had the pleasure of working closely with Pierre for over two years. One of his best qualities is his curiosity. He has a great way of blending creative thinking with deep technical skills. Because of his personal projects, he is always on top of the latest trends, and I learned a lot from him, especially regarding E-commerce and general digital topics. What I admire most is that his knowledge goes way beyond his daily tasks. He brings a broad perspective to everything he touches. On top of that, he is a good collaborator, highly organized, and has a sharp, critical mind. Pierre always knows exactly how to bring out the absolute best in every project.&rdquo;</blockquote>
+                    </figure>
+
+                    <figure class="fond-avis-carte">
+                        <figcaption class="fond-avis-tete">
+                            <img src="media/lilian-gourlay.webp" alt="" width="128" height="128" loading="lazy">
+                            <div>
+                                <span class="fond-avis-rel">Client</span>
+                                <a href="https://www.linkedin.com/in/lilian-gourlay/" rel="noopener">Lilian Gourlay</a>
+                                <span class="fond-avis-role">Dirigeant &middot; &Eacute;meraude Aventure</span>
+                            </div>
+                        </figcaption>
+                        <blockquote lang="fr">&laquo;&nbsp;Pierre s'est occup&eacute; de nos campagnes Google Ads chez &Eacute;meraude Aventure cette saison. Nous avons d&eacute;pass&eacute; les 1&nbsp;200 r&eacute;servations directes au total, dont plus de 500 attribu&eacute;es aux campagnes qu'il a pilot&eacute;es, pour un co&ucirc;t inf&eacute;rieur &agrave; 2&nbsp;&euro; par r&eacute;servation. Il a clairement sa part dans la r&eacute;ussite de cet &eacute;t&eacute;, qui est la meilleure saison que j'ai eue. Je recommande son travail sans probl&egrave;me.&nbsp;&raquo;</blockquote>
+                    </figure>
+
+                    <figure class="fond-avis-carte">
+                        <figcaption class="fond-avis-tete">
+                            <img src="media/solenne-antakli.webp" alt="" width="96" height="96" loading="lazy">
+                            <div>
+                                <span class="fond-avis-rel">Coll&egrave;gue d'une autre &eacute;quipe</span>
+                                <a href="https://www.linkedin.com/in/solenne-antakli-bb50ba2a/" rel="noopener">Solenne Antakli</a>
+                                <span class="fond-avis-role">Senior Communication Manager &middot; Lindt &amp; Spr&uuml;ngli</span>
+                            </div>
+                        </figcaption>
+                        <blockquote lang="fr"><p>&laquo;&nbsp;J'ai eu le plaisir de travailler avec Pierre chez Lindt &amp; Spr&uuml;ngli pendant deux ans. Sa cr&eacute;ativit&eacute;, son sens du d&eacute;tail et sa capacit&eacute; &agrave; concevoir des contenus &agrave; la fois engageants et performants ont &eacute;t&eacute; de v&eacute;ritables atouts pour notre &eacute;quipe. Il sait transformer des id&eacute;es en projets concrets tout en gardant constamment &agrave; l'esprit les enjeux business et les attentes des consommateurs.</p><p>Au-del&agrave; de ses comp&eacute;tences techniques, Pierre est une personne investie, &agrave; l'&eacute;coute et toujours pr&ecirc;te &agrave; apporter son aide. Son esprit collaboratif, sa fiabilit&eacute; et sa bonne humeur font de lui un coll&egrave;gue avec lequel il est particuli&egrave;rement agr&eacute;able de travailler.&nbsp;&raquo;</p></blockquote>
+                    </figure>
+
+                    <figure class="fond-avis-carte">
+                        <figcaption class="fond-avis-tete">
+                            <img src="media/celine-hummer.webp" alt="" width="96" height="96" loading="lazy">
+                            <div>
+                                <span class="fond-avis-rel">Ma manager</span>
+                                <a href="https://www.linkedin.com/in/celinehummer/" rel="noopener">C&eacute;line Hummer</a>
+                                <span class="fond-avis-role">Senior Digital Manager &middot; Lindt France</span>
+                            </div>
+                        </figcaption>
+                        <blockquote lang="fr"><p>&laquo;&nbsp;J'ai eu le plaisir de travailler avec Pierre chez Lindt France, o&ugrave; il occupait le poste de Content Manager au sein de l'&eacute;quipe digitale que je pilote.</p><p>Pierre se distingue par sa capacit&eacute; &agrave; allier expertise technique et sens cr&eacute;atif. Il ma&icirc;trise des sujets complexes li&eacute;s &agrave; la gestion des contenus et de la donn&eacute;e produit, tout en apportant une v&eacute;ritable vision cr&eacute;ative qui contribue &agrave; valoriser l'image premium de nos marques.</p><p>V&eacute;ritable facilitateur, il sait f&eacute;d&eacute;rer les &eacute;quipes, simplifier les processus et faire avancer les projets avec efficacit&eacute;. Son sens du d&eacute;tail, sa curiosit&eacute; et sa capacit&eacute; &agrave; anticiper les besoins en font un collaborateur particuli&egrave;rement pr&eacute;cieux.</p><p>Force de proposition, fiable et engag&eacute;, Pierre est un profil rare capable de faire le lien entre contenu, technologie et exp&eacute;rience de marque. Je lui souhaite beaucoup de succ&egrave;s pour la suite de son parcours.&nbsp;&raquo;</p></blockquote>
+                    </figure>
+                </div>
+            </div>
+        </div>
         <h2 class="fond-titre" id="perso">À côté du travail.</h2>
 
-        <!-- PIED DE PAGE : « ce que je recherche » et « parlons-en » ne font
-             plus qu'un bloc. Il garde ses marges sur les trois bords de la
-             page, et son fond est un semis dont la densité se concentre sur
-             deux coins opposés (voir data-fade dans page-effects.js). -->
-        <footer class="fond-pied" id="contact">
+        <!-- CONTACT : le titre reste sur sa rangée de points, hors du bloc.
+             Le bloc, lui, réunit « ce que je recherche » et « parlons-en » :
+             un fond légèrement plus dense que le papier, et par-dessus un
+             semis dont la densité se concentre sur deux coins opposés (voir
+             data-fade dans page-effects.js). -->
+        <h2 class="fond-titre" id="contact">Parlons-en.</h2>
+        <div class="fond-section fond-contact">
+            <p class="fond-contact-intro">Si mon profil vous int&eacute;resse ou si vous avez une question,
+                n'h&eacute;sitez pas &agrave; me contacter&nbsp;! :)</p>
+
+            <footer class="fond-pied">
             <div class="fond-pied-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22"
                  data-spacing-y="20" data-stagger="off" data-radius="2.5"
                  data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
 
             <div class="fond-pied-contenu">
-                <h2 class="fond-pied-titre">Parlons-en.</h2>
-
                 <dl class="fond-pied-specs">
                     <div><dt>Contrat</dt><dd>CDI</dd></div>
                     <div><dt>R&ocirc;le</dt><dd>E-commerce / marketing digital</dd></div>
@@ -256,14 +338,16 @@
                 </div>
 
                 <p class="fond-pied-signature">Con&ccedil;u par
-                    <img src="media/Gumi-small.png" alt="Gumi" width="56" height="56"></p>
+                    <img src="media/Gumi-Logotype.png" alt="Gumi" width="1300" height="354"></p>
             </div>
-        </footer>
+            </footer>
+        </div>
     </div>
     <script src="scripts/page-effects.js"></script>
     <script src="scripts/fond-titre.js"></script>
     <script src="scripts/fond-rail.js"></script>
     <script src="scripts/fond-outils.js"></script>
     <script src="scripts/fond-projets.js"></script>
+    <script src="scripts/fond-avis.js"></script>
 </body>
 </html>

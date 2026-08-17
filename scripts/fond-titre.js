@@ -12,7 +12,6 @@
     var MARGE = 20;           // respiration de part et d'autre du titre
     var AIR_SECTION = 48;     // entre la rangée du titre et son contenu
     var AIR_APRES = 120;      // entre la fin d'un contenu et le titre suivant
-    var AIR_PIED = 200;       // entre le dernier contenu et le pied de page
     // Sous le pied de page. Il en faut au moins 180 : c'est la hauteur du
     // dégradé de points qui ferme la page (.dots-bg-bottom), et ses points
     // sont bien plus gros que le semis du bloc — s'ils passaient dessous, les
@@ -97,17 +96,10 @@
             );
         });
 
-        // Le pied de page ferme la colonne : il se pose après le dernier
-        // contenu, et c'est lui qui donne alors sa hauteur à la page.
-        var voulue;
-        if (pied) {
-            var hautPied = rangeeSous(bas + AIR_PIED);
-            pied.style.top = hautPied + 'px';
-            voulue = hautPied + pied.offsetHeight + MARGE_BAS;
-        } else {
-            // Sans pied, un écran de rab pour le dégradé du bas.
-            voulue = bas + window.innerHeight;
-        }
+        // Le bloc de contact ferme la colonne : il est la section du dernier
+        // titre, donc déjà posé. Il ne reste qu'à lui laisser sa marge basse.
+        // Sans lui, un écran de rab pour le dégradé du bas.
+        var voulue = bas + (pied ? MARGE_BAS : window.innerHeight);
 
         // La page se dimensionne sur son contenu. Changer la hauteur oblige à
         // redessiner le semis, qui la suit (data-height="auto").
@@ -138,8 +130,6 @@
         sections.forEach(function (section) {
             if (section) observateur.observe(section);
         });
-        // Le pied change de hauteur quand ses colonnes se replient.
-        if (pied) observateur.observe(pied);
     }
 
     // Le reste de la page peut avoir besoin de forcer un replacement.
