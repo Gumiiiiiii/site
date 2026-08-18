@@ -1,28 +1,40 @@
-/* La page des points : le fond de /fond, seul, sans le contenu qui le
-   recouvre.
+/* La page des points. Rien que la matière du fond de /fond, sans le contenu
+   qui la recouvre : le dégradé du haut, le semis, le dégradé du bas.
 
-   Le champ n'est plus découpé en couches. Les dégradés du haut et du bas et
-   le semis du milieu sont un seul et même dessin, produit d'un coup par
-   scripts/points-champ.js : une trame unique dont seule la densité varie.
-
-   Ce fichier ne fait plus que donner sa hauteur à la page. Il n'y a plus ni
-   masque ni cadrage à régler — c'est le dessin lui-même qui sait où il est
-   dense et où il est clair, donc plus rien à raccorder entre deux couches. */
+   Comme sur /fond, tout est dessiné par scripts/page-effects.js — même
+   boucle, même grille 20x18, même rayon qui grossit vers les bords. Ce
+   fichier ne fait que donner sa hauteur à la page et placer le semis. */
 
 .points-page .site-content {
     /* Le grain cream-paper laisse la place aux points. */
     background-image: none;
-    /* Trois écrans : la descente du haut, le milieu clairsemé, la remontée. */
+    /* Trois écrans : dégradé du haut, semis, dégradé du bas. Chacun se lit
+       séparément, sans avoir à faire défiler deux fois pour le trouver. */
     min-height: 300vh;
     padding: 0;
 }
 
-.points-page .points-champ {
+/* Comme .dots-bg, mais sur toute la hauteur : c'est le semis qui relie les
+   deux dégradés.
+
+   Il ne commence qu'une fois le dégradé éteint. Sans ça, un point sur quatre
+   du dégradé recevrait aussi un point du semis, au même endroit : les deux
+   opacités de 0,04 se cumuleraient à près de 0,08 et ces points-là
+   ressortiraient plus foncés que leurs voisins. Le fondu du semis est
+   l'exact inverse de celui des dégradés (250 px en haut, 180 px en bas, les
+   hauteurs déclarées dans points.html). */
+.points-page .points-semis {
     position: absolute;
     inset: 0;
     z-index: -1;
     color: var(--text);
     pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom,
+        transparent 0, #000 250px,
+        #000 calc(100% - 180px), transparent 100%);
+    mask-image: linear-gradient(to bottom,
+        transparent 0, #000 250px,
+        #000 calc(100% - 180px), transparent 100%);
 }
 
-.points-page .points-champ svg { display: block; overflow: visible; }
+.points-page .points-semis svg { display: block; overflow: visible; }
