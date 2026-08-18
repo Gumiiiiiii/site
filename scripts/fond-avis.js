@@ -74,6 +74,31 @@
         if (e.key === 'ArrowRight') { e.preventDefault(); aller(1); }
     });
 
+    // Balayage tactile. On ne décide qu'au relâchement, et seulement si le
+    // geste est franchement horizontal : sinon un scroll vertical un peu de
+    // travers ferait défiler les cartes au passage. Aucun preventDefault, le
+    // défilement de la page reste donc toujours possible.
+    var departX = 0, departY = 0, suit = false;
+
+    cadre.addEventListener('touchstart', function (e) {
+        if (e.touches.length !== 1) { suit = false; return; }
+        departX = e.touches[0].clientX;
+        departY = e.touches[0].clientY;
+        suit = true;
+    }, { passive: true });
+
+    cadre.addEventListener('touchend', function (e) {
+        if (!suit) return;
+        suit = false;
+        var t = e.changedTouches[0];
+        var dx = t.clientX - departX;
+        var dy = t.clientY - departY;
+        if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+        aller(dx < 0 ? 1 : -1);
+    }, { passive: true });
+
+    cadre.addEventListener('touchcancel', function () { suit = false; }, { passive: true });
+
     var reduit = window.matchMedia('(prefers-reduced-motion: reduce)');
     function suivreReglage() {
         anime = !reduit.matches;

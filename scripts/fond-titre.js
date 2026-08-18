@@ -8,14 +8,14 @@
 // qui change de taille quand on déplie un projet.
 (function () {
     var PAS_Y = 72;           // pas vertical du semis (voir fond.html)
-    var ECART_RANGEES = 4;    // rangées minimales entre deux titres
+    var ECART_RANGEES = 5;    // rangées minimales entre deux titres
     var MARGE = 20;           // respiration de part et d'autre du titre
     // Part de la rangée qui subsiste aux bords de l'écran. La rangée est
     // maintenant tracée à 0,18 d'opacité ; 0,46 de 0,18 fait 0,083, la valeur
     // uniforme qu'elle avait avant qu'on la fasse varier.
     var PLANCHER = 0.46;
     var AIR_SECTION = 48;     // entre la rangée du titre et son contenu
-    var AIR_APRES = 120;      // entre la fin d'un contenu et le titre suivant
+    var AIR_APRES = 192;      // entre la fin d'un contenu et le titre suivant
     // Sous le pied de page. Il en faut au moins 180 : c'est la hauteur du
     // dégradé de points qui ferme la page (.dots-bg-bottom), et ses points
     // sont bien plus gros que le semis du bloc — s'ils passaient dessous, les
@@ -84,10 +84,24 @@
                 var r = titre.getBoundingClientRect();
                 var debut = Math.round(r.left) - MARGE;
                 var fin = Math.round(r.right) + MARGE;
+                // L'assombrissement ne déborde pas de la colonne de texte :
+                // au-delà des marges, la rangée reprend la teinte du semis.
+                // La marge est mesurée sur le titre lui-même (posé à
+                // left: var(--fond-marge)) et vaut autant à droite.
+                var marge = Math.round(r.left);
+                var margeD = Math.round(ligne.offsetWidth - marge);
+                // Le trou est bride par les marges : sans cela ses bornes
+                // passent devant celles de la colonne, les arrets du degrade
+                // sortent dans le desordre, et CSS ecrase les uns sur les
+                // autres tous ceux qui reculent.
+                debut = Math.max(marge, debut);
+                fin = Math.min(margeD, fin);
                 var masque = 'linear-gradient(to right,' +
-                    ' rgba(0,0,0,' + PLANCHER + ') 0, #000 ' + debut + 'px,' +
+                    ' transparent 0, transparent ' + marge + 'px,' +
+                    ' rgba(0,0,0,' + PLANCHER + ') ' + marge + 'px, #000 ' + debut + 'px,' +
                     ' transparent ' + debut + 'px, transparent ' + fin + 'px,' +
-                    ' #000 ' + fin + 'px, rgba(0,0,0,' + PLANCHER + ') 100%)';
+                    ' #000 ' + fin + 'px, rgba(0,0,0,' + PLANCHER + ') ' + margeD + 'px,' +
+                    ' transparent ' + margeD + 'px, transparent 100%)';
                 ligne.style.webkitMaskImage = masque;
                 ligne.style.maskImage = masque;
             }
@@ -143,6 +157,10 @@
             if (section) observateur.observe(section);
         });
     }
+
+    // Changer de langue change la largeur des titres, donc le trou perce
+    // dans chaque rangee de points. On replace apres coup.
+    document.addEventListener('gumi:lang', function () { placer(); });
 
     // Le reste de la page peut avoir besoin de forcer un replacement.
     window.fondPlacer = placer;

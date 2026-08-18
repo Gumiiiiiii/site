@@ -84,6 +84,10 @@
             afficher();
         });
 
+        // Le changement peut venir d ailleurs que du bouton (l URL /en/, un
+        // autre onglet) : on suit l evenement du site plutot que le seul clic.
+        document.addEventListener('gumi:lang', afficher);
+
         langue.addEventListener('mouseleave', function () {
             langue.classList.remove('hover-locked');
         });
