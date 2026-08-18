@@ -1,76 +1,53 @@
 /* La page des points. Rien que la matière du fond de /fond, sans le contenu
-   qui la recouvre : le dégradé du haut, la couche intermédiaire, le semis,
-   le dégradé du bas.
+   qui la recouvre : le dégradé du haut, le semis, le dégradé du bas.
 
    Tout est dessiné par scripts/page-effects.js, le code du site : même
-   boucle, même grille 20x18, même loi de rayon qui grossit vers les bords.
-   Les couches du milieu n'en prennent qu'un point sur quatre, puis un sur
-   seize.
+   boucle, même grille 20x18. Le semis n'en prend qu'un point sur quatre.
 
-   Ce fichier ne fait que donner sa hauteur à la page et passer le relais
-   d'une couche à l'autre. Les hauteurs de fondu citées ici sont celles
-   déclarées dans points.html : 250 px pour le dégradé du haut, 180 pour
-   celui du bas. */
+   Ce fichier ne fait que donner sa hauteur à la page et cadrer le semis. */
 
 .points-page .site-content {
     /* Le grain cream-paper laisse la place aux points. */
     background-image: none;
-    /* Quatre écrans : le relais étire la descente sur 600 px, il faut de la
-       hauteur derrière pour que le semis ait ensuite le temps d'exister. */
-    min-height: 400vh;
+    /* Trois écrans : dégradé du haut, semis, dégradé du bas. */
+    min-height: 300vh;
     padding: 0;
 }
 
-/* === LE RELAIS DES COUCHES ================================================
-   Trois densités pour une seule matière : 20x18 sur les bords de page,
-   40x36 au-dessous, 80x72 au milieu. Chaque couche vaut le quart de la
-   précédente, et son fondu commence là où celui de la précédente finit.
+/* === LE SEMIS =============================================================
+   Le milieu de la page est une matière unique : tous ses points ont la même
+   taille et la même encre, sans exception.
 
-   Deux couches qui se recouvrent poseraient deux fois de l'encre au même
-   endroit — les trames étant emboîtées (40 = 2x20, 80 = 2x40), un point sur
-   quatre recevrait le double et ressortirait plus foncé que ses voisins.
-   D'où des fondus strictement complémentaires : quand l'un descend, l'autre
-   monte, et leur somme reste constante.
+   Ce qui interdit le masque en dégradé. Il éteindrait progressivement les
+   rangées de la lisière, plus claires que celles du milieu ; et là où le
+   semis retombe sur un point du dégradé — les trames sont emboîtées,
+   80 = 4x20 — les deux encres s'additionneraient et ce point-là serait plus
+   foncé que ses voisins. Deux variations de couleur pour une matière censée
+   être uniforme.
 
-   Sans le relais, la descente allait de 20x18 à 80x72 d'un seul coup, sur
-   250 px : seize fois moins de points, sur un quart d'écran. La densité ne
-   s'effondrait pas — mesuré, la courbe d'encre restait monotone — mais l'œil
-   lisait deux matières posées bout à bout plutôt qu'une seule qui s'éclaircit.
-   Le relais coupe ce saut en deux marches de 4x, sur 600 px au lieu de 250. */
+   Ce qui interdit aussi la coupe nette par masque : la rangée qui tombe sur
+   la ligne de coupe est tranchée en deux. Le cas n'est pas théorique — à
+   900 px de haut, la page fait 2700 et la coupe basse tomberait à 2520,
+   soit 72 x 35 pile.
 
-.points-page .points-relais,
+   Le semis est donc cadré, pas masqué : sa boîte s'arrête avant les
+   dégradés, et scripts/page-effects.js n'y dessine que des points entiers.
+   Le retrait du haut est un multiple de 72, le pas du semis : ses rangées
+   restent ainsi sur la trame du site (288 = 16 x 18), donc sur des rangées
+   non décalées du dégradé, comme si rien ne l'avait déplacé.
+
+   Les marges laissent 38 px sous le dégradé du haut (250) et 36 au-dessus
+   de celui du bas (180) : aucun point du semis ne peut se superposer à un
+   point de dégradé. */
 .points-page .points-semis {
     position: absolute;
-    inset: 0;
+    top: 288px;
+    bottom: 216px;
+    left: 0;
+    right: 0;
     z-index: -1;
     color: var(--text);
     pointer-events: none;
 }
 
-.points-page .points-relais svg,
 .points-page .points-semis svg { display: block; overflow: visible; }
-
-/* Le relais prend la suite du dégradé du haut (éteint à 250), tient sa
-   pleine encre sur 100 px, puis s'efface sur les 250 suivants. En bas, le
-   même trajet à l'envers, calé sur les 180 px du dégradé du bas. */
-.points-page .points-relais {
-    -webkit-mask-image: linear-gradient(to bottom,
-        transparent 0, #000 250px, #000 350px, transparent 600px,
-        transparent calc(100% - 530px), #000 calc(100% - 280px),
-        #000 calc(100% - 180px), transparent 100%);
-    mask-image: linear-gradient(to bottom,
-        transparent 0, #000 250px, #000 350px, transparent 600px,
-        transparent calc(100% - 530px), #000 calc(100% - 280px),
-        #000 calc(100% - 180px), transparent 100%);
-}
-
-/* Le semis ne commence qu'où le relais s'efface, et repart de même en bas :
-   c'est lui qui tient tout le milieu de la page. */
-.points-page .points-semis {
-    -webkit-mask-image: linear-gradient(to bottom,
-        transparent 350px, #000 600px,
-        #000 calc(100% - 530px), transparent calc(100% - 280px));
-    mask-image: linear-gradient(to bottom,
-        transparent 350px, #000 600px,
-        #000 calc(100% - 530px), transparent calc(100% - 280px));
-}

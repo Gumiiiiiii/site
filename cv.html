@@ -1,38 +1,36 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
+<html lang="fr"><head>
     <meta charset="UTF-8">
     <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
     <link rel="preload" href="fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
-    <!-- Page cachée : jamais indexée, accessible uniquement par lien direct. -->
+    <!-- Page cachee : jamais indexee, accessible uniquement par lien direct. -->
     <meta name="robots" content="noindex">
-    <link rel="canonical" href="https://pierre.gumi.ch/cv">
-    <!-- Les deux URL servent ce même fichier ; i18n.js rend l'anglais quand le
-         chemin commence par /en/. x-default pointe le français. -->
-    <link rel="alternate" hreflang="fr" href="https://pierre.gumi.ch/cv">
-    <link rel="alternate" hreflang="en" href="https://pierre.gumi.ch/en/cv">
-    <link rel="alternate" hreflang="x-default" href="https://pierre.gumi.ch/cv">
+    <!-- La page vit desormais a la racine de pierre.gumi.ch. /cv continue de
+         la servir, pour les liens deja partages, mais ne fait pas foi. -->
+    <link rel="canonical" href="https://pierre.gumi.ch/">
+    <link rel="alternate" hreflang="fr" href="https://pierre.gumi.ch/">
+    <link rel="alternate" hreflang="en" href="https://pierre.gumi.ch/en">
+    <link rel="alternate" hreflang="x-default" href="https://pierre.gumi.ch/">
     <meta property="og:type" content="profile">
     <meta property="og:site_name" content="Gumi.">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:locale:alternate" content="en_US">
-    <meta property="og:title" content="Pierre Gumilar · E-commerce &amp; marketing digital">
-    <meta property="og:description" content="E-commerce, PIM, SEO, acquisition et contenu : découvrez le parcours, les réalisations et les résultats de Pierre Gumilar.">
-    <meta property="og:url" content="https://pierre.gumi.ch/cv">
+    <meta property="og:title" content="Pierre Gumilar &middot; E-commerce &amp; marketing digital">
+    <meta property="og:description" content="E-commerce, PIM, SEO, acquisition et contenu : d&eacute;couvrez le parcours, les r&eacute;alisations et les r&eacute;sultats de Pierre Gumilar.">
+    <meta property="og:url" content="https://pierre.gumi.ch/">
     <meta property="og:image" content="https://pierre.gumi.ch/media/pierre-gumilar.jpg">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Pierre Gumilar · E-commerce &amp; marketing digital">
-    <meta name="twitter:description" content="E-commerce, PIM, SEO, acquisition et contenu : découvrez le parcours, les réalisations et les résultats de Pierre Gumilar.">
+    <meta name="twitter:title" content="Pierre Gumilar &middot; E-commerce &amp; marketing digital">
+    <meta name="twitter:description" content="E-commerce, PIM, SEO, acquisition et contenu : d&eacute;couvrez le parcours, les r&eacute;alisations et les r&eacute;sultats de Pierre Gumilar.">
     <meta name="twitter:image" content="https://pierre.gumi.ch/media/pierre-gumilar.jpg">
-    <title data-i18n="doc_cv_title">Pierre Gumilar · E-commerce &amp; marketing digital</title>
-    <meta name="description" data-i18n-content="doc_cv_desc" content="E-commerce, PIM, SEO, acquisition et contenu : découvrez le parcours, les réalisations et les résultats de Pierre Gumilar.">
+    <title data-i18n="doc_cv_title">Pierre Gumilar &middot; E-commerce &amp; marketing digital</title>
+    <meta name="description" data-i18n-content="doc_cv_desc" content="E-commerce, PIM, SEO, acquisition et contenu : d&eacute;couvrez le parcours, les r&eacute;alisations et les r&eacute;sultats de Pierre Gumilar.">
     <link rel="icon" type="image/png" sizes="32x32" href="media/favicon-32.png">
     <link rel="apple-touch-icon" href="media/apple-touch-icon.png">
-
     <link rel="stylesheet" href="styles/shared.css">
-    <link rel="stylesheet" href="styles/cv.css">
+    <link rel="stylesheet" href="styles/fond.css">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -41,407 +39,514 @@
         "jobTitle": "E-commerce & marketing digital",
         "email": "mailto:pierregumilar@gmail.com",
         "telephone": "+33651611217",
-        "url": "https://pierre.gumi.ch/cv",
+        "url": "https://pierre.gumi.ch/",
         "sameAs": ["https://www.linkedin.com/in/pierre-gumilar/", "https://gumi.ch/"],
         "alumniOf": "IAE Aix School of Management",
         "knowsLanguage": ["fr", "en"]
     }
     </script>
 </head>
-<body class="shell-page cv-page">
+<body class="shell-page fond-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
+    <!-- Page d'essai : rien que le fond. Trois écrans de haut, pour que le
+         dégradé du haut, le semis et le dégradé du bas se lisent séparément.
 
-    <!-- Variante CV de la barre partagée : ancrée en haut, avec les ancres de
-         page. Une seule surface sticky, voir navbar.js. -->
-    <nav class="navbar" data-navbar-root data-navbar-variant="cv" aria-label="Navigation du CV"></nav>
-
+         Les deux dégradés ne sont pas réécrits ici : ce sont les .dots-bg
+         du site, dessinés par scripts/page-effects.js, donc exactement le
+         même motif que sur gumi.ch. Le semis du milieu, lui, est un simple
+         fond CSS (voir styles/fond.css). -->
     <main class="site-content" id="main">
+        <!-- Le semis : même trame que les dégradés, échantillonnée un point
+             sur quatre (80 = 4x20, 72 = 4x18), sur leurs rangées non
+             décalées. Rayon constant, égal au plus petit point des dégradés (3 px), et la
+             même opacité qu'eux : même encre, même poids. -->
+        <div class="fond-semis dynamic-dots" data-height="auto" data-spacing-x="80" data-spacing-y="72" data-stagger="off" data-radius="3" data-opacity="0.04" aria-hidden="true"></div>
         <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+        <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" aria-hidden="true"></div>
 
-        <header class="cv-hero">
-            <div class="cv-hero-text">
-                <h1><span data-i18n="cv_hero_title">Pierre · E-commerce &amp; marketing digital</span><span class="dot">.</span></h1>
-                <p class="cv-hero-sub" data-i18n="cv_hero_sub">J'aide les marques à mieux présenter, vendre et faire découvrir leurs produits en ligne. J'aime les sujets où contenu, donnée produit, acquisition et expérience utilisateur se rencontrent, et où il faut autant réfléchir que faire.</p>
-                <div class="cv-cta-row">
-                    <a href="mailto:pierregumilar@gmail.com" class="btn-primary" data-track="contact_mail" data-i18n="cv_cta_write">Me contacter</a>
-                    <a href="https://cal.com/pierre-gumi/20min" class="cv-btn-ghost" rel="noopener" data-track="book_call" data-i18n="cv_cta_book">Réserver 20 min</a>
-                    <a href="media/Pierre-Gumilar-CV.pdf" class="cv-btn-ghost" download data-track="pdf_download" data-i18n="cv_cta_pdf">CV PDF (1 page)</a>
-                </div>
-                <p class="cv-avail-line" data-i18n="cv_avail">Disponible en septembre 2026 · CDI · France, Belgique, Suisse, Luxembourg · sur site ou remote</p>
+        <!-- La rangée assombrie : une seule ligne de points (data-height="0"),
+             sur la même trame que le semis. Son opacité de 0,083 s'ajoute aux
+             0,04 du semis déjà présent dessous, ce qui donne 0,12 à l'écran.
+             fond-titre.js la place sur la rangée choisie. Elle est uniforme sur
+             toute la largeur : tous les points de la ligne sont assombris. -->
+        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80" data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
+        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80" data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
+        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80" data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
+        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80" data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
+        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80" data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
+        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80" data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
+
+        <!-- HERO : dans le viewport, le portrait, la phrase et les quatre
+             chiffres cles alignes en bas d ecran. Les chiffres sont ceux du CV,
+             inchanges. La photo de montagne du brief manque encore. -->
+        <header class="fond-hero" id="intro">
+            <div class="fond-hero-haut">
+                <img class="fond-hero-photo" src="media/pierre-gumilar-512.webp" alt="Portrait de Pierre Gumilar" width="512" height="512" fetchpriority="high">
+                <h1 class="fond-hero-phrase" data-i18n-html="fond_1">Je suis <strong>Pierre</strong>, <strong>responsable marketing digital</strong>&nbsp;: j'optimise les <strong>ventes e-commerce</strong> en combinant
+                    <strong>contenu, data produit, acquisition et UX</strong>, et je recherche un
+                    <strong>CDI dès septembre 2026</strong> sur site ou en remote
+                    (France, Belgique, Suisse, Luxembourg).</h1>
             </div>
-            <div class="cv-hero-photo">
-                <img src="media/pierre-gumilar-512.webp" alt="Portrait de Pierre Gumilar" data-i18n-aria="cv_photo_alt" class="cv-photo" width="512" height="512" fetchpriority="high">
+
+            <div class="fond-hero-chiffres">
+                <div class="fond-kpi"><b>500 <span>→</span> 5 000</b><span data-i18n="fond_2">Fiches produits enrichies</span><small data-i18n="fond_6">Magento · Salsify</small></div>
+                <div class="fond-kpi"><b>+180 %</b><span data-i18n="fond_3">Trafic organique de lindt.fr</span><small data-i18n="fond_7">Fin 2023 – mi-2026</small></div>
+                <div class="fond-kpi"><b>500+</b><span data-i18n="fond_4">Réservations attribuées à Google Ads</span><small data-i18n="fond_8">Émeraude Aventure · deux mois</small></div>
+                <div class="fond-kpi"><b>7 000+</b><span data-i18n="fond_5">Assets e-commerce coordonnés</span><small data-i18n="fond_9">Production · validation · diffusion</small></div>
             </div>
         </header>
 
-        <!-- 3. RÉSULTATS CLÉS -->
-        <section class="cv-section cv-kpi-section" id="resultats" aria-labelledby="resultats-h">
-            <h2 class="visually-hidden" id="resultats-h" data-i18n="cv_sec_results">Résultats clés</h2>
-            <div class="cv-kpis">
-                <div class="cv-kpi"><b data-i18n-html="cv_kpi1_num"><span class="cv-from">500 →</span> 5&nbsp;000</b><span data-i18n="cv_kpi1_label">Fiches produits enrichies</span><small data-i18n="cv_kpi1_src">Magento · Salsify</small></div>
-                <div class="cv-kpi"><b data-i18n-html="cv_kpi2_num">+180 %</b><span data-i18n="cv_kpi2_label">Trafic organique de lindt.fr</span><small data-i18n="cv_kpi2_src">Fin 2023 – mi-2026</small></div>
-                <div class="cv-kpi"><b data-i18n-html="cv_kpi3_num">500+</b><span data-i18n="cv_kpi3_label">Réservations attribuées à Google Ads</span><small data-i18n="cv_kpi3_src">Émeraude Aventure · deux mois</small></div>
-                <div class="cv-kpi"><b data-i18n-html="cv_kpi4_num">7&nbsp;000+</b><span data-i18n="cv_kpi4_label">Assets e-commerce coordonnés</span><small data-i18n="cv_kpi4_src">Production · validation · diffusion</small></div>
-            </div>
-        </section>
+        <!-- Thème, langue, contact : des icônes posées sur le papier, sur le
+             meme axe vertical que le rail. -->
+        <div class="fond-outils">
+            <button type="button" class="fond-outil" data-fond-theme="" title="Changer le thème" aria-label="Changer le thème">
+                <svg class="theme-toggle-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <mask id="theme-toggle-mask">
+                        <rect x="0" y="0" width="100%" height="100%" fill="white"></rect>
+                        <circle class="theme-toggle-cutout" cx="24" cy="10" r="6" fill="black"></circle>
+                    </mask>
+                    <circle class="theme-toggle-core" cx="12" cy="12" r="6" fill="currentColor" mask="url(#theme-toggle-mask)"></circle>
+                    <g class="theme-toggle-rays" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="12" y1="3" x2="12" y2="1"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="12" y1="3" x2="12" y2="1" transform="rotate(45 12 12)"></line>
+                        <line x1="21" y1="12" x2="23" y2="12" transform="rotate(45 12 12)"></line>
+                        <line x1="12" y1="21" x2="12" y2="23" transform="rotate(45 12 12)"></line>
+                        <line x1="1" y1="12" x2="3" y2="12" transform="rotate(45 12 12)"></line>
+                    </g>
+                </svg>
+            </button>
+            <!-- Meme structure que le bouton de langue du site : la fenetre
+                 de 24 px rogne le rail FR/EN, qui glisse d une ligne au
+                 survol pour montrer la langue vers laquelle on va. -->
+            <button type="button" class="fond-outil lang-btn no-select" data-fond-lang="" title="Changer la langue" aria-label="Changer la langue">
+                <span class="lang-window">
+                    <span class="lang-slider">
+                        <span>FR</span>
+                        <span>EN</span>
+                    </span>
+                </span>
+            </button>
+            <!-- Lucide « mail », geometrie et graisse d origine (2), pour tenir
+                 le meme trait que les rayons du soleil juste a cote. -->
+            <a class="fond-outil" href="mailto:pierregumilar@gmail.com" title="Me contacter" aria-label="Me contacter">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                </svg>
+            </a>
+        </div>
 
-        <!-- 4. RÉALISATIONS -->
-        <section class="cv-section" id="realisations">
-            <div class="cv-head">
-                <h2><span data-i18n="cv_sec_work">Quelques projets et leurs résultats</span><span class="dot">.</span></h2>
-                <p data-i18n="cv_sec_work_intro">Voici trois projets qui représentent bien ma façon de travailler : comprendre ce qui bloque, construire une réponse concrète et regarder honnêtement ce qu'elle produit.</p>
-            </div>
+        <nav class="fond-rail" aria-label="Sections de la page">
+            <a href="#intro"><span data-i18n="fond_103">Intro</span></a>
+            <a href="#realisations"><span data-i18n="fond_104">Projets</span></a>
+            <a href="#parcours"><span data-i18n="fond_105">Parcours</span></a>
+            <a href="#competences"><span data-i18n="fond_106">Compétences</span></a>
+            <a href="#temoignages"><span data-i18n="fond_107">Recommandations</span></a>
+            <a href="#perso"><span data-i18n="fond_108">Passions</span></a>
+            <a href="#contact"><span data-i18n="fond_109">Contact</span></a>
+        </nav>
 
-            <!-- Lindt : réalisation principale, la carte la plus structurante. -->
-            <article class="cv-work cv-work--lead">
-                <div class="cv-work-visual">
-                    <div class="cv-mosaic" role="img" aria-label="Sélection de contenus e-commerce et de photographies produits réalisés ou coordonnés pour Lindt" data-i18n-aria="cv_work1_alt">
-                        <img src="media/lindt-shoot-tablette-texture.webp" alt="" width="640" height="640" loading="lazy">
-                        <img src="media/lindt-shoot-signature.webp" alt="" width="640" height="640" loading="lazy">
-                        <img src="media/lindt-shoot-lumiere.webp" alt="" width="640" height="640" loading="lazy">
-                        <img src="media/lindt-shoot-chocolat-noir.webp" alt="" width="640" height="640" loading="lazy">
-                        <img src="media/lindt-shoot-geste.webp" alt="" width="640" height="640" loading="lazy">
-                        <img src="media/lindt-shoot-noel.webp" alt="" width="640" height="640" loading="lazy">
+        <!-- Les titres de sections de pierre.gumi.ch/cv, dans l'ordre de la
+             page. Une rangée assombrie par titre, ci-dessus. -->
+        <h2 class="fond-titre" id="realisations" data-i18n="fond_10">Trois projets et leurs résultats</h2>
+        <!-- Une ligne par projet : le nom, la phrase qui le résume, et une
+             flèche qui bascule vers le bas quand le contenu s'ouvre. Le corps
+             met les médias à gauche et le texte à droite.
+
+             Textes et chiffres repris tels quels du CV. Émeraude Aventure
+             n'a aucun visuel dans le dépôt : sa ligne s'ouvre sur du texte
+             seul plutôt que sur une image générique. -->
+        <div class="fond-section fond-projets">
+            <div class="fond-projet">
+                <button type="button" class="fond-projet-tete" aria-expanded="false" aria-controls="projet-lindt">
+                    <span class="fond-projet-nom">Lindt &amp; Sprüngli</span>
+                    <span class="fond-projet-resume" data-i18n="fond_16">Faire grandir le contenu e-commerce sans perdre en cohérence.</span>
+                    <span class="fond-projet-icone" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path class="fond-plus-barre" d="M12 5v14"></path></svg>
+                    </span>
+                </button>
+                <div class="fond-projet-corps" id="projet-lindt" inert="">
+                    <div class="fond-projet-interieur">
+                        <div class="fond-projet-medias fond-projet-medias--mosaique" role="img" aria-label="Sélection de contenus e-commerce et de photographies produits réalisés ou coordonnés pour Lindt">
+                            <img src="media/lindt-shoot-tablette-texture.webp" alt="" width="640" height="640" loading="lazy">
+                            <img src="media/lindt-shoot-signature.webp" alt="" width="640" height="640" loading="lazy">
+                            <img src="media/lindt-shoot-lumiere.webp" alt="" width="640" height="640" loading="lazy">
+                            <img src="media/lindt-shoot-chocolat-noir.webp" alt="" width="640" height="640" loading="lazy">
+                            <img src="media/lindt-shoot-geste.webp" alt="" width="640" height="640" loading="lazy">
+                            <img src="media/lindt-shoot-noel.webp" alt="" width="640" height="640" loading="lazy">
+                        </div>
+                        <div class="fond-projet-texte">
+                            <span class="fond-projet-label" data-i18n="fond_19">Lindt &amp; Sprüngli · CDI · 2023 – août 2026</span>
+                            <p data-i18n="fond_22">Chez Lindt, je fais le lien entre la donnée produit, les contenus et leur diffusion en ligne. Je structure le catalogue et le PIM Salsify, coordonne les contenus pour Amazon et les e-retailers, et pilote les shootings ainsi que la direction artistique.</p>
+                            <p data-i18n="fond_23">Sur plus de 7&nbsp;000 assets, mon rôle consiste principalement à coordonner. J'en produis aussi une partie, puis je les valide et les diffuse. J'ai également structuré les méthodes de travail pour rendre l'enrichissement et la validation plus simples à l'échelle du catalogue.</p>
+                            <ul class="fond-preuves">
+                                <li data-i18n="fond_27">500 → 5&nbsp;000 fiches enrichies</li>
+                                <li data-i18n="fond_28">+180&nbsp;% de trafic organique sur lindt.fr, de fin 2023 à mi-2026</li>
+                                <li data-i18n="fond_29">7&nbsp;000+ assets coordonnés</li>
+                                <li data-i18n="fond_30">Salsify · Magento · Amazon · e-retail</li>
+                                <li data-i18n="fond_31">Shootings · direction artistique</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="cv-work-body">
-                    <span class="cv-work-label" data-i18n="cv_work1_label">Lindt &amp; Sprüngli · CDI · 2023 – août 2026</span>
-                    <h3 data-i18n="cv_work1_title">Faire grandir le contenu e-commerce sans perdre en cohérence</h3>
-                    <p data-i18n="cv_work1_p1">Chez Lindt, je fais le lien entre la donnée produit, les contenus et leur diffusion en ligne. Je structure le catalogue et le PIM Salsify, coordonne les contenus pour Amazon et les e-retailers, et pilote les shootings ainsi que la direction artistique.</p>
-                    <p data-i18n="cv_work1_p2">Sur plus de 7 000 assets, mon rôle consiste principalement à coordonner. J'en produis aussi une partie, puis je les valide et les diffuse. J'ai également structuré les méthodes de travail pour rendre l'enrichissement et la validation plus simples à l'échelle du catalogue.</p>
-                    <ul class="cv-proofs">
-                        <li data-i18n="cv_work1_pr1">500 → 5 000 fiches enrichies</li>
-                        <li data-i18n="cv_work1_pr2">+180 % de trafic organique sur lindt.fr, de fin 2023 à mi-2026</li>
-                        <li data-i18n="cv_work1_pr3">7 000+ assets coordonnés</li>
-                        <li data-i18n="cv_work1_pr4">Salsify · Magento · Amazon · e-retail</li>
-                        <li data-i18n="cv_work1_pr5">Shootings · direction artistique</li>
-                    </ul>
-                    <p class="cv-work-note" data-i18n="cv_work1_note">Je présente ici les grandes lignes. Je partage volontiers des exemples plus précis en entretien.</p>
-                    <a class="cv-work-cta" href="#contact" data-i18n="cv_work1_cta">En parler ensemble</a>
+            </div>
+
+            <div class="fond-projet">
+                <button type="button" class="fond-projet-tete" aria-expanded="false" aria-controls="projet-ardacraft">
+                    <span class="fond-projet-nom">ArdaCraft</span>
+                    <span class="fond-projet-resume" data-i18n="fond_17">Construire et faire grandir un écosystème digital.</span>
+                    <span class="fond-projet-icone" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path class="fond-plus-barre" d="M12 5v14"></path></svg>
+                    </span>
+                </button>
+                <div class="fond-projet-corps" id="projet-ardacraft" inert="">
+                    <div class="fond-projet-interieur">
+                        <div class="fond-projet-medias" role="img" aria-label="Aperçus du site, de la carte interactive et de la croissance sociale d'ArdaCraft">
+                            <img src="media/ardacraft-redesign-card.webp" alt="" width="1200" height="675" loading="lazy">
+                            <img src="media/ardacraft-map-card.webp" alt="" width="1200" height="675" loading="lazy">
+                            <img src="media/ardacraft-social-card.webp" alt="" width="1200" height="675" loading="lazy">
+                        </div>
+                        <div class="fond-projet-texte">
+                            <span class="fond-projet-label" data-i18n="fond_20">ArdaCraft · projet communautaire</span>
+                            <p data-i18n="fond_24">ArdaCraft est le projet où j'expérimente le plus. J'y ai mené la refonte du site, conçu une carte interactive à partir d'une opportunité SEO et développé une nouvelle approche des formats vidéo.</p>
+                            <p data-i18n="fond_25">Ces chantiers partent de problèmes différents, mais suivent la même logique : observer ce qui fonctionne ailleurs, l'adapter au contexte d'ArdaCraft, puis mesurer ce qui change réellement.</p>
+                            <ul class="fond-preuves">
+                                <li data-i18n="fond_32">Coûts d'hébergement divisés par 10</li>
+                                <li data-i18n="fond_33">Usage des filtres multiplié par 6,5</li>
+                                <li data-i18n="fond_34">50&nbsp;% du trafic hors marque désormais généré par la carte</li>
+                                <li data-i18n="fond_35">8&nbsp;000 → 115&nbsp;000 abonnés</li>
+                                <li data-i18n="fond_36">27,3 millions de vues sur 24 vidéos</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fond-projet">
+                <button type="button" class="fond-projet-tete" aria-expanded="false" aria-controls="projet-emeraude">
+                    <span class="fond-projet-nom">Émeraude Aventure</span>
+                    <span class="fond-projet-resume" data-i18n="fond_18">Transformer un budget média en réservations directes.</span>
+                    <span class="fond-projet-icone" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path class="fond-plus-barre" d="M12 5v14"></path></svg>
+                    </span>
+                </button>
+                <div class="fond-projet-corps" id="projet-emeraude" inert="">
+                    <div class="fond-projet-interieur">
+                        <div class="fond-projet-medias">
+                            <img src="media/emeraude-aventure-kayak.webp" alt="Sortie en kayak de mer encadrée par Émeraude Aventure" width="1400" height="933" loading="lazy">
+                        </div>
+                        <div class="fond-projet-texte">
+                            <span class="fond-projet-label" data-i18n="fond_21">Émeraude Aventure · mission indépendante · Google Ads</span>
+                            <p data-i18n="fond_26">Pour Émeraude Aventure, une base nautique bretonne, j'ai structuré et optimisé les campagnes Google Ads avec un objectif simple : générer davantage de réservations directes tout en maîtrisant leur coût d'acquisition.</p>
+                            <ul class="fond-preuves">
+                                <li data-i18n="fond_37">500+ réservations attribuées</li>
+                                <li data-i18n="fond_38">1,99&nbsp;€ par réservation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="fond-titre" id="parcours" data-i18n="fond_11">Mon parcours</h2>
+        <!-- Trois groupes, une ligne par entrée : la date à gauche, le reste à
+             droite. Contenu repris tel quel du CV. -->
+        <div class="fond-section fond-parcours">
+            <div class="fond-parcours-groupe">
+                <h3 data-i18n="fond_39">Expérience</h3>
+                <div class="fond-parcours-ligne"><span class="fond-dates" data-i18n="fond_42">2023 – août 2026</span><span data-i18n-html="fond_46"><strong>E-Commerce Content Manager · Lindt &amp; Sprüngli, Paris</strong></span></div>
+                <div class="fond-parcours-ligne"><span class="fond-dates" data-i18n="fond_43">Depuis 2022</span><span data-i18n="fond_47">Consulting et projets indépendants · multi-secteurs</span></div>
+                <div class="fond-parcours-ligne"><span class="fond-dates">2022</span><span data-i18n="fond_48">Assistant Marketing Digital, stage · Lindt &amp; Sprüngli, Paris</span></div>
+                <div class="fond-parcours-ligne"><span class="fond-dates">2020</span><span data-i18n="fond_49">Assistant SEO Manager · Nutri &amp; Co, Aix-en-Provence</span></div>
+                <div class="fond-parcours-ligne"><span class="fond-dates">2020</span><span data-i18n="fond_50">Assistant Marketing Opérationnel · EXKI, Bruxelles</span></div>
+            </div>
+            <div class="fond-parcours-groupe">
+                <h3 data-i18n="fond_40">Formation</h3>
+                <div class="fond-parcours-ligne"><span class="fond-dates">2019 – 2022</span><span data-i18n="fond_51">MSc Marketing &amp; Services Management · IAE Aix School of Management</span></div>
+                <div class="fond-parcours-ligne"><span class="fond-dates">2018 – 2019</span><span data-i18n="fond_52">DUETI Business · University of the West of Scotland</span></div>
+            </div>
+            <div class="fond-parcours-groupe">
+                <h3 data-i18n="fond_41">Langues</h3>
+                <div class="fond-parcours-ligne"><span class="fond-dates" data-i18n="fond_44">Français</span><span data-i18n="fond_53">Langue natale</span></div>
+                <div class="fond-parcours-ligne"><span class="fond-dates" data-i18n="fond_45">Anglais</span><span data-i18n="fond_54">Courant, C1, TOEIC 940 · présentations et réunions en contexte international</span></div>
+            </div>
+        </div>
+
+        <h2 class="fond-titre" id="competences" data-i18n="fond_12">Mes compétences</h2>
+        <!-- Quatre champs d'expertise, puis la boîte à outils. Les logos sont
+             des tracés simple-icons (CC0), inlinés ; les outils dont les
+             ayants droit ont retiré la marque n'en ont pas. -->
+        <div class="fond-section fond-competences">
+            <p class="fond-competences-intro" data-i18n="fond_55">Aujourd'hui, je me sens particulièrement à l'aise
+                dans les 4 champs d'expertise ci-dessous&nbsp;:</p>
+
+            <div class="fond-champs">
+                <div class="fond-champ fond-bloc">
+                    <h3 data-i18n="fond_56">E-commerce et donnée produit</h3>
+                    <p data-i18n="fond_60">Structurer un catalogue, définir les attributs, enrichir les fiches et organiser leur diffusion sur les différents canaux.</p>
+                </div>
+                <div class="fond-champ fond-bloc">
+                    <h3 data-i18n="fond_57">Acquisition et SEO</h3>
+                    <p data-i18n="fond_61">Identifier les opportunités, améliorer l'architecture et la visibilité, puis suivre ce qui génère réellement du trafic ou des conversions.</p>
+                </div>
+                <div class="fond-champ fond-bloc">
+                    <h3 data-i18n="fond_58">Contenu et direction artistique</h3>
+                    <p data-i18n="fond_62">Concevoir les contenus, préparer et piloter les shootings, briefer les prestataires et garantir la cohérence jusqu'à la livraison.</p>
+                </div>
+                <div class="fond-champ fond-bloc">
+                    <h3 data-i18n="fond_59">Produit digital et analytics</h3>
+                    <p data-i18n="fond_63">Concevoir des parcours et des interfaces, lire les usages, construire les tableaux de bord utiles et améliorer l'expérience à partir des données.</p>
+                </div>
+            </div>
+
+            <p class="fond-boite-intro" data-i18n="fond_64">Mes expériences professionnelles et personnelles m'amènent
+                à utiliser une sélection d'outils régulièrement, dont j'ai fait la
+                liste non exhaustive ci-dessous&nbsp;:</p>
+
+            <div class="fond-boite">
+                <div class="fond-boite-rang">
+                    <span class="fond-boite-cat" data-i18n="fond_65">Web et e-commerce</span>
+                    <div class="fond-boite-liste">
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 6.9c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .915-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0"></path></svg>WordPress</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m24 4.515-7.658 14.97H9.149l3.205-6.204h-.144C9.566 16.713 5.621 18.973 0 19.485v-6.118s3.596-.213 5.71-2.435H0V4.515h6.417v5.278l.144-.001 2.622-5.277h4.854v5.244h.144l2.72-5.244H24Z"></path></svg>Webflow</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 280 280" aria-hidden="true"><path d="M104.525 199.832L58.6531 58.357C55.0595 47.2648 43.1523 41.181 32.078 44.7874C21.0091 48.3938 14.938 60.3261 18.5369 71.4183L64.4091 212.893C68.008 223.985 79.9152 230.069 90.9842 226.463C102.053 222.856 108.124 210.924 104.525 199.832Z"></path><path d="M139.994 129.046C145.2 129.046 149.039 132.101 152.312 135.932C155.949 140.197 158.853 145.484 161.32 151.097C172.411 176.293 174.488 207.815 174.488 207.815C175.283 219.453 185.359 228.25 196.973 227.452C208.586 226.655 217.364 216.553 216.569 204.92C216.569 204.92 213.782 165.549 199.915 134.038C188.023 107.017 167.888 86.7747 139.999 86.7747C112.111 86.7747 91.9753 107.017 80.0841 134.038C66.2119 165.549 63.43 204.92 63.43 204.92C62.6344 216.558 71.4126 226.655 83.0262 227.452C94.6397 228.25 104.716 219.453 105.511 207.815C105.511 207.815 107.588 176.299 118.678 151.097C121.145 145.489 124.05 140.197 127.686 135.932C130.954 132.101 134.793 129.046 139.994 129.046Z"></path><path d="M215.591 212.899L261.463 71.4238C265.062 60.3316 258.991 48.394 247.922 44.7929C236.853 41.1918 224.941 47.2703 221.347 58.3625L175.475 199.832C171.876 210.924 177.947 222.862 189.016 226.463C200.085 230.069 211.998 223.991 215.591 212.899Z"></path></svg>Webstudio</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 24l-4.455-2.572v-12l2.97-1.715v12.001l1.485.902 1.485-.902V7.713l2.971 1.715v12L12 24zM22.391 6v12l-2.969 1.714V7.713L12 3.43 4.574 7.713v12.001L1.609 18V6L12 0l10.391 6z"></path></svg>Magento</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" class="glyph" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>Salsify</span>
+                    </div>
+                </div>
+                <div class="fond-boite-rang">
+                    <span class="fond-boite-cat" data-i18n="fond_66">Data, acquisition et SEO</span>
+                    <div class="fond-boite-liste">
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.84 2.9982v17.9987c.0086 1.6473-1.3197 2.9897-2.967 2.9984a2.9808 2.9808 0 01-.3677-.0208c-1.528-.226-2.6477-1.5558-2.6105-3.1V3.1204c-.0369-1.5458 1.0856-2.8762 2.6157-3.1 1.6361-.1915 3.1178.9796 3.3093 2.6158.014.1201.0208.241.0202.3619zM4.1326 18.0548c-1.6417 0-2.9726 1.331-2.9726 2.9726C1.16 22.6691 2.4909 24 4.1326 24s2.9726-1.3309 2.9726-2.9726-1.331-2.9726-2.9726-2.9726zm7.8728-9.0098c-.0171 0-.0342 0-.0513.0003-1.6495.0904-2.9293 1.474-2.891 3.1256v7.9846c0 2.167.9535 3.4825 2.3505 3.763 1.6118.3266 3.1832-.7152 3.5098-2.327.04-.1974.06-.3983.0593-.5998v-8.9585c.003-1.6474-1.33-2.9852-2.9773-2.9882z"></path></svg>GA4</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.9475 0c-1.1598.0021-2.0982.944-2.096 2.1038a2.1 2.1 0 00.356 1.166l.895-.8959a.884.884 0 11.565.564l-.895.895c.9593.6478 2.2621.3953 2.91-.564.6478-.9593.3953-2.262-.564-2.91A2.096 2.096 0 0011.9475 0zm-.835 6.1128a3.2629 3.2629 0 00-.653-1.965l-1.164 1.162a1.667 1.667 0 01-.318 2.012l.632 1.5449a3.2819 3.2819 0 001.503-2.754zm-3.2499 1.666h-.03c-.9217.0009-1.6697-.7455-1.6707-1.6673-.001-.9217.7454-1.6697 1.6672-1.6707a1.669 1.669 0 01.9195.275l1.152-1.152c-1.4069-1.141-3.4724-.9257-4.6135.4811s-.9257 3.4723.481 4.6135a3.2799 3.2799 0 002.7275.6652l-.633-1.5439v-.001zm4.1279 1.3359c-.728 0-1.452.106-2.15.315l.922 2.2519c2.6872-.6819 5.4184.9438 6.1002 3.631.6818 2.6873-.9439 5.4184-3.6311 6.1002s-5.4184-.9439-6.1002-3.631c-.5682-2.2394.4655-4.5774 2.5041-5.6643l-.91-2.2449c-3.6908 1.808-5.2173 6.2657-3.4093 9.9567l.0005.001c1.808 3.6909 6.2657 5.2173 9.9567 3.4093l.001-.0005c3.6913-1.8071 5.2187-6.2645 3.4116-9.9558a7.4417 7.4417 0 00-6.6865-4.1696h-.008l-.001.001z"></path></svg>Looker Studio</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.548 1.156L6.832 2.872v1.682h1.716zm0 3.398v.035H6.832v-.035H3.386L0 7.844v3.577h2.826V8.94c0-.525.429-.954.954-.954h16.476c.525 0 .954.43.954.954v2.48h2.754V7.844l-3.386-3.29H17.3v.035h-1.717v-.035zm7.035 0H17.3V2.872l-1.717-1.716zM8.679 1.188V2.84h6.773V1.188zm11.471 7.07a.834.834 0 00-.132.01l-.543.002c-5.216.014-10.432-.008-15.648.01-.435-.063-.794.436-.716.883v2.264h17.812c-.016-.888.045-1.782-.034-2.666-.104-.342-.427-.502-.739-.502zm-15.422.634a.689.698 0 01.689.698.689.698 0 01-.689.697.689.698 0 01-.688-.697.689.698 0 01.688-.698zm2.134 0a.689.698 0 01.689.698.689.698 0 01-.689.697.689.698 0 01-.688-.697.689.698 0 01.688-.698zM.036 11.645v9.156c0 1.05.858 1.908 1.907 1.908h.883V11.645zm21.174 0v11.064h.882c1.05 0 1.908-.858 1.908-1.908v-9.156zM4.057 13.133v6.85h6.137v-6.85zm13.243.021v3.777l-1.708.977-1.708-.977v-3.758a4.006 4.006 0 000 7.23v2.441h3.457v-2.442a4.006 4.006 0 00-.041-7.248zm-13.243 8.26v1.43h7.925v-1.43z"></path></svg>Search Console</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.698 11.911c0 .444-.226.516-.79.516-.596 0-.706-.1-.77-.554-.118-1.152-.896-2.13-2.201-2.24-.418-.034-.518-.19-.518-.706 0-.48.074-.708.446-.708 2.265.01 3.833 1.832 3.833 3.69v.002zm3.3 0c0-3.456-2.338-7.11-7.74-7.11H5.52c-.218 0-.354.11-.354.31 0 .109.082.209.156.26.388.31.97.654 1.73 1.036.743.372 1.323.616 1.903.852.246.1.336.208.336.344 0 .19-.136.308-.4.308H.372c-.254 0-.372.164-.372.326 0 .136.044.254.162.372.69.726 1.796 1.596 3.4 2.604 1.466.91 2.98 1.74 4.533 2.492.236.11.308.236.308.372-.008.154-.126.28-.4.28H4.1c-.216 0-.344.12-.344.3 0 .1.08.226.19.326.888.808 2.311 1.688 4.207 2.494 2.53 1.08 5.094 1.721 7.98 1.721 5.465 0 7.867-4.087 7.867-7.289l-.002.002zm-7.133 5.104c-2.794 0-5.132-2.276-5.132-5.114 0-2.794 2.33-5.04 5.132-5.04 2.863 0 5.111 2.24 5.111 5.04a5.086 5.086 0 0 1-5.111 5.114z"></path></svg>Semrush</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.9998 22.9291C1.7908 22.9291 0 21.1383 0 18.9293s1.7908-3.9998 3.9998-3.9998 3.9998 1.7908 3.9998 3.9998-1.7908 3.9998-3.9998 3.9998zm19.4643-6.0004L15.4632 3.072C14.3586 1.1587 11.9121.5028 9.9988 1.6074S7.4295 5.1585 8.5341 7.0718l8.0009 13.8567c1.1046 1.9133 3.5511 2.5679 5.4644 1.4646 1.9134-1.1046 2.568-3.5511 1.4647-5.4644zM7.5137 4.8438L1.5645 15.1484A4.5 4.5 0 0 1 4 14.4297c2.5597-.0075 4.6248 2.1585 4.4941 4.7148l3.2168-5.5723-3.6094-6.25c-.4499-.7793-.6322-1.6394-.5878-2.4784z"></path></svg>Google Ads</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 20 18" aria-hidden="true"><path d="M10.0004 -1.00888L14.4827 6.67518L3.72505 9.7488L10.0004 -1.00888Z" opacity="0.5"></path><path d="M3.72505 9.7488L20.758 17.4329L14.4827 6.67518L3.72505 9.7488Z" opacity="0.75"></path><path d="M20.758 17.4329H-0.757812L3.72505 9.7488L20.758 17.4329Z"></path></svg>Clarity</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 1.5q.41 0 .7.3.3.29.3.7v19q0 .41-.3.7-.29.3-.7.3H7q-.41 0-.7-.3-.3-.29-.3-.7V18H1q-.41 0-.7-.3-.3-.29-.3-.7V7q0-.41.3-.7Q.58 6 1 6h5V2.5q0-.41.3-.7.29-.3.7-.3zM6 13.28l1.42 2.66h2.14l-2.38-3.87 2.34-3.8H7.46l-1.3 2.4-.05.08-.04.09-.64-1.28-.66-1.29H2.59l2.27 3.82-2.48 3.85h2.16zM14.25 21v-3H7.5v3zm0-4.5v-3.75H12v3.75zm0-5.25V7.5H12v3.75zm0-5.25V3H7.5v3zm8.25 15v-3h-6.75v3zm0-4.5v-3.75h-6.75v3.75zm0-5.25V7.5h-6.75v3.75zm0-5.25V3h-6.75v3Z"></path></svg>Excel</span>
+                    </div>
+                </div>
+                <div class="fond-boite-rang">
+                    <span class="fond-boite-cat" data-i18n="fond_67">IA générative</span>
+                    <div class="fond-boite-liste">
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"></path></svg>ChatGPT</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"></path></svg>Claude</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"></path></svg>Gemini</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.922 16.997C23.061 18.492 18.063 22.02 12 22.02 5.937 22.02.939 18.492.078 16.997A.641.641 0 0 1 0 16.741v-2.869a.883.883 0 0 1 .053-.22c.372-.935 1.347-2.292 2.605-2.656.167-.429.414-1.055.644-1.517a10.098 10.098 0 0 1-.052-1.086c0-1.331.282-2.499 1.132-3.368.397-.406.89-.717 1.474-.952C7.255 2.937 9.248 1.98 11.978 1.98c2.731 0 4.767.957 6.166 2.093.584.235 1.077.546 1.474.952.85.869 1.132 2.037 1.132 3.368 0 .368-.014.733-.052 1.086.23.462.477 1.088.644 1.517 1.258.364 2.233 1.721 2.605 2.656a.841.841 0 0 1 .053.22v2.869a.641.641 0 0 1-.078.256Zm-11.75-5.992h-.344a4.359 4.359 0 0 1-.355.508c-.77.947-1.918 1.492-3.508 1.492-1.725 0-2.989-.359-3.782-1.259a2.137 2.137 0 0 1-.085-.104L4 11.746v6.585c1.435.779 4.514 2.179 8 2.179 3.486 0 6.565-1.4 8-2.179v-6.585l-.098-.104s-.033.045-.085.104c-.793.9-2.057 1.259-3.782 1.259-1.59 0-2.738-.545-3.508-1.492a4.359 4.359 0 0 1-.355-.508Zm2.328 3.25c.549 0 1 .451 1 1v2c0 .549-.451 1-1 1-.549 0-1-.451-1-1v-2c0-.549.451-1 1-1Zm-5 0c.549 0 1 .451 1 1v2c0 .549-.451 1-1 1-.549 0-1-.451-1-1v-2c0-.549.451-1 1-1Zm3.313-6.185c.136 1.057.403 1.913.878 2.497.442.544 1.134.938 2.344.938 1.573 0 2.292-.337 2.657-.751.384-.435.558-1.15.558-2.361 0-1.14-.243-1.847-.705-2.319-.477-.488-1.319-.862-2.824-1.025-1.487-.161-2.192.138-2.533.529-.269.307-.437.808-.438 1.578v.021c0 .265.021.562.063.893Zm-1.626 0c.042-.331.063-.628.063-.894v-.02c-.001-.77-.169-1.271-.438-1.578-.341-.391-1.046-.69-2.533-.529-1.505.163-2.347.537-2.824 1.025-.462.472-.705 1.179-.705 2.319 0 1.211.175 1.926.558 2.361.365.414 1.084.751 2.657.751 1.21 0 1.902-.394 2.344-.938.475-.584.742-1.44.878-2.497Z"></path></svg>Copilot</span>
+                    </div>
+                </div>
+                <div class="fond-boite-rang">
+                    <span class="fond-boite-cat" data-i18n="fond_68">Création</span>
+                    <div class="fond-boite-liste">
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"></path></svg>Figma</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" class="glyph" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="5"></rect><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="700" stroke="none" fill="currentColor">Ps</text></svg>Photoshop</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" class="glyph" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="5"></rect><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="700" stroke="none" fill="currentColor">Ai</text></svg>Illustrator</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" class="glyph" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="5"></rect><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="700" stroke="none" fill="currentColor">Id</text></svg>InDesign</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" class="glyph" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="5"></rect><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="700" stroke="none" fill="currentColor">Lr</text></svg>Lightroom</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.621 0 5.977.004c-1.37 0-2.756.345-3.762 1.11a4.925 4.925 0 0 0-1.61 2.003C.233 3.93 0 5.02 0 5.951l.012 12.2c.002 1.604.479 3.057 1.461 4.112.984 1.056 2.462 1.683 4.331 1.691L16.856 24c1.26.005 3.095-.036 4.303-.714 1.075-.605 2.025-1.556 2.497-2.984.278-.84.345-2.084.344-3.147l-.021-11.13c-.002-.888-.15-2.023-.547-2.934-.425-.976-1.181-1.815-2.322-2.425C20.353.26 19.123 0 17.622 0zm0 .93c1.378 0 2.538.295 3.04.565.977.523 1.544 1.166 1.889 1.96.315.721.47 1.793.473 2.572l.018 11.13c.002 1.013-.097 2.257-.298 2.86-.396 1.202-1.146 1.946-2.063 2.462-.814.457-2.612.593-3.82.588l-11.05-.044c-1.657-.007-2.832-.534-3.626-1.386-.792-.851-1.212-2.06-1.212-3.485L.999 5.95c0-.829.196-1.827.474-2.437.345-.757.75-1.207 1.365-1.674C3.585 1.27 4.868.97 6.08.97zm-5.66 3.423c-1.976.089-3.204 1.658-3.214 3.29.019 1.443 1.635 3.481 2.884 4.53.12.099.154.109.33.18.062.025.198-.047.327-.135.36-.245.993-.947 1.648-1.738a7.67 7.67 0 0 0 1.031-1.683c.409-.89.261-1.599.235-1.888a3.983 3.983 0 0 0-.99-1.692 3.36 3.36 0 0 0-2.251-.864zm4.172 7.922a10.185 10.185 0 0 0-3.244.61c-.15.058-.26.1-.374.17-.057.036-.11.135-.105.292.017.433.29 1.278.624 2.27.384 1.135 1.066 2.27 1.844 2.74a3.23 3.23 0 0 0 2.53.342c.832-.243 1.595-.868 1.962-1.546.986-1.818.19-3.548-1.121-4.417-.447-.296-1.133-.445-1.89-.46-.074 0-.15-.002-.226-.001zm-8.432.038a6.201 6.201 0 0 0-.752.047c-.596.078-.932.273-1.29.51a3.177 3.177 0 0 0-1.365 1.979c-.075.552-.086 1.053.033 1.507.433 1.389 1.326 2.222 2.847 2.452.636.028 1.37-.063 1.99-.45 1.269-.782 2.08-3.17 2.412-4.742.053-.176.035-.357-.013-.42-.005-.067-.044-.113-.19-.183-.398-.192-1.32-.417-2.375-.6a7.68 7.68 0 0 0-1.297-.1z"></path></svg>DaVinci Resolve</span>
+                    </div>
+                </div>
+                <div class="fond-boite-rang">
+                    <span class="fond-boite-cat" data-i18n="fond_69">Bureautique et projets</span>
+                    <div class="fond-boite-liste">
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.004 1.5q.41 0 .703.293t.293.703v19.008q0 .41-.293.703t-.703.293H6.996q-.41 0-.703-.293T6 21.504V18H.996q-.41 0-.703-.293T0 17.004V6.996q0-.41.293-.703T.996 6H6V2.496q0-.41.293-.703t.703-.293zM6.035 11.203l1.442 4.735h1.64l1.57-7.876H9.036l-.937 4.653-1.325-4.5H5.38l-1.406 4.523-.938-4.675H1.312l1.57 7.874h1.641zM22.5 21v-3h-15v3zm0-4.5v-3.75H12v3.75zm0-5.25V7.5H12v3.75zm0-5.25V3h-15v3Z"></path></svg>Word</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 1.5q1.453 0 2.795.375 1.342.375 2.508 1.06 1.166.686 2.12 1.641.956.955 1.641 2.121.686 1.166 1.061 2.508Q24 10.547 24 12q0 1.453-.375 2.795-.375 1.342-1.06 2.508-.686 1.166-1.641 2.12-.955.956-2.121 1.641-1.166.686-2.508 1.061-1.342.375-2.795.375-1.29 0-2.52-.305-1.23-.304-2.337-.884-1.108-.58-2.063-1.418-.955-.838-1.693-1.893H.997q-.411 0-.704-.293T0 17.004V6.996q0-.41.293-.703T.996 6h3.89q.739-1.055 1.694-1.893.955-.837 2.063-1.418 1.107-.58 2.337-.884Q12.21 1.5 13.5 1.5zm.75 1.535v8.215h8.215q-.14-1.64-.826-3.076-.686-1.436-1.782-2.531-1.095-1.096-2.537-1.782-1.441-.685-3.07-.826zm-5.262 7.57q0-.68-.228-1.166-.229-.486-.627-.79-.399-.305-.938-.446-.539-.14-1.172-.14H2.848v7.863h1.84v-2.742H5.93q.574 0 1.119-.17t.978-.493q.434-.322.698-.802.263-.48.263-1.114zM13.5 21q1.172 0 2.262-.287t2.056-.82q.967-.534 1.776-1.278.808-.744 1.418-1.664.61-.92.984-1.986.375-1.067.469-2.227h-9.703V3.035q-1.735.14-3.27.908T6.797 6h4.207q.41 0 .703.293t.293.703v10.008q0 .41-.293.703t-.703.293H6.797q.644.715 1.412 1.271.768.557 1.623.944.855.387 1.781.586Q12.54 21 13.5 21zM5.812 9.598q.575 0 .915.228.34.229.34.838 0 .27-.124.44-.123.17-.31.275-.188.105-.422.146-.234.041-.445.041H4.687V9.598Z"></path></svg>PowerPoint</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.78 12.653c-2.882 0-5.22 2.336-5.22 5.22s2.338 5.22 5.22 5.22 5.22-2.34 5.22-5.22-2.336-5.22-5.22-5.22zm-13.56 0c-2.88 0-5.22 2.337-5.22 5.22s2.338 5.22 5.22 5.22 5.22-2.338 5.22-5.22-2.336-5.22-5.22-5.22zm12-6.525c0 2.883-2.337 5.22-5.22 5.22-2.882 0-5.22-2.337-5.22-5.22 0-2.88 2.338-5.22 5.22-5.22 2.883 0 5.22 2.34 5.22 5.22z"></path></svg>Asana</span>
+                        <span class="fond-boite-item"><svg viewBox="0 0 64 64" aria-hidden="true"><g transform="matrix(3.208255 0 0 3.208255 -35.559129 -63.587202)"><path d="M13.513 35.76a2.433 2.433 0 0 1-2.059-3.723l4.377-6.99a2.432 2.432 0 1 1 4.123 2.582l-4.378 6.99a2.43 2.43 0 0 1-2.063 1.141z"></path><path d="M21.056 35.76a2.433 2.433 0 0 1-2.063-3.723l4.38-6.99a2.432 2.432 0 1 1 4.117 2.582l-4.372 6.99a2.43 2.43 0 0 1-2.063 1.141z"></path><ellipse ry="2.375" rx="2.436" cy="33.384" cx="28.597"></ellipse></g></svg>Monday</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2 class="fond-titre" id="temoignages" data-i18n="fond_13">Des recommandations</h2>
+        <!-- Carrousel : une carte par avis, deux flèches en haut à droite, et
+             un défilement sans fin obtenu par duplication du jeu de cartes
+             (voir scripts/fond-avis.js). La carte suivante dépasse du cadre :
+             c'est ce qui dit qu'il y en a d'autres.
+
+             Citations, noms, rôles et relations repris tels quels du CV. -->
+        <div class="fond-section fond-avis">
+            <div class="fond-avis-fleches">
+                <button type="button" class="fond-avis-fleche" data-avis-prec="" aria-label="Avis précédent">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+                </button>
+                <button type="button" class="fond-avis-fleche" data-avis-suiv="" aria-label="Avis suivant">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </button>
+            </div>
+
+            <div class="fond-avis-cadre">
+                <div class="fond-avis-piste">
+                    <figure class="fond-avis-carte">
+                        <figcaption class="fond-avis-tete">
+                            <img src="media/michele-rossi.webp" alt="" width="96" height="96" loading="lazy">
+                            <div>
+                                <span class="fond-avis-rel" data-i18n="fond_70">Collègue dans mon équipe</span>
+                                <a href="https://www.linkedin.com/in/michele-rossi92/" rel="noopener">Michele Rossi<svg class="fond-avis-li" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
+                                <span class="fond-avis-role" data-i18n="fond_74">Senior Digital E-commerce Manager · Lindt &amp; Sprüngli</span>
+                            </div>
+                        </figcaption>
+                        <blockquote lang="en" data-i18n="fond_78">“I had the pleasure of working closely with Pierre for over two years. One of his best qualities is his curiosity. He has a great way of blending creative thinking with deep technical skills. Because of his personal projects, he is always on top of the latest trends, and I learned a lot from him, especially regarding E-commerce and general digital topics. What I admire most is that his knowledge goes way beyond his daily tasks. He brings a broad perspective to everything he touches. On top of that, he is a good collaborator, highly organized, and has a sharp, critical mind. Pierre always knows exactly how to bring out the absolute best in every project.”</blockquote>
+                    </figure>
+
+                    <figure class="fond-avis-carte fond-avis-carte--court">
+                        <figcaption class="fond-avis-tete">
+                            <img src="media/lilian-gourlay.webp" alt="" width="128" height="128" loading="lazy">
+                            <div>
+                                <span class="fond-avis-rel" data-i18n="fond_71">Client</span>
+                                <a href="https://www.linkedin.com/in/lilian-gourlay/" rel="noopener">Lilian Gourlay<svg class="fond-avis-li" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
+                                <span class="fond-avis-role" data-i18n="fond_75">Dirigeant · Émeraude Aventure</span>
+                            </div>
+                        </figcaption>
+                        <blockquote lang="fr" data-i18n="fond_79">«&nbsp;Pierre s'est occupé de nos campagnes Google Ads chez Émeraude Aventure cette saison. Nous avons dépassé les 1&nbsp;200 réservations directes au total, dont plus de 500 attribuées aux campagnes qu'il a pilotées, pour un coût inférieur à 2&nbsp;€ par réservation. Il a clairement sa part dans la réussite de cet été, qui est la meilleure saison que j'ai eue. Je recommande son travail sans problème.&nbsp;»</blockquote>
+                    </figure>
+
+                    <figure class="fond-avis-carte">
+                        <figcaption class="fond-avis-tete">
+                            <img src="media/solenne-antakli.webp" alt="" width="96" height="96" loading="lazy">
+                            <div>
+                                <span class="fond-avis-rel" data-i18n="fond_72">Collègue d'une autre équipe</span>
+                                <a href="https://www.linkedin.com/in/solenne-antakli-bb50ba2a/" rel="noopener">Solenne Antakli<svg class="fond-avis-li" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
+                                <span class="fond-avis-role" data-i18n="fond_76">Senior Communication Manager · Lindt &amp; Sprüngli</span>
+                            </div>
+                        </figcaption>
+                        <blockquote lang="fr" data-i18n-html="fond_80"><p>«&nbsp;J'ai eu le plaisir de travailler avec Pierre chez Lindt &amp; Sprüngli pendant deux ans. Sa créativité, son sens du détail et sa capacité à concevoir des contenus à la fois engageants et performants ont été de véritables atouts pour notre équipe. Il sait transformer des idées en projets concrets tout en gardant constamment à l'esprit les enjeux business et les attentes des consommateurs.</p><p>Au-delà de ses compétences techniques, Pierre est une personne investie, à l'écoute et toujours prête à apporter son aide. Son esprit collaboratif, sa fiabilité et sa bonne humeur font de lui un collègue avec lequel il est particulièrement agréable de travailler.&nbsp;»</p></blockquote>
+                    </figure>
+
+                    <figure class="fond-avis-carte">
+                        <figcaption class="fond-avis-tete">
+                            <img src="media/celine-hummer.webp" alt="" width="96" height="96" loading="lazy">
+                            <div>
+                                <span class="fond-avis-rel" data-i18n="fond_73">Ma manager</span>
+                                <a href="https://www.linkedin.com/in/celinehummer/" rel="noopener">Céline Hummer<svg class="fond-avis-li" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
+                                <span class="fond-avis-role" data-i18n="fond_77">Senior Digital Manager · Lindt France</span>
+                            </div>
+                        </figcaption>
+                        <blockquote lang="fr" data-i18n-html="fond_81"><p>«&nbsp;J'ai eu le plaisir de travailler avec Pierre chez Lindt France, où il occupait le poste de Content Manager au sein de l'équipe digitale que je pilote.</p><p>Pierre se distingue par sa capacité à allier expertise technique et sens créatif. Il maîtrise des sujets complexes liés à la gestion des contenus et de la donnée produit, tout en apportant une véritable vision créative qui contribue à valoriser l'image premium de nos marques.</p><p>Véritable facilitateur, il sait fédérer les équipes, simplifier les processus et faire avancer les projets avec efficacité. Son sens du détail, sa curiosité et sa capacité à anticiper les besoins en font un collaborateur particulièrement précieux.</p><p>Force de proposition, fiable et engagé, Pierre est un profil rare capable de faire le lien entre contenu, technologie et expérience de marque. Je lui souhaite beaucoup de succès pour la suite de son parcours.&nbsp;»</p></blockquote>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <h2 class="fond-titre" id="perso" data-i18n="fond_14">Mes deux passions</h2>
+        <!-- Deux cartes qui s'emboîtent : le bord droit de la première et le
+             bord gauche de la seconde suivent la même diagonale, obtenue par
+             deux clip-path miroir et un chevauchement de --biais. C'est le
+             lien entre les deux passions, dit par la forme.
+
+             La photo d'endurance est un placeholder explicite. -->
+        <div class="fond-section fond-passions">
+            <article class="fond-passion">
+                <img src="media/pierre-shoot-dubai.webp" alt="Photo produit que j'ai réalisée pour Lindt : coffret Dubai Chocolate" width="420" height="630" loading="lazy">
+                <div class="fond-passion-texte">
+                    <h3 data-i18n="fond_82">La photographie</h3>
+                    <p data-i18n="fond_84">Le passe-temps qui me permet de m'évader créativement et l'origine
+                        de mon appétence pour la direction artistique et l'image produit.</p>
                 </div>
             </article>
 
-            <!-- ArdaCraft : une seule carte, trois groupes de preuves, un seul CTA. -->
-            <article class="cv-work">
-                <div class="cv-work-visual">
-                    <div class="cv-triptych" role="img" aria-label="Aperçus du site, de la carte interactive et de la croissance sociale d'ArdaCraft" data-i18n-aria="cv_work2_alt">
-                        <img src="media/ardacraft-redesign-card.webp" alt="" width="1200" height="675" loading="lazy">
-                        <img src="media/ardacraft-map-card.webp" alt="" width="1200" height="675" loading="lazy">
-                        <img src="media/ardacraft-social-card.webp" alt="" width="1200" height="675" loading="lazy">
-                    </div>
-                </div>
-                <div class="cv-work-body">
-                    <span class="cv-work-label" data-i18n="cv_work2_label">ArdaCraft · projet communautaire</span>
-                    <h3 data-i18n="cv_work2_title">Construire et faire grandir un écosystème digital</h3>
-                    <p data-i18n="cv_work2_p1">ArdaCraft est le projet où j'expérimente le plus. J'y ai mené la refonte du site, conçu une carte interactive à partir d'une opportunité SEO et développé une nouvelle approche des formats vidéo.</p>
-                    <p data-i18n="cv_work2_p2">Ces chantiers partent de problèmes différents, mais suivent la même logique : observer ce qui fonctionne ailleurs, l'adapter au contexte d'ArdaCraft, puis mesurer ce qui change réellement.</p>
-                    <div class="cv-proof-groups">
-                        <div>
-                            <h4 data-i18n="cv_work2_g1">Plateforme</h4>
-                            <ul class="cv-proofs">
-                                <li data-i18n="cv_work2_g1a">Coûts d'hébergement divisés par 10</li>
-                                <li data-i18n="cv_work2_g1b">Usage des filtres multiplié par 6,5</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 data-i18n="cv_work2_g2">SEO et carte</h4>
-                            <ul class="cv-proofs">
-                                <li data-i18n="cv_work2_g2a">Plus d'un million de recherches annuelles identifiées comme opportunité de marché</li>
-                                <li data-i18n="cv_work2_g2b">50 % du trafic hors marque désormais généré par la carte</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 data-i18n="cv_work2_g3">Social</h4>
-                            <ul class="cv-proofs">
-                                <li data-i18n="cv_work2_g3a">27,3 millions de vues sur 24 vidéos</li>
-                                <li data-i18n="cv_work2_g3b">22 vidéos sur 24 au-dessus de l'ancienne moyenne</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <a class="cv-work-cta" href="https://gumi.ch/experiments" data-href-en="https://gumi.ch/en/experiments" rel="noopener" data-i18n="cv_work2_cta">Découvrir les expérimentations</a>
+            <article class="fond-passion fond-passion--droite">
+                <img src="media/placeholder-endurance.webp" alt="Placeholder : photo de course à venir" width="900" height="1200" loading="lazy">
+                <div class="fond-passion-texte">
+                    <h3 data-i18n="fond_83">Les sports d'endurance</h3>
+                    <p data-i18n="fond_85">Amateur de grands espaces et d'exploration, j'adore découvrir de
+                        nouveaux endroits en courant et en me dépassant.</p>
                 </div>
             </article>
+        </div>
 
-            <!-- Émeraude : carte plus compacte, jamais reléguée. Aucun visuel
-                 nautique dans le dépôt, la carte est donc conçue sans image
-                 plutôt qu'avec un visuel générique. -->
-            <article class="cv-work cv-work--compact">
-                <div class="cv-work-body">
-                    <span class="cv-work-label" data-i18n="cv_work3_label">Émeraude Aventure · mission indépendante · Google Ads</span>
-                    <h3 data-i18n="cv_work3_title">Transformer un budget média en réservations directes</h3>
-                    <p data-i18n="cv_work3_p1">Pour Émeraude Aventure, une base nautique bretonne, j'ai structuré et optimisé les campagnes Google Ads avec un objectif simple : générer davantage de réservations directes tout en maîtrisant leur coût d'acquisition.</p>
-                    <ul class="cv-proofs cv-proofs--inline">
-                        <li data-i18n="cv_work3_pr1">500+ réservations attribuées</li>
-                        <li data-i18n="cv_work3_pr2">1,99 € par réservation</li>
-                        <li data-i18n="cv_work3_pr3">Résultats obtenus en deux mois</li>
-                        <li data-i18n="cv_work3_pr4">Google Ads</li>
-                    </ul>
-                </div>
-            </article>
-        </section>
+        <!-- CONTACT : le titre reste sur sa rangée de points, hors du bloc.
+             Le bloc, lui, réunit « ce que je recherche » et « parlons-en » :
+             un fond légèrement plus dense que le papier, et par-dessus un
+             semis dont la densité se concentre sur deux coins opposés (voir
+             data-fade dans page-effects.js). -->
+        <h2 class="fond-titre" id="contact" data-i18n="fond_15">Parlons-en !</h2>
+        <div class="fond-section fond-contact">
+            <p class="fond-contact-intro" data-i18n="fond_86">Si mon profil vous intéresse ou si vous avez une question,
+                n'hésitez pas à me contacter&nbsp;! :)</p>
 
-        <!-- 5. PARCOURS -->
-        <section class="cv-section" id="parcours">
-            <div class="cv-head">
-                <h2><span data-i18n="cv_sec_career">Mon parcours, en bref</span><span class="dot">.</span></h2>
-            </div>
-            <div class="cv-tl-group">
-                <h3 data-i18n="cv_tl_exp">Expérience</h3>
-                <div class="cv-tl-row"><span class="cv-dates" data-i18n="cv_tl_now">2023 – août 2026</span><span><strong data-i18n="cv_tl1">E-Commerce Content Manager · Lindt &amp; Sprüngli, Paris</strong></span></div>
-                <div class="cv-tl-row"><span class="cv-dates" data-i18n="cv_tl_since">Depuis 2022</span><span data-i18n="cv_tl2">Consulting et projets indépendants · multi-secteurs</span></div>
-                <div class="cv-tl-row"><span class="cv-dates">2022</span><span data-i18n="cv_tl3">Assistant Marketing Digital, stage · Lindt &amp; Sprüngli, Paris</span></div>
-                <div class="cv-tl-row"><span class="cv-dates">2020</span><span data-i18n="cv_tl4">Assistant SEO Manager · Nutri &amp; Co, Aix-en-Provence</span></div>
-                <div class="cv-tl-row"><span class="cv-dates">2020</span><span data-i18n="cv_tl5">Assistant Marketing Opérationnel · EXKI, Bruxelles</span></div>
-            </div>
-            <div class="cv-tl-group">
-                <h3 data-i18n="cv_tl_edu">Formation</h3>
-                <div class="cv-tl-row"><span class="cv-dates">2019 – 2022</span><span data-i18n="cv_tl6">MSc Marketing &amp; Services Management · IAE Aix School of Management</span></div>
-                <div class="cv-tl-row"><span class="cv-dates">2018 – 2019</span><span data-i18n="cv_tl7">DUETI Business · University of the West of Scotland</span></div>
-            </div>
-            <div class="cv-tl-group">
-                <h3 data-i18n="cv_tl_lang">Langues</h3>
-                <div class="cv-tl-row"><span class="cv-dates" data-i18n="cv_tl_lang_fr_label">Français</span><span data-i18n="cv_tl_lang_fr">Langue natale</span></div>
-                <div class="cv-tl-row"><span class="cv-dates" data-i18n="cv_tl_lang_en_label">Anglais</span><span data-i18n="cv_tl8">Courant, C1, TOEIC 940 · présentations et réunions en contexte international</span></div>
-            </div>
-        </section>
-
-        <!-- 6. COMPÉTENCES + 7. BOÎTE À OUTILS -->
-        <section class="cv-section" id="competences">
-            <div class="cv-head">
-                <h2><span data-i18n="cv_sec_skills">Ce que je peux apporter</span><span class="dot">.</span></h2>
-                <p data-i18n="cv_sec_skills_intro">J'aime travailler à la rencontre de plusieurs disciplines : assez près du business pour comprendre le besoin, et assez près de l'exécution pour transformer les idées en résultats concrets.</p>
-            </div>
-            <div class="cv-skills">
-                <div class="cv-skill">
-                    <h3 data-i18n="cv_skill1_t">E-commerce et donnée produit</h3>
-                    <p data-i18n="cv_skill1_d">Structurer un catalogue, définir les attributs, enrichir les fiches et organiser leur diffusion sur les différents canaux.</p>
-                </div>
-                <div class="cv-skill">
-                    <h3 data-i18n="cv_skill2_t">Acquisition et SEO</h3>
-                    <p data-i18n="cv_skill2_d">Identifier les opportunités, améliorer l'architecture et la visibilité, puis suivre ce qui génère réellement du trafic ou des conversions.</p>
-                </div>
-                <div class="cv-skill">
-                    <h3 data-i18n="cv_skill3_t">Contenu et direction artistique</h3>
-                    <p data-i18n="cv_skill3_d">Concevoir les contenus, préparer et piloter les shootings, briefer les prestataires et garantir la cohérence jusqu'à la livraison.</p>
-                </div>
-                <div class="cv-skill">
-                    <h3 data-i18n="cv_skill4_t">Produit digital et analytics</h3>
-                    <p data-i18n="cv_skill4_d">Concevoir des parcours et des interfaces, lire les usages, construire les tableaux de bord utiles et améliorer l'expérience à partir des données.</p>
-                </div>
+            <div class="fond-bloc">
+                <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22" data-spacing-y="20" data-stagger="off" data-radius="2.5" data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
+                <dl class="fond-pied-specs">
+                    <div><dt data-i18n="fond_87">Contrat</dt><dd data-i18n="fond_91">CDI</dd></div>
+                    <div><dt data-i18n="fond_88">Rôle</dt><dd data-i18n="fond_92">E-commerce / marketing digital</dd></div>
+                    <!-- Les drapeaux sont dessines ici plutot qu ecrits en
+                         emoji : Windows n a pas de glyphe de drapeau et
+                         afficherait « FR BE CH LU ». Chacun garde le nom du
+                         pays dans son <title>, seule source pour un lecteur
+                         d ecran. -->
+                    <div><dt data-i18n="fond_89">Mobilité</dt><dd>
+                        <span class="fond-drapeaux">
+                            <svg class="fond-drapeau" viewBox="0 0 30 20" role="img"><title data-i18n="fond_99">France</title><rect width="10" height="20" fill="#002395"></rect><rect x="10" width="10" height="20" fill="#fff"></rect><rect x="20" width="10" height="20" fill="#ED2939"></rect></svg>
+                            <svg class="fond-drapeau" viewBox="0 0 30 20" role="img"><title data-i18n="fond_100">Belgique</title><rect width="10" height="20" fill="#000"></rect><rect x="10" width="10" height="20" fill="#FDDA24"></rect><rect x="20" width="10" height="20" fill="#EF3340"></rect></svg>
+                            <svg class="fond-drapeau" viewBox="0 0 30 20" role="img"><title data-i18n="fond_101">Suisse</title><rect width="30" height="20" fill="#FF0000"></rect><rect x="13" y="4.5" width="4" height="11" fill="#fff"></rect><rect x="9.5" y="8" width="11" height="4" fill="#fff"></rect></svg>
+                            <svg class="fond-drapeau" viewBox="0 0 30 20" role="img"><title data-i18n="fond_102">Luxembourg</title><rect width="30" height="6.67" fill="#EA141C"></rect><rect y="6.67" width="30" height="6.66" fill="#fff"></rect><rect y="13.33" width="30" height="6.67" fill="#00A1DE"></rect></svg>
+                        </span>
+                    </dd></div>
+                    <div><dt data-i18n="fond_90">Disponibilité</dt><dd data-i18n="fond_93">Septembre 2026</dd></div>
+                </dl>
             </div>
 
-            <h3 class="cv-tools-title"><span data-i18n="cv_tools_label">La boîte à outils, au quotidien</span><span class="dot">.</span></h3>
-            <div class="cv-tools-grid">
-                <div class="cv-tools-cell">
-                    <h4 data-i18n="cv_tools_g1">Web et e-commerce</h4>
-                    <ul><li>WordPress</li><li>Webflow</li><li>Webstudio</li><li>Magento</li><li>Salsify</li></ul>
-                </div>
-                <div class="cv-tools-cell">
-                    <h4 data-i18n="cv_tools_g2">Data, acquisition et SEO</h4>
-                    <ul><li>GA4</li><li>Looker Studio</li><li>Search Console</li><li>Semrush</li><li>Google Ads</li><li>Microsoft Clarity</li><li>Excel</li></ul>
-                </div>
-                <div class="cv-tools-cell">
-                    <h4 data-i18n="cv_tools_g3">IA générative</h4>
-                    <ul><li>ChatGPT</li><li>Claude</li><li>Gemini</li><li>Copilot</li></ul>
-                </div>
-                <div class="cv-tools-cell">
-                    <h4 data-i18n="cv_tools_g4">Création</h4>
-                    <ul><li>Figma</li><li>Photoshop</li><li>Illustrator</li><li>InDesign</li><li>Lightroom</li><li>DaVinci Resolve</li></ul>
-                </div>
-                <div class="cv-tools-cell">
-                    <h4 data-i18n="cv_tools_g5">Bureautique et projets</h4>
-                    <ul><li>Word</li><li>PowerPoint</li><li>Asana</li><li>Monday</li></ul>
+            <div class="fond-bloc">
+                <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22" data-spacing-y="20" data-stagger="off" data-radius="2.5" data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
+                <!-- Au survol, l'icône se déplie à gauche de la valeur et
+                     pousse le texte ; seule la valeur se souligne, pas son
+                     libellé. -->
+                <div class="fond-pied-liens">
+                    <a href="mailto:pierregumilar@gmail.com">
+                        <span class="fond-lien-label" data-i18n="fond_94">E-mail</span>
+                        <span class="fond-lien-valeur">
+                            <svg class="fond-lien-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                            <b>pierregumilar@gmail.com</b>
+                        </span>
+                    </a>
+                    <a href="tel:+33651611217">
+                        <span class="fond-lien-label" data-i18n="fond_95">Téléphone</span>
+                        <span class="fond-lien-valeur">
+                            <svg class="fond-lien-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            <b>+33 6 51 61 12 17</b>
+                        </span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/pierre-gumilar/" rel="noopener">
+                        <span class="fond-lien-label" data-i18n="fond_96">Réseau</span>
+                        <span class="fond-lien-valeur">
+                            <svg class="fond-lien-icone fond-lien-icone--plein" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg>
+                            <b>LinkedIn</b>
+                        </span>
+                    </a>
+                    <a href="media/Pierre-Gumilar-CV.pdf" download="">
+                        <span class="fond-lien-label" data-i18n="fond_97">Document</span>
+                        <span class="fond-lien-valeur">
+                            <svg class="fond-lien-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M7 10l5 5 5-5"></path><path d="M12 15V3"></path></svg>
+                            <b data-i18n="fond_98">CV PDF (1 page)</b>
+                        </span>
+                    </a>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- 8. TÉMOIGNAGES -->
-        <!-- Une citation ne se traduit pas d'elle-même : chaque blockquote porte
-             son lang= d'origine. Les versions anglaises de Lilian, Solenne et
-             Céline sont des traductions signalées comme telles.
-             Chaque attribution s'ouvre sur la relation de travail : c'est elle
-             qui donne son poids à la citation, avant même le nom. -->
-        <section class="cv-section" id="temoignages">
-            <div class="cv-head">
-                <h2><span data-i18n="cv_sec_quotes">Ce qu'en disent mes collègues et clients</span><span class="dot">.</span></h2>
-            </div>
-            <div class="cv-quotes">
-                <figure class="cv-quote">
-                    <blockquote lang="en" data-i18n="cv_quote1_text">“I had the pleasure of working closely with Pierre for over two years. One of his best qualities is his curiosity. He has a great way of blending creative thinking with deep technical skills. Because of his personal projects, he is always on top of the latest trends, and I learned a lot from him, especially regarding E-commerce and general digital topics. What I admire most is that his knowledge goes way beyond his daily tasks. He brings a broad perspective to everything he touches. On top of that, he is a good collaborator, highly organized, and has a sharp, critical mind. Pierre always knows exactly how to bring out the absolute best in every project.”</blockquote>
-                    <figcaption>
-                        <img src="media/michele-rossi.webp" alt="Michele Rossi" width="96" height="96" loading="lazy">
-                        <div>
-                            <span class="cv-quote-rel" data-i18n="cv_quote1_rel">Collègue dans mon équipe</span>
-                            <a href="https://www.linkedin.com/in/michele-rossi92/" rel="noopener">Michele Rossi<svg viewBox="0 0 24 24" aria-hidden="true" class="cv-li"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
-                            <span data-i18n="cv_quote1_role">Senior Digital E-commerce Manager · Lindt &amp; Sprüngli</span>
-                        </div>
-                    </figcaption>
-                </figure>
-                <figure class="cv-quote">
-                    <blockquote lang="fr" data-i18n="cv_quote2_text">« Pierre s'est occupé de nos campagnes Google Ads chez Émeraude Aventure cette saison. Nous avons dépassé les 1 200 réservations directes au total, dont plus de 500 attribuées aux campagnes qu'il a pilotées, pour un coût inférieur à 2 € par réservation. Il a clairement sa part dans la réussite de cet été, qui est la meilleure saison que j'ai eue. Je recommande son travail sans problème. »</blockquote>
-                    <figcaption>
-                        <img src="media/lilian-gourlay.webp" alt="Lilian Gourlay" width="128" height="128" loading="lazy">
-                        <div>
-                            <span class="cv-quote-rel" data-i18n="cv_quote2_rel">Client</span>
-                            <a href="https://www.linkedin.com/in/lilian-gourlay/" rel="noopener">Lilian Gourlay<svg viewBox="0 0 24 24" aria-hidden="true" class="cv-li"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
-                            <span data-i18n="cv_quote2_role">Dirigeant · Émeraude Aventure</span>
-                            <span class="cv-quote-translated" data-i18n="cv_quote_translated" hidden>Traduit du français</span>
-                        </div>
-                    </figcaption>
-                </figure>
-                <figure class="cv-quote">
-                    <blockquote lang="fr" data-i18n-html="cv_quote3_text"><p>« J'ai eu le plaisir de travailler avec Pierre chez Lindt &amp; Sprüngli pendant deux ans. Sa créativité, son sens du détail et sa capacité à concevoir des contenus à la fois engageants et performants ont été de véritables atouts pour notre équipe. Il sait transformer des idées en projets concrets tout en gardant constamment à l'esprit les enjeux business et les attentes des consommateurs.</p><p>Au-delà de ses compétences techniques, Pierre est une personne investie, à l'écoute et toujours prête à apporter son aide. Son esprit collaboratif, sa fiabilité et sa bonne humeur font de lui un collègue avec lequel il est particulièrement agréable de travailler. »</p></blockquote>
-                    <figcaption>
-                        <img src="media/solenne-antakli.webp" alt="Solenne Antakli" width="96" height="96" loading="lazy">
-                        <div>
-                            <span class="cv-quote-rel" data-i18n="cv_quote3_rel">Collègue d'une autre équipe</span>
-                            <a href="https://www.linkedin.com/in/solenne-antakli-bb50ba2a/" rel="noopener">Solenne Antakli<svg viewBox="0 0 24 24" aria-hidden="true" class="cv-li"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
-                            <span data-i18n="cv_quote3_role">Senior Communication Manager · Lindt &amp; Sprüngli</span>
-                            <span class="cv-quote-translated" data-i18n="cv_quote_translated" hidden>Traduit du français</span>
-                        </div>
-                    </figcaption>
-                </figure>
-                <figure class="cv-quote">
-                    <blockquote lang="fr" data-i18n-html="cv_quote4_text"><p>« J'ai eu le plaisir de travailler avec Pierre chez Lindt France, où il occupait le poste de Content Manager au sein de l'équipe digitale que je pilote.</p><p>Pierre se distingue par sa capacité à allier expertise technique et sens créatif. Il maîtrise des sujets complexes liés à la gestion des contenus et de la donnée produit, tout en apportant une véritable vision créative qui contribue à valoriser l'image premium de nos marques.</p><p>Véritable facilitateur, il sait fédérer les équipes, simplifier les processus et faire avancer les projets avec efficacité. Son sens du détail, sa curiosité et sa capacité à anticiper les besoins en font un collaborateur particulièrement précieux.</p><p>Force de proposition, fiable et engagé, Pierre est un profil rare capable de faire le lien entre contenu, technologie et expérience de marque. Je lui souhaite beaucoup de succès pour la suite de son parcours. »</p></blockquote>
-                    <figcaption>
-                        <img src="media/celine-hummer.webp" alt="Céline Hummer" width="96" height="96" loading="lazy">
-                        <div>
-                            <span class="cv-quote-rel" data-i18n="cv_quote4_rel">Ma manager</span>
-                            <a href="https://www.linkedin.com/in/celinehummer/" rel="noopener">Céline Hummer<svg viewBox="0 0 24 24" aria-hidden="true" class="cv-li"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
-                            <span data-i18n="cv_quote4_role">Senior Digital Manager · Lindt France</span>
-                            <span class="cv-quote-translated" data-i18n="cv_quote_translated" hidden>Traduit du français</span>
-                        </div>
-                    </figcaption>
-                </figure>
-            </div>
-        </section>
-
-        <!-- 9. À CÔTÉ DU TRAVAIL -->
-        <section class="cv-section" id="perso">
-            <div class="cv-head">
-                <h2><span data-i18n="cv_sec_perso">À côté du travail</span><span class="dot">.</span></h2>
-            </div>
-            <div class="cv-perso">
-                <div class="cv-perso-item cv-perso-photo">
-                    <img src="media/pierre-shoot-dubai.webp" alt="Photo produit que j'ai réalisée pour Lindt : coffret Dubai Chocolate" data-i18n-aria="cv_perso1_alt" width="420" height="630" loading="lazy">
-                    <div>
-                        <h3 data-i18n="cv_perso1_t">Photographie</h3>
-                        <p data-i18n="cv_perso1_d">Je pratique la photographie depuis plusieurs années. C'est aussi de là que viennent mon goût pour la direction artistique, mon attention aux détails et mon intérêt pour l'image produit.</p>
-                    </div>
-                </div>
-                <div class="cv-perso-item">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg>
-                    <div>
-                        <h3 data-i18n="cv_perso2_t">Endurance</h3>
-                        <p data-i18n="cv_perso2_d">Marathons, trails, Ironman 70.3 : j'aime les objectifs ambitieux qui se gagnent moins sur un coup d'éclat que par la régularité.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 10. CE QUE PIERRE RECHERCHE -->
-        <section class="cv-section" id="recherche">
-            <div class="cv-head">
-                <h2><span data-i18n="cv_sec_search">Ce que je recherche aujourd'hui</span><span class="dot">.</span></h2>
-                <p data-i18n="cv_sec_search_intro">Je cherche un rôle où je pourrai prendre de la hauteur sans perdre le contact avec l'exécution : structurer, coordonner et faire progresser des projets digitaux concrets.</p>
-            </div>
-            <dl class="cv-spec">
-                <div><dt data-i18n="cv_spec1_t">Contrat</dt><dd data-i18n="cv_spec1_v">CDI</dd></div>
-                <div><dt data-i18n="cv_spec2_t">Rôle</dt><dd data-i18n="cv_spec2_v">E-commerce / marketing digital</dd></div>
-                <div><dt data-i18n="cv_spec3_t">Mobilité</dt><dd data-i18n="cv_spec3_v">France, Belgique, Suisse, Luxembourg · sur site ou remote</dd></div>
-                <div><dt data-i18n="cv_spec4_t">Disponibilité</dt><dd data-i18n="cv_spec4_v">Septembre 2026</dd></div>
-            </dl>
-        </section>
-
-        <!-- 11. CONTACT -->
-        <section class="cv-contact" id="contact">
-            <h2><span data-i18n="cv_contact_title">Parlons-en</span><span class="dot">.</span></h2>
-            <p class="cv-contact-intro" data-i18n="cv_contact_intro">Un poste, un projet ou simplement une question ? Je répondrai avec plaisir.</p>
-            <a href="mailto:pierregumilar@gmail.com" class="cv-mail" data-track="contact_mail">pierregumilar@gmail.com</a>
-            <a href="tel:+33651611217" class="cv-phone">+33 6 51 61 12 17</a>
-            <div class="cv-cta-row cv-cta-row--center">
-                <button type="button" class="cv-btn-ghost" id="cv-copy"><span data-i18n="cv_copy">Copier l'adresse</span></button>
-                <a href="https://cal.com/pierre-gumi/20min" class="cv-btn-ghost" rel="noopener" data-track="book_call" data-i18n="cv_cta_book">Réserver 20 min</a>
-                <a href="https://www.linkedin.com/in/pierre-gumilar/" class="cv-btn-ghost" rel="noopener">LinkedIn</a>
-                <a href="media/Pierre-Gumilar-CV.pdf" class="cv-btn-ghost" download data-track="pdf_download" data-i18n="cv_cta_pdf">CV PDF (1 page)</a>
-            </div>
-            <p class="cv-byline" data-i18n="footer_byline">© 2026 Gumi · Conçu et développé par Pierre.</p>
-        </section>
+        <!-- La signature ne vit plus dans le bloc : elle se pose dans le coin
+             de la fenêtre, et n'apparaît qu'une fois le bas de la page
+             atteint (voir scripts/fond-rail.js). -->
+        <p class="fond-signature"><span data-i18n="fond_signature">Conçu par</span>
+            <img src="media/Gumi-Logotype.png" alt="Gumi" width="1300" height="354"></p>
     </main>
-
+    <!-- Defilement adouci. Reglage volontairement plus court que celui du
+         site : sur une page aussi longue, la course par defaut se remarque. -->
     <!-- Vercel Web Analytics : sans cookie, sans identifiant persistant, donc
-         sans bandeau de consentement. -->
+         sans banniere de consentement. -->
     <script defer src="/_vercel/insights/script.js"></script>
     <script defer src="/_vercel/speed-insights/script.js"></script>
-
+    <script>window.gumiLenisOptions = { duration: 0.6, touchMultiplier: 1.2 };</script>
     <script src="scripts/vendor/lenis.min.js"></script>
     <script src="scripts/page-effects.js"></script>
     <script src="scripts/i18n.js"></script>
-    <script src="scripts/navbar.js"></script>
-    <script>
-        (function () {
-            // Mesure : un seul point de passage vers Vercel Analytics. Si les
-            // événements personnalisés ne sont pas actifs sur le plan, window.va
-            // est absent et la fonction ne fait rien.
-            function track(name, data) {
-                try {
-                    if (typeof window.va === 'function') window.va('event', { name: name, data: data || {} });
-                } catch (e) {}
-            }
-            document.querySelectorAll('[data-track]').forEach(function (el) {
-                el.addEventListener('click', function () { track(el.getAttribute('data-track')); });
-            });
+    <script src="scripts/fond-titre.js"></script>
+    <script src="scripts/fond-rail.js"></script>
+    <script src="scripts/fond-outils.js"></script>
+    <script src="scripts/fond-projets.js"></script>
+    <script src="scripts/fond-avis.js"></script>
 
-            let depthSent = false;
-            function checkDepth() {
-                if (depthSent) return;
-                const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-                if (scrollable <= 0) return;
-                if ((window.scrollY / scrollable) >= 0.75) {
-                    depthSent = true;
-                    track('scroll_75');
-                    window.removeEventListener('scroll', checkDepth);
-                }
-            }
-            window.addEventListener('scroll', checkDepth, { passive: true });
-            checkDepth();
 
-            // Les mentions « traduit du français » n'apparaissent qu'en anglais.
-            function syncTranslated() {
-                const en = document.documentElement.lang === 'en';
-                document.querySelectorAll('.cv-quote-translated').forEach(function (el) { el.hidden = !en; });
-            }
-            syncTranslated();
-            document.addEventListener('gumi:lang', syncTranslated);
-
-            // Copie de l'adresse (même mécanique que le footer du portfolio).
-            const btn = document.getElementById('cv-copy');
-            if (btn) {
-                const label = btn.querySelector('span');
-                const t = function (key, fallback) {
-                    return (window.GumiI18n && window.GumiI18n.t(key)) || fallback;
-                };
-                let resetTimer = null;
-                btn.addEventListener('click', async function () {
-                    const email = 'pierregumilar@gmail.com';
-                    try {
-                        await navigator.clipboard.writeText(email);
-                    } catch (err) {
-                        const helper = document.createElement('textarea');
-                        helper.value = email;
-                        document.body.appendChild(helper);
-                        helper.select();
-                        document.execCommand('copy');
-                        helper.remove();
-                    }
-                    if (label) label.textContent = t('cv_copied', 'Copié !');
-                    clearTimeout(resetTimer);
-                    resetTimer = setTimeout(function () {
-                        if (label) label.textContent = t('cv_copy', "Copier l'adresse");
-                    }, 2000);
-                });
-            }
-        })();
-    </script>
-</body>
-</html>
+</body></html>
