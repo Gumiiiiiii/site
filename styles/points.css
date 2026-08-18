@@ -1,53 +1,28 @@
-/* La page des points. Rien que la matière du fond de /fond, sans le contenu
-   qui la recouvre : le dégradé du haut, le semis, le dégradé du bas.
+/* La page des points : le fond de /fond, seul, sans le contenu qui le
+   recouvre.
 
-   Tout est dessiné par scripts/page-effects.js, le code du site : même
-   boucle, même grille 20x18. Le semis n'en prend qu'un point sur quatre.
+   Le champ n'est plus découpé en couches. Les dégradés du haut et du bas et
+   le semis du milieu sont un seul et même dessin, produit d'un coup par
+   scripts/points-champ.js : une trame unique dont seule la densité varie.
 
-   Ce fichier ne fait que donner sa hauteur à la page et cadrer le semis. */
+   Ce fichier ne fait plus que donner sa hauteur à la page. Il n'y a plus ni
+   masque ni cadrage à régler — c'est le dessin lui-même qui sait où il est
+   dense et où il est clair, donc plus rien à raccorder entre deux couches. */
 
 .points-page .site-content {
     /* Le grain cream-paper laisse la place aux points. */
     background-image: none;
-    /* Trois écrans : dégradé du haut, semis, dégradé du bas. */
+    /* Trois écrans : la descente du haut, le milieu clairsemé, la remontée. */
     min-height: 300vh;
     padding: 0;
 }
 
-/* === LE SEMIS =============================================================
-   Le milieu de la page est une matière unique : tous ses points ont la même
-   taille et la même encre, sans exception.
-
-   Ce qui interdit le masque en dégradé. Il éteindrait progressivement les
-   rangées de la lisière, plus claires que celles du milieu ; et là où le
-   semis retombe sur un point du dégradé — les trames sont emboîtées,
-   80 = 4x20 — les deux encres s'additionneraient et ce point-là serait plus
-   foncé que ses voisins. Deux variations de couleur pour une matière censée
-   être uniforme.
-
-   Ce qui interdit aussi la coupe nette par masque : la rangée qui tombe sur
-   la ligne de coupe est tranchée en deux. Le cas n'est pas théorique — à
-   900 px de haut, la page fait 2700 et la coupe basse tomberait à 2520,
-   soit 72 x 35 pile.
-
-   Le semis est donc cadré, pas masqué : sa boîte s'arrête avant les
-   dégradés, et scripts/page-effects.js n'y dessine que des points entiers.
-   Le retrait du haut est un multiple de 72, le pas du semis : ses rangées
-   restent ainsi sur la trame du site (288 = 16 x 18), donc sur des rangées
-   non décalées du dégradé, comme si rien ne l'avait déplacé.
-
-   Les marges laissent 38 px sous le dégradé du haut (250) et 36 au-dessus
-   de celui du bas (180) : aucun point du semis ne peut se superposer à un
-   point de dégradé. */
-.points-page .points-semis {
+.points-page .points-champ {
     position: absolute;
-    top: 288px;
-    bottom: 216px;
-    left: 0;
-    right: 0;
+    inset: 0;
     z-index: -1;
     color: var(--text);
     pointer-events: none;
 }
 
-.points-page .points-semis svg { display: block; overflow: visible; }
+.points-page .points-champ svg { display: block; overflow: visible; }

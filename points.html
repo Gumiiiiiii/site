@@ -13,30 +13,17 @@
     <link rel="stylesheet" href="/styles/points.css">
 </head>
 <body class="shell-page points-page">
-    <!-- Les points de /fond, seuls sur leur page : pas de navbar, pas de
-         contenu, pas de pied de page.
+    <!-- Une seule couche de points pour toute la page : dense en haut et en
+         bas, clairsemée au milieu, sans qu'aucun point ne change de taille ni
+         d'encre. Le dégradé se fait en retirant des points, pas en les
+         éteignant — voir scripts/points-champ.js.
 
-         Un seul écart avec le site : l'encre est multipliée par six, 0,04 ->
-         0,24, sur toutes les couches à la fois. La page sert de loupe ; c'est
-         le seul réglage à ramener à 0,04 pour retrouver le rendu du site. -->
+         Seul écart avec le site : l'encre est multipliée par six, 0,04 ->
+         0,24. La page sert de loupe. -->
     <div class="site-content">
-        <!-- Le semis : la trame des dégradés échantillonnée un point sur
-             quatre en x comme en y (80 = 4x20, 72 = 4x18), sur leurs rangées
-             non décalées.
-
-             Rayon constant et opacité constante : dans tout le milieu de la
-             page, chaque point est identique à son voisin — même taille,
-             même encre, du bord gauche au bord droit. -->
-        <div class="points-semis dynamic-dots" data-height="auto" data-spacing-x="80"
-             data-spacing-y="72" data-stagger="off" data-radius="3"
-             data-opacity="0.24" aria-hidden="true"></div>
-
-        <div class="dots-bg dynamic-dots dots-bg-top" data-height="250"
-             data-opacity="0.24" aria-hidden="true"></div>
-        <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180"
-             data-opacity="0.24" aria-hidden="true"></div>
+        <div class="points-champ" aria-hidden="true"></div>
     </div>
 
-    <script src="/scripts/page-effects.js"></script>
+    <script src="/scripts/points-champ.js"></script>
 </body>
 </html>
