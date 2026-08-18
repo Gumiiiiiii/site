@@ -1,40 +1,76 @@
 /* La page des points. Rien que la matière du fond de /fond, sans le contenu
-   qui la recouvre : le dégradé du haut, le semis, le dégradé du bas.
+   qui la recouvre : le dégradé du haut, la couche intermédiaire, le semis,
+   le dégradé du bas.
 
-   Comme sur /fond, tout est dessiné par scripts/page-effects.js — même
-   boucle, même grille 20x18, même rayon qui grossit vers les bords. Ce
-   fichier ne fait que donner sa hauteur à la page et placer le semis. */
+   Tout est dessiné par scripts/page-effects.js, le code du site : même
+   boucle, même grille 20x18, même loi de rayon qui grossit vers les bords.
+   Les couches du milieu n'en prennent qu'un point sur quatre, puis un sur
+   seize.
+
+   Ce fichier ne fait que donner sa hauteur à la page et passer le relais
+   d'une couche à l'autre. Les hauteurs de fondu citées ici sont celles
+   déclarées dans points.html : 250 px pour le dégradé du haut, 180 pour
+   celui du bas. */
 
 .points-page .site-content {
     /* Le grain cream-paper laisse la place aux points. */
     background-image: none;
-    /* Trois écrans : dégradé du haut, semis, dégradé du bas. Chacun se lit
-       séparément, sans avoir à faire défiler deux fois pour le trouver. */
-    min-height: 300vh;
+    /* Quatre écrans : le relais étire la descente sur 600 px, il faut de la
+       hauteur derrière pour que le semis ait ensuite le temps d'exister. */
+    min-height: 400vh;
     padding: 0;
 }
 
-/* Comme .dots-bg, mais sur toute la hauteur : c'est le semis qui relie les
-   deux dégradés.
+/* === LE RELAIS DES COUCHES ================================================
+   Trois densités pour une seule matière : 20x18 sur les bords de page,
+   40x36 au-dessous, 80x72 au milieu. Chaque couche vaut le quart de la
+   précédente, et son fondu commence là où celui de la précédente finit.
 
-   Il ne commence qu'une fois le dégradé éteint. Sans ça, un point sur quatre
-   du dégradé recevrait aussi un point du semis, au même endroit : les deux
-   opacités de 0,04 se cumuleraient à près de 0,08 et ces points-là
-   ressortiraient plus foncés que leurs voisins. Le fondu du semis est
-   l'exact inverse de celui des dégradés (250 px en haut, 180 px en bas, les
-   hauteurs déclarées dans points.html). */
+   Deux couches qui se recouvrent poseraient deux fois de l'encre au même
+   endroit — les trames étant emboîtées (40 = 2x20, 80 = 2x40), un point sur
+   quatre recevrait le double et ressortirait plus foncé que ses voisins.
+   D'où des fondus strictement complémentaires : quand l'un descend, l'autre
+   monte, et leur somme reste constante.
+
+   Sans le relais, la descente allait de 20x18 à 80x72 d'un seul coup, sur
+   250 px : seize fois moins de points, sur un quart d'écran. La densité ne
+   s'effondrait pas — mesuré, la courbe d'encre restait monotone — mais l'œil
+   lisait deux matières posées bout à bout plutôt qu'une seule qui s'éclaircit.
+   Le relais coupe ce saut en deux marches de 4x, sur 600 px au lieu de 250. */
+
+.points-page .points-relais,
 .points-page .points-semis {
     position: absolute;
     inset: 0;
     z-index: -1;
     color: var(--text);
     pointer-events: none;
+}
+
+.points-page .points-relais svg,
+.points-page .points-semis svg { display: block; overflow: visible; }
+
+/* Le relais prend la suite du dégradé du haut (éteint à 250), tient sa
+   pleine encre sur 100 px, puis s'efface sur les 250 suivants. En bas, le
+   même trajet à l'envers, calé sur les 180 px du dégradé du bas. */
+.points-page .points-relais {
     -webkit-mask-image: linear-gradient(to bottom,
-        transparent 0, #000 250px,
+        transparent 0, #000 250px, #000 350px, transparent 600px,
+        transparent calc(100% - 530px), #000 calc(100% - 280px),
         #000 calc(100% - 180px), transparent 100%);
     mask-image: linear-gradient(to bottom,
-        transparent 0, #000 250px,
+        transparent 0, #000 250px, #000 350px, transparent 600px,
+        transparent calc(100% - 530px), #000 calc(100% - 280px),
         #000 calc(100% - 180px), transparent 100%);
 }
 
-.points-page .points-semis svg { display: block; overflow: visible; }
+/* Le semis ne commence qu'où le relais s'efface, et repart de même en bas :
+   c'est lui qui tient tout le milieu de la page. */
+.points-page .points-semis {
+    -webkit-mask-image: linear-gradient(to bottom,
+        transparent 350px, #000 600px,
+        #000 calc(100% - 530px), transparent calc(100% - 280px));
+    mask-image: linear-gradient(to bottom,
+        transparent 350px, #000 600px,
+        #000 calc(100% - 530px), transparent calc(100% - 280px));
+}

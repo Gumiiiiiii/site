@@ -14,23 +14,41 @@
 </head>
 <body class="shell-page points-page">
     <!-- Les points de /fond, seuls sur leur page : pas de navbar, pas de
-         contenu, pas de pied de page. Trois écrans de haut, pour que le
-         dégradé du haut, le semis et le dégradé du bas se lisent séparément.
+         contenu, pas de pied de page.
 
-         Les deux dégradés ne sont pas réécrits ici : ce sont les .dots-bg du
-         site, dessinés par scripts/page-effects.js, donc exactement le même
-         motif que sur gumi.ch. Les valeurs du semis sont copiées de
-         fond.html, à l'identique. -->
+         DEUX ÉCARTS ASSUMÉS AVEC LE SITE, pour que la page serve de loupe :
+
+         1. L'encre est multipliée par six. Les vraies valeurs sont 0,04
+            partout ; ici 0,24, sur toutes les couches à la fois, donc les
+            rapports entre elles sont intacts — seul le niveau change. C'est
+            le seul réglage à ramener à 0,04 pour retrouver le rendu du site.
+
+         2. Une couche intermédiaire (40x36) s'intercale entre le dégradé et
+            le semis, et le semis reprend le rayon variable du site au lieu
+            d'un rayon constant. Voir styles/points.css pour le pourquoi. -->
     <div class="site-content">
-        <!-- Le semis : même trame que les dégradés, échantillonnée un point
-             sur quatre (80 = 4x20, 72 = 4x18), sur leurs rangées non
-             décalées. Rayon constant, égal au plus petit point des dégradés
-             (3 px), et la même opacité qu'eux : même encre, même poids. -->
+        <!-- Le semis : la trame des dégradés échantillonnée un point sur
+             quatre en x comme en y (80 = 4x20, 72 = 4x18), sur leurs rangées
+             non décalées.
+
+             Plus de data-radius : les points reprennent la loi du site,
+             3 px au centre et jusqu'à 7 aux bords. Le vignettage descend
+             donc sur toute la page au lieu de mourir avec le dégradé. -->
         <div class="points-semis dynamic-dots" data-height="auto" data-spacing-x="80"
-             data-spacing-y="72" data-stagger="off" data-radius="3"
-             data-opacity="0.04" aria-hidden="true"></div>
-        <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
-        <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" aria-hidden="true"></div>
+             data-spacing-y="72" data-stagger="off"
+             data-opacity="0.24" aria-hidden="true"></div>
+
+        <!-- La marche intermédiaire : 40x36, soit un point sur quatre du
+             dégradé et quatre points pour un du semis. Elle coupe en deux le
+             saut d'échelle de 16x, qui se faisait jusqu'ici d'un coup. -->
+        <div class="points-relais dynamic-dots" data-height="auto" data-spacing-x="40"
+             data-spacing-y="36" data-stagger="off"
+             data-opacity="0.24" aria-hidden="true"></div>
+
+        <div class="dots-bg dynamic-dots dots-bg-top" data-height="250"
+             data-opacity="0.24" aria-hidden="true"></div>
+        <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180"
+             data-opacity="0.24" aria-hidden="true"></div>
     </div>
 
     <script src="/scripts/page-effects.js"></script>
