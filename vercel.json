@@ -2,72 +2,162 @@
   "cleanUrls": true,
   "redirects": [
     {
-      "source": "/",
-      "has": [{ "type": "host", "value": "pierre.gumi.ch" }],
-      "destination": "/cv",
-      "permanent": false
-    },
-    {
       "source": "/cv",
-      "missing": [{ "type": "host", "value": "pierre.gumi.ch" }],
+      "missing": [
+        {
+          "type": "host",
+          "value": "pierre.gumi.ch"
+        }
+      ],
       "destination": "/",
       "permanent": false
     },
     {
       "source": "/en/cv",
-      "missing": [{ "type": "host", "value": "pierre.gumi.ch" }],
+      "missing": [
+        {
+          "type": "host",
+          "value": "pierre.gumi.ch"
+        }
+      ],
       "destination": "/en",
       "permanent": false
     }
   ],
   "rewrites": [
-    { "source": "/en", "destination": "/index.html" },
-    { "source": "/en/:path*", "destination": "/:path*" }
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "pierre.gumi.ch"
+        }
+      ],
+      "destination": "/cv"
+    },
+    {
+      "source": "/en",
+      "has": [
+        {
+          "type": "host",
+          "value": "pierre.gumi.ch"
+        }
+      ],
+      "destination": "/cv"
+    },
+    {
+      "source": "/en",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/en/:path*",
+      "destination": "/:path*"
+    }
   ],
   "headers": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "pierre.gumi.ch"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/en",
+      "has": [
+        {
+          "type": "host",
+          "value": "pierre.gumi.ch"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
       "source": "/cv",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
       ]
     },
     {
       "source": "/en/cv",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
       ]
     },
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=()" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        }
       ]
     },
     {
       "source": "/sw.js",
       "headers": [
-        { "key": "Cache-Control", "value": "no-cache" }
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
       ]
     },
     {
       "source": "/fonts/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/scripts/vendor/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/media/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
       ]
     }
   ]

@@ -121,75 +121,67 @@ const CHECKS = [
         }
     },
     {
-        name: 'CV: the two work compositions keep their 3:2 frame',
+        // Les deux cartes de passions ne se touchent pas : leurs bords
+        // suivent la meme diagonale, a distance constante du haut au bas.
+        name: 'CV: les deux cartes de passions gardent un ecart constant',
         async run(page) {
             await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
-            const ratios = await page.evaluate(() =>
-                [...document.querySelectorAll('.cv-mosaic, .cv-triptych')].map((el) => {
-                    const r = el.getBoundingClientRect();
-                    return r.width / r.height;
-                })
-            );
-            if (ratios.length !== 2) throw new Error('expected 2 compositions, got ' + ratios.length);
-            const off = ratios.filter((r) => Math.abs(r - 1.5) > 0.03);
-            if (off.length) throw new Error('ratio(s) ' + off.map((r) => r.toFixed(3)).join(', ') + ', expected 1.5');
-        }
-    },
-    {
-        name: 'CV: stat figures fit inside their card',
-        async run(page) {
-            await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
-            const overflow = await page.evaluate(() =>
-                [...document.querySelectorAll('.cv-stat b')]
-                    .filter((b) => b.scrollWidth > b.clientWidth + 1)
-                    .map((b) => b.textContent.trim())
-            );
-            if (overflow.length) throw new Error('figure(s) overflowing: ' + overflow.join(' / '));
-        }
-    },
-    {
-        // Les spans de l'attribution sont en display:block — une règle d'auteur
-        // qui écrase le display:none de [hidden]. La mention « traduit » ne doit
-        // apparaître qu'en anglais.
-        name: 'CV: the translated marker stays hidden in French',
-        async run(page) {
-            await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
-            const shown = await page.evaluate(() =>
-                [...document.querySelectorAll('.cv-quote-translated')]
-                    .filter((el) => getComputedStyle(el).display !== 'none').length
-            );
-            if (shown) throw new Error(shown + ' translated marker(s) visible on the French page');
-            const en = await page.evaluate(() => {
-                window.GumiI18n.set('en');
-                return [...document.querySelectorAll('.cv-quote-translated')]
-                    .filter((el) => getComputedStyle(el).display !== 'none').length;
+            const m = await page.evaluate(() => {
+                const g = document.querySelector('.fond-passion').getBoundingClientRect();
+                const d = document.querySelector('.fond-passion--droite').getBoundingClientRect();
+                // --biais vaut un clamp() : sa valeur declaree ne se lit pas
+                // en pixels. On la fait resoudre par un element temoin.
+                const hote = document.querySelector('.fond-passions');
+                const temoin = document.createElement('div');
+                temoin.style.cssText = 'position:absolute;visibility:hidden;width:var(--biais)';
+                hote.appendChild(temoin);
+                const biais = temoin.getBoundingClientRect().width;
+                temoin.remove();
+                return { haut: (d.left + biais) - g.right, bas: d.left - (g.right - biais),
+                         largeurs: [g.width, d.width] };
             });
-            if (en !== 3) throw new Error('expected 3 translated markers in English, got ' + en);
+            if (Math.abs(m.haut - m.bas) > 1) throw new Error('ecart de ' + m.haut + 'px en haut, ' + m.bas + 'px en bas');
+            if (m.haut < 8) throw new Error('les deux cartes se touchent (' + m.haut + 'px)');
+            if (Math.abs(m.largeurs[0] - m.largeurs[1]) > 1) throw new Error('cartes de largeurs inegales : ' + m.largeurs.join(' / '));
         }
     },
     {
-        name: 'CV: the sticky bar never overflows, at any width',
+        name: 'CV: les quatre chiffres du hero restent alignes',
         async run(page) {
-            // The bar holds the portfolio links only above ~650px; below that
-            // they are hidden so the CTA stays reachable. Check both sides.
+            await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
+            const hauts = await page.evaluate(() =>
+                [...document.querySelectorAll('.fond-kpi b')].map((b) => Math.round(b.getBoundingClientRect().top)));
+            if (hauts.length !== 4) throw new Error('attendu 4 chiffres, trouve ' + hauts.length);
+            if (new Set(hauts).size !== 1) throw new Error('chiffres desalignes : ' + hauts.join(', '));
+        }
+    },
+    {
+        // Le dictionnaire ne doit que traduire : un aller-retour FR -> EN -> FR
+        // doit rendre exactement la copie de depart.
+        name: 'CV: la bascule de langue ne reecrit pas le francais',
+        async run(page) {
+            await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
+            const lire = () => page.evaluate(() => document.body.innerText.replace(/s+/g, ' ').trim());
+            const avant = await lire();
+            await page.evaluate(() => window.GumiI18n.set('en'));
+            const anglais = await lire();
+            if (anglais === avant) throw new Error('la page na pas change de langue');
+            if (/Mes deux passions|Parlons-en/.test(anglais)) throw new Error('du francais subsiste en anglais');
+            await page.evaluate(() => window.GumiI18n.set('fr'));
+            const apres = await lire();
+            if (apres !== avant) throw new Error('le francais a change apres un aller-retour');
+        }
+    },
+    {
+        name: 'CV: aucun debord horizontal, a toutes les largeurs',
+        async run(page) {
             try {
-                for (const width of [320, 390, 600, 680, 700, 900, 1440]) {
+                for (const width of [320, 390, 600, 760, 900, 1280, 1440]) {
                     await page.setViewport({ width, height: 844 });
                     await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
-                    const nav = await page.evaluate(() => {
-                        const bar = document.querySelector('.navbar');
-                        const cta = document.querySelector('.navbar--cv .cv-nav-cta');
-                        if (!cta) return { missing: true };
-                        const barBox = bar.getBoundingClientRect();
-                        const ctaBox = cta.getBoundingClientRect();
-                        return {
-                            overflow: bar.scrollWidth - bar.clientWidth,
-                            clipped: ctaBox.right > barBox.right + 0.5 || ctaBox.left < barBox.left - 0.5
-                        };
-                    });
-                    if (nav.missing) throw new Error('contact CTA is not in the navbar at ' + width + 'px');
-                    if (nav.overflow > 0) throw new Error('navbar overflows by ' + nav.overflow + 'px at ' + width + 'px');
-                    if (nav.clipped) throw new Error('CTA is clipped by the navbar edge at ' + width + 'px');
+                    const debord = await page.evaluate(() =>
+                        document.documentElement.scrollWidth - document.documentElement.clientWidth);
+                    if (debord > 0) throw new Error('debord de ' + debord + 'px a ' + width + 'px');
                 }
             } finally {
                 await page.setViewport({ width: 1440, height: 900 });

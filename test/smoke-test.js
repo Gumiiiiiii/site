@@ -62,11 +62,11 @@ const CHECKS = [
         if (d.querySelector('a[href="/cv"], a[href="cv"], a[href*="pierre.gumi.ch"]')) return 'CV page must not be linked from the homepage';
     } },
     { path: '/experiments', assert(d) {
-        if (d.querySelectorAll('.experiments-grid .card').length !== 4) return 'expected 4 cards';
+        if (d.querySelectorAll('.experiments-grid .card').length !== 3) return 'expected 3 cards';
         if (!d.querySelector('a.card[href$="ardacraft-map"]')) return 'missing map article card';
         if (d.querySelectorAll('.filter-btn[aria-pressed]').length === 0) return 'filters missing aria-pressed';
-        if (!d.querySelector('.card.faded .soon-badge')) return 'missing coming-soon teaser card';
-        if (d.querySelector('a.card[href*="ai-photoshoot"]')) return 'ai-photoshoot must not be linked while unpublished';
+        // Every card is a published article now: no placeholder may ship.
+        if (d.querySelectorAll('.experiments-grid .card:not(a)').length !== 0) return 'non-link (placeholder) card present';
     } },
     { path: '/outils', assert(d) {
         if (d.querySelectorAll('.tool-card').length < 8) return 'expected 8+ tool cards';
@@ -89,10 +89,6 @@ const CHECKS = [
         const frTitle = d.title;
         w.GumiI18n.set('en');
         if (d.title === frTitle) return 'language toggle did not re-render';
-    } },
-    { path: '/experiments/ai-photoshoot', assert(d) {
-        if (d.getElementById('post-content').children.length === 0) return 'article body empty';
-        if (!d.querySelector('meta[name="robots"][content="noindex"]')) return 'missing noindex on unpublished article';
     } },
     { path: '/experiments-template?article=ardacraft', assert(d, w) {
         // jsdom does not navigate on location.replace; just check the page parsed.
@@ -117,43 +113,42 @@ const CHECKS = [
     { path: '/tools/palette', assert(d) {
         if (d.querySelectorAll('#pal-swatches .pal-swatch').length < 4) return 'palette not generated';
     } },
-    // CV landing (pierre.gumi.ch/cv): hidden page, must be noindex and
-    // never linked from the public pages.
+    // CV (pierre.gumi.ch, servie aussi par /cv) : page cachee, jamais liee
+    // depuis les pages publiques.
     { path: '/cv', assert(d) {
         if (!d.querySelector('meta[name="robots"][content*="noindex"]')) return 'CV page must be noindex';
         if (d.querySelectorAll('h1').length !== 1) return 'exactly one h1 expected';
-        // Architecture and anchors from the brief.
-        for (const id of ['resultats', 'realisations', 'parcours', 'competences', 'temoignages', 'contact']) {
+        // La page vit a la racine : le canonical doit le dire.
+        const can = d.querySelector('link[rel=canonical]');
+        if (!can || can.getAttribute('href') !== 'https://pierre.gumi.ch/') return 'canonical must point at the root';
+        // Les ancres du rail.
+        for (const id of ['intro', 'realisations', 'parcours', 'competences', 'temoignages', 'perso', 'contact']) {
             if (!d.getElementById(id)) return 'missing anchor #' + id;
         }
-        if (d.querySelectorAll('.cv-kpi').length !== 4) return 'expected 4 KPIs';
-        if (d.querySelectorAll('.cv-work').length !== 3) return 'expected exactly 3 pieces of work';
+        if (d.querySelectorAll('.fond-kpi').length !== 4) return 'expected 4 KPIs';
+        if (d.querySelectorAll('.fond-projet').length !== 3) return 'expected exactly 3 projects';
         if (/Modularte/.test(d.body.textContent)) return 'Modularte should be gone';
-        // ArdaCraft: one card, one CTA, to /experiments.
-        const arda = [...d.querySelectorAll('a')].filter((a) => (a.getAttribute('href') || '').includes('gumi.ch/experiments'));
-        if (arda.length !== 1) return 'ArdaCraft should have exactly one CTA, found ' + arda.length;
-        // The million searches is an opportunity, never traffic obtained.
-        if (!/opportunit/i.test(d.body.textContent)) return 'the million searches must be framed as an opportunity';
-        // The 1,200 total and the 500+ attributed must never be conflated.
-        if (/1[\s ]?200 réservations attribu/i.test(d.body.textContent)) return '1,200 must not be described as attributed';
-        if (d.querySelectorAll('.cv-quote').length !== 4) return 'expected 4 testimonials';
-        // Chaque citation dit d'abord de qui elle vient : manager, collègue, client.
-        if (d.querySelectorAll('.cv-quote .cv-quote-rel').length !== 4) return 'every testimonial needs its working relationship';
-        if (d.querySelector('.cv-quote details, .cv-quote-pending')) return 'testimonials must be shown in full';
-        // Toolkit stays exhaustive and in real text.
-        const tools = [...d.querySelectorAll('.cv-tools-cell li')].map((t) => t.textContent.trim());
+        // Les 1 200 reservations au total et les 500+ attribuees ne doivent
+        // jamais etre confondues.
+        if (/1[s ]?200 réservations attribu/i.test(d.body.textContent)) return '1,200 must not be described as attributed';
+        // Le carrousel duplique ses cartes pour boucler : les copies sont
+        // inertes et masquees, seules les originales comptent.
+        const avis = [...d.querySelectorAll('.fond-avis-carte')].filter((c) => !c.hasAttribute('aria-hidden'));
+        if (avis.length !== 4) return 'expected 4 testimonials, got ' + avis.length;
+        // Chaque citation dit d'abord de qui elle vient : manager, collegue, client.
+        if (avis.filter((c) => c.querySelector('.fond-avis-rel')).length !== 4) return 'every testimonial needs its working relationship';
+        // La boite a outils reste exhaustive et en vrai texte.
+        const tools = [...d.querySelectorAll('.fond-boite-item')].map((t) => t.textContent.trim());
         if (tools.length !== 26) return 'expected 26 tools, got ' + tools.length;
-        for (const must of ['Magento', 'Salsify', 'Microsoft Clarity', 'DaVinci Resolve']) {
+        for (const must of ['Magento', 'Salsify', 'Clarity', 'DaVinci Resolve']) {
             if (!tools.includes(must)) return must + ' missing from the toolkit';
         }
         if (!d.querySelector('a[href^="mailto:pierregumilar"]')) return 'missing mailto CTA';
-        if (!d.querySelector('a[href*="cal.com"]')) return 'missing booking CTA';
         if (!d.querySelector('a[href*="linkedin.com/in/pierre-gumilar"]')) return 'missing LinkedIn CTA';
         if (!d.querySelector('a[href$="Pierre-Gumilar-CV.pdf"]')) return 'missing PDF CTA';
-        // One sticky surface: the shared bottom pill must not also render.
-        if (d.querySelectorAll('[data-navbar-root]').length !== 1) return 'expected a single navbar root';
-        if (!d.querySelector('.navbar--cv')) return 'CV navbar variant did not render';
-        if (!d.querySelector('.cv-nav-sections[aria-expanded="false"]')) return 'Sections toggle missing or not announced';
+        // Chaque chaine traduisible porte sa cle : sinon la bascule FR/EN en
+        // laisse une partie derriere elle.
+        if (d.querySelectorAll('[data-i18n], [data-i18n-html]').length < 100) return 'translation keys are missing';
         const alts = [...d.querySelectorAll('link[rel="alternate"][hreflang]')].map((l) => l.getAttribute('hreflang'));
         for (const lang of ['fr', 'en', 'x-default']) {
             if (!alts.includes(lang)) return 'missing hreflang ' + lang;
@@ -206,7 +201,7 @@ async function main() {
         // Article bodies must be in the raw HTML, not injected client-side.
         // The jsdom checks above run article-page.js, which would hide the
         // regression; crawlers that skip JavaScript would see an empty shell.
-        for (const slug of ['ardacraft', 'ardacraft-map', 'ai-photoshoot', 'ardacraft-social']) {
+        for (const slug of ['ardacraft', 'ardacraft-map', 'ardacraft-social']) {
             const artRes = await fetch(BASE + '/experiments/' + slug, { headers: { connection: 'close' } });
             const artBody = await artRes.text();
             const empty = /id="post-content"[^>]*>\s*<\/article>/.test(artBody);
@@ -226,12 +221,12 @@ async function main() {
             const absAt = raw.indexOf('id="article-abstract"');
             const problems = [];
             if (absAt < 0 || raw.indexOf('class="abstract"', absAt) < 0) problems.push('abstract not rendered');
-            if (absAt > raw.indexOf('id="article-cover"')) problems.push('abstract comes after the cover');
+            if (absAt < raw.indexOf('id="article-cover"')) problems.push('abstract comes before the cover');
             if (absAt > raw.indexOf('toolbar-wrapper')) problems.push('abstract comes after the table of contents');
             if (raw.includes('chart-figure')) problems.push('the chart is still duplicated in the body');
             const caps = (raw.match(/class="reel-caption"/g) || []).length;
             if (caps !== 3) problems.push(caps + ' reel captions, expected 3');
-            console.log((problems.length ? 'FAIL' : ' ok ') + '  ' + label + ' (abstract above the cover)'
+            console.log((problems.length ? 'FAIL' : ' ok ') + '  ' + label + ' (abstract under the cover)'
                 + (problems.length ? '  → ' + problems.join('; ') : ''));
             if (problems.length) failures += 1;
         }
