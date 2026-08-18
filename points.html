@@ -13,32 +13,17 @@
     <link rel="stylesheet" href="/styles/points.css">
 </head>
 <body class="shell-page points-page">
-    <!-- Les points de /fond, seuls sur leur page : pas de navbar, pas de
-         contenu, pas de pied de page. Trois écrans de haut, pour que le
-         dégradé du haut, le semis et le dégradé du bas se lisent séparément.
+    <!-- Une seule couche de points pour toute la page : dense en haut et en
+         bas, clairsemée au milieu, sans qu'aucun point ne change de taille ni
+         d'encre. Le dégradé se fait en retirant des points, pas en les
+         éteignant — voir scripts/points-champ.js.
 
-         Les deux dégradés ne sont pas réécrits ici : ce sont les .dots-bg du
-         site, dessinés par scripts/page-effects.js, donc exactement le même
-         motif que sur gumi.ch. Les valeurs du semis sont copiées de
-         fond.html, à l'identique.
-
-         Un seul écart avec le site : l'encre est multipliée par six, 0,04 ->
-         0,24, sur les trois couches à la fois. La page sert de loupe, donc
-         les rapports entre couches sont intacts et seul le niveau change.
-         C'est le seul réglage à ramener à 0,04 pour retrouver le rendu
-         exact de gumi.ch. -->
+         Seul écart avec le site : l'encre est multipliée par six, 0,04 ->
+         0,24. La page sert de loupe. -->
     <div class="site-content">
-        <!-- Le semis : même trame que les dégradés, échantillonnée un point
-             sur quatre (80 = 4x20, 72 = 4x18), sur leurs rangées non
-             décalées. Rayon constant, égal au plus petit point des dégradés
-             (3 px), et la même opacité qu'eux : même encre, même poids. -->
-        <div class="points-semis dynamic-dots" data-height="auto" data-spacing-x="80"
-             data-spacing-y="72" data-stagger="off" data-radius="3"
-             data-opacity="0.24" aria-hidden="true"></div>
-        <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" data-opacity="0.24" aria-hidden="true"></div>
-        <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" data-opacity="0.24" aria-hidden="true"></div>
+        <div class="points-champ" aria-hidden="true"></div>
     </div>
 
-    <script src="/scripts/page-effects.js"></script>
+    <script src="/scripts/points-champ.js"></script>
 </body>
 </html>
