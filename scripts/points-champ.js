@@ -57,23 +57,6 @@
     // niveau 1, niveau 2. Elles se chevauchent largement.
     var FENETRES = [[0, 1], [0.25, 0.9], [0, 0.55]];
 
-    // Le sous-ordre. Sans lui, tous les points d'un même niveau rétrécissent
-    // ensemble et il n'existe que trois calibres à une hauteur donnée : la
-    // dissolution est lisible mais mécanique. Chaque point avance donc sa fin
-    // selon sa colonne dans la cellule de quatre, ce qui met jusqu'à sept
-    // calibres côte à côte sur une même rangée.
-    //
-    // Les tables different selon la parité de la rangée parce que les niveaux
-    // n'y occupent pas les mêmes colonnes : sur une rangée paire le niveau 2
-    // n'a que les colonnes impaires. Elles sont faites pour que la moyenne des
-    // décalages vaille 0,5 dans les deux cas — sinon les rangées se
-    // remettraient à alterner lourdes et légères, ce que la hiérarchie des
-    // trames avait justement corrigé.
-    var SOUS_PAIRE = [0, 0.25, 0, 0.75];      // niveau 2, colonnes impaires
-    var SOUS_IMPAIRE = [0.125, 0.625, 0.375, 0.875];  // niveau 2, quinconce
-    var SOUS_NIVEAU1 = [0.3, 0, 0.7, 0];      // niveau 1, colonnes paires
-    var ETALEMENT = [0, 0.25, 0.3];           // de combien la fin peut avancer
-
     // Matrice de Bayer 8x8, construite par récurrence à partir de la 4x4 :
     // chaque case reçoit un rang de 0 à 63, qui décide de la hauteur à
     // laquelle son point atteint zéro.
@@ -157,12 +140,7 @@
                 // RAYON et forment la grille du milieu. Les fenêtres se
                 // chevauchent, sinon le champ passerait d'une trame à l'autre
                 // par paliers au lieu de fondre.
-                var sousOrdre = impaire ? SOUS_IMPAIRE[i % 4]
-                    : (niveau === 1 ? SOUS_NIVEAU1[i % 4] : SOUS_PAIRE[i % 4]);
-                var debut = FENETRES[niveau][0];
-                // La fin ne fait qu'avancer, jamais reculer : un point ne peut
-                // donc pas survivre au-dela de la bande et entrer dans la grille.
-                var finw = FENETRES[niveau][1] - sousOrdre * ETALEMENT[niveau];
+                var debut = FENETRES[niveau][0], finw = FENETRES[niveau][1];
                 var p = (t - debut) / (finw - debut);
                 p = p < 0 ? 0 : (p > 1 ? 1 : p);
                 if (niveau !== 0 && p >= 1) continue;
