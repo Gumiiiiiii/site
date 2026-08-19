@@ -41,6 +41,12 @@
     // le dégradé n'y ressemblait plus à celui de gumi.ch : il n'était plus
     // une bande dense en haut de page, il occupait l'écran entier.
     var FONDU_HAUT = 250, FONDU_BAS = 180;
+    // La marge minimale des deux extrémités : le plus gros point possible, pour
+    // qu aucune rangée ne soit coupée par le bord de la page. Les rangées
+    // partent de cette marge plutôt que de zéro, et la marge réelle est
+    // repartie a parts égales en haut et en bas — le pas de 18 px reste
+    // intact, donc la grille du milieu reste sur la trame 80x72 du site.
+    var MARGE_MIN = RAYON_SOMMET + CROISSANCE;
     // Le seuil du milieu, entre le rang 3 et le rang 4 de la matrice : il fixe
     // à quelle hauteur chaque rang atteint zéro, et laisse les rangs 0 à 3 —
     // soit exactement la trame 80x72 du semis de /fond.
@@ -99,11 +105,15 @@
         var svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">' +
             '<g fill="currentColor" opacity="' + ENCRE + '">';
 
-        for (var j = 0; j * PAS_Y <= hauteur; j++) {
-            var y = j * PAS_Y;
+        var rangees = Math.floor((hauteur - 2 * MARGE_MIN) / PAS_Y);
+        var marge = (hauteur - rangees * PAS_Y) / 2;
+
+        for (var j = 0; j <= rangees; j++) {
+            var y = marge + j * PAS_Y;
             // L'avancement dans la bande : 0 sur les deux bords de la page,
             // 1 dès qu'on entre dans la grille du milieu.
-            var t = Math.max(0, Math.min(y / FONDU_HAUT, (hauteur - y) / FONDU_BAS, 1));
+            var t = Math.max(0, Math.min((y - marge) / FONDU_HAUT,
+                (hauteur - marge - y) / FONDU_BAS, 1));
             var impaire = (j % 2 !== 0);
 
             // Les points sont posés par paires de part et d'autre de l'axe, et
