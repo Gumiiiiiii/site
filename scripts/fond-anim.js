@@ -14,7 +14,7 @@
     var PAS = 70;              // ms entre deux voisins qui entrent ensemble
     var RANG_MAX = 6;          // au-delà, le dernier attendrait trop
     var DEBUT_LETTRES = 240;   // la phrase part après la photo
-    var BALAYAGE = 900;        // le temps que met la phrase à s'écrire
+    var BALAYAGE = 1100;       // le temps que met la vague à traverser la phrase
 
     function reveler(element, retard) {
         element.style.setProperty('--anim-retard', (retard || 0) + 'ms');
@@ -54,13 +54,23 @@
 
     function ecrire(debut, balayage) {
         if (!phrase) return;
-        var lettres = decouper(phrase);
+        // Découper une phrase déjà découpée emboîterait chaque lettre dans
+        // la précédente, et leurs opacités se multiplieraient.
+        var faites = phrase.querySelectorAll('.fond-lettre');
+        var lettres = faites.length ? Array.prototype.slice.call(faites) : decouper(phrase);
 
         // La phrase elle-même apparaît d'un coup et sans transition : si elle
         // se dévoilait aussi, son propre fondu se multiplierait à celui des
         // lettres et on ne verrait plus qu'un bloc qui s'éclaircit.
         phrase.style.transition = 'none';
         reveler(phrase, 0);
+
+        // Sans cette lecture, aucune lettre ne se dégraderait : elles
+        // viennent d'être créées et le navigateur n'a encore calculé aucun
+        // style pour elles. Il passerait donc directement à l'arrivée, sans
+        // rien à interpoler. La lecture force ce calcul, et l'opacité de
+        // départ existe enfin.
+        void phrase.offsetWidth;
 
         // Le balayage dure le même temps quelle que soit la longueur du
         // texte : une traduction plus longue ne doit pas ralentir l'entrée.
@@ -74,7 +84,10 @@
     // lettres disparaissent avec elle, on les retaille aussitôt. Le balayage
     // est plus court — ce n'est plus une entrée, c'est une correction.
     document.addEventListener('gumi:lang', function () {
-        if (phrase) ecrire(0, 350);
+        // Le dictionnaire annonce aussi la langue au chargement, avant que
+        // la page ne soit visible : celle-là n'est pas un changement, et
+        // l'entrée s'en chargera.
+        if (parti) ecrire(0, 350);
     });
 
     // ---------- Le premier écran ----------
@@ -83,12 +96,19 @@
     var chiffres = Array.prototype.slice.call(
         document.querySelectorAll('.fond-hero-chiffres .fond-kpi')
     );
+    // Les trois outils du bas, le rail et le voile qui les détache ferment la
+    // marche : ils encadrent la page, ils entrent une fois qu'il y a une page
+    // à encadrer.
+    var cadre = ['.fond-rail', '.fond-outils', '.fond-voile']
+        .map(function (selecteur) { return document.querySelector(selecteur); })
+        .filter(Boolean);
 
     function entrer() {
         if (photo) reveler(photo, 60);
         ecrire(DEBUT_LETTRES, BALAYAGE);
         // Les chiffres ferment la marche, une fois la phrase lancée.
         chiffres.forEach(function (kpi, i) { reveler(kpi, 620 + i * 90); });
+        cadre.forEach(function (element, i) { reveler(element, 1000 + i * 90); });
     }
 
     // ---------- Le reste, au fil du défilement ----------
@@ -149,13 +169,35 @@
         suivis.forEach(function (element) { observateur.observe(element); });
     }
 
-    // Deux trames d'attente : la première laisse le navigateur poser l'état
-    // de départ, sans quoi il passerait directement à l'arrivée et il n'y
-    // aurait aucune transition à voir.
-    requestAnimationFrame(function () {
+    // De quoi vérifier, d'un test, qu'aucune entrée ne reste en chemin.
+    window.fondAnim = { suivis: suivis, lignes: lignes, cadre: cadre };
+
+    // Le départ.
+    //
+    // Deux trames d'attente d'abord : la première laisse le navigateur poser
+    // l'état de départ, sans quoi il passerait directement à l'arrivée et il
+    // n'y aurait aucune transition à voir.
+    //
+    // Et surtout : on attend que la page ait fini de charger. Lancée dès la
+    // lecture du script, la phrase finissait de s'écrire avant que le premier
+    // écran ne soit là — l'effet avait bien lieu, mais devant personne. Pas
+    // d'attente sans fin pour autant : passé le délai, on part quand même,
+    // plutôt que de laisser un hero vide sur une connexion lente.
+    var ATTENTE_MAX = 1200;
+    var parti = false;
+
+    function demarrer() {
+        if (parti) return;
+        parti = true;
         requestAnimationFrame(function () {
-            entrer();
-            observer();
+            requestAnimationFrame(function () {
+                entrer();
+                observer();
+            });
         });
-    });
+    }
+
+    if (document.readyState === 'complete') demarrer();
+    else window.addEventListener('load', demarrer);
+    setTimeout(demarrer, ATTENTE_MAX);
 })();

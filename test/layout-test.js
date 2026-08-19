@@ -210,29 +210,42 @@ const CHECKS = [
         // Une entree qui ne se termine pas laisse la page transparente : on
         // verifie les deux temps, celui du premier ecran et celui du
         // defilement.
+        // Une entree qui ne se termine pas laisse un morceau de page
+        // transparent pour toujours — c est arrive au bloc de contact, dont le
+        // selecteur pesait plus lourd que l etat revele. On parcourt donc la
+        // page entiere et on verifie que tout ce que le script suit est bien
+        // arrive.
         name: 'CV: les apparitions se terminent, rien ne reste transparent',
         async run(page) {
             await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
-            await new Promise((r) => setTimeout(r, 2400));
-            const pales = (sel) => page.evaluate((s) => [...document.querySelectorAll(s)]
-                .filter((e) => Number(getComputedStyle(e).opacity) < 0.99).length, sel);
+            await new Promise((r) => setTimeout(r, 2600));
 
             const lettres = await page.evaluate(() => document.querySelectorAll('.fond-hero-phrase .fond-lettre').length);
             if (lettres < 100) throw new Error('la phrase du hero na pas ete decoupee : ' + lettres);
-            for (const sel of ['.fond-hero-phrase .fond-lettre', '.fond-hero-photo', '.fond-kpi b']) {
-                const reste = await pales(sel);
-                if (reste) throw new Error(reste + ' element(s) ' + sel + ' restent transparents');
-            }
 
-            await page.evaluate(() => {
-                if (window.gumiLenis) window.gumiLenis.scrollTo(1400, { immediate: true });
-                else window.scrollTo(0, 1400);
-            });
-            await new Promise((r) => setTimeout(r, 1400));
-            for (const sel of ['.fond-projets > .fond-projet']) {
-                const reste = await pales(sel);
-                if (reste) throw new Error(reste + ' element(s) ' + sel + ' restent transparents apres defilement');
+            // Descendre par paliers : ce qui se revele au defilement ne se
+            // revele pas si on saute directement en bas.
+            const hauteur = await page.evaluate(() => document.documentElement.scrollHeight);
+            for (let y = 0; y <= hauteur; y += 600) {
+                await page.evaluate((cible) => {
+                    if (window.gumiLenis) window.gumiLenis.scrollTo(cible, { immediate: true });
+                    else window.scrollTo(0, cible);
+                }, y);
+                await new Promise((r) => setTimeout(r, 120));
             }
+            await new Promise((r) => setTimeout(r, 1600));
+
+            const pales = await page.evaluate(() => {
+                const suivis = window.fondAnim.suivis
+                    .concat(window.fondAnim.lignes, window.fondAnim.cadre)
+                    .concat([...document.querySelectorAll('.fond-hero-photo, .fond-hero-phrase .fond-lettre')])
+                    .concat([...document.querySelectorAll('.fond-kpi > *')]);
+                return suivis
+                    .filter((e) => Number(getComputedStyle(e).opacity) < 0.99)
+                    .map((e) => e.tagName.toLowerCase() + '.' + (e.className || '').toString().split(' ')[0]);
+            });
+            if (pales.length) throw new Error(pales.length + ' element(s) restent transparents : ' + [...new Set(pales)].join(', '));
+
             await page.evaluate(() => {
                 if (window.gumiLenis) window.gumiLenis.scrollTo(0, { immediate: true });
                 else window.scrollTo(0, 0);

@@ -1398,49 +1398,70 @@ html { scroll-behavior: smooth; }
    document — donc avant le premier rendu, sinon la page apparaîtrait avant de
    se cacher pour entrer. Sans JavaScript, ou si l'on demande moins de
    mouvement, la classe n'est jamais posée et rien de ce qui suit ne
-   s'applique : la page s'affiche entière, comme avant. */
-.fond-anime .fond-hero-photo,
-.fond-anime .fond-hero-phrase,
-.fond-anime .fond-kpi > *,
-.fond-anime .fond-titre,
-.fond-anime .fond-ligne,
-.fond-anime .fond-projet,
-.fond-anime .fond-parcours-groupe,
-.fond-anime .fond-competences-intro,
-.fond-anime .fond-champ,
-.fond-anime .fond-boite-intro,
-.fond-anime .fond-boite-rang,
-.fond-anime .fond-avis-fleches,
-.fond-anime .fond-avis-cadre,
-.fond-anime .fond-passion,
-.fond-anime .fond-contact-intro,
-.fond-anime .fond-contact > .fond-bloc {
+   s'applique : la page s'affiche entière, comme avant.
+
+   La liste est enfermée dans :where() pour n'avoir aucun poids : quel que
+   soit le sélecteur qu'on y ajoute — même un enfant direct, qui en pèserait
+   trois — l'état révélé le bat toujours. Sans cela, .fond-contact > .fond-bloc
+   restait invisible pour l'éternité. */
+.fond-anime :where(
+    .fond-hero-photo,
+    .fond-hero-phrase,
+    .fond-kpi > *,
+    .fond-titre,
+    .fond-ligne,
+    .fond-projet,
+    .fond-parcours-groupe,
+    .fond-competences-intro,
+    .fond-champ,
+    .fond-boite-intro,
+    .fond-boite-rang,
+    .fond-avis-fleches,
+    .fond-avis-cadre,
+    .fond-passion,
+    .fond-contact-intro,
+    .fond-contact > .fond-bloc,
+    .fond-outils,
+    .fond-voile
+) {
     opacity: 0;
-    transform: translateY(0.85rem);
+    transform: translateY(var(--anim-monte, 0.85rem));
     transition: opacity 0.6s ease var(--anim-retard, 0s),
                 transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--anim-retard, 0s);
 }
 
 /* Un titre et sa rangée assombrie sont posés au pixel près l'un sur l'autre,
-   sur une rangée du champ : ils ne peuvent que se révéler sur place. Les
-   faire glisser, c'est refaire exactement ce saut de ligne qu'on cherchait à
-   supprimer. */
-.fond-anime .fond-titre,
-.fond-anime .fond-ligne { transform: none; }
+   sur une rangée du champ ; le voile est collé au bas de l'écran. Ceux-là ne
+   peuvent que se révéler sur place — les faire glisser, c'est refaire
+   exactement ce saut de ligne qu'on cherchait à supprimer. */
+.fond-anime :where(.fond-titre, .fond-ligne, .fond-voile) { --anim-monte: 0px; }
 
-.fond-anime [data-anim="vu"],
-.fond-anime .fond-kpi[data-anim="vu"] > * {
-    opacity: 1;
-    transform: none;
+.fond-anime [data-anim="vu"] { opacity: 1; --anim-monte: 0px; }
+
+/* Un KPI est en display: contents sur desktop — il n'a pas de boîte à animer.
+   Ce sont ses trois lignes qui entrent, sur le retard qu'il leur transmet. */
+.fond-anime .fond-kpi[data-anim="vu"] > * { opacity: 1; }
+
+/* Le rail est centré par un transform à lui : lui en poser un autre le
+   décentrerait. Il se contente donc d'apparaître. */
+.fond-anime .fond-rail {
+    opacity: 0;
+    transition: opacity 0.6s ease var(--anim-retard, 0s);
 }
+
+.fond-anime .fond-rail[data-anim="vu"] { opacity: 1; }
 
 /* La phrase du hero s'écrit lettre à lettre. Chacune reste en display: inline
    — un inline ne se laisse pas déplacer par transform, mais il se laisse
    effacer par opacity, et c'est tout ce qu'on lui demande. C'est aussi ce qui
-   fait qu'un lecteur d'écran continue de lire la phrase d'un trait. */
+   fait qu'un lecteur d'écran continue de lire la phrase d'un trait.
+
+   Le fondu de chaque lettre est court devant le temps que met la vague à
+   traverser la phrase : c'est ce rapport-là qui rend le passage lisible.
+   Allongé, on ne voit plus qu'un bloc qui s'éclaircit d'un coup. */
 .fond-anime .fond-lettre {
     opacity: 0;
-    transition: opacity 0.32s ease var(--anim-retard, 0s);
+    transition: opacity 0.18s ease var(--anim-retard, 0s);
 }
 
 .fond-anime .fond-lettre[data-anim="vu"] { opacity: 1; }
