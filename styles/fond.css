@@ -8,6 +8,19 @@
 
    Ce fichier ne fait que donner sa hauteur à la page et placer le semis. */
 
+/* La seconde main de la page : celle qui annote. Elle ne sert qu'aux notes
+   manuscrites, jamais au contenu — d'où le chargement ici et non dans
+   shared.css, et le font-display: swap, qui laisse la page s'afficher sans
+   l'attendre. Caveat, sous licence SIL Open Font. */
+@font-face {
+    font-family: 'Caveat';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('../fonts/caveat-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 .fond-page .site-content {
     /* Le grain cream-paper laisse la place aux points. */
     background-image: none;
@@ -685,30 +698,18 @@ html { scroll-behavior: smooth; }
     background-color: var(--bg);
     background-image: linear-gradient(rgba(var(--text-rgb), 0.035), rgba(var(--text-rgb), 0.035));
     overflow: hidden;
-    /* Le tracé ne sert plus qu'à la diagonale : il déborde du côté opposé
-       pour laisser le border-radius arrondir seul les coins de ce côté-là —
-       une découpe qui passerait dessus les rendrait carrés. Le coin où la
-       diagonale rejoint le bord, lui, ne peut pas recevoir de rayon : deux
-       points intermédiaires l'abattent en biseau, ce qui à l'œil se lit
-       comme un arrondi de la même famille. */
-    clip-path: polygon(
-        -2% 0,
-        100% 0,
-        calc(100% - 0.94 * var(--biais)) 94%,
-        calc(100% - 0.985 * var(--biais) - 4px) 98.6%,
-        calc(100% - var(--biais) - 12px) 100%,
-        -2% 100%);
+    /* Ce tracé-ci a les coins vifs : polygon() ne sait pas faire autrement.
+       C'est le repli, pour qui n'exécute pas de JavaScript. Le tracé arrondi,
+       lui, est calculé en pixels par scripts/fond-passions.js et posé en
+       clip-path: path() — seule forme capable d'arrondir aussi le coin où la
+       diagonale rejoint le bord. Sous 760 px, ces deux découpes disparaissent
+       et les cartes redeviennent de simples rectangles arrondis. */
+    clip-path: polygon(0 0, 100% 0, calc(100% - var(--biais)) 100%, 0 100%);
 }
 
 .fond-passion--droite {
     margin-left: calc(var(--decalage) * -1);
-    clip-path: polygon(
-        calc(var(--biais) + 12px) 0,
-        102% 0,
-        102% 100%,
-        0 100%,
-        calc(0.94 * var(--biais)) 6%,
-        calc(0.985 * var(--biais) + 4px) 1.4%);
+    clip-path: polygon(var(--biais) 0, 100% 0, 100% 100%, 0 100%);
 }
 
 /* L'image occupe toute la hauteur de la carte : c'est elle qui donne au bloc
@@ -821,6 +822,11 @@ html { scroll-behavior: smooth; }
    coupe disait « c'est cassé ». */
 .fond-avis-cadre {
     overflow: hidden;
+    /* Le rembourrage agrandit la zone visible sans rien déplacer — la marge
+       négative le reprend. C'est ce qui laisse les notes manuscrites
+       dépasser en haut et en bas des cartes au lieu d'être tranchées. */
+    padding: 1.25rem 0;
+    margin: -1.25rem 0;
     -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 5.5rem), transparent 100%);
     mask-image: linear-gradient(to right, #000 calc(100% - 5.5rem), transparent 100%);
 }
@@ -836,6 +842,7 @@ html { scroll-behavior: smooth; }
 .fond-avis-piste.sans-animation { transition: none; }
 
 .fond-avis-carte {
+    position: relative;
     flex: 0 0 auto;
     /* Assez large pour se lire, assez étroite pour que la suivante dépasse. */
     width: min(62%, 34rem);
@@ -864,7 +871,6 @@ html { scroll-behavior: smooth; }
     flex-shrink: 0;
 }
 
-.fond-avis-rel,
 .fond-avis-role {
     display: block;
     font-size: 0.76rem;
@@ -913,6 +919,112 @@ html { scroll-behavior: smooth; }
    la plus haute : le plus court est composé un cran plus grand, ce qui
    rattrape une partie du vide sans toucher au texte. */
 .fond-avis-carte--court blockquote { font-size: 1.08rem; line-height: 1.65; }
+
+/* === NOTES MANUSCRITES ====================================================
+   Une deuxième couche, posée sur la page comme on annote une feuille déjà
+   imprimée : toujours en absolu, jamais dans le flux, jamais dans l'arbre
+   d'accessibilité. Rien de ce qui suit ne tient la mise en page — retirez le
+   bloc entier et la section reste exactement la même.
+
+   Quatre traitements différents, un par recommandation : une flèche, un
+   cercle, une note en marge, un astérisque. C'est un essai : ils sont là pour
+   être comparés, pas pour cohabiter éternellement. */
+.fond-note {
+    position: absolute;
+    z-index: 2;
+    /* Une note ne se clique pas et n'intercepte rien : le lien LinkedIn
+       qu'elle recouvre reste cliquable. */
+    pointer-events: none;
+    font-family: 'Caveat', 'Segoe Script', cursive;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    /* Une note tient sur une ligne : elle est posee dans une marge, pas dans
+       une colonne de texte. */
+    white-space: nowrap;
+    color: var(--accent-ink);
+    opacity: 0.88;
+}
+
+.fond-note-texte { display: inline-block; }
+
+.fond-note-trait {
+    display: block;
+    /* Le trait est tracé à la même encre que le mot, et de la même épaisseur
+       apparente que la plume. */
+    color: inherit;
+    overflow: visible;
+}
+
+/* 1 — La flèche. La note se tient au-dessus du coin haut droit et son trait
+   redescend vers la citation. */
+.fond-note--fleche {
+    top: -0.55rem;
+    right: 1.25rem;
+    text-align: right;
+    transform: rotate(-2.5deg);
+}
+
+.fond-note--fleche .fond-note-trait {
+    width: 8.5rem;
+    /* Assez court pour que la pointe s arrete dans le blanc au-dessus de la
+       citation : posee un cran plus bas, elle barrait la premiere ligne. */
+    height: 4rem;
+    margin: 0.15rem 0.75rem 0 auto;
+}
+
+/* 2 — Le cercle, tracé autour du rôle, et le mot posé juste à droite. */
+.fond-note--cercle {
+    top: 3rem;
+    left: 3.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.fond-note--cercle .fond-note-trait {
+    width: 14.5rem;
+    height: 2.4rem;
+    flex-shrink: 0;
+}
+
+.fond-note--cercle .fond-note-texte { transform: rotate(-3deg); }
+
+/* 3 — La note en marge, tournée, qui déborde sous le bord bas gauche. */
+.fond-note--marge {
+    bottom: -0.9rem;
+    left: 0.6rem;
+    transform: rotate(-6deg);
+}
+
+.fond-note--marge .fond-note-trait {
+    width: 9.5rem;
+    height: 0.7rem;
+    margin-top: 0.1rem;
+}
+
+/* 4 — L'astérisque et son mot, au bord bas droit. */
+.fond-note--etoile {
+    bottom: -0.75rem;
+    right: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transform: rotate(3deg);
+}
+
+.fond-note--etoile .fond-note-trait {
+    width: 1.15rem;
+    height: 1.15rem;
+    flex-shrink: 0;
+}
+
+/* Sur mobile, la carte occupe presque tout l'écran : une note posée par
+   dessus ne serait plus une annotation, elle serait dans le chemin. */
+@media (max-width: 760px) {
+    .fond-note { display: none; }
+}
 
 /* Sur mobile, le carrousel sort de la colonne et va d'un bord à l'autre de
    l'écran : la carte suivante déborde à droite, et celle qu'on quitte s'en va

@@ -736,8 +736,6 @@
         fond_27: { fr: "500 → 5 000 fiches enrichies", en: "500 → 5,000 enriched product records" },
         fond_28: { fr: "+180 % de trafic organique sur lindt.fr, de fin 2023 à mi-2026", en: "+180% organic traffic on lindt.fr, from late 2023 to mid-2026" },
         fond_29: { fr: "7 000+ assets coordonnés", en: "7,000+ assets coordinated" },
-        fond_30: { fr: "Salsify · Magento · Amazon · e-retail", en: "Salsify · Magento · Amazon · e-retail" },
-        fond_31: { fr: "Shootings · direction artistique", en: "Photoshoots · art direction" },
         fond_32: { fr: "Coûts d'hébergement divisés par 10", en: "Hosting costs divided by 10" },
         fond_33: { fr: "Usage des filtres multiplié par 6,5", en: "Filter usage multiplied by 6.5" },
         fond_34: { fr: "50 % du trafic hors marque désormais généré par la carte", en: "The map now generates 50% of non-branded traffic" },
@@ -776,10 +774,6 @@
         fond_67: { fr: "IA générative", en: "GenAI" },
         fond_68: { fr: "Création", en: "Design" },
         fond_69: { fr: "Bureautique et projets", en: "Office and project management" },
-        fond_70: { fr: "Collègue dans mon équipe", en: "Colleague on my team" },
-        fond_71: { fr: "Client", en: "Client" },
-        fond_72: { fr: "Collègue d'une autre équipe", en: "Colleague from another team" },
-        fond_73: { fr: "Ma manager", en: "My manager" },
         fond_74: { fr: "Senior Digital E-commerce Manager · Lindt & Sprüngli", en: "Senior Digital E-commerce Manager · Lindt & Sprüngli" },
         fond_75: { fr: "Dirigeant · Émeraude Aventure", en: "Director · Emeraude Aventure" },
         fond_76: { fr: "Senior Communication Manager · Lindt & Sprüngli", en: "Senior Communication Manager · Lindt & Sprüngli" },
@@ -816,6 +810,13 @@
         fond_107: { fr: "Recommandations", en: "Recommendations" },
         fond_108: { fr: "Passions", en: "Passions" },
         fond_109: { fr: "Contact", en: "Contact" },
+        // Les notes manuscrites des recommandations. Elles commentent la
+        // page, elles ne la portent pas : traduites, mais jamais lues par un
+        // lecteur d ecran (aria-hidden dans le HTML).
+        fond_110: { fr: "en anglais dans le texte", en: "in English, as written" },
+        fond_111: { fr: "le projet plus haut", en: "the project further up" },
+        fond_112: { fr: "reprise telle quelle", en: "quoted as received" },
+        fond_113: { fr: "merci Céline\u00a0!", en: "thank you, Céline!" },
     };
 
     function urlHasEn() {

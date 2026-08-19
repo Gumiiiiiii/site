@@ -135,8 +135,15 @@ const CHECKS = [
         // inertes et masquees, seules les originales comptent.
         const avis = [...d.querySelectorAll('.fond-avis-carte')].filter((c) => !c.hasAttribute('aria-hidden'));
         if (avis.length !== 4) return 'expected 4 testimonials, got ' + avis.length;
-        // Chaque citation dit d'abord de qui elle vient : manager, collegue, client.
-        if (avis.filter((c) => c.querySelector('.fond-avis-rel')).length !== 4) return 'every testimonial needs its working relationship';
+        // Chaque citation mene au profil LinkedIn de qui la signe : c'est la
+        // seule chose qui la rend verifiable.
+        if (avis.filter((c) => c.querySelector('a[href*="linkedin.com/in/"]')).length !== 4) return 'every testimonial needs its LinkedIn link';
+        // Les notes manuscrites sont decoratives : jamais annoncees, jamais
+        // cliquables. Si l'une d'elles entrait dans l'arbre d'accessibilite,
+        // elle se lirait au milieu d'une citation.
+        const notes = avis.flatMap((c) => [...c.querySelectorAll('.fond-note')]);
+        if (notes.length !== 4) return 'expected 4 handwritten notes, got ' + notes.length;
+        if (notes.some((note) => note.getAttribute('aria-hidden') !== 'true')) return 'a handwritten note is exposed to screen readers';
         // La boite a outils reste exhaustive et en vrai texte.
         const tools = [...d.querySelectorAll('.fond-boite-item')].map((t) => t.textContent.trim());
         if (tools.length !== 24) return 'expected 24 tools, got ' + tools.length;
