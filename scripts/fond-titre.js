@@ -43,6 +43,21 @@
     });
 
     var minuteur;
+    // Ce sur quoi le dernier placement s est appuye : on ne recommence que
+    // si l un des deux a bouge (voir l ecouteur de resize plus bas).
+    var largeurPosee = 0;
+    var hauteurPosee = 0;
+
+    // Le hero occupe exactement un ecran (height: 100vh). C est lui qu on
+    // mesure, et non window.innerHeight : sur mobile, innerHeight suit la
+    // barre d adresse qui se replie, alors que 100vh reste la hauteur barres
+    // deployees. Les deux different d une soixantaine de pixels, assez pour
+    // franchir une rangee de 72 — et tous les titres sautaient d un cran en
+    // plein defilement.
+    var hero = document.querySelector('.fond-hero');
+    function hauteurEcran() {
+        return hero ? Math.round(hero.getBoundingClientRect().height) : window.innerHeight;
+    }
 
     // Écart entre le haut du titre et sa ligne de base. On le mesure avec un
     // repère vide aligné sur celle-ci, plutôt que de le déduire des
@@ -93,7 +108,9 @@
         // Le premier titre passe sous le hero, qui occupe tout le viewport :
         // on prend la première rangée située après lui, et non la plus
         // proche — sinon le titre remonte dans l'écran, sous les chiffres.
-        var cible = rangeeSous(window.innerHeight + 120);
+        largeurPosee = window.innerWidth;
+        hauteurPosee = hauteurEcran();
+        var cible = rangeeSous(hauteurPosee + 120);
         var bas = cible;
 
         titres.forEach(function (titre, i) {
@@ -189,7 +206,13 @@
 
     window.addEventListener('resize', function () {
         clearTimeout(minuteur);
-        minuteur = setTimeout(placer, 120);
+        minuteur = setTimeout(function () {
+            // Sur mobile, le repli de la barre d adresse declenche un resize
+            // ou rien de ce dont depend le placement n a change. Replacer a
+            // ce moment-la, c est faire sauter les titres pendant qu on lit.
+            if (window.innerWidth === largeurPosee && hauteurEcran() === hauteurPosee) return;
+            placer();
+        }, 120);
     });
 
     // Une section qui grandit (un projet qu'on déplie, une image qui arrive)

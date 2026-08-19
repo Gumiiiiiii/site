@@ -717,7 +717,7 @@
         fond_5: { fr: "Assets e-commerce coordonnés", en: "E-commerce assets coordinated" },
         fond_6: { fr: "Magento · Salsify", en: "Magento · Salsify" },
         fond_7: { fr: "Fin 2023 – mi-2026", en: "Late 2023 – mid-2026" },
-        fond_8: { fr: "Émeraude Aventure · deux mois", en: "Emeraude Aventure · two months" },
+        fond_8: { fr: "Émeraude Aventure", en: "Emeraude Aventure" },
         fond_9: { fr: "Production · validation · diffusion", en: "Production · approval · distribution" },
         fond_10: { fr: "Trois projets et leurs résultats", en: "Three projects and their results" },
         fond_11: { fr: "Mon parcours", en: "My background" },
@@ -818,8 +818,7 @@
         fond_112: { fr: "Collègue d'une autre équipe", en: "Colleague from another team" },
         fond_113: { fr: "Ma manager chez Lindt", en: "My manager at Lindt" },
         fond_115: { fr: "C'est moi\u00a0!", en: "That's me!" },
-        fond_116: { fr: "La mission a duré deux mois, le temps de la saison. Sur les 1\u00a0200 réservations directes enregistrées au total, plus de 500 sont attribuées aux campagnes que j'ai pilotées, pour un coût inférieur à 2\u00a0€ par réservation.", en: "The assignment ran for two months, the length of the season. Of the 1,200 direct bookings recorded in total, more than 500 are attributed to the campaigns I ran, at a cost below €2 per booking." },
-        fond_117: { fr: "Deux mois de mission", en: "A two-month assignment" },
+        fond_116: { fr: "Sur les 1\u00a0200 réservations directes enregistrées au total, plus de 500 sont attribuées aux campagnes que j'ai pilotées, pour un coût inférieur à 2\u00a0€ par réservation.", en: "Of the 1,200 direct bookings recorded in total, more than 500 are attributed to the campaigns I ran, at a cost below €2 per booking." },
     };
 
     function urlHasEn() {

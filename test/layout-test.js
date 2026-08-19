@@ -24,6 +24,18 @@ function findBrowser() {
     return BROWSER_PATHS.find((p) => fs.existsSync(p)) || null;
 }
 
+// Mesurer une page posee, et non en train d entrer : sous « mouvement
+// reduit », cv.html n anime rien et affiche l etat final des le premier
+// rendu. On rend l onglet comme on l a trouve, il est partage.
+async function sansMouvement(page, mesure) {
+    await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
+    try {
+        return await mesure();
+    } finally {
+        await page.emulateMediaFeatures([]);
+    }
+}
+
 const CHECKS = [
     {
         name: 'sw.js parses',
@@ -154,6 +166,7 @@ const CHECKS = [
         // derive et les titres finissent a cote des points.
         name: 'CV: les titres tombent sur une rangee du champ de points',
         async run(page) {
+            await sansMouvement(page, async () => {
             await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
             await new Promise((r) => setTimeout(r, 600));
             const m = await page.evaluate(() => {
@@ -178,16 +191,52 @@ const CHECKS = [
             for (const y of m.titres) {
                 if (!grille.has(y)) throw new Error('un titre tombe a ' + y + ', hors des rangees de la grille');
             }
+            });
         }
     },
     {
         name: 'CV: les quatre chiffres du hero restent alignes',
         async run(page) {
-            await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
-            const hauts = await page.evaluate(() =>
-                [...document.querySelectorAll('.fond-kpi b')].map((b) => Math.round(b.getBoundingClientRect().top)));
+            const hauts = await sansMouvement(page, async () => {
+                await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
+                return page.evaluate(() =>
+                    [...document.querySelectorAll('.fond-kpi b')].map((b) => Math.round(b.getBoundingClientRect().top)));
+            });
             if (hauts.length !== 4) throw new Error('attendu 4 chiffres, trouve ' + hauts.length);
             if (new Set(hauts).size !== 1) throw new Error('chiffres desalignes : ' + hauts.join(', '));
+        }
+    },
+    {
+        // Une entree qui ne se termine pas laisse la page transparente : on
+        // verifie les deux temps, celui du premier ecran et celui du
+        // defilement.
+        name: 'CV: les apparitions se terminent, rien ne reste transparent',
+        async run(page) {
+            await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
+            await new Promise((r) => setTimeout(r, 2400));
+            const pales = (sel) => page.evaluate((s) => [...document.querySelectorAll(s)]
+                .filter((e) => Number(getComputedStyle(e).opacity) < 0.99).length, sel);
+
+            const lettres = await page.evaluate(() => document.querySelectorAll('.fond-hero-phrase .fond-lettre').length);
+            if (lettres < 100) throw new Error('la phrase du hero na pas ete decoupee : ' + lettres);
+            for (const sel of ['.fond-hero-phrase .fond-lettre', '.fond-hero-photo', '.fond-kpi b']) {
+                const reste = await pales(sel);
+                if (reste) throw new Error(reste + ' element(s) ' + sel + ' restent transparents');
+            }
+
+            await page.evaluate(() => {
+                if (window.gumiLenis) window.gumiLenis.scrollTo(1400, { immediate: true });
+                else window.scrollTo(0, 1400);
+            });
+            await new Promise((r) => setTimeout(r, 1400));
+            for (const sel of ['.fond-projets > .fond-projet']) {
+                const reste = await pales(sel);
+                if (reste) throw new Error(reste + ' element(s) ' + sel + ' restent transparents apres defilement');
+            }
+            await page.evaluate(() => {
+                if (window.gumiLenis) window.gumiLenis.scrollTo(0, { immediate: true });
+                else window.scrollTo(0, 0);
+            });
         }
     },
     {

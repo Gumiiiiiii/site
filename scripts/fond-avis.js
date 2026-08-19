@@ -27,6 +27,23 @@
     cartes.map(copier).forEach(function (copie) { piste.appendChild(copie); });
     cartes.map(copier).reverse().forEach(function (copie) { piste.insertBefore(copie, piste.firstChild); });
 
+    // Le semis des cartes est un dessin en pixels, refait par page-effects.js
+    // à chaque changement de largeur — mais seulement sur les cartes qui
+    // existaient au chargement. Les copies, nées après lui, gardent sinon le
+    // dessin de la largeur d avant. On leur recopie celui de leur modèle.
+    var minuteurSemis;
+    window.addEventListener('resize', function () {
+        clearTimeout(minuteurSemis);
+        // Après page-effects.js, qui attend 100 ms : on recopie du redessiné.
+        minuteurSemis = setTimeout(function () {
+            Array.prototype.slice.call(piste.children).forEach(function (carte, i) {
+                var modele = cartes[i % n].querySelector('.fond-bloc-semis');
+                var semis = carte.querySelector('.fond-bloc-semis');
+                if (modele && semis && semis !== modele) semis.innerHTML = modele.innerHTML;
+            });
+        }, 180);
+    });
+
     var index = n;  // première carte du jeu original
     var anime = true;
 

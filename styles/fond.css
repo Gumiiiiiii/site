@@ -580,26 +580,27 @@ html { scroll-behavior: smooth; }
 .fond-projet-medias--mosaique {
     position: relative;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    /* De quoi écrire « C'est moi ! » et sa flèche sous la dernière rangée,
+       en plus des 2,5 rem que tout enfant de l'intérieur laisse en bas. */
+    padding-bottom: 4.75rem;
 }
 
-/* La note se pose sur la cinquième vignette — deuxième rangée, colonne du
-   milieu — et sa flèche redescend vers elle. En pourcentages : la mosaïque
-   garde ses proportions à toutes les largeurs. */
+/* La note vise la cinquième vignette — deuxième rangée, colonne du milieu.
+   Elle s'écrit sous la mosaïque, sur le papier, et c'est sa flèche qui
+   remonte vers la photo : posée dessus, elle se lisait mal, quel que soit le
+   halo qu'on lui donnait. La bande qui l'accueille est le rembourrage bas de
+   la mosaïque, élargi pour elle. */
 .fond-note--moi {
-    top: 36%;
-    left: 34%;
-    text-align: center;
-    /* Seule note posée sur une photo : un halo de la couleur du papier la
-       détache aussi bien d un chocolat sombre que d une nappe blanche. */
+    bottom: 0.15rem;
+    left: 30%;
     color: var(--text);
-    opacity: 0.95;
-    text-shadow: 0 0 7px var(--bg), 0 0 3px var(--bg), 0 0 2px var(--bg);
+    opacity: 0.85;
 }
 
 .fond-note--moi .fond-note-trait {
-    width: 3.2rem;
-    height: 2.5rem;
-    margin: 0.1rem auto 0 0.5rem;
+    width: 3.4rem;
+    height: 2.6rem;
+    margin: 0 0 0.1rem 0.9rem;
 }
 
 .fond-projet-medias img {
@@ -863,6 +864,10 @@ html { scroll-behavior: smooth; }
    l'une sous l'autre, sans coupe. */
 @media (max-width: 760px) {
     .fond-passions { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+
+    /* Les notes manuscrites sont masquées à cette largeur : la mosaïque n a
+       plus rien à loger sous sa dernière rangée. */
+    .fond-projet-medias--mosaique { padding-bottom: 2.5rem; }
 
     .fond-passion { clip-path: none; }
 
@@ -1182,6 +1187,18 @@ html { scroll-behavior: smooth; }
 
 .fond-bloc-semis svg { display: block; }
 
+/* Le même semis sur les cartes de recommandation. Il ne peut pas être rogné
+   par la carte — overflow: hidden y couperait les notes manuscrites, qui
+   débordent volontairement — donc c'est le semis lui-même qui reprend les
+   angles de la carte et se rogne tout seul. */
+.fond-avis-carte .fond-bloc-semis {
+    border-radius: inherit;
+    overflow: hidden;
+}
+
+.fond-avis-tete,
+.fond-avis-carte blockquote { position: relative; z-index: 1; }
+
 /* Chaque champ d'expertise a son propre contenant — quatre blocs, pas un
    seul qui les rassemble. Sans semis : le motif diagonal appartient au bloc
    de contact. */
@@ -1368,3 +1385,62 @@ html { scroll-behavior: smooth; }
 }
 
 .fond-page .points-champ svg { display: block; overflow: visible; }
+
+/* ============================================================
+   Les apparitions
+   ============================================================
+
+   Deux règles, et une seule idée : ce qui n'a pas encore été atteint est
+   transparent et posé un cheveu plus bas ; le script lui retire ce retard
+   quand son tour vient, en décalant les voisins d'un souffle.
+
+   Tout dépend de .fond-anime, posée sur <html> par le script en tête de
+   document — donc avant le premier rendu, sinon la page apparaîtrait avant de
+   se cacher pour entrer. Sans JavaScript, ou si l'on demande moins de
+   mouvement, la classe n'est jamais posée et rien de ce qui suit ne
+   s'applique : la page s'affiche entière, comme avant. */
+.fond-anime .fond-hero-photo,
+.fond-anime .fond-hero-phrase,
+.fond-anime .fond-kpi > *,
+.fond-anime .fond-titre,
+.fond-anime .fond-ligne,
+.fond-anime .fond-projet,
+.fond-anime .fond-parcours-groupe,
+.fond-anime .fond-competences-intro,
+.fond-anime .fond-champ,
+.fond-anime .fond-boite-intro,
+.fond-anime .fond-boite-rang,
+.fond-anime .fond-avis-fleches,
+.fond-anime .fond-avis-cadre,
+.fond-anime .fond-passion,
+.fond-anime .fond-contact-intro,
+.fond-anime .fond-contact > .fond-bloc {
+    opacity: 0;
+    transform: translateY(0.85rem);
+    transition: opacity 0.6s ease var(--anim-retard, 0s),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--anim-retard, 0s);
+}
+
+/* Un titre et sa rangée assombrie sont posés au pixel près l'un sur l'autre,
+   sur une rangée du champ : ils ne peuvent que se révéler sur place. Les
+   faire glisser, c'est refaire exactement ce saut de ligne qu'on cherchait à
+   supprimer. */
+.fond-anime .fond-titre,
+.fond-anime .fond-ligne { transform: none; }
+
+.fond-anime [data-anim="vu"],
+.fond-anime .fond-kpi[data-anim="vu"] > * {
+    opacity: 1;
+    transform: none;
+}
+
+/* La phrase du hero s'écrit lettre à lettre. Chacune reste en display: inline
+   — un inline ne se laisse pas déplacer par transform, mais il se laisse
+   effacer par opacity, et c'est tout ce qu'on lui demande. C'est aussi ce qui
+   fait qu'un lecteur d'écran continue de lire la phrase d'un trait. */
+.fond-anime .fond-lettre {
+    opacity: 0;
+    transition: opacity 0.32s ease var(--anim-retard, 0s);
+}
+
+.fond-anime .fond-lettre[data-anim="vu"] { opacity: 1; }

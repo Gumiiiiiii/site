@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr"><head>
     <meta charset="UTF-8">
-    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}if(!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)){document.documentElement.classList.add('fond-anime');}}catch(e){}})();</script>
     <link rel="preload" href="fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
@@ -82,7 +82,7 @@
             <div class="fond-hero-chiffres">
                 <div class="fond-kpi"><b>500 <span>→</span> 5 000</b><span data-i18n="fond_2">Fiches produits enrichies</span><small data-i18n="fond_6">Magento · Salsify</small></div>
                 <div class="fond-kpi"><b>+180 %</b><span data-i18n="fond_3">Trafic organique de lindt.fr</span><small data-i18n="fond_7">Fin 2023 – mi-2026</small></div>
-                <div class="fond-kpi"><b>500+</b><span data-i18n="fond_4">Réservations attribuées à Google Ads</span><small data-i18n="fond_8">Émeraude Aventure · deux mois</small></div>
+                <div class="fond-kpi"><b>500+</b><span data-i18n="fond_4">Réservations attribuées à Google Ads</span><small data-i18n="fond_8">Émeraude Aventure</small></div>
                 <div class="fond-kpi"><b>7 000+</b><span data-i18n="fond_5">Assets e-commerce coordonnés</span><small data-i18n="fond_9">Production · validation · diffusion</small></div>
             </div>
         </header>
@@ -175,12 +175,12 @@
                             <!-- Note manuscrite : la cinquieme photo, celle du
                                  maitre chocolatier, c est Pierre. -->
                             <div class="fond-note fond-note--moi" aria-hidden="true">
-                                <span class="fond-note-texte" data-i18n="fond_115">C'est moi&nbsp;!</span>
                                 <svg class="fond-note-trait" viewBox="0 0 70 54" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M62 6C56 26 44 40 24 46"></path>
-                                    <path d="M16 48l14-6"></path>
-                                    <path d="M16 48l12 8"></path>
+                                    <path d="M8 50C14 32 28 14 56 8"></path>
+                                    <path d="M56 8l-15 1"></path>
+                                    <path d="M56 8l-4 14"></path>
                                 </svg>
+                                <span class="fond-note-texte" data-i18n="fond_115">C'est moi&nbsp;!</span>
                             </div>
                         </div>
                         <div class="fond-projet-texte">
@@ -239,11 +239,10 @@
                         </div>
                         <div class="fond-projet-texte">
                             <p data-i18n="fond_26">Pour Émeraude Aventure, une base nautique bretonne, j'ai structuré et optimisé les campagnes Google Ads avec un objectif simple : générer davantage de réservations directes tout en maîtrisant leur coût d'acquisition.</p>
-                            <p data-i18n="fond_116">La mission a duré deux mois, le temps de la saison. Sur les 1&nbsp;200 réservations directes enregistrées au total, plus de 500 sont attribuées aux campagnes que j'ai pilotées, pour un coût inférieur à 2&nbsp;€ par réservation.</p>
+                            <p data-i18n="fond_116">Sur les 1&nbsp;200 réservations directes enregistrées au total, plus de 500 sont attribuées aux campagnes que j'ai pilotées, pour un coût inférieur à 2&nbsp;€ par réservation.</p>
                             <ul class="fond-preuves">
                                 <li data-i18n="fond_37">500+ réservations attribuées</li>
                                 <li data-i18n="fond_38">1,99&nbsp;€ par réservation</li>
-                                <li data-i18n="fond_117">Deux mois de mission</li>
                             </ul>
                         </div>
                     </div>
@@ -377,6 +376,7 @@
             <div class="fond-avis-cadre">
                 <div class="fond-avis-piste">
                     <figure class="fond-avis-carte">
+                        <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22" data-spacing-y="20" data-stagger="off" data-radius="2.5" data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
                         <figcaption class="fond-avis-tete">
                             <img src="media/michele-rossi.webp" alt="" width="128" height="128" loading="lazy">
                             <div>
@@ -398,6 +398,7 @@
                     </figure>
 
                     <figure class="fond-avis-carte fond-avis-carte--court">
+                        <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22" data-spacing-y="20" data-stagger="off" data-radius="2.5" data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
                         <figcaption class="fond-avis-tete">
                             <img src="media/lilian-gourlay.webp" alt="" width="128" height="128" loading="lazy">
                             <div>
@@ -416,6 +417,7 @@
                     </figure>
 
                     <figure class="fond-avis-carte">
+                        <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22" data-spacing-y="20" data-stagger="off" data-radius="2.5" data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
                         <figcaption class="fond-avis-tete">
                             <img src="media/solenne-antakli.webp" alt="" width="128" height="128" loading="lazy">
                             <div>
@@ -434,6 +436,7 @@
                     </figure>
 
                     <figure class="fond-avis-carte">
+                        <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22" data-spacing-y="20" data-stagger="off" data-radius="2.5" data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
                         <figcaption class="fond-avis-tete">
                             <img src="media/celine-hummer.webp" alt="" width="128" height="128" loading="lazy">
                             <div>
@@ -578,6 +581,9 @@
          emporter les notes deja recomposees lettre a lettre. -->
     <script src="scripts/fond-notes.js"></script>
     <script src="scripts/fond-avis.js"></script>
+    <!-- En dernier : les apparitions s appuient sur la page telle qu elle est
+         une fois traduite, placee et dupliquee. -->
+    <script src="scripts/fond-anim.js"></script>
 
 
 </body></html>
