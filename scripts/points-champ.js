@@ -1,32 +1,37 @@
 // Le champ de points de /points : un seul objet pour toute la page.
 //
-// Les deux dégradés et le semis du milieu ne sont plus deux matières à
-// raccorder. C'est le même dessin d'un bout à l'autre, dont deux propriétés
-// varient ensemble : la densité de la trame, et le rayon des points.
+// C'est un halftone. La bande du haut est une trame pleine de points gras qui
+// rétrécissent en descendant ; ceux qui restent en fin de course forment la
+// grille du milieu, tous du même calibre. Le dégradé et la grille ne sont donc
+// pas deux matières raccordées, mais un seul dessin pris à deux moments.
 //
 // Trois règles le tiennent :
 //
-// 1. Tous les points ont la même encre, sans exception. Le dégradé ne peut
-//    donc pas passer par l'opacité — faire varier l'opacité, c'est faire
-//    varier la couleur. Il passe par le nombre de points.
+// 1. Tous les points ont la même encre, sans exception. Le dégradé ne passe
+//    jamais par l'opacité — la faire varier, c'est faire varier la couleur.
+//    Il passe par la taille des points, comme un halftone d'imprimeur.
 //
-// 2. Le milieu est une surface uniforme : là, tous les points ont aussi le
-//    même rayon.
+// 2. Le milieu est une surface uniforme : là, tous les points ont le même
+//    rayon, sur la trame 80x72 du semis de /fond.
 //
-// 3. Les bords de la page gardent le vignettage du site : le rayon y grossit
+// 3. Le haut de page garde le vignettage du site : le rayon grossit encore
 //    vers la gauche et la droite, comme sur gumi.ch.
 //
-// Densité et rayon descendent du même avancement, de 0 sur les bords de la
-// page à 1 au milieu. La trame se vide pendant que le vignettage s'aplatit,
-// et les deux ont fini leur course au même endroit : il n'y a donc aucun
-// point de la page où l'on passe d'un objet à un autre.
+// Chaque point a sa propre fin, décidée par son rang dans la matrice de Bayer.
+// Les rangs 0 à 3 sont ceux de la grille : ils ne meurent jamais et
+// rétrécissent seulement jusqu'à RAYON. Les autres rétrécissent jusqu'à zéro,
+// d'autant plus tôt que leur rang est haut. Aucun point ne disparaît d'un
+// coup, et au même endroit deux points de rangs différents n'ont pas la même
+// taille : c'est ce qui fait la texture du halftone plutôt qu'une grille qui
+// se viderait par blocs.
 (function () {
     var champ = document.querySelector('.points-champ');
     if (!champ) return;
 
     var PAS_X = 20, PAS_Y = 18;   // la trame du site
-    var RAYON = 3;                // le plus petit point des dégradés
-    var CROISSANCE = 4;           // ce que le rayon gagne aux bords, comme sur le site
+    var RAYON = 3;                // le point de la grille du milieu
+    var RAYON_SOMMET = 5;         // le point du haut de page, au centre
+    var CROISSANCE = 2.5;         // ce que le rayon gagne encore vers les bords
     var ENCRE = 0.24;             // 0,04 sur le site ; la page sert de loupe
 
     // La descente reprend exactement les deux bandes du site : 250 px en haut,
@@ -36,20 +41,16 @@
     // le dégradé n'y ressemblait plus à celui de gumi.ch : il n'était plus
     // une bande dense en haut de page, il occupait l'écran entier.
     var FONDU_HAUT = 250, FONDU_BAS = 180;
-    // Le plateau du milieu. Il se place entre le rang 3 et le rang 4 de la
-    // matrice : les rangs 0 a 3 restent, ce qui donne exactement la trame
-    // 80x72 du semis de /fond.
-    var CREUX = 3.5 / 64;
-    // Et le rang 4 est coupé net dès que la densité arrive à moins d'un rang
-    // du plateau. Ses points forment eux-mêmes une trame très clairsemée :
-    // laissés à la courbe, ils survivaient jusqu'au dernier pixel de la
-    // descente et laissaient une rangée de traînards isolée juste avant le
-    // plateau. Les couper coûte 1/64 des points, invisible.
-    var MARGE_PLATEAU = 1 / 64;
+    // Le seuil du milieu, entre le rang 3 et le rang 4 de la matrice : il fixe
+    // à quelle hauteur chaque rang atteint zéro, et laisse les rangs 0 à 3 —
+    // soit exactement la trame 80x72 du semis de /fond.
+    // Les fenêtres de rétrécissement, en avancement dans la bande : niveau 0,
+    // niveau 1, niveau 2. Elles se chevauchent largement.
+    var FENETRES = [[0, 1], [0.25, 0.9], [0, 0.55]];
 
     // Matrice de Bayer 8x8, construite par récurrence à partir de la 4x4 :
-    // chaque case reçoit un rang de 0 à 63, et on ne garde que les rangs
-    // inférieurs à la densité voulue.
+    // chaque case reçoit un rang de 0 à 63, qui décide de la hauteur à
+    // laquelle son point atteint zéro.
     //
     // Cette construction a exactement la propriété qu'il faut ici — les rangs
     // les plus bas se placent sur les cases les plus espacées, et chaque
@@ -96,36 +97,43 @@
 
         for (var j = 0; j * PAS_Y <= hauteur; j++) {
             var y = j * PAS_Y;
-            // 0 sur les deux bords de la page, 1 au milieu. C'est le seul
-            // réglage : densité et rayon en descendent tous les deux, ce qui
-            // les empêche de se désynchroniser.
+            // L'avancement dans la bande : 0 sur les deux bords de la page,
+            // 1 dès qu'on entre dans la grille du milieu.
             var t = Math.max(0, Math.min(y / FONDU_HAUT, (hauteur - y) / FONDU_BAS, 1));
-            // Ce qui reste du dégradé à cette hauteur : une seule quantité pour
-            // la densité et pour le rayon, donc rien ne peut se désynchroniser.
-            // La pente est droite, comme le masque du dégradé du site : c'est sa
-            // loi, transposée de l'opacité vers la densité. Les deux courbes
-            // d'encre se superposent donc sur toute la bande.
-            var reste = 1 - t;
-            // Le vignettage, lui, tient plus longtemps qu il ne s efface : sur le
-            // site le rayon ne depend pas de la hauteur, seule l opacite fond.
-            // Le cube le garde a pleine force sur la premiere moitie de la
-            // bande et ne l aplatit qu a la toute fin, ce qui fait coller les
-            // deux courbes d encre au lieu de faire tomber la notre deux fois
-            // plus vite.
-            var resteRayon = 1 - t * t * t;
-            var densite = CREUX + (1 - CREUX) * reste;
-            if (densite < CREUX + MARGE_PLATEAU) densite = CREUX;
             var decale = (j % 2 !== 0) ? PAS_X / 2 : 0;
 
             for (var k = 0; k * PAS_X + decale <= largeur + PAS_X; k++) {
-                if (BAYER[j % 8][k % 8] / 64 >= densite) continue;
+                // Le niveau du point, c'est-à-dire la trame la plus grossière
+                // à laquelle il appartient. Les trames sont emboîtées, donc
+                // trois niveaux suffisent à décrire tout le champ.
+                var niveau;
+                if (j % 4 === 0 && k % 4 === 0) niveau = 0;        // 80x72, la grille
+                else if (j % 2 === 0 && k % 2 === 0) niveau = 1;   // 40x36
+                else niveau = 2;                                   // 20x18, la trame pleine
+
+                // Chaque niveau a sa fenêtre de rétrécissement. Les points du
+                // niveau 2 s'effacent les premiers, ceux du niveau 1 ensuite,
+                // et ceux du niveau 0 ne s'effacent jamais : ils s'arrêtent à
+                // RAYON et forment la grille du milieu. Les fenêtres se
+                // chevauchent, sinon le champ passerait d'une trame à l'autre
+                // par paliers au lieu de fondre.
+                var debut = FENETRES[niveau][0], finw = FENETRES[niveau][1];
+                var p = (t - debut) / (finw - debut);
+                p = p < 0 ? 0 : (p > 1 ? 1 : p);
+                if (niveau !== 0 && p >= 1) continue;
 
                 var x = k * PAS_X + decale;
-                // La loi du site : le rayon grossit vers les bords gauche et
-                // droit. Elle s'efface au même rythme que la densité, si bien
-                // qu'au milieu il ne reste qu'un rayon unique.
                 var nx = Math.abs(x - largeur / 2) / (largeur / 2);
-                var rayon = RAYON + resteRayon * Math.pow(nx, 2) * CROISSANCE;
+                // Le sommet du halftone : des points gras, qui grossissent
+                // encore vers les bords gauche et droit comme sur le site.
+                var sommet = RAYON_SOMMET + nx * nx * CROISSANCE;
+                var cible = niveau === 0 ? RAYON : 0;
+                // La loi du halftone : c'est l'aire qui suit le ton, pas le
+                // rayon. Interpoler le rayon ferait chuter l'encre au carré et
+                // la bande s'éteindrait deux fois trop vite.
+                var aire = sommet * sommet + (cible * cible - sommet * sommet) * p;
+                var rayon = Math.sqrt(aire);
+                if (rayon < 0.3) continue;
 
                 svg += '<circle cx="' + x + '" cy="' + y +
                     '" r="' + rayon.toFixed(2) + '"/>';
