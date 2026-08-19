@@ -11,13 +11,14 @@
 /* La seconde main de la page : celle qui annote. Elle ne sert qu'aux notes
    manuscrites, jamais au contenu — d'où le chargement ici et non dans
    shared.css, et le font-display: swap, qui laisse la page s'afficher sans
-   l'attendre. Caveat, sous licence SIL Open Font. */
+   l'attendre. Cedarville Cursive, sous licence SIL Open Font : les lettres y
+   sont attachées, ce qu'aucune script détachée ne sait imiter. */
 @font-face {
-    font-family: 'Caveat';
+    font-family: 'Cedarville Cursive';
     font-style: normal;
-    font-weight: 400 700;
+    font-weight: 400;
     font-display: swap;
-    src: url('../fonts/caveat-latin.woff2') format('woff2');
+    src: url('../fonts/cedarville-cursive-latin.woff2') format('woff2');
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -935,16 +936,15 @@ html { scroll-behavior: smooth; }
     /* Une note ne se clique pas et n'intercepte rien : le lien LinkedIn
        qu'elle recouvre reste cliquable. */
     pointer-events: none;
-    font-family: 'Caveat', 'Segoe Script', cursive;
-    font-size: 1.4rem;
-    font-weight: 500;
+    font-family: 'Cedarville Cursive', 'Segoe Script', cursive;
+    font-size: 1.35rem;
     line-height: 1;
-    letter-spacing: 0.01em;
-    /* Une note tient sur une ligne : elle est posee dans une marge, pas dans
+    /* Une note tient sur une ligne : elle est posée dans une marge, pas dans
        une colonne de texte. */
     white-space: nowrap;
-    color: var(--accent-ink);
-    opacity: 0.88;
+    /* La même encre que la page, juste plus légère : une note écrite à la
+       main n'a pas de raison d'avoir sa couleur à elle. */
+    color: rgba(var(--text-rgb), 0.62);
 }
 
 .fond-note-texte { display: inline-block; }
@@ -957,13 +957,13 @@ html { scroll-behavior: smooth; }
     overflow: visible;
 }
 
-/* 1 — La flèche. La note se tient au-dessus du coin haut droit et son trait
-   redescend vers la citation. */
+/* 1 — La flèche. La note s'écrit au-dessus du bord haut et son trait
+   redescend vers le nom. */
 .fond-note--fleche {
-    top: -0.55rem;
-    right: 1.25rem;
+    top: -1.15rem;
+    right: 1rem;
     text-align: right;
-    transform: rotate(-2.5deg);
+    transform: rotate(-2deg);
 }
 
 .fond-note--fleche .fond-note-trait {
@@ -974,44 +974,45 @@ html { scroll-behavior: smooth; }
     margin: 0.15rem 0.75rem 0 auto;
 }
 
-/* 2 — Le cercle, tracé autour du rôle, et le mot posé juste à droite. */
+/* 2 — Le mot entouré. Le cercle est tracé par-dessus la note elle-même : il
+   la déborde de tous les côtés, comme un trait fait après coup. */
 .fond-note--cercle {
-    top: 3rem;
-    left: 3.9rem;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
+    top: 0.7rem;
+    right: 1.6rem;
+    transform: rotate(-2deg);
 }
 
 .fond-note--cercle .fond-note-trait {
-    width: 14.5rem;
-    height: 2.4rem;
-    flex-shrink: 0;
+    position: absolute;
+    top: -0.5rem;
+    right: -1.35rem;
+    bottom: -0.45rem;
+    left: -1.05rem;
+    width: auto;
+    height: auto;
 }
 
-.fond-note--cercle .fond-note-texte { transform: rotate(-3deg); }
-
-/* 3 — La note en marge, tournée, qui déborde sous le bord bas gauche. */
+/* 3 — La note en marge, tournée, qui déborde au-dessus du bord haut gauche. */
 .fond-note--marge {
-    bottom: -0.9rem;
-    left: 0.6rem;
-    transform: rotate(-6deg);
+    top: -1.05rem;
+    left: 1.4rem;
+    transform: rotate(-4deg);
 }
 
 .fond-note--marge .fond-note-trait {
-    width: 9.5rem;
-    height: 0.7rem;
-    margin-top: 0.1rem;
+    width: 15rem;
+    height: 0.65rem;
+    margin-top: 0.05rem;
 }
 
-/* 4 — L'astérisque et son mot, au bord bas droit. */
+/* 4 — L'astérisque et son mot, sur la ligne du nom. */
 .fond-note--etoile {
-    bottom: -0.75rem;
-    right: 1.5rem;
+    top: 0.5rem;
+    right: 1.35rem;
     display: flex;
     align-items: center;
-    gap: 0.3rem;
-    transform: rotate(3deg);
+    gap: 0.35rem;
+    transform: rotate(2.5deg);
 }
 
 .fond-note--etoile .fond-note-trait {

@@ -813,10 +813,10 @@
         // Les notes manuscrites des recommandations. Elles commentent la
         // page, elles ne la portent pas : traduites, mais jamais lues par un
         // lecteur d ecran (aria-hidden dans le HTML).
-        fond_110: { fr: "en anglais dans le texte", en: "in English, as written" },
-        fond_111: { fr: "le projet plus haut", en: "the project further up" },
-        fond_112: { fr: "reprise telle quelle", en: "quoted as received" },
-        fond_113: { fr: "merci Céline\u00a0!", en: "thank you, Céline!" },
+        fond_110: { fr: "Mon binôme au quotidien chez Lindt", en: "My day-to-day teammate at Lindt" },
+        fond_111: { fr: "Client et ami\u00a0!", en: "Client, and a friend!" },
+        fond_112: { fr: "Collègue d'une autre équipe", en: "Colleague from another team" },
+        fond_113: { fr: "Ma manager chez Lindt", en: "My manager at Lindt" },
     };
 
     function urlHasEn() {

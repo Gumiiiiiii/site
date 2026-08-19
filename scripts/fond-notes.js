@@ -14,9 +14,11 @@
 // page se lit sans elles, et si rien de tout ceci ne s'exécute il reste le
 // texte, écrit dans la police script.
 (function () {
-    var INCLINAISON = 3.2;   // degrés, de part et d'autre
-    var HAUTEUR = 1.1;       // pixels, de part et d'autre
-    var GRAISSE = 60;        // autour de 500, sur l'axe variable de Caveat
+    // Les lettres de Cedarville s'attachent les unes aux autres : une secousse
+    // franche décrocherait les liaisons, et l'écriture cesserait d'être une
+    // écriture. Ces valeurs-là sont le maximum qu'elles supportent.
+    var INCLINAISON = 0.9;   // degrés, de part et d'autre
+    var HAUTEUR = 0.35;      // pixels, de part et d'autre
 
     // Un bruit reproductible : même lettre, même place, même tirage.
     function tirage(graine) {
@@ -43,13 +45,11 @@
             var graine = texte.charCodeAt(i) + i * 7.13;
             var angle = (tirage(graine) - 0.5) * 2 * INCLINAISON;
             var haut = (tirage(graine + 1.7) - 0.5) * 2 * HAUTEUR;
-            var gras = Math.round(500 + (tirage(graine + 3.4) - 0.5) * 2 * GRAISSE);
 
             var span = document.createElement('span');
             span.textContent = lettre;
             span.style.display = 'inline-block';
             span.style.transform = 'rotate(' + angle.toFixed(2) + 'deg) translateY(' + haut.toFixed(2) + 'px)';
-            span.style.fontWeight = gras;
             fragment.appendChild(span);
         }
 
