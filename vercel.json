@@ -26,26 +26,6 @@
   ],
   "rewrites": [
     {
-      "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "pierre.gumi.ch"
-        }
-      ],
-      "destination": "/cv"
-    },
-    {
-      "source": "/en",
-      "has": [
-        {
-          "type": "host",
-          "value": "pierre.gumi.ch"
-        }
-      ],
-      "destination": "/cv"
-    },
-    {
       "source": "/en",
       "destination": "/index.html"
     },
