@@ -146,6 +146,39 @@ const CHECKS = [
         }
     },
     {
+        // Les titres s ecrivent sur une rangee du champ de points. Le champ
+        // divise la hauteur de la page par le nombre entier de rangees le plus
+        // proche : si cette hauteur cesse d etre un multiple de 72, son pas
+        // derive et les titres finissent a cote des points.
+        name: 'CV: les titres tombent sur une rangee du champ de points',
+        async run(page) {
+            await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
+            await new Promise((r) => setTimeout(r, 600));
+            const m = await page.evaluate(() => {
+                const feuille = document.querySelector('.site-content');
+                const champ = document.querySelector('.points-champ');
+                const haut = feuille.getBoundingClientRect().top;
+                const rangees = [...new Set([...champ.querySelectorAll('circle')]
+                    .map((c) => Math.round(+c.getAttribute('cy'))))].sort((a, b) => a - b);
+                const titres = [...document.querySelectorAll('.fond-titre')].map((t) => {
+                    const repere = document.createElement('span');
+                    repere.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+                    t.appendChild(repere);
+                    const y = repere.getBoundingClientRect().top - haut;
+                    repere.remove();
+                    return Math.round(y);
+                });
+                return { hauteur: feuille.offsetHeight, titres, rangees };
+            });
+            if (m.titres.length !== 6) throw new Error('attendu 6 titres, trouve ' + m.titres.length);
+            if (m.hauteur % 72 !== 0) throw new Error('la hauteur de page nest pas un multiple de 72 : ' + m.hauteur);
+            const grille = new Set(m.rangees.filter((y) => y % 72 === 0));
+            for (const y of m.titres) {
+                if (!grille.has(y)) throw new Error('un titre tombe a ' + y + ', hors des rangees de la grille');
+            }
+        }
+    },
+    {
         name: 'CV: les quatre chiffres du hero restent alignes',
         async run(page) {
             await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });

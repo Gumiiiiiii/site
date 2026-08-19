@@ -146,7 +146,7 @@ const CHECKS = [
         if (notes.some((note) => note.getAttribute('aria-hidden') !== 'true')) return 'a handwritten note is exposed to screen readers';
         // La boite a outils reste exhaustive et en vrai texte.
         const tools = [...d.querySelectorAll('.fond-boite-item')].map((t) => t.textContent.trim());
-        if (tools.length !== 24) return 'expected 24 tools, got ' + tools.length;
+        if (tools.length !== 23) return 'expected 23 tools, got ' + tools.length;
         for (const must of ['Magento', 'Salsify', 'Clarity', 'DaVinci Resolve']) {
             if (!tools.includes(must)) return must + ' missing from the toolkit';
         }

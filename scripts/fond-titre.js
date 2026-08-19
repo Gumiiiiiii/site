@@ -7,7 +7,13 @@
 // maintenant de la hauteur du contenu placé sous chaque titre — un contenu
 // qui change de taille quand on déplie un projet.
 (function () {
-    var PAS_Y = 72;           // pas vertical du semis (voir fond.html)
+    // La trame du champ de points (scripts/points-champ.js) : 20x18, dont la
+    // grille du milieu ne garde qu'une colonne et une rangée sur quatre.
+    var PAS_CHAMP = 18;
+    var PAS_Y = 4 * PAS_CHAMP;   // 72 : le pas de la grille du milieu
+    var PAS_X = 80;              // 4 x 20, ses colonnes
+    var RAYON = 3;               // le point de la grille, a l'identique
+    var ENCRE_LIGNE = 0.18;      // l'encre de la rangee d'un titre
     var ECART_RANGEES = 5;    // rangées minimales entre deux titres
     var MARGE = 20;           // respiration de part et d'autre du titre
     // Part de la rangée qui subsiste aux bords de l'écran. La rangée est
@@ -55,6 +61,34 @@
         return Math.ceil(y / PAS_Y) * PAS_Y;
     }
 
+    // La rangée assombrie est une rangée du champ redessinée par-dessus, à
+    // une encre plus forte. Elle doit donc en reprendre la géométrie au point
+    // près : les colonnes s'y comptent depuis l'axe de la page, et non depuis
+    // le bord gauche — c'est ainsi que le champ garantit sa symétrie quelle
+    // que soit la largeur de la fenêtre.
+    function dessinerLigne(ligne) {
+        var largeur = ligne.offsetWidth;
+        if (!largeur) return;
+        var centre = largeur / 2;
+
+        // cy = 8 : la boîte fait 16 px de haut et fond-titre la pose 8 px
+        // au-dessus de la rangée visée.
+        var svg = '<svg width="100%" height="16" xmlns="http://www.w3.org/2000/svg">' +
+            '<g fill="currentColor" opacity="' + ENCRE_LIGNE + '">';
+
+        for (var i = 0; i * PAS_X <= centre + PAS_X; i++) {
+            var ecart = i * PAS_X;
+            if (ecart === 0) {
+                svg += '<circle cx="' + centre + '" cy="8" r="' + RAYON + '"/>';
+            } else {
+                svg += '<circle cx="' + (centre - ecart).toFixed(1) + '" cy="8" r="' + RAYON + '"/>' +
+                       '<circle cx="' + (centre + ecart).toFixed(1) + '" cy="8" r="' + RAYON + '"/>';
+            }
+        }
+
+        ligne.innerHTML = svg + '</g></svg>';
+    }
+
     function placer() {
         // Le premier titre passe sous le hero, qui occupe tout le viewport :
         // on prend la première rangée située après lui, et non la plus
@@ -68,8 +102,9 @@
 
             var ligne = lignes[i];
             if (ligne) {
-                // La boîte fait 16 px de haut et son tracé est recentré de 8 px
-                // (voir fond.css) : on la pose donc 8 px au-dessus de la rangée.
+                dessinerLigne(ligne);
+                // La boîte fait 16 px de haut et son tracé y est centré : on la
+                // pose donc 8 px au-dessus de la rangée.
                 ligne.style.top = (cible - 8) + 'px';
 
                 // La rangée s'interrompt sur toute la largeur du titre : les
@@ -126,6 +161,15 @@
         // titre, donc déjà posé. Il ne reste qu'à lui laisser sa marge basse.
         // Sans lui, un écran de rab pour le dégradé du bas.
         var voulue = bas + (pied ? MARGE_BAS : window.innerHeight);
+
+        // Le champ divise la hauteur de la page par le nombre entier de
+        // rangées le plus proche : son pas ne vaut donc exactement 18 px que
+        // si cette hauteur en est un multiple. On la monte au multiple de 72
+        // suivant — 72 et non 18, pour que la dernière rangée du bas soit
+        // elle aussi une rangée de la grille. Sans cela, le pas dérive d'un
+        // demi pour cent, et sur trois mille pixels les titres finissent à
+        // côté des points au lieu d'être dessus.
+        voulue = Math.ceil(voulue / PAS_Y) * PAS_Y;
 
         // La page se dimensionne sur son contenu. Changer la hauteur oblige à
         // redessiner le semis, qui la suit (data-height="auto").

@@ -48,33 +48,24 @@
 </head>
 <body class="shell-page fond-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
-    <!-- Page d'essai : rien que le fond. Trois écrans de haut, pour que le
-         dégradé du haut, le semis et le dégradé du bas se lisent séparément.
-
-         Les deux dégradés ne sont pas réécrits ici : ce sont les .dots-bg
-         du site, dessinés par scripts/page-effects.js, donc exactement le
-         même motif que sur gumi.ch. Le semis du milieu, lui, est un simple
-         fond CSS (voir styles/fond.css). -->
     <main class="site-content" id="main">
-        <!-- Le semis : même trame que les dégradés, échantillonnée un point
-             sur quatre (80 = 4x20, 72 = 4x18), sur leurs rangées non
-             décalées. Rayon constant, égal au plus petit point des dégradés (3 px), et la
-             même opacité qu'eux : même encre, même poids. -->
-        <div class="fond-semis dynamic-dots" data-height="auto" data-spacing-x="80" data-spacing-y="72" data-stagger="off" data-radius="3" data-opacity="0.04" aria-hidden="true"></div>
-        <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
-        <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" aria-hidden="true"></div>
+        <!-- Le fond entier tient dans ce seul objet : la descente du haut, la
+             grille du milieu et la remontée du bas sont un même halftone, dont
+             seule la taille des points varie. C'est le champ de /points, au mot
+             près — scripts/points-champ.js. -->
+        <div class="points-champ" aria-hidden="true"></div>
 
-        <!-- La rangée assombrie : une seule ligne de points (data-height="0"),
-             sur la même trame que le semis. Son opacité de 0,083 s'ajoute aux
-             0,04 du semis déjà présent dessous, ce qui donne 0,12 à l'écran.
-             fond-titre.js la place sur la rangée choisie. Elle est uniforme sur
-             toute la largeur : tous les points de la ligne sont assombris. -->
-        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80" data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
-        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80" data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
-        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80" data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
-        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80" data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
-        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80" data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
-        <div class="fond-ligne dynamic-dots" data-height="0" data-spacing-x="80" data-stagger="off" data-radius="3" data-opacity="0.18" aria-hidden="true"></div>
+        <!-- La rangée assombrie : la rangée de la grille sur laquelle un titre
+             s'écrit, redessinée par-dessus le champ à une encre plus forte.
+             Elle reprend la géométrie du champ — même pas, mêmes colonnes
+             comptées depuis l'axe — et c'est fond-titre.js qui la remplit,
+             puis la place sur la rangée choisie. -->
+        <div class="fond-ligne" aria-hidden="true"></div>
+        <div class="fond-ligne" aria-hidden="true"></div>
+        <div class="fond-ligne" aria-hidden="true"></div>
+        <div class="fond-ligne" aria-hidden="true"></div>
+        <div class="fond-ligne" aria-hidden="true"></div>
+        <div class="fond-ligne" aria-hidden="true"></div>
 
         <!-- HERO : dans le viewport, le portrait, la phrase et les quatre
              chiffres cles alignes en bas d ecran. Les chiffres sont ceux du CV,
@@ -337,7 +328,6 @@
                     <div class="fond-boite-liste">
                         <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"></path></svg>Figma</span>
                         <span class="fond-boite-item"><svg viewBox="0 0 24 24" class="glyph" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="5"></rect><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="700" stroke="none" fill="currentColor">Ps</text></svg>Photoshop</span>
-                        <span class="fond-boite-item"><svg viewBox="0 0 24 24" class="glyph" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="5"></rect><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="700" stroke="none" fill="currentColor">Id</text></svg>InDesign</span>
                         <span class="fond-boite-item"><svg viewBox="0 0 24 24" class="glyph" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="5"></rect><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="700" stroke="none" fill="currentColor">Lr</text></svg>Lightroom</span>
                         <span class="fond-boite-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.621 0 5.977.004c-1.37 0-2.756.345-3.762 1.11a4.925 4.925 0 0 0-1.61 2.003C.233 3.93 0 5.02 0 5.951l.012 12.2c.002 1.604.479 3.057 1.461 4.112.984 1.056 2.462 1.683 4.331 1.691L16.856 24c1.26.005 3.095-.036 4.303-.714 1.075-.605 2.025-1.556 2.497-2.984.278-.84.345-2.084.344-3.147l-.021-11.13c-.002-.888-.15-2.023-.547-2.934-.425-.976-1.181-1.815-2.322-2.425C20.353.26 19.123 0 17.622 0zm0 .93c1.378 0 2.538.295 3.04.565.977.523 1.544 1.166 1.889 1.96.315.721.47 1.793.473 2.572l.018 11.13c.002 1.013-.097 2.257-.298 2.86-.396 1.202-1.146 1.946-2.063 2.462-.814.457-2.612.593-3.82.588l-11.05-.044c-1.657-.007-2.832-.534-3.626-1.386-.792-.851-1.212-2.06-1.212-3.485L.999 5.95c0-.829.196-1.827.474-2.437.345-.757.75-1.207 1.365-1.674C3.585 1.27 4.868.97 6.08.97zm-5.66 3.423c-1.976.089-3.204 1.658-3.214 3.29.019 1.443 1.635 3.481 2.884 4.53.12.099.154.109.33.18.062.025.198-.047.327-.135.36-.245.993-.947 1.648-1.738a7.67 7.67 0 0 0 1.031-1.683c.409-.89.261-1.599.235-1.888a3.983 3.983 0 0 0-.99-1.692 3.36 3.36 0 0 0-2.251-.864zm4.172 7.922a10.185 10.185 0 0 0-3.244.61c-.15.058-.26.1-.374.17-.057.036-.11.135-.105.292.017.433.29 1.278.624 2.27.384 1.135 1.066 2.27 1.844 2.74a3.23 3.23 0 0 0 2.53.342c.832-.243 1.595-.868 1.962-1.546.986-1.818.19-3.548-1.121-4.417-.447-.296-1.133-.445-1.89-.46-.074 0-.15-.002-.226-.001zm-8.432.038a6.201 6.201 0 0 0-.752.047c-.596.078-.932.273-1.29.51a3.177 3.177 0 0 0-1.365 1.979c-.075.552-.086 1.053.033 1.507.433 1.389 1.326 2.222 2.847 2.452.636.028 1.37-.063 1.99-.45 1.269-.782 2.08-3.17 2.412-4.742.053-.176.035-.357-.013-.42-.005-.067-.044-.113-.19-.183-.398-.192-1.32-.417-2.375-.6a7.68 7.68 0 0 0-1.297-.1z"></path></svg>DaVinci Resolve</span>
                     </div>
@@ -563,6 +553,7 @@
     <script>window.gumiLenisOptions = { duration: 0.6, touchMultiplier: 1.2 };</script>
     <script src="scripts/vendor/lenis.min.js"></script>
     <script src="scripts/page-effects.js"></script>
+    <script src="scripts/points-champ.js"></script>
     <script src="scripts/i18n.js"></script>
     <script src="scripts/fond-titre.js"></script>
     <script src="scripts/fond-rail.js"></script>

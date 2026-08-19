@@ -1,12 +1,11 @@
-/* Page d'essai du fond pointillé. Rien d'autre que la matière : pas de
-   navbar, pas de contenu, pas de pied de page.
+/* La page CV : le contenu posé sur le champ de points du site.
 
-   Tout est dessiné par scripts/page-effects.js, le code du site : les deux
-   dégradés (.dots-bg) et le semis du milieu (.fond-semis) sortent de la
-   même boucle, avec la même grille 20x18 et le même rayon qui grossit vers
-   les bords gauche et droit. Le semis n'en prend qu'un point sur quatre.
+   Le fond n'est plus découpé en couches. La descente du haut, la grille du
+   milieu et la remontée du bas sont un seul halftone, dessiné d'un coup par
+   scripts/points-champ.js — le même objet que sur /points, aux mêmes
+   réglages. Il n'y a donc plus ni masque ni raccord entre deux trames.
 
-   Ce fichier ne fait que donner sa hauteur à la page et placer le semis. */
+   Ce fichier place ce champ, puis tout le contenu par-dessus. */
 
 /* La seconde main de la page : celle qui annote. Elle ne sert qu'aux notes
    manuscrites, jamais au contenu — d'où le chargement ici et non dans
@@ -363,14 +362,11 @@ html { scroll-behavior: smooth; }
     pointer-events: none;
 }
 
-.fond-page .fond-ligne svg { transform: translateY(8px); }
-
 /* display: block est indispensable, pas cosmétique. Un <svg> est inline :
-   il se pose sur une ligne de texte, et dans un conteneur d'1 px de haut le
-   strut du line-height le décalait d'environ 18 px vers le bas — la rangée
-   assombrie tombait alors sous la grille au lieu de coïncider avec elle. */
-.fond-page .fond-ligne svg,
-.fond-page .fond-semis svg { display: block; overflow: visible; }
+   il se pose sur une ligne de texte, et le strut du line-height le décalait
+   d'environ 18 px vers le bas — la rangée assombrie tombait alors sous la
+   grille au lieu de coïncider avec elle. */
+.fond-page .fond-ligne svg { display: block; }
 
 /* === SECTIONS =============================================================
    Le contenu d'un titre. Posé en absolu comme lui, sur la même colonne ;
@@ -1247,26 +1243,15 @@ html { scroll-behavior: smooth; }
     .fond-pied-liens { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-/* Comme .dots-bg, mais sur toute la hauteur : c'est le semis qui relie les
-   deux dégradés.
-
-   Il ne commence qu'une fois le dégradé éteint. Sans ça, un point sur
-   quatre du dégradé recevait aussi un point du semis, au même endroit :
-   les deux opacités de 0,04 se cumulaient à près de 0,08 et ces
-   points-là ressortaient plus foncés que leurs voisins. Les deux couches
-   se passent maintenant le relais au lieu de se superposer — le fondu
-   du semis est l'exact inverse de celui des dégradés (250 px en haut,
-   180 px en bas, les hauteurs déclarées dans fond.html). */
-.fond-page .fond-semis {
+/* Le champ de points, à l'identique de /points : un seul dessin pour toute
+   la page, sans masque — c'est le tracé lui-même qui sait où il est dense et
+   où il est clair. */
+.fond-page .points-champ {
     position: absolute;
     inset: 0;
     z-index: -1;
     color: var(--text);
     pointer-events: none;
-    -webkit-mask-image: linear-gradient(to bottom,
-        transparent 0, #000 250px,
-        #000 calc(100% - 180px), transparent 100%);
-    mask-image: linear-gradient(to bottom,
-        transparent 0, #000 250px,
-        #000 calc(100% - 180px), transparent 100%);
 }
+
+.fond-page .points-champ svg { display: block; overflow: visible; }
