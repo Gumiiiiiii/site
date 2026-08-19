@@ -182,6 +182,50 @@ const CHECKS = [
         }
     },
     {
+        // Les notes manuscrites debordent du haut de leur carte, et le cadre
+        // du carrousel coupe ce qui sort du sien. Mesurer la boite de la note
+        // ne suffit pas : line-height 1 arrete la boite a la hauteur de l em
+        // alors que les hampes de la Cedarville montent plus haut. On compare
+        // donc l encre elle-meme — actualBoundingBoxAscent, l ascendante reelle
+        // du texte — au bord ou la coupe a lieu.
+        name: 'CV: aucune note manuscrite nest tranchee par le cadre',
+        async run(page) {
+            await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
+            try {
+                for (const largeur of [1440, 1280, 1100, 900, 390]) {
+                    await page.setViewport({ width: largeur, height: 900 });
+                    await new Promise((r) => setTimeout(r, 400));
+                    const debords = await page.evaluate(() => {
+                        const cadre = document.querySelector('.fond-avis-cadre').getBoundingClientRect();
+                        const mesure = document.createElement('canvas').getContext('2d');
+                        const cartes = [...document.querySelectorAll('.fond-avis-carte:not([aria-hidden])')];
+                        return cartes.map((carte) => {
+                            const texte = carte.querySelector('.fond-note-texte');
+                            if (!texte) return 0;
+                            const style = getComputedStyle(texte);
+                            // La ligne de base, relevee avec un repere vide.
+                            const repere = document.createElement('span');
+                            repere.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+                            texte.appendChild(repere);
+                            const base = repere.getBoundingClientRect().top;
+                            repere.remove();
+                            mesure.font = style.fontStyle + ' ' + style.fontWeight + ' ' + style.fontSize + ' ' + style.fontFamily;
+                            const m = mesure.measureText(texte.textContent);
+                            // Positif = l encre passe au-dessus du bord coupant.
+                            return Math.round(cadre.top - (base - m.actualBoundingBoxAscent));
+                        });
+                    });
+                    const coupees = debords.filter((d) => d > 0);
+                    if (coupees.length) {
+                        throw new Error(largeur + ' : ' + coupees.length + ' note(s) tranchee(s), de ' + Math.max(...coupees) + 'px');
+                    }
+                }
+            } finally {
+                await page.setViewport({ width: 1440, height: 900 });
+            }
+        }
+    },
+    {
         // Les titres s ecrivent sur une rangee du champ de points. Le champ
         // divise la hauteur de la page par le nombre entier de rangees le plus
         // proche : si cette hauteur cesse d etre un multiple de 72, son pas

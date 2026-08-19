@@ -799,6 +799,7 @@ html { scroll-behavior: smooth; }
 
 .fond-passion {
     --rayon: 1.25rem;
+    position: relative;
     display: grid;
     /* La photo mène la hauteur de la carte : plus elle est large, plus la
        carte est haute, puisque son rapport ne bouge pas. On lui donne donc
@@ -812,6 +813,21 @@ html { scroll-behavior: smooth; }
     background-color: var(--bg);
     background-image: linear-gradient(rgba(var(--text-rgb), 0.035), rgba(var(--text-rgb), 0.035));
 }
+
+/* Le même semis que les blocs de contrat et de contact : dense sur deux
+   coins opposés. Celui du haut à gauche passe sous la photo, qui est
+   opaque ; il ne reste que celui du bas à droite, dans la colonne de texte.
+
+   Un élément positionné passe devant ceux qui ne le sont pas, quel que soit
+   l'ordre : sans z-index sur la photo et le texte, le semis leur passerait
+   dessus. */
+.fond-passion .fond-bloc-semis {
+    border-radius: inherit;
+    overflow: hidden;
+}
+
+.fond-passion img,
+.fond-passion-texte { position: relative; z-index: 1; }
 
 /* Rien entre la photo et le cadre : elle touche le bord et en reprend
    l'arrondi, sur ses quatre coins. Un pixel de moins que le cadre — le rayon
@@ -879,6 +895,10 @@ html { scroll-behavior: smooth; }
     justify-self: end;
     display: flex;
     gap: 0.5rem;
+    /* Le cadre du carrousel remonte sous elles pour laisser passer les
+       notes : sans ce plan, il recouvrirait le bas de leur cible. */
+    position: relative;
+    z-index: 1;
 }
 
 .fond-avis-fleche {
@@ -913,9 +933,15 @@ html { scroll-behavior: smooth; }
     overflow: hidden;
     /* Le rembourrage agrandit la zone visible sans rien déplacer — la marge
        négative le reprend. C'est ce qui laisse les notes manuscrites
-       dépasser en haut et en bas des cartes au lieu d'être tranchées. */
-    padding: 1.25rem 0;
-    margin: -1.25rem 0;
+       dépasser en haut et en bas des cartes au lieu d'être tranchées.
+
+       Plus haut que large : une note écrite au-dessus du bord monte de
+       0,85 em, et l'encre monte encore au-delà de sa boîte, parce que
+       line-height: 1 arrête la boîte à la hauteur de l'em tandis que les
+       hampes de la Cedarville la dépassent. Sous les 20 px d'avant, le L de
+       « Lindt » était tranché net. */
+    padding: 2.25rem 0 1.25rem;
+    margin: -2.25rem 0 -1.25rem;
     -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 5.5rem), transparent 100%);
     mask-image: linear-gradient(to right, #000 calc(100% - 5.5rem), transparent 100%);
 }
