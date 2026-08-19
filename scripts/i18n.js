@@ -817,7 +817,6 @@
         fond_111: { fr: "Client et ami\u00a0!", en: "Client, and a friend!" },
         fond_112: { fr: "Collègue d'une autre équipe", en: "Colleague from another team" },
         fond_113: { fr: "Ma manager chez Lindt", en: "My manager at Lindt" },
-        fond_114: { fr: "Cliquer pour révéler le détail", en: "Click to reveal the detail" },
         fond_115: { fr: "C'est moi\u00a0!", en: "That's me!" },
         fond_116: { fr: "La mission a duré deux mois, le temps de la saison. Sur les 1\u00a0200 réservations directes enregistrées au total, plus de 500 sont attribuées aux campagnes que j'ai pilotées, pour un coût inférieur à 2\u00a0€ par réservation.", en: "The assignment ran for two months, the length of the season. Of the 1,200 direct bookings recorded in total, more than 500 are attributed to the campaigns I ran, at a cost below €2 per booking." },
         fond_117: { fr: "Deux mois de mission", en: "A two-month assignment" },

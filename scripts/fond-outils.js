@@ -21,24 +21,41 @@
             var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             if (!document.startViewTransition || reduit) { appliquer(); return; }
 
-            // Le cercle s'ouvre depuis le bouton jusqu'au coin le plus
-            // éloigné, sinon il ne couvre pas toute la page. Valeurs en pixels
-            // calculées ici : Safari ne résout pas les variables CSS de :root
-            // à l'intérieur des pseudo-éléments ::view-transition.
-            var r = theme.getBoundingClientRect();
-            var x = r.left + r.width / 2;
-            var y = r.top + r.height / 2;
-            var rayon = Math.hypot(
-                Math.max(x, window.innerWidth - x),
-                Math.max(y, window.innerHeight - y)
-            );
+            // Deux gestes pour un même changement, selon la place disponible.
+            //
+            // Sur mobile, le bouton est au milieu du bas de l'écran : un
+            // cercle parti de là remonte en s'élargissant vers les côtés, et
+            // le regard suit ses bords au lieu de suivre le thème. Un simple
+            // voile qui monte du bas dit la même chose, plus calmement.
+            //
+            // Sur desktop, le bouton est dans la marge gauche, loin du
+            // contenu : le cercle y garde tout son sens, il part de la main.
+            var basVersHaut = window.matchMedia('(max-width: 760px)').matches;
+
+            var etapes;
+            if (basVersHaut) {
+                etapes = ['inset(100% 0 0 0)', 'inset(0 0 0 0)'];
+            } else {
+                // Le cercle s'ouvre depuis le bouton jusqu'au coin le plus
+                // éloigné, sinon il ne couvre pas toute la page. Valeurs en
+                // pixels calculées ici : Safari ne résout pas les variables
+                // CSS de :root dans les pseudo-éléments ::view-transition.
+                var r = theme.getBoundingClientRect();
+                var x = r.left + r.width / 2;
+                var y = r.top + r.height / 2;
+                var rayon = Math.hypot(
+                    Math.max(x, window.innerWidth - x),
+                    Math.max(y, window.innerHeight - y)
+                );
+                etapes = [
+                    'circle(0px at ' + x + 'px ' + y + 'px)',
+                    'circle(' + rayon + 'px at ' + x + 'px ' + y + 'px)'
+                ];
+            }
 
             document.startViewTransition(appliquer).ready.then(function () {
                 racine.animate(
-                    { clipPath: [
-                        'circle(0px at ' + x + 'px ' + y + 'px)',
-                        'circle(' + rayon + 'px at ' + x + 'px ' + y + 'px)'
-                    ] },
+                    { clipPath: etapes },
                     {
                         duration: 500,
                         easing: 'cubic-bezier(0.16, 1, 0.3, 1)',

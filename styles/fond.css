@@ -238,7 +238,11 @@
 @media (max-width: 760px) {
     /* Le point est décalé de son rembourrage : on ramène le rail d'autant
        pour qu'il retombe sur --fond-bord. */
-    .fond-rail { gap: 0; left: calc(var(--fond-bord) - 14px); }
+    /* 50svh et non 50% : sur mobile, la hauteur du viewport change quand la
+       barre d'adresse se replie, et un élément centré dessus se déplaçait à
+       chaque fois. La « small viewport height » est celle du navigateur
+       barres déployées — une constante, donc un rail immobile. */
+    .fond-rail { gap: 0; left: calc(var(--fond-bord) - 14px); top: 50svh; }
 
     .fond-rail a {
         padding: 9px 14px;
@@ -343,7 +347,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        height: 7.5rem;
+        height: 6rem;
         z-index: 19;
         pointer-events: none;
         -webkit-backdrop-filter: blur(7px);
@@ -363,10 +367,14 @@
         justify-content: center;
     }
 
-    /* À cette largeur, les chiffres descendent jusqu'à la rangée des
-       outils au lieu de passer à leur droite : le hero leur rend la
-       hauteur d'une cible (44 px) plus son air. */
-    .fond-hero { padding-bottom: calc(0.75rem + 44px + 0.75rem); }
+    /* En haut, le hero se contente de la moitié de son air : sinon la photo,
+       la phrase et les quatre chiffres dépassent l'écran, et les chiffres
+       arrivent sous le voile. En bas, il rend la hauteur d'une cible (44 px)
+       plus l'épaisseur du voile, sans quoi le flou les mangerait. */
+    .fond-hero {
+        padding-top: clamp(1.5rem, 4vh, 2.5rem);
+        padding-bottom: calc(6rem + 0.5rem);
+    }
 }
 
 /* Les titres sont la cible des ancres : on leur laisse de l'air en haut
@@ -498,64 +506,43 @@ html { scroll-behavior: smooth; }
 
 .fond-projet-icone svg { width: 20px; height: 20px; }
 
-/* Au survol d'une ligne fermée, ce qu'elle affiche recule dans le flou et
-   l'invitation prend sa place, au centre. Le flou dit « il y a autre chose
-   dessous » mieux qu'un changement de couleur.
+/* Au survol, la ligne visée avance d'un demi-pas vers la droite et les deux
+   autres reculent. Rien n'apparaît, rien ne se brouille : c'est la liste
+   entière qui désigne celle qu'on regarde.
 
-   Ligne ouverte, rien de tout cela : le détail est déjà là, le brouiller
-   n'aurait aucun sens. */
-.fond-projet-tete { position: relative; }
+   Le :has() est ici indispensable — il faut agir sur les lignes voisines de
+   celle qu'on survole, ce qu'aucun sélecteur ne savait faire avant lui. Là où
+   il manque, il ne se passe simplement rien.
 
+   Rien de tout ceci au doigt : (hover: hover) écarte les écrans tactiles, où
+   le survol est un état collé qui ne se retire jamais. */
 .fond-projet-nom,
 .fond-projet-resume,
 .fond-projet-icone {
-    transition: filter 0.3s ease, opacity 0.3s ease, color 0.25s ease;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, color 0.25s ease;
 }
 
-.fond-projet:not([data-ouvert]) .fond-projet-tete:hover .fond-projet-nom,
-.fond-projet:not([data-ouvert]) .fond-projet-tete:focus-visible .fond-projet-nom,
-.fond-projet:not([data-ouvert]) .fond-projet-tete:hover .fond-projet-resume,
-.fond-projet:not([data-ouvert]) .fond-projet-tete:focus-visible .fond-projet-resume,
-.fond-projet:not([data-ouvert]) .fond-projet-tete:hover .fond-projet-icone,
-.fond-projet:not([data-ouvert]) .fond-projet-tete:focus-visible .fond-projet-icone {
-    filter: blur(4px);
-    opacity: 0.5;
+@media (hover: hover) and (min-width: 761px) {
+    .fond-projets:has(.fond-projet-tete:hover) .fond-projet:not(:has(.fond-projet-tete:hover)) .fond-projet-nom,
+    .fond-projets:has(.fond-projet-tete:hover) .fond-projet:not(:has(.fond-projet-tete:hover)) .fond-projet-resume,
+    .fond-projets:has(.fond-projet-tete:hover) .fond-projet:not(:has(.fond-projet-tete:hover)) .fond-projet-icone {
+        opacity: 0.38;
+    }
+
+    .fond-projet-tete:hover .fond-projet-nom { transform: translateX(0.55rem); }
 }
 
-/* Ouverte, la ligne garde l'ancien signal : le nom prend l'accent. */
-.fond-projet[data-ouvert] .fond-projet-tete:hover .fond-projet-nom,
-.fond-projet[data-ouvert] .fond-projet-tete:focus-visible .fond-projet-nom { color: var(--accent-ink); }
+.fond-projet-tete:focus-visible .fond-projet-nom { color: var(--accent-ink); }
 
 .fond-projet-tete:hover .fond-projet-icone,
 .fond-projet-tete:focus-visible .fond-projet-icone { opacity: 1; }
 
-.fond-projet-appel {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    /* Elle double le bouton, qui dit déjà tout par aria-expanded : elle ne
-       doit ni s'annoncer, ni intercepter le clic. */
-    pointer-events: none;
-    white-space: nowrap;
-    font-size: 0.95rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    color: var(--accent-ink);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.fond-projet:not([data-ouvert]) .fond-projet-tete:hover .fond-projet-appel,
-.fond-projet:not([data-ouvert]) .fond-projet-tete:focus-visible .fond-projet-appel {
-    opacity: 1;
-}
-
 @media (prefers-reduced-motion: reduce) {
     .fond-projet-nom,
     .fond-projet-resume,
-    .fond-projet-icone,
-    .fond-projet-appel { transition: none; }
+    .fond-projet-icone { transition: none; }
+
+    .fond-projet-tete:hover .fond-projet-nom { transform: none; }
 }
 .fond-projet[data-ouvert] .fond-projet-icone { opacity: 1; color: var(--accent); }
 
@@ -833,13 +820,22 @@ html { scroll-behavior: smooth; }
     display: block;
     width: 100%;
     /* Le rapport donne au bandeau sa hauteur ; sans lui, une photo en
-       portrait imposait la sienne et etirait la carte sur 800 px. La hauteur
-       a 100 % ne sert qu ensuite, quand la carte la plus haute etire
-       l autre : l image occupe alors tout ce qui reste. */
-    aspect-ratio: 16 / 10;
+       portrait imposait la sienne et étirait la carte sur 800 px. La hauteur
+       à 100 % ne sert qu'ensuite, quand la carte la plus haute étire
+       l'autre : l'image occupe alors tout ce qui reste.
+
+       4/3 et non 16/10 : c'est le rapport de la photo de course, qui s'y
+       montre donc entière, coureur compris ; et c'est la fenêtre la plus
+       haute qu'on puisse donner sans que la carte s'allonge — ce qui laisse
+       voir un quart de plus de la photo en portrait. */
+    aspect-ratio: 4 / 3;
     height: 100%;
     object-fit: cover;
 }
+
+/* La photo en portrait est la seule qu'un cadre en paysage ampute vraiment :
+   on garde le haut, où se trouve le sujet, plutôt que le milieu. */
+.fond-passion-cadrage--haut { object-position: center 32%; }
 
 /* Le texte se tient à l'écart des deux coupes. Au sommet de la carte, le bord
    gauche est à son point le plus rentré : c'est là que le rembourrage doit
@@ -870,7 +866,9 @@ html { scroll-behavior: smooth; }
 
     .fond-passion { clip-path: none; }
 
-    .fond-passion img { height: 12rem; min-height: 0; }
+    /* La hauteur fixe rognait la photo de course par le bas — le coureur
+       disparaissait. Le rapport 4/3 la montre entière. */
+    .fond-passion img { height: auto; }
 
     .fond-passion-texte { padding: 1.1rem; }
 }
@@ -1237,10 +1235,15 @@ html { scroll-behavior: smooth; }
 }
 
 /* Sans min-width, un enfant de flex ne descend pas sous sa largeur
-   min-content : l adresse mail debordait de sa colonne au lieu de se couper. */
+   min-content : l'adresse mail débordait de sa colonne au lieu de se couper.
+
+   Elle se coupe maintenant au seul endroit qui se lit — devant l'arobase, où
+   le HTML pose un <wbr>. « anywhere » l'aurait coupée avant, au dernier
+   caractère qui tenait dans la colonne ; « break-word » ne sert que de
+   dernier recours, si même « pierregumilar » ne tenait pas. */
 .fond-pied-liens b {
     min-width: 0;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
 }
 
 .fond-lien-icone {
