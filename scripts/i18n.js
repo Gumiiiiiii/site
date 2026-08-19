@@ -167,6 +167,234 @@
             fr: 'Les brand guidelines Gumi: ton, systeme visuel, palette, typographie et principes de conception pour garder une identite coherente.',
             en: 'The Gumi brand guidelines: tone, visual system, palette, typography and design principles for a coherent identity.'
         },
+
+        // Brand guidelines
+        bg_maj: { fr: 'Dernière mise à jour : août 2026', en: 'Last updated: August 2026' },
+        bg_titre: { fr: 'Directives de marque', en: 'Brand guidelines' },
+        bg_note_hero: { fr: 'Le système de pierre.gumi.ch', en: 'The pierre.gumi.ch system' },
+        bg_hero_sub: {
+            fr: "Je dessine et je planifie mes projets sur du papier pointé. Le site est posé sur le même support, et cette page en donne les règles avant qu'elles passent sur le reste du portfolio.",
+            en: "I sketch and plan my projects on dot-grid paper. The site sits on the same surface, and this page sets out the rules before they reach the rest of the portfolio."
+        },
+
+        bg_s1_titre: { fr: 'Voix', en: 'Voice' },
+        bg_s1_intro: {
+            fr: "Mon ton est celui d'un expert technique pragmatique. Je suis direct, créatif, et je vais à l'essentiel sans utiliser de jargon superflu.",
+            en: "My tone is that of a pragmatic technical expert. Direct, creative, straight to the point, without needless jargon."
+        },
+        bg_s1_p1_titre: { fr: 'Être direct et utile', en: 'Be direct and useful' },
+        bg_s1_p1_desc: {
+            fr: "J'adapte mon discours à l'interlocuteur et expose clairement les caractéristiques du sujet.",
+            en: "I adapt to whoever I am talking to and lay out the specifics of the subject clearly."
+        },
+        bg_s1_p1_oui1: { fr: '« Boostez votre ROI de 20 % avec cette structure de campagne Google Ads ciblée. »', en: '“Lift your ROI by 20% with this targeted Google Ads campaign structure.”' },
+        bg_s1_p1_non1: { fr: '« Notre méthode magique va faire exploser vos ventes sur les moteurs de recherche ! »', en: '“Our magic method will make your search engine sales explode!”' },
+        bg_s1_p1_oui2: { fr: '« Découvrez 3 méthodes concrètes pour optimiser le temps de chargement de votre site. »', en: '“Three concrete ways to cut your site’s loading time.”' },
+        bg_s1_p1_non2: { fr: '« Le secret incroyable pour un site parfait que tous vos concurrents vous envient. »', en: '“The incredible secret to a perfect site that all your competitors will envy.”' },
+        bg_s1_p2_titre: { fr: 'Écrire comme un humain', en: 'Write like a human' },
+        bg_s1_p2_desc: {
+            fr: "L'IA peut aider à écrire, mais tout ce qui trahit un texte généré doit disparaître : tirets cadratins, structures en miroir (« ce n'est pas X, c'est Y »), superlatifs creux, emojis décoratifs, listes surformatées. Le texte final doit sonner comme quelqu'un qui parle.",
+            en: "AI can help with writing, but anything that gives away generated text has to go: em dashes, mirrored structures (“it’s not X, it’s Y”), empty superlatives, decorative emojis, over-formatted lists. The finished text should sound like someone talking."
+        },
+        bg_s1_p2_oui1: { fr: "« Un objectif clair : créer de l'impact, pour l'utilisateur et pour l'entreprise. »", en: '“One clear goal: create impact, for the user and for the business.”' },
+        bg_s1_p2_non1: { fr: "« Un objectif clair — créer de l'impact — pour l'utilisateur et l'entreprise. »", en: '“One clear goal — creating impact — for the user and the business.”' },
+        bg_s1_p2_oui2: { fr: '« La refonte a triplé le trafic en six mois. »', en: '“The rebuild tripled traffic in six months.”' },
+        bg_s1_p2_non2: { fr: "« Ce n'est pas une simple refonte, c'est une transformation radicale de l'expérience ✨ »", en: '“This isn’t just a rebuild, it’s a radical transformation of the experience ✨”' },
+        bg_s1_p3_titre: { fr: 'Partager le processus', en: 'Share the process' },
+        bg_s1_p3_desc: {
+            fr: "Je communique efficacement les enjeux et les délais afin d'avoir un contexte clair.",
+            en: "I state what is at stake and when it lands, so everyone works from the same context."
+        },
+        bg_s1_p3_oui1: { fr: '« La V1 sera livrée mardi. Nous aurons besoin de vos retours avant jeudi midi. »', en: '“V1 ships Tuesday. We will need your feedback by Thursday noon.”' },
+        bg_s1_p3_non1: { fr: "« On gère ça très vite, promis, ne vous inquiétez pas pour la suite. »", en: '“We will handle it quickly, promise, no need to worry about the rest.”' },
+        bg_s1_p3_oui2: { fr: "« La validation de la campagne prendra deux jours de plus suite à un délai imposé par la plateforme. »", en: '“Campaign approval will take two extra days because of a delay on the platform side.”' },
+        bg_s1_p3_non2: { fr: "« Tout avance super bien, c'est juste un petit détail technique sans importance. »", en: '“Everything is going great, it is just a small technical detail, nothing important.”' },
+
+        bg_s2_titre: { fr: 'Le papier', en: 'The paper' },
+        bg_s2_intro: {
+            fr: "Le fond de chaque page est une feuille de papier pointé, celle des carnets sur lesquels je dessine et je planifie mes projets. Ce n'est pas une texture posée derrière le contenu : les titres s'écrivent sur ses rangées, et les blocs se calent sur ses colonnes.",
+            en: "Every page sits on a sheet of dot-grid paper, the notebooks I sketch and plan my projects on. It is not a texture dropped behind the content: headings are written on its rows, and blocks line up on its columns."
+        },
+        bg_s2_h1: { fr: 'Une seule trame', en: 'One single screen' },
+        bg_s2_h1_texte: {
+            fr: "Le champ entier est un halftone d'imprimeur. Le haut et le bas de page portent une trame pleine de points gras qui rétrécissent vers le centre ; ceux qui restent forment la grille du milieu, tous du même calibre. Le dégradé et la grille sont un seul dessin pris à deux moments, et l'encre ne varie jamais : c'est la taille des points qui porte le ton.",
+            en: "The whole field is a printer’s halftone. The top and bottom of the page carry a full screen of heavy dots that shrink towards the centre; the ones left standing form the middle grid, all the same size. The gradient and the grid are one drawing caught at two moments, and the ink never varies: dot size carries the tone."
+        },
+        bg_s2_t1: { fr: 'La trame pleine, celle des bandes de dégradé.', en: 'The full screen, used by the gradient bands.' },
+        bg_s2_t2: { fr: "La grille du milieu, une colonne et une rangée sur quatre. C'est elle qui porte les titres.", en: 'The middle grid, one column and one row in four. This is what headings are written on.' },
+        bg_s2_t3: { fr: "Le rayon du point de grille. Il monte à 7 px au sommet de la page, et gagne encore 2,5 px vers les bords gauche et droit.", en: 'The grid dot radius. It rises to 7px at the top of the page, and gains another 2.5px towards the left and right edges.' },
+        bg_s2_t4: { fr: 'La hauteur des bandes denses, en haut comme en bas.', en: 'The height of the dense bands, top and bottom alike.' },
+        bg_s2_t5: { fr: "L'encre du champ, identique sur toute la page.", en: 'The field ink, identical across the whole page.' },
+        bg_s2_h2: { fr: "La rangée d'un titre", en: 'A heading’s row' },
+        bg_s2_h2_texte: {
+            fr: "Chaque titre de section est écrit sur une rangée de la grille, et cette rangée-là est retracée par-dessus le champ à une encre de 0,18. Elle s'éteint vers les bords de l'écran sans jamais descendre sous 46 % de sa valeur. Les titres de cette page en sont la démonstration : regardez la ligne qui passe derrière chacun d'eux.",
+            en: "Every section heading is written on a row of the grid, and that row is redrawn over the field at 0.18 ink. It fades towards the edges of the screen without ever dropping below 46% of its value. The headings on this page are the demonstration: look at the line running behind each one."
+        },
+        bg_s2_h3: { fr: 'Le grain', en: 'The grain' },
+        bg_s2_h3_texte: {
+            fr: "Une tuile de papier de 158 × 144 px est posée en mode Produit sur le fond crème, ce qui l'assombrit d'environ 8 %. Elle appartient au thème clair et disparaît en thème sombre, où le papier n'a plus de raison d'être imité.",
+            en: "A 158 × 144px paper tile is laid over the cream background in Multiply, darkening it by roughly 8%. It belongs to the light theme and disappears in dark, where there is no longer any paper to imitate."
+        },
+
+        bg_s3_titre: { fr: 'Couleurs', en: 'Colours' },
+        bg_s3_intro: {
+            fr: "Une encre, un papier. Toute la hiérarchie se fait à l'opacité de l'encre, jamais en changeant de teinte. Le violet est réservé aux états interactifs : survol, focus clavier, élément courant. Une couleur qui apparaît sans qu'on ait rien fait n'a rien à dire.",
+            en: "One ink, one paper. The whole hierarchy is built from ink opacity, never from a change of hue. Purple is reserved for interactive states: hover, keyboard focus, current item. A colour that shows up without anyone doing anything has nothing to say."
+        },
+        bg_s3_h1: { fr: "L'échelle d'encre", en: 'The ink scale' },
+        bg_s3_h1_texte: { fr: 'Dix valeurs, chacune avec un emploi. Cliquez sur une ligne pour copier sa valeur.', en: 'Ten values, each with a job. Click a row to copy its value.' },
+        bg_encre_1: { fr: 'Titres et texte fort', en: 'Headings and strong text' },
+        bg_encre_078: { fr: 'Paragraphes et citations', en: 'Body copy and quotes' },
+        bg_encre_07: { fr: 'Introductions de section', en: 'Section introductions' },
+        bg_encre_062: { fr: 'Annotations manuscrites', en: 'Handwritten annotations' },
+        bg_encre_05: { fr: 'Dates et mentions', en: 'Dates and side notes' },
+        bg_encre_045: { fr: 'Légendes et texte éteint', en: 'Captions and dimmed text' },
+        bg_encre_014: { fr: 'Filets et bordures', en: 'Rules and borders' },
+        bg_encre_012: { fr: 'Bordures internes', en: 'Inner borders' },
+        bg_encre_0035: { fr: 'Fonds de bloc', en: 'Block backgrounds' },
+        bg_encre_0022: { fr: 'Fonds légers', en: 'Light backgrounds' },
+        bg_s3_h2: { fr: 'Les deux thèmes', en: 'The two themes' },
+        bg_s3_h2_texte: {
+            fr: "Le sombre n'est pas une inversion. Le papier devient un gris violacé, l'encre passe à l'ivoire, et le violet s'éclaircit pour garder son contraste.",
+            en: "Dark is not an inversion. The paper turns a violet-tinted grey, the ink turns ivory, and the purple lightens to hold its contrast."
+        },
+        bg_theme_clair: { fr: 'Clair', en: 'Light' },
+        bg_theme_sombre: { fr: 'Sombre', en: 'Dark' },
+        bg_theme_papier: { fr: 'Papier', en: 'Paper' },
+        bg_theme_papier2: { fr: 'Papier', en: 'Paper' },
+        bg_theme_encre: { fr: 'Encre', en: 'Ink' },
+        bg_theme_encre2: { fr: 'Encre', en: 'Ink' },
+        bg_theme_inter: { fr: 'Interaction', en: 'Interaction' },
+        bg_theme_inter2: { fr: 'Interaction', en: 'Interaction' },
+        bg_s3_h3: { fr: "Le violet ne se voit qu'en réponse", en: 'Purple only shows up in response' },
+        bg_s3_h3_texte: {
+            fr: "Sur pierre.gumi.ch, la couleur apparaît à cinq endroits : l'entrée courante du rail, le focus clavier, le survol d'un lien, l'icône d'un projet ouvert, et le point de la signature. Partout ailleurs, l'encre suffit. Survolez ces liens pour voir la règle à l'œuvre.",
+            en: "On pierre.gumi.ch the colour appears in five places: the current rail entry, keyboard focus, link hover, the icon of an open project, and the signature dot. Everywhere else, ink is enough. Hover these links to see the rule at work."
+        },
+        bg_s3_lien1: { fr: 'Un lien au repos', en: 'A link at rest' },
+        bg_s3_lien2: { fr: 'Un autre lien', en: 'Another link' },
+        bg_s3_lien_note: { fr: 'Contraste vérifié : 6,3:1 en clair, 8,9:1 en sombre.', en: 'Contrast checked: 6.3:1 on light, 8.9:1 on dark.' },
+
+        bg_s4_titre: { fr: 'Typographie', en: 'Typography' },
+        bg_s4_intro: {
+            fr: "Deux familles, deux rôles qui ne se croisent jamais. Urbanist porte tout ce qui est imprimé sur la page. Cedarville Cursive porte tout ce qui est écrit à la main par-dessus.",
+            en: "Two families, two roles that never cross. Urbanist carries everything printed on the page. Cedarville Cursive carries everything handwritten over it."
+        },
+        bg_s4_h1: { fr: 'Direct et créatif', en: 'Direct and creative' },
+        bg_s4_h2: { fr: 'Outils et expérimentations', en: 'Tools and experiments' },
+        bg_s4_corps: {
+            fr: "La variante Medium garantit une lisibilité maximale pour les interfaces et les descriptions d'outils. Propre, technique et fonctionnel. Chaque mot a sa place et l'épaisseur soutient le regard.",
+            en: "The Medium weight keeps interfaces and tool descriptions as legible as possible. Clean, technical, functional. Every word has its place and the weight carries the eye."
+        },
+        bg_s4_main: { fr: "Ça, c'est écrit à la main.", en: 'This part is handwritten.' },
+        bg_s4_h3: { fr: 'La règle du point', en: 'The rule of the dot' },
+        bg_s4_h3_texte: {
+            fr: "Seul le H1 porte le point de ponctuation de la marque, et c'est le seul endroit où le violet apparaît sans interaction. Un H2 ne le prend jamais.",
+            en: "Only the H1 carries the brand’s full stop, and it is the one place purple appears without an interaction. An H2 never takes it."
+        },
+
+        bg_s5_titre: { fr: 'Annotations', en: 'Annotations' },
+        bg_s5_intro: {
+            fr: "Les notes manuscrites sont ce que j'ajoute dans la marge d'un carnet après coup. Elles se posent par-dessus la page, en position absolue, hors du flux et hors de l'arbre d'accessibilité. Retirez le bloc entier et la mise en page reste exactement la même.",
+            en: "Handwritten notes are what I add in a notebook margin after the fact. They sit over the page, absolutely positioned, out of the flow and out of the accessibility tree. Remove the whole block and the layout stays exactly the same."
+        },
+        bg_note_cadre1: { fr: 'La flèche', en: 'The arrow' },
+        bg_note_cadre2: { fr: 'Le mot entouré', en: 'The circled word' },
+        bg_note_cadre3: { fr: 'La note en marge', en: 'The margin note' },
+        bg_note_cadre4: { fr: "L'astérisque", en: 'The asterisk' },
+        bg_note_cadre5: { fr: 'La flèche courbe', en: 'The curved arrow' },
+        bg_note1: { fr: "Elle pointe vers l'élément", en: 'It points at the element' },
+        bg_note2: { fr: 'Entouré après coup', en: 'Circled afterwards' },
+        bg_note3: { fr: "Soulignée d'un trait", en: 'Underlined by hand' },
+        bg_note4: { fr: 'Une précision', en: 'A clarification' },
+        bg_note5: { fr: "C’est moi !", en: "That’s me!" },
+        bg_s5_h1: { fr: 'Les règles', en: 'The rules' },
+        bg_s5_r1_t: { fr: 'Encre', en: 'Ink' },
+        bg_s5_r1: { fr: "0,62. La même encre que la page, juste plus légère. Une note écrite à la main n'a pas de couleur à elle.", en: '0.62. The same ink as the page, just lighter. A handwritten note has no colour of its own.' },
+        bg_s5_r2_t: { fr: 'Taille', en: 'Size' },
+        bg_s5_r2: { fr: "Une note tient sur une ligne et ne se coupe jamais. Sa taille suit la largeur de la fenêtre, et tout ce qui la compose est exprimé en em : elle grandit d'un bloc.", en: 'A note fits on one line and never wraps. Its size follows the window width, and everything in it is expressed in em, so it grows as one piece.' },
+        bg_s5_r3_t: { fr: 'Inclinaison', en: 'Tilt' },
+        bg_s5_r3: { fr: "De −4 à +2,5 degrés. Assez pour qu'elle ne soit pas alignée, jamais assez pour qu'elle attire le regard avant le contenu.", en: 'From −4 to +2.5 degrees. Enough that it is not aligned, never enough to pull the eye before the content does.' },
+        bg_s5_r4_t: { fr: 'Interaction', en: 'Interaction' },
+        bg_s5_r4: { fr: "pointer-events: none, sans exception. Une note ne se clique pas et ne masque jamais un lien qu'elle recouvre.", en: 'pointer-events: none, without exception. A note is not clickable and never blocks a link it covers.' },
+        bg_s5_r5_t: { fr: 'Dosage', en: 'Dosage' },
+        bg_s5_r5: { fr: "Une par bloc au maximum. Au-delà, la page ne ressemble plus à un carnet annoté mais à un mur de post-its.", en: 'One per block at most. Past that, the page stops looking like an annotated notebook and starts looking like a wall of sticky notes.' },
+
+        bg_s6_titre: { fr: 'Icônes', en: 'Icons' },
+        bg_s6_intro: {
+            fr: "La bibliothèque Lucide, en trait de 2,5 px, avec les extrémités et les angles arrondis. Géométriques et lisibles à petite taille, elles servent l'interface, la manipulation de fichiers et le code.",
+            en: "The Lucide library, at 2.5px stroke, with rounded caps and joins. Geometric and legible at small sizes, they serve the interface, file handling and code."
+        },
+        bg_s6_h1: { fr: 'La plaque en halftone', en: 'The halftone plate' },
+        bg_s6_h1_texte: {
+            fr: "Quand une icône ouvre une section plutôt qu'un bouton, elle se pose sur une plaque tramée, dessinée par la même loi que le fond de la page : l'aire du point suit le ton, et le pas de la trame descend à 6 px pour tenir dans 96 px de côté. L'icône garde son trait plein par-dessus. Réservez-la aux têtes de section ; sur un bouton, elle alourdit le clic.",
+            en: "When an icon opens a section rather than a button, it sits on a screened plate drawn by the same law as the page background: dot area follows the tone, and the screen pitch drops to 6px to fit within 96px. The icon keeps its full stroke on top. Keep it for section heads; on a button it makes the click feel heavy."
+        },
+
+        bg_s7_titre: { fr: 'Mouvement', en: 'Motion' },
+        bg_s7_intro: {
+            fr: "Ce qui n'a pas encore été atteint est transparent et posé un cheveu plus bas. Quand son tour vient, on lui retire ce retard, en décalant ses voisins d'un souffle. Rien n'est caché tant que le script en tête de document n'a pas posé sa classe sur la racine, et il ne la pose ni sans JavaScript, ni quand le système demande moins de mouvement.",
+            en: "Anything not yet reached is transparent and sits a hair lower. When its turn comes that delay is taken away, offsetting its neighbours by a breath. Nothing is hidden until the script at the top of the document puts its class on the root, and it does so neither without JavaScript nor when the system asks for reduced motion."
+        },
+        bg_mvt1: { fr: "La courbe d'entrée. Rapide au départ, longue à s'arrêter.", en: 'The entry curve. Fast off the mark, slow to settle.' },
+        bg_mvt2: { fr: "La montée d'un élément qui entre. Un titre posé sur sa rangée ne monte pas : il ne peut que se révéler sur place.", en: 'The rise of an entering element. A heading set on its row does not rise: it can only reveal in place.' },
+        bg_mvt3: { fr: "Le décalage entre deux voisins qui entrent ensemble, jusqu'au sixième. Au-delà, le dernier attendrait trop.", en: 'The offset between two neighbours entering together, up to the sixth. Past that, the last one would wait too long.' },
+        bg_mvt4: { fr: "Le fondu du papier, en une seule couche plutôt que sur ses milliers de points.", en: 'The paper fade, as a single layer rather than across its thousands of dots.' },
+        bg_mvt5: { fr: 'La durée du défilement adouci (Lenis), sur molette et tactile.', en: 'The smooth scroll duration (Lenis), on wheel and touch.' },
+        bg_mvt6: { fr: "Tout ce qui précède disparaît. La page s'affiche dans son état final dès le premier rendu, sans exception.", en: 'Everything above goes away. The page renders in its final state on the first paint, without exception.' },
+
+        bg_s8_titre: { fr: 'UI Kit', en: 'UI Kit' },
+        bg_s8_intro: {
+            fr: "Le neumorphisme a été retiré. Un relief simulé suppose une lumière et une matière molle, et ni l'un ni l'autre n'existe sur une feuille de papier. Un composant est donc une forme pleine, un contour, ou rien du tout. L'état se dit par la couleur de la bordure et du texte.",
+            en: "Neumorphism has been removed. A simulated relief assumes a light source and a soft material, and neither exists on a sheet of paper. A component is therefore a solid shape, an outline, or nothing at all. State is carried by the colour of the border and the text."
+        },
+        bg_ui_btn1: { fr: 'Bouton plein', en: 'Solid button' },
+        bg_ui_btn2: { fr: 'Bouton contour', en: 'Outline button' },
+        bg_ui_btn3: { fr: 'Bouton nu', en: 'Bare button' },
+        bg_ui_bascule: { fr: 'Bascule', en: 'Toggle' },
+        bg_ui_seg1: { fr: 'Haut', en: 'High' },
+        bg_ui_seg2: { fr: 'Moyen', en: 'Medium' },
+        bg_ui_seg3: { fr: 'Bas', en: 'Low' },
+        bg_ui_champ: { fr: 'Saisissez du texte…', en: 'Type something…' },
+        bg_ui_depot1: { fr: 'Déposez votre fichier ici', en: 'Drop your file here' },
+        bg_ui_depot2: { fr: 'ou cliquez pour parcourir', en: 'or click to browse' },
+        bg_ui_carte1_t: { fr: 'Carte de projet', en: 'Project card' },
+        bg_ui_carte1_d: { fr: "Un visuel, un titre, deux lignes. La bordure prend la couleur au survol, rien d'autre ne bouge.", en: 'A visual, a title, two lines. The border takes the colour on hover, nothing else moves.' },
+        bg_ui_carte2_t: { fr: "Carte d'outil", en: 'Tool card' },
+        bg_ui_carte2_d: { fr: 'Sans visuel, la carte se réduit à son filet et à son fond léger.', en: 'With no visual, the card comes down to its rule and its light background.' },
+        bg_ui_etq1: { fr: 'Contexte', en: 'Context' },
+        bg_ui_etq2: { fr: 'Étiquette', en: 'Tag' },
+        bg_ui_etq3: { fr: 'Étiquette', en: 'Tag' },
+
+        bg_s9_titre: { fr: 'Images', en: 'Imagery' },
+        bg_s9_intro: {
+            fr: "Des photographies brutes, cadrées serré, sans filtre de couleur. Elles sont posées dans des cadres au même rayon que les blocs, avec le même filet, pour qu'elles appartiennent à la page plutôt que d'y flotter.",
+            en: "Raw photographs, tightly framed, with no colour filter. They sit in frames with the same radius as the blocks and the same rule, so they belong to the page rather than float on it."
+        },
+        bg_matiere: { fr: 'Grain de papier', en: 'Paper grain' },
+
+        bg_s10_titre: { fr: 'Ressources', en: 'Assets' },
+        bg_s10_intro: {
+            fr: 'Les logos et les matières du système, à télécharger pour les adaptations de visuels.',
+            en: 'The logos and materials of the system, downloadable for visual adaptations.'
+        },
+        bg_res1_t: { fr: 'Mot-symbole', en: 'Wordmark' },
+        bg_res1_d: { fr: 'Le logo principal, pour la navigation et les fonds clairs.', en: 'The main logo, for navigation and light backgrounds.' },
+        bg_res2_t: { fr: 'Mot-symbole inversé', en: 'Reversed wordmark' },
+        bg_res2_d: { fr: 'Pour les fonds sombres et les visuels photographiques.', en: 'For dark backgrounds and photographic visuals.' },
+        bg_res3_t: { fr: 'Monogramme', en: 'Monogram' },
+        bg_res3_d: { fr: 'Pour les espaces compacts : avatars, favicons.', en: 'For tight spaces: avatars, favicons.' },
+        bg_res4_t: { fr: 'Texture papier', en: 'Paper texture' },
+        bg_res4_d: { fr: "Tuile de 158 × 144 px, semi-transparente. À poser en mode Produit à 100 % sur le fond crème pour retrouver le rendu du site.", en: 'A 158 × 144px semi-transparent tile. Lay it in Multiply at 100% over the cream background to match the site.' },
+        bg_res5_t: { fr: 'Motif de points', en: 'Dot pattern' },
+        bg_res5_d: { fr: "La trame 20 × 18 px en quinconce, rayon de 3 à 7 px croissant vers les bords. Export 3200 × 500, fond transparent.", en: 'The staggered 20 × 18px screen, radius from 3 to 7px growing towards the edges. 3200 × 500 export, transparent background.' },
+        bg_res6_t: { fr: 'Les deux fontes', en: 'The two typefaces' },
+        bg_res6_d: { fr: "Urbanist et Cedarville Cursive, toutes deux sous licence SIL Open Font, servies en WOFF2 depuis le site.", en: 'Urbanist and Cedarville Cursive, both under the SIL Open Font License, served as WOFF2 from the site.' },
+        bg_dl_png: { fr: 'Télécharger PNG', en: 'Download PNG' },
+        bg_dl_png2: { fr: 'Télécharger PNG', en: 'Download PNG' },
+        bg_dl_png3: { fr: 'Télécharger PNG', en: 'Download PNG' },
+        bg_dl_full: { fr: 'Pleine intensité', en: 'Full intensity' },
+        bg_dl_subtle: { fr: 'Rendu site', en: 'Site rendering' },
         doc_404_title: { fr: 'Page introuvable | Gumi.', en: 'Page not found | Gumi.' },
         doc_conv_title: { fr: 'Convertisseur de fichiers - Gumi.', en: 'File converter - Gumi.' },
         doc_conv_desc: {

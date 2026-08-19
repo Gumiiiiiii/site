@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}if(!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)){document.documentElement.classList.add('fond-anime');}}catch(e){}})();</script>
     <link rel="preload" href="fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/cedarville-cursive-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
     <link rel="canonical" href="https://gumi.ch/brand-guidelines">
@@ -13,63 +14,73 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Gumi.">
     <meta property="og:title" content="Gumi. Brand Guidelines">
-    <meta property="og:description" content="Les brand guidelines Gumi: ton, systeme visuel, palette, typographie et principes de conception pour garder une identite coherente.">
+    <meta property="og:description" content="Les brand guidelines Gumi: papier pointe, encre unique, halftone, annotations manuscrites et principes de conception pour garder une identite coherente.">
     <meta property="og:url" content="https://gumi.ch/brand-guidelines">
     <meta property="og:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Gumi. Brand Guidelines">
-    <meta name="twitter:description" content="Les brand guidelines Gumi: ton, systeme visuel, palette, typographie et principes de conception pour garder une identite coherente.">
+    <meta name="twitter:description" content="Les brand guidelines Gumi: papier pointe, encre unique, halftone, annotations manuscrites et principes de conception pour garder une identite coherente.">
     <meta name="twitter:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
     <title data-i18n="doc_brand_title">Gumi. Brand Guidelines</title>
-    <meta name="description" data-i18n-content="doc_brand_desc" content="Les brand guidelines Gumi: ton, systeme visuel, palette, typographie et principes de conception pour garder une identite coherente.">
+    <meta name="description" data-i18n-content="doc_brand_desc" content="Les brand guidelines Gumi: papier pointe, encre unique, halftone, annotations manuscrites et principes de conception pour garder une identite coherente.">
     <link rel="icon" type="image/png" sizes="32x32" href="media/favicon-32.png">
     <link rel="apple-touch-icon" href="media/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
-    
+
     <link rel="stylesheet" href="styles/shared.css">
-    
+
     <style>
-        /* ========================================
-           GUMI. BRAND GUIDELINES — DESIGN SYSTEM
-           Circular & Organic. No rigid lines.
-           ======================================== */
+        /* ============================================================
+           GUMI. BRAND GUIDELINES
+           ============================================================
+
+           La page applique ce qu'elle décrit. Le fond est une page de
+           papier pointé, les titres s'écrivent sur ses rangées, les
+           notes manuscrites se posent par-dessus, et rien n'a de relief
+           simulé.
+
+           Le champ de points est celui du site, sans une ligne de
+           différence : scripts/points-champ.js. Le reste est écrit ici
+           parce que styles/fond.css est encore attaché au DOM du CV ;
+           quand le portfolio passera à cette direction, ces règles
+           iront rejoindre une feuille partagée. */
 
         :root {
-            --bg:      #F9F4EF;
-            --text:    #1A1A1A;
-            --accent:  #9C77F5; /* Lavande vif */
-            --accent-light: #D1BFFF; /* Violet clair pour bouton sombre */
-            --positive:#609675;
-            --negative:#C56A6A;
-            --font:    'Urbanist', sans-serif;
-            --radius:  2.5rem;
-            --card-bg: rgba(26, 26, 26, 0.04);
-            --content-max-width: 90rem;
-            /* Neumorphic highlights, dimmed in dark (see shared.css --neu-hi) */
-            --hi: rgba(255, 255, 255, 0.7);
-            --hi-strong: rgba(255, 255, 255, 0.8);
+            /* L'échelle d'encre en service sur pierre.gumi.ch. Une seule
+               couleur, posée à des opacités qui ont chacune un emploi. */
+            --encre-1:    rgba(var(--text-rgb), 1);      /* titres */
+            --encre-078:  rgba(var(--text-rgb), 0.78);   /* paragraphes */
+            --encre-07:   rgba(var(--text-rgb), 0.7);    /* intros */
+            --encre-062:  rgba(var(--text-rgb), 0.62);   /* notes manuscrites */
+            --encre-05:   rgba(var(--text-rgb), 0.5);    /* dates, mentions */
+            --encre-045:  rgba(var(--text-rgb), 0.45);   /* légendes */
+            --filet:      rgba(var(--text-rgb), 0.14);   /* bordures */
+            --filet-fin:  rgba(var(--text-rgb), 0.12);   /* bordures internes */
+            --voile:      rgba(var(--text-rgb), 0.035);  /* fonds de bloc */
+            --voile-fin:  rgba(var(--text-rgb), 0.022);  /* fonds légers */
+
+            --marge: 8%;
+            --largeur: 90rem;
+            --rayon: 1.25rem;
         }
 
-        :root[data-theme="dark"] {
-            --hi: rgba(255, 255, 255, 0.04);
-            --hi-strong: rgba(255, 255, 255, 0.05);
-        }
-
-        /* The paper grain belongs to the light theme (same rule as the site). */
-        :root[data-theme="dark"] .texture-display {
-            background-image: none;
-            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.35);
+        @font-face {
+            font-family: 'Cedarville Cursive';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/cedarville-cursive-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        
         *:focus { outline: none; }
-
         html { scroll-behavior: smooth; }
 
         body {
+            position: relative;
             background-color: var(--bg);
-            color: var(--text);
+            color: var(--encre-1);
             font-family: var(--font);
             font-weight: 500;
             line-height: 1.6;
@@ -79,680 +90,1106 @@
             overflow-x: hidden;
         }
 
-        ::selection { background-color: var(--accent); color: var(--bg); }
+        ::selection { background-color: var(--accent-ink); color: var(--bg); }
         .no-select { user-select: none; }
 
-        .dot { color: var(--accent); }
+        /* Le point de la signature. C'est la seule couleur qui ne dépend
+           pas d'une interaction. */
+        .point { color: var(--accent-ink); }
 
-        .dots-bg {
+        /* ---------- Le papier ----------
+           Un seul objet pour tout le fond, dessiné par
+           scripts/points-champ.js. Il n'a pas de masque : c'est le tracé
+           lui-même qui sait où il est dense et où il est clair. */
+        .points-champ {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 250px;
+            inset: 0;
+            z-index: -2;
+            color: var(--text);
+            pointer-events: none;
+        }
+        .points-champ svg { display: block; overflow: visible; }
+
+        /* Les rangées assombries. Une par titre, tracée sur une vraie
+           rangée de la grille, à une encre plus forte que le champ. */
+        .regles {
+            position: absolute;
+            inset: 0;
             z-index: -1;
             color: var(--text);
             pointer-events: none;
-            -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-            mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
         }
+        .regles svg { display: block; overflow: visible; }
 
+        /* ---------- Structure ---------- */
         .hero {
-            min-height: 100vh;
+            min-height: 88vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 8%;
-            width: min(100%, var(--content-max-width));
+            padding: 0 var(--marge);
+            width: min(100%, var(--largeur));
             margin: 0 auto;
+            position: relative;
         }
-        .hero h1 { font-size: clamp(3rem, 10vw, 8rem); font-weight: 900; text-transform: uppercase; line-height: 0.95; letter-spacing: -3px; }
-        .hero-sub { margin-top: 30px; font-size: 1.2rem; max-width: 600px; opacity: 0.7; line-height: 1.6; font-weight: 600; }
-        .last-update { color: var(--accent); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 2rem; }
+        .hero-maj {
+            color: var(--encre-05);
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-size: clamp(3rem, 9vw, 7.5rem);
+            font-weight: 900;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+            max-width: 14ch;
+        }
+        /* La note du hero est écrite sous le titre, dans la marge. L'écart
+           qui la sépare du paragraphe est réservé ici, et non par la note
+           elle-même : une note est hors du flux et ne pousse rien. */
+        .hero-sub {
+            margin-top: 5.5rem;
+            font-size: 1.15rem;
+            max-width: 46ch;
+            color: var(--encre-07);
+            font-weight: 600;
+        }
+        .hero-note { position: relative; display: inline-block; }
 
         .section {
-            padding: 120px 8%;
+            padding: 7rem var(--marge);
             position: relative;
-            width: min(100%, var(--content-max-width));
+            width: min(100%, var(--largeur));
             margin: 0 auto;
         }
-        .section-label { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: var(--accent); color: var(--bg); border-radius: 50%; font-size: 0.8rem; font-weight: 900; letter-spacing: 2px; margin-bottom: 25px; }
-        .section h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 15px; }
-        .section-intro { font-size: 1.1rem; max-width: 700px; opacity: 0.7; margin-bottom: 60px; line-height: 1.6; font-weight: 600; }
+        .section-num {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            color: var(--encre-045);
+            margin-bottom: 1rem;
+        }
+        /* Le titre est écrit sur la rangée : sa ligne de base tombe
+           dessus, donc il ne porte aucune marge basse propre. C'est le
+           bloc d'intro qui ouvre l'écart. */
+        .section h2 {
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+        .section-intro {
+            font-size: 1.1rem;
+            max-width: 62ch;
+            color: var(--encre-07);
+            margin-top: 2.5rem;
+            margin-bottom: 3.5rem;
+            font-weight: 600;
+        }
+        .section h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            margin-bottom: 1rem;
+        }
+        .sous-section { margin-top: 4.5rem; }
+        .sous-intro {
+            font-size: 1rem;
+            color: var(--encre-07);
+            max-width: 62ch;
+            margin-bottom: 1.75rem;
+            font-weight: 500;
+        }
 
-        .voice-pillar { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; margin-bottom: 80px; padding-bottom: 80px; border-bottom: 1px solid rgba(var(--text-rgb), 0.1); }
-        .voice-pillar:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .pillar-desc h3 { font-size: 2rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: -1px; }
-        .pillar-desc p { opacity: 0.7; font-size: 1.1rem; }
-        .pillar-examples { display: flex; flex-direction: column; gap: 2rem; font-size: 1rem; }
-        .example-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .example-do { color: var(--text); display: flex; align-items: flex-start; gap: 10px; font-weight: 600; }
-        .example-dont { color: var(--text); display: flex; align-items: flex-start; gap: 10px; opacity: 0.4; font-weight: 500; }
-        .example-icon { flex-shrink: 0; margin-top: 2px; }
+        /* ---------- Le bloc, seule boîte du système ----------
+           Fond du papier, un voile d'encre, un filet. Pas d'ombre. */
+        .bloc {
+            background-color: var(--bg);
+            background-image: linear-gradient(var(--voile), var(--voile));
+            border: 1px solid var(--filet);
+            border-radius: var(--rayon);
+            padding: 1.75rem;
+        }
+        .bloc-fin {
+            background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
+            border-radius: 1rem;
+        }
+        .grille { display: grid; gap: 1.5rem; }
+        .grille-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .grille-3 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
 
-        .color-proportions {
+        .legende {
+            font-size: 0.85rem;
+            color: var(--encre-05);
+            font-weight: 600;
+            line-height: 1.5;
+        }
+        code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.86em;
+            background: var(--voile);
+            border: 1px solid var(--filet-fin);
+            border-radius: 4px;
+            padding: 0.1em 0.4em;
+        }
+
+        /* ---------- 02 · Le papier ---------- */
+        .papier-demo {
+            height: 260px;
+            border: 1px solid var(--filet);
+            border-radius: var(--rayon);
+            overflow: hidden;
             position: relative;
-            height: 600px;
-            width: 100%;
+            color: var(--text);
+            background: var(--bg);
+        }
+        .papier-demo .demo-champ { position: absolute; inset: 0; }
+        .papier-demo .demo-champ svg { display: block; }
+        .trame-liste { display: grid; gap: 0.9rem; margin-top: 1.5rem; }
+        .trame-item {
+            display: grid;
+            grid-template-columns: 5.5rem 1fr;
+            gap: 1rem;
+            align-items: baseline;
+            padding-bottom: 0.9rem;
+            border-bottom: 1px solid var(--filet-fin);
+            font-size: 0.95rem;
+        }
+        .trame-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .trame-item b { font-weight: 800; letter-spacing: 0.02em; }
+        .trame-item span { color: var(--encre-07); font-weight: 500; }
+
+        /* ---------- 03 · Couleurs ---------- */
+        .encre-echelle { display: grid; gap: 0; border: 1px solid var(--filet); border-radius: var(--rayon); overflow: hidden; }
+        .encre-rang {
+            display: grid;
+            grid-template-columns: 4.5rem 1fr auto;
+            gap: 1.25rem;
+            align-items: center;
+            padding: 0.85rem 1.25rem;
+            border-bottom: 1px solid var(--filet-fin);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .encre-rang:last-child { border-bottom: none; }
+        .encre-rang:hover { background-color: var(--voile); }
+        .encre-rang:hover .encre-role { color: var(--accent-ink); }
+        .encre-bloc { height: 2.25rem; border-radius: 0.4rem; border: 1px solid var(--filet-fin); }
+        .encre-role { font-weight: 700; font-size: 0.98rem; transition: color 0.2s ease; }
+        .encre-val { font-size: 0.85rem; color: var(--encre-05); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+        .theme-paire { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+        .theme-carte { border: 1px solid var(--filet); border-radius: var(--rayon); overflow: hidden; }
+        .theme-tete { padding: 2.25rem 1.5rem; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.5rem; letter-spacing: -0.02em; }
+        .theme-corps { padding: 1.25rem 1.5rem 1.5rem; display: grid; gap: 0.55rem; }
+        .theme-ligne { display: flex; align-items: center; gap: 0.7rem; font-size: 0.88rem; font-weight: 600; }
+        .theme-puce { width: 1.1rem; height: 1.1rem; border-radius: 50%; border: 1px solid var(--filet); flex-shrink: 0; }
+        .theme-ligne span { color: var(--encre-05); font-variant-numeric: tabular-nums; }
+
+        .accent-demo { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: center; }
+        .accent-lien {
+            font-weight: 700;
+            color: var(--encre-1);
+            text-decoration: underline;
+            text-underline-offset: 0.25em;
+            text-decoration-thickness: 1.5px;
+            text-decoration-color: var(--filet);
+            transition: color 0.2s ease, text-decoration-color 0.2s ease;
+        }
+        .accent-lien:hover, .accent-lien:focus-visible { color: var(--accent-ink); text-decoration-color: var(--accent-ink); }
+
+        /* ---------- 04 · Typographie ---------- */
+        .type-rang { padding-bottom: 2.25rem; margin-bottom: 2.25rem; border-bottom: 1px solid var(--filet-fin); }
+        .type-rang:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .type-label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--encre-05); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.9rem; }
+        .type-h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1; }
+        .type-h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
+        .type-corps { font-size: 1.1rem; max-width: 62ch; color: var(--encre-078); }
+        .type-main {
+            font-family: 'Cedarville Cursive', 'Segoe Script', cursive;
+            font-size: 1.6rem;
+            line-height: 1.4;
+            color: var(--encre-062);
+        }
+
+        /* ---------- 05 · Annotations ---------- */
+        .note-vitrine { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 3rem 2rem; }
+        .note-cadre {
+            position: relative;
+            min-height: 8.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            border-radius: var(--radius);
+            border: 1px dashed var(--filet);
+            border-radius: var(--rayon);
+            padding: 1.5rem;
+            text-align: center;
+            font-weight: 700;
+            color: var(--encre-05);
+            font-size: 0.9rem;
         }
-        .color-circle {
+        /* La note elle-même : reprise de styles/fond.css, à l'identique.
+           Toujours en absolu, jamais dans le flux, jamais dans l'arbre
+           d'accessibilité. Retirez le bloc, la mise en page ne bouge pas. */
+        .note {
             position: absolute;
+            z-index: 2;
+            pointer-events: none;
+            font-family: 'Cedarville Cursive', 'Segoe Script', cursive;
+            font-size: clamp(0.9rem, 1.5vw + 0.2rem, 1.35rem);
+            line-height: 1;
+            white-space: nowrap;
+            color: var(--encre-062);
+        }
+        .note-texte { display: inline-block; }
+        .note-trait { display: block; color: inherit; overflow: visible; }
+
+        .note--fleche { top: -0.85em; right: 0.74em; text-align: right; transform: rotate(-2deg); }
+        .note--fleche .note-trait { width: 6.3em; height: 2.96em; margin: 0.11em 0.55em 0 auto; }
+
+        .note--cercle { top: 0.52em; right: 1.19em; transform: rotate(-2deg); }
+        .note--cercle .note-trait { position: absolute; top: -0.37em; right: -1em; bottom: -0.33em; left: -0.78em; width: auto; height: auto; }
+
+        .note--marge { top: -0.78em; left: 1.04em; transform: rotate(-4deg); }
+        .note--marge .note-trait { width: 11.1em; height: 0.48em; margin-top: 0.04em; }
+
+        .note--etoile { top: 0.37em; right: 1em; display: flex; align-items: center; gap: 0.26em; transform: rotate(2.5deg); }
+        .note--etoile .note-trait { width: 0.85em; height: 0.85em; flex-shrink: 0; }
+
+        .note--moi { bottom: -0.4em; left: 1.2em; display: flex; align-items: flex-end; gap: 0.3em; transform: rotate(-3deg); }
+        .note--moi .note-trait { width: 3.2em; height: 2.5em; flex-shrink: 0; }
+
+        /* La note du hero, posée sous le titre. */
+        .hero-note .note--marge { top: auto; bottom: -3.6em; left: 0.05em; }
+
+        /* ---------- 06 · Icônes ---------- */
+        .icones-grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 1.1rem; }
+        .icone-case {
+            width: 64px;
+            height: 64px;
+            border: 1px solid var(--filet);
             border-radius: 50%;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(var(--text-rgb), 0.04);
-            cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: border-color 0.2s ease, color 0.2s ease;
+            color: var(--encre-07);
         }
-        .color-circle:hover { transform: scale(1.02); }
-        .color-circle span { font-weight: 700; font-size: 1.2rem; margin-bottom: 4px; pointer-events: none; }
-        .color-circle small { font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; transition: opacity 0.3s; pointer-events: none; }
-        
-        .circle-60 { width: 550px; height: 550px; background: var(--card-bg); color: var(--text); right: 5%; z-index: 1; }
-        .circle-30 { width: 350px; height: 350px; background: var(--text); color: var(--bg); left: 15%; bottom: 10%; z-index: 2; }
-        .circle-10 { width: 140px; height: 140px; background: var(--accent); color: var(--bg); left: 25%; top: 15%; z-index: 3; }
-        .circle-10 small { opacity: 0.75; }
+        .icone-case:hover { border-color: var(--accent-ink); color: var(--accent-ink); }
+        .icone-case svg { width: 26px; height: 26px; stroke-width: 2.5; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
-        .swatch-sub { font-size: 1rem; opacity: 0.7; margin-bottom: 1.5rem; max-width: 640px; font-weight: 600; line-height: 1.6; }
+        /* La plaque en halftone : une trame de points dont l'aire suit le
+           ton, comme le fond de la page. L'icône se pose dessus à pleine
+           encre. */
+        .plaques { display: flex; flex-wrap: wrap; gap: 1.75rem; }
+        .plaque {
+            position: relative;
+            width: 96px;
+            height: 96px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+        }
+        .plaque-trame { position: absolute; inset: 0; pointer-events: none; }
+        .plaque-trame svg { display: block; }
+        .plaque svg.plaque-icone { position: relative; width: 30px; height: 30px; stroke-width: 2.5; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--encre-1); }
 
-        .asset-dl { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
-        .asset-dl a { font-size: 0.85rem; font-weight: 700; color: var(--accent); text-decoration: none; padding: 0.45rem 0.95rem; border: 1.5px solid rgba(var(--text-rgb), 0.15); border-radius: 100px; transition: border-color 0.2s ease; }
-        .asset-dl a:hover { border-color: var(--accent); }
-        .asset-card.dark-bg .asset-dl a { border-color: rgba(249,244,239,0.25); color: var(--accent-light); }
-        .asset-card.dark-bg .asset-dl a:hover { border-color: var(--accent-light); }
+        /* ---------- 07 · Mouvement ---------- */
+        .mvt-liste { display: grid; gap: 0; border: 1px solid var(--filet); border-radius: var(--rayon); overflow: hidden; }
+        .mvt-rang { display: grid; grid-template-columns: minmax(9rem, 14rem) 1fr; gap: 1.25rem; padding: 1.1rem 1.35rem; border-bottom: 1px solid var(--filet-fin); font-size: 0.95rem; }
+        .mvt-rang:last-child { border-bottom: none; }
+        .mvt-rang b { font-weight: 800; font-variant-numeric: tabular-nums; }
+        .mvt-rang span { color: var(--encre-07); font-weight: 500; }
 
-        .opacity-section { margin-top: 80px; }
-        .opacity-section h3, .semantic-colors-section h3 { font-size: 1.5rem; font-weight: 900; margin-bottom: 1.5rem; letter-spacing: -0.5px; }
-        .opacity-grid { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-        .opacity-box { flex: 1; min-width: 120px; height: 100px; border-radius: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: transform 0.3s ease; box-shadow: 0 10px 30px rgba(var(--text-rgb), 0.04); }
-        .opacity-box:hover { transform: scale(1.02); }
-        .opacity-box.dark-bg { color: var(--bg); }
-        .opacity-box.dark-bg small { opacity: 0.75; }
-        .opacity-box.light-bg { color: var(--text); }
-        .opacity-box.light-bg small { opacity: 0.75; }
-        .ob-content { display: flex; flex-direction: column; align-items: center; pointer-events: none; }
-        .ob-content span { font-weight: 900; font-size: 1.3rem; margin-bottom: 2px; }
-        .ob-content small { font-weight: 600; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; transition: color 0.3s; }
+        /* ---------- 08 · UI Kit ----------
+           Aucune ombre portée, aucun relief. Un bouton est une forme
+           pleine, un contour, ou rien du tout. */
+        .ui-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 3rem; align-items: start; }
+        .ui-colonne { display: flex; flex-direction: column; gap: 1.5rem; align-items: flex-start; }
 
-        .type-specimen { background: var(--card-bg); padding: 50px; border-radius: var(--radius); display: flex; flex-direction: column; gap: 2.5rem; }
-        .type-row { display: flex; flex-direction: column; gap: 0.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(var(--text-rgb), 0.1); }
-        .type-row:last-child { border-bottom: none; padding-bottom: 0; }
-        .type-label { font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-        .type-demo { margin: 0; }
-        .type-h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; letter-spacing: -2px; line-height: 1; }
-        .type-h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; line-height: 1.2; }
-        .type-body { font-size: 1.1rem; max-width: 650px; line-height: 1.6; }
+        .btn {
+            height: 52px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0 1.6em;
+            font-size: 0.98rem;
+            font-weight: 700;
+            font-family: var(--font);
+            border-radius: 0.6rem;
+            border: 1.5px solid transparent;
+            background: transparent;
+            color: var(--encre-1);
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+        .btn-plein { background: var(--text); color: var(--bg); }
+        .btn-plein:hover, .btn-plein:focus-visible { background: var(--accent-ink); }
+        .btn-contour { border-color: var(--filet); }
+        .btn-contour:hover, .btn-contour:focus-visible { border-color: var(--accent-ink); color: var(--accent-ink); }
+        .btn-nu { width: auto; padding: 0 0.4em; color: var(--encre-07); }
+        .btn-nu:hover, .btn-nu:focus-visible { color: var(--accent-ink); }
 
-        .icons-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-        .icons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 1.5rem; }
-        .icon-box { background: var(--card-bg); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; cursor: default;}
-        .icon-box svg { width: 28px; height: 28px; stroke-width: 2.5; stroke: currentColor; fill: none; transition: color 0.3s ease; stroke-linecap: round; stroke-linejoin: round; }
-        .icon-box:hover { background: rgba(var(--text-rgb), 0.1); }
-        .icon-box:hover svg { color: var(--accent); }
+        .btn-icone {
+            width: 52px; height: 52px; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            border: 1.5px solid var(--filet);
+            background: transparent;
+            color: var(--encre-1);
+            cursor: pointer;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+        .btn-icone:hover, .btn-icone:focus-visible { border-color: var(--accent-ink); color: var(--accent-ink); }
+        .btn-icone svg { width: 1.3rem; height: 1.3rem; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
-        .assets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .asset-card { border-radius: var(--radius); overflow: hidden; background: var(--card-bg); }
-        .asset-card.dark-bg { background: var(--text); color: var(--bg); }
-        .asset-preview { height: 200px; display: flex; align-items: center; justify-content: center; padding: 2rem; }
-        .asset-preview img { max-width: 100%; max-height: 80px; object-fit: contain; }
-        .asset-preview.small-logo img { max-height: 100px; }
-        .asset-info { padding: 1.5rem 2rem 2rem; }
-        .asset-info h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .asset-info p { font-size: 1rem; color: rgba(var(--text-rgb), 0.7); font-weight: 500; }
-        .asset-card.dark-bg .asset-info p { color: var(--bg); opacity: 0.8; }
+        .champ {
+            height: 52px;
+            width: 100%;
+            padding: 0 1.1em;
+            font-size: 0.98rem;
+            font-family: inherit;
+            font-weight: 600;
+            color: var(--encre-1);
+            background: var(--bg);
+            border: 1.5px solid var(--filet);
+            border-radius: 0.6rem;
+            transition: border-color 0.2s ease;
+        }
+        .champ::placeholder { color: var(--encre-045); }
+        .champ:focus { border-color: var(--accent-ink); }
 
-        .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 220px); gap: 1.5rem; }
-        .bento-item { border-radius: 1.5rem; overflow: hidden; position: relative; background: var(--card-bg); }
-        .bento-item img { width: 100%; height: 100%; object-fit: cover; }
-        .bento-large { grid-column: span 2; grid-row: span 2; }
-        .bento-small-1 { grid-column: 3; grid-row: 1; }
-        .bento-small-2 { grid-column: 3; grid-row: 2; }
-        
-        .texture-display {
-            background-color: rgba(var(--text-rgb), 0.04);
+        .segments {
+            display: flex;
+            position: relative;
+            width: 100%;
+            height: 52px;
+            padding: 0.3rem;
+            border: 1.5px solid var(--filet);
+            border-radius: 0.6rem;
+        }
+        .segments input { position: absolute; opacity: 0; width: 0; height: 0; }
+        .segments label {
+            flex: 1; z-index: 2;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.88rem; font-weight: 700;
+            color: var(--encre-05);
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .segments label:hover { color: var(--accent-ink); }
+        .segments .curseur {
+            position: absolute;
+            top: 0.3rem; bottom: 0.3rem; left: 0.3rem;
+            width: calc((100% - 0.6rem) / 3);
+            border-radius: 0.4rem;
+            background: var(--voile);
+            border: 1px solid var(--filet-fin);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1;
+        }
+        #seg-1:checked ~ .curseur { transform: translateX(0); }
+        #seg-2:checked ~ .curseur { transform: translateX(100%); }
+        #seg-3:checked ~ .curseur { transform: translateX(200%); }
+        #seg-1:checked ~ label[for="seg-1"],
+        #seg-2:checked ~ label[for="seg-2"],
+        #seg-3:checked ~ label[for="seg-3"] { color: var(--encre-1); }
+
+        .bascule-label { display: inline-flex; align-items: center; gap: 0.9rem; cursor: pointer; }
+        .bascule-etat { position: absolute; opacity: 0; width: 0; height: 0; }
+        .bascule {
+            position: relative;
+            width: 58px; height: 30px;
+            border-radius: 15px;
+            border: 1.5px solid var(--filet);
+            transition: background-color 0.25s ease, border-color 0.25s ease;
+        }
+        .bascule-pastille {
+            position: absolute; top: 3px; left: 3px;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: var(--text);
+            opacity: 0.35;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+        }
+        .bascule-etat:checked + .bascule { border-color: var(--accent-ink); }
+        .bascule-etat:checked + .bascule .bascule-pastille { transform: translateX(28px); background: var(--accent-ink); opacity: 1; }
+        .bascule-texte { font-weight: 700; font-size: 0.92rem; color: var(--encre-05); }
+        .bascule-etat:checked ~ .bascule-texte { color: var(--encre-1); }
+
+        .depot {
+            width: 100%;
+            padding: 2.25rem 1.5rem;
+            display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+            text-align: center;
+            border: 1.5px dashed var(--filet);
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: border-color 0.2s ease, color 0.2s ease;
+            color: var(--encre-07);
+        }
+        .depot:hover, .depot:focus-visible { border-color: var(--accent-ink); color: var(--accent-ink); }
+        .depot svg { width: 34px; height: 34px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; opacity: 0.75; }
+        .depot b { font-weight: 700; font-size: 0.98rem; }
+        .depot small { font-size: 0.85rem; color: var(--encre-045); }
+
+        .carte {
+            width: 100%;
+            display: flex; flex-direction: column; gap: 0.9rem;
+            padding: 1.25rem;
+            border: 1px solid var(--filet);
+            border-radius: var(--rayon);
+            background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+        .carte:hover { border-color: var(--accent-ink); }
+        .carte:hover h4 { color: var(--accent-ink); }
+        .carte-visuel { width: 100%; height: 130px; border-radius: 0.8rem; overflow: hidden; background: var(--voile); }
+        .carte-visuel img { width: 100%; height: 100%; object-fit: cover; }
+        .carte h4 { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.25rem; transition: color 0.2s ease; }
+        .carte p { font-size: 0.9rem; color: var(--encre-07); line-height: 1.5; }
+
+        .etiquettes { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .etiquette {
+            font-size: 0.76rem; font-weight: 700;
+            padding: 0.3rem 0.75rem;
+            border-radius: 100px;
+            border: 1px solid var(--filet);
+            color: var(--encre-07);
+        }
+        .etiquette-forte { border-color: transparent; background: var(--voile); color: var(--encre-1); }
+
+        /* ---------- 09 · Images ---------- */
+        .bento { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 200px; gap: 1.25rem; }
+        .bento-item { border-radius: var(--rayon); overflow: hidden; border: 1px solid var(--filet); }
+        .bento-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .bento-grand { grid-column: span 2; grid-row: span 2; }
+        .bento-matiere {
+            display: flex; align-items: center; justify-content: center;
+            background-color: var(--voile);
             background-image: url('media/cream-paper.png');
             background-blend-mode: color-burn;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            width: 100%;
+            font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.8rem;
+            color: var(--encre-07);
             height: 100%;
-            color: var(--text);
-            box-shadow: inset 0 0 40px rgba(var(--text-rgb), 0.1);
         }
-        .texture-display span { font-weight: 900; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 0; }
+        :root[data-theme="dark"] .bento-matiere { background-image: none; }
 
-        .ui-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem; align-items: start; padding: 2rem 0; width: 100%; }
-        .ui-column { display: flex; flex-direction: column; gap: 2.5rem; align-items: flex-start; }
+        /* ---------- 10 · Ressources ---------- */
+        .res-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .res-carte { border: 1px solid var(--filet); border-radius: var(--rayon); overflow: hidden; display: flex; flex-direction: column; }
+        .res-apercu { height: 170px; display: flex; align-items: center; justify-content: center; padding: 1.75rem; background-image: linear-gradient(var(--voile-fin), var(--voile-fin)); }
+        .res-apercu img { max-width: 100%; max-height: 84px; object-fit: contain; }
+        .res-apercu.res-petit img { max-height: 96px; }
+        .res-sombre { background: var(--text); }
+        .res-sombre img { filter: brightness(0) invert(1); }
+        :root[data-theme="dark"] .res-sombre { background: #0E0D11; }
+        .res-info { padding: 1.25rem 1.4rem 1.4rem; flex: 1; display: flex; flex-direction: column; gap: 0.5rem; }
+        .res-info h4 { font-size: 1.05rem; font-weight: 800; }
+        .res-info p { font-size: 0.9rem; color: var(--encre-07); line-height: 1.5; }
+        .res-liens { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; padding-top: 0.75rem; }
+        .res-liens a {
+            font-size: 0.82rem; font-weight: 700;
+            padding: 0.4rem 0.9rem;
+            border: 1.5px solid var(--filet);
+            border-radius: 100px;
+            color: var(--encre-1);
+            text-decoration: none;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+        .res-liens a:hover, .res-liens a:focus-visible { border-color: var(--accent-ink); color: var(--accent-ink); }
 
-        button.secondary, button.primary, .icon-button, .segmented-control, .input-field, .drop-zone, .exp-card, .tool-card { border: none !important; outline: none !important; }
+        /* ---------- 01 · Voix ---------- */
+        .voix-pilier {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 3rem;
+            padding-bottom: 3rem;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--filet-fin);
+        }
+        .voix-pilier:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .voix-desc p { color: var(--encre-07); }
+        .voix-exemples { display: flex; flex-direction: column; gap: 1.5rem; }
+        .voix-paire { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .voix-oui, .voix-non { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.98rem; }
+        .voix-oui { color: var(--encre-078); font-weight: 600; }
+        .voix-non { color: var(--encre-045); font-weight: 500; }
+        .voix-marque { flex-shrink: 0; width: 1.15rem; height: 1.15rem; margin-top: 0.2rem; }
+        .voix-marque svg { width: 100%; height: 100%; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
-        button.secondary { height: 54px; display: flex; align-items: center; justify-content: center; width: 100%; color: var(--text); padding: 0 1.7em; font-size: 16px; font-weight: 700; border-radius: 0.5em; background: var(--bg); cursor: pointer; transition: all 0.3s ease; box-shadow: 4px 4px 8px rgba(var(--text-rgb), 0.1), -4px -4px 8px var(--hi); font-family: var(--font); }
-        button.secondary:hover { color: var(--accent); }
-        button.secondary:active { box-shadow: inset 3px 3px 6px rgba(var(--text-rgb), 0.1), inset -3px -3px 6px var(--hi); }
-
-        button.primary { height: 54px; display: flex; align-items: center; justify-content: center; width: 100%; color: var(--bg); padding: 0 1.7em; font-size: 16px; font-weight: 700; border-radius: 0.5em; background: var(--text); cursor: pointer; transition: all 0.3s ease; box-shadow: 6px 6px 12px rgba(var(--text-rgb), 0.15), -6px -6px 12px var(--hi-strong), inset 1px 1px 2px rgba(255, 255, 255, 0.15); font-family: var(--font); }
-        button.primary:hover { color: var(--accent-light); }
-        button.primary:active { box-shadow: inset 4px 4px 8px rgba(0,0,0,0.8), inset -4px -4px 8px rgba(255,255,255,0.05); }
-
-        .icon-button { display: flex; justify-content: center; align-items: center; width: 54px; height: 54px; border-radius: 50%; color: var(--text); background: var(--bg); cursor: pointer; transition: all 0.3s ease; box-shadow: 4px 4px 8px rgba(var(--text-rgb), 0.1), -4px -4px 8px var(--hi); padding: 0; align-self: flex-start; }
-        .icon-button:hover { color: var(--accent); }
-        .icon-button:active { box-shadow: inset 3px 3px 6px rgba(var(--text-rgb), 0.1), inset -3px -3px 6px var(--hi); }
-        .icon-button svg { width: 1.4rem; height: 1.4rem; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; fill: none; }
-
-
-        button.ghost { height: 54px; display: flex; align-items: center; justify-content: center; width: 100%; color: var(--text); padding: 0 1.7em; font-size: 16px; font-weight: 700; border-radius: 0.5em; background: transparent; border: 1.5px solid rgba(var(--text-rgb), 0.25) !important; cursor: pointer; transition: all 0.3s ease; font-family: var(--font); }
-        button.ghost:hover { border-color: var(--accent) !important; color: var(--accent); }
-
-        .chip-cluster { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .brand-tag { font-size: 0.76rem; font-weight: 700; color: var(--accent); background: rgba(156, 119, 245, 0.12); padding: 0.28rem 0.75rem; border-radius: 100px; }
-        .brand-chip { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.42rem 0.85rem; border-radius: 100px; background: var(--card-bg); font-size: 0.85rem; font-weight: 600; opacity: 0.85; }
-
-        .toggle-label { display: inline-flex; align-items: center; cursor: pointer; color: var(--text); }
-        .toggle-state { display: none; }
-        .toggle { position: relative; height: 32px; width: 64px; border-radius: 16px; background: rgba(197, 106, 106, 0.15); box-shadow: inset 3px 3px 6px rgba(var(--text-rgb), 0.1), inset -3px -3px 6px var(--hi); transition: background 0.3s ease; }
-        .indicator { position: absolute; top: 4px; left: 4px; height: 24px; width: 24px; background: var(--bg); border-radius: 50%; box-shadow: 2px 2px 4px rgba(var(--text-rgb), 0.15), -2px -2px 4px var(--hi-strong); transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
-        .toggle-state:checked + .toggle { background: rgba(96, 150, 117, 0.15); }
-        .toggle-state:checked + .toggle .indicator { transform: translateX(32px); }
-        .toggle-text { margin-left: 16px; font-weight: 700; color: var(--negative); transition: color 0.3s ease; width: 85px; }
-        .toggle-state:checked ~ .toggle-text { color: var(--positive); }
-        .toggle-state:not(:checked) ~ .toggle-text::before { content: 'Désactivé'; }
-        .toggle-state:checked ~ .toggle-text::before { content: 'Activé'; }
-
-        .segmented-control { margin: 0; display: flex; position: relative; align-items: center; background: var(--card-bg); padding: 0.4em; border-radius: 0.7em; box-shadow: inset 3px 3px 6px rgba(var(--text-rgb), 0.1), inset -3px -3px 6px var(--hi); width: 100%; height: 54px; }
-        .segmented-control input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
-        .segmented-control label { flex: 1; cursor: pointer; height: 100%; display: flex; align-items: center; justify-content: center; line-height: 1; text-align: center; font-size: 14px; font-weight: 700; color: rgba(var(--text-rgb), 0.7); z-index: 2; transition: color 0.3s ease; }
-        .segmented-control label:hover { color: var(--accent); }
-        .slider { position: absolute; top: 0.4em; bottom: 0.4em; left: 0.4em; width: calc((100% - 0.8em) / 3); border-radius: 0.4em; background: var(--bg); box-shadow: 3px 3px 6px rgba(var(--text-rgb), 0.04), -3px -3px 6px var(--hi); transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); z-index: 1; }
-        #high:checked ~ .slider { transform: translateX(0); }
-        #medium:checked ~ .slider { transform: translateX(100%); }
-        #low:checked ~ .slider { transform: translateX(200%); }
-        #high:checked ~ label[for="high"], #medium:checked ~ label[for="medium"], #low:checked ~ label[for="low"] { color: var(--text); }
-
-        .tooltip-wrapper { position: relative; display: inline-flex; cursor: pointer; z-index: 20; }
-        .tooltip-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--bg); color: var(--text); display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 5px rgba(var(--text-rgb), 0.1), -2px -2px 5px var(--hi); transition: all 0.3s ease; }
-        .tooltip-icon svg { width: 18px; height: 18px; stroke-width: 2.5; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round;}
-        .tooltip-wrapper:hover .tooltip-icon { color: var(--accent); }
-        .tooltip-wrapper.active .tooltip-icon { box-shadow: inset 2px 2px 5px rgba(var(--text-rgb), 0.1), inset -2px -2px 5px var(--hi); color: var(--accent); }
-        .tooltip-content { position: absolute; bottom: calc(100% + 12px); left: 0; background: var(--surface); color: var(--text); padding: 1rem; border-radius: 0.8rem; font-size: 0.9rem; font-weight: 600; text-align: left; width: max-content; max-width: 240px; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 15px 35px rgba(var(--text-rgb), 0.1), 0 5px 15px rgba(var(--text-rgb), 0.04); border: 1px solid rgba(var(--text-rgb), 0.04); pointer-events: none; }
-        .tooltip-wrapper.active .tooltip-content { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
-
-        .input-field { height: 54px; background: var(--bg); padding: 0 1.2em; font-size: 16px; font-family: inherit; color: var(--text); border-radius: 0.5em; box-shadow: inset 3px 3px 6px rgba(var(--text-rgb), 0.1), inset -3px -3px 6px var(--hi); transition: all 0.3s ease; width: 100%; font-weight: 600;}
-        .input-field:focus { box-shadow: inset 5px 5px 10px rgba(var(--text-rgb), 0.1), inset -5px -5px 10px var(--hi); }
-        .input-field::placeholder { color: rgba(var(--text-rgb), 0.4); }
-
-        .drop-zone { width: 100%; padding: 2.5rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg); border-radius: 1em; box-shadow: inset 5px 5px 12px rgba(var(--text-rgb), 0.1), inset -5px -5px 12px var(--hi); text-align: center; gap: 1rem; transition: all 0.3s ease; cursor: pointer; }
-        .drop-zone:hover p, .drop-zone:hover .text-small, .drop-zone:hover .drop-zone-icon { color: var(--accent); opacity: 1; }
-        .drop-zone-icon { width: 60px; height: 60px; margin-bottom: 0.5rem; opacity: 0.4; color: var(--text); transition: all 0.3s ease; }
-        .drop-zone-icon svg { width: 100%; height: 100%; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-        .drop-zone p { margin: 0; color: rgba(var(--text-rgb), 0.7); font-size: 16px; font-weight: 700; transition: color 0.3s ease; }
-        .drop-zone .text-small { color: rgba(var(--text-rgb), 0.4); font-size: 14px; font-weight: 600; transition: color 0.3s ease; }
-
-        .exp-card { background: var(--bg); border-radius: 1.5rem; padding: 1.5rem; box-shadow: 6px 6px 14px rgba(var(--text-rgb), 0.1), -6px -6px 14px var(--hi); display: flex; flex-direction: column; gap: 1rem; width: 100%; transition: all 0.3s ease; cursor: pointer; }
-        .exp-card:hover { box-shadow: 12px 12px 24px rgba(var(--text-rgb), 0.1), -12px -12px 24px var(--hi); }
-        .exp-card:hover h3 { color: var(--accent); }
-        .exp-card:active { box-shadow: inset 3px 3px 8px rgba(var(--text-rgb), 0.1), inset -3px -3px 8px var(--hi); }
-        .exp-cover { width: 100%; height: 140px; border-radius: 1rem; background: var(--card-bg); overflow: hidden; }
-        .exp-cover img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
-        .exp-content h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--text); transition: color 0.3s ease; }
-        .exp-content p { font-size: 0.9rem; color: rgba(var(--text-rgb), 0.7); line-height: 1.5; margin: 0; font-weight: 500;}
-
-        .tool-card { background: var(--bg); border-radius: 1.5rem; padding: 1.5rem; box-shadow: 6px 6px 14px rgba(var(--text-rgb), 0.1), -6px -6px 14px var(--hi); display: flex; align-items: flex-start; gap: 1.2rem; width: 100%; transition: all 0.3s ease; cursor: pointer; }
-        .tool-card:hover { box-shadow: 12px 12px 24px rgba(var(--text-rgb), 0.1), -12px -12px 24px var(--hi); }
-        .tool-card:hover h3 { color: var(--accent); }
-        .tool-card:active { box-shadow: inset 3px 3px 8px rgba(var(--text-rgb), 0.1), inset -3px -3px 8px var(--hi); }
-        .tool-icon-wrapper { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); }
-        .tool-icon-wrapper svg { width: 26px; height: 26px; stroke-width: 2.5; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-        .tool-content h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.2rem; color: var(--text); transition: color 0.3s ease; }
-        .tool-content p { font-size: 0.9rem; color: rgba(var(--text-rgb), 0.7); line-height: 1.4; margin: 0; font-weight: 500;}
-
-        .footer {
-            position: relative;
+        /* ---------- Pied ---------- */
+        .pied {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 120px 8% 60px;
+            padding: 6rem var(--marge) 4rem;
             font-weight: 900;
-            font-size: 1.5rem;
-            letter-spacing: 3px;
+            font-size: 1.4rem;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
-            overflow: hidden;
-            width: 100%;
-            max-width: none;
-            margin: 0;
         }
-        .footer-dots { top: auto; bottom: 0; height: 250px; -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%); mask-image: linear-gradient(to top, black 0%, transparent 100%); z-index: -1; }
 
-        @media (max-width: 1024px) { 
-            .ui-grid { grid-template-columns: 1fr 1fr; } 
-            .icons-layout { grid-template-columns: 1fr; } 
-            .circle-60 { width: 400px; height: 400px; right: 0; }
-            .circle-30 { width: 250px; height: 250px; }
-            .circle-10 { width: 100px; height: 100px; }
+        /* ---------- Les apparitions ----------
+           Reprises de styles/fond.css. Rien n'est caché tant que le
+           script en tête de document n'a pas posé .fond-anime sur
+           <html>, et il ne la pose ni sans JavaScript, ni quand on
+           demande moins de mouvement. */
+        .fond-anime :where(.section-num, .section h2, .section-intro, .sous-section, .bloc, .hero-maj, .hero h1, .hero-sub, .voix-pilier, .encre-echelle, .theme-carte, .type-rang, .note-cadre, .icones-grille, .plaques, .mvt-liste, .ui-colonne, .bento-item, .res-carte, .papier-demo) {
+            opacity: 0;
+            transform: translateY(var(--anim-monte, 0.85rem));
+            transition: opacity 0.6s ease var(--anim-retard, 0s),
+                        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--anim-retard, 0s);
         }
-        @media (max-width: 768px) { 
-            .ui-grid, .voice-pillar { grid-template-columns: 1fr; } 
-            .example-pair { grid-template-columns: 1fr; } 
-            .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
-            .bento-large { grid-column: span 1; grid-row: auto; height: 350px; }
-            .bento-small-1, .bento-small-2 { grid-column: span 1; grid-row: auto; height: 200px; }
-            .section { padding: 80px 6%; } 
-            .color-proportions { height: 400px; }
+        /* Un titre et sa rangée sont posés au pixel près l'un sur
+           l'autre : les faire glisser referait le saut de ligne qu'on
+           cherche à supprimer. */
+        .fond-anime :where(.section h2) { --anim-monte: 0px; }
+        .fond-anime [data-anim="vu"] { opacity: 1; --anim-monte: 0px; }
+
+        .fond-anime .points-champ, .fond-anime .regles {
+            opacity: 0;
+            transition: opacity 0.35s ease var(--anim-retard, 0s);
+        }
+        .fond-anime .points-champ[data-anim="vu"], .fond-anime .regles[data-anim="vu"] { opacity: 1; }
+
+        @media (max-width: 900px) {
+            .voix-pilier, .voix-paire { grid-template-columns: 1fr; }
+            .bento { grid-template-columns: 1fr; }
+            .bento-grand { grid-column: span 1; grid-row: span 1; height: 280px; }
+            .section { padding: 5rem 6%; }
+            .encre-rang { grid-template-columns: 3.5rem 1fr; }
+            .encre-val { grid-column: 2; }
+            .mvt-rang { grid-template-columns: 1fr; gap: 0.3rem; }
         }
     </style>
 </head>
 <body>
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
 
-    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
-    <div class="dots-bg dynamic-dots dots-bg-bottom" data-height="180" aria-hidden="true"></div>
+    <div class="points-champ" aria-hidden="true"></div>
+    <div class="regles" aria-hidden="true"></div>
 
     <nav class="navbar" data-navbar-root></nav>
 
     <header class="hero" id="main">
-        <div class="last-update">Dernière mise à jour : Juillet 2026</div>
-        <h1>Directives de Marque<span class="dot">.</span></h1>
-        <p class="hero-sub">Le système de design et l'identité visuelle de référence pour mes outils et expérimentations personnels.</p>
+        <p class="hero-maj" data-i18n="bg_maj">Dernière mise à jour : août 2026</p>
+        <h1 class="hero-note">
+            <span data-i18n="bg_titre">Directives de marque</span><span class="point">.</span>
+            <span class="note note--marge" aria-hidden="true">
+                <span class="note-texte" data-i18n="bg_note_hero">Le système de pierre.gumi.ch</span>
+                <svg class="note-trait" viewBox="0 0 170 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 8c28-4 60-6 94-4 22 1 42 2 68 1"></path>
+                </svg>
+            </span>
+        </h1>
+        <p class="hero-sub" data-i18n="bg_hero_sub">Je dessine et je planifie mes projets sur du papier pointé. Le site est posé sur le même support, et cette page en donne les règles avant qu'elles passent sur le reste du portfolio.</p>
     </header>
 
-    <section class="section" id="identity">
-        <div class="section-label">01</div>
-        <h2>Voix</h2>
-        <p class="section-intro">Mon ton est celui d'un expert technique pragmatique. Je suis direct, créatif, et je vais à l'essentiel sans utiliser de jargon superflu.</p>
+    <!-- ============ 01 · VOIX ============ -->
+    <section class="section" id="voix">
+        <span class="section-num">01</span>
+        <h2 data-i18n="bg_s1_titre">Voix</h2>
+        <p class="section-intro" data-i18n="bg_s1_intro">Mon ton est celui d'un expert technique pragmatique. Je suis direct, créatif, et je vais à l'essentiel sans utiliser de jargon superflu.</p>
 
-        <div class="voice-pillar">
-            <div class="pillar-desc">
-                <h3>Être direct et utile</h3>
-                <p>J'adapte mon discours à l'interlocuteur et expose clairement les caractéristiques du sujet.</p>
+        <div class="voix-pilier">
+            <div class="voix-desc">
+                <h3 data-i18n="bg_s1_p1_titre">Être direct et utile</h3>
+                <p data-i18n="bg_s1_p1_desc">J'adapte mon discours à l'interlocuteur et expose clairement les caractéristiques du sujet.</p>
             </div>
-            <div class="pillar-examples">
-                <div class="example-pair">
-                    <div class="example-do"><span class="example-icon">✅</span> <span>"Boostez votre ROI de 20% avec cette structure de campagne Google Ads ciblée."</span></div>
-                    <div class="example-dont"><span class="example-icon">🚫</span> <span>"Notre méthode magique va faire exploser vos ventes sur les moteurs de recherche !"</span></div>
+            <div class="voix-exemples">
+                <div class="voix-paire">
+                    <p class="voix-oui"><span class="voix-marque"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span data-i18n="bg_s1_p1_oui1">« Boostez votre ROI de 20 % avec cette structure de campagne Google Ads ciblée. »</span></p>
+                    <p class="voix-non"><span class="voix-marque"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="bg_s1_p1_non1">« Notre méthode magique va faire exploser vos ventes sur les moteurs de recherche ! »</span></p>
                 </div>
-                <div class="example-pair">
-                    <div class="example-do"><span class="example-icon">✅</span> <span>"Découvrez 3 méthodes concrètes pour optimiser le temps de chargement de votre site."</span></div>
-                    <div class="example-dont"><span class="example-icon">🚫</span> <span>"Le secret incroyable pour un site parfait que tous vos concurrents vous envient."</span></div>
+                <div class="voix-paire">
+                    <p class="voix-oui"><span class="voix-marque"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span data-i18n="bg_s1_p1_oui2">« Découvrez 3 méthodes concrètes pour optimiser le temps de chargement de votre site. »</span></p>
+                    <p class="voix-non"><span class="voix-marque"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="bg_s1_p1_non2">« Le secret incroyable pour un site parfait que tous vos concurrents vous envient. »</span></p>
                 </div>
             </div>
         </div>
 
-        <div class="voice-pillar">
-            <div class="pillar-desc">
-                <h3>Écrire comme un humain</h3>
-                <p>L'IA peut aider à écrire, mais tout ce qui trahit un texte généré doit disparaître : tirets cadratins, structures en miroir (« ce n'est pas X, c'est Y »), superlatifs creux, emojis décoratifs, listes surformatées. Le texte final doit sonner comme quelqu'un qui parle.</p>
+        <div class="voix-pilier">
+            <div class="voix-desc">
+                <h3 data-i18n="bg_s1_p2_titre">Écrire comme un humain</h3>
+                <p data-i18n="bg_s1_p2_desc">L'IA peut aider à écrire, mais tout ce qui trahit un texte généré doit disparaître : tirets cadratins, structures en miroir (« ce n'est pas X, c'est Y »), superlatifs creux, emojis décoratifs, listes surformatées. Le texte final doit sonner comme quelqu'un qui parle.</p>
             </div>
-            <div class="pillar-examples">
-                <div class="example-pair">
-                    <div class="example-do"><span class="example-icon">✅</span> <span>"Un objectif clair : créer de l'impact, pour l'utilisateur et pour l'entreprise."</span></div>
-                    <div class="example-dont"><span class="example-icon">🚫</span> <span>"Un objectif clair — créer de l'impact — pour l'utilisateur et l'entreprise."</span></div>
+            <div class="voix-exemples">
+                <div class="voix-paire">
+                    <p class="voix-oui"><span class="voix-marque"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span data-i18n="bg_s1_p2_oui1">« Un objectif clair : créer de l'impact, pour l'utilisateur et pour l'entreprise. »</span></p>
+                    <p class="voix-non"><span class="voix-marque"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="bg_s1_p2_non1">« Un objectif clair — créer de l'impact — pour l'utilisateur et l'entreprise. »</span></p>
                 </div>
-                <div class="example-pair">
-                    <div class="example-do"><span class="example-icon">✅</span> <span>"La refonte a triplé le trafic en six mois."</span></div>
-                    <div class="example-dont"><span class="example-icon">🚫</span> <span>"Ce n'est pas une simple refonte, c'est une transformation radicale de l'expérience ✨"</span></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="voice-pillar">
-            <div class="pillar-desc">
-                <h3>Partager le processus</h3>
-                <p>Je communique efficacement les enjeux et les délais afin d'avoir un contexte clair.</p>
-            </div>
-            <div class="pillar-examples">
-                <div class="example-pair">
-                    <div class="example-do"><span class="example-icon">✅</span> <span>"La V1 sera livrée mardi. Nous aurons besoin de vos retours avant jeudi midi."</span></div>
-                    <div class="example-dont"><span class="example-icon">🚫</span> <span>"On gère ça très vite, promis, ne vous inquiétez pas pour la suite."</span></div>
-                </div>
-                <div class="example-pair">
-                    <div class="example-do"><span class="example-icon">✅</span> <span>"La validation de la campagne prendra deux jours de plus suite à un délai imposé par la plateforme."</span></div>
-                    <div class="example-dont"><span class="example-icon">🚫</span> <span>"Tout avance super bien, c'est juste un petit détail technique sans importance."</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="colors">
-        <div class="section-label">02</div>
-        <h2>Couleurs</h2>
-        <p class="section-intro">La couleur structure l'information. Pour maintenir l'équilibre visuel, j'applique la règle des 60 / 30 / 10 à travers des formes circulaires organiques.</p>
-        
-        <div class="color-proportions no-select">
-            <div class="color-circle circle-60" onclick="copyHex(this, '#F9F4EF')" title="Copier la couleur">
-                <span>60%</span>
-                <small>#F9F4EF</small>
-            </div>
-            <div class="color-circle circle-30" onclick="copyHex(this, '#1A1A1A')" title="Copier la couleur">
-                <span>30%</span>
-                <small>#1A1A1A</small>
-            </div>
-            <div class="color-circle circle-10" onclick="copyHex(this, '#9C77F5')" title="Copier la couleur">
-                <span>10%</span>
-                <small>#9C77F5</small>
-            </div>
-        </div>
-
-        <div class="semantic-colors-section" style="margin-top: 80px;">
-            <h3>Déclinaisons de l'accent</h3>
-            <p class="swatch-sub">Le violet existe en deux intensités par thème : l'accent porte l'action et les liens, sa version claire sert aux survols sur fonds sombres. Le thème sombre éclaircit les deux pour préserver le contraste.</p>
-            <div class="opacity-grid no-select">
-                <div class="opacity-box dark-bg" style="background: #9C77F5;" onclick="copyHex(this, '#9C77F5')" title="Copier la couleur">
-                    <div class="ob-content"><span>Accent</span><small>#9C77F5 · clair</small></div>
-                </div>
-                <div class="opacity-box light-bg" style="background: #D1BFFF;" onclick="copyHex(this, '#D1BFFF')" title="Copier la couleur">
-                    <div class="ob-content"><span>Accent light</span><small>#D1BFFF · clair</small></div>
-                </div>
-                <div class="opacity-box dark-bg" style="background: #B49BFF;" onclick="copyHex(this, '#B49BFF')" title="Copier la couleur">
-                    <div class="ob-content"><span>Accent</span><small>#B49BFF · sombre</small></div>
-                </div>
-                <div class="opacity-box light-bg" style="background: #D8CAFF;" onclick="copyHex(this, '#D8CAFF')" title="Copier la couleur">
-                    <div class="ob-content"><span>Accent light</span><small>#D8CAFF · sombre</small></div>
+                <div class="voix-paire">
+                    <p class="voix-oui"><span class="voix-marque"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span data-i18n="bg_s1_p2_oui2">« La refonte a triplé le trafic en six mois. »</span></p>
+                    <p class="voix-non"><span class="voix-marque"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="bg_s1_p2_non2">« Ce n'est pas une simple refonte, c'est une transformation radicale de l'expérience ✨ »</span></p>
                 </div>
             </div>
         </div>
 
-        <div class="semantic-colors-section" style="margin-top: 80px;">
-            <h3>Thème sombre</h3>
-            <p class="swatch-sub">Le site vit dans les deux thèmes (bascule dans la barre de navigation). Le sombre n'est pas une inversion : le fond tire vers le violet-noir, le texte vers l'ivoire, et les couleurs sémantiques sont ravivées pour rester lisibles.</p>
-            <div class="opacity-grid no-select">
-                <div class="opacity-box dark-bg" style="background: #1B1A1F;" onclick="copyHex(this, '#1B1A1F')" title="Copier la couleur">
-                    <div class="ob-content"><span>Fond</span><small>#1B1A1F</small></div>
-                </div>
-                <div class="opacity-box dark-bg" style="background: #2A2831;" onclick="copyHex(this, '#2A2831')" title="Copier la couleur">
-                    <div class="ob-content"><span>Surface</span><small>#2A2831</small></div>
-                </div>
-                <div class="opacity-box light-bg" style="background: #F1ECE4;" onclick="copyHex(this, '#F1ECE4')" title="Copier la couleur">
-                    <div class="ob-content"><span>Texte</span><small>#F1ECE4</small></div>
-                </div>
-                <div class="opacity-box dark-bg" style="background: #6FA783;" onclick="copyHex(this, '#6FA783')" title="Copier la couleur">
-                    <div class="ob-content"><span>Positif</span><small>#6FA783</small></div>
-                </div>
-                <div class="opacity-box dark-bg" style="background: #D98B8B;" onclick="copyHex(this, '#D98B8B')" title="Copier la couleur">
-                    <div class="ob-content"><span>Négatif</span><small>#D98B8B</small></div>
-                </div>
+        <div class="voix-pilier">
+            <div class="voix-desc">
+                <h3 data-i18n="bg_s1_p3_titre">Partager le processus</h3>
+                <p data-i18n="bg_s1_p3_desc">Je communique efficacement les enjeux et les délais afin d'avoir un contexte clair.</p>
             </div>
-        </div>
-
-        <div class="semantic-colors-section" style="margin-top: 80px;">
-            <h3>Couleurs sémantiques</h3>
-            <div class="opacity-grid no-select">
-                <div class="opacity-box" style="background: var(--positive); color: var(--bg);" onclick="copyHex(this, '#609675')" title="Copier la valeur rgba">
-                    <div class="ob-content"><span>Positif</span><small>#609675</small></div>
+            <div class="voix-exemples">
+                <div class="voix-paire">
+                    <p class="voix-oui"><span class="voix-marque"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span data-i18n="bg_s1_p3_oui1">« La V1 sera livrée mardi. Nous aurons besoin de vos retours avant jeudi midi. »</span></p>
+                    <p class="voix-non"><span class="voix-marque"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="bg_s1_p3_non1">« On gère ça très vite, promis, ne vous inquiétez pas pour la suite. »</span></p>
                 </div>
-                <div class="opacity-box" style="background: var(--negative); color: var(--bg);" onclick="copyHex(this, '#C56A6A')" title="Copier la valeur rgba">
-                    <div class="ob-content"><span>Négatif</span><small>#C56A6A</small></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="opacity-section">
-            <h3>Nuances d'opacité (encre)</h3>
-            <div class="opacity-grid no-select">
-                <div class="opacity-box dark-bg" style="background: rgba(var(--text-rgb), 1);" onclick="copyHex(this, 'rgba(26, 26, 26, 1)')" title="Copier la valeur rgba">
-                    <div class="ob-content"><span>100%</span><small>Texte</small></div>
-                </div>
-                <div class="opacity-box dark-bg" style="background: rgba(var(--text-rgb), 0.7);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.7)')" title="Copier la valeur rgba">
-                    <div class="ob-content"><span>70%</span><small>Détails</small></div>
-                </div>
-                <div class="opacity-box dark-bg" style="background: rgba(var(--text-rgb), 0.4);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.4)')" title="Copier la valeur rgba">
-                    <div class="ob-content"><span>40%</span><small>Icônes</small></div>
-                </div>
-                <div class="opacity-box light-bg" style="background: rgba(var(--text-rgb), 0.1);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.1)')" title="Copier la valeur rgba">
-                    <div class="ob-content"><span>10%</span><small>Ombres</small></div>
-                </div>
-                <div class="opacity-box light-bg" style="background: rgba(var(--text-rgb), 0.04);" onclick="copyHex(this, 'rgba(26, 26, 26, 0.04)')" title="Copier la valeur rgba">
-                    <div class="ob-content"><span>4%</span><small>Fonds</small></div>
+                <div class="voix-paire">
+                    <p class="voix-oui"><span class="voix-marque"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span data-i18n="bg_s1_p3_oui2">« La validation de la campagne prendra deux jours de plus suite à un délai imposé par la plateforme. »</span></p>
+                    <p class="voix-non"><span class="voix-marque"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="bg_s1_p3_non2">« Tout avance super bien, c'est juste un petit détail technique sans importance. »</span></p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section" id="typography">
-        <div class="section-label">03</div>
-        <h2>Typographie</h2>
-        <p class="section-intro">Une hiérarchie franche et sans ambiguïté. Urbanist est utilisée de bout en bout pour son équilibre géométrique. Seul le grand titre H1 porte le point de ponctuation emblématique.</p>
-        
-        <div class="type-specimen">
-            <div class="type-row">
-                <span class="type-label">H1 / Urbanist Black 900 / 100% Noir (#1A1A1A)</span>
-                <h1 class="type-demo type-h1">Direct et créatif<span class="dot">.</span></h1>
+    <!-- ============ 02 · LE PAPIER ============ -->
+    <section class="section" id="papier">
+        <span class="section-num">02</span>
+        <h2 data-i18n="bg_s2_titre">Le papier</h2>
+        <p class="section-intro" data-i18n="bg_s2_intro">Le fond de chaque page est une feuille de papier pointé, celle des carnets sur lesquels je dessine et je planifie mes projets. Ce n'est pas une texture posée derrière le contenu : les titres s'écrivent sur ses rangées, et les blocs se calent sur ses colonnes.</p>
+
+        <div class="papier-demo" aria-hidden="true"><div class="demo-champ"></div></div>
+
+        <div class="sous-section">
+            <h3 data-i18n="bg_s2_h1">Une seule trame</h3>
+            <p class="sous-intro" data-i18n="bg_s2_h1_texte">Le champ entier est un halftone d'imprimeur. Le haut et le bas de page portent une trame pleine de points gras qui rétrécissent vers le centre ; ceux qui restent forment la grille du milieu, tous du même calibre. Le dégradé et la grille sont un seul dessin pris à deux moments, et l'encre ne varie jamais : c'est la taille des points qui porte le ton.</p>
+            <div class="trame-liste">
+                <div class="trame-item"><b>20 × 18 px</b><span data-i18n="bg_s2_t1">La trame pleine, celle des bandes de dégradé.</span></div>
+                <div class="trame-item"><b>80 × 72 px</b><span data-i18n="bg_s2_t2">La grille du milieu, une colonne et une rangée sur quatre. C'est elle qui porte les titres.</span></div>
+                <div class="trame-item"><b>3 px</b><span data-i18n="bg_s2_t3">Le rayon du point de grille. Il monte à 7 px au sommet de la page, et gagne encore 2,5 px vers les bords gauche et droit.</span></div>
+                <div class="trame-item"><b>250 px</b><span data-i18n="bg_s2_t4">La hauteur des bandes denses, en haut comme en bas.</span></div>
+                <div class="trame-item"><b>0,04</b><span data-i18n="bg_s2_t5">L'encre du champ, identique sur toute la page.</span></div>
             </div>
-            <div class="type-row">
-                <span class="type-label">H2 / Urbanist Bold 700 / 100% Noir (#1A1A1A)</span>
-                <h2 class="type-demo type-h2">Outils & Expérimentations</h2>
-            </div>
-            <div class="type-row">
-                <span class="type-label">Body / Urbanist Medium 500 / 100% Noir ou 70% Noir</span>
-                <p class="type-demo type-body">La variante Medium d'Urbanist garantit une lisibilité maximale pour les interfaces et les descriptions d'outils. Propre, technique et fonctionnel. Chaque mot a sa place et l'épaisseur soutient parfaitement le regard.</p>
-            </div>
+        </div>
+
+        <div class="sous-section">
+            <h3 data-i18n="bg_s2_h2">La rangée d'un titre</h3>
+            <p class="sous-intro" data-i18n="bg_s2_h2_texte">Chaque titre de section est écrit sur une rangée de la grille, et cette rangée-là est retracée par-dessus le champ à une encre de 0,18. Elle s'éteint vers les bords de l'écran sans jamais descendre sous 46 % de sa valeur. Les titres de cette page en sont la démonstration : regardez la ligne qui passe derrière chacun d'eux.</p>
+        </div>
+
+        <div class="sous-section">
+            <h3 data-i18n="bg_s2_h3">Le grain</h3>
+            <p class="sous-intro" data-i18n="bg_s2_h3_texte">Une tuile de papier de 158 × 144 px est posée en mode Produit sur le fond crème, ce qui l'assombrit d'environ 8 %. Elle appartient au thème clair et disparaît en thème sombre, où le papier n'a plus de raison d'être imité.</p>
         </div>
     </section>
 
-    <section class="section" id="icons">
-        <div class="section-label">04</div>
-        <div class="icons-layout">
-            <div class="layout-text">
-                <h2>Icônes</h2>
-                <p class="section-intro">J'utilise la bibliothèque Lucide Icons. Elles sont géométriques et utilisent une épaisseur de trait généreuse (2.5px). Elles sont pensées pour l'interface utilisateur, la manipulation de fichiers et le code.</p>
+    <!-- ============ 03 · COULEURS ============ -->
+    <section class="section" id="couleurs">
+        <span class="section-num">03</span>
+        <h2 data-i18n="bg_s3_titre">Couleurs</h2>
+        <p class="section-intro" data-i18n="bg_s3_intro">Une encre, un papier. Toute la hiérarchie se fait à l'opacité de l'encre, jamais en changeant de teinte. Le violet est réservé aux états interactifs : survol, focus clavier, élément courant. Une couleur qui apparaît sans qu'on ait rien fait n'a rien à dire.</p>
+
+        <h3 data-i18n="bg_s3_h1">L'échelle d'encre</h3>
+        <p class="sous-intro" data-i18n="bg_s3_h1_texte">Dix valeurs, chacune avec un emploi. Cliquez sur une ligne pour copier sa valeur.</p>
+        <div class="encre-echelle no-select">
+            <div class="encre-rang" onclick="copier(this, 'rgba(var(--text-rgb), 1)')" title="Copier">
+                <div class="encre-bloc" style="background: rgba(var(--text-rgb), 1);"></div>
+                <span class="encre-role" data-i18n="bg_encre_1">Titres et texte fort</span>
+                <span class="encre-val">1</span>
             </div>
-            <div class="layout-content">
-                <div class="icons-grid no-select">
-                    <!-- Outils & UI -->
-                    <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></div>
-                    <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></div>
-                    <div class="icon-box"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg></div>
-                    <div class="icon-box"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></div>
-                    <div class="icon-box"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></div>
-                    <div class="icon-box"><svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg></div>
-                    <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></div>
-                    <div class="icon-box"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></div>
-                    
-                    <!-- Chevrons -->
-                    <div class="icon-box"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
-                    <div class="icon-box"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></div>
-                    <div class="icon-box"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg></div>
-                    <div class="icon-box"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-                </div>
+            <div class="encre-rang" onclick="copier(this, 'rgba(var(--text-rgb), 0.78)')" title="Copier">
+                <div class="encre-bloc" style="background: rgba(var(--text-rgb), 0.78);"></div>
+                <span class="encre-role" data-i18n="bg_encre_078">Paragraphes et citations</span>
+                <span class="encre-val">0,78</span>
+            </div>
+            <div class="encre-rang" onclick="copier(this, 'rgba(var(--text-rgb), 0.7)')" title="Copier">
+                <div class="encre-bloc" style="background: rgba(var(--text-rgb), 0.7);"></div>
+                <span class="encre-role" data-i18n="bg_encre_07">Introductions de section</span>
+                <span class="encre-val">0,7</span>
+            </div>
+            <div class="encre-rang" onclick="copier(this, 'rgba(var(--text-rgb), 0.62)')" title="Copier">
+                <div class="encre-bloc" style="background: rgba(var(--text-rgb), 0.62);"></div>
+                <span class="encre-role" data-i18n="bg_encre_062">Annotations manuscrites</span>
+                <span class="encre-val">0,62</span>
+            </div>
+            <div class="encre-rang" onclick="copier(this, 'rgba(var(--text-rgb), 0.5)')" title="Copier">
+                <div class="encre-bloc" style="background: rgba(var(--text-rgb), 0.5);"></div>
+                <span class="encre-role" data-i18n="bg_encre_05">Dates et mentions</span>
+                <span class="encre-val">0,5</span>
+            </div>
+            <div class="encre-rang" onclick="copier(this, 'rgba(var(--text-rgb), 0.45)')" title="Copier">
+                <div class="encre-bloc" style="background: rgba(var(--text-rgb), 0.45);"></div>
+                <span class="encre-role" data-i18n="bg_encre_045">Légendes et texte éteint</span>
+                <span class="encre-val">0,45</span>
+            </div>
+            <div class="encre-rang" onclick="copier(this, 'rgba(var(--text-rgb), 0.14)')" title="Copier">
+                <div class="encre-bloc" style="background: rgba(var(--text-rgb), 0.14);"></div>
+                <span class="encre-role" data-i18n="bg_encre_014">Filets et bordures</span>
+                <span class="encre-val">0,14</span>
+            </div>
+            <div class="encre-rang" onclick="copier(this, 'rgba(var(--text-rgb), 0.12)')" title="Copier">
+                <div class="encre-bloc" style="background: rgba(var(--text-rgb), 0.12);"></div>
+                <span class="encre-role" data-i18n="bg_encre_012">Bordures internes</span>
+                <span class="encre-val">0,12</span>
+            </div>
+            <div class="encre-rang" onclick="copier(this, 'rgba(var(--text-rgb), 0.035)')" title="Copier">
+                <div class="encre-bloc" style="background: rgba(var(--text-rgb), 0.035);"></div>
+                <span class="encre-role" data-i18n="bg_encre_0035">Fonds de bloc</span>
+                <span class="encre-val">0,035</span>
+            </div>
+            <div class="encre-rang" onclick="copier(this, 'rgba(var(--text-rgb), 0.022)')" title="Copier">
+                <div class="encre-bloc" style="background: rgba(var(--text-rgb), 0.022);"></div>
+                <span class="encre-role" data-i18n="bg_encre_0022">Fonds légers</span>
+                <span class="encre-val">0,022</span>
             </div>
         </div>
-    </section>
 
-    <section class="section" id="assets">
-        <div class="section-label">05</div>
-        <h2>Ressources de marque</h2>
-        <p class="section-intro">Mes logos officiels et les matières du système, téléchargeables pour les adaptations de visuels.</p>
-        
-        <div class="assets-grid">
-            <div class="asset-card">
-                <div class="asset-preview">
-                    <img src="media/Gumi-Logotype.png" alt="Gumi Logotype" onerror="this.src='https://placehold.co/200x70/transparent/9C77F5?text=GUMI.'">
+        <div class="sous-section">
+            <h3 data-i18n="bg_s3_h2">Les deux thèmes</h3>
+            <p class="sous-intro" data-i18n="bg_s3_h2_texte">Le sombre n'est pas une inversion. Le papier devient un gris violacé, l'encre passe à l'ivoire, et le violet s'éclaircit pour garder son contraste.</p>
+            <div class="theme-paire no-select">
+                <div class="theme-carte">
+                    <div class="theme-tete" style="background: #F9F4EF; color: #1A1A1A;" data-i18n="bg_theme_clair">Clair</div>
+                    <div class="theme-corps">
+                        <div class="theme-ligne"><span class="theme-puce" style="background: #F9F4EF;"></span><b data-i18n="bg_theme_papier">Papier</b><span>#F9F4EF</span></div>
+                        <div class="theme-ligne"><span class="theme-puce" style="background: #1A1A1A;"></span><b data-i18n="bg_theme_encre">Encre</b><span>#1A1A1A</span></div>
+                        <div class="theme-ligne"><span class="theme-puce" style="background: #6B45C9;"></span><b data-i18n="bg_theme_inter">Interaction</b><span>#6B45C9</span></div>
+                    </div>
                 </div>
-                <div class="asset-info">
-                    <h4>Mot-symbole (Clair)</h4>
-                    <p>Logo principal pour la navigation et les fonds clairs.</p>
-                    <div class="asset-dl"><a href="media/Gumi-Logotype.png" download>Télécharger PNG</a></div>
-                </div>
-            </div>
-            
-            <div class="asset-card dark-bg">
-                <div class="asset-preview">
-                    <img src="media/Gumi-Logotype.png" alt="Gumi Logotype Inverse" onerror="this.src='https://placehold.co/200x70/transparent/F9F4EF?text=GUMI.'" style="filter: brightness(0) invert(1);">
-                </div>
-                <div class="asset-info">
-                    <h4>Mot-symbole (Sombre)</h4>
-                    <p>Version contrastée pour les fonds sombres ou photographiques.</p>
-                </div>
-            </div>
-
-            <div class="asset-card">
-                <div class="asset-preview small-logo">
-                    <img src="media/Gumi-small.png" alt="Gumi Monogramme" onerror="this.src='https://placehold.co/100x100/transparent/9C77F5?text=G.'">
-                </div>
-                <div class="asset-info">
-                    <h4>Monogramme</h4>
-                    <p>Pour les espaces compacts : avatars, favicons.</p>
-                    <div class="asset-dl"><a href="media/Gumi-small.png" download>Télécharger PNG</a></div>
-                </div>
-            </div>
-
-            <div class="asset-card">
-                <div class="asset-preview" style="background-image: url('media/cream-paper.png'); background-color: rgba(var(--text-rgb), 0.06); background-blend-mode: color-burn;"></div>
-                <div class="asset-info">
-                    <h4>Texture papier</h4>
-                    <p>Tuile de 158x144 px, semi-transparente (alpha de 8 à 79 %, 38 % en moyenne). À poser en mode Produit (multiply) à 100 % sur le fond crème pour retrouver le rendu du site : un assombrissement moyen d'environ 8 %.</p>
-                    <div class="asset-dl"><a href="media/cream-paper.png" download>Télécharger PNG</a></div>
-                </div>
-            </div>
-
-            <div class="asset-card">
-                <div class="asset-preview" style="padding: 1rem;">
-                    <img src="media/gumi-dots-full.png" alt="Motif de points Gumi" style="max-height: 160px; width: 100%; object-fit: cover; opacity: 0.3; border-radius: 1rem;">
-                </div>
-                <div class="asset-info">
-                    <h4>Motif de points</h4>
-                    <p>Grille de 20x18 px en quinconce, rayon de 3 à 7 px croissant vers les bords. Le site le pose en encre à 4 % d'opacité ; la version pleine intensité se teinte et se dose librement. Export 3200x500, fond transparent.</p>
-                    <div class="asset-dl">
-                        <a href="media/gumi-dots-full.png" download>Pleine intensité</a>
-                        <a href="media/gumi-dots-subtle.png" download>Rendu site (4 %)</a>
+                <div class="theme-carte">
+                    <div class="theme-tete" style="background: #1B1A1F; color: #F1ECE4;" data-i18n="bg_theme_sombre">Sombre</div>
+                    <div class="theme-corps">
+                        <div class="theme-ligne"><span class="theme-puce" style="background: #1B1A1F;"></span><b data-i18n="bg_theme_papier2">Papier</b><span>#1B1A1F</span></div>
+                        <div class="theme-ligne"><span class="theme-puce" style="background: #F1ECE4;"></span><b data-i18n="bg_theme_encre2">Encre</b><span>#F1ECE4</span></div>
+                        <div class="theme-ligne"><span class="theme-puce" style="background: #B49BFF;"></span><b data-i18n="bg_theme_inter2">Interaction</b><span>#B49BFF</span></div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <section class="section" id="imagery">
-        <div class="section-label">06</div>
-        <h2>Images</h2>
-        <p class="section-intro">Mes visuels s'appuient sur des photographies brutes et un grain de papier omniprésent qui lie le design system au monde physique.</p>
-        
-        <div class="bento-grid">
-            <div class="bento-item bento-large">
-                <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80&w=800" alt="Lumière architecturale">
-            </div>
-            <div class="bento-item bento-small-1">
-                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800" alt="Détail textural">
-            </div>
-            <div class="bento-item bento-small-2">
-                <div class="texture-display">
-                    <span>Grain de papier</span>
-                </div>
-            </div>
+        <div class="sous-section">
+            <h3 data-i18n="bg_s3_h3">Le violet ne se voit qu'en réponse</h3>
+            <p class="sous-intro" data-i18n="bg_s3_h3_texte">Sur pierre.gumi.ch, la couleur apparaît à cinq endroits : l'entrée courante du rail, le focus clavier, le survol d'un lien, l'icône d'un projet ouvert, et le point de la signature. Partout ailleurs, l'encre suffit. Survolez ces liens pour voir la règle à l'œuvre.</p>
+            <p class="accent-demo">
+                <a class="accent-lien" href="#papier" data-i18n="bg_s3_lien1">Un lien au repos</a>
+                <a class="accent-lien" href="#typographie" data-i18n="bg_s3_lien2">Un autre lien</a>
+                <span class="legende" data-i18n="bg_s3_lien_note">Contraste vérifié : 6,3:1 en clair, 8,9:1 en sombre.</span>
+            </p>
         </div>
     </section>
 
-    <section class="section" id="uikit">
-        <div class="section-label">07</div>
-        <h2>UI Kit</h2>
-        <p class="section-intro">Le neumorphisme sans bordures est ma signature. Il invite au clic grâce à des reliefs doux, créant une affordance tactile forte.</p>
-        
-        <div class="ui-grid">
-            
-            <!-- Colonne 1 : Boutons -->
-            <div class="ui-column">
-                <button class="secondary no-select" type="button">Bouton clair</button>
-                <button class="primary no-select" type="button">Bouton sombre</button>
-                <button class="ghost no-select" type="button">Bouton fantôme</button>
-                <button class="icon-button no-select" aria-label="Télécharger" type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
+    <!-- ============ 04 · TYPOGRAPHIE ============ -->
+    <section class="section" id="typographie">
+        <span class="section-num">04</span>
+        <h2 data-i18n="bg_s4_titre">Typographie</h2>
+        <p class="section-intro" data-i18n="bg_s4_intro">Deux familles, deux rôles qui ne se croisent jamais. Urbanist porte tout ce qui est imprimé sur la page. Cedarville Cursive porte tout ce qui est écrit à la main par-dessus.</p>
+
+        <div class="bloc">
+            <div class="type-rang">
+                <span class="type-label">Urbanist Black 900 · H1</span>
+                <p class="type-h1" data-i18n="bg_s4_h1">Direct et créatif<span class="point">.</span></p>
+            </div>
+            <div class="type-rang">
+                <span class="type-label">Urbanist Bold 700 · H2</span>
+                <p class="type-h2" data-i18n="bg_s4_h2">Outils et expérimentations</p>
+            </div>
+            <div class="type-rang">
+                <span class="type-label">Urbanist Medium 500 · Corps</span>
+                <p class="type-corps" data-i18n="bg_s4_corps">La variante Medium garantit une lisibilité maximale pour les interfaces et les descriptions d'outils. Propre, technique et fonctionnel. Chaque mot a sa place et l'épaisseur soutient le regard.</p>
+            </div>
+            <div class="type-rang">
+                <span class="type-label">Cedarville Cursive 400 · Annotations</span>
+                <p class="type-main" data-i18n="bg_s4_main">Ça, c'est écrit à la main.</p>
+            </div>
+        </div>
+
+        <div class="sous-section">
+            <h3 data-i18n="bg_s4_h3">La règle du point</h3>
+            <p class="sous-intro" data-i18n="bg_s4_h3_texte">Seul le H1 porte le point de ponctuation de la marque, et c'est le seul endroit où le violet apparaît sans interaction. Un H2 ne le prend jamais.</p>
+        </div>
+    </section>
+
+    <!-- ============ 05 · ANNOTATIONS ============ -->
+    <section class="section" id="annotations">
+        <span class="section-num">05</span>
+        <h2 data-i18n="bg_s5_titre">Annotations</h2>
+        <p class="section-intro" data-i18n="bg_s5_intro">Les notes manuscrites sont ce que j'ajoute dans la marge d'un carnet après coup. Elles se posent par-dessus la page, en position absolue, hors du flux et hors de l'arbre d'accessibilité. Retirez le bloc entier et la mise en page reste exactement la même.</p>
+
+        <div class="note-vitrine">
+            <div class="note-cadre">
+                <span data-i18n="bg_note_cadre1">La flèche</span>
+                <span class="note note--fleche" aria-hidden="true">
+                    <span class="note-texte" data-i18n="bg_note1">Elle pointe vers l'élément</span>
+                    <svg class="note-trait" viewBox="0 0 130 70" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M124 7c-6 24-30 44-64 52-14 3-30 4-46 3"></path>
+                        <path d="M14 62l16-8"></path>
+                        <path d="M14 62l13 9"></path>
                     </svg>
+                </span>
+            </div>
+
+            <div class="note-cadre">
+                <span data-i18n="bg_note_cadre2">Le mot entouré</span>
+                <span class="note note--cercle" aria-hidden="true">
+                    <span class="note-texte" data-i18n="bg_note2">Entouré après coup</span>
+                    <svg class="note-trait" viewBox="0 0 210 52" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke">
+                        <path d="M16 28C16 12 62 5 110 6c52 1 88 9 86 22-2 14-42 20-94 19C50 46 14 41 14 27c0-9 18-16 50-20" vector-effect="non-scaling-stroke"></path>
+                    </svg>
+                </span>
+            </div>
+
+            <div class="note-cadre">
+                <span data-i18n="bg_note_cadre3">La note en marge</span>
+                <span class="note note--marge" aria-hidden="true">
+                    <span class="note-texte" data-i18n="bg_note3">Soulignée d'un trait</span>
+                    <svg class="note-trait" viewBox="0 0 170 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 8c28-4 60-6 94-4 22 1 42 2 68 1"></path>
+                    </svg>
+                </span>
+            </div>
+
+            <div class="note-cadre">
+                <span data-i18n="bg_note_cadre4">L'astérisque</span>
+                <span class="note note--etoile" aria-hidden="true">
+                    <svg class="note-trait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                        <path d="M12 4v16"></path>
+                        <path d="M5 8l14 8"></path>
+                        <path d="M19 8L5 16"></path>
+                    </svg>
+                    <span class="note-texte" data-i18n="bg_note4">Une précision</span>
+                </span>
+            </div>
+
+            <div class="note-cadre">
+                <span data-i18n="bg_note_cadre5">La flèche courbe</span>
+                <span class="note note--moi" aria-hidden="true">
+                    <svg class="note-trait" viewBox="0 0 70 54" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 50C14 32 28 14 56 8"></path>
+                        <path d="M56 8l-15 1"></path>
+                        <path d="M56 8l-4 14"></path>
+                    </svg>
+                    <span class="note-texte" data-i18n="bg_note5">C'est moi&nbsp;!</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="sous-section">
+            <h3 data-i18n="bg_s5_h1">Les règles</h3>
+            <div class="trame-liste">
+                <div class="trame-item"><b data-i18n="bg_s5_r1_t">Encre</b><span data-i18n="bg_s5_r1">0,62. La même encre que la page, juste plus légère. Une note écrite à la main n'a pas de couleur à elle.</span></div>
+                <div class="trame-item"><b data-i18n="bg_s5_r2_t">Taille</b><span data-i18n="bg_s5_r2">Une note tient sur une ligne et ne se coupe jamais. Sa taille suit la largeur de la fenêtre, et tout ce qui la compose est exprimé en em : elle grandit d'un bloc.</span></div>
+                <div class="trame-item"><b data-i18n="bg_s5_r3_t">Inclinaison</b><span data-i18n="bg_s5_r3">De −4 à +2,5 degrés. Assez pour qu'elle ne soit pas alignée, jamais assez pour qu'elle attire le regard avant le contenu.</span></div>
+                <div class="trame-item"><b data-i18n="bg_s5_r4_t">Interaction</b><span data-i18n="bg_s5_r4">pointer-events: none, sans exception. Une note ne se clique pas et ne masque jamais un lien qu'elle recouvre.</span></div>
+                <div class="trame-item"><b data-i18n="bg_s5_r5_t">Dosage</b><span data-i18n="bg_s5_r5">Une par bloc au maximum. Au-delà, la page ne ressemble plus à un carnet annoté mais à un mur de post-its.</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 06 · ICÔNES ============ -->
+    <section class="section" id="icones">
+        <span class="section-num">06</span>
+        <h2 data-i18n="bg_s6_titre">Icônes</h2>
+        <p class="section-intro" data-i18n="bg_s6_intro">La bibliothèque Lucide, en trait de 2,5 px, avec les extrémités et les angles arrondis. Géométriques et lisibles à petite taille, elles servent l'interface, la manipulation de fichiers et le code.</p>
+
+        <div class="icones-grille no-select">
+            <div class="icone-case"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></div>
+            <div class="icone-case"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></div>
+            <div class="icone-case"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg></div>
+            <div class="icone-case"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></div>
+            <div class="icone-case"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></div>
+            <div class="icone-case"><svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg></div>
+            <div class="icone-case"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></div>
+            <div class="icone-case"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></div>
+            <div class="icone-case"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
+            <div class="icone-case"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></div>
+            <div class="icone-case"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg></div>
+            <div class="icone-case"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+        </div>
+
+        <div class="sous-section">
+            <h3 data-i18n="bg_s6_h1">La plaque en halftone</h3>
+            <p class="sous-intro" data-i18n="bg_s6_h1_texte">Quand une icône ouvre une section plutôt qu'un bouton, elle se pose sur une plaque tramée, dessinée par la même loi que le fond de la page : l'aire du point suit le ton, et le pas de la trame descend à 6 px pour tenir dans 96 px de côté. L'icône garde son trait plein par-dessus. Réservez-la aux têtes de section ; sur un bouton, elle alourdit le clic.</p>
+            <div class="plaques no-select">
+                <div class="plaque">
+                    <div class="plaque-trame"></div>
+                    <svg class="plaque-icone" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                </div>
+                <div class="plaque">
+                    <div class="plaque-trame"></div>
+                    <svg class="plaque-icone" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                </div>
+                <div class="plaque">
+                    <div class="plaque-trame"></div>
+                    <svg class="plaque-icone" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+                </div>
+                <div class="plaque">
+                    <div class="plaque-trame"></div>
+                    <svg class="plaque-icone" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 07 · MOUVEMENT ============ -->
+    <section class="section" id="mouvement">
+        <span class="section-num">07</span>
+        <h2 data-i18n="bg_s7_titre">Mouvement</h2>
+        <p class="section-intro" data-i18n="bg_s7_intro">Ce qui n'a pas encore été atteint est transparent et posé un cheveu plus bas. Quand son tour vient, on lui retire ce retard, en décalant ses voisins d'un souffle. Rien n'est caché tant que le script en tête de document n'a pas posé sa classe sur la racine, et il ne la pose ni sans JavaScript, ni quand le système demande moins de mouvement.</p>
+
+        <div class="mvt-liste">
+            <div class="mvt-rang"><b>0,6 s · cubic-bezier(0.16, 1, 0.3, 1)</b><span data-i18n="bg_mvt1">La courbe d'entrée. Rapide au départ, longue à s'arrêter.</span></div>
+            <div class="mvt-rang"><b>0,85 rem</b><span data-i18n="bg_mvt2">La montée d'un élément qui entre. Un titre posé sur sa rangée ne monte pas : il ne peut que se révéler sur place.</span></div>
+            <div class="mvt-rang"><b>70 ms</b><span data-i18n="bg_mvt3">Le décalage entre deux voisins qui entrent ensemble, jusqu'au sixième. Au-delà, le dernier attendrait trop.</span></div>
+            <div class="mvt-rang"><b>0,35 s</b><span data-i18n="bg_mvt4">Le fondu du papier, en une seule couche plutôt que sur ses milliers de points.</span></div>
+            <div class="mvt-rang"><b>1,1 s</b><span data-i18n="bg_mvt5">La durée du défilement adouci (Lenis), sur molette et tactile.</span></div>
+            <div class="mvt-rang"><b>prefers-reduced-motion</b><span data-i18n="bg_mvt6">Tout ce qui précède disparaît. La page s'affiche dans son état final dès le premier rendu, sans exception.</span></div>
+        </div>
+    </section>
+
+    <!-- ============ 08 · UI KIT ============ -->
+    <section class="section" id="uikit">
+        <span class="section-num">08</span>
+        <h2 data-i18n="bg_s8_titre">UI Kit</h2>
+        <p class="section-intro" data-i18n="bg_s8_intro">Le neumorphisme a été retiré. Un relief simulé suppose une lumière et une matière molle, et ni l'un ni l'autre n'existe sur une feuille de papier. Un composant est donc une forme pleine, un contour, ou rien du tout. L'état se dit par la couleur de la bordure et du texte.</p>
+
+        <div class="ui-grille">
+            <div class="ui-colonne">
+                <button class="btn btn-plein no-select" type="button" data-i18n="bg_ui_btn1">Bouton plein</button>
+                <button class="btn btn-contour no-select" type="button" data-i18n="bg_ui_btn2">Bouton contour</button>
+                <button class="btn btn-nu no-select" type="button" data-i18n="bg_ui_btn3">Bouton nu</button>
+                <button class="btn-icone no-select" aria-label="Télécharger" type="button">
+                    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                 </button>
-                
-                <label class="toggle-label no-select">
-                    <input class="toggle-state" type="checkbox" name="check" value="check">
-                    <div class="toggle">
-                        <div class="indicator"></div>
-                    </div>
-                    <span class="toggle-text"></span>
+                <label class="bascule-label no-select">
+                    <input class="bascule-etat" type="checkbox">
+                    <span class="bascule"><span class="bascule-pastille"></span></span>
+                    <span class="bascule-texte" data-i18n="bg_ui_bascule">Bascule</span>
                 </label>
             </div>
 
-            <!-- Colonne 2 : Champs de saisie -->
-            <div class="ui-column">
-                <div class="segmented-control no-select" role="radiogroup">
-                    <input type="radio" id="high" name="priority" value="high" checked>
-                    <input type="radio" id="medium" name="priority" value="medium">
-                    <input type="radio" id="low" name="priority" value="low">
-                    <div class="slider"></div>
-                    <label for="high">Haut</label>
-                    <label for="medium">Moyen</label>
-                    <label for="low">Bas</label>
+            <div class="ui-colonne">
+                <div class="segments no-select" role="radiogroup" aria-label="Priorité">
+                    <input type="radio" id="seg-1" name="prio" checked>
+                    <input type="radio" id="seg-2" name="prio">
+                    <input type="radio" id="seg-3" name="prio">
+                    <span class="curseur"></span>
+                    <label for="seg-1" data-i18n="bg_ui_seg1">Haut</label>
+                    <label for="seg-2" data-i18n="bg_ui_seg2">Moyen</label>
+                    <label for="seg-3" data-i18n="bg_ui_seg3">Bas</label>
                 </div>
-
-                <div class="tooltip-wrapper no-select" onclick="toggleTooltip(event)">
-                    <div class="tooltip-icon" title="Plus d'informations">
-                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                    </div>
-                    <div class="tooltip-content">
-                        Cette zone de texte supporte le Markdown basique. Vous pouvez y coller vos notes directement.
-                    </div>
-                </div>
-
-                <input type="text" class="input-field" placeholder="Saisissez du texte..." aria-label="Champ de texte">
-
-                <div class="drop-zone no-select" tabindex="0">
-                    <div class="drop-zone-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="17 8 12 3 7 8"></polyline>
-                            <line x1="12" y1="3" x2="12" y2="15"></line>
-                        </svg>
-                    </div>
-                    <p>Déposez votre fichier ici</p>
-                    <span class="text-small">ou cliquez pour parcourir</span>
+                <input type="text" class="champ" placeholder="Saisissez du texte…" data-i18n-placeholder="bg_ui_champ" aria-label="Champ de texte">
+                <div class="depot no-select" tabindex="0">
+                    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <b data-i18n="bg_ui_depot1">Déposez votre fichier ici</b>
+                    <small data-i18n="bg_ui_depot2">ou cliquez pour parcourir</small>
                 </div>
             </div>
 
-            <!-- Colonne 3 : Cartes Interactives -->
-            <div class="ui-column">
-                <div class="exp-card no-select">
-                    <div class="exp-cover">
-                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=600" alt="ArdaCraft">
-                    </div>
-                    <div class="exp-content">
-                        <h3>Refonte d'ArdaCraft</h3>
-                        <p>Modernisation de l'interface du wiki historique de la communauté.</p>
+            <div class="ui-colonne">
+                <div class="carte no-select">
+                    <div class="carte-visuel"><img src="media/pierre-photographie.webp" alt="" loading="lazy"></div>
+                    <div>
+                        <h4 data-i18n="bg_ui_carte1_t">Carte de projet</h4>
+                        <p data-i18n="bg_ui_carte1_d">Un visuel, un titre, deux lignes. La bordure prend la couleur au survol, rien d'autre ne bouge.</p>
                     </div>
                 </div>
-
-                <div class="tool-card no-select">
-                    <div class="tool-icon-wrapper">
-                        <!-- Icône plate, PAS d'effet neumorphique -->
-                        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                    </div>
-                    <div class="tool-content">
-                        <h3>Convertisseur</h3>
-                        <p>Optimisation WebP, PNG, JPG directe dans le navigateur.</p>
+                <div class="carte no-select">
+                    <div>
+                        <h4 data-i18n="bg_ui_carte2_t">Carte d'outil</h4>
+                        <p data-i18n="bg_ui_carte2_d">Sans visuel, la carte se réduit à son filet et à son fond léger.</p>
                     </div>
                 </div>
-
-                <div class="chip-cluster no-select">
-                    <span class="brand-tag">Contexte du projet</span>
-                    <span class="brand-chip">Chip outil</span>
-                    <span class="brand-chip">Chip outil</span>
+                <div class="etiquettes no-select">
+                    <span class="etiquette etiquette-forte" data-i18n="bg_ui_etq1">Contexte</span>
+                    <span class="etiquette" data-i18n="bg_ui_etq2">Étiquette</span>
+                    <span class="etiquette" data-i18n="bg_ui_etq3">Étiquette</span>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="dots-bg footer-dots dynamic-dots"></div>
-        <span>GUMI<span class="dot">.</span></span>
+    <!-- ============ 09 · IMAGES ============ -->
+    <section class="section" id="images">
+        <span class="section-num">09</span>
+        <h2 data-i18n="bg_s9_titre">Images</h2>
+        <p class="section-intro" data-i18n="bg_s9_intro">Des photographies brutes, cadrées serré, sans filtre de couleur. Elles sont posées dans des cadres au même rayon que les blocs, avec le même filet, pour qu'elles appartiennent à la page plutôt que d'y flotter.</p>
+
+        <div class="bento">
+            <div class="bento-item bento-grand"><img src="media/pierre-trail.webp" alt="" loading="lazy"></div>
+            <div class="bento-item"><img src="media/pierre-photographie.webp" alt="" loading="lazy"></div>
+            <div class="bento-item"><div class="bento-matiere" data-i18n="bg_matiere">Grain de papier</div></div>
+        </div>
+    </section>
+
+    <!-- ============ 10 · RESSOURCES ============ -->
+    <section class="section" id="ressources">
+        <span class="section-num">10</span>
+        <h2 data-i18n="bg_s10_titre">Ressources</h2>
+        <p class="section-intro" data-i18n="bg_s10_intro">Les logos et les matières du système, à télécharger pour les adaptations de visuels.</p>
+
+        <div class="res-grille">
+            <div class="res-carte">
+                <div class="res-apercu"><img src="media/Gumi-Logotype.png" alt="Gumi Logotype"></div>
+                <div class="res-info">
+                    <h4 data-i18n="bg_res1_t">Mot-symbole</h4>
+                    <p data-i18n="bg_res1_d">Le logo principal, pour la navigation et les fonds clairs.</p>
+                    <div class="res-liens"><a href="media/Gumi-Logotype.png" download data-i18n="bg_dl_png">Télécharger PNG</a></div>
+                </div>
+            </div>
+
+            <div class="res-carte">
+                <div class="res-apercu res-sombre"><img src="media/Gumi-Logotype.png" alt="Gumi Logotype inversé"></div>
+                <div class="res-info">
+                    <h4 data-i18n="bg_res2_t">Mot-symbole inversé</h4>
+                    <p data-i18n="bg_res2_d">Pour les fonds sombres et les visuels photographiques.</p>
+                </div>
+            </div>
+
+            <div class="res-carte">
+                <div class="res-apercu res-petit"><img src="media/Gumi-small.png" alt="Gumi monogramme"></div>
+                <div class="res-info">
+                    <h4 data-i18n="bg_res3_t">Monogramme</h4>
+                    <p data-i18n="bg_res3_d">Pour les espaces compacts : avatars, favicons.</p>
+                    <div class="res-liens"><a href="media/Gumi-small.png" download data-i18n="bg_dl_png2">Télécharger PNG</a></div>
+                </div>
+            </div>
+
+            <div class="res-carte">
+                <div class="res-apercu" style="background-image: url('media/cream-paper.png'); background-color: rgba(var(--text-rgb), 0.06); background-blend-mode: color-burn;"></div>
+                <div class="res-info">
+                    <h4 data-i18n="bg_res4_t">Texture papier</h4>
+                    <p data-i18n="bg_res4_d">Tuile de 158 × 144 px, semi-transparente. À poser en mode Produit à 100 % sur le fond crème pour retrouver le rendu du site.</p>
+                    <div class="res-liens"><a href="media/cream-paper.png" download data-i18n="bg_dl_png3">Télécharger PNG</a></div>
+                </div>
+            </div>
+
+            <div class="res-carte">
+                <div class="res-apercu"><img src="media/gumi-dots-full.png" alt="Motif de points Gumi" style="max-height: 130px; width: 100%; object-fit: cover; opacity: 0.35; border-radius: 0.8rem;"></div>
+                <div class="res-info">
+                    <h4 data-i18n="bg_res5_t">Motif de points</h4>
+                    <p data-i18n="bg_res5_d">La trame 20 × 18 px en quinconce, rayon de 3 à 7 px croissant vers les bords. Export 3200 × 500, fond transparent.</p>
+                    <div class="res-liens">
+                        <a href="media/gumi-dots-full.png" download data-i18n="bg_dl_full">Pleine intensité</a>
+                        <a href="media/gumi-dots-subtle.png" download data-i18n="bg_dl_subtle">Rendu site</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="res-carte">
+                <div class="res-apercu"><span class="type-main" style="font-size: 2.1rem;">Cedarville</span></div>
+                <div class="res-info">
+                    <h4 data-i18n="bg_res6_t">Les deux fontes</h4>
+                    <p data-i18n="bg_res6_d">Urbanist et Cedarville Cursive, toutes deux sous licence SIL Open Font, servies en WOFF2 depuis le site.</p>
+                    <div class="res-liens">
+                        <a href="fonts/urbanist-latin.woff2" download>Urbanist</a>
+                        <a href="fonts/cedarville-cursive-latin.woff2" download>Cedarville</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="pied">
+        <span>GUMI<span class="point">.</span></span>
     </footer>
 
     <script src="scripts/vendor/lenis.min.js"></script>
@@ -763,95 +1200,255 @@
             smoothWheel: true,
             touchMultiplier: 1.5
         });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
-
         window.addEventListener('resize', () => lenis.resize());
     </script>
+    <script src="scripts/points-champ.js"></script>
     <script src="scripts/i18n.js"></script>
     <script src="scripts/navbar.js"></script>
     <script>
-        // --- COPIER HEX/RGBA ---
-        function copyHex(element, valueToCopy) {
-            try {
-                const textArea = document.createElement("textarea");
-                textArea.value = valueToCopy;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                
-                const label = element.querySelector('small');
-                if (label.innerText === 'Copié !') return;
-                
-                const originalText = label.innerText;
-                label.innerText = 'Copié !';
-                
-                setTimeout(() => { 
-                    label.innerText = originalText; 
-                }, 1500);
-            } catch (err) {
-                console.error('Erreur de copie:', err);
+        // ============================================================
+        // Les rangées assombries
+        // ============================================================
+        //
+        // Un titre de section est écrit sur une rangée du champ de
+        // points, et cette rangée-là est retracée plus foncée. Le champ
+        // est dessiné par scripts/points-champ.js : on reprend ici sa
+        // géométrie au lieu de la deviner, sinon les deux trames se
+        // décaleraient d'un demi-point.
+        (function () {
+            var couche = document.querySelector('.regles');
+            if (!couche) return;
+
+            var PAS_CHAMP = 18;          // la trame du champ
+            var PAS_GRILLE = 4 * PAS_CHAMP;   // 72 : la grille du milieu
+            var PAS_X = 80;              // ses colonnes
+            var RAYON = 3;               // le point de la grille, a l'identique
+            var ENCRE = 0.18;            // l'encre d'une rangee de titre
+            var PLANCHER = 0.46;         // ce qui subsiste aux bords de l'ecran
+
+            var minuterie;
+
+            function tracer() {
+                var titres = document.querySelectorAll('.section h2');
+                if (!titres.length) return;
+
+                var largeur = couche.offsetWidth;
+                var hauteur = couche.offsetHeight;
+                var centre = largeur / 2;
+
+                // Le champ divise sa hauteur en un nombre entier de
+                // rangees : on refait le meme calcul pour retomber sur
+                // ses rangees exactes, et non sur des multiples de 18.
+                var rangees = Math.round(hauteur / PAS_CHAMP);
+                var pas = hauteur / rangees;
+                var pasGrille = 4 * pas;
+
+                var haut = couche.getBoundingClientRect().top + window.pageYOffset;
+                var svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">';
+
+                Array.prototype.forEach.call(titres, function (titre) {
+                    var cadre = titre.getBoundingClientRect();
+                    // La ligne de base plutot que le centre : c'est elle
+                    // qui doit tomber sur la rangee, comme sur du papier.
+                    var base = cadre.top + window.pageYOffset - haut + cadre.height * 0.82;
+                    var y = Math.round(base / pasGrille) * pasGrille;
+                    if (y < 0 || y > hauteur) return;
+
+                    for (var i = 0; i * PAS_X <= centre + PAS_X; i++) {
+                        var ecart = i * PAS_X;
+                        var nx = Math.min(1, ecart / centre);
+                        // La rangee s'eteint vers les bords sans jamais
+                        // descendre sous le plancher.
+                        var encre = ENCRE * (1 - (1 - PLANCHER) * nx * nx);
+                        if (ecart === 0) {
+                            svg += '<circle cx="' + centre.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + RAYON + '" fill="currentColor" opacity="' + encre.toFixed(3) + '"/>';
+                        } else {
+                            svg += '<circle cx="' + (centre - ecart).toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + RAYON + '" fill="currentColor" opacity="' + encre.toFixed(3) + '"/>' +
+                                   '<circle cx="' + (centre + ecart).toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + RAYON + '" fill="currentColor" opacity="' + encre.toFixed(3) + '"/>';
+                        }
+                    }
+                });
+
+                couche.innerHTML = svg + '</svg>';
             }
-        }
 
-        // --- TOOLTIP INTERACTIF ---
-        function toggleTooltip(event) {
-            event.stopPropagation();
-            const wrapper = event.currentTarget;
-            wrapper.classList.toggle('active');
-        }
-
-        document.addEventListener('click', (event) => {
-            const wrappers = document.querySelectorAll('.tooltip-wrapper.active');
-            wrappers.forEach(wrapper => {
-                if (!wrapper.contains(event.target)) {
-                    wrapper.classList.remove('active');
-                }
+            // Les fontes changent la hauteur des titres en arrivant :
+            // on retrace une fois qu'elles sont posees.
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(tracer);
+            }
+            window.addEventListener('load', tracer);
+            tracer();
+            window.addEventListener('resize', function () {
+                clearTimeout(minuterie);
+                minuterie = setTimeout(tracer, 100);
             });
-        });
+        })();
 
-        // --- FOND DE POINTS DYNAMIQUES ---
-        const dotContainers = document.querySelectorAll('.dynamic-dots');
-        let resizeTimeout;
+        // ============================================================
+        // Les plaques en halftone
+        // ============================================================
+        //
+        // Le meme halftone que le fond, resserre pour tenir dans une
+        // plaque de 96 px : l'aire du point suit le ton, et le ton
+        // decroit du centre vers le bord. Interpoler le rayon plutot
+        // que l'aire ferait chuter l'encre au carre, et la plaque
+        // s'eteindrait deux fois trop vite.
+        (function () {
+            var PAS = 6;         // le pas de la trame, resserre
+            var RAYON_MAX = 2.4; // le point du centre
+            var ENCRE = 0.5;     // l'encre de la plaque
 
-        function drawDots() {
-            if (!dotContainers.length) return;
-            const width = window.innerWidth;
-            dotContainers.forEach((container) => {
-                const height = Number(container.dataset.height || 250);
-                const spacingX = 20;
-                const spacingY = 18;
-                let svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor" opacity="0.04">';
+            document.querySelectorAll('.plaque-trame').forEach(function (trame) {
+                var cote = trame.offsetWidth || 96;
+                var c = cote / 2;
+                var svg = '<svg width="' + cote + '" height="' + cote + '" xmlns="http://www.w3.org/2000/svg">' +
+                    '<g fill="currentColor" opacity="' + ENCRE + '">';
 
-                for (let y = 0; y <= height; y += spacingY) {
-                    const isOdd = Math.round(y / spacingY) % 2 !== 0;
-                    const offsetX = isOdd ? spacingX / 2 : 0;
+                for (var y = PAS / 2; y < cote; y += PAS) {
+                    for (var x = PAS / 2; x < cote; x += PAS) {
+                        var d = Math.sqrt((x - c) * (x - c) + (y - c) * (y - c)) / c;
+                        if (d > 1) continue;
+                        var ton = 1 - d * d;
+                        var rayon = RAYON_MAX * Math.sqrt(ton);
+                        if (rayon < 0.3) continue;
+                        svg += '<circle cx="' + x + '" cy="' + y + '" r="' + rayon.toFixed(2) + '"/>';
+                    }
+                }
+                trame.innerHTML = svg + '</g></svg>';
+            });
+        })();
 
-                    for (let x = offsetX; x <= width + spacingX; x += spacingX) {
-                        const nx = Math.abs(x - width / 2) / (width / 2);
-                        const baseRadius = 3.0 + (Math.pow(nx, 2.0) * 4.0);
+        // ============================================================
+        // Les apparitions
+        // ============================================================
+        (function () {
+            var racine = document.documentElement;
+            if (!racine.classList.contains('fond-anime')) return;
 
-                        if (baseRadius > 0.3) {
-                            svg += `<circle cx="${x}" cy="${y}" r="${baseRadius.toFixed(2)}" />`;
+            var PAS = 70;      // ms entre deux voisins qui entrent ensemble
+            var RANG_MAX = 6;  // au-dela, le dernier attendrait trop
+
+            function reveler(element, retard) {
+                element.style.setProperty('--anim-retard', (retard || 0) + 'ms');
+                element.setAttribute('data-anim', 'vu');
+            }
+
+            reveler(document.querySelector('.points-champ'), 0);
+            reveler(document.querySelector('.regles'), 120);
+
+            var cibles = document.querySelectorAll(
+                '.hero-maj, .hero h1, .hero-sub, .section-num, .section h2, .section-intro, ' +
+                '.sous-section, .bloc, .voix-pilier, .encre-echelle, .theme-carte, .type-rang, ' +
+                '.note-cadre, .icones-grille, .plaques, .mvt-liste, .ui-colonne, .bento-item, ' +
+                '.res-carte, .papier-demo'
+            );
+
+            // Ce que le premier ecran contient entre de lui-meme ; le
+            // reste attend d'etre atteint.
+            var observateur = new IntersectionObserver(function (entrees) {
+                var rang = 0;
+                entrees.forEach(function (entree) {
+                    if (!entree.isIntersecting) return;
+                    reveler(entree.target, Math.min(rang, RANG_MAX) * PAS);
+                    rang++;
+                    observateur.unobserve(entree.target);
+                });
+            }, { rootMargin: '0px 0px -12% 0px' });
+
+            Array.prototype.forEach.call(cibles, function (cible) { observateur.observe(cible); });
+        })();
+
+        // ============================================================
+        // La demonstration du papier, dans son cadre
+        // ============================================================
+        (function () {
+            var demo = document.querySelector('.papier-demo .demo-champ');
+            if (!demo) return;
+
+            var PAS_X = 20, PAS_Y = 18, RAYON = 3, RAYON_SOMMET = 7, ENCRE = 0.16;
+
+            function dessiner() {
+                var largeur = demo.offsetWidth, hauteur = demo.offsetHeight;
+                var centre = largeur / 2;
+                var svg = '<svg width="' + largeur + '" height="' + hauteur + '" xmlns="http://www.w3.org/2000/svg">' +
+                    '<g fill="currentColor" opacity="' + ENCRE + '">';
+
+                for (var j = 0; j * PAS_Y <= hauteur; j++) {
+                    var y = j * PAS_Y;
+                    // Dans le cadre, la descente tient sur toute la
+                    // hauteur : on montre la trame pleine en haut et le
+                    // semis en bas, le passage de l'une a l'autre.
+                    var t = Math.min(1, y / hauteur);
+                    var impaire = (j % 2 !== 0);
+                    for (var i = 0; i * PAS_X <= centre + PAS_X; i++) {
+                        var niveau;
+                        if (impaire) niveau = 2;
+                        else if (j % 4 === 0 && i % 4 === 0) niveau = 0;
+                        else if (i % 2 === 0) niveau = 1;
+                        else niveau = 2;
+
+                        var fenetres = [[0, 1], [0.25, 0.9], [0, 0.55]];
+                        var p = (t - fenetres[niveau][0]) / (fenetres[niveau][1] - fenetres[niveau][0]);
+                        p = p < 0 ? 0 : (p > 1 ? 1 : p);
+                        if (niveau !== 0 && p >= 1) continue;
+
+                        var ecart = impaire ? (i + 0.5) * PAS_X : i * PAS_X;
+                        var nx = Math.min(1, ecart / centre);
+                        var sommet = RAYON_SOMMET + nx * nx * 2.5;
+                        var cible = niveau === 0 ? RAYON : 0;
+                        var aire = sommet * sommet + (cible * cible - sommet * sommet) * p;
+                        var rayon = Math.sqrt(aire);
+                        if (rayon < 0.3) continue;
+
+                        if (ecart === 0) {
+                            svg += '<circle cx="' + centre + '" cy="' + y + '" r="' + rayon.toFixed(2) + '"/>';
+                        } else {
+                            svg += '<circle cx="' + (centre - ecart).toFixed(1) + '" cy="' + y + '" r="' + rayon.toFixed(2) + '"/>' +
+                                   '<circle cx="' + (centre + ecart).toFixed(1) + '" cy="' + y + '" r="' + rayon.toFixed(2) + '"/>';
                         }
                     }
                 }
+                demo.innerHTML = svg + '</g></svg>';
+            }
 
-                svg += '</g></svg>';
-                container.innerHTML = svg;
+            var minuterie;
+            dessiner();
+            window.addEventListener('resize', function () {
+                clearTimeout(minuterie);
+                minuterie = setTimeout(dessiner, 100);
             });
-        }
+        })();
 
-        drawDots();
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(drawDots, 100);
-        });
+        // ============================================================
+        // Copier une valeur d'encre
+        // ============================================================
+        function copier(element, valeur) {
+            var role = element.querySelector('.encre-role');
+            var origine = role.getAttribute('data-origine') || role.textContent;
+            role.setAttribute('data-origine', origine);
+
+            function fini() {
+                role.textContent = document.documentElement.lang === 'en' ? 'Copied' : 'Copié';
+                setTimeout(function () { role.textContent = origine; }, 1400);
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(valeur).then(fini).catch(function () {});
+                return;
+            }
+            try {
+                var zone = document.createElement('textarea');
+                zone.value = valeur;
+                document.body.appendChild(zone);
+                zone.select();
+                document.execCommand('copy');
+                document.body.removeChild(zone);
+                fini();
+            } catch (e) {}
+        }
     </script>
     <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
