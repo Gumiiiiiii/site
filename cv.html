@@ -459,29 +459,25 @@
             </div>
         </div>
         <h2 class="fond-titre" id="perso" data-i18n="fond_14">Mes deux passions</h2>
-        <!-- Deux cartes qui s'emboîtent : le bord droit de la première et le
-             bord gauche de la seconde suivent la même diagonale, obtenue par
-             deux clip-path miroir et un chevauchement de --biais. C'est le
-             lien entre les deux passions, dit par la forme.
-
-             La photo d'endurance est un placeholder explicite. -->
+        <!-- Deux cartes empilées : la photo à gauche, collée au cadre dont elle
+             reprend l'arrondi, le texte à droite. -->
         <div class="fond-section fond-passions">
             <article class="fond-passion">
+                <img src="media/pierre-photographie.webp" alt="Assis sur un rocher en montagne, l'appareil à l'œil, face à une vallée" width="1100" height="825" loading="lazy">
                 <div class="fond-passion-texte">
                     <h3 data-i18n="fond_82">La photographie</h3>
                     <p data-i18n="fond_84">Le passe-temps qui me permet de m'évader créativement et l'origine
                         de mon appétence pour la direction artistique et l'image produit.</p>
                 </div>
-                <img src="media/pierre-photographie.webp" alt="Assis sur un rocher en montagne, l'appareil à l'œil, face à une vallée" width="1100" height="825" loading="lazy">
             </article>
 
             <article class="fond-passion">
+                <img src="media/pierre-trail.webp" alt="En course sur un sentier de montagne" width="1100" height="825" loading="lazy">
                 <div class="fond-passion-texte">
                     <h3 data-i18n="fond_83">Les sports d'endurance</h3>
                     <p data-i18n="fond_85">Amateur de grands espaces et d'exploration, j'adore découvrir de
                         nouveaux endroits en courant et en me dépassant.</p>
                 </div>
-                <img src="media/pierre-trail.webp" alt="En course sur un sentier de montagne" width="1100" height="825" loading="lazy">
             </article>
         </div>
 
@@ -576,7 +572,6 @@
     <script src="scripts/fond-rail.js"></script>
     <script src="scripts/fond-outils.js"></script>
     <script src="scripts/fond-projets.js"></script>
-    <script src="scripts/fond-passions.js"></script>
     <!-- Avant fond-avis.js : les copies de cartes du carrousel doivent
          emporter les notes deja recomposees lettre a lettre. -->
     <script src="scripts/fond-notes.js"></script>

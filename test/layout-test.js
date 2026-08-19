@@ -133,30 +133,42 @@ const CHECKS = [
         }
     },
     {
-        // Les deux cartes de passions sont rigoureusement identiques : meme
-        // taille, meme decoupe, penchees du meme cote. C est de la que vient
-        // l ecart constant entre elles, leurs bords etant paralleles.
-        name: 'CV: les deux cartes de passions sont identiques',
+        // Deux cartes empilees : la photo collee au cadre a gauche, le texte
+        // a droite. La photo doit se montrer entiere — c est la raison d etre
+        // du 4/3, qui est le rapport des deux fichiers.
+        name: 'CV: les cartes de passions montrent la photo entiere',
         async run(page) {
             await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
             await new Promise((r) => setTimeout(r, 400));
             const m = await page.evaluate(() => {
-                const cartes = [...document.querySelectorAll('.fond-passion')];
-                const boites = cartes.map((c) => c.getBoundingClientRect());
-                return {
-                    nb: cartes.length,
-                    largeurs: boites.map((b) => Math.round(b.width)),
-                    hauteurs: boites.map((b) => Math.round(b.height)),
-                    decoupes: cartes.map((c) => getComputedStyle(c).clipPath),
-                    ecart: Math.round(boites[1].left - boites[0].right)
-                };
+                return [...document.querySelectorAll('.fond-passion')].map((carte) => {
+                    const c = carte.getBoundingClientRect();
+                    const img = carte.querySelector('img');
+                    const i = img.getBoundingClientRect();
+                    return {
+                        largeur: Math.round(c.width),
+                        // Collee au cadre : il ne reste que le trait de bordure.
+                        marge_gauche: Math.round(i.left - c.left),
+                        marge_haut: Math.round(i.top - c.top),
+                        // Rapport affiche contre rapport du fichier : egaux,
+                        // object-fit: cover ne rogne rien.
+                        rapport_affiche: +(i.width / i.height).toFixed(3),
+                        rapport_source: +(img.naturalWidth / img.naturalHeight).toFixed(3),
+                        rayon: getComputedStyle(img).borderTopLeftRadius
+                    };
+                });
             });
-            if (m.nb !== 2) throw new Error('attendu 2 cartes, trouve ' + m.nb);
-            if (m.largeurs[0] !== m.largeurs[1]) throw new Error('largeurs inegales : ' + m.largeurs.join(' / '));
-            if (m.hauteurs[0] !== m.hauteurs[1]) throw new Error('hauteurs inegales : ' + m.hauteurs.join(' / '));
-            if (m.decoupes[0] !== m.decoupes[1]) throw new Error('decoupes differentes :\n' + m.decoupes.join('\n'));
-            if (!/^path\(/.test(m.decoupes[0])) throw new Error('la decoupe arrondie na pas ete posee : ' + m.decoupes[0]);
-            if (m.ecart < 8) throw new Error('les deux cartes se touchent (' + m.ecart + 'px)');
+            if (m.length !== 2) throw new Error('attendu 2 cartes, trouve ' + m.length);
+            if (m[0].largeur !== m[1].largeur) throw new Error('largeurs inegales');
+            for (const c of m) {
+                if (c.marge_gauche > 1 || c.marge_haut > 1) {
+                    throw new Error('la photo ne touche pas le cadre : ' + c.marge_gauche + ' / ' + c.marge_haut);
+                }
+                if (Math.abs(c.rapport_affiche - c.rapport_source) > 0.02) {
+                    throw new Error('la photo est rognee : ' + c.rapport_affiche + ' contre ' + c.rapport_source);
+                }
+                if (parseFloat(c.rayon) < 8) throw new Error('coins non arrondis : ' + c.rayon);
+            }
         }
     },
     {

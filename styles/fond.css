@@ -580,9 +580,14 @@ html { scroll-behavior: smooth; }
 .fond-projet-medias--mosaique {
     position: relative;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    /* De quoi écrire « C'est moi ! » et sa flèche sous la dernière rangée,
-       en plus des 2,5 rem que tout enfant de l'intérieur laisse en bas. */
-    padding-bottom: 4.75rem;
+}
+
+/* De quoi écrire « C'est moi ! » et sa flèche sous la dernière rangée. La
+   réserve suit la taille de la note, qui suit la largeur de la fenêtre.
+   Le sélecteur est plus lourd qu'il n'en a l'air parce qu'il doit passer
+   devant celui qui rogne le premier enfant sous 900 px. */
+.fond-projet-interieur > .fond-projet-medias--mosaique:first-child {
+    padding-bottom: clamp(3.25rem, 6vw, 4.75rem);
 }
 
 /* La note vise la cinquième vignette — deuxième rangée, colonne du milieu.
@@ -598,9 +603,9 @@ html { scroll-behavior: smooth; }
 }
 
 .fond-note--moi .fond-note-trait {
-    width: 3.4rem;
-    height: 2.6rem;
-    margin: 0 0 0.1rem 0.9rem;
+    width: 2.52em;
+    height: 1.93em;
+    margin: 0 0 0.07em 0.67em;
 }
 
 .fond-projet-medias img {
@@ -785,62 +790,47 @@ html { scroll-behavior: smooth; }
 }
 
 /* === PASSIONS =============================================================
-   Deux cartes rigoureusement identiques, penchées du même côté : leurs bords
-   ne suivent que deux directions, et les deux triangles laissés aux extrémités
-   de la rangée se répondent. L'écart entre elles est constant du haut au bas,
-   puisque les bords qui se font face sont parallèles. */
+   Deux cartes, l'une sous l'autre. Dans chacune : la photo à gauche, collée
+   aux trois bords qu'elle touche, et le texte à droite. */
 .fond-passions {
-    --biais: clamp(2rem, 5vw, 4.5rem);
-    --ecart: 1.25rem;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--ecart);
-    align-items: stretch;
+    gap: 1.25rem;
 }
 
-/* Le texte en haut, l'image en dessous — et la coupe traverse les deux. */
 .fond-passion {
+    --rayon: 1.25rem;
     display: grid;
-    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: stretch;
     margin: 0;
-    border-radius: 1.25rem;
+    border: 1px solid rgba(var(--text-rgb), 0.14);
+    border-radius: var(--rayon);
     background-color: var(--bg);
     background-image: linear-gradient(rgba(var(--text-rgb), 0.035), rgba(var(--text-rgb), 0.035));
-    overflow: hidden;
-    /* Ce tracé-ci a les coins vifs : polygon() ne sait pas faire autrement.
-       C'est le repli, pour qui n'exécute pas de JavaScript. Le tracé arrondi,
-       lui, est calculé en pixels par scripts/fond-passions.js et posé en
-       clip-path: path(). Sous 760 px, la coupe disparaît et les cartes
-       redeviennent de simples rectangles arrondis. */
-    clip-path: polygon(var(--biais) 0, 100% 0, calc(100% - var(--biais)) 100%, 0 100%);
 }
 
-/* L'image occupe tout le bas de la carte, d'un bord à l'autre : la coupe la
-   traverse des deux côtés. */
+/* Rien entre la photo et le cadre : elle touche le bord et en reprend
+   l'arrondi, sur ses quatre coins. Un pixel de moins que le cadre — le rayon
+   intérieur d'une bordure d'un pixel — pour que les deux courbes restent
+   concentriques.
+
+   Le rapport donne à la photo sa hauteur, et c'est elle qui donne à la carte
+   la sienne : le texte, plus court, se centre dans ce qui reste. La hauteur à
+   100 % ne sert qu'ensuite, si l'autre carte de la paire est plus haute. */
 .fond-passion img {
     display: block;
     width: 100%;
-    /* Le rapport donne au bandeau sa hauteur ; sans lui, une photo en
-       portrait imposait la sienne et étirait la carte sur 800 px. La hauteur
-       à 100 % ne sert qu'ensuite, quand la carte la plus haute étire
-       l'autre : l'image occupe alors tout ce qui reste.
-
-       4/3 et non 16/10 : c'est le rapport de la photo de course, qui s'y
-       montre donc entière, coureur compris ; et c'est la fenêtre la plus
-       haute qu'on puisse donner sans que la carte s'allonge — ce qui laisse
-       voir un quart de plus de la photo en portrait. */
-    aspect-ratio: 4 / 3;
     height: 100%;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
+    border-radius: calc(var(--rayon) - 1px);
 }
 
-
-/* Le texte se tient à l'écart des deux coupes. Au sommet de la carte, le bord
-   gauche est à son point le plus rentré : c'est là que le rembourrage doit
-   suffire, plus bas il y a du mou. */
 .fond-passion-texte {
-    padding: clamp(1.1rem, 2.5vw, 1.5rem);
-    padding-left: calc(var(--biais) + clamp(0.5rem, 1.5vw, 1rem));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(1.25rem, 3vw, 2rem);
 }
 
 .fond-passion-texte h3 {
@@ -852,24 +842,19 @@ html { scroll-behavior: smooth; }
 
 .fond-passion-texte p {
     margin: 0;
+    max-width: 46ch;
     font-size: 0.94rem;
     line-height: 1.55;
     color: rgba(var(--text-rgb), 0.7);
 }
 
-/* Sous 760 px la diagonale n'a plus de place : les deux cartes se rangent
-   l'une sous l'autre, sans coupe. */
+/* Trop étroit pour deux colonnes : la photo passe au-dessus du texte, dans
+   l'ordre où ils sont écrits. */
 @media (max-width: 760px) {
-    .fond-passions { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+    .fond-passions { gap: 1rem; }
 
-    /* Les notes manuscrites sont masquées à cette largeur : la mosaïque n a
-       plus rien à loger sous sa dernière rangée. */
-    .fond-projet-medias--mosaique { padding-bottom: 2.5rem; }
+    .fond-passion { grid-template-columns: minmax(0, 1fr); }
 
-    .fond-passion { clip-path: none; }
-
-    /* La hauteur fixe rognait la photo de course par le bas — le coureur
-       disparaissait. Le rapport 4/3 la montre entière. */
     .fond-passion img { height: auto; }
 
     .fond-passion-texte { padding: 1.1rem; }
@@ -1031,10 +1016,16 @@ html { scroll-behavior: smooth; }
        qu'elle recouvre reste cliquable. */
     pointer-events: none;
     font-family: 'Cedarville Cursive', 'Segoe Script', cursive;
-    font-size: 1.35rem;
+    /* Une note tient sur une ligne et ne se coupe jamais. Sa taille suit
+       donc la largeur de la fenêtre : écrite trop grand sur un écran
+       étroit, elle sortait de sa carte par la gauche et le cadre du
+       carrousel lui tranchait sa première lettre.
+
+       Tout ce qui la compose est exprimé en em : le trait, la flèche,
+       l'écart au bord. Une note est un seul objet, écrit d'une seule main —
+       elle grandit et rapetisse d'un bloc. */
+    font-size: clamp(0.9rem, 1.5vw + 0.2rem, 1.35rem);
     line-height: 1;
-    /* Une note tient sur une ligne : elle est posée dans une marge, pas dans
-       une colonne de texte. */
     white-space: nowrap;
     /* La même encre que la page, juste plus légère : une note écrite à la
        main n'a pas de raison d'avoir sa couleur à elle. */
@@ -1054,71 +1045,65 @@ html { scroll-behavior: smooth; }
 /* 1 — La flèche. La note s'écrit au-dessus du bord haut et son trait
    redescend vers le nom. */
 .fond-note--fleche {
-    top: -1.15rem;
-    right: 1rem;
+    top: -0.85em;
+    right: 0.74em;
     text-align: right;
     transform: rotate(-2deg);
 }
 
 .fond-note--fleche .fond-note-trait {
-    width: 8.5rem;
+    width: 6.3em;
     /* Assez court pour que la pointe s arrete dans le blanc au-dessus de la
        citation : posee un cran plus bas, elle barrait la premiere ligne. */
-    height: 4rem;
-    margin: 0.15rem 0.75rem 0 auto;
+    height: 2.96em;
+    margin: 0.11em 0.55em 0 auto;
 }
 
 /* 2 — Le mot entouré. Le cercle est tracé par-dessus la note elle-même : il
    la déborde de tous les côtés, comme un trait fait après coup. */
 .fond-note--cercle {
-    top: 0.7rem;
-    right: 1.6rem;
+    top: 0.52em;
+    right: 1.19em;
     transform: rotate(-2deg);
 }
 
 .fond-note--cercle .fond-note-trait {
     position: absolute;
-    top: -0.5rem;
-    right: -1.35rem;
-    bottom: -0.45rem;
-    left: -1.05rem;
+    top: -0.37em;
+    right: -1em;
+    bottom: -0.33em;
+    left: -0.78em;
     width: auto;
     height: auto;
 }
 
 /* 3 — La note en marge, tournée, qui déborde au-dessus du bord haut gauche. */
 .fond-note--marge {
-    top: -1.05rem;
-    left: 1.4rem;
+    top: -0.78em;
+    left: 1.04em;
     transform: rotate(-4deg);
 }
 
 .fond-note--marge .fond-note-trait {
-    width: 15rem;
-    height: 0.65rem;
-    margin-top: 0.05rem;
+    width: 11.1em;
+    height: 0.48em;
+    margin-top: 0.04em;
 }
 
 /* 4 — L'astérisque et son mot, sur la ligne du nom. */
 .fond-note--etoile {
-    top: 0.5rem;
-    right: 1.35rem;
+    top: 0.37em;
+    right: 1em;
     display: flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.26em;
     transform: rotate(2.5deg);
 }
 
 .fond-note--etoile .fond-note-trait {
-    width: 1.15rem;
-    height: 1.15rem;
+    width: 0.85em;
+    height: 0.85em;
     flex-shrink: 0;
-}
-
-/* Sur mobile, la carte occupe presque tout l'écran : une note posée par
-   dessus ne serait plus une annotation, elle serait dans le chemin. */
-@media (max-width: 760px) {
-    .fond-note { display: none; }
 }
 
 /* Sur mobile, le carrousel sort de la colonne et va d'un bord à l'autre de
