@@ -800,7 +800,11 @@ html { scroll-behavior: smooth; }
 .fond-passion {
     --rayon: 1.25rem;
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    /* La photo mène la hauteur de la carte : plus elle est large, plus la
+       carte est haute, puisque son rapport ne bouge pas. On lui donne donc
+       une largeur bornée plutôt qu'une part du cadre — sans quoi la carte
+       s'allongeait avec la fenêtre. */
+    grid-template-columns: minmax(0, clamp(13rem, 30%, 20rem)) minmax(0, 1fr);
     align-items: stretch;
     margin: 0;
     border: 1px solid rgba(var(--text-rgb), 0.14);
@@ -849,8 +853,13 @@ html { scroll-behavior: smooth; }
 }
 
 /* Trop étroit pour deux colonnes : la photo passe au-dessus du texte, dans
-   l'ordre où ils sont écrits. */
-@media (max-width: 760px) {
+   l'ordre où ils sont écrits.
+
+   Le seuil est haut — 1100 px — parce que ce n'est pas la place qui manque,
+   c'est l'équilibre : sous cette largeur, le texte devient plus haut que la
+   photo, la rangée s'étire à sa mesure et la photo, qui doit remplir la
+   carte, se fait rogner d'autant. Empilées, les deux gardent leur taille. */
+@media (max-width: 1100px) {
     .fond-passions { gap: 1rem; }
 
     .fond-passion { grid-template-columns: minmax(0, 1fr); }

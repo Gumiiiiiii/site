@@ -139,6 +139,12 @@ const CHECKS = [
         name: 'CV: les cartes de passions montrent la photo entiere',
         async run(page) {
             await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
+            // Plusieurs largeurs : c est en dessous de 1100 px que le texte
+            // devenait plus haut que la photo et la faisait rogner, ce qu une
+            // mesure prise a 1440 seule ne voyait pas.
+            try {
+            for (const largeur of [1440, 1200, 1101, 1000, 800, 390]) {
+            await page.setViewport({ width: largeur, height: 900 });
             await new Promise((r) => setTimeout(r, 400));
             const m = await page.evaluate(() => {
                 return [...document.querySelectorAll('.fond-passion')].map((carte) => {
@@ -159,15 +165,19 @@ const CHECKS = [
                 });
             });
             if (m.length !== 2) throw new Error('attendu 2 cartes, trouve ' + m.length);
-            if (m[0].largeur !== m[1].largeur) throw new Error('largeurs inegales');
+            if (m[0].largeur !== m[1].largeur) throw new Error(largeur + ' : largeurs inegales');
             for (const c of m) {
                 if (c.marge_gauche > 1 || c.marge_haut > 1) {
-                    throw new Error('la photo ne touche pas le cadre : ' + c.marge_gauche + ' / ' + c.marge_haut);
+                    throw new Error(largeur + ' : la photo ne touche pas le cadre, ' + c.marge_gauche + ' / ' + c.marge_haut);
                 }
                 if (Math.abs(c.rapport_affiche - c.rapport_source) > 0.02) {
-                    throw new Error('la photo est rognee : ' + c.rapport_affiche + ' contre ' + c.rapport_source);
+                    throw new Error(largeur + ' : la photo est rognee, ' + c.rapport_affiche + ' contre ' + c.rapport_source);
                 }
-                if (parseFloat(c.rayon) < 8) throw new Error('coins non arrondis : ' + c.rayon);
+                if (parseFloat(c.rayon) < 8) throw new Error(largeur + ' : coins non arrondis, ' + c.rayon);
+            }
+            }
+            } finally {
+                await page.setViewport({ width: 1440, height: 900 });
             }
         }
     },
