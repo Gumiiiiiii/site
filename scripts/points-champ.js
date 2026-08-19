@@ -1,4 +1,4 @@
-// Le champ de points de /points : un seul objet pour toute la page.
+// Le champ de points du site : un seul objet pour tout le fond de la page.
 //
 // C'est un halftone. La bande du haut est une trame pleine de points gras qui
 // rétrécissent en descendant ; ceux qui restent en fin de course forment la
@@ -12,7 +12,7 @@
 //    Il passe par la taille des points, comme un halftone d'imprimeur.
 //
 // 2. Le milieu est une surface uniforme : là, tous les points ont le même
-//    rayon, sur la trame 80x72 du semis de /cv.
+//    rayon, sur la trame 80x72, celle du semis du site.
 //
 // 3. Le haut de page garde le vignettage du site : le rayon grossit encore
 //    vers la gauche et la droite, comme sur gumi.ch.
@@ -52,7 +52,7 @@
     // pour cent au pire sinon.
     // Le seuil du milieu, entre le rang 3 et le rang 4 de la matrice : il fixe
     // à quelle hauteur chaque rang atteint zéro, et laisse les rangs 0 à 3 —
-    // soit exactement la trame 80x72 du semis de /cv.
+    // soit exactement la trame 80x72, celle du semis du site.
     // Les fenêtres de rétrécissement, en avancement dans la bande : niveau 0,
     // niveau 1, niveau 2. Elles se chevauchent largement.
     var FENETRES = [[0, 1], [0.25, 0.9], [0, 0.55]];

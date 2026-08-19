@@ -2,7 +2,7 @@
 
    Le fond n'est plus découpé en couches. La descente du haut, la grille du
    milieu et la remontée du bas sont un seul halftone, dessiné d'un coup par
-   scripts/points-champ.js — le même objet que sur /points, aux mêmes
+   scripts/points-champ.js — un seul objet pour tout le fond, aux mêmes
    réglages. Il n'y a donc plus ni masque ni raccord entre deux trames.
 
    Ce fichier place ce champ, puis tout le contenu par-dessus. */
@@ -1390,9 +1390,8 @@ html { scroll-behavior: smooth; }
     .fond-pied-liens { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-/* Le champ de points, à l'identique de /points : un seul dessin pour toute
-   la page, sans masque — c'est le tracé lui-même qui sait où il est dense et
-   où il est clair. */
+/* Le champ de points : un seul dessin pour toute la page, sans masque —
+   c'est le tracé lui-même qui sait où il est dense et où il est clair. */
 .fond-page .points-champ {
     position: absolute;
     inset: 0;
