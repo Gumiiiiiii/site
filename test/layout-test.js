@@ -121,28 +121,30 @@ const CHECKS = [
         }
     },
     {
-        // Les deux cartes de passions ne se touchent pas : leurs bords
-        // suivent la meme diagonale, a distance constante du haut au bas.
-        name: 'CV: les deux cartes de passions gardent un ecart constant',
+        // Les deux cartes de passions sont rigoureusement identiques : meme
+        // taille, meme decoupe, penchees du meme cote. C est de la que vient
+        // l ecart constant entre elles, leurs bords etant paralleles.
+        name: 'CV: les deux cartes de passions sont identiques',
         async run(page) {
             await page.goto(BASE + '/cv', { waitUntil: 'networkidle0' });
+            await new Promise((r) => setTimeout(r, 400));
             const m = await page.evaluate(() => {
-                const g = document.querySelector('.fond-passion').getBoundingClientRect();
-                const d = document.querySelector('.fond-passion--droite').getBoundingClientRect();
-                // --biais vaut un clamp() : sa valeur declaree ne se lit pas
-                // en pixels. On la fait resoudre par un element temoin.
-                const hote = document.querySelector('.fond-passions');
-                const temoin = document.createElement('div');
-                temoin.style.cssText = 'position:absolute;visibility:hidden;width:var(--biais)';
-                hote.appendChild(temoin);
-                const biais = temoin.getBoundingClientRect().width;
-                temoin.remove();
-                return { haut: (d.left + biais) - g.right, bas: d.left - (g.right - biais),
-                         largeurs: [g.width, d.width] };
+                const cartes = [...document.querySelectorAll('.fond-passion')];
+                const boites = cartes.map((c) => c.getBoundingClientRect());
+                return {
+                    nb: cartes.length,
+                    largeurs: boites.map((b) => Math.round(b.width)),
+                    hauteurs: boites.map((b) => Math.round(b.height)),
+                    decoupes: cartes.map((c) => getComputedStyle(c).clipPath),
+                    ecart: Math.round(boites[1].left - boites[0].right)
+                };
             });
-            if (Math.abs(m.haut - m.bas) > 1) throw new Error('ecart de ' + m.haut + 'px en haut, ' + m.bas + 'px en bas');
-            if (m.haut < 8) throw new Error('les deux cartes se touchent (' + m.haut + 'px)');
-            if (Math.abs(m.largeurs[0] - m.largeurs[1]) > 1) throw new Error('cartes de largeurs inegales : ' + m.largeurs.join(' / '));
+            if (m.nb !== 2) throw new Error('attendu 2 cartes, trouve ' + m.nb);
+            if (m.largeurs[0] !== m.largeurs[1]) throw new Error('largeurs inegales : ' + m.largeurs.join(' / '));
+            if (m.hauteurs[0] !== m.hauteurs[1]) throw new Error('hauteurs inegales : ' + m.hauteurs.join(' / '));
+            if (m.decoupes[0] !== m.decoupes[1]) throw new Error('decoupes differentes :\n' + m.decoupes.join('\n'));
+            if (!/^path\(/.test(m.decoupes[0])) throw new Error('la decoupe arrondie na pas ete posee : ' + m.decoupes[0]);
+            if (m.ecart < 8) throw new Error('les deux cartes se touchent (' + m.ecart + 'px)');
         }
     },
     {

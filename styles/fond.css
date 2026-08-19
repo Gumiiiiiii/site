@@ -132,10 +132,39 @@
     font-size: 0.9rem;
     font-weight: 600;
     line-height: 1.35;
-    /* Filet de sécurité : si la largeur vient à manquer et qu'un libellé
-       passe malgré tout sur deux lignes, ils la réservent tous et les quatre
-       chiffres restent alignés. */
+    /* Filet de sécurité pour les largeurs où un libellé passe sur deux
+       lignes : ils la réservent tous, et les quatre chiffres restent
+       alignés. Sur desktop, la grille ci-dessous fait mieux et le retire. */
     min-height: 2.7em;
+}
+
+/* Sur desktop, les trois lignes d'un chiffre entrent dans une grille commune
+   aux quatre : chaque étage y forme une rangée, et l'alignement ne dépend
+   plus d'une hauteur réservée d'avance. C'est ce qui supprime le vide entre
+   le libellé et sa précision quand aucun des quatre ne passe à la ligne — le
+   cas courant. */
+@media (min-width: 901px) {
+    .fond-hero-chiffres {
+        grid-auto-flow: column;
+        grid-template-rows: auto auto auto;
+        row-gap: 0;
+    }
+
+    /* La boîte du chiffre s'efface : ce sont ses trois lignes qui entrent
+       dans la grille, une par rangée. */
+    .fond-kpi { display: contents; }
+
+    .fond-kpi b { align-self: end; }
+
+    .fond-kpi > span {
+        min-height: 0;
+        align-self: start;
+    }
+
+    .fond-kpi small {
+        margin-top: 0.15rem;
+        align-self: start;
+    }
 }
 
 .fond-kpi small {
@@ -300,10 +329,41 @@
     letter-spacing: 0.04em;
 }
 
-@media (max-width: 760px) {
-    .fond-outils { bottom: 0.75rem; }
+/* Le voile : sur mobile, les trois icônes n'ont plus la marge de gauche pour
+   elles seules, elles passent au milieu et le contenu défile juste dessous.
+   Cette bande floute ce qui passe derrière elles, et s'éteint vers le haut
+   pour qu'aucune ligne franche ne traverse la page. Elle n'existe pas sur
+   desktop, où les icônes sont dans la marge. */
+.fond-voile { display: none; }
 
-    /* À cette largeur, les chiffres descendent jusqu'à la colonne des
+@media (max-width: 760px) {
+    .fond-voile {
+        display: block;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 7.5rem;
+        z-index: 19;
+        pointer-events: none;
+        -webkit-backdrop-filter: blur(7px);
+        backdrop-filter: blur(7px);
+        /* Le fondu se fait par le masque, pas par une couleur : la teinte du
+           papier reste celle du thème en cours, sans être répétée ici. */
+        -webkit-mask-image: linear-gradient(to top, #000 40%, transparent 100%);
+        mask-image: linear-gradient(to top, #000 40%, transparent 100%);
+    }
+
+    /* Les trois icônes reviennent au centre ; la signature les suit, plus
+       bas dans ce fichier — après les règles qu elle doit contredire. */
+    .fond-outils {
+        left: 0;
+        right: 0;
+        bottom: 0.75rem;
+        justify-content: center;
+    }
+
+    /* À cette largeur, les chiffres descendent jusqu'à la rangée des
        outils au lieu de passer à leur droite : le hero leur rend la
        hauteur d'une cible (44 px) plus son air. */
     .fond-hero { padding-bottom: calc(0.75rem + 44px + 0.75rem); }
@@ -438,16 +498,65 @@ html { scroll-behavior: smooth; }
 
 .fond-projet-icone svg { width: 20px; height: 20px; }
 
-/* Au survol, c'est la ligne entière qui répond, pas seulement le signe :
-   sinon rien ne dit que le nom et le résumé font partie du même bouton. */
-.fond-projet-tete:hover .fond-projet-nom,
-.fond-projet-tete:focus-visible .fond-projet-nom { color: var(--accent-ink); }
+/* Au survol d'une ligne fermée, ce qu'elle affiche recule dans le flou et
+   l'invitation prend sa place, au centre. Le flou dit « il y a autre chose
+   dessous » mieux qu'un changement de couleur.
 
-.fond-projet-tete:hover .fond-projet-resume,
-.fond-projet-tete:focus-visible .fond-projet-resume { color: rgba(var(--text-rgb), 0.78); }
+   Ligne ouverte, rien de tout cela : le détail est déjà là, le brouiller
+   n'aurait aucun sens. */
+.fond-projet-tete { position: relative; }
+
+.fond-projet-nom,
+.fond-projet-resume,
+.fond-projet-icone {
+    transition: filter 0.3s ease, opacity 0.3s ease, color 0.25s ease;
+}
+
+.fond-projet:not([data-ouvert]) .fond-projet-tete:hover .fond-projet-nom,
+.fond-projet:not([data-ouvert]) .fond-projet-tete:focus-visible .fond-projet-nom,
+.fond-projet:not([data-ouvert]) .fond-projet-tete:hover .fond-projet-resume,
+.fond-projet:not([data-ouvert]) .fond-projet-tete:focus-visible .fond-projet-resume,
+.fond-projet:not([data-ouvert]) .fond-projet-tete:hover .fond-projet-icone,
+.fond-projet:not([data-ouvert]) .fond-projet-tete:focus-visible .fond-projet-icone {
+    filter: blur(4px);
+    opacity: 0.5;
+}
+
+/* Ouverte, la ligne garde l'ancien signal : le nom prend l'accent. */
+.fond-projet[data-ouvert] .fond-projet-tete:hover .fond-projet-nom,
+.fond-projet[data-ouvert] .fond-projet-tete:focus-visible .fond-projet-nom { color: var(--accent-ink); }
 
 .fond-projet-tete:hover .fond-projet-icone,
-.fond-projet-tete:focus-visible .fond-projet-icone { opacity: 1; color: var(--accent-ink); }
+.fond-projet-tete:focus-visible .fond-projet-icone { opacity: 1; }
+
+.fond-projet-appel {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    /* Elle double le bouton, qui dit déjà tout par aria-expanded : elle ne
+       doit ni s'annoncer, ni intercepter le clic. */
+    pointer-events: none;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--accent-ink);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.fond-projet:not([data-ouvert]) .fond-projet-tete:hover .fond-projet-appel,
+.fond-projet:not([data-ouvert]) .fond-projet-tete:focus-visible .fond-projet-appel {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fond-projet-nom,
+    .fond-projet-resume,
+    .fond-projet-icone,
+    .fond-projet-appel { transition: none; }
+}
 .fond-projet[data-ouvert] .fond-projet-icone { opacity: 1; color: var(--accent); }
 
 /* Ouvrir vers une hauteur inconnue : la seule façon de l'animer est de faire
@@ -481,7 +590,30 @@ html { scroll-behavior: smooth; }
 .fond-projet-interieur--sans-media .fond-projet-texte { max-width: 46rem; }
 
 .fond-projet-medias { display: grid; gap: 0.5rem; }
-.fond-projet-medias--mosaique { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.fond-projet-medias--mosaique {
+    position: relative;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* La note se pose sur la cinquième vignette — deuxième rangée, colonne du
+   milieu — et sa flèche redescend vers elle. En pourcentages : la mosaïque
+   garde ses proportions à toutes les largeurs. */
+.fond-note--moi {
+    top: 36%;
+    left: 34%;
+    text-align: center;
+    /* Seule note posée sur une photo : un halo de la couleur du papier la
+       détache aussi bien d un chocolat sombre que d une nappe blanche. */
+    color: var(--text);
+    opacity: 0.95;
+    text-shadow: 0 0 7px var(--bg), 0 0 3px var(--bg), 0 0 2px var(--bg);
+}
+
+.fond-note--moi .fond-note-trait {
+    width: 3.2rem;
+    height: 2.5rem;
+    margin: 0.1rem auto 0 0.5rem;
+}
 
 .fond-projet-medias img {
     display: block;
@@ -665,31 +797,23 @@ html { scroll-behavior: smooth; }
 }
 
 /* === PASSIONS =============================================================
-   Deux cartes qui s'emboîtent. Le bord droit de la première et le bord gauche
-   de la seconde suivent exactement la même diagonale : deux clip-path miroir,
-   et un chevauchement de --biais qui les fait coïncider au pixel. La marge
-   négative est indispensable — sans elle les deux droites seraient parallèles
-   mais séparées. */
+   Deux cartes rigoureusement identiques, penchées du même côté : leurs bords
+   ne suivent que deux directions, et les deux triangles laissés aux extrémités
+   de la rangée se répondent. L'écart entre elles est constant du haut au bas,
+   puisque les bords qui se font face sont parallèles. */
 .fond-passions {
     --biais: clamp(2rem, 5vw, 4.5rem);
     --ecart: 1.25rem;
-    /* Ce dont il faut rapprocher la seconde carte pour que l'écart entre les
-       deux diagonales vaille --ecart et pas --ecart + --biais. */
-    --decalage: calc(var(--biais) - var(--ecart));
     display: grid;
-    /* La première colonne est élargie d'autant : sans cette correction, la
-       seconde carte finirait plus large que l'autre. */
-    grid-template-columns: calc(50% + var(--decalage) / 2) minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--ecart);
     align-items: stretch;
 }
 
-/* Image à gauche, texte à droite. Les deux bords qui se font face suivent la
-   même diagonale, mais les cartes ne se touchent plus : elles se répondent à
-   distance constante. */
+/* Le texte en haut, l'image en dessous — et la coupe traverse les deux. */
 .fond-passion {
     display: grid;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
-    align-items: center;
+    grid-template-rows: auto minmax(0, 1fr);
     margin: 0;
     border-radius: 1.25rem;
     background-color: var(--bg);
@@ -698,43 +822,31 @@ html { scroll-behavior: smooth; }
     /* Ce tracé-ci a les coins vifs : polygon() ne sait pas faire autrement.
        C'est le repli, pour qui n'exécute pas de JavaScript. Le tracé arrondi,
        lui, est calculé en pixels par scripts/fond-passions.js et posé en
-       clip-path: path() — seule forme capable d'arrondir aussi le coin où la
-       diagonale rejoint le bord. Sous 760 px, ces deux découpes disparaissent
-       et les cartes redeviennent de simples rectangles arrondis. */
-    clip-path: polygon(0 0, 100% 0, calc(100% - var(--biais)) 100%, 0 100%);
+       clip-path: path(). Sous 760 px, la coupe disparaît et les cartes
+       redeviennent de simples rectangles arrondis. */
+    clip-path: polygon(var(--biais) 0, 100% 0, calc(100% - var(--biais)) 100%, 0 100%);
 }
 
-.fond-passion--droite {
-    margin-left: calc(var(--decalage) * -1);
-    clip-path: polygon(var(--biais) 0, 100% 0, 100% 100%, 0 100%);
-}
-
-/* L'image occupe toute la hauteur de la carte : c'est elle qui donne au bloc
-   sa tenue, et la diagonale la traverse quand elle est du bon côté. */
+/* L'image occupe tout le bas de la carte, d'un bord à l'autre : la coupe la
+   traverse des deux côtés. */
 .fond-passion img {
     display: block;
     width: 100%;
+    /* Le rapport donne au bandeau sa hauteur ; sans lui, une photo en
+       portrait imposait la sienne et etirait la carte sur 800 px. La hauteur
+       a 100 % ne sert qu ensuite, quand la carte la plus haute etire
+       l autre : l image occupe alors tout ce qui reste. */
+    aspect-ratio: 16 / 10;
     height: 100%;
-    min-height: clamp(11rem, 18vw, 14rem);
     object-fit: cover;
-    grid-row: 1;
 }
 
-/* Le texte se tient à l'écart de la diagonale, sinon la dernière ligne
-   passerait derrière la coupe. */
+/* Le texte se tient à l'écart des deux coupes. Au sommet de la carte, le bord
+   gauche est à son point le plus rentré : c'est là que le rembourrage doit
+   suffire, plus bas il y a du mou. */
 .fond-passion-texte {
-    grid-row: 1;
     padding: clamp(1.1rem, 2.5vw, 1.5rem);
-    padding-right: calc(var(--biais) + 0.75rem);
-}
-
-/* Sur la carte de droite, la diagonale tombe du côté de l'image : c'est elle
-   qui la reçoit, le texte reprend un rembourrage normal. */
-.fond-passion--droite img { grid-column: 1; }
-
-.fond-passion--droite .fond-passion-texte {
-    padding-right: clamp(1.1rem, 2.5vw, 1.5rem);
-    padding-left: clamp(1.1rem, 2.5vw, 1.5rem);
+    padding-left: calc(var(--biais) + clamp(0.5rem, 1.5vw, 1rem));
 }
 
 .fond-passion-texte h3 {
@@ -756,25 +868,11 @@ html { scroll-behavior: smooth; }
 @media (max-width: 760px) {
     .fond-passions { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
 
-    .fond-passion,
-    .fond-passion--droite {
-        margin-left: 0;
-        clip-path: none;
-        /* L'image et le texte repassent l'un sous l'autre : à cette largeur,
-           deux colonnes ne laisseraient au texte qu'une poignée de mots par
-           ligne. */
-        grid-template-columns: minmax(0, 1fr);
-    }
+    .fond-passion { clip-path: none; }
 
-    .fond-passion img,
-    .fond-passion--droite img {
-        grid-row: auto;
-        grid-column: auto;
-        height: 12rem;
-    }
+    .fond-passion img { height: 12rem; min-height: 0; }
 
-    .fond-passion-texte,
-    .fond-passion--droite .fond-passion-texte { grid-row: auto; padding: 1.1rem; }
+    .fond-passion-texte { padding: 1.1rem; }
 }
 
 /* === AVIS =================================================================
@@ -1236,6 +1334,18 @@ html { scroll-behavior: smooth; }
 
 @media (prefers-reduced-motion: reduce) {
     .fond-signature { transition: none; }
+}
+
+/* Sur mobile, la signature quitte le coin droit : elle se pose au centre,
+   juste au-dessus des trois icônes. */
+@media (max-width: 760px) {
+    .fond-signature {
+        left: 0;
+        right: 0;
+        bottom: calc(0.75rem + 44px + 0.25rem);
+        min-height: 0;
+        justify-content: center;
+    }
 }
 
 @media (max-width: 900px) {

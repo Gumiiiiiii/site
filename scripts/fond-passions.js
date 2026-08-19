@@ -87,9 +87,14 @@
             var w = r.width, h = r.height;
             if (!w || !h) return;
 
-            var points = carte.classList.contains('fond-passion--droite')
-                ? [{ x: b, y: 0 }, { x: w, y: 0 }, { x: w, y: h }, { x: 0, y: h }]
-                : [{ x: 0, y: 0 }, { x: w, y: 0 }, { x: w - b, y: h }, { x: 0, y: h }];
+            // Le même parallélogramme pour les deux cartes : penchées du même
+            // côté, elles se répondent au lieu de s'emboîter.
+            var points = [
+                { x: b, y: 0 },
+                { x: w, y: 0 },
+                { x: w - b, y: h },
+                { x: 0, y: h }
+            ];
 
             var chemin = 'path("' + arrondir(points, RAYON) + '")';
             carte.style.clipPath = chemin;
