@@ -1364,10 +1364,31 @@ html { scroll-behavior: smooth; }
     transition: opacity 0.4s ease;
 }
 
-.fond-signature.visible { opacity: 1; }
+/* Tant qu'elle est invisible, elle ne doit rien intercepter — d'où le
+   pointer-events: none de la règle de base, qu'on lui rend une fois
+   apparue, puisqu'elle mène maintenant quelque part. */
+.fond-signature.visible { opacity: 1; pointer-events: auto; }
+
+.fond-signature a {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+
+.fond-signature a:hover { color: rgba(var(--text-rgb), 0.75); }
+.fond-signature a:hover img { opacity: 0.9; }
 
 /* Le logotype complet, pas la seule initiale. */
-.fond-signature img { height: 15px; width: auto; display: block; opacity: 0.65; }
+.fond-signature img {
+    height: 15px;
+    width: auto;
+    display: block;
+    opacity: 0.65;
+    transition: opacity 0.25s ease;
+}
 
 @media (prefers-reduced-motion: reduce) {
     .fond-signature { transition: none; }
