@@ -13,13 +13,14 @@
     <link rel="stylesheet" href="/styles/points.css">
 </head>
 <body class="shell-page points-page">
-    <!-- Une seule couche de points pour toute la page : dense en haut et en
-         bas, clairsemée au milieu, sans qu'aucun point ne change de taille ni
-         d'encre. Le dégradé se fait en retirant des points, pas en les
-         éteignant — voir scripts/points-champ.js.
+    <!-- Une seule couche de points pour toute la page. C'est un halftone : la
+         trame est pleine et grasse aux deux extrémités, ses points
+         rétrécissent en descendant, et ceux qui restent en fin de course
+         forment la grille du milieu. Le dégradé passe donc par la taille des
+         points, jamais par leur encre — voir scripts/points-champ.js.
 
-         Seul écart avec le site : l'encre est multipliée par six, 0,04 ->
-         0,24. La page sert de loupe. -->
+         L'encre est celle du fond de gumi.ch, 0,04 : la grille du milieu rend
+         exactement le semis de /cv, au point et à la teinte près. -->
     <div class="site-content">
         <div class="points-champ" aria-hidden="true"></div>
     </div>

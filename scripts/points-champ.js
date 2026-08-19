@@ -12,7 +12,7 @@
 //    Il passe par la taille des points, comme un halftone d'imprimeur.
 //
 // 2. Le milieu est une surface uniforme : là, tous les points ont le même
-//    rayon, sur la trame 80x72 du semis de /fond.
+//    rayon, sur la trame 80x72 du semis de /cv.
 //
 // 3. Le haut de page garde le vignettage du site : le rayon grossit encore
 //    vers la gauche et la droite, comme sur gumi.ch.
@@ -32,7 +32,7 @@
     var RAYON = 3;                // le point de la grille du milieu
     var RAYON_SOMMET = 7;         // le point du haut de page, au centre
     var CROISSANCE = 2.5;         // ce que le rayon gagne encore vers les bords de page
-    var ENCRE = 0.24;             // 0,04 sur le site ; la page sert de loupe
+    var ENCRE = 0.04;             // l encre du fond de gumi.ch, a l identique
 
     // La descente reprend exactement les deux bandes du site : 250 px en haut,
     // 180 en bas, les hauteurs déclarées dans le fond de gumi.ch. C'est ce qui
@@ -52,7 +52,7 @@
     // pour cent au pire sinon.
     // Le seuil du milieu, entre le rang 3 et le rang 4 de la matrice : il fixe
     // à quelle hauteur chaque rang atteint zéro, et laisse les rangs 0 à 3 —
-    // soit exactement la trame 80x72 du semis de /fond.
+    // soit exactement la trame 80x72 du semis de /cv.
     // Les fenêtres de rétrécissement, en avancement dans la bande : niveau 0,
     // niveau 1, niveau 2. Elles se chevauchent largement.
     var FENETRES = [[0, 1], [0.25, 0.9], [0, 0.55]];
