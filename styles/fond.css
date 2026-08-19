@@ -41,47 +41,37 @@
     gap: 2rem;
 }
 
-/* Photo et phrase occupent la même case : c'est ce qui les fait se
-   chevaucher. La photo est calée en haut à gauche, la phrase en bas à
-   droite, et le décalage entre les deux vient de leurs seules dimensions —
-   aucune position absolue, donc rien à recalculer au redimensionnement. */
+/* Portrait puis phrase, l'un sous l'autre et tous deux centrés dans la
+   colonne. Le bloc est centré dans la hauteur qui lui reste, entre le haut
+   de l'écran et les chiffres. */
 .fond-hero-haut {
-    display: grid;
-    /* Le bloc est centré dans la hauteur qui lui reste, entre le haut de
-       l'écran et les chiffres : posé en haut, il laissait un vide de près de
-       300 px sous la phrase. */
-    align-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.75rem, 2vh, 1.5rem);
+    text-align: center;
 }
 
 .fond-hero-photo {
-    grid-area: 1 / 1;
-    justify-self: start;
-    align-self: start;
-    width: clamp(8.5rem, 15vw, 13.5rem);
+    width: clamp(8rem, 13vw, 12rem);
     height: auto;
     aspect-ratio: 4 / 5;
     object-fit: cover;
     border-radius: 1.25rem;
-    /* La marge basse creuse la case sous l'image : la phrase, calée en bas,
-       descend donc plus bas que le portrait au lieu de s'arrêter à son bord.
-       Seul le haut de la première ligne mord sur l'image. */
-    margin-bottom: 4rem;
-    /* Et là où elle mord, l'image n'est déjà plus qu'un voile : le bas se
-       dissout dans le papier, comme les dégradés de points. Le fondu part de
-       45 % de la hauteur, sous le menton — le visage reste intact. */
-    -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 96%);
-    mask-image: linear-gradient(to bottom, #000 45%, transparent 96%);
+    /* Le bas de l'image se dissout dans le papier, comme les dégradés de
+       points : le portrait est posé sur la page, il n'y est pas collé. Le
+       fondu part sous le menton — le visage reste intact. */
+    -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
 }
 
 .fond-hero-phrase {
-    grid-area: 1 / 1;
-    justify-self: end;
-    align-self: end;
-    /* Large exprès : la phrase tient en trois lignes au lieu de sept, et son
-       bord gauche passe sous le portrait. */
-    width: calc(100% - 7rem);
-    max-width: 74ch;
-    /* Sans équilibrage, la troisième ligne se réduisait à « Luxembourg). ». */
+    /* Centrée, une ligne trop longue se lit mal : la mesure reste plus
+       courte que la colonne. */
+    width: 100%;
+    max-width: 56ch;
+    /* Sans équilibrage, la dernière ligne se réduisait à « Luxembourg). ». */
     text-wrap: balance;
     margin: 0;
     font-size: clamp(1.15rem, 1.9vw, 1.8rem);
@@ -143,17 +133,14 @@
     color: rgba(var(--text-rgb), 0.5);
 }
 
-/* Sous 900 px la case unique n'a plus la largeur nécessaire au chevauchement :
-   photo puis phrase, l'une sous l'autre. Le fondu du bas reste, il fait partie
-   du traitement de l'image. */
+/* Sous 900 px, la phrase reprend toute la largeur : la mesure de 56ch la
+   laisserait plus étroite que la colonne. */
 @media (max-width: 900px) {
     .fond-hero { height: auto; min-height: 100vh; }
 
-    .fond-hero-haut { display: block; }
+    .fond-hero-photo { width: min(45%, 10rem); }
 
-    .fond-hero-photo { width: min(45%, 11rem); margin-bottom: 1rem; }
-
-    .fond-hero-phrase { width: auto; max-width: none; }
+    .fond-hero-phrase { max-width: none; }
 
     .fond-hero-chiffres { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
 }
@@ -302,6 +289,11 @@
 
 @media (max-width: 760px) {
     .fond-outils { bottom: 0.75rem; }
+
+    /* À cette largeur, les chiffres descendent jusqu'à la colonne des
+       outils au lieu de passer à leur droite : le hero leur rend la
+       hauteur d'une cible (44 px) plus son air. */
+    .fond-hero { padding-bottom: calc(0.75rem + 44px + 0.75rem); }
 }
 
 /* Les titres sont la cible des ancres : on leur laisse de l'air en haut
@@ -398,6 +390,7 @@ html { scroll-behavior: smooth; }
 }
 
 .fond-projet-nom {
+    transition: color 0.25s ease;
     font-size: clamp(1.3rem, 2.1vw, 1.85rem);
     font-weight: 800;
     letter-spacing: -0.025em;
@@ -405,6 +398,7 @@ html { scroll-behavior: smooth; }
 }
 
 .fond-projet-resume {
+    transition: color 0.25s ease;
     font-size: 0.98rem;
     font-weight: 500;
     line-height: 1.4;
@@ -433,7 +427,17 @@ html { scroll-behavior: smooth; }
 }
 
 .fond-projet-icone svg { width: 20px; height: 20px; }
-.fond-projet-tete:hover .fond-projet-icone { opacity: 1; }
+
+/* Au survol, c'est la ligne entière qui répond, pas seulement le signe :
+   sinon rien ne dit que le nom et le résumé font partie du même bouton. */
+.fond-projet-tete:hover .fond-projet-nom,
+.fond-projet-tete:focus-visible .fond-projet-nom { color: var(--accent-ink); }
+
+.fond-projet-tete:hover .fond-projet-resume,
+.fond-projet-tete:focus-visible .fond-projet-resume { color: rgba(var(--text-rgb), 0.78); }
+
+.fond-projet-tete:hover .fond-projet-icone,
+.fond-projet-tete:focus-visible .fond-projet-icone { opacity: 1; color: var(--accent-ink); }
 .fond-projet[data-ouvert] .fond-projet-icone { opacity: 1; color: var(--accent); }
 
 /* Ouvrir vers une hauteur inconnue : la seule façon de l'animer est de faire
@@ -681,12 +685,30 @@ html { scroll-behavior: smooth; }
     background-color: var(--bg);
     background-image: linear-gradient(rgba(var(--text-rgb), 0.035), rgba(var(--text-rgb), 0.035));
     overflow: hidden;
-    clip-path: polygon(0 0, 100% 0, calc(100% - var(--biais)) 100%, 0 100%);
+    /* Le tracé ne sert plus qu'à la diagonale : il déborde du côté opposé
+       pour laisser le border-radius arrondir seul les coins de ce côté-là —
+       une découpe qui passerait dessus les rendrait carrés. Le coin où la
+       diagonale rejoint le bord, lui, ne peut pas recevoir de rayon : deux
+       points intermédiaires l'abattent en biseau, ce qui à l'œil se lit
+       comme un arrondi de la même famille. */
+    clip-path: polygon(
+        -2% 0,
+        100% 0,
+        calc(100% - 0.94 * var(--biais)) 94%,
+        calc(100% - 0.985 * var(--biais) - 4px) 98.6%,
+        calc(100% - var(--biais) - 12px) 100%,
+        -2% 100%);
 }
 
 .fond-passion--droite {
     margin-left: calc(var(--decalage) * -1);
-    clip-path: polygon(var(--biais) 0, 100% 0, 100% 100%, 0 100%);
+    clip-path: polygon(
+        calc(var(--biais) + 12px) 0,
+        102% 0,
+        102% 100%,
+        0 100%,
+        calc(0.94 * var(--biais)) 6%,
+        calc(0.985 * var(--biais) + 4px) 1.4%);
 }
 
 /* L'image occupe toute la hauteur de la carte : c'est elle qui donne au bloc
@@ -1036,14 +1058,21 @@ html { scroll-behavior: smooth; }
     transform: translateX(0);
 }
 
-/* Seule la valeur se souligne — le libellé de la colonne n'est pas le lien. */
-.fond-pied-liens a:hover b,
-.fond-pied-liens a:focus-visible b {
+/* Souligné en permanence : rien d'autre, dans le bloc, ne dit que ces quatre
+   lignes sont cliquables. Le trait reste plus clair que le texte pour ne pas
+   alourdir, et se colore au survol. Seule la valeur le porte — le libellé de
+   la colonne n'est pas le lien. */
+.fond-pied-liens b {
+    font-weight: 600;
     text-decoration: underline;
+    text-decoration-color: rgba(var(--text-rgb), 0.32);
+    text-decoration-thickness: 1px;
     text-underline-offset: 0.25em;
+    transition: text-decoration-color 0.25s ease;
 }
 
-.fond-pied-liens b { font-weight: 600; }
+.fond-pied-liens a:hover b,
+.fond-pied-liens a:focus-visible b { text-decoration-color: var(--accent-ink); }
 
 @media (prefers-reduced-motion: reduce) {
     .fond-lien-icone { transition: none; }

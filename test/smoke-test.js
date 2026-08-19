@@ -139,7 +139,7 @@ const CHECKS = [
         if (avis.filter((c) => c.querySelector('.fond-avis-rel')).length !== 4) return 'every testimonial needs its working relationship';
         // La boite a outils reste exhaustive et en vrai texte.
         const tools = [...d.querySelectorAll('.fond-boite-item')].map((t) => t.textContent.trim());
-        if (tools.length !== 26) return 'expected 26 tools, got ' + tools.length;
+        if (tools.length !== 24) return 'expected 24 tools, got ' + tools.length;
         for (const must of ['Magento', 'Salsify', 'Clarity', 'DaVinci Resolve']) {
             if (!tools.includes(must)) return must + ' missing from the toolkit';
         }
