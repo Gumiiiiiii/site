@@ -30,8 +30,8 @@
 
     var PAS_X = 20, PAS_Y = 18;   // la trame du site
     var RAYON = 3;                // le point de la grille du milieu
-    var RAYON_SOMMET = 5;         // le point du haut de page, au centre
-    var CROISSANCE = 2.5;         // ce que le rayon gagne encore vers les bords
+    var RAYON_SOMMET = 7;         // le point du haut de page, au centre
+    var CROISSANCE = 2.5;         // ce que le rayon gagne encore vers les bords de page
     var ENCRE = 0.24;             // 0,04 sur le site ; la page sert de loupe
 
     // La descente reprend exactement les deux bandes du site : 250 px en haut,
@@ -90,7 +90,11 @@
     var minuterie;
 
     function dessiner() {
-        var largeur = window.innerWidth;
+        // La largeur du conteneur, pas celle de la fenêtre : la barre de
+        // défilement, toujours présente sur une page de trois écrans, décalait
+        // l axe de la moitié de sa largeur et cassait la symétrie.
+        var largeur = champ.offsetWidth;
+        var centre = largeur / 2;
         var hauteur = champ.offsetHeight;
         var svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">' +
             '<g fill="currentColor" opacity="' + ENCRE + '">';
@@ -100,15 +104,22 @@
             // L'avancement dans la bande : 0 sur les deux bords de la page,
             // 1 dès qu'on entre dans la grille du milieu.
             var t = Math.max(0, Math.min(y / FONDU_HAUT, (hauteur - y) / FONDU_BAS, 1));
-            var decale = (j % 2 !== 0) ? PAS_X / 2 : 0;
+            var impaire = (j % 2 !== 0);
 
-            for (var k = 0; k * PAS_X + decale <= largeur + PAS_X; k++) {
-                // Le niveau du point, c'est-à-dire la trame la plus grossière
-                // à laquelle il appartient. Les trames sont emboîtées, donc
-                // trois niveaux suffisent à décrire tout le champ.
+            // Les points sont posés par paires de part et d'autre de l'axe, et
+            // non plus alignés depuis le bord gauche : la symétrie gauche-droite
+            // est ainsi vraie par construction, quelle que soit la largeur de la
+            // fenêtre. Les rangées impaires, en quinconce, n'ont pas de point
+            // sur l'axe lui-même : leur première paire l'encadre à un demi-pas.
+            for (var i = 0; i * PAS_X <= centre + PAS_X; i++) {
+                // Le niveau du point : la trame la plus grossière à laquelle il
+                // appartient. Les trames sont emboîtées, donc trois niveaux
+                // décrivent tout le champ. Le rang i se compte depuis l'axe, ce
+                // qui donne le même niveau aux deux points d'une paire.
                 var niveau;
-                if (j % 4 === 0 && k % 4 === 0) niveau = 0;        // 80x72, la grille
-                else if (j % 2 === 0 && k % 2 === 0) niveau = 1;   // 40x36
+                if (impaire) niveau = 2;                           // le quinconce
+                else if (j % 4 === 0 && i % 4 === 0) niveau = 0;    // 80x72, la grille
+                else if (j % 2 === 0 && i % 2 === 0) niveau = 1;    // 40x36
                 else niveau = 2;                                   // 20x18, la trame pleine
 
                 // Chaque niveau a sa fenêtre de rétrécissement. Les points du
@@ -122,8 +133,8 @@
                 p = p < 0 ? 0 : (p > 1 ? 1 : p);
                 if (niveau !== 0 && p >= 1) continue;
 
-                var x = k * PAS_X + decale;
-                var nx = Math.abs(x - largeur / 2) / (largeur / 2);
+                var ecart = impaire ? (i + 0.5) * PAS_X : i * PAS_X;
+                var nx = Math.min(1, ecart / centre);
                 // Le sommet du halftone : des points gras, qui grossissent
                 // encore vers les bords gauche et droit comme sur le site.
                 var sommet = RAYON_SOMMET + nx * nx * CROISSANCE;
@@ -135,8 +146,12 @@
                 var rayon = Math.sqrt(aire);
                 if (rayon < 0.3) continue;
 
-                svg += '<circle cx="' + x + '" cy="' + y +
-                    '" r="' + rayon.toFixed(2) + '"/>';
+                if (ecart === 0) {
+                    svg += '<circle cx="' + centre + '" cy="' + y + '" r="' + rayon.toFixed(2) + '"/>';
+                } else {
+                    svg += '<circle cx="' + (centre - ecart).toFixed(1) + '" cy="' + y + '" r="' + rayon.toFixed(2) + '"/>' +
+                           '<circle cx="' + (centre + ecart).toFixed(1) + '" cy="' + y + '" r="' + rayon.toFixed(2) + '"/>';
+                }
             }
         }
 
