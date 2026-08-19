@@ -29,19 +29,23 @@
     var CROISSANCE = 4;           // ce que le rayon gagne aux bords, comme sur le site
     var ENCRE = 0.24;             // 0,04 sur le site ; la page sert de loupe
 
-    // La descente occupe un gros tiers de la page, plafonnée à 1000 px. Sur
-    // 400 px elle se lisait encore comme un raccord entre deux matières ; il
-    // lui faut cette longueur pour devenir le sujet de la page. La part
-    // relative garde un vrai milieu même sur une fenêtre courte, et le bas
-    // reste plus court que le haut dans le rapport du site (180 / 250).
-    var FONDU_MAX = 1000, PART = 0.37, RAPPORT_BAS = 0.72;
+    // La descente reprend exactement les deux bandes du site : 250 px en haut,
+    // 180 en bas, les hauteurs déclarées dans le fond de gumi.ch. C'est ce qui
+    // garde le haut de page serré, et la descente finie là où le dégradé du
+    // site finissait. Une descente de 1000 px, essayée avant, lissait tout mais
+    // le dégradé n'y ressemblait plus à celui de gumi.ch : il n'était plus
+    // une bande dense en haut de page, il occupait l'écran entier.
+    var FONDU_HAUT = 250, FONDU_BAS = 180;
     // Le plateau du milieu. Il se place entre le rang 3 et le rang 4 de la
     // matrice : les rangs 0 a 3 restent, ce qui donne exactement la trame
-    // 80x72 du semis de /fond, et le rang 4 s en trouve exclu avant la fin de
-    // la descente plutot qu a son dernier pixel — sinon ses points, tres
-    // clairsemes, formaient une rangee de trainards isolee juste avant le
-    // plateau.
+    // 80x72 du semis de /fond.
     var CREUX = 3.5 / 64;
+    // Et le rang 4 est coupé net dès que la densité arrive à moins d'un rang
+    // du plateau. Ses points forment eux-mêmes une trame très clairsemée :
+    // laissés à la courbe, ils survivaient jusqu'au dernier pixel de la
+    // descente et laissaient une rangée de traînards isolée juste avant le
+    // plateau. Les couper coûte 1/64 des points, invisible.
+    var MARGE_PLATEAU = 1 / 64;
 
     // Matrice de Bayer 8x8, construite par récurrence à partir de la 4x4 :
     // chaque case reçoit un rang de 0 à 63, et on ne garde que les rangs
@@ -87,8 +91,6 @@
     function dessiner() {
         var largeur = window.innerWidth;
         var hauteur = champ.offsetHeight;
-        var fonduHaut = Math.min(FONDU_MAX, hauteur * PART);
-        var fonduBas = fonduHaut * RAPPORT_BAS;
         var svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">' +
             '<g fill="currentColor" opacity="' + ENCRE + '">';
 
@@ -97,14 +99,22 @@
             // 0 sur les deux bords de la page, 1 au milieu. C'est le seul
             // réglage : densité et rayon en descendent tous les deux, ce qui
             // les empêche de se désynchroniser.
-            var t = Math.max(0, Math.min(y / fonduHaut, (hauteur - y) / fonduBas, 1));
-            // Ce qui reste du dégradé à cette hauteur. Une seule quantité pour
-            // les deux propriétés, donc rien ne peut se désynchroniser. Le
-            // carré fait tomber la densité vite en haut puis lentement : la
-            // partie dense reste courte, comme le dégradé du site, et la fin
-            // de la descente s'étire assez pour se confondre avec le milieu.
-            var reste = (1 - t) * (1 - t);
+            var t = Math.max(0, Math.min(y / FONDU_HAUT, (hauteur - y) / FONDU_BAS, 1));
+            // Ce qui reste du dégradé à cette hauteur : une seule quantité pour
+            // la densité et pour le rayon, donc rien ne peut se désynchroniser.
+            // La pente est droite, comme le masque du dégradé du site : c'est sa
+            // loi, transposée de l'opacité vers la densité. Les deux courbes
+            // d'encre se superposent donc sur toute la bande.
+            var reste = 1 - t;
+            // Le vignettage, lui, tient plus longtemps qu il ne s efface : sur le
+            // site le rayon ne depend pas de la hauteur, seule l opacite fond.
+            // Le cube le garde a pleine force sur la premiere moitie de la
+            // bande et ne l aplatit qu a la toute fin, ce qui fait coller les
+            // deux courbes d encre au lieu de faire tomber la notre deux fois
+            // plus vite.
+            var resteRayon = 1 - t * t * t;
             var densite = CREUX + (1 - CREUX) * reste;
+            if (densite < CREUX + MARGE_PLATEAU) densite = CREUX;
             var decale = (j % 2 !== 0) ? PAS_X / 2 : 0;
 
             for (var k = 0; k * PAS_X + decale <= largeur + PAS_X; k++) {
@@ -115,7 +125,7 @@
                 // droit. Elle s'efface au même rythme que la densité, si bien
                 // qu'au milieu il ne reste qu'un rayon unique.
                 var nx = Math.abs(x - largeur / 2) / (largeur / 2);
-                var rayon = RAYON + reste * Math.pow(nx, 2) * CROISSANCE;
+                var rayon = RAYON + resteRayon * Math.pow(nx, 2) * CROISSANCE;
 
                 svg += '<circle cx="' + x + '" cy="' + y +
                     '" r="' + rayon.toFixed(2) + '"/>';
