@@ -834,9 +834,6 @@ html { scroll-behavior: smooth; }
     object-fit: cover;
 }
 
-/* La photo en portrait est la seule qu'un cadre en paysage ampute vraiment :
-   on garde le haut, où se trouve le sujet, plutôt que le milieu. */
-.fond-passion-cadrage--haut { object-position: center 32%; }
 
 /* Le texte se tient à l'écart des deux coupes. Au sommet de la carte, le bord
    gauche est à son point le plus rentré : c'est là que le rembourrage doit
@@ -1441,6 +1438,16 @@ html { scroll-behavior: smooth; }
 /* Un KPI est en display: contents sur desktop — il n'a pas de boîte à animer.
    Ce sont ses trois lignes qui entrent, sur le retard qu'il leur transmet. */
 .fond-anime .fond-kpi[data-anim="vu"] > * { opacity: 1; }
+
+/* Le papier arrive le premier, et vite : un seul fondu sur tout le champ,
+   plutôt que sur ses milliers de points. C'est une seule couche à composer,
+   le navigateur ne repeint rien. */
+.fond-anime .points-champ {
+    opacity: 0;
+    transition: opacity 0.35s ease var(--anim-retard, 0s);
+}
+
+.fond-anime .points-champ[data-anim="vu"] { opacity: 1; }
 
 /* Le rail est centré par un transform à lui : lui en poser un autre le
    décentrerait. Il se contente donc d'apparaître. */

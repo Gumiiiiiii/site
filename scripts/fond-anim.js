@@ -99,11 +99,15 @@
     // Les trois outils du bas, le rail et le voile qui les détache ferment la
     // marche : ils encadrent la page, ils entrent une fois qu'il y a une page
     // à encadrer.
+    // Le semis du fond : il entre le premier, c'est le papier sur lequel
+    // tout le reste se pose.
+    var champ = document.querySelector('.points-champ');
     var cadre = ['.fond-rail', '.fond-outils', '.fond-voile']
         .map(function (selecteur) { return document.querySelector(selecteur); })
         .filter(Boolean);
 
     function entrer() {
+        if (champ) reveler(champ, 0);
         if (photo) reveler(photo, 60);
         ecrire(DEBUT_LETTRES, BALAYAGE);
         // Les chiffres ferment la marche, une fois la phrase lancée.
@@ -170,7 +174,11 @@
     }
 
     // De quoi vérifier, d'un test, qu'aucune entrée ne reste en chemin.
-    window.fondAnim = { suivis: suivis, lignes: lignes, cadre: cadre };
+    window.fondAnim = {
+        suivis: suivis,
+        lignes: lignes,
+        cadre: champ ? cadre.concat([champ]) : cadre
+    };
 
     // Le départ.
     //
