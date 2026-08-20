@@ -417,32 +417,11 @@
             transform: rotate(-4deg);
         }
 
-        /* ---------- 06 · Icônes ---------- */
-        .icones-grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 1.1rem; }
-        .icone-case {
-            width: 64px;
-            height: 64px;
-            border: 1px solid var(--filet);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: border-color 0.2s ease, color 0.2s ease;
-            color: var(--encre-07);
-            background-color: var(--bg);
-        }
-        .icone-case:hover { border-color: var(--accent-ink); color: var(--accent-ink); }
-        .icone-case svg { width: 26px; height: 26px; stroke-width: 2.5; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-
-        /* L'icône en halftone : c'est le tracé de l'icône qui est
-           tramé, pas une plaque posée derrière. Le dessin sert de
-           masque, et la trame de points le remplit — l'aire du point
-           suit le ton, comme sur le fond de la page. */
-        /* Les fichiers sont noirs sur transparent. Plutôt que de les
-           poser en image et de les retourner en thème sombre, on s'en
-           sert comme masque et c'est l'encre de la page qui les peint :
-           une seule encre, les deux thèmes, sans second fichier. */
-        .halftones { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.75rem; }
+        /* ---------- 06 · Icônes ----------
+           Le trait Lucide a quitté la page : il ne reste que les
+           fichiers tramés, posés en masque pour que l'encre de la page
+           les peigne. Une image les aurait laissés noirs en thème
+           sombre, donc invisibles. */
         .halftone-icone {
             width: 100%;
             aspect-ratio: 1;
@@ -451,6 +430,16 @@
             -webkit-mask: var(--fichier) center / contain no-repeat;
             mask: var(--fichier) center / contain no-repeat;
         }
+
+        /* À la taille de la page : celle d'une icône de carte ou de bouton. */
+        .halftones-ui { display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: center; }
+        .halftones-ui .halftone-icone { width: 26px; }
+
+        /* L'échelle, qui montre à partir d'où la trame se lit. */
+        .halftone-echelle { display: flex; flex-wrap: wrap; gap: 2.25rem; align-items: flex-end; }
+        .halftone-palier { display: flex; flex-direction: column; gap: 0.7rem; align-items: flex-start; }
+        .halftone-palier .halftone-icone { width: var(--t); }
+        .halftone-palier b { font-size: 0.8rem; font-weight: 700; color: var(--encre-05); font-variant-numeric: tabular-nums; }
 
         /* ---------- 07 · Mouvement ---------- */
         .mvt-liste {
@@ -776,7 +765,7 @@
            script en tête de document n'a pas posé .fond-anime sur
            <html>, et il ne la pose ni sans JavaScript, ni quand on
            demande moins de mouvement. */
-        .fond-anime :where(.section-num, .section h2, .section-intro, .sous-section, .bloc, .hero-maj, .hero h1, .hero-sub, .voix-pilier, .encre-echelle, .theme-carte, .type-rang, .note-bloc, .icones-grille, .halftones, .mvt-liste, .ui-colonne, .bento-item, .res-carte, .papier-demo, .rendu) {
+        .fond-anime :where(.section-num, .section h2, .section-intro, .sous-section, .bloc, .hero-maj, .hero h1, .hero-sub, .voix-pilier, .encre-echelle, .theme-carte, .type-rang, .note-bloc, .halftones-ui, .halftone-echelle, .mvt-liste, .ui-colonne, .bento-item, .res-carte, .papier-demo, .rendu) {
             opacity: 0;
             transform: translateY(var(--anim-monte, 0.85rem));
             transition: opacity 0.6s ease var(--anim-retard, 0s),
@@ -1178,37 +1167,31 @@
     <section class="section" id="icones">
         <span class="section-num">06</span>
         <h2 data-i18n="bg_s6_titre">Icônes</h2>
-        <p class="section-intro" data-i18n="bg_s6_intro">Lucide, trait de 2,5 px, extrémités et angles arrondis.</p>
+        <p class="section-intro" data-i18n="bg_s6_intro">Dix icônes, toutes en halftone. Le trait Lucide ne sert plus que de dessin de départ : c’est le tracé tramé qui est posé sur la page. Les fichiers sont noirs sur transparent et servent de masque, donc ils prennent l’encre de la page dans les deux thèmes.</p>
 
-        <div class="icones-grille no-select">
-            <div class="icone-case"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></div>
-            <div class="icone-case"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></div>
-            <div class="icone-case"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg></div>
-            <div class="icone-case"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></div>
-            <div class="icone-case"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></div>
-            <div class="icone-case"><svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg></div>
-            <div class="icone-case"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></div>
-            <div class="icone-case"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></div>
-            <div class="icone-case"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
-            <div class="icone-case"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></div>
-            <div class="icone-case"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg></div>
-            <div class="icone-case"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+        <h3 data-i18n="bg_s6_h1">À la taille de la page</h3>
+        <p class="sous-intro" data-i18n="bg_s6_h1_texte">26 px, la taille d’une icône dans une carte ou un bouton. À cette échelle la trame de 9,5 px tombe à 0,6 px : elle ne se voit plus, et l’icône se lit comme un aplat légèrement rongé sur les bords.</p>
+        <div class="halftones-ui no-select" aria-hidden="true">
+            <span class="halftone-icone" title="Telecharger" style="--fichier: url('media/icone-halftone-download.png')"></span>
+            <span class="halftone-icone" title="Envoyer" style="--fichier: url('media/icone-halftone-upload.png')"></span>
+            <span class="halftone-icone" title="Fichier" style="--fichier: url('media/icone-halftone-file-text.png')"></span>
+            <span class="halftone-icone" title="Image" style="--fichier: url('media/icone-halftone-image.png')"></span>
+            <span class="halftone-icone" title="Reglages" style="--fichier: url('media/icone-halftone-sliders.png')"></span>
+            <span class="halftone-icone" title="Code" style="--fichier: url('media/icone-halftone-code.png')"></span>
+            <span class="halftone-icone" title="QR code" style="--fichier: url('media/icone-halftone-qr-code.png')"></span>
+            <span class="halftone-icone" title="Palette" style="--fichier: url('media/icone-halftone-palette.png')"></span>
+            <span class="halftone-icone" title="Experimentation" style="--fichier: url('media/icone-halftone-flask.png')"></span>
+            <span class="halftone-icone" title="Aller a" style="--fichier: url('media/icone-halftone-arrow-right.png')"></span>
         </div>
 
         <div class="sous-section">
-            <h3 data-i18n="bg_s6_h1">L'icône en halftone</h3>
-            <p class="sous-intro" data-i18n="bg_s6_h1_texte">Le tracé lui-même est tramé, jamais une plaque posée derrière. Trame de 9,5 px sur un carré de 400, soit 42 rangées : le point grossit là où le dessin est plein et se referme là où il s'amincit, et les points fusionnent en aplat au cœur des traits épais. Les fichiers sont noirs sur transparent et servent de masque, donc ils prennent l'encre de la page dans les deux thèmes. À réserver aux grands formats, à partir de 200 px de côté : en dessous, la trame passe sous les 5 px à l’écran et l’icône redevient un aplat.</p>
-            <div class="halftones no-select" aria-hidden="true">
-                <span class="halftone-icone" title="Telecharger" style="--fichier: url('media/icone-halftone-download.png')"></span>
-                <span class="halftone-icone" title="Envoyer" style="--fichier: url('media/icone-halftone-upload.png')"></span>
-                <span class="halftone-icone" title="Fichier" style="--fichier: url('media/icone-halftone-file-text.png')"></span>
-                <span class="halftone-icone" title="Image" style="--fichier: url('media/icone-halftone-image.png')"></span>
-                <span class="halftone-icone" title="Reglages" style="--fichier: url('media/icone-halftone-sliders.png')"></span>
-                <span class="halftone-icone" title="Code" style="--fichier: url('media/icone-halftone-code.png')"></span>
-                <span class="halftone-icone" title="QR code" style="--fichier: url('media/icone-halftone-qr-code.png')"></span>
-                <span class="halftone-icone" title="Palette" style="--fichier: url('media/icone-halftone-palette.png')"></span>
-                <span class="halftone-icone" title="Experimentation" style="--fichier: url('media/icone-halftone-flask.png')"></span>
-                <span class="halftone-icone" title="Aller a" style="--fichier: url('media/icone-halftone-arrow-right.png')"></span>
+            <h3 data-i18n="bg_s6_h2">Où la trame se referme</h3>
+            <p class="sous-intro" data-i18n="bg_s6_h2_texte">La même icône à quatre tailles. La trame ne redevient lisible qu’à partir de 200 px de côté, quand son pas repasse au-dessus de 5 px à l’écran. En dessous, le halftone est une matière qu’on paie sans la voir.</p>
+            <div class="halftone-echelle no-select" aria-hidden="true">
+                <span class="halftone-palier" style="--t: 26px"><span class="halftone-icone" style="--fichier: url('media/icone-halftone-download.png')"></span><b>26 px</b></span>
+                <span class="halftone-palier" style="--t: 48px"><span class="halftone-icone" style="--fichier: url('media/icone-halftone-download.png')"></span><b>48 px</b></span>
+                <span class="halftone-palier" style="--t: 96px"><span class="halftone-icone" style="--fichier: url('media/icone-halftone-download.png')"></span><b>96 px</b></span>
+                <span class="halftone-palier" style="--t: 200px"><span class="halftone-icone" style="--fichier: url('media/icone-halftone-download.png')"></span><b>200 px</b></span>
             </div>
         </div>
     </section>
@@ -1736,7 +1719,7 @@
             attente = Array.prototype.slice.call(document.querySelectorAll(
                 '.hero-maj, .hero h1, .hero-sub, .section-num, .section h2, .section-intro, ' +
                 '.sous-section, .bloc, .voix-pilier, .encre-echelle, .theme-carte, .type-rang, ' +
-                '.note-bloc, .icones-grille, .halftones, .mvt-liste, .ui-colonne, .bento-item, ' +
+                '.note-bloc, .halftones-ui, .halftone-echelle, .mvt-liste, .ui-colonne, .bento-item, ' +
                 '.res-carte, .papier-demo, .rendu'
             ));
 
