@@ -436,12 +436,18 @@
            tramé, pas une plaque posée derrière. Le dessin sert de
            masque, et la trame de points le remplit — l'aire du point
            suit le ton, comme sur le fond de la page. */
-        .halftones { display: flex; flex-wrap: wrap; gap: 2rem; }
+        /* Les fichiers sont noirs sur transparent. Plutôt que de les
+           poser en image et de les retourner en thème sombre, on s'en
+           sert comme masque et c'est l'encre de la page qui les peint :
+           une seule encre, les deux thèmes, sans second fichier. */
+        .halftones { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.75rem; }
         .halftone-icone {
-            width: 88px;
-            height: 88px;
+            width: 100%;
+            aspect-ratio: 1;
             display: block;
-            color: var(--text);
+            background-color: var(--encre-1);
+            -webkit-mask: var(--fichier) center / contain no-repeat;
+            mask: var(--fichier) center / contain no-repeat;
         }
 
         /* ---------- 07 · Mouvement ---------- */
@@ -712,6 +718,8 @@
         .res-apercu { height: 170px; display: flex; align-items: center; justify-content: center; padding: 1.75rem; background-image: linear-gradient(var(--voile-fin), var(--voile-fin)); }
         .res-apercu img { max-width: 100%; max-height: 84px; object-fit: contain; }
         .res-apercu.res-petit img { max-height: 96px; }
+        .res-apercu.res-halftones { display: flex; gap: 1.1rem; align-items: center; justify-content: center; }
+        .res-apercu.res-halftones .halftone-icone { width: 104px; }
         .res-sombre { background-color: var(--text); }
         .res-sombre img { filter: brightness(0) invert(1); }
         :root[data-theme="dark"] .res-sombre { background-color: #0E0D11; }
@@ -1187,48 +1195,18 @@
 
         <div class="sous-section">
             <h3 data-i18n="bg_s6_h1">The halftone icon</h3>
-            <p class="sous-intro" data-i18n="bg_s6_h1_texte">The stroke itself is screened, not a plate behind it. The drawing serves as a mask, the screen fills it, and the stroke thickens to 3.4 units so a dot fits across it three times. Keep it for large formats, from 72px up.</p>
-            <div class="halftones no-select">
-                <svg class="halftone-icone" viewBox="0 0 24 24" aria-hidden="true">
-                    <defs><mask id="mh1" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-                        <g fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
-                        </g>
-                    </mask></defs>
-                    <g mask="url(#mh1)" data-trame=""></g>
-                </svg>
-                <svg class="halftone-icone" viewBox="0 0 24 24" aria-hidden="true">
-                    <defs><mask id="mh2" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-                        <g fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line>
-                        </g>
-                    </mask></defs>
-                    <g mask="url(#mh2)" data-trame=""></g>
-                </svg>
-                <svg class="halftone-icone" viewBox="0 0 24 24" aria-hidden="true">
-                    <defs><mask id="mh3" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-                        <g fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline>
-                        </g>
-                    </mask></defs>
-                    <g mask="url(#mh3)" data-trame=""></g>
-                </svg>
-                <svg class="halftone-icone" viewBox="0 0 24 24" aria-hidden="true">
-                    <defs><mask id="mh4" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-                        <g fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="9"></circle><path d="M12 7v10"></path><path d="M7 12h10"></path>
-                        </g>
-                    </mask></defs>
-                    <g mask="url(#mh4)" data-trame=""></g>
-                </svg>
-                <svg class="halftone-icone" viewBox="0 0 24 24" aria-hidden="true">
-                    <defs><mask id="mh5" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-                        <g fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline>
-                        </g>
-                    </mask></defs>
-                    <g mask="url(#mh5)" data-trame=""></g>
-                </svg>
+            <p class="sous-intro" data-i18n="bg_s6_h1_texte">The stroke itself is screened, never a plate laid behind it. A 9.5px screen on a 400px square, so 42 rows: the dot grows where the drawing is solid and closes where it thins, and the dots merge into a flat area at the heart of thick strokes. The files are black on transparent and serve as a mask, so they take the page’s ink in both themes. Keep them for large formats, from 200px across: below that the screen drops under 5px on screen and the icon becomes a flat shape again.</p>
+            <div class="halftones no-select" aria-hidden="true">
+                <span class="halftone-icone" title="Telecharger" style="--fichier: url('media/icone-halftone-download.png')"></span>
+                <span class="halftone-icone" title="Envoyer" style="--fichier: url('media/icone-halftone-upload.png')"></span>
+                <span class="halftone-icone" title="Fichier" style="--fichier: url('media/icone-halftone-file-text.png')"></span>
+                <span class="halftone-icone" title="Image" style="--fichier: url('media/icone-halftone-image.png')"></span>
+                <span class="halftone-icone" title="Reglages" style="--fichier: url('media/icone-halftone-sliders.png')"></span>
+                <span class="halftone-icone" title="Code" style="--fichier: url('media/icone-halftone-code.png')"></span>
+                <span class="halftone-icone" title="QR code" style="--fichier: url('media/icone-halftone-qr-code.png')"></span>
+                <span class="halftone-icone" title="Palette" style="--fichier: url('media/icone-halftone-palette.png')"></span>
+                <span class="halftone-icone" title="Experimentation" style="--fichier: url('media/icone-halftone-flask.png')"></span>
+                <span class="halftone-icone" title="Aller a" style="--fichier: url('media/icone-halftone-arrow-right.png')"></span>
             </div>
         </div>
     </section>
@@ -1475,6 +1453,18 @@
             </div>
 
             <div class="res-carte">
+                <div class="res-apercu res-halftones">
+                    <span class="halftone-icone" style="--fichier: url('media/icone-halftone-download.png')"></span>
+                    <span class="halftone-icone" style="--fichier: url('media/icone-halftone-qr-code.png')"></span>
+                </div>
+                <div class="res-info">
+                    <h4 data-i18n="bg_res7_t">The ten halftone icons</h4>
+                    <p data-i18n="bg_res7_d">400 × 400 PNGs, black on a transparent background. Use them as a mask so they take the colour of whatever carries them, or as they are on a light background.</p>
+                    <div class="res-liens"><a href="media/icone-halftone-download.png" download="" data-i18n="bg_dl_icone">Sample PNG</a></div>
+                </div>
+            </div>
+
+            <div class="res-carte">
                 <div class="res-apercu"><span class="type-main" style="font-size: 2.1rem;">Cedarville</span></div>
                 <div class="res-info">
                     <h4 data-i18n="bg_res6_t">The two typefaces</h4>
@@ -1622,38 +1612,6 @@
             });
         })();
 
-        // ============================================================
-        // Les icones en halftone
-        // ============================================================
-        //
-        // C'est le trace de l'icone qui est trame, pas une plaque posee
-        // derriere : le dessin sert de masque, et la trame le remplit.
-        // La loi est celle du fond de page, l'aire du point suit le ton
-        // — interpoler le rayon ferait chuter l'encre au carre.
-        //
-        // Le pas est exprime dans le repere de l'icone (24 unites), pas
-        // en pixels : la trame suit donc l'icone quand elle change de
-        // taille, ce qui est le comportement voulu pour un dessin.
-        (function () {
-            var PAS = 0.92;       // le pas de la trame, dans le repere 0..24
-            var RAYON_MAX = 0.46; // le point du centre du dessin
-            var CHUTE = 0.55;     // ce que le ton perd vers les bords
-
-            document.querySelectorAll('.halftone-icone [data-trame]').forEach(function (groupe) {
-                var svg = '';
-                for (var y = PAS / 2; y < 24; y += PAS) {
-                    for (var x = PAS / 2; x < 24; x += PAS) {
-                        var dx = (x - 12) / 12, dy = (y - 12) / 12;
-                        var d = Math.min(1, Math.sqrt(dx * dx + dy * dy));
-                        var ton = 1 - CHUTE * d * d;
-                        var rayon = RAYON_MAX * Math.sqrt(ton);
-                        if (rayon < 0.08) continue;
-                        svg += '<circle cx="' + x.toFixed(2) + '" cy="' + y.toFixed(2) + '" r="' + rayon.toFixed(3) + '" fill="currentColor"/>';
-                    }
-                }
-                groupe.innerHTML = svg;
-            });
-        })();
 
         // ============================================================
         // Les champs de points en cadre
