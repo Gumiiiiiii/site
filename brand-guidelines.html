@@ -131,7 +131,7 @@
 
         /* ---------- Structure ---------- */
         .hero {
-            min-height: 88vh;
+            min-height: 68vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -159,7 +159,7 @@
            qui la sépare du paragraphe est réservé ici, et non par la note
            elle-même : une note est hors du flux et ne pousse rien. */
         .hero-sub {
-            margin-top: 5.5rem;
+            margin-top: 4.5rem;
             font-size: 1.15rem;
             max-width: 46ch;
             color: var(--encre-07);
@@ -168,7 +168,7 @@
         .hero-note { position: relative; display: inline-block; }
 
         .section {
-            padding: 7rem var(--marge);
+            padding: 4.5rem var(--marge);
             position: relative;
             width: min(100%, var(--largeur));
             margin: 0 auto;
@@ -194,8 +194,8 @@
             font-size: 1.1rem;
             max-width: 62ch;
             color: var(--encre-07);
-            margin-top: 2.5rem;
-            margin-bottom: 3.5rem;
+            margin-top: 1.6rem;
+            margin-bottom: 2.4rem;
             font-weight: 600;
         }
         .section h3 {
@@ -204,7 +204,7 @@
             letter-spacing: -0.01em;
             margin-bottom: 1rem;
         }
-        .sous-section { margin-top: 4.5rem; }
+        .sous-section { margin-top: 2.8rem; }
         .sous-intro {
             font-size: 1rem;
             color: var(--encre-07);
@@ -391,7 +391,7 @@
         .note-bloc { display: flex; flex-direction: column; gap: 0.75rem; }
         .note-fiche {
             position: relative;
-            min-height: 13rem;
+            min-height: 10.5rem;
             background-color: var(--bg);
             background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
             border: 1px solid var(--filet);
@@ -632,7 +632,7 @@
         .bento-grand { grid-column: span 2; grid-row: span 2; }
 
         /* ---------- 10 · Applications ---------- */
-        .rendus { display: grid; gap: 2.5rem; }
+        .rendus { display: grid; gap: 2rem; }
         .rendu { display: flex; flex-direction: column; gap: 0.85rem; }
         .rendu-cadre {
             position: relative;
@@ -677,6 +677,18 @@
         .rendu-og .rendu-titre { font-size: 7cqw; font-weight: 900; letter-spacing: -0.03em; line-height: 0.98; max-width: 15ch; }
         .rendu-og .rendu-phrase { font-size: 2.9cqw; font-weight: 600; color: var(--encre-07); max-width: 40ch; }
 
+        /* La carte de visite, 85 × 55 mm. Le recto porte la marque sur
+           la trame, le verso les coordonnées sur le papier nu : deux
+           faces d'une même feuille, l'une imprimée, l'autre écrite. */
+        .rendu-carte { aspect-ratio: 85 / 55; container-type: inline-size; }
+        .rendu-carte .rendu-contenu { padding: 0 10%; gap: 0.7em; }
+        .rendu-carte .rendu-marque { width: 46cqw; max-width: 220px; height: auto; display: block; }
+        .rendu-carte .rendu-adresse { font-size: 4.4cqw; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--encre-05); }
+        .rendu-carte .rendu-nom-perso { font-size: 7.2cqw; font-weight: 900; letter-spacing: -0.02em; line-height: 1; }
+        .rendu-carte .rendu-role { font-size: 4.4cqw; font-weight: 600; color: var(--encre-07); }
+        .rendu-carte .rendu-contact { font-size: 4cqw; font-weight: 600; color: var(--encre-05); line-height: 1.5; }
+        .rendu-carte .note { font-size: 5cqw; }
+
         /* L'avatar, carré, recadré en cercle par les plateformes. Il
            est plafonné : laissé libre dans sa colonne, un carré prend
            toute la largeur disponible et devient un disque géant. */
@@ -686,6 +698,7 @@
         .rendu-avatar-bloc .rendu-pied { max-width: 260px; }
 
         .rendus-paire { display: grid; grid-template-columns: 1fr auto; gap: 2.5rem; align-items: start; }
+        .rendus-cartes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; align-items: start; }
         @media (max-width: 900px) { .rendus-paire { grid-template-columns: 1fr; } }
 
         /* ---------- 11 · Ressources ---------- */
@@ -723,9 +736,9 @@
         .voix-pilier {
             display: grid;
             grid-template-columns: 1fr 1.5fr;
-            gap: 3rem;
-            padding-bottom: 3rem;
-            margin-bottom: 3rem;
+            gap: 2.5rem;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
             border-bottom: 1px solid var(--filet-fin);
         }
         .voix-pilier:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
@@ -743,7 +756,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 6rem var(--marge) 4rem;
+            padding: 4rem var(--marge) 3rem;
             font-weight: 900;
             font-size: 1.4rem;
             letter-spacing: 0.18em;
@@ -777,7 +790,7 @@
             .voix-pilier, .voix-paire { grid-template-columns: 1fr; }
             .bento { grid-template-columns: 1fr; }
             .bento-grand { grid-column: span 1; grid-row: span 1; height: 280px; }
-            .section { padding: 5rem 6%; }
+            .section { padding: 3.5rem 6%; }
             .encre-rang { grid-template-columns: 3.5rem 1fr; }
             .encre-val { grid-column: 2; }
             .mvt-rang { grid-template-columns: 1fr; gap: 0.3rem; }
@@ -810,7 +823,7 @@
     <section class="section" id="voix">
         <span class="section-num">01</span>
         <h2 data-i18n="bg_s1_titre">Voix</h2>
-        <p class="section-intro" data-i18n="bg_s1_intro">Mon ton est celui d'un expert technique pragmatique. Je suis direct, créatif, et je vais à l'essentiel sans utiliser de jargon superflu.</p>
+        <p class="section-intro" data-i18n="bg_s1_intro">Direct, créatif, sans jargon. J'adapte le propos à qui le lit.</p>
 
         <div class="voix-pilier">
             <div class="voix-desc">
@@ -821,10 +834,6 @@
                 <div class="voix-paire">
                     <p class="voix-oui"><span class="voix-marque"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span data-i18n="bg_s1_p1_oui1">« Boostez votre ROI de 20 % avec cette structure de campagne Google Ads ciblée. »</span></p>
                     <p class="voix-non"><span class="voix-marque"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="bg_s1_p1_non1">« Notre méthode magique va faire exploser vos ventes sur les moteurs de recherche ! »</span></p>
-                </div>
-                <div class="voix-paire">
-                    <p class="voix-oui"><span class="voix-marque"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span data-i18n="bg_s1_p1_oui2">« Découvrez 3 méthodes concrètes pour optimiser le temps de chargement de votre site. »</span></p>
-                    <p class="voix-non"><span class="voix-marque"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="bg_s1_p1_non2">« Le secret incroyable pour un site parfait que tous vos concurrents vous envient. »</span></p>
                 </div>
             </div>
         </div>
@@ -839,10 +848,6 @@
                     <p class="voix-oui"><span class="voix-marque"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span data-i18n="bg_s1_p2_oui1">« Un objectif clair : créer de l'impact, pour l'utilisateur et pour l'entreprise. »</span></p>
                     <p class="voix-non"><span class="voix-marque"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="bg_s1_p2_non1">« Un objectif clair — créer de l'impact — pour l'utilisateur et l'entreprise. »</span></p>
                 </div>
-                <div class="voix-paire">
-                    <p class="voix-oui"><span class="voix-marque"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span data-i18n="bg_s1_p2_oui2">« La refonte a triplé le trafic en six mois. »</span></p>
-                    <p class="voix-non"><span class="voix-marque"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="bg_s1_p2_non2">« Ce n'est pas une simple refonte, c'est une transformation radicale de l'expérience ✨ »</span></p>
-                </div>
             </div>
         </div>
 
@@ -856,10 +861,6 @@
                     <p class="voix-oui"><span class="voix-marque"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span data-i18n="bg_s1_p3_oui1">« La V1 sera livrée mardi. Nous aurons besoin de vos retours avant jeudi midi. »</span></p>
                     <p class="voix-non"><span class="voix-marque"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="bg_s1_p3_non1">« On gère ça très vite, promis, ne vous inquiétez pas pour la suite. »</span></p>
                 </div>
-                <div class="voix-paire">
-                    <p class="voix-oui"><span class="voix-marque"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span data-i18n="bg_s1_p3_oui2">« La validation de la campagne prendra deux jours de plus suite à un délai imposé par la plateforme. »</span></p>
-                    <p class="voix-non"><span class="voix-marque"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="bg_s1_p3_non2">« Tout avance super bien, c'est juste un petit détail technique sans importance. »</span></p>
-                </div>
             </div>
         </div>
     </section>
@@ -868,13 +869,13 @@
     <section class="section" id="papier">
         <span class="section-num">02</span>
         <h2 data-i18n="bg_s2_titre">Le papier</h2>
-        <p class="section-intro" data-i18n="bg_s2_intro">Le fond de chaque page est une feuille de papier pointé, celle des carnets sur lesquels je dessine et je planifie mes projets. Ce n'est pas une texture posée derrière le contenu : les titres s'écrivent sur ses rangées, et les blocs se calent sur ses colonnes.</p>
+        <p class="section-intro" data-i18n="bg_s2_intro">Une feuille de papier pointé, celle des carnets sur lesquels je dessine mes projets. Les titres s'écrivent sur ses rangées, et tout ce qu'on pose dessus est opaque.</p>
 
         <div class="papier-demo" aria-hidden="true"><div class="demo-champ"></div></div>
 
         <div class="sous-section">
             <h3 data-i18n="bg_s2_h1">Une seule trame</h3>
-            <p class="sous-intro" data-i18n="bg_s2_h1_texte">Le champ entier est un halftone d'imprimeur. Le haut et le bas de page portent une trame pleine de points gras qui rétrécissent vers le centre ; ceux qui restent forment la grille du milieu, tous du même calibre. Le dégradé et la grille sont un seul dessin pris à deux moments, et l'encre ne varie jamais : c'est la taille des points qui porte le ton.</p>
+            <p class="sous-intro" data-i18n="bg_s2_h1_texte">Un halftone d'imprimeur. Les bords de page portent une trame pleine qui rétrécit vers le centre ; ce qui reste forme la grille. L'encre ne varie jamais, c'est la taille des points qui porte le ton.</p>
             <div class="trame-liste">
                 <div class="trame-item"><b>20 × 18 px</b><span data-i18n="bg_s2_t1">La trame pleine, celle des bandes de dégradé.</span></div>
                 <div class="trame-item"><b>80 × 72 px</b><span data-i18n="bg_s2_t2">La grille du milieu, une colonne et une rangée sur quatre. C'est elle qui porte les titres.</span></div>
@@ -886,20 +887,16 @@
 
         <div class="sous-section">
             <h3 data-i18n="bg_s2_h2">La rangée d'un titre</h3>
-            <p class="sous-intro" data-i18n="bg_s2_h2_texte">Chaque titre de section est écrit sur une rangée de la grille, et cette rangée-là est retracée par-dessus le champ à une encre de 0,18. Elle s'éteint vers les bords de l'écran sans jamais descendre sous 46 % de sa valeur. Les titres de cette page en sont la démonstration : regardez la ligne qui passe derrière chacun d'eux.</p>
+            <p class="sous-intro" data-i18n="bg_s2_h2_texte">La ligne de base de chaque titre tombe sur une rangée de la grille, et cette rangée est retracée à une encre de 0,18. C'est la section qui se décale pour que le titre y arrive, jamais le titre seul.</p>
         </div>
 
-        <div class="sous-section">
-            <h3 data-i18n="bg_s2_h4">Rien ne laisse voir la trame au travers</h3>
-            <p class="sous-intro" data-i18n="bg_s2_h4_texte">Une carte, un bloc, un champ de saisie : tout ce qui se pose sur le papier prend le fond du papier, en opaque. Deux trames superposées ne se lisent plus, et un texte qui a des points derrière lui perd son contraste. Le voile d'encre d'un bloc se peint donc par-dessus un fond plein, jamais à la place.</p>
-        </div>
     </section>
 
     <!-- ============ 03 · COULEURS ============ -->
     <section class="section" id="couleurs">
         <span class="section-num">03</span>
         <h2 data-i18n="bg_s3_titre">Couleurs</h2>
-        <p class="section-intro" data-i18n="bg_s3_intro">Une encre, un papier. Toute la hiérarchie se fait à l'opacité de l'encre, jamais en changeant de teinte. Le violet est réservé aux états interactifs : survol, focus clavier, élément courant. Une couleur qui apparaît sans qu'on ait rien fait n'a rien à dire.</p>
+        <p class="section-intro" data-i18n="bg_s3_intro">Une encre, un papier. La hiérarchie se fait à l'opacité, jamais en changeant de teinte. Le violet est réservé aux états interactifs.</p>
 
         <h3 data-i18n="bg_s3_h1">L'échelle d'encre</h3>
         <p class="sous-intro" data-i18n="bg_s3_h1_texte">Dix valeurs, chacune avec un emploi. Cliquez sur une ligne pour copier sa valeur.</p>
@@ -994,7 +991,7 @@
     <section class="section" id="typographie">
         <span class="section-num">04</span>
         <h2 data-i18n="bg_s4_titre">Typographie</h2>
-        <p class="section-intro" data-i18n="bg_s4_intro">Deux familles, deux rôles qui ne se croisent jamais. Urbanist porte tout ce qui est imprimé sur la page. Cedarville Cursive porte tout ce qui est écrit à la main par-dessus.</p>
+        <p class="section-intro" data-i18n="bg_s4_intro">Urbanist pour tout ce qui est imprimé, Cedarville Cursive pour tout ce qui est écrit à la main par-dessus. Un titre ne porte aucune ponctuation finale.</p>
 
         <div class="bloc">
             <div class="type-rang">
@@ -1015,17 +1012,13 @@
             </div>
         </div>
 
-        <div class="sous-section">
-            <h3 data-i18n="bg_s4_h4">Les titres ne portent aucune ponctuation</h3>
-            <p class="sous-intro" data-i18n="bg_s4_h4_texte">Un titre s'arrête sur son dernier mot. Le point qui suivait les H1 a été retiré de la direction : il ajoutait une couleur là où rien ne se passait, et rendait les titres plus bavards qu'ils ne devaient l'être. Le point du logotype, lui, appartient au logo et ne se rejoue nulle part ailleurs.</p>
-        </div>
     </section>
 
     <!-- ============ 05 · ANNOTATIONS ============ -->
     <section class="section" id="annotations">
         <span class="section-num">05</span>
         <h2 data-i18n="bg_s5_titre">Annotations</h2>
-        <p class="section-intro" data-i18n="bg_s5_intro">Les notes manuscrites sont ce que j'ajoute dans la marge d'un carnet après coup. Elles se posent par-dessus la page, en position absolue, hors du flux et hors de l'arbre d'accessibilité. Retirez le bloc entier et la mise en page reste exactement la même. Chaque traitement est montré ici centré dans sa fiche, pour qu'on puisse les comparer ; en service, ce sont les décalages du tableau plus bas qui les collent à l'élément qu'elles annotent.</p>
+        <p class="section-intro" data-i18n="bg_s5_intro">Ce que j'ajoute dans la marge d'un carnet après coup. En absolu, hors du flux et hors de l'arbre d'accessibilité : retirez-les, la mise en page ne bouge pas. Elles sont centrées ici pour être comparées.</p>
 
         <div class="note-vitrine">
             <figure class="note-bloc">
@@ -1167,10 +1160,8 @@
             <div class="trame-liste">
                 <div class="trame-item"><b data-i18n="bg_s5_r1_t">Encre</b><span data-i18n="bg_s5_r1">0,62. La même encre que la page, juste plus légère. Une note écrite à la main n'a pas de couleur à elle.</span></div>
                 <div class="trame-item"><b data-i18n="bg_s5_r2_t">Taille</b><span data-i18n="bg_s5_r2">Une note tient sur une ligne et ne se coupe jamais. Sa taille suit la largeur de la fenêtre, et tout ce qui la compose est exprimé en em : elle grandit d'un bloc.</span></div>
-                <div class="trame-item"><b data-i18n="bg_s5_r3_t">Inclinaison</b><span data-i18n="bg_s5_r3">De −4 à +2,5 degrés. Assez pour qu'elle ne soit pas alignée, jamais assez pour qu'elle attire le regard avant le contenu.</span></div>
                 <div class="trame-item"><b data-i18n="bg_s5_r4_t">Placement</b><span data-i18n="bg_s5_r4">En absolu contre l'élément annoté, avec un décalage exprimé en em : au-dessus du bord haut pour la flèche, dans la marge gauche pour la note en marge, sur la ligne du nom pour l'astérisque.</span></div>
                 <div class="trame-item"><b data-i18n="bg_s5_r5_t">Interaction</b><span data-i18n="bg_s5_r5">pointer-events: none, sans exception. Une note ne se clique pas et ne masque jamais un lien qu'elle recouvre.</span></div>
-                <div class="trame-item"><b data-i18n="bg_s5_r6_t">Dosage</b><span data-i18n="bg_s5_r6">Une par bloc au maximum. Au-delà, la page ne ressemble plus à un carnet annoté mais à un mur de post-its.</span></div>
             </div>
         </div>
     </section>
@@ -1179,7 +1170,7 @@
     <section class="section" id="icones">
         <span class="section-num">06</span>
         <h2 data-i18n="bg_s6_titre">Icônes</h2>
-        <p class="section-intro" data-i18n="bg_s6_intro">La bibliothèque Lucide, en trait de 2,5 px, avec les extrémités et les angles arrondis. Géométriques et lisibles à petite taille, elles servent l'interface, la manipulation de fichiers et le code.</p>
+        <p class="section-intro" data-i18n="bg_s6_intro">Lucide, trait de 2,5 px, extrémités et angles arrondis.</p>
 
         <div class="icones-grille no-select">
             <div class="icone-case"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></div>
@@ -1198,7 +1189,7 @@
 
         <div class="sous-section">
             <h3 data-i18n="bg_s6_h1">L'icône en halftone</h3>
-            <p class="sous-intro" data-i18n="bg_s6_h1_texte">C'est le tracé de l'icône lui-même qui est tramé. Le dessin sert de masque, et la trame de points le remplit : l'aire du point suit le ton, comme sur le fond de la page, et les points se resserrent au centre du dessin. Le trait épaissit à 3,4 unités pour qu'un point tienne trois fois dans sa largeur, sans quoi la trame ne se lirait pas. Réservez ce traitement aux têtes de section et aux grands formats, à partir de 72 px ; en dessous, la trame se referme et l'icône redevient un aplat.</p>
+            <p class="sous-intro" data-i18n="bg_s6_h1_texte">Le tracé lui-même est tramé, pas une plaque derrière. Le dessin sert de masque, la trame le remplit, et le trait épaissit à 3,4 unités pour qu'un point tienne trois fois dans sa largeur. À réserver aux grands formats, à partir de 72 px.</p>
             <div class="halftones no-select">
                 <svg class="halftone-icone" viewBox="0 0 24 24" aria-hidden="true">
                     <defs><mask id="mh1" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
@@ -1248,7 +1239,7 @@
     <section class="section" id="mouvement">
         <span class="section-num">07</span>
         <h2 data-i18n="bg_s7_titre">Mouvement</h2>
-        <p class="section-intro" data-i18n="bg_s7_intro">Ce qui n'a pas encore été atteint est transparent et posé un cheveu plus bas. Quand son tour vient, on lui retire ce retard, en décalant ses voisins d'un souffle. Rien n'est caché tant que le script en tête de document n'a pas posé sa classe sur la racine, et il ne la pose ni sans JavaScript, ni quand le système demande moins de mouvement.</p>
+        <p class="section-intro" data-i18n="bg_s7_intro">Ce qui n'a pas été atteint est transparent et posé un cheveu plus bas. Rien n'est caché sans JavaScript, ni quand le système demande moins de mouvement.</p>
 
         <div class="mvt-liste">
             <div class="mvt-rang"><b>0,6 s · cubic-bezier(0.16, 1, 0.3, 1)</b><span data-i18n="bg_mvt1">La courbe d'entrée. Rapide au départ, longue à s'arrêter.</span></div>
@@ -1264,7 +1255,7 @@
     <section class="section" id="uikit">
         <span class="section-num">08</span>
         <h2 data-i18n="bg_s8_titre">UI Kit</h2>
-        <p class="section-intro" data-i18n="bg_s8_intro">Le neumorphisme a été retiré. Un relief simulé suppose une lumière et une matière molle, et ni l'un ni l'autre n'existe sur une feuille de papier. Un composant est donc une forme pleine, un contour, ou rien du tout. L'état se dit par la couleur de la bordure et du texte.</p>
+        <p class="section-intro" data-i18n="bg_s8_intro">Le neumorphisme est retiré : un relief simulé suppose une lumière, le papier n'en a pas. Une forme pleine, un contour, ou rien. L'état se dit par la couleur de la bordure et du texte.</p>
 
         <div class="ui-grille">
             <div class="ui-colonne">
@@ -1326,7 +1317,7 @@
     <section class="section" id="images">
         <span class="section-num">09</span>
         <h2 data-i18n="bg_s9_titre">Images</h2>
-        <p class="section-intro" data-i18n="bg_s9_intro">Des photographies brutes, cadrées serré, sans filtre de couleur. Elles sont posées dans des cadres au même rayon que les blocs, avec le même filet, pour qu'elles appartiennent à la page plutôt que d'y flotter.</p>
+        <p class="section-intro" data-i18n="bg_s9_intro">Des photographies brutes, cadrées serré, sans filtre. Même rayon et même filet que les blocs.</p>
 
         <div class="bento">
             <div class="bento-item bento-grand"><img src="media/pierre-trail.webp" alt="" loading="lazy"></div>
@@ -1339,7 +1330,7 @@
     <section class="section" id="applications">
         <span class="section-num">10</span>
         <h2 data-i18n="bg_s10_titre">Applications</h2>
-        <p class="section-intro" data-i18n="bg_s10_intro">Le système appliqué hors du site. Chaque rendu ci-dessous est composé en direct avec la trame, les fontes et l'échelle d'encre de la page, aux dimensions exactes attendues par la plateforme. Ce sont des maquettes à recomposer dans un outil de design, pas des fichiers exportables.</p>
+        <p class="section-intro" data-i18n="bg_s10_intro">Le système hors du site. Chaque rendu est composé en direct, aux dimensions exactes du fichier final. Ce sont des maquettes à recomposer, pas des exports.</p>
 
         <div class="rendus">
             <div class="rendu">
@@ -1360,6 +1351,42 @@
                 <div class="rendu-pied">
                     <span class="rendu-nom" data-i18n="bg_ban_nom">Bannière LinkedIn</span>
                     <span class="rendu-taille">1584 × 396 px</span>
+                </div>
+            </div>
+
+            <div class="rendus-cartes">
+                <div class="rendu">
+                    <div class="rendu-cadre rendu-carte">
+                        <div class="rendu-champ" data-champ data-l="1004" data-h="650" data-encre="0.14" aria-hidden="true"></div>
+                        <div class="rendu-contenu">
+                            <img class="rendu-marque" src="media/Gumi-Logotype.png" alt="Gumi">
+                            <p class="rendu-adresse">pierre.gumi.ch</p>
+                        </div>
+                    </div>
+                    <div class="rendu-pied">
+                        <span class="rendu-nom" data-i18n="bg_carte_recto">Carte de visite, recto</span>
+                        <span class="rendu-taille">85 × 55 mm</span>
+                    </div>
+                </div>
+
+                <div class="rendu">
+                    <div class="rendu-cadre rendu-carte">
+                        <div class="rendu-contenu">
+                            <p class="rendu-nom-perso">Pierre Gumilar</p>
+                            <p class="rendu-role" data-i18n="bg_carte_role">E-commerce et donnée produit</p>
+                            <p class="rendu-contact">pierregumilar@gmail.com<br>linkedin.com/in/pierre-gumilar</p>
+                            <span class="note note--etoile" aria-hidden="true" style="top: auto; bottom: 7%; right: 8%; left: auto; transform: rotate(2.5deg);">
+                                <svg class="note-trait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                                    <path d="M12 4v16"></path><path d="M5 8l14 8"></path><path d="M19 8L5 16"></path>
+                                </svg>
+                                <span class="note-texte" data-i18n="bg_carte_note">Écrivez dessus</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="rendu-pied">
+                        <span class="rendu-nom" data-i18n="bg_carte_verso">Carte de visite, verso</span>
+                        <span class="rendu-taille">85 × 55 mm</span>
+                    </div>
                 </div>
             </div>
 
@@ -1400,7 +1427,6 @@
                 <div class="trame-item"><b data-i18n="bg_app_r1_t">La trame</b><span data-i18n="bg_app_r1">Elle garde son pas de 20 × 18 px en pixels réels, quelle que soit la taille du visuel. Une trame mise à l'échelle avec le cadre n'est plus la même matière.</span></div>
                 <div class="trame-item"><b data-i18n="bg_app_r2_t">L'encre</b><span data-i18n="bg_app_r2">Elle monte à 0,13 hors du site, contre 0,04 sur la page. Un visuel se regarde à distance et souvent compressé : à 0,04 la trame disparaît.</span></div>
                 <div class="trame-item"><b data-i18n="bg_app_r3_t">Le logotype</b><span data-i18n="bg_app_r3">Toujours le fichier fourni, jamais retapé. C'est le seul endroit où le point de la marque subsiste.</span></div>
-                <div class="trame-item"><b data-i18n="bg_app_r4_t">La marge</b><span data-i18n="bg_app_r4">8 % de la largeur du visuel, la même que celle des sections du site.</span></div>
             </div>
         </div>
     </section>
@@ -1505,30 +1531,66 @@
 
             var minuterie;
 
+            // La ligne de base reelle du titre, mesuree et non estimee :
+            // un span vide de hauteur nulle se pose dessus, et c'est son
+            // bas qui la donne. Estimee a 0,82 de la hauteur de boite,
+            // elle tombait jusqu'a 33 px a cote.
+            function ligneDeBase(titre, haut) {
+                var jalon = document.createElement('span');
+                jalon.textContent = '​';
+                jalon.style.cssText = 'font-size:0;line-height:0;vertical-align:baseline';
+                titre.appendChild(jalon);
+                var y = jalon.getBoundingClientRect().bottom + window.pageYOffset - haut;
+                titre.removeChild(jalon);
+                return y;
+            }
+
+            // Poser les titres sur la trame.
+            //
+            // Une rangee dessinee pres du titre ne suffit pas : c'est le
+            // titre qui doit tomber sur la rangee. On decale donc chaque
+            // section jusqu'a ce que la ligne de base de son titre y
+            // arrive. Le decalage porte sur la section entiere, et non
+            // sur le titre seul, pour que l'ecart entre le numero et le
+            // titre reste le meme partout.
+            //
+            // Deux passes : la premiere change la hauteur de la page,
+            // donc le pas du champ, donc la position des rangees.
+            function caler() {
+                var sections = document.querySelectorAll('.section');
+                for (var passe = 0; passe < 2; passe++) {
+                    var hauteur = couche.offsetHeight;
+                    var pasGrille = 4 * (hauteur / Math.round(hauteur / PAS_CHAMP));
+                    var haut = couche.getBoundingClientRect().top + window.pageYOffset;
+
+                    Array.prototype.forEach.call(sections, function (section) {
+                        var titre = section.querySelector('h2');
+                        if (!titre) return;
+                        var base = ligneDeBase(titre, haut);
+                        var vise = Math.round(base / pasGrille) * pasGrille;
+                        var actuel = parseFloat(getComputedStyle(section).paddingTop) || 0;
+                        section.style.paddingTop = Math.max(0, actuel + (vise - base)) + 'px';
+                    });
+                }
+            }
+
             function tracer() {
                 var titres = document.querySelectorAll('.section h2');
                 if (!titres.length) return;
 
+                caler();
+
                 var largeur = couche.offsetWidth;
                 var hauteur = couche.offsetHeight;
                 var centre = largeur / 2;
-
-                // Le champ divise sa hauteur en un nombre entier de
-                // rangees : on refait le meme calcul pour retomber sur
-                // ses rangees exactes, et non sur des multiples de 18.
-                var rangees = Math.round(hauteur / PAS_CHAMP);
-                var pas = hauteur / rangees;
-                var pasGrille = 4 * pas;
-
                 var haut = couche.getBoundingClientRect().top + window.pageYOffset;
                 var svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">';
 
                 Array.prototype.forEach.call(titres, function (titre) {
-                    var cadre = titre.getBoundingClientRect();
-                    // La ligne de base plutot que le centre : c'est elle
-                    // qui doit tomber sur la rangee, comme sur du papier.
-                    var base = cadre.top + window.pageYOffset - haut + cadre.height * 0.82;
-                    var y = Math.round(base / pasGrille) * pasGrille;
+                    // Tracee sur la ligne de base elle-meme, apres calage :
+                    // le titre est ainsi toujours ecrit sur sa rangee, au
+                    // pixel pres, meme si le calage n'a pas pu tomber juste.
+                    var y = ligneDeBase(titre, haut);
                     if (y < 0 || y > hauteur) return;
 
                     for (var i = 0; i * PAS_X <= centre + PAS_X; i++) {
