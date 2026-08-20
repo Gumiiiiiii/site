@@ -14,15 +14,15 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Gumi.">
     <meta property="og:title" content="Gumi. Brand Guidelines">
-    <meta property="og:description" content="Les brand guidelines Gumi: papier pointe, encre unique, icones en halftone, annotations manuscrites et principes de conception pour garder une identite coherente.">
+    <meta property="og:description" content="Les brand guidelines Gumi: papier pointe, encre unique, icones en points, annotations manuscrites et principes de conception pour garder une identite coherente.">
     <meta property="og:url" content="https://gumi.ch/brand-guidelines">
     <meta property="og:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Gumi. Brand Guidelines">
-    <meta name="twitter:description" content="Les brand guidelines Gumi: papier pointe, encre unique, icones en halftone, annotations manuscrites et principes de conception pour garder une identite coherente.">
+    <meta name="twitter:description" content="Les brand guidelines Gumi: papier pointe, encre unique, icones en points, annotations manuscrites et principes de conception pour garder une identite coherente.">
     <meta name="twitter:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
     <title data-i18n="doc_brand_title">Gumi. Brand Guidelines</title>
-    <meta name="description" data-i18n-content="doc_brand_desc" content="Les brand guidelines Gumi: papier pointe, encre unique, icones en halftone, annotations manuscrites et principes de conception pour garder une identite coherente.">
+    <meta name="description" data-i18n-content="doc_brand_desc" content="Les brand guidelines Gumi: papier pointe, encre unique, icones en points, annotations manuscrites et principes de conception pour garder une identite coherente.">
     <link rel="icon" type="image/png" sizes="32x32" href="media/favicon-32.png">
     <link rel="apple-touch-icon" href="media/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
@@ -418,28 +418,16 @@
         }
 
         /* ---------- 06 · Icônes ----------
-           Le trait Lucide a quitté la page : il ne reste que les
-           fichiers tramés, posés en masque pour que l'encre de la page
-           les peigne. Une image les aurait laissés noirs en thème
-           sombre, donc invisibles. */
-        .halftone-icone {
-            width: 100%;
-            aspect-ratio: 1;
-            display: block;
-            background-color: var(--encre-1);
-            -webkit-mask: var(--fichier) center / contain no-repeat;
-            mask: var(--fichier) center / contain no-repeat;
-        }
-
-        /* À la taille de la page : celle d'une icône de carte ou de bouton. */
-        .halftones-ui { display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: center; }
-        .halftones-ui .halftone-icone { width: 26px; }
-
-        /* L'échelle, qui montre à partir d'où la trame se lit. */
-        .halftone-echelle { display: flex; flex-wrap: wrap; gap: 2.25rem; align-items: flex-end; }
-        .halftone-palier { display: flex; flex-direction: column; gap: 0.7rem; align-items: flex-start; }
-        .halftone-palier .halftone-icone { width: var(--t); }
-        .halftone-palier b { font-size: 0.8rem; font-weight: 700; color: var(--encre-05); font-variant-numeric: tabular-nums; }
+           Semées de points plutôt que tracées au trait : le halftone,
+           essayé avant, se refermait sous 200 px et ne tenait pas à la
+           taille d'une icône. Ici les points sont tous du même calibre
+           et le dessin est en SVG, donc rien ne se dégrade en
+           descendant. */
+        .icone-points { display: block; fill: var(--encre-1); }
+        .icones-ui { display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: center; }
+        .icones-ui .icone-points { width: 26px; height: 26px; }
+        .icones-grandes { display: flex; flex-wrap: wrap; gap: 2.5rem; align-items: center; }
+        .icones-grandes .icone-points { width: 96px; height: 96px; }
 
         /* ---------- 07 · Mouvement ---------- */
         .mvt-liste {
@@ -709,8 +697,6 @@
         .res-apercu { height: 170px; display: flex; align-items: center; justify-content: center; padding: 1.75rem; background-image: linear-gradient(var(--voile-fin), var(--voile-fin)); }
         .res-apercu img { max-width: 100%; max-height: 84px; object-fit: contain; }
         .res-apercu.res-petit img { max-height: 96px; }
-        .res-apercu.res-halftones { display: flex; gap: 1.1rem; align-items: center; justify-content: center; }
-        .res-apercu.res-halftones .halftone-icone { width: 104px; }
         .res-sombre { background-color: var(--text); }
         .res-sombre img { filter: brightness(0) invert(1); }
         :root[data-theme="dark"] .res-sombre { background-color: #0E0D11; }
@@ -765,7 +751,7 @@
            script en tête de document n'a pas posé .fond-anime sur
            <html>, et il ne la pose ni sans JavaScript, ni quand on
            demande moins de mouvement. */
-        .fond-anime :where(.section-num, .section h2, .section-intro, .sous-section, .bloc, .hero-maj, .hero h1, .hero-sub, .voix-pilier, .encre-echelle, .theme-carte, .type-rang, .note-bloc, .halftones-ui, .halftone-echelle, .mvt-liste, .ui-colonne, .bento-item, .res-carte, .papier-demo, .rendu) {
+        .fond-anime :where(.section-num, .section h2, .section-intro, .sous-section, .bloc, .hero-maj, .hero h1, .hero-sub, .voix-pilier, .encre-echelle, .theme-carte, .type-rang, .note-bloc, .icones-ui, .icones-grandes, .mvt-liste, .ui-colonne, .bento-item, .res-carte, .papier-demo, .rendu) {
             opacity: 0;
             transform: translateY(var(--anim-monte, 0.85rem));
             transition: opacity 0.6s ease var(--anim-retard, 0s),
@@ -1167,31 +1153,32 @@
     <section class="section" id="icones">
         <span class="section-num">06</span>
         <h2 data-i18n="bg_s6_titre">Icônes</h2>
-        <p class="section-intro" data-i18n="bg_s6_intro">Dix icônes, toutes en halftone. Le trait Lucide ne sert plus que de dessin de départ : c’est le tracé tramé qui est posé sur la page. Les fichiers sont noirs sur transparent et servent de masque, donc ils prennent l’encre de la page dans les deux thèmes.</p>
+        <p class="section-intro" data-i18n="bg_s6_intro">Dix icônes semées de points. Le tracé Lucide sert de chemin, et on y pose des points tous du même calibre, à intervalle régulier. C’est la même matière que le fond de la page, à l’échelle d’une icône.</p>
 
         <h3 data-i18n="bg_s6_h1">À la taille de la page</h3>
-        <p class="sous-intro" data-i18n="bg_s6_h1_texte">26 px, la taille d’une icône dans une carte ou un bouton. À cette échelle la trame de 9,5 px tombe à 0,6 px : elle ne se voit plus, et l’icône se lit comme un aplat légèrement rongé sur les bords.</p>
-        <div class="halftones-ui no-select" aria-hidden="true">
-            <span class="halftone-icone" title="Telecharger" style="--fichier: url('media/icone-halftone-download.png')"></span>
-            <span class="halftone-icone" title="Envoyer" style="--fichier: url('media/icone-halftone-upload.png')"></span>
-            <span class="halftone-icone" title="Fichier" style="--fichier: url('media/icone-halftone-file-text.png')"></span>
-            <span class="halftone-icone" title="Image" style="--fichier: url('media/icone-halftone-image.png')"></span>
-            <span class="halftone-icone" title="Reglages" style="--fichier: url('media/icone-halftone-sliders.png')"></span>
-            <span class="halftone-icone" title="Code" style="--fichier: url('media/icone-halftone-code.png')"></span>
-            <span class="halftone-icone" title="QR code" style="--fichier: url('media/icone-halftone-qr-code.png')"></span>
-            <span class="halftone-icone" title="Palette" style="--fichier: url('media/icone-halftone-palette.png')"></span>
-            <span class="halftone-icone" title="Experimentation" style="--fichier: url('media/icone-halftone-flask.png')"></span>
-            <span class="halftone-icone" title="Aller a" style="--fichier: url('media/icone-halftone-arrow-right.png')"></span>
+        <p class="sous-intro" data-i18n="bg_s6_h1_texte">26 px, la taille d’une icône dans une carte ou un bouton. Les points restent des points : ils sont en SVG, donc ni la trame ni le trait ne se dégradent en descendant.</p>
+        <div class="icones-ui no-select">
+            <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="Telecharger"><circle cx="21.00" cy="15.00" r="1"/><circle cx="21.00" cy="18.14" r="1"/><circle cx="19.83" cy="20.82" r="1"/><circle cx="16.71" cy="21.00" r="1"/><circle cx="13.57" cy="21.00" r="1"/><circle cx="10.43" cy="21.00" r="1"/><circle cx="7.29" cy="21.00" r="1"/><circle cx="4.17" cy="20.82" r="1"/><circle cx="3.00" cy="18.14" r="1"/><circle cx="3.00" cy="15.00" r="1"/><circle cx="7.00" cy="10.00" r="1"/><circle cx="9.00" cy="12.00" r="1"/><circle cx="11.00" cy="14.00" r="1"/><circle cx="13.00" cy="14.00" r="1"/><circle cx="15.00" cy="12.00" r="1"/><circle cx="17.00" cy="10.00" r="1"/><circle cx="12.00" cy="12.00" r="1"/><circle cx="12.00" cy="9.00" r="1"/><circle cx="12.00" cy="6.00" r="1"/><circle cx="12.00" cy="3.00" r="1"/></svg>
+            <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="Envoyer"><circle cx="21.00" cy="15.00" r="1"/><circle cx="21.00" cy="18.14" r="1"/><circle cx="19.83" cy="20.82" r="1"/><circle cx="16.71" cy="21.00" r="1"/><circle cx="13.57" cy="21.00" r="1"/><circle cx="10.43" cy="21.00" r="1"/><circle cx="7.29" cy="21.00" r="1"/><circle cx="4.17" cy="20.82" r="1"/><circle cx="3.00" cy="18.14" r="1"/><circle cx="3.00" cy="15.00" r="1"/><circle cx="17.00" cy="8.00" r="1"/><circle cx="15.00" cy="6.00" r="1"/><circle cx="13.00" cy="4.00" r="1"/><circle cx="11.00" cy="4.00" r="1"/><circle cx="9.00" cy="6.00" r="1"/><circle cx="7.00" cy="8.00" r="1"/><circle cx="12.00" cy="6.00" r="1"/><circle cx="12.00" cy="9.00" r="1"/><circle cx="12.00" cy="12.00" r="1"/><circle cx="12.00" cy="15.00" r="1"/></svg>
+            <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="Fichier"><circle cx="14.00" cy="2.00" r="1"/><circle cx="11.00" cy="2.00" r="1"/><circle cx="8.01" cy="2.00" r="1"/><circle cx="5.05" cy="2.24" r="1"/><circle cx="4.00" cy="4.84" r="1"/><circle cx="4.00" cy="7.84" r="1"/><circle cx="4.00" cy="10.83" r="1"/><circle cx="4.00" cy="13.83" r="1"/><circle cx="4.00" cy="16.83" r="1"/><circle cx="4.00" cy="19.82" r="1"/><circle cx="5.68" cy="21.97" r="1"/><circle cx="8.67" cy="22.00" r="1"/><circle cx="11.67" cy="22.00" r="1"/><circle cx="14.66" cy="22.00" r="1"/><circle cx="17.66" cy="22.00" r="1"/><circle cx="19.94" cy="20.48" r="1"/><circle cx="20.00" cy="17.49" r="1"/><circle cx="20.00" cy="14.49" r="1"/><circle cx="20.00" cy="11.50" r="1"/><circle cx="20.00" cy="8.50" r="1"/><circle cx="18.24" cy="6.24" r="1"/><circle cx="16.12" cy="4.12" r="1"/><circle cx="14.00" cy="5.00" r="1"/><circle cx="14.00" cy="8.00" r="1"/><circle cx="17.00" cy="8.00" r="1"/><circle cx="16.00" cy="13.00" r="1"/><circle cx="13.33" cy="13.00" r="1"/><circle cx="10.67" cy="13.00" r="1"/><circle cx="8.00" cy="13.00" r="1"/><circle cx="16.00" cy="17.00" r="1"/><circle cx="13.33" cy="17.00" r="1"/><circle cx="10.67" cy="17.00" r="1"/><circle cx="8.00" cy="17.00" r="1"/></svg>
+            <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="Image"><circle cx="5.00" cy="3.00" r="1"/><circle cx="8.06" cy="3.00" r="1"/><circle cx="11.12" cy="3.00" r="1"/><circle cx="14.18" cy="3.00" r="1"/><circle cx="17.24" cy="3.00" r="1"/><circle cx="20.32" cy="3.49" r="1"/><circle cx="21.00" cy="6.53" r="1"/><circle cx="21.00" cy="9.59" r="1"/><circle cx="21.00" cy="12.65" r="1"/><circle cx="21.00" cy="15.71" r="1"/><circle cx="21.00" cy="18.77" r="1"/><circle cx="19.00" cy="21.00" r="1"/><circle cx="15.94" cy="21.00" r="1"/><circle cx="12.88" cy="21.00" r="1"/><circle cx="9.82" cy="21.00" r="1"/><circle cx="6.76" cy="21.00" r="1"/><circle cx="3.68" cy="20.51" r="1"/><circle cx="3.00" cy="17.47" r="1"/><circle cx="3.00" cy="14.41" r="1"/><circle cx="3.00" cy="11.35" r="1"/><circle cx="3.00" cy="8.29" r="1"/><circle cx="3.00" cy="5.23" r="1"/><circle cx="11.00" cy="9.00" r="1"/><circle cx="9.00" cy="11.00" r="1"/><circle cx="7.00" cy="9.00" r="1"/><circle cx="9.00" cy="7.00" r="1"/><circle cx="19.00" cy="13.00" r="1"/><circle cx="17.00" cy="11.00" r="1"/><circle cx="15.00" cy="11.00" r="1"/><circle cx="13.00" cy="13.00" r="1"/><circle cx="11.00" cy="15.00" r="1"/><circle cx="9.00" cy="17.00" r="1"/><circle cx="7.00" cy="19.00" r="1"/></svg>
+            <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="Reglages"><circle cx="21.00" cy="4.00" r="1"/><circle cx="17.50" cy="4.00" r="1"/><circle cx="14.00" cy="4.00" r="1"/><circle cx="10.00" cy="4.00" r="1"/><circle cx="6.50" cy="4.00" r="1"/><circle cx="3.00" cy="4.00" r="1"/><circle cx="21.00" cy="12.00" r="1"/><circle cx="18.00" cy="12.00" r="1"/><circle cx="15.00" cy="12.00" r="1"/><circle cx="12.00" cy="12.00" r="1"/><circle cx="8.00" cy="12.00" r="1"/><circle cx="5.50" cy="12.00" r="1"/><circle cx="3.00" cy="12.00" r="1"/><circle cx="21.00" cy="20.00" r="1"/><circle cx="18.50" cy="20.00" r="1"/><circle cx="16.00" cy="20.00" r="1"/><circle cx="12.00" cy="20.00" r="1"/><circle cx="9.00" cy="20.00" r="1"/><circle cx="6.00" cy="20.00" r="1"/><circle cx="3.00" cy="20.00" r="1"/><circle cx="14.00" cy="2.00" r="1"/><circle cx="14.00" cy="6.00" r="1"/><circle cx="8.00" cy="10.00" r="1"/><circle cx="8.00" cy="14.00" r="1"/><circle cx="16.00" cy="18.00" r="1"/><circle cx="16.00" cy="22.00" r="1"/></svg>
+            <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="Code"><circle cx="16.00" cy="18.00" r="1"/><circle cx="18.00" cy="16.00" r="1"/><circle cx="20.00" cy="14.00" r="1"/><circle cx="22.00" cy="12.00" r="1"/><circle cx="20.00" cy="10.00" r="1"/><circle cx="18.00" cy="8.00" r="1"/><circle cx="16.00" cy="6.00" r="1"/><circle cx="8.00" cy="6.00" r="1"/><circle cx="6.00" cy="8.00" r="1"/><circle cx="4.00" cy="10.00" r="1"/><circle cx="2.00" cy="12.00" r="1"/><circle cx="4.00" cy="14.00" r="1"/><circle cx="6.00" cy="16.00" r="1"/><circle cx="8.00" cy="18.00" r="1"/></svg>
+            <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="QR code"><circle cx="4.00" cy="3.00" r="1"/><circle cx="6.85" cy="3.00" r="1"/><circle cx="9.70" cy="3.29" r="1"/><circle cx="10.00" cy="6.14" r="1"/><circle cx="10.00" cy="8.99" r="1"/><circle cx="7.57" cy="10.00" r="1"/><circle cx="4.72" cy="10.00" r="1"/><circle cx="3.00" cy="8.29" r="1"/><circle cx="3.00" cy="5.44" r="1"/><circle cx="15.00" cy="3.00" r="1"/><circle cx="17.85" cy="3.00" r="1"/><circle cx="20.70" cy="3.29" r="1"/><circle cx="21.00" cy="6.14" r="1"/><circle cx="21.00" cy="8.99" r="1"/><circle cx="18.57" cy="10.00" r="1"/><circle cx="15.72" cy="10.00" r="1"/><circle cx="14.00" cy="8.29" r="1"/><circle cx="14.00" cy="5.44" r="1"/><circle cx="4.00" cy="14.00" r="1"/><circle cx="6.85" cy="14.00" r="1"/><circle cx="9.70" cy="14.29" r="1"/><circle cx="10.00" cy="17.14" r="1"/><circle cx="10.00" cy="19.99" r="1"/><circle cx="7.57" cy="21.00" r="1"/><circle cx="4.72" cy="21.00" r="1"/><circle cx="3.00" cy="19.29" r="1"/><circle cx="3.00" cy="16.44" r="1"/><circle cx="14.00" cy="14.00" r="1"/><circle cx="14.00" cy="17.50" r="1"/><circle cx="14.00" cy="21.00" r="1"/><circle cx="18.00" cy="14.00" r="1"/><circle cx="21.00" cy="14.00" r="1"/><circle cx="21.00" cy="18.00" r="1"/><circle cx="21.00" cy="21.00" r="1"/></svg>
+            <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="Palette"><circle cx="12.00" cy="22.00" r="1"/><circle cx="9.01" cy="21.54" r="1"/><circle cx="6.29" cy="20.21" r="1"/><circle cx="4.09" cy="18.12" r="1"/><circle cx="2.62" cy="15.48" r="1"/><circle cx="2.01" cy="12.51" r="1"/><circle cx="2.32" cy="9.50" r="1"/><circle cx="3.51" cy="6.71" r="1"/><circle cx="5.48" cy="4.41" r="1"/><circle cx="8.05" cy="2.81" r="1"/><circle cx="10.98" cy="2.05" r="1"/><circle cx="14.01" cy="2.20" r="1"/><circle cx="16.85" cy="3.25" r="1"/><circle cx="19.24" cy="5.11" r="1"/><circle cx="20.98" cy="7.59" r="1"/><circle cx="21.89" cy="10.48" r="1"/><circle cx="21.67" cy="13.46" r="1"/><circle cx="19.20" cy="14.99" r="1"/><circle cx="16.19" cy="15.17" r="1"/><circle cx="14.87" cy="17.72" r="1"/><circle cx="12.37" cy="19.07" r="1"/><circle cx="9.10" cy="9.50" r="1"/><circle cx="12.60" cy="7.50" r="1"/><circle cx="16.10" cy="9.50" r="1"/></svg>
+            <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="Experimentation"><circle cx="10.00" cy="2.00" r="1"/><circle cx="10.00" cy="4.97" r="1"/><circle cx="10.00" cy="7.95" r="1"/><circle cx="9.38" cy="10.78" r="1"/><circle cx="8.09" cy="13.46" r="1"/><circle cx="6.80" cy="16.13" r="1"/><circle cx="5.51" cy="18.81" r="1"/><circle cx="4.73" cy="21.54" r="1"/><circle cx="7.54" cy="22.00" r="1"/><circle cx="10.51" cy="22.00" r="1"/><circle cx="13.49" cy="22.00" r="1"/><circle cx="16.46" cy="22.00" r="1"/><circle cx="19.27" cy="21.54" r="1"/><circle cx="18.49" cy="18.81" r="1"/><circle cx="17.20" cy="16.13" r="1"/><circle cx="15.91" cy="13.46" r="1"/><circle cx="14.62" cy="10.78" r="1"/><circle cx="14.00" cy="7.95" r="1"/><circle cx="14.00" cy="4.97" r="1"/><circle cx="14.00" cy="2.00" r="1"/><circle cx="12.00" cy="2.00" r="1"/><circle cx="10.33" cy="16.00" r="1"/><circle cx="13.67" cy="16.00" r="1"/></svg>
+            <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="Aller a"><circle cx="4.00" cy="12.00" r="1"/><circle cx="7.20" cy="12.00" r="1"/><circle cx="10.40" cy="12.00" r="1"/><circle cx="13.60" cy="12.00" r="1"/><circle cx="16.80" cy="12.00" r="1"/><circle cx="20.00" cy="12.00" r="1"/><circle cx="13.00" cy="5.00" r="1"/><circle cx="15.00" cy="7.00" r="1"/><circle cx="17.00" cy="9.00" r="1"/><circle cx="17.00" cy="15.00" r="1"/><circle cx="15.00" cy="17.00" r="1"/><circle cx="13.00" cy="19.00" r="1"/></svg>
         </div>
 
         <div class="sous-section">
-            <h3 data-i18n="bg_s6_h2">Où la trame se referme</h3>
-            <p class="sous-intro" data-i18n="bg_s6_h2_texte">La même icône à quatre tailles. La trame ne redevient lisible qu’à partir de 200 px de côté, quand son pas repasse au-dessus de 5 px à l’écran. En dessous, le halftone est une matière qu’on paie sans la voir.</p>
-            <div class="halftone-echelle no-select" aria-hidden="true">
-                <span class="halftone-palier" style="--t: 26px"><span class="halftone-icone" style="--fichier: url('media/icone-halftone-download.png')"></span><b>26 px</b></span>
-                <span class="halftone-palier" style="--t: 48px"><span class="halftone-icone" style="--fichier: url('media/icone-halftone-download.png')"></span><b>48 px</b></span>
-                <span class="halftone-palier" style="--t: 96px"><span class="halftone-icone" style="--fichier: url('media/icone-halftone-download.png')"></span><b>96 px</b></span>
-                <span class="halftone-palier" style="--t: 200px"><span class="halftone-icone" style="--fichier: url('media/icone-halftone-download.png')"></span><b>200 px</b></span>
+            <h3 data-i18n="bg_s6_h2">La règle du semis</h3>
+            <p class="sous-intro" data-i18n="bg_s6_h2_texte">Un point tous les 3 unités le long du chemin, sur la grille de 24 du dessin, et un rayon de 1 unité pour tous. Les extrémités portent toujours un point, et là où deux formes se rejoignent, le doublon est retiré sous un demi-pas. De 12 à 34 points par icône.</p>
+            <div class="icones-grandes no-select">
+                <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="Telecharger"><circle cx="21.00" cy="15.00" r="1"/><circle cx="21.00" cy="18.14" r="1"/><circle cx="19.83" cy="20.82" r="1"/><circle cx="16.71" cy="21.00" r="1"/><circle cx="13.57" cy="21.00" r="1"/><circle cx="10.43" cy="21.00" r="1"/><circle cx="7.29" cy="21.00" r="1"/><circle cx="4.17" cy="20.82" r="1"/><circle cx="3.00" cy="18.14" r="1"/><circle cx="3.00" cy="15.00" r="1"/><circle cx="7.00" cy="10.00" r="1"/><circle cx="9.00" cy="12.00" r="1"/><circle cx="11.00" cy="14.00" r="1"/><circle cx="13.00" cy="14.00" r="1"/><circle cx="15.00" cy="12.00" r="1"/><circle cx="17.00" cy="10.00" r="1"/><circle cx="12.00" cy="12.00" r="1"/><circle cx="12.00" cy="9.00" r="1"/><circle cx="12.00" cy="6.00" r="1"/><circle cx="12.00" cy="3.00" r="1"/></svg>
+                <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="Envoyer"><circle cx="21.00" cy="15.00" r="1"/><circle cx="21.00" cy="18.14" r="1"/><circle cx="19.83" cy="20.82" r="1"/><circle cx="16.71" cy="21.00" r="1"/><circle cx="13.57" cy="21.00" r="1"/><circle cx="10.43" cy="21.00" r="1"/><circle cx="7.29" cy="21.00" r="1"/><circle cx="4.17" cy="20.82" r="1"/><circle cx="3.00" cy="18.14" r="1"/><circle cx="3.00" cy="15.00" r="1"/><circle cx="17.00" cy="8.00" r="1"/><circle cx="15.00" cy="6.00" r="1"/><circle cx="13.00" cy="4.00" r="1"/><circle cx="11.00" cy="4.00" r="1"/><circle cx="9.00" cy="6.00" r="1"/><circle cx="7.00" cy="8.00" r="1"/><circle cx="12.00" cy="6.00" r="1"/><circle cx="12.00" cy="9.00" r="1"/><circle cx="12.00" cy="12.00" r="1"/><circle cx="12.00" cy="15.00" r="1"/></svg>
+                <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="Fichier"><circle cx="14.00" cy="2.00" r="1"/><circle cx="11.00" cy="2.00" r="1"/><circle cx="8.01" cy="2.00" r="1"/><circle cx="5.05" cy="2.24" r="1"/><circle cx="4.00" cy="4.84" r="1"/><circle cx="4.00" cy="7.84" r="1"/><circle cx="4.00" cy="10.83" r="1"/><circle cx="4.00" cy="13.83" r="1"/><circle cx="4.00" cy="16.83" r="1"/><circle cx="4.00" cy="19.82" r="1"/><circle cx="5.68" cy="21.97" r="1"/><circle cx="8.67" cy="22.00" r="1"/><circle cx="11.67" cy="22.00" r="1"/><circle cx="14.66" cy="22.00" r="1"/><circle cx="17.66" cy="22.00" r="1"/><circle cx="19.94" cy="20.48" r="1"/><circle cx="20.00" cy="17.49" r="1"/><circle cx="20.00" cy="14.49" r="1"/><circle cx="20.00" cy="11.50" r="1"/><circle cx="20.00" cy="8.50" r="1"/><circle cx="18.24" cy="6.24" r="1"/><circle cx="16.12" cy="4.12" r="1"/><circle cx="14.00" cy="5.00" r="1"/><circle cx="14.00" cy="8.00" r="1"/><circle cx="17.00" cy="8.00" r="1"/><circle cx="16.00" cy="13.00" r="1"/><circle cx="13.33" cy="13.00" r="1"/><circle cx="10.67" cy="13.00" r="1"/><circle cx="8.00" cy="13.00" r="1"/><circle cx="16.00" cy="17.00" r="1"/><circle cx="13.33" cy="17.00" r="1"/><circle cx="10.67" cy="17.00" r="1"/><circle cx="8.00" cy="17.00" r="1"/></svg>
+                <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="Image"><circle cx="5.00" cy="3.00" r="1"/><circle cx="8.06" cy="3.00" r="1"/><circle cx="11.12" cy="3.00" r="1"/><circle cx="14.18" cy="3.00" r="1"/><circle cx="17.24" cy="3.00" r="1"/><circle cx="20.32" cy="3.49" r="1"/><circle cx="21.00" cy="6.53" r="1"/><circle cx="21.00" cy="9.59" r="1"/><circle cx="21.00" cy="12.65" r="1"/><circle cx="21.00" cy="15.71" r="1"/><circle cx="21.00" cy="18.77" r="1"/><circle cx="19.00" cy="21.00" r="1"/><circle cx="15.94" cy="21.00" r="1"/><circle cx="12.88" cy="21.00" r="1"/><circle cx="9.82" cy="21.00" r="1"/><circle cx="6.76" cy="21.00" r="1"/><circle cx="3.68" cy="20.51" r="1"/><circle cx="3.00" cy="17.47" r="1"/><circle cx="3.00" cy="14.41" r="1"/><circle cx="3.00" cy="11.35" r="1"/><circle cx="3.00" cy="8.29" r="1"/><circle cx="3.00" cy="5.23" r="1"/><circle cx="11.00" cy="9.00" r="1"/><circle cx="9.00" cy="11.00" r="1"/><circle cx="7.00" cy="9.00" r="1"/><circle cx="9.00" cy="7.00" r="1"/><circle cx="19.00" cy="13.00" r="1"/><circle cx="17.00" cy="11.00" r="1"/><circle cx="15.00" cy="11.00" r="1"/><circle cx="13.00" cy="13.00" r="1"/><circle cx="11.00" cy="15.00" r="1"/><circle cx="9.00" cy="17.00" r="1"/><circle cx="7.00" cy="19.00" r="1"/></svg>
+                <svg class="icone-points" viewBox="0 0 24 24" role="img" aria-label="Reglages"><circle cx="21.00" cy="4.00" r="1"/><circle cx="17.50" cy="4.00" r="1"/><circle cx="14.00" cy="4.00" r="1"/><circle cx="10.00" cy="4.00" r="1"/><circle cx="6.50" cy="4.00" r="1"/><circle cx="3.00" cy="4.00" r="1"/><circle cx="21.00" cy="12.00" r="1"/><circle cx="18.00" cy="12.00" r="1"/><circle cx="15.00" cy="12.00" r="1"/><circle cx="12.00" cy="12.00" r="1"/><circle cx="8.00" cy="12.00" r="1"/><circle cx="5.50" cy="12.00" r="1"/><circle cx="3.00" cy="12.00" r="1"/><circle cx="21.00" cy="20.00" r="1"/><circle cx="18.50" cy="20.00" r="1"/><circle cx="16.00" cy="20.00" r="1"/><circle cx="12.00" cy="20.00" r="1"/><circle cx="9.00" cy="20.00" r="1"/><circle cx="6.00" cy="20.00" r="1"/><circle cx="3.00" cy="20.00" r="1"/><circle cx="14.00" cy="2.00" r="1"/><circle cx="14.00" cy="6.00" r="1"/><circle cx="8.00" cy="10.00" r="1"/><circle cx="8.00" cy="14.00" r="1"/><circle cx="16.00" cy="18.00" r="1"/><circle cx="16.00" cy="22.00" r="1"/></svg>
             </div>
         </div>
     </section>
@@ -1434,18 +1421,6 @@
                         <a href="media/gumi-dots-full.png" download data-i18n="bg_dl_full">Pleine intensité</a>
                         <a href="media/gumi-dots-subtle.png" download data-i18n="bg_dl_subtle">Rendu site</a>
                     </div>
-                </div>
-            </div>
-
-            <div class="res-carte">
-                <div class="res-apercu res-halftones">
-                    <span class="halftone-icone" style="--fichier: url('media/icone-halftone-download.png')"></span>
-                    <span class="halftone-icone" style="--fichier: url('media/icone-halftone-qr-code.png')"></span>
-                </div>
-                <div class="res-info">
-                    <h4 data-i18n="bg_res7_t">Les dix icônes en halftone</h4>
-                    <p data-i18n="bg_res7_d">PNG de 400 × 400, noirs sur fond transparent. À poser en masque pour qu’ils prennent la couleur du support, ou tels quels sur un fond clair.</p>
-                    <div class="res-liens"><a href="media/icone-halftone-download.png" download data-i18n="bg_dl_icone">Exemple PNG</a></div>
                 </div>
             </div>
 
@@ -1719,7 +1694,7 @@
             attente = Array.prototype.slice.call(document.querySelectorAll(
                 '.hero-maj, .hero h1, .hero-sub, .section-num, .section h2, .section-intro, ' +
                 '.sous-section, .bloc, .voix-pilier, .encre-echelle, .theme-carte, .type-rang, ' +
-                '.note-bloc, .halftones-ui, .halftone-echelle, .mvt-liste, .ui-colonne, .bento-item, ' +
+                '.note-bloc, .icones-ui, .icones-grandes, .mvt-liste, .ui-colonne, .bento-item, ' +
                 '.res-carte, .papier-demo, .rendu'
             ));
 
