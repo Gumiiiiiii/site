@@ -75,25 +75,28 @@
         *:focus { outline: none; }
         html { scroll-behavior: smooth; }
 
+        /* Le papier est le fond nu et la trame de points, rien d'autre :
+           le grain imité a quitté la direction.
+
+           Le retrait est écrit ici parce que la tuile est encore posée
+           sur body et sur .site-content par styles/shared.css, donc sur
+           toutes les pages du site. Elle en partira quand le portfolio
+           reprendra cette direction ; d'ici là, seule cette page s'en
+           affranchit. */
         body {
             position: relative;
             background-color: var(--bg);
+            background-image: none;
             color: var(--encre-1);
             font-family: var(--font);
             font-weight: 500;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            background-image: url('media/cream-paper.png');
-            background-blend-mode: multiply;
             overflow-x: hidden;
         }
 
         ::selection { background-color: var(--accent-ink); color: var(--bg); }
         .no-select { user-select: none; }
-
-        /* Le point de la signature. C'est la seule couleur qui ne dépend
-           pas d'une interaction. */
-        .point { color: var(--accent-ink); }
 
         /* ---------- Le papier ----------
            Un seul objet pour tout le fond, dessiné par
@@ -118,6 +121,11 @@
             pointer-events: none;
         }
         .regles svg { display: block; overflow: visible; }
+
+        /* Toute surface posée sur le papier est opaque. Un bloc
+           translucide laisserait la trame de points lui passer au
+           travers, et deux trames superposées ne se lisent plus. */
+        .opaque { background-color: var(--bg); }
 
         /* ---------- Structure ---------- */
         .hero {
@@ -216,23 +224,12 @@
             background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
             border-radius: 1rem;
         }
-        .grille { display: grid; gap: 1.5rem; }
-        .grille-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-        .grille-3 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
 
         .legende {
             font-size: 0.85rem;
             color: var(--encre-05);
             font-weight: 600;
             line-height: 1.5;
-        }
-        code {
-            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-            font-size: 0.86em;
-            background: var(--voile);
-            border: 1px solid var(--filet-fin);
-            border-radius: 4px;
-            padding: 0.1em 0.4em;
         }
 
         /* ---------- 02 · Le papier ---------- */
@@ -243,7 +240,7 @@
             overflow: hidden;
             position: relative;
             color: var(--text);
-            background: var(--bg);
+            background-color: var(--bg);
         }
         .papier-demo .demo-champ { position: absolute; inset: 0; }
         .papier-demo .demo-champ svg { display: block; }
@@ -262,7 +259,14 @@
         .trame-item span { color: var(--encre-07); font-weight: 500; }
 
         /* ---------- 03 · Couleurs ---------- */
-        .encre-echelle { display: grid; gap: 0; border: 1px solid var(--filet); border-radius: var(--rayon); overflow: hidden; }
+        .encre-echelle {
+            display: grid;
+            gap: 0;
+            background-color: var(--bg);
+            border: 1px solid var(--filet);
+            border-radius: var(--rayon);
+            overflow: hidden;
+        }
         .encre-rang {
             display: grid;
             grid-template-columns: 4.5rem 1fr auto;
@@ -281,7 +285,12 @@
         .encre-val { font-size: 0.85rem; color: var(--encre-05); font-weight: 600; font-variant-numeric: tabular-nums; }
 
         .theme-paire { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
-        .theme-carte { border: 1px solid var(--filet); border-radius: var(--rayon); overflow: hidden; }
+        .theme-carte {
+            background-color: var(--bg);
+            border: 1px solid var(--filet);
+            border-radius: var(--rayon);
+            overflow: hidden;
+        }
         .theme-tete { padding: 2.25rem 1.5rem; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.5rem; letter-spacing: -0.02em; }
         .theme-corps { padding: 1.25rem 1.5rem 1.5rem; display: grid; gap: 0.55rem; }
         .theme-ligne { display: flex; align-items: center; gap: 0.7rem; font-size: 0.88rem; font-weight: 600; }
@@ -314,25 +323,18 @@
             color: var(--encre-062);
         }
 
-        /* ---------- 05 · Annotations ---------- */
-        .note-vitrine { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 3rem 2rem; }
-        .note-cadre {
-            position: relative;
-            min-height: 8.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px dashed var(--filet);
-            border-radius: var(--rayon);
-            padding: 1.5rem;
-            text-align: center;
-            font-weight: 700;
-            color: var(--encre-05);
-            font-size: 0.9rem;
-        }
-        /* La note elle-même : reprise de styles/fond.css, à l'identique.
-           Toujours en absolu, jamais dans le flux, jamais dans l'arbre
-           d'accessibilité. Retirez le bloc, la mise en page ne bouge pas. */
+        /* ============================================================
+           05 · Annotations
+           ============================================================
+
+           La note elle-même est reprise de styles/fond.css, à
+           l'identique : toujours en absolu, jamais dans le flux, jamais
+           dans l'arbre d'accessibilité. Retirez le bloc, la mise en page
+           ne bouge pas.
+
+           Dans cette vitrine, chaque note est recentrée dans sa fiche.
+           En service, ce sont les décalages du §Les règles qui la
+           placent contre l'élément qu'elle annote. */
         .note {
             position: absolute;
             z-index: 2;
@@ -346,23 +348,72 @@
         .note-texte { display: inline-block; }
         .note-trait { display: block; color: inherit; overflow: visible; }
 
-        .note--fleche { top: -0.85em; right: 0.74em; text-align: right; transform: rotate(-2deg); }
+        .note--fleche { --incline: -2deg; text-align: right; }
         .note--fleche .note-trait { width: 6.3em; height: 2.96em; margin: 0.11em 0.55em 0 auto; }
 
-        .note--cercle { top: 0.52em; right: 1.19em; transform: rotate(-2deg); }
+        .note--cercle { --incline: -2deg; }
         .note--cercle .note-trait { position: absolute; top: -0.37em; right: -1em; bottom: -0.33em; left: -0.78em; width: auto; height: auto; }
 
-        .note--marge { top: -0.78em; left: 1.04em; transform: rotate(-4deg); }
+        .note--marge { --incline: -4deg; }
         .note--marge .note-trait { width: 11.1em; height: 0.48em; margin-top: 0.04em; }
 
-        .note--etoile { top: 0.37em; right: 1em; display: flex; align-items: center; gap: 0.26em; transform: rotate(2.5deg); }
+        .note--etoile { --incline: 2.5deg; display: flex; align-items: center; gap: 0.26em; }
         .note--etoile .note-trait { width: 0.85em; height: 0.85em; flex-shrink: 0; }
 
-        .note--moi { bottom: -0.4em; left: 1.2em; display: flex; align-items: flex-end; gap: 0.3em; transform: rotate(-3deg); }
+        .note--moi { --incline: -3deg; display: flex; align-items: flex-end; gap: 0.3em; }
         .note--moi .note-trait { width: 3.2em; height: 2.5em; flex-shrink: 0; }
 
+        /* La tâche : une case à cocher tracée à la main, à gauche du
+           mot, comme une ligne de to-do dans un carnet. Cochée, elle
+           porte une croix et son texte est barré. */
+        .note--tache { --incline: -1.5deg; display: flex; flex-direction: column; gap: 0.62em; align-items: flex-start; }
+        .note-tache { display: flex; align-items: center; gap: 0.5em; }
+        .note-tache .note-trait { width: 1.15em; height: 1.15em; flex-shrink: 0; }
+        .note-tache--faite .note-texte { text-decoration: line-through; text-decoration-thickness: 1px; opacity: 0.72; }
+
+        /* L'accolade : elle embrasse plusieurs lignes d'un coup. */
+        .note--accolade { --incline: -1deg; display: flex; align-items: center; gap: 0.5em; }
+        .note--accolade .note-trait { width: 0.75em; height: 3.1em; flex-shrink: 0; }
+        .note-accolade-lignes { display: flex; flex-direction: column; gap: 0.5em; }
+
+        /* Le signe d'insertion, celui du correcteur : un accent
+           circonflexe sous la ligne, et le mot à glisser au-dessus. */
+        .note--insertion { --incline: 1.5deg; display: flex; flex-direction: column; align-items: center; gap: 0.1em; }
+        .note--insertion .note-trait { width: 2.1em; height: 0.8em; }
+
+        /* Le trait ondulé, passé sous un mot pour le signaler. */
+        .note--ondule { --incline: -2deg; }
+        .note--ondule .note-trait { width: 9em; height: 0.7em; margin-top: 0.12em; }
+
+        .note-vitrine { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.5rem; }
+        .note-bloc { display: flex; flex-direction: column; gap: 0.75rem; }
+        .note-fiche {
+            position: relative;
+            min-height: 13rem;
+            background-color: var(--bg);
+            background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
+            border: 1px solid var(--filet);
+            border-radius: var(--rayon);
+            overflow: hidden;
+        }
+        /* Dans la vitrine, chaque note est ramenée au centre de sa
+           fiche : c'est le seul moyen de les comparer entre elles. */
+        .note-fiche .note {
+            top: 50%;
+            left: 50%;
+            right: auto;
+            bottom: auto;
+            transform: translate(-50%, -50%) rotate(var(--incline, -2deg));
+        }
+        .note-nom { font-size: 0.88rem; font-weight: 700; color: var(--encre-05); padding-left: 0.15rem; }
+
         /* La note du hero, posée sous le titre. */
-        .hero-note .note--marge { top: auto; bottom: -3.6em; left: 0.05em; }
+        .hero-note .note--marge {
+            top: auto;
+            bottom: -3.6em;
+            left: 0.05em;
+            transform: rotate(-4deg);
+        }
 
         /* ---------- 06 · Icônes ---------- */
         .icones-grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 1.1rem; }
@@ -376,29 +427,32 @@
             justify-content: center;
             transition: border-color 0.2s ease, color 0.2s ease;
             color: var(--encre-07);
+            background-color: var(--bg);
         }
         .icone-case:hover { border-color: var(--accent-ink); color: var(--accent-ink); }
         .icone-case svg { width: 26px; height: 26px; stroke-width: 2.5; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
-        /* La plaque en halftone : une trame de points dont l'aire suit le
-           ton, comme le fond de la page. L'icône se pose dessus à pleine
-           encre. */
-        .plaques { display: flex; flex-wrap: wrap; gap: 1.75rem; }
-        .plaque {
-            position: relative;
-            width: 96px;
-            height: 96px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* L'icône en halftone : c'est le tracé de l'icône qui est
+           tramé, pas une plaque posée derrière. Le dessin sert de
+           masque, et la trame de points le remplit — l'aire du point
+           suit le ton, comme sur le fond de la page. */
+        .halftones { display: flex; flex-wrap: wrap; gap: 2rem; }
+        .halftone-icone {
+            width: 88px;
+            height: 88px;
+            display: block;
             color: var(--text);
         }
-        .plaque-trame { position: absolute; inset: 0; pointer-events: none; }
-        .plaque-trame svg { display: block; }
-        .plaque svg.plaque-icone { position: relative; width: 30px; height: 30px; stroke-width: 2.5; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--encre-1); }
 
         /* ---------- 07 · Mouvement ---------- */
-        .mvt-liste { display: grid; gap: 0; border: 1px solid var(--filet); border-radius: var(--rayon); overflow: hidden; }
+        .mvt-liste {
+            display: grid;
+            gap: 0;
+            background-color: var(--bg);
+            border: 1px solid var(--filet);
+            border-radius: var(--rayon);
+            overflow: hidden;
+        }
         .mvt-rang { display: grid; grid-template-columns: minmax(9rem, 14rem) 1fr; gap: 1.25rem; padding: 1.1rem 1.35rem; border-bottom: 1px solid var(--filet-fin); font-size: 0.95rem; }
         .mvt-rang:last-child { border-bottom: none; }
         .mvt-rang b { font-weight: 800; font-variant-numeric: tabular-nums; }
@@ -429,7 +483,7 @@
         }
         .btn-plein { background: var(--text); color: var(--bg); }
         .btn-plein:hover, .btn-plein:focus-visible { background: var(--accent-ink); }
-        .btn-contour { border-color: var(--filet); }
+        .btn-contour { border-color: var(--filet); background-color: var(--bg); }
         .btn-contour:hover, .btn-contour:focus-visible { border-color: var(--accent-ink); color: var(--accent-ink); }
         .btn-nu { width: auto; padding: 0 0.4em; color: var(--encre-07); }
         .btn-nu:hover, .btn-nu:focus-visible { color: var(--accent-ink); }
@@ -439,7 +493,7 @@
             display: inline-flex; align-items: center; justify-content: center;
             border-radius: 50%;
             border: 1.5px solid var(--filet);
-            background: transparent;
+            background-color: var(--bg);
             color: var(--encre-1);
             cursor: pointer;
             transition: border-color 0.2s ease, color 0.2s ease;
@@ -455,7 +509,7 @@
             font-family: inherit;
             font-weight: 600;
             color: var(--encre-1);
-            background: var(--bg);
+            background-color: var(--bg);
             border: 1.5px solid var(--filet);
             border-radius: 0.6rem;
             transition: border-color 0.2s ease;
@@ -469,6 +523,7 @@
             width: 100%;
             height: 52px;
             padding: 0.3rem;
+            background-color: var(--bg);
             border: 1.5px solid var(--filet);
             border-radius: 0.6rem;
         }
@@ -505,8 +560,9 @@
             position: relative;
             width: 58px; height: 30px;
             border-radius: 15px;
+            background-color: var(--bg);
             border: 1.5px solid var(--filet);
-            transition: background-color 0.25s ease, border-color 0.25s ease;
+            transition: border-color 0.25s ease;
         }
         .bascule-pastille {
             position: absolute; top: 3px; left: 3px;
@@ -526,6 +582,7 @@
             padding: 2.25rem 1.5rem;
             display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
             text-align: center;
+            background-color: var(--bg);
             border: 1.5px dashed var(--filet);
             border-radius: 1rem;
             cursor: pointer;
@@ -541,9 +598,10 @@
             width: 100%;
             display: flex; flex-direction: column; gap: 0.9rem;
             padding: 1.25rem;
+            background-color: var(--bg);
+            background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
             border: 1px solid var(--filet);
             border-radius: var(--rayon);
-            background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
             cursor: pointer;
             transition: border-color 0.2s ease;
         }
@@ -559,6 +617,7 @@
             font-size: 0.76rem; font-weight: 700;
             padding: 0.3rem 0.75rem;
             border-radius: 100px;
+            background-color: var(--bg);
             border: 1px solid var(--filet);
             color: var(--encre-07);
         }
@@ -566,29 +625,83 @@
 
         /* ---------- 09 · Images ---------- */
         .bento { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 200px; gap: 1.25rem; }
-        .bento-item { border-radius: var(--rayon); overflow: hidden; border: 1px solid var(--filet); }
+        .bento-item { border-radius: var(--rayon); overflow: hidden; border: 1px solid var(--filet); background-color: var(--bg); }
         .bento-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .bento-grand { grid-column: span 2; grid-row: span 2; }
-        .bento-matiere {
-            display: flex; align-items: center; justify-content: center;
-            background-color: var(--voile);
-            background-image: url('media/cream-paper.png');
-            background-blend-mode: color-burn;
-            font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.8rem;
-            color: var(--encre-07);
-            height: 100%;
-        }
-        :root[data-theme="dark"] .bento-matiere { background-image: none; }
 
-        /* ---------- 10 · Ressources ---------- */
+        /* ---------- 10 · Applications ---------- */
+        .rendus { display: grid; gap: 2.5rem; }
+        .rendu { display: flex; flex-direction: column; gap: 0.85rem; }
+        .rendu-cadre {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background-color: var(--bg);
+            border: 1px solid var(--filet);
+            border-radius: var(--rayon);
+            color: var(--text);
+        }
+        .rendu-champ { position: absolute; inset: 0; pointer-events: none; }
+        .rendu-champ svg { display: block; }
+        .rendu-contenu {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 8%;
+            gap: 0.6em;
+        }
+        .rendu-pied { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+        .rendu-nom { font-weight: 800; font-size: 0.98rem; }
+        .rendu-taille { font-size: 0.85rem; color: var(--encre-05); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+        /* La bannière LinkedIn. Tout y est dimensionné en cqw pour que
+           le rendu reste juste à toutes les largeurs : c'est une image
+           de 1584 x 396, pas une mise en page qui se recompose. */
+        /* La bannière est quatre fois plus large que haute : tout ce
+           qu'on y met doit tenir dans un quart de sa largeur en
+           hauteur. Les tailles sont donc basses, et la phrase courte. */
+        .rendu-banniere { aspect-ratio: 1584 / 396; container-type: inline-size; }
+        .rendu-banniere .rendu-contenu { gap: 0.5em; }
+        .rendu-banniere .rendu-marque { width: 11cqw; max-width: 190px; height: auto; display: block; }
+        .rendu-banniere .rendu-phrase { font-size: 2.5cqw; font-weight: 700; letter-spacing: -0.01em; line-height: 1.22; max-width: 42cqw; color: var(--encre-078); }
+        .rendu-banniere .rendu-adresse { font-size: 1.5cqw; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--encre-05); }
+        .rendu-banniere .note { font-size: 2.1cqw; }
+
+        /* L'Open Graph, 1200 x 630. */
+        .rendu-og { aspect-ratio: 1200 / 630; container-type: inline-size; }
+        .rendu-og .rendu-marque { width: 18cqw; max-width: 200px; height: auto; display: block; margin-bottom: 1cqw; }
+        .rendu-og .rendu-titre { font-size: 7cqw; font-weight: 900; letter-spacing: -0.03em; line-height: 0.98; max-width: 15ch; }
+        .rendu-og .rendu-phrase { font-size: 2.9cqw; font-weight: 600; color: var(--encre-07); max-width: 40ch; }
+
+        /* L'avatar, carré, recadré en cercle par les plateformes. Il
+           est plafonné : laissé libre dans sa colonne, un carré prend
+           toute la largeur disponible et devient un disque géant. */
+        .rendu-avatar { aspect-ratio: 1 / 1; container-type: inline-size; border-radius: 50%; max-width: 260px; }
+        .rendu-avatar .rendu-contenu { align-items: center; padding: 0; }
+        .rendu-avatar .rendu-marque { width: 46cqw; height: auto; display: block; }
+        .rendu-avatar-bloc .rendu-pied { max-width: 260px; }
+
+        .rendus-paire { display: grid; grid-template-columns: 1fr auto; gap: 2.5rem; align-items: start; }
+        @media (max-width: 900px) { .rendus-paire { grid-template-columns: 1fr; } }
+
+        /* ---------- 11 · Ressources ---------- */
         .res-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
-        .res-carte { border: 1px solid var(--filet); border-radius: var(--rayon); overflow: hidden; display: flex; flex-direction: column; }
+        .res-carte {
+            background-color: var(--bg);
+            border: 1px solid var(--filet);
+            border-radius: var(--rayon);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
         .res-apercu { height: 170px; display: flex; align-items: center; justify-content: center; padding: 1.75rem; background-image: linear-gradient(var(--voile-fin), var(--voile-fin)); }
         .res-apercu img { max-width: 100%; max-height: 84px; object-fit: contain; }
         .res-apercu.res-petit img { max-height: 96px; }
-        .res-sombre { background: var(--text); }
+        .res-sombre { background-color: var(--text); }
         .res-sombre img { filter: brightness(0) invert(1); }
-        :root[data-theme="dark"] .res-sombre { background: #0E0D11; }
+        :root[data-theme="dark"] .res-sombre { background-color: #0E0D11; }
         .res-info { padding: 1.25rem 1.4rem 1.4rem; flex: 1; display: flex; flex-direction: column; gap: 0.5rem; }
         .res-info h4 { font-size: 1.05rem; font-weight: 800; }
         .res-info p { font-size: 0.9rem; color: var(--encre-07); line-height: 1.5; }
@@ -640,7 +753,7 @@
            script en tête de document n'a pas posé .fond-anime sur
            <html>, et il ne la pose ni sans JavaScript, ni quand on
            demande moins de mouvement. */
-        .fond-anime :where(.section-num, .section h2, .section-intro, .sous-section, .bloc, .hero-maj, .hero h1, .hero-sub, .voix-pilier, .encre-echelle, .theme-carte, .type-rang, .note-cadre, .icones-grille, .plaques, .mvt-liste, .ui-colonne, .bento-item, .res-carte, .papier-demo) {
+        .fond-anime :where(.section-num, .section h2, .section-intro, .sous-section, .bloc, .hero-maj, .hero h1, .hero-sub, .voix-pilier, .encre-echelle, .theme-carte, .type-rang, .note-bloc, .icones-grille, .halftones, .mvt-liste, .ui-colonne, .bento-item, .res-carte, .papier-demo, .rendu) {
             opacity: 0;
             transform: translateY(var(--anim-monte, 0.85rem));
             transition: opacity 0.6s ease var(--anim-retard, 0s),
@@ -680,7 +793,7 @@
     <header class="hero" id="main">
         <p class="hero-maj" data-i18n="bg_maj">Last updated: August 2026</p>
         <h1 class="hero-note">
-            <span data-i18n="bg_titre">Brand guidelines</span><span class="point">.</span>
+            <span data-i18n="bg_titre">Brand guidelines</span>
             <span class="note note--marge" aria-hidden="true">
                 <span class="note-texte" data-i18n="bg_note_hero">The pierre.gumi.ch system</span>
                 <svg class="note-trait" viewBox="0 0 170 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -775,8 +888,8 @@
         </div>
 
         <div class="sous-section">
-            <h3 data-i18n="bg_s2_h3">The grain</h3>
-            <p class="sous-intro" data-i18n="bg_s2_h3_texte">A 158 × 144px paper tile is laid over the cream background in Multiply, darkening it by roughly 8%. It belongs to the light theme and disappears in dark, where there is no longer any paper to imitate.</p>
+            <h3 data-i18n="bg_s2_h4">Nothing lets the screen show through</h3>
+            <p class="sous-intro" data-i18n="bg_s2_h4_texte">A card, a block, an input field: everything set on the paper takes the paper's background, opaque. Two overlaid screens stop being readable, and text with dots behind it loses its contrast. A block's ink veil is therefore painted over a solid background, never instead of one.</p>
         </div>
     </section>
 
@@ -866,7 +979,7 @@
 
         <div class="sous-section">
             <h3 data-i18n="bg_s3_h3">Purple only shows up in response</h3>
-            <p class="sous-intro" data-i18n="bg_s3_h3_texte">On pierre.gumi.ch the colour appears in five places: the current rail entry, keyboard focus, link hover, the icon of an open project, and the signature dot. Everywhere else, ink is enough. Hover these links to see the rule at work.</p>
+            <p class="sous-intro" data-i18n="bg_s3_h3_texte">On pierre.gumi.ch the colour appears in four places: the current rail entry, keyboard focus, link hover, and the icon of an open project. Everywhere else, ink is enough. Hover these links to see the rule at work.</p>
             <p class="accent-demo">
                 <a class="accent-lien" href="#papier" data-i18n="bg_s3_lien1">A link at rest</a>
                 <a class="accent-lien" href="#typographie" data-i18n="bg_s3_lien2">Another link</a>
@@ -901,8 +1014,8 @@
         </div>
 
         <div class="sous-section">
-            <h3 data-i18n="bg_s4_h3">The rule of the dot</h3>
-            <p class="sous-intro" data-i18n="bg_s4_h3_texte">Only the H1 carries the brand’s full stop, and it is the one place purple appears without an interaction. An H2 never takes it.</p>
+            <h3 data-i18n="bg_s4_h4">Headings carry no punctuation</h3>
+            <p class="sous-intro" data-i18n="bg_s4_h4_texte">A heading stops on its last word. The full stop that used to follow the H1 has been taken out of the direction: it added colour where nothing was happening, and made headings more talkative than they needed to be. The logotype's dot belongs to the logo and is never replayed anywhere else.</p>
         </div>
     </section>
 
@@ -910,64 +1023,141 @@
     <section class="section" id="annotations">
         <span class="section-num">05</span>
         <h2 data-i18n="bg_s5_titre">Annotations</h2>
-        <p class="section-intro" data-i18n="bg_s5_intro">Handwritten notes are what I add in a notebook margin after the fact. They sit over the page, absolutely positioned, out of the flow and out of the accessibility tree. Remove the whole block and the layout stays exactly the same.</p>
+        <p class="section-intro" data-i18n="bg_s5_intro">Handwritten notes are what I add in a notebook margin after the fact. They sit over the page, absolutely positioned, out of the flow and out of the accessibility tree. Remove the whole block and the layout stays exactly the same. Each treatment is shown here centred in its card so they can be compared; in service, it is the offsets in the table below that pin them against the element they annotate.</p>
 
         <div class="note-vitrine">
-            <div class="note-cadre">
-                <span data-i18n="bg_note_cadre1">The arrow</span>
-                <span class="note note--fleche" aria-hidden="true">
-                    <span class="note-texte" data-i18n="bg_note1">It points at the element</span>
-                    <svg class="note-trait" viewBox="0 0 130 70" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M124 7c-6 24-30 44-64 52-14 3-30 4-46 3"></path>
-                        <path d="M14 62l16-8"></path>
-                        <path d="M14 62l13 9"></path>
-                    </svg>
-                </span>
-            </div>
+            <figure class="note-bloc">
+                <div class="note-fiche">
+                    <span class="note note--fleche" aria-hidden="true">
+                        <span class="note-texte" data-i18n="bg_note1">It points at the element</span>
+                        <svg class="note-trait" viewBox="0 0 130 70" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M124 7c-6 24-30 44-64 52-14 3-30 4-46 3"></path>
+                            <path d="M14 62l16-8"></path>
+                            <path d="M14 62l13 9"></path>
+                        </svg>
+                    </span>
+                </div>
+                <figcaption class="note-nom" data-i18n="bg_note_cadre1">The arrow</figcaption>
+            </figure>
 
-            <div class="note-cadre">
-                <span data-i18n="bg_note_cadre2">The circled word</span>
-                <span class="note note--cercle" aria-hidden="true">
-                    <span class="note-texte" data-i18n="bg_note2">Circled afterwards</span>
-                    <svg class="note-trait" viewBox="0 0 210 52" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke">
-                        <path d="M16 28C16 12 62 5 110 6c52 1 88 9 86 22-2 14-42 20-94 19C50 46 14 41 14 27c0-9 18-16 50-20" vector-effect="non-scaling-stroke"></path>
-                    </svg>
-                </span>
-            </div>
+            <figure class="note-bloc">
+                <div class="note-fiche">
+                    <span class="note note--cercle" aria-hidden="true">
+                        <span class="note-texte" data-i18n="bg_note2">Circled afterwards</span>
+                        <svg class="note-trait" viewBox="0 0 210 52" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke">
+                            <path d="M16 28C16 12 62 5 110 6c52 1 88 9 86 22-2 14-42 20-94 19C50 46 14 41 14 27c0-9 18-16 50-20" vector-effect="non-scaling-stroke"></path>
+                        </svg>
+                    </span>
+                </div>
+                <figcaption class="note-nom" data-i18n="bg_note_cadre2">The circled word</figcaption>
+            </figure>
 
-            <div class="note-cadre">
-                <span data-i18n="bg_note_cadre3">The margin note</span>
-                <span class="note note--marge" aria-hidden="true">
-                    <span class="note-texte" data-i18n="bg_note3">Underlined by hand</span>
-                    <svg class="note-trait" viewBox="0 0 170 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 8c28-4 60-6 94-4 22 1 42 2 68 1"></path>
-                    </svg>
-                </span>
-            </div>
+            <figure class="note-bloc">
+                <div class="note-fiche">
+                    <span class="note note--marge" aria-hidden="true">
+                        <span class="note-texte" data-i18n="bg_note3">Underlined by hand</span>
+                        <svg class="note-trait" viewBox="0 0 170 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 8c28-4 60-6 94-4 22 1 42 2 68 1"></path>
+                        </svg>
+                    </span>
+                </div>
+                <figcaption class="note-nom" data-i18n="bg_note_cadre3">The margin note</figcaption>
+            </figure>
 
-            <div class="note-cadre">
-                <span data-i18n="bg_note_cadre4">The asterisk</span>
-                <span class="note note--etoile" aria-hidden="true">
-                    <svg class="note-trait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-                        <path d="M12 4v16"></path>
-                        <path d="M5 8l14 8"></path>
-                        <path d="M19 8L5 16"></path>
-                    </svg>
-                    <span class="note-texte" data-i18n="bg_note4">A clarification</span>
-                </span>
-            </div>
+            <figure class="note-bloc">
+                <div class="note-fiche">
+                    <span class="note note--etoile" aria-hidden="true">
+                        <svg class="note-trait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                            <path d="M12 4v16"></path>
+                            <path d="M5 8l14 8"></path>
+                            <path d="M19 8L5 16"></path>
+                        </svg>
+                        <span class="note-texte" data-i18n="bg_note4">A clarification</span>
+                    </span>
+                </div>
+                <figcaption class="note-nom" data-i18n="bg_note_cadre4">The asterisk</figcaption>
+            </figure>
 
-            <div class="note-cadre">
-                <span data-i18n="bg_note_cadre5">The curved arrow</span>
-                <span class="note note--moi" aria-hidden="true">
-                    <svg class="note-trait" viewBox="0 0 70 54" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M8 50C14 32 28 14 56 8"></path>
-                        <path d="M56 8l-15 1"></path>
-                        <path d="M56 8l-4 14"></path>
-                    </svg>
-                    <span class="note-texte" data-i18n="bg_note5">That’s me!</span>
-                </span>
-            </div>
+            <figure class="note-bloc">
+                <div class="note-fiche">
+                    <span class="note note--moi" aria-hidden="true">
+                        <svg class="note-trait" viewBox="0 0 70 54" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M8 50C14 32 28 14 56 8"></path>
+                            <path d="M56 8l-15 1"></path>
+                            <path d="M56 8l-4 14"></path>
+                        </svg>
+                        <span class="note-texte" data-i18n="bg_note5">That’s me!</span>
+                    </span>
+                </div>
+                <figcaption class="note-nom" data-i18n="bg_note_cadre5">The curved arrow</figcaption>
+            </figure>
+
+            <figure class="note-bloc">
+                <div class="note-fiche">
+                    <span class="note note--tache" aria-hidden="true">
+                        <span class="note-tache">
+                            <svg class="note-trait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 5.5c5-1 10-1.2 15.5-0.6"></path>
+                                <path d="M19.8 5.2c0.8 5 0.9 9.8 0.4 14.6"></path>
+                                <path d="M20 19.6c-5.2 0.9-10.2 1-15.4 0.4"></path>
+                                <path d="M4.4 20.2c-0.9-5-1-9.8-0.5-14.8"></path>
+                            </svg>
+                            <span class="note-texte" data-i18n="bg_note6a">Proofread the page</span>
+                        </span>
+                        <span class="note-tache note-tache--faite">
+                            <svg class="note-trait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 5.5c5-1 10-1.2 15.5-0.6"></path>
+                                <path d="M19.8 5.2c0.8 5 0.9 9.8 0.4 14.6"></path>
+                                <path d="M20 19.6c-5.2 0.9-10.2 1-15.4 0.4"></path>
+                                <path d="M4.4 20.2c-0.9-5-1-9.8-0.5-14.8"></path>
+                                <path d="M7.5 8.2c3.2 2.8 6.4 5.4 9.2 8.2"></path>
+                                <path d="M16.8 8c-3 2.9-6.2 5.6-9.4 8.3"></path>
+                            </svg>
+                            <span class="note-texte" data-i18n="bg_note6b">Drop the paper grain</span>
+                        </span>
+                    </span>
+                </div>
+                <figcaption class="note-nom" data-i18n="bg_note_cadre6">The task, ticked or not</figcaption>
+            </figure>
+
+            <figure class="note-bloc">
+                <div class="note-fiche">
+                    <span class="note note--accolade" aria-hidden="true">
+                        <svg class="note-trait" viewBox="0 0 18 90" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" preserveAspectRatio="none" vector-effect="non-scaling-stroke">
+                            <path d="M13 3C7 5 8 12 7.5 22c-0.4 9-1.5 20-5.5 23 4 3 5.1 14 5.5 23 0.5 10-0.5 17 5.5 19" vector-effect="non-scaling-stroke"></path>
+                        </svg>
+                        <span class="note-accolade-lignes">
+                            <span class="note-texte" data-i18n="bg_note7a">These three</span>
+                            <span class="note-texte" data-i18n="bg_note7b">belong together</span>
+                        </span>
+                    </span>
+                </div>
+                <figcaption class="note-nom" data-i18n="bg_note_cadre7">The brace</figcaption>
+            </figure>
+
+            <figure class="note-bloc">
+                <div class="note-fiche">
+                    <span class="note note--insertion" aria-hidden="true">
+                        <span class="note-texte" data-i18n="bg_note8">insert here</span>
+                        <svg class="note-trait" viewBox="0 0 40 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 14c5-1 11-6 16-11 5 5 11 10 16 11"></path>
+                        </svg>
+                    </span>
+                </div>
+                <figcaption class="note-nom" data-i18n="bg_note_cadre8">The insertion mark</figcaption>
+            </figure>
+
+            <figure class="note-bloc">
+                <div class="note-fiche">
+                    <span class="note note--ondule" aria-hidden="true">
+                        <span class="note-texte" data-i18n="bg_note9">Take another look</span>
+                        <svg class="note-trait" viewBox="0 0 150 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 9c6-6 12 6 18 0s12 6 18 0 12 6 18 0 12 6 18 0 12 6 18 0 12 6 18 0 12 6 18 0"></path>
+                        </svg>
+                    </span>
+                </div>
+                <figcaption class="note-nom" data-i18n="bg_note_cadre9">The wavy underline</figcaption>
+            </figure>
         </div>
 
         <div class="sous-section">
@@ -976,8 +1166,9 @@
                 <div class="trame-item"><b data-i18n="bg_s5_r1_t">Ink</b><span data-i18n="bg_s5_r1">0.62. The same ink as the page, just lighter. A handwritten note has no colour of its own.</span></div>
                 <div class="trame-item"><b data-i18n="bg_s5_r2_t">Size</b><span data-i18n="bg_s5_r2">A note fits on one line and never wraps. Its size follows the window width, and everything in it is expressed in em, so it grows as one piece.</span></div>
                 <div class="trame-item"><b data-i18n="bg_s5_r3_t">Tilt</b><span data-i18n="bg_s5_r3">From −4 to +2.5 degrees. Enough that it is not aligned, never enough to pull the eye before the content does.</span></div>
-                <div class="trame-item"><b data-i18n="bg_s5_r4_t">Interaction</b><span data-i18n="bg_s5_r4">pointer-events: none, without exception. A note is not clickable and never blocks a link it covers.</span></div>
-                <div class="trame-item"><b data-i18n="bg_s5_r5_t">Dosage</b><span data-i18n="bg_s5_r5">One per block at most. Past that, the page stops looking like an annotated notebook and starts looking like a wall of sticky notes.</span></div>
+                <div class="trame-item"><b data-i18n="bg_s5_r4_t">Placement</b><span data-i18n="bg_s5_r4">Absolutely positioned against the annotated element, with an offset expressed in em: above the top edge for the arrow, in the left margin for the margin note, on the name's line for the asterisk.</span></div>
+                <div class="trame-item"><b data-i18n="bg_s5_r5_t">Interaction</b><span data-i18n="bg_s5_r5">pointer-events: none, without exception. A note is not clickable and never blocks a link it covers.</span></div>
+                <div class="trame-item"><b data-i18n="bg_s5_r6_t">Dosage</b><span data-i18n="bg_s5_r6">One per block at most. Past that, the page stops looking like an annotated notebook and starts looking like a wall of sticky notes.</span></div>
             </div>
         </div>
     </section>
@@ -1004,25 +1195,49 @@
         </div>
 
         <div class="sous-section">
-            <h3 data-i18n="bg_s6_h1">The halftone plate</h3>
-            <p class="sous-intro" data-i18n="bg_s6_h1_texte">When an icon opens a section rather than a button, it sits on a screened plate drawn by the same law as the page background: dot area follows the tone, and the screen pitch drops to 6px to fit within 96px. The icon keeps its full stroke on top. Keep it for section heads; on a button it makes the click feel heavy.</p>
-            <div class="plaques no-select">
-                <div class="plaque">
-                    <div class="plaque-trame"></div>
-                    <svg class="plaque-icone" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                </div>
-                <div class="plaque">
-                    <div class="plaque-trame"></div>
-                    <svg class="plaque-icone" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                </div>
-                <div class="plaque">
-                    <div class="plaque-trame"></div>
-                    <svg class="plaque-icone" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
-                </div>
-                <div class="plaque">
-                    <div class="plaque-trame"></div>
-                    <svg class="plaque-icone" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                </div>
+            <h3 data-i18n="bg_s6_h1">The halftone icon</h3>
+            <p class="sous-intro" data-i18n="bg_s6_h1_texte">It is the icon's own stroke that is screened, not a plate laid behind it. The drawing serves as a mask and the dot screen fills it: dot area follows the tone, as on the page background, and the dots tighten towards the centre of the drawing. The stroke thickens to 3.4 units so a dot fits across it three times, without which the screen would not read. Keep this treatment for section heads and large formats, from 72px up; below that the screen closes and the icon becomes a flat shape again.</p>
+            <div class="halftones no-select">
+                <svg class="halftone-icone" viewBox="0 0 24 24" aria-hidden="true">
+                    <defs><mask id="mh1" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                        <g fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+                        </g>
+                    </mask></defs>
+                    <g mask="url(#mh1)" data-trame=""></g>
+                </svg>
+                <svg class="halftone-icone" viewBox="0 0 24 24" aria-hidden="true">
+                    <defs><mask id="mh2" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                        <g fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line>
+                        </g>
+                    </mask></defs>
+                    <g mask="url(#mh2)" data-trame=""></g>
+                </svg>
+                <svg class="halftone-icone" viewBox="0 0 24 24" aria-hidden="true">
+                    <defs><mask id="mh3" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                        <g fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline>
+                        </g>
+                    </mask></defs>
+                    <g mask="url(#mh3)" data-trame=""></g>
+                </svg>
+                <svg class="halftone-icone" viewBox="0 0 24 24" aria-hidden="true">
+                    <defs><mask id="mh4" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                        <g fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"></circle><path d="M12 7v10"></path><path d="M7 12h10"></path>
+                        </g>
+                    </mask></defs>
+                    <g mask="url(#mh4)" data-trame=""></g>
+                </svg>
+                <svg class="halftone-icone" viewBox="0 0 24 24" aria-hidden="true">
+                    <defs><mask id="mh5" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                        <g fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline>
+                        </g>
+                    </mask></defs>
+                    <g mask="url(#mh5)" data-trame=""></g>
+                </svg>
             </div>
         </div>
     </section>
@@ -1114,15 +1329,85 @@
         <div class="bento">
             <div class="bento-item bento-grand"><img src="media/pierre-trail.webp" alt="" loading="lazy"></div>
             <div class="bento-item"><img src="media/pierre-photographie.webp" alt="" loading="lazy"></div>
-            <div class="bento-item"><div class="bento-matiere" data-i18n="bg_matiere">Paper grain</div></div>
+            <div class="bento-item"><img src="media/pierre-gumilar-512.webp" alt="" loading="lazy"></div>
         </div>
     </section>
 
-    <!-- ============ 10 · RESSOURCES ============ -->
-    <section class="section" id="ressources">
+    <!-- ============ 10 · APPLICATIONS ============ -->
+    <section class="section" id="applications">
         <span class="section-num">10</span>
-        <h2 data-i18n="bg_s10_titre">Assets</h2>
-        <p class="section-intro" data-i18n="bg_s10_intro">The logos and materials of the system, downloadable for visual adaptations.</p>
+        <h2 data-i18n="bg_s10_titre">Applications</h2>
+        <p class="section-intro" data-i18n="bg_s10_intro">The system applied off the site. Each rendering below is composed live with the page's own screen, typefaces and ink scale, at the exact dimensions the platform expects. They are mockups to rebuild in a design tool, not exportable files.</p>
+
+        <div class="rendus">
+            <div class="rendu">
+                <div class="rendu-cadre rendu-banniere">
+                    <div class="rendu-champ" data-champ="" data-l="1584" data-h="396" data-encre="0.13" aria-hidden="true"></div>
+                    <div class="rendu-contenu">
+                        <img class="rendu-marque" src="media/Gumi-Logotype.png" alt="Gumi">
+                        <p class="rendu-phrase" data-i18n="bg_ban_phrase">I hold the catalogue, the content and its distribution together.</p>
+                        <p class="rendu-adresse">pierre.gumi.ch</p>
+                        <span class="note note--marge" aria-hidden="true" style="top: auto; bottom: 8%; right: 6%; left: auto; transform: rotate(-3deg);">
+                            <span class="note-texte" data-i18n="bg_ban_note">Written on the same paper</span>
+                            <svg class="note-trait" viewBox="0 0 170 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 8c28-4 60-6 94-4 22 1 42 2 68 1"></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="rendu-pied">
+                    <span class="rendu-nom" data-i18n="bg_ban_nom">LinkedIn banner</span>
+                    <span class="rendu-taille">1584 × 396 px</span>
+                </div>
+            </div>
+
+            <div class="rendus-paire">
+                <div class="rendu">
+                    <div class="rendu-cadre rendu-og">
+                        <div class="rendu-champ" data-champ="" data-l="1200" data-h="630" data-encre="0.13" aria-hidden="true"></div>
+                        <div class="rendu-contenu">
+                            <img class="rendu-marque" src="media/Gumi-Logotype.png" alt="Gumi">
+                            <p class="rendu-titre" data-i18n="bg_og_titre">Tools and experiments</p>
+                            <p class="rendu-phrase" data-i18n="bg_og_phrase">Tools built out of curiosity, to bring ideas to life.</p>
+                        </div>
+                    </div>
+                    <div class="rendu-pied">
+                        <span class="rendu-nom" data-i18n="bg_og_nom">Share image</span>
+                        <span class="rendu-taille">1200 × 630 px</span>
+                    </div>
+                </div>
+
+                <div class="rendu rendu-avatar-bloc">
+                    <div class="rendu-cadre rendu-avatar">
+                        <div class="rendu-champ" data-champ="" data-l="400" data-h="400" data-encre="0.16" aria-hidden="true"></div>
+                        <div class="rendu-contenu">
+                            <img class="rendu-marque" src="media/Gumi-small.png" alt="Gumi">
+                        </div>
+                    </div>
+                    <div class="rendu-pied">
+                        <span class="rendu-nom" data-i18n="bg_av_nom">Avatar</span>
+                        <span class="rendu-taille">400 × 400 px</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sous-section">
+            <h3 data-i18n="bg_s10_h1">What never changes</h3>
+            <div class="trame-liste">
+                <div class="trame-item"><b data-i18n="bg_app_r1_t">The screen</b><span data-i18n="bg_app_r1">It keeps its 20 × 18px pitch in real pixels, whatever the size of the visual. A screen scaled with its frame is no longer the same material.</span></div>
+                <div class="trame-item"><b data-i18n="bg_app_r2_t">The ink</b><span data-i18n="bg_app_r2">It rises to 0.13 off the site, against 0.04 on the page. A visual is looked at from a distance and often compressed: at 0.04 the screen disappears.</span></div>
+                <div class="trame-item"><b data-i18n="bg_app_r3_t">The logotype</b><span data-i18n="bg_app_r3">Always the supplied file, never retyped. It is the one place the brand's dot survives.</span></div>
+                <div class="trame-item"><b data-i18n="bg_app_r4_t">The margin</b><span data-i18n="bg_app_r4">8% of the visual's width, the same as the site's sections.</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 11 · RESSOURCES ============ -->
+    <section class="section" id="ressources">
+        <span class="section-num">11</span>
+        <h2 data-i18n="bg_s11_titre">Assets</h2>
+        <p class="section-intro" data-i18n="bg_s11_intro">The logos and materials of the system, downloadable for visual adaptations.</p>
 
         <div class="res-grille">
             <div class="res-carte">
@@ -1148,15 +1433,6 @@
                     <h4 data-i18n="bg_res3_t">Monogram</h4>
                     <p data-i18n="bg_res3_d">For tight spaces: avatars, favicons.</p>
                     <div class="res-liens"><a href="media/Gumi-small.png" download="" data-i18n="bg_dl_png2">Download PNG</a></div>
-                </div>
-            </div>
-
-            <div class="res-carte">
-                <div class="res-apercu" style="background-image: url('media/cream-paper.png'); background-color: rgba(var(--text-rgb), 0.06); background-blend-mode: color-burn;"></div>
-                <div class="res-info">
-                    <h4 data-i18n="bg_res4_t">Paper texture</h4>
-                    <p data-i18n="bg_res4_d">A 158 × 144px semi-transparent tile. Lay it in Multiply at 100% over the cream background to match the site.</p>
-                    <div class="res-liens"><a href="media/cream-paper.png" download="" data-i18n="bg_dl_png3">Download PNG</a></div>
                 </div>
             </div>
 
@@ -1187,7 +1463,7 @@
     </section>
 
     <footer class="pied">
-        <span>GUMI<span class="point">.</span></span>
+        <span>GUMI</span>
     </footer>
 
     <script src="scripts/vendor/lenis.min.js"></script>
@@ -1220,7 +1496,6 @@
             if (!couche) return;
 
             var PAS_CHAMP = 18;          // la trame du champ
-            var PAS_GRILLE = 4 * PAS_CHAMP;   // 72 : la grille du milieu
             var PAS_X = 80;              // ses colonnes
             var RAYON = 3;               // le point de la grille, a l'identique
             var ENCRE = 0.18;            // l'encre d'une rangee de titre
@@ -1286,36 +1561,130 @@
         })();
 
         // ============================================================
-        // Les plaques en halftone
+        // Les icones en halftone
         // ============================================================
         //
-        // Le meme halftone que le fond, resserre pour tenir dans une
-        // plaque de 96 px : l'aire du point suit le ton, et le ton
-        // decroit du centre vers le bord. Interpoler le rayon plutot
-        // que l'aire ferait chuter l'encre au carre, et la plaque
-        // s'eteindrait deux fois trop vite.
+        // C'est le trace de l'icone qui est trame, pas une plaque posee
+        // derriere : le dessin sert de masque, et la trame le remplit.
+        // La loi est celle du fond de page, l'aire du point suit le ton
+        // — interpoler le rayon ferait chuter l'encre au carre.
+        //
+        // Le pas est exprime dans le repere de l'icone (24 unites), pas
+        // en pixels : la trame suit donc l'icone quand elle change de
+        // taille, ce qui est le comportement voulu pour un dessin.
         (function () {
-            var PAS = 6;         // le pas de la trame, resserre
-            var RAYON_MAX = 2.4; // le point du centre
-            var ENCRE = 0.5;     // l'encre de la plaque
+            var PAS = 0.92;       // le pas de la trame, dans le repere 0..24
+            var RAYON_MAX = 0.46; // le point du centre du dessin
+            var CHUTE = 0.55;     // ce que le ton perd vers les bords
 
-            document.querySelectorAll('.plaque-trame').forEach(function (trame) {
-                var cote = trame.offsetWidth || 96;
-                var c = cote / 2;
-                var svg = '<svg width="' + cote + '" height="' + cote + '" xmlns="http://www.w3.org/2000/svg">' +
-                    '<g fill="currentColor" opacity="' + ENCRE + '">';
-
-                for (var y = PAS / 2; y < cote; y += PAS) {
-                    for (var x = PAS / 2; x < cote; x += PAS) {
-                        var d = Math.sqrt((x - c) * (x - c) + (y - c) * (y - c)) / c;
-                        if (d > 1) continue;
-                        var ton = 1 - d * d;
+            document.querySelectorAll('.halftone-icone [data-trame]').forEach(function (groupe) {
+                var svg = '';
+                for (var y = PAS / 2; y < 24; y += PAS) {
+                    for (var x = PAS / 2; x < 24; x += PAS) {
+                        var dx = (x - 12) / 12, dy = (y - 12) / 12;
+                        var d = Math.min(1, Math.sqrt(dx * dx + dy * dy));
+                        var ton = 1 - CHUTE * d * d;
                         var rayon = RAYON_MAX * Math.sqrt(ton);
-                        if (rayon < 0.3) continue;
-                        svg += '<circle cx="' + x + '" cy="' + y + '" r="' + rayon.toFixed(2) + '"/>';
+                        if (rayon < 0.08) continue;
+                        svg += '<circle cx="' + x.toFixed(2) + '" cy="' + y.toFixed(2) + '" r="' + rayon.toFixed(3) + '" fill="currentColor"/>';
                     }
                 }
-                trame.innerHTML = svg + '</g></svg>';
+                groupe.innerHTML = svg;
+            });
+        })();
+
+        // ============================================================
+        // Les champs de points en cadre
+        // ============================================================
+        //
+        // Le meme halftone que le fond, dessine a la taille d'un cadre :
+        // la demonstration du papier, et les rendus d'applications. Le
+        // pas reste en pixels reels, jamais mis a l'echelle du cadre.
+        (function () {
+            var PAS_X = 20, PAS_Y = 18, RAYON = 3, RAYON_SOMMET = 7;
+            var FENETRES = [[0, 1], [0.25, 0.9], [0, 0.55]];
+
+            // Un rendu se dessine aux dimensions reelles de l'asset, puis
+            // se laisse reduire par son viewBox. C'est ce qui rend
+            // l'apercu honnete : le pas de 20 x 18 px reste celui du
+            // fichier final, et non celui de la vignette. Dessine a la
+            // taille de la vignette, un avatar de 400 px n'aurait montre
+            // qu'un tiers de ses points.
+            function dessiner(cible, encre, vertical, largeur, hauteur) {
+                largeur = largeur || cible.offsetWidth;
+                hauteur = hauteur || cible.offsetHeight;
+                if (!largeur || !hauteur) return;
+                var centre = largeur / 2;
+                var svg = '<svg viewBox="0 0 ' + largeur + ' ' + hauteur + '" width="100%" height="100%" ' +
+                    'preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">' +
+                    '<g fill="currentColor" opacity="' + encre + '">';
+
+                for (var j = 0; j * PAS_Y <= hauteur; j++) {
+                    var y = j * PAS_Y;
+                    // Dans un cadre, la descente occupe toute la hauteur
+                    // quand on veut montrer le passage de la trame au
+                    // semis ; sinon elle se replie sur les deux bords,
+                    // comme sur une page.
+                    var t = vertical
+                        ? Math.min(1, y / hauteur)
+                        : Math.max(0, Math.min(y / (hauteur * 0.42), (hauteur - y) / (hauteur * 0.42), 1));
+                    var impaire = (j % 2 !== 0);
+
+                    for (var i = 0; i * PAS_X <= centre + PAS_X; i++) {
+                        var niveau;
+                        if (impaire) niveau = 2;
+                        else if (j % 4 === 0 && i % 4 === 0) niveau = 0;
+                        else if (i % 2 === 0) niveau = 1;
+                        else niveau = 2;
+
+                        var p = (t - FENETRES[niveau][0]) / (FENETRES[niveau][1] - FENETRES[niveau][0]);
+                        p = p < 0 ? 0 : (p > 1 ? 1 : p);
+                        if (niveau !== 0 && p >= 1) continue;
+
+                        var ecart = impaire ? (i + 0.5) * PAS_X : i * PAS_X;
+                        var nx = Math.min(1, ecart / centre);
+                        var sommet = RAYON_SOMMET + nx * nx * 2.5;
+                        var cibleRayon = niveau === 0 ? RAYON : 0;
+                        // L'aire suit le ton, pas le rayon.
+                        var aire = sommet * sommet + (cibleRayon * cibleRayon - sommet * sommet) * p;
+                        var rayon = Math.sqrt(aire);
+                        if (rayon < 0.3) continue;
+
+                        if (ecart === 0) {
+                            svg += '<circle cx="' + centre + '" cy="' + y + '" r="' + rayon.toFixed(2) + '"/>';
+                        } else {
+                            svg += '<circle cx="' + (centre - ecart).toFixed(1) + '" cy="' + y + '" r="' + rayon.toFixed(2) + '"/>' +
+                                   '<circle cx="' + (centre + ecart).toFixed(1) + '" cy="' + y + '" r="' + rayon.toFixed(2) + '"/>';
+                        }
+                    }
+                }
+                cible.innerHTML = svg + '</g></svg>';
+            }
+
+            function tout() {
+                // La demonstration du papier montre le fond de la page :
+                // elle se dessine donc a sa taille a l'ecran, pas a celle
+                // d'un fichier.
+                var demo = document.querySelector('.papier-demo .demo-champ');
+                if (demo) dessiner(demo, 0.16, true);
+
+                document.querySelectorAll('[data-champ]').forEach(function (cadre) {
+                    dessiner(
+                        cadre,
+                        cadre.getAttribute('data-encre') || 0.13,
+                        false,
+                        parseInt(cadre.getAttribute('data-l'), 10),
+                        parseInt(cadre.getAttribute('data-h'), 10)
+                    );
+                });
+            }
+
+            var minuterie;
+            tout();
+            window.addEventListener('load', tout);
+            window.addEventListener('resize', function () {
+                clearTimeout(minuterie);
+                minuterie = setTimeout(tout, 120);
             });
         })();
 
@@ -1329,95 +1698,72 @@
             var PAS = 70;      // ms entre deux voisins qui entrent ensemble
             var RANG_MAX = 6;  // au-dela, le dernier attendrait trop
 
+            var attente = [];
+
             function reveler(element, retard) {
+                if (!element) return;
                 element.style.setProperty('--anim-retard', (retard || 0) + 'ms');
                 element.setAttribute('data-anim', 'vu');
+                var i = attente.indexOf(element);
+                if (i !== -1) attente.splice(i, 1);
             }
 
             reveler(document.querySelector('.points-champ'), 0);
             reveler(document.querySelector('.regles'), 120);
 
-            var cibles = document.querySelectorAll(
+            attente = Array.prototype.slice.call(document.querySelectorAll(
                 '.hero-maj, .hero h1, .hero-sub, .section-num, .section h2, .section-intro, ' +
                 '.sous-section, .bloc, .voix-pilier, .encre-echelle, .theme-carte, .type-rang, ' +
-                '.note-cadre, .icones-grille, .plaques, .mvt-liste, .ui-colonne, .bento-item, ' +
-                '.res-carte, .papier-demo'
-            );
+                '.note-bloc, .icones-grille, .halftones, .mvt-liste, .ui-colonne, .bento-item, ' +
+                '.res-carte, .papier-demo, .rendu'
+            ));
 
             // Ce que le premier ecran contient entre de lui-meme ; le
             // reste attend d'etre atteint.
             var observateur = new IntersectionObserver(function (entrees) {
-                var rang = 0;
-                entrees.forEach(function (entree) {
-                    if (!entree.isIntersecting) return;
-                    reveler(entree.target, Math.min(rang, RANG_MAX) * PAS);
-                    rang++;
-                    observateur.unobserve(entree.target);
-                });
-            }, { rootMargin: '0px 0px -12% 0px' });
+                // Ceux qui entrent dans le meme souffle se suivent de
+                // haut en bas ; celui qui entre seul n'attend personne.
+                entrees.filter(function (e) { return e.isIntersecting; })
+                    .sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; })
+                    .forEach(function (entree, i) {
+                        observateur.unobserve(entree.target);
+                        reveler(entree.target, Math.min(i, RANG_MAX) * PAS);
+                    });
+            }, { threshold: 0.06, rootMargin: '0px 0px -6% 0px' });
 
-            Array.prototype.forEach.call(cibles, function (cible) { observateur.observe(cible); });
-        })();
+            attente.forEach(function (cible) { observateur.observe(cible); });
 
-        // ============================================================
-        // La demonstration du papier, dans son cadre
-        // ============================================================
-        (function () {
-            var demo = document.querySelector('.papier-demo .demo-champ');
-            if (!demo) return;
+            // Le filet.
+            //
+            // Un IntersectionObserver ne rend son verdict qu'en fin de
+            // trame. Sur un saut de defilement — barre tiree d'un coup,
+            // ancre, molette lancee — un element peut traverser l'ecran
+            // entre deux trames sans jamais y etre vu, et il resterait
+            // alors transparent pour de bon. Sur une page de trois
+            // metres de haut, ce n'est pas une hypothese : la section
+            // Mouvement s'y perdait a chaque essai.
+            //
+            // On balaie donc ce qui attend encore, et tout ce qui est
+            // deja passe sous le bas de l'ecran entre sans retard : le
+            // decalage n'a plus de sens pour un element qu'on a depasse.
+            var planifie = false;
 
-            var PAS_X = 20, PAS_Y = 18, RAYON = 3, RAYON_SOMMET = 7, ENCRE = 0.16;
-
-            function dessiner() {
-                var largeur = demo.offsetWidth, hauteur = demo.offsetHeight;
-                var centre = largeur / 2;
-                var svg = '<svg width="' + largeur + '" height="' + hauteur + '" xmlns="http://www.w3.org/2000/svg">' +
-                    '<g fill="currentColor" opacity="' + ENCRE + '">';
-
-                for (var j = 0; j * PAS_Y <= hauteur; j++) {
-                    var y = j * PAS_Y;
-                    // Dans le cadre, la descente tient sur toute la
-                    // hauteur : on montre la trame pleine en haut et le
-                    // semis en bas, le passage de l'une a l'autre.
-                    var t = Math.min(1, y / hauteur);
-                    var impaire = (j % 2 !== 0);
-                    for (var i = 0; i * PAS_X <= centre + PAS_X; i++) {
-                        var niveau;
-                        if (impaire) niveau = 2;
-                        else if (j % 4 === 0 && i % 4 === 0) niveau = 0;
-                        else if (i % 2 === 0) niveau = 1;
-                        else niveau = 2;
-
-                        var fenetres = [[0, 1], [0.25, 0.9], [0, 0.55]];
-                        var p = (t - fenetres[niveau][0]) / (fenetres[niveau][1] - fenetres[niveau][0]);
-                        p = p < 0 ? 0 : (p > 1 ? 1 : p);
-                        if (niveau !== 0 && p >= 1) continue;
-
-                        var ecart = impaire ? (i + 0.5) * PAS_X : i * PAS_X;
-                        var nx = Math.min(1, ecart / centre);
-                        var sommet = RAYON_SOMMET + nx * nx * 2.5;
-                        var cible = niveau === 0 ? RAYON : 0;
-                        var aire = sommet * sommet + (cible * cible - sommet * sommet) * p;
-                        var rayon = Math.sqrt(aire);
-                        if (rayon < 0.3) continue;
-
-                        if (ecart === 0) {
-                            svg += '<circle cx="' + centre + '" cy="' + y + '" r="' + rayon.toFixed(2) + '"/>';
-                        } else {
-                            svg += '<circle cx="' + (centre - ecart).toFixed(1) + '" cy="' + y + '" r="' + rayon.toFixed(2) + '"/>' +
-                                   '<circle cx="' + (centre + ecart).toFixed(1) + '" cy="' + y + '" r="' + rayon.toFixed(2) + '"/>';
-                        }
+            function balayer() {
+                planifie = false;
+                var bas = window.innerHeight;
+                attente.slice().forEach(function (element) {
+                    if (element.getBoundingClientRect().top < bas) {
+                        observateur.unobserve(element);
+                        reveler(element, 0);
                     }
-                }
-                demo.innerHTML = svg + '</g></svg>';
+                });
             }
 
-            var minuterie;
-            dessiner();
-            window.addEventListener('resize', function () {
-                clearTimeout(minuterie);
-                minuterie = setTimeout(dessiner, 100);
-            });
+            window.addEventListener('scroll', function () {
+                if (planifie) return;
+                planifie = true;
+                requestAnimationFrame(balayer);
+            }, { passive: true });
         })();
 
         // ============================================================
