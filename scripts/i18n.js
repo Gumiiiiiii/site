@@ -126,6 +126,7 @@
         contrast_small: { fr: 'Petit texte', en: 'Small text' },
         contrast_large: { fr: 'Grand texte', en: 'Large text' },
         contrast_fix: { fr: 'Corriger automatiquement', en: 'Fix automatically' },
+        contrast_note: { fr: "4,5 pour le petit texte, 3 pour le grand", en: "4.5 for small text, 3 for large" },
         contrast_msg_all: { fr: 'Contraste suffisant pour toutes les tailles de texte.', en: 'Sufficient contrast for all text sizes.' },
         contrast_msg_large: { fr: 'Contraste suffisant uniquement pour le grand texte.', en: 'Sufficient contrast for large text only.' },
         contrast_msg_none: { fr: 'Contraste insuffisant pour toutes les tailles de texte.', en: 'Poor contrast for all text sizes.' },

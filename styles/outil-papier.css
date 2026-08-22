@@ -1,0 +1,420 @@
+/* ==========================================================================
+   Le papier pointé sur une page d'outil
+   ==========================================================================
+
+   Première application de /brand-guidelines hors de la charte elle-même.
+   Cette feuille se charge APRÈS shared.css et tools-suite.css et les
+   corrige : elle ne réécrit pas la suite d'outils, elle la repose sur le
+   papier. Tant qu'une seule page l'appelle, aucune autre ne bouge.
+
+   Trois choses en sortent, et c'est tout ce qu'elle fait :
+     · le grain de papier imité s'en va, la trame de points le remplace ;
+     · le relief neumorphique s'en va, il suppose une lumière ;
+     · toute surface posée sur le papier redevient opaque.
+
+   Le champ de points est celui du site, sans une ligne de différence :
+   scripts/points-champ.js. Les valeurs ci-dessous sont celles de la
+   charte, reprises telles quelles.
+   ========================================================================== */
+
+:root {
+    /* L'échelle d'encre en service sur pierre.gumi.ch. Une seule couleur,
+       posée à des opacités qui ont chacune un emploi. */
+    --encre-1:    rgba(var(--text-rgb), 1);      /* titres */
+    --encre-078:  rgba(var(--text-rgb), 0.78);   /* paragraphes */
+    --encre-07:   rgba(var(--text-rgb), 0.7);    /* intros */
+    --encre-062:  rgba(var(--text-rgb), 0.62);   /* notes manuscrites */
+    --encre-05:   rgba(var(--text-rgb), 0.5);    /* mentions */
+    --encre-045:  rgba(var(--text-rgb), 0.45);   /* légendes */
+    --filet:      rgba(var(--text-rgb), 0.14);   /* bordures */
+    --filet-fin:  rgba(var(--text-rgb), 0.12);   /* bordures internes */
+    --voile:      rgba(var(--text-rgb), 0.035);  /* fonds de bloc */
+    --voile-fin:  rgba(var(--text-rgb), 0.022);  /* fonds légers */
+    --rayon: 1.25rem;
+}
+
+/* La Cedarville est déclarée dans styles/fond.css, qui n'est attaché
+   qu'au CV. Une page d'outil qui porte une annotation doit donc la
+   déclarer pour elle-même. */
+@font-face {
+    font-family: 'Cedarville Cursive';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../fonts/cedarville-cursive-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
+}
+
+/* ==========================================================================
+   1 · Le papier
+   ==========================================================================
+   Le grain cream-paper est encore posé sur body par shared.css, donc sur
+   toutes les pages du site. Il en partira quand le portfolio reprendra
+   cette direction ; d'ici là, seules les pages qui chargent cette feuille
+   s'en affranchissent. */
+
+body {
+    background-image: none;
+    color: var(--encre-1);
+}
+
+/* Un seul objet pour tout le fond, dessiné par points-champ.js. Il n'a
+   pas de masque : c'est le tracé lui-même qui sait où il est dense et où
+   il est clair. */
+.points-champ {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    color: var(--text);
+    pointer-events: none;
+}
+.points-champ svg { display: block; overflow: visible; }
+
+/* La rangée assombrie du titre, tracée sur une vraie rangée de la grille,
+   à une encre plus forte que le champ. */
+.regles {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    color: var(--text);
+    pointer-events: none;
+}
+.regles svg { display: block; overflow: visible; }
+
+/* Un titre efface la trame sous lui, il ne la laisse pas le traverser.
+   Un fond à la couleur du papier suffit : il est invisible sur le papier
+   et il mange les points sur toute la boîte du titre. Les deux bords sont
+   fondus sur l'épaisseur du rembourrage — un fond net coupe en deux le
+   point qui tombe dessus, et un demi-point se voit plus qu'un entier. */
+.header-container h1 {
+    background-image: linear-gradient(to right,
+        transparent 0, var(--bg) 0.3em,
+        var(--bg) calc(100% - 0.3em), transparent 100%);
+    width: fit-content;
+    max-width: 100%;
+    padding: 0.05em 0.36em 0.12em;
+    margin-left: -0.36em;
+    margin-right: -0.36em;
+}
+
+/* La charte a retiré le point après les titres : il posait une couleur là
+   où rien ne se passait. Celui du logotype reste, il appartient au logo. */
+.header-container h1 .dot { display: none; }
+
+/* ==========================================================================
+   2 · Les surfaces
+   ==========================================================================
+   Toute surface posée sur le papier est opaque. Une carte translucide
+   laisse la trame lui passer au travers, et deux trames superposées ne se
+   lisent plus. Le --card-bg de shared.css est un rgba : il ne convient
+   plus, il est remplacé partout par le papier plus un voile. */
+
+.bg-group,
+.contrast-result,
+.size-row,
+.tooltip-content,
+.gumi-cp {
+    background-color: var(--bg);
+    background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
+    border: 1px solid var(--filet);
+    border-radius: var(--rayon);
+    box-shadow: none;
+}
+
+.size-row { border-color: var(--filet-fin); border-radius: 0.8rem; }
+
+/* Une infobulle et un sélecteur de couleur se posent sur la page, ils ne
+   flottent pas au-dessus d'elle : ni ombre portée, ni surface distincte.
+   Ce sont des feuilles posées sur la feuille. */
+.tooltip-content,
+.gumi-cp {
+    background-image: none;
+    border-color: var(--filet);
+    border-radius: 1rem;
+}
+
+/* Le champ hexadécimal du sélecteur porte encore le creux neumorphique
+   de tools-suite.css, et sa pastille un anneau à sa propre valeur : les
+   deux repassent au filet. */
+.gumi-cp-hex {
+    background: var(--bg);
+    border: 1.5px solid var(--filet);
+    box-shadow: none;
+    color: var(--encre-1);
+    transition: border-color 0.2s ease;
+}
+.gumi-cp-hex:focus { border-color: var(--accent-ink); }
+.gumi-cp-preview {
+    border: 1px solid var(--filet);
+    box-shadow: none;
+}
+
+/* ==========================================================================
+   3 · Les commandes
+   ==========================================================================
+   Aucune ombre portée, aucun relief. Une forme pleine, un contour, ou
+   rien. L'état se dit par la couleur de la bordure et du texte. */
+
+.input-field {
+    height: 52px;
+    padding: 0 1.1em;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--encre-1);
+    background: var(--bg);
+    border: 1.5px solid var(--filet);
+    border-radius: 0.6rem;
+    box-shadow: none;
+    transition: border-color 0.2s ease;
+}
+.input-field::placeholder { color: var(--encre-045); }
+.input-field:focus,
+.input-field:focus-visible {
+    border-color: var(--accent-ink);
+    box-shadow: none;
+}
+
+button.secondary {
+    height: 52px;
+    border-radius: 0.6rem;
+    border: 1.5px solid var(--filet);
+    background: var(--bg);
+    color: var(--encre-1);
+    box-shadow: none;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+button.secondary:hover,
+button.secondary:focus-visible,
+button.secondary.active {
+    color: var(--accent-ink);
+    border-color: var(--accent-ink);
+    box-shadow: none;
+}
+
+/* La pastille de couleur porte la couleur choisie : c'est son contenu,
+   pas son style. Elle n'a donc qu'un filet, et le même rayon qu'un
+   bouton pour tomber juste à côté du champ. */
+.color-swatch,
+.color-field-swatch {
+    width: 52px;
+    height: 52px;
+    border: 1.5px solid var(--filet);
+    border-radius: 0.6rem;
+    box-shadow: none;
+    transition: border-color 0.2s ease;
+}
+.color-swatch:hover,
+.color-swatch:focus-visible,
+.color-field-swatch:hover { border-color: var(--accent-ink); }
+
+.color-input-row .input-field { height: 52px; }
+
+.control-label {
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--encre-1);
+}
+
+.bg-group-divider { color: var(--encre-045); }
+.bg-group-divider::before,
+.bg-group-divider::after { background: var(--filet); }
+.bg-image-note { color: var(--encre-05); }
+
+.back-link { color: var(--encre-05); }
+.back-link:hover { color: var(--accent-ink); }
+
+/* L'infobulle : un contour, comme tout le reste. */
+.tooltip-icon {
+    background: var(--bg);
+    border: 1.5px solid var(--filet);
+    box-shadow: none;
+    color: var(--encre-07);
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.tooltip-wrapper:hover .tooltip-icon,
+.tooltip-wrapper.active .tooltip-icon {
+    border-color: var(--accent-ink);
+    color: var(--accent-ink);
+    box-shadow: none;
+}
+.tooltip-content a { color: var(--accent-ink) !important; }
+
+/* ==========================================================================
+   4 · Les icônes
+   ==========================================================================
+   Lucide au trait, sans retouche : grille de 24, épaisseur 2, extrémités
+   et jonctions arrondies. L'épaisseur est dans les unités du dessin, elle
+   suit donc la taille affichée. */
+
+.icone {
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+/* shared.css et tools-suite.css visent ces icônes par « .back-link svg »
+   et « .tooltip-icon svg », qui pèsent plus lourd que « .icone » seul et
+   lui imposaient une épaisseur de 2,5. La règle du jeu est reprise ici au
+   même poids, sur les deux emplacements. */
+.back-link .icone,
+.tooltip-icon .icone {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+}
+
+/* ==========================================================================
+   5 · Le verdict
+   ==========================================================================
+   Le seul endroit de la page où la couleur porte un sens plutôt qu'un
+   état d'interaction : réussi ou non. Elle se dit comme le dit le UI kit
+   de la charte, par la bordure et par le texte, et non par un aplat
+   teinté qui repeindrait le papier. */
+
+.contrast-result {
+    padding: 1.5rem;
+    gap: 1.2rem;
+    transition: border-color 0.3s ease;
+}
+.contrast-result.is-pass { border-color: var(--positive); background-color: var(--bg); }
+.contrast-result.is-fail { border-color: var(--negative); background-color: var(--bg); }
+
+.ratio-value {
+    font-size: 3.4rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: var(--encre-1);
+}
+.rating-label { font-size: 1rem; font-weight: 800; color: var(--encre-07); }
+.contrast-result.is-pass .rating-label { color: var(--positive-ink); }
+.contrast-result.is-fail .rating-label { color: var(--negative); }
+
+.contrast-meter span {
+    width: 22px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--voile);
+    border: 1px solid var(--filet-fin);
+}
+.contrast-meter span.on { border-color: transparent; }
+
+.size-row .size-label { font-weight: 700; font-size: 0.92rem; color: var(--encre-078); }
+
+/* Une étiquette de la charte : un filet, pas un aplat. Le vert et le
+   rouge passent dans le trait et dans le texte. */
+.chip {
+    font-size: 0.76rem;
+    font-weight: 700;
+    padding: 0.28rem 0.7rem;
+    border-radius: 100px;
+    border: 1px solid var(--filet);
+    background: transparent;
+    color: var(--encre-05);
+}
+.chip.pass { border-color: rgba(96, 150, 117, 0.55); color: var(--positive-ink); background: transparent; }
+.chip.fail { border-color: rgba(197, 106, 106, 0.55); color: var(--negative); background: transparent; }
+
+.contrast-footer { color: var(--encre-07); font-size: 0.92rem; }
+.fix-link { color: var(--accent-ink); font-size: 0.92rem; }
+.fix-link:hover { color: var(--encre-1); }
+
+/* ==========================================================================
+   6 · L'aperçu
+   ========================================================================== */
+
+.right-col { background: transparent; border: none; padding: 0; }
+
+.preview-panel {
+    border-radius: var(--rayon);
+    border: 1px solid var(--filet);
+    min-height: 480px;
+}
+
+/* ==========================================================================
+   7 · L'annotation
+   ==========================================================================
+   Reprise de la charte à l'identique : toujours en absolu, jamais dans le
+   flux, jamais dans l'arbre d'accessibilité. Retirez le bloc, la mise en
+   page ne bouge pas. */
+
+.note {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+    font-family: 'Cedarville Cursive', 'Segoe Script', cursive;
+    font-size: clamp(0.9rem, 1.5vw + 0.2rem, 1.35rem);
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--encre-062);
+    /* Une note s'écrit d'une seule main, quel que soit l'endroit où on la
+       pose. Sans cette ligne elle hérite l'approche du texte qu'elle
+       annote, et une écriture liée s'y chevauche. */
+    letter-spacing: normal;
+}
+.note-texte { display: inline-block; }
+.note-trait { display: block; color: inherit; overflow: visible; }
+
+/* Le trait de la note en marge suit la largeur de son texte au lieu
+   d'être fixé en em : traduite, une note change de longueur, et un
+   soulignement de largeur fixe la dépasse ou s'arrête trop tôt. */
+.note--marge .note-trait { width: 100%; height: 0.5em; margin-top: 0.06em; }
+
+/* Écrite sur la ligne du titre, après le bouton d'aide, dans le blanc que
+   l'en-tête laisse à sa droite. Elle ne réserve rien : la retirer ne
+   déplace pas un pixel.
+   Sous le titre, essayé d'abord, elle mangeait les 3 rem que l'en-tête
+   garde avant la première commande et venait toucher son étiquette : la
+   seule place libre était celle-là. Quand cette place n'existe plus, la
+   note s'efface — une annotation ne pousse jamais rien. */
+.note-titre {
+    top: 50%;
+    left: 100%;
+    margin-left: 1.2rem;
+    transform: translateY(-50%) rotate(-2.5deg);
+}
+@media (max-width: 1100px) { .note-titre { display: none; } }
+
+/* ==========================================================================
+   8 · Le mouvement
+   ==========================================================================
+   Rien n'est caché tant que le script en tête de document n'a pas posé
+   .fond-anime sur <html>, et il ne la pose ni sans JavaScript, ni quand
+   le système demande moins de mouvement. */
+
+.fond-anime :where(.back-link, .header-container, .control-row, .right-col) {
+    opacity: 0;
+    transform: translateY(var(--anim-monte, 0.85rem));
+    transition: opacity 0.6s ease var(--anim-retard, 0s),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--anim-retard, 0s);
+}
+
+/* Un transform, même à zéro, ouvre un contexte d'empilement : le z-index
+   d'un élément placé à l'intérieur ne compte plus qu'entre frères, et
+   l'infobulle de l'en-tête passait derrière l'aperçu. L'en-tête reçoit
+   donc son propre rang, au-dessus de la grille. */
+.header-container { position: relative; z-index: 20; }
+/* Un titre et sa rangée sont posés au pixel près l'un sur l'autre : les
+   faire glisser referait le saut de ligne qu'on cherche à supprimer. */
+.fond-anime :where(.header-container) { --anim-monte: 0px; }
+.fond-anime [data-anim="vu"] { opacity: 1; --anim-monte: 0px; }
+
+.fond-anime .points-champ,
+.fond-anime .regles {
+    opacity: 0;
+    transition: opacity 0.35s ease var(--anim-retard, 0s);
+}
+.fond-anime .points-champ[data-anim="vu"],
+.fond-anime .regles[data-anim="vu"] { opacity: 1; }
+
+/* ==========================================================================
+   9 · Le thème sombre
+   ==========================================================================
+   Les tokens d'encre se recalculent seuls, ils sont écrits en --text-rgb.
+   Seules les valeurs codées en dur de shared.css ont besoin d'un mot. */
+
+:root[data-theme="dark"] .chip.pass { border-color: rgba(96, 150, 117, 0.6); color: var(--positive); }
+:root[data-theme="dark"] .chip.fail { border-color: rgba(197, 106, 106, 0.6); color: var(--negative); }
+:root[data-theme="dark"] .contrast-result.is-pass .rating-label { color: var(--positive); }
