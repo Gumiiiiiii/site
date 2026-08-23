@@ -254,7 +254,7 @@
 
    Cette place, ce sont les 48 px qui séparent la barre du sommaire du
    résumé. L'astérisque tient sur une ligne, une vingtaine de pixels : il y
-   entre en entier, centré entre le filet du dessus et le bloc du dessous,
+   entre en entier, posé près du bloc qu'il annonce,
    sans avoir à déborder sur l'un ni sur l'autre.
 
    Une version précédente faisait descendre le résumé de 6,75 rem pour se
@@ -264,7 +264,7 @@
 .note-resume {
     bottom: 100%;
     left: 1.5rem;
-    margin-bottom: 1.05rem;
+    margin-bottom: 0.5rem;
     transform: rotate(var(--incline, 2.5deg));
     transform-origin: bottom left;
 }

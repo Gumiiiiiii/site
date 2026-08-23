@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}if(!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)){document.documentElement.classList.add('fond-anime');}}catch(e){}})();</script>
     <link rel="preload" href="../fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
@@ -30,6 +30,7 @@
 
     <link rel="stylesheet" href="../styles/shared.css">
     <link rel="stylesheet" href="../styles/tools-suite.css">
+    <link rel="stylesheet" href="../styles/outil-papier.css">
 
     <script src="../scripts/vendor/pdf.min.js"></script>
     <script src="../scripts/vendor/psd.min.js"></script>
@@ -59,8 +60,8 @@
         /* Toggles + number spinners (advanced settings). */
         .toggle-label { display: inline-flex; align-items: center; cursor: pointer; color: var(--text); }
         .toggle-state { display: none; }
-        .toggle { position: relative; height: 32px; width: 64px; border-radius: 16px; background: rgba(197, 106, 106, 0.4); box-shadow: inset 3px 3px 6px var(--neu-lo), inset -3px -3px 6px var(--neu-hi); transition: background 0.3s ease; }
-        .indicator { position: absolute; top: 4px; left: 4px; height: 24px; width: 24px; background: var(--bg); border-radius: 50%; box-shadow: 2px 2px 4px rgba(26,26,26,0.15), -2px -2px 4px var(--neu-hi); transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
+        .toggle { position: relative; height: 32px; width: 64px; border-radius: 16px; background: rgba(197, 106, 106, 0.4); box-shadow: none; transition: background 0.3s ease; }
+        .indicator { position: absolute; top: 4px; left: 4px; height: 24px; width: 24px; background: var(--bg); border-radius: 50%; box-shadow: none; transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
         .toggle-state:checked + .toggle { background: rgba(96, 150, 117, 0.6); }
         .toggle-state:checked + .toggle .indicator { transform: translateX(32px); }
 
@@ -75,10 +76,10 @@
         .spinner-btn {
             flex: 1; width: 26px; border: none; border-radius: 4px; background: var(--bg); color: var(--text); cursor: pointer;
             display: flex; align-items: center; justify-content: center; padding: 0;
-            box-shadow: 3px 3px 6px var(--neu-lo), -3px -3px 6px var(--neu-hi); transition: all 0.2s ease;
+            box-shadow: none; transition: all 0.2s ease;
         }
-        .spinner-btn:hover:not(:disabled) { color: var(--accent); box-shadow: 4px 4px 8px rgba(26,26,26,0.15), -4px -4px 8px var(--neu-hi); }
-        .spinner-btn:active:not(:disabled) { box-shadow: inset 1px 1px 3px var(--neu-lo), inset -1px -1px 3px var(--neu-hi); }
+        .spinner-btn:hover:not(:disabled) { color: var(--accent); box-shadow: none; }
+        .spinner-btn:active:not(:disabled) { box-shadow: none; }
         .spinner-btn svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
         .spinner-btn:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; background: transparent; }
 
@@ -108,7 +109,8 @@
 </head>
 <body>
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
-    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+    <div class="points-champ" aria-hidden="true"></div>
+    <div class="regles" aria-hidden="true"></div>
 
     <nav class="navbar" data-navbar-root></nav>
 
@@ -271,6 +273,8 @@
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 </script>
+<script src="../scripts/points-champ.js"></script>
+<script src="../scripts/outil-papier.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>

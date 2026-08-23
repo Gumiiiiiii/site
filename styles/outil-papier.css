@@ -116,6 +116,9 @@ body {
    lisent plus. Le --card-bg de shared.css est un rgba : il ne convient
    plus, il est remplacé partout par le papier plus un voile. */
 
+.right-col,
+.stats-container,
+.item-preview,
 .bg-group,
 .contrast-result,
 .size-row,
@@ -409,8 +412,6 @@ button.secondary.active {
    6 · L'aperçu
    ========================================================================== */
 
-.right-col { background: transparent; border: none; padding: 0; }
-
 .preview-panel {
     border-radius: var(--rayon);
     border: 1px solid var(--filet);
@@ -458,3 +459,166 @@ button.secondary.active {
 :root[data-theme="dark"] .chip.pass { border-color: rgba(96, 150, 117, 0.6); color: var(--positive); }
 :root[data-theme="dark"] .chip.fail { border-color: rgba(197, 106, 106, 0.6); color: var(--negative); }
 :root[data-theme="dark"] .contrast-result.is-pass .rating-label { color: var(--positive); }
+
+/* ==========================================================================
+   9 · Le reste de la suite d'outils
+   ==========================================================================
+   Ce qui précède a été écrit pour l'analyseur de contraste, la première
+   page passée au papier. Ce bloc-ci couvre les composants que portent les
+   dix autres : ils suivent la même règle, aplat opaque et filet, jamais de
+   lumière simulée. */
+
+/* La zone de dépôt était un creux : une lumière venue du haut-gauche, donc
+   une pièce et une profondeur. Sur du papier, une zone où déposer un
+   fichier se dit par un trait discontinu, la convention du découpage. */
+.drop-zone {
+    background: var(--bg);
+    background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
+    border: 1.5px dashed var(--filet);
+    border-radius: var(--rayon);
+    box-shadow: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.drop-zone:hover,
+.drop-zone.dragover {
+    border-color: var(--accent-ink);
+    box-shadow: none;
+}
+
+/* Le sélecteur segmenté : le rail devient un contour, et c'est la pastille
+   qui porte l'aplat. L'état choisi se lit donc par la forme pleine, pas par
+   un creux. */
+.segmented-control {
+    background: var(--bg);
+    background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
+    border: 1px solid var(--filet);
+    box-shadow: none;
+}
+.segmented-control .slider-format {
+    background: var(--encre-1);
+    box-shadow: none;
+}
+.segmented-control label { color: var(--encre-07); }
+.segmented-control input:checked + label,
+.segmented-control label.active { color: var(--bg); }
+
+/* Le bouton rond des listes : un contour, et la bordure répond au survol. */
+.icon-button {
+    background: var(--bg);
+    border: 1.5px solid var(--filet);
+    box-shadow: none;
+    color: var(--encre-1);
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.icon-button:hover:not(:disabled),
+.icon-button:focus-visible:not(:disabled) {
+    border-color: var(--accent-ink);
+    color: var(--accent-ink);
+    box-shadow: none;
+}
+.icon-button:active:not(:disabled) { box-shadow: none; }
+.icon-button:disabled { color: var(--encre-045); border-color: var(--filet-fin); }
+
+.stats-container { border-radius: 2rem; color: var(--encre-07); }
+.item-preview { border-radius: 50%; }
+
+/* tools-suite.css pose son relief en !important sur le bouton
+   desactive : il faut le meme poids pour le retirer. */
+button.primary:disabled { box-shadow: none !important; opacity: 0.45; }
+
+/* ==========================================================================
+   10 · Les pages de liste
+   ==========================================================================
+   /outils et /experimentations. Elles ne sont pas bâties comme une page
+   d'outil : ce sont des « shell-page », où le papier n'est pas <body> mais
+   <main class="site-content">, une feuille posée sur une table sombre. Le
+   champ de points va donc dans cette feuille, et c'est elle qui perd le
+   grain imité. */
+
+.site-content { background-image: none; }
+
+/* L'ancienne bande de points du haut de page ne tenait que les 250 premiers
+   pixels. Le champ la remplace sur toute la hauteur. */
+.dots-bg { display: none !important; }
+
+.hero h1 .dot { display: none; }
+
+/* La carte d'un outil ou d'une expérimentation : un contour qui répond au
+   survol, au lieu d'un relief qui s'enfonce au clic. */
+.tool-card,
+.card {
+    background-color: var(--bg);
+    background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
+    border: 1px solid var(--filet);
+    box-shadow: none;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.tool-card:hover,
+.card:hover,
+.tool-card:focus-visible,
+.card:focus-visible { border-color: var(--accent-ink); box-shadow: none; }
+.tool-card:active,
+.card:active { box-shadow: none; }
+
+.card-image {
+    background-color: var(--bg);
+    background-image: linear-gradient(var(--voile), var(--voile));
+    box-shadow: none;
+}
+
+/* Une carte à venir reste une carte : elle se dit par l'encre, pas par un
+   relief plus mou. */
+.tool-card.faded,
+.card.faded { border-style: dashed; }
+
+.search-input {
+    background: var(--bg);
+    border: 1.5px solid var(--filet);
+    box-shadow: none;
+    color: var(--encre-1);
+    transition: border-color 0.2s ease;
+}
+.search-input::placeholder { color: var(--encre-045); }
+.search-input:focus { border-color: var(--accent-ink); box-shadow: none; }
+
+.filter-btn {
+    background: var(--bg);
+    border: 1.5px solid var(--filet);
+    box-shadow: none;
+    color: var(--encre-07);
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.filter-btn:hover { border-color: var(--accent-ink); color: var(--accent-ink); }
+/* Le filtre actif est le seul aplat de la rangée : c'est la forme pleine
+   qui dit « celui-ci », et non une couleur de plus. */
+.filter-btn.active {
+    background: var(--encre-1);
+    border-color: var(--encre-1);
+    color: var(--bg);
+    box-shadow: none;
+}
+
+/* Le bouton plein. Sa forme suffit à le distinguer : il n'a pas besoin
+   d'être aussi soulevé. Le bouton flottant garde une ombre douce, parce
+   qu'il survole vraiment le contenu — c'est la seule ombre de la page qui
+   décrit une position et non une matière. */
+button.primary,
+.btn-primary { box-shadow: none; }
+button.primary.floating-btn {
+    box-shadow: 0 6px 20px rgba(26, 26, 26, 0.16);
+}
+:root[data-theme="dark"] button.primary.floating-btn {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
+/* Les interrupteurs : un contour et un aplat, sans creux. « .switch .slider »
+   pese plus lourd qu'un selecteur simple, la reprise se fait donc au meme
+   niveau. La pastille perd son ombre : sur le papier, c'est la position qui
+   dit l'etat, pas l'epaisseur. */
+.switch .slider,
+.toggle {
+    box-shadow: none;
+    border: 1px solid var(--filet);
+}
+.switch .slider:before { box-shadow: none; }
+.switch input:checked + .slider { border-color: transparent; }

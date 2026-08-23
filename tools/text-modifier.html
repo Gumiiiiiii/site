@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}if(!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)){document.documentElement.classList.add('fond-anime');}}catch(e){}})();</script>
     <link rel="preload" href="../fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
@@ -30,6 +30,7 @@
 
     <link rel="stylesheet" href="../styles/shared.css">
     <link rel="stylesheet" href="../styles/tools-suite.css">
+    <link rel="stylesheet" href="../styles/outil-papier.css">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -51,7 +52,8 @@
 </head>
 <body>
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
-    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+    <div class="points-champ" aria-hidden="true"></div>
+    <div class="regles" aria-hidden="true"></div>
 
     <nav class="navbar" data-navbar-root></nav>
 
@@ -159,6 +161,8 @@
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 </script>
+<script src="../scripts/points-champ.js"></script>
+<script src="../scripts/outil-papier.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
