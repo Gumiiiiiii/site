@@ -1512,3 +1512,38 @@ html { scroll-behavior: smooth; }
 }
 
 .fond-anime .fond-lettre[data-anim="vu"] { opacity: 1; }
+
+
+/* === AU-DELA DE 1600 ======================================================
+   Jusqu'ici, la page cessait de reagir bien avant les grands ecrans : les
+   vingt et un clamp de ce fichier atteignent tous leur plafond entre 1000 et
+   1516 px, et le media query le plus large valait 1100. Sur un 2560, la
+   colonne occupait donc 43 % de la largeur, figee, au milieu de deux bandes
+   vides de 736 px.
+
+   Le raccord est exact, et ce n'est pas un hasard : a 1600 px, 1rem et 1vw
+   valent tous deux 16 px. Chaque valeur reprend donc en vw le coefficient
+   qu'elle avait en rem, et repart de son ancien plafond sans le moindre saut.
+   La colonne suit la meme regle, en clamp plutot qu'en marge, pour rejoindre
+   68rem pile a 1600.
+
+   Le corps de texte n'est pas invite : il reste a sa taille. Un 4K a 150 %
+   rend deja un 16 px a sa taille apparente normale, et tous les blocs de
+   texte sont bornes en ch, donc la ligne la plus longue de la page ne bouge
+   pas d'un signe. C'est la mise en page qui respire, pas la lecture. */
+@media (min-width: 1600px) {
+    .fond-page {
+        --fond-colonne: clamp(68rem, calc(68rem + (100vw - 1600px) * 0.25), 82rem);
+        --fond-marge: max(11rem, calc((100vw - var(--fond-colonne)) / 2));
+    }
+
+    .fond-hero-photo  { width: clamp(12rem, 12vw, 18rem); }
+    .fond-hero-phrase { font-size: clamp(1.8rem, 1.8vw, 2.45rem); }
+    .fond-kpi b       { font-size: clamp(2.1rem, 2.1vw, 2.9rem); }
+
+    .fond-page .fond-titre { font-size: clamp(3.4rem, 3.4vw, 4.6rem); }
+
+    /* Le rail est fixe au bord : si tout grandit et pas lui, il se detache de
+       la page au lieu de l'accompagner. */
+    .fond-rail a { font-size: clamp(0.82rem, 0.82vw, 0.98rem); }
+}

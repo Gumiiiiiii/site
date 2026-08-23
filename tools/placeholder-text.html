@@ -182,6 +182,11 @@
                     <span data-i18n="ph_placeholder_hint">Votre texte apparaîtra ici...</span>
                 </div>
                 <div class="output-panel" id="output-panel" style="display: none;"></div>
+                <button id="copy-all-btn" class="primary action-btn hidden no-select" type="button" disabled>
+                    <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span data-i18n="ph_copy">Copier le texte</span>
+                </button>
+
                 <div class="stats-container no-select" id="stats-container" style="display: none;">
                     <div class="stat-item"><span data-i18n="ph_paragraphs">Paragraphes</span> <span class="stat-val" id="para-count">0</span></div>
                     <div class="stat-item"><span data-i18n="ph_words">Mots</span> <span class="stat-val" id="word-count">0</span></div>
@@ -191,10 +196,6 @@
         </div>
     </div>
 
-    <button id="copy-all-btn" class="primary floating-btn hidden no-select" type="button" disabled>
-        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-        <span data-i18n="ph_copy">Copier le texte</span>
-    </button>
 
     <script src="../scripts/vendor/lenis.min.js"></script>
     <script src="../scripts/i18n.js"></script>

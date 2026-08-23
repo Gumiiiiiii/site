@@ -208,8 +208,14 @@
 
     function setLoading(loading) {
         isFetching = loading;
-        fetchBtn.disabled = loading;
         fetchBtn.textContent = loading ? t('sp_fetching') : t('sp_fetch');
+        syncFetchBtn();
+    }
+
+    // Rien a generer tant que le champ ne contient pas un lien exploitable :
+    // le bouton reste grise plutot que de renvoyer une erreur au clic.
+    function syncFetchBtn() {
+        fetchBtn.disabled = isFetching || !normalizeInput(urlInput.value);
     }
 
     function normalizeInput(raw) {
@@ -249,9 +255,11 @@
     }
 
     fetchBtn.addEventListener('click', run);
+    urlInput.addEventListener('input', syncFetchBtn);
     urlInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') run();
     });
+    syncFetchBtn();
 
     // Re-render dynamic text (audit lines, "From" label) on language switch.
     document.addEventListener('gumi:lang', () => {
