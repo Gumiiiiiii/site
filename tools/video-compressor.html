@@ -174,10 +174,14 @@
 
                 <input type="file" id="file-input" multiple accept=".mp4,.mov,.avi,.webm,.mkv,video/*" style="display:none;">
 
-                <div style="display: flex; justify-content: flex-end; margin-top: -0.5rem; height: 24px;">
+                <div class="action-row">
                     <button id="clear-btn" class="subtle-btn no-select" style="display: none;" title="Vider la liste">
                         <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                         <span data-i18n="vc_clear">Vider</span>
+                    </button>
+                    <button id="download-all-btn" class="primary action-btn no-select hidden" disabled>
+                        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        <span data-i18n="vc_download_all">Tout télécharger</span> <span id="dl-count" style="margin-left: 5px;"></span>
                     </button>
                 </div>
 
@@ -186,10 +190,6 @@
         </div>
     </div>
 
-    <button id="download-all-btn" class="primary floating-btn no-select hidden" disabled>
-        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-        <span data-i18n="vc_download_all">Tout télécharger</span> <span id="dl-count" style="margin-left: 5px;"></span>
-    </button>
 
     <script src="../scripts/vendor/lenis.min.js"></script>
     <script src="../scripts/vendor/ffmpeg.js"></script>

@@ -526,9 +526,18 @@ button.secondary.active {
 .stats-container { border-radius: 2rem; color: var(--encre-07); }
 .item-preview { border-radius: 50%; }
 
-/* tools-suite.css pose son relief en !important sur le bouton
-   desactive : il faut le meme poids pour le retirer. */
-button.primary:disabled { box-shadow: none !important; opacity: 0.45; }
+/* Le bouton dont l'action est impossible : pas d'aplat d'encre, un simple
+   fond voile cercle d'un filet, et le mot en encre pale. Il reste lisible,
+   il ne se lit plus comme un appel a cliquer. tools-suite.css pose son
+   relief en !important : il faut le meme poids pour le retirer. */
+button.primary:disabled {
+    box-shadow: none !important;
+    opacity: 1;
+    background: var(--voile);
+    border: 1px solid var(--filet);
+    color: var(--encre-045);
+    cursor: not-allowed;
+}
 
 /* ==========================================================================
    10 · Les pages de liste
@@ -603,17 +612,11 @@ button.primary:disabled { box-shadow: none !important; opacity: 0.45; }
 }
 
 /* Le bouton plein. Sa forme suffit à le distinguer : il n'a pas besoin
-   d'être aussi soulevé. Le bouton flottant garde une ombre douce, parce
-   qu'il survole vraiment le contenu — c'est la seule ombre de la page qui
-   décrit une position et non une matière. */
+   d'être soulevé. L'action principale du résultat est désormais dans le
+   flux de la colonne, elle ne survole plus rien : aucune ombre ne décrit
+   de position, il ne reste que l'aplat. */
 button.primary,
 .btn-primary { box-shadow: none; }
-button.primary.floating-btn {
-    box-shadow: 0 6px 20px rgba(26, 26, 26, 0.16);
-}
-:root[data-theme="dark"] button.primary.floating-btn {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
-}
 
 /* Les interrupteurs : un contour et un aplat, sans creux. « .switch .slider »
    pese plus lourd qu'un selecteur simple, la reprise se fait donc au meme
