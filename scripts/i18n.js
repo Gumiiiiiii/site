@@ -140,6 +140,8 @@
             fr: "Le verdict retient la zone la moins lisible, pas la moyenne.",
             en: 'The verdict uses the least legible zone, not the average.'
         },
+        contrast_preview_edit: { fr: "Titre d'essai, modifiable", en: 'Sample heading, editable' },
+        contrast_preview_edit_p: { fr: "Paragraphe d'essai, modifiable", en: 'Sample paragraph, editable' },
         contrast_zone_left: { fr: 'Gauche', en: 'Left' },
         contrast_zone_mid: { fr: 'Milieu', en: 'Middle' },
         contrast_zone_right: { fr: 'Droite', en: 'Right' },

@@ -209,6 +209,9 @@ button.secondary.active {
     border: 1.5px solid var(--filet);
     border-radius: 0.6rem;
     box-shadow: none;
+    /* Un bouton ne prend pas la main tout seul : par défaut le navigateur
+       lui laisse la flèche, et rien ne disait que la pastille s'ouvre. */
+    cursor: pointer;
     transition: border-color 0.2s ease;
 }
 .color-swatch:hover,
@@ -285,6 +288,14 @@ button.secondary.active {
     color: var(--accent-ink) !important;
     text-decoration-color: var(--accent-ink);
 }
+
+/* Le panneau est à l'intérieur de .tooltip-wrapper, qui porte « cursor:
+   pointer » pour son bouton d'aide : tout le texte de l'infobulle héritait
+   donc la main, comme s'il était cliquable. Il ne l'est pas. La main ne
+   reste que sur le bouton et sur le lien, les deux seules choses qu'on y
+   clique ; le texte reprend le curseur de lecture. */
+.tooltip-content { cursor: default; }
+.tooltip-content a { cursor: pointer; }
 
 /* « Fonctionne hors ligne » n'est pas un verdict, c'est un état de fait :
    il n'a donc pas à porter une couleur. Le vert passe dans la seule
@@ -375,8 +386,24 @@ button.secondary.active {
 .chip.fail { border-color: rgba(197, 106, 106, 0.55); color: var(--negative); background: transparent; }
 
 .contrast-footer { color: var(--encre-07); font-size: 0.92rem; }
-.fix-link { color: var(--accent-ink); font-size: 0.92rem; }
-.fix-link:hover { color: var(--encre-1); }
+/* « Corriger automatiquement » est un lien, et suit donc la règle des
+   liens : à l'encre au repos, souligné d'un filet, la couleur réservée au
+   survol. Il faisait l'inverse, violet au repos et noir au survol, ce qui
+   posait une couleur sur une action qui ne s'était pas encore produite. */
+.fix-link {
+    color: var(--encre-1);
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.25em;
+    text-decoration-color: var(--filet);
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+.fix-link:hover,
+.fix-link:focus-visible {
+    color: var(--accent-ink);
+    text-decoration-color: var(--accent-ink);
+}
 
 /* ==========================================================================
    6 · L'aperçu

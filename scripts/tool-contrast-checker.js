@@ -425,6 +425,22 @@
     setSwatch(textSwatch, currentText, textAlpha);
     setSwatch(bgSwatch, currentBg);
 
+    // Les deux textes de l'aperçu se réécrivent sur place. Ce qu'on y colle
+    // doit arriver nu : un fragment copié d'une page web apporte ses propres
+    // balises, et donc sa propre couleur, qui repeindrait l'aperçu par-dessus
+    // celle qu'on est en train de mesurer. Le collage est donc ramené à du
+    // texte, et le presse-papiers perd sa mise en forme à l'entrée.
+    [previewLarge, previewSmall].forEach((champ) => {
+        champ.addEventListener('paste', (event) => {
+            event.preventDefault();
+            const brut = (event.clipboardData || window.clipboardData).getData('text/plain');
+            // Une seule ligne pour le titre : un retour y casserait la mesure
+            // qu'on vient faire, celle d'une ligne de titre.
+            const texte = champ === previewLarge ? brut.replace(/\s+/g, ' ').trim() : brut;
+            document.execCommand('insertText', false, texte);
+        });
+    });
+
     document.addEventListener('gumi:lang', update);
     update();
 })();

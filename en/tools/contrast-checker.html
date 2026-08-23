@@ -166,6 +166,31 @@
             transition: color 0.3s ease;
         }
 
+        /* Les deux textes d'apercu se reecrivent sur place : on juge une
+           combinaison sur ses propres mots, pas sur ceux de Corneille.
+           L'affordance reste au minimum, un curseur de saisie et un cadre
+           qui n'apparait qu'au survol ; le panneau doit ressembler a la
+           page qu'on teste, pas a un formulaire. Le cadre est trace en
+           encre du texte, donc il suit la couleur choisie et ne peut pas
+           fausser le rendu. */
+        .preview-large[contenteditable],
+        .preview-small[contenteditable] {
+            cursor: text;
+            outline: none;
+            border-radius: 0.4rem;
+            /* Le rembourrage donne de l'air au cadre, la marge negative le
+               reprend : le texte reste exactement ou il etait, et activer
+               l'edition ne deplace pas l'apercu d'un pixel. */
+            padding: 0.35rem 0.55rem;
+            margin: -0.35rem -0.55rem;
+            box-shadow: 0 0 0 1px transparent;
+            transition: color 0.3s ease, box-shadow 0.2s ease;
+        }
+        .preview-large[contenteditable]:hover { box-shadow: 0 0 0 1px currentColor; }
+        .preview-small[contenteditable]:hover { box-shadow: 0 0 0 1px currentColor; }
+        .preview-large[contenteditable]:focus,
+        .preview-small[contenteditable]:focus { box-shadow: 0 0 0 1.5px currentColor; }
+
         @media (max-width: 950px) {
             .preview-panel { min-height: 320px; padding: 2rem; }
             .size-rows { flex-direction: column; }
@@ -288,8 +313,8 @@
 
             <div class="right-col" style="padding: 0; background: transparent; border: none;">
                 <div class="preview-panel" id="preview-panel">
-                    <p class="preview-large" id="preview-large">À vaincre sans péril, on triomphe sans gloire</p>
-                    <p class="preview-small" id="preview-small">À vaincre sans péril, on triomphe sans gloire. Cette réplique du Cid de Corneille sert ici de texte d'essai : elle permet de juger la lisibilité d'un paragraphe courant dans la combinaison de couleurs choisie.</p>
+                    <p class="preview-large" id="preview-large" contenteditable="true" spellcheck="false" role="textbox" aria-multiline="true" data-i18n-aria="contrast_preview_edit" aria-label="Sample heading, editable">À vaincre sans péril, on triomphe sans gloire</p>
+                    <p class="preview-small" id="preview-small" contenteditable="true" spellcheck="false" role="textbox" aria-multiline="true" data-i18n-aria="contrast_preview_edit_p" aria-label="Sample paragraph, editable">À vaincre sans péril, on triomphe sans gloire. Cette réplique du Cid de Corneille sert ici de texte d'essai : elle permet de juger la lisibilité d'un paragraphe courant dans la combinaison de couleurs choisie.</p>
                 </div>
             </div>
         </div>
