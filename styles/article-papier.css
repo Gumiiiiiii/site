@@ -236,10 +236,12 @@
 .note-texte { display: inline-block; }
 .note-trait { display: block; color: inherit; overflow: visible; }
 
-/* La flèche : la note s'écrit au-dessus du bord haut et son trait descend
-   vers ce qu'elle désigne. */
-.note--fleche { --incline: -2deg; }
-.note--fleche .note-trait { width: 6.3em; height: 2.96em; margin: 0.11em 0 0 0.4em; }
+/* L'astérisque : le signe d'abord, le mot ensuite, sur une seule ligne. Il
+   ne montre pas, il marque — et c'est ce qui lui permet de tenir dans une
+   ligne au lieu d'une colonne. Géométrie de la charte, reprise telle
+   quelle. */
+.note--etoile { --incline: 2.5deg; display: flex; align-items: center; gap: 0.26em; }
+.note--etoile .note-trait { width: 0.85em; height: 0.85em; flex-shrink: 0; }
 
 /* Le résumé porte sa note dans l'espace qui le sépare de l'image, au-dessus
    de son bord haut gauche.
@@ -250,29 +252,22 @@
 
 /* La note se loge dans la place qui existe déjà, et n'en demande aucune.
 
-   Cette place se compte en deux morceaux : les 48 px qui séparent la barre
-   du sommaire du résumé, et les 44 px de rembourrage que le résumé garde
-   au-dessus de sa première ligne. Le mot s'écrit dans le premier, la flèche
-   descend dans le second. Elle passe donc par-dessus le bord du bloc, ce
-   qui est exactement ce qu'on attend d'une flèche : elle entre dans ce
-   qu'elle désigne, sans jamais couvrir une ligne de texte.
+   Cette place, ce sont les 48 px qui séparent la barre du sommaire du
+   résumé. L'astérisque tient sur une ligne, une vingtaine de pixels : il y
+   entre en entier, centré entre le filet du dessus et le bloc du dessous,
+   sans avoir à déborder sur l'un ni sur l'autre.
 
    Une version précédente faisait descendre le résumé de 6,75 rem pour se
    faire de la place. C'était une note qui déplaçait la page, soit
    l'inverse de la règle : elle est absolue, elle se pose où elle peut, et
    la retirer ne bouge rien. */
 .note-resume {
-    top: -1.85em;
+    bottom: 100%;
     left: 1.5rem;
-    transform: rotate(var(--incline, -2deg));
-    transform-origin: top left;
+    margin-bottom: 1.05rem;
+    transform: rotate(var(--incline, 2.5deg));
+    transform-origin: bottom left;
 }
-
-/* La flèche de la charte mesure 2,96 em de haut, et le mot 1 em : à eux
-   deux ils dépassaient de peu les 92 px disponibles. Le dessin est le
-   même, repris à une échelle qui tient dans l'espace au lieu de le
-   réclamer. */
-.note-resume .note-trait { width: 5.1em; height: 2.4em; }
 
 /* Sous 900 px, le résumé touche les bords de l'écran et la note n'a plus de
    marge où se poser : elle s'efface. Une annotation ne pousse jamais rien. */

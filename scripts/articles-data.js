@@ -356,7 +356,7 @@ window.GUMI_ARTICLES = {
         html: {
             fr: `
             <div class="abstract">
-                <span class="note note--fleche note-resume" aria-hidden="true"><span class="note-texte" data-i18n="abstract_note">Le résumé en 30 secondes</span><svg class="note-trait" viewBox="0 0 126 59" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4c14 21 38 38 68 43"></path><path d="M56 51c8 0 14-1 18-3"></path><path d="M64 34c4 7 7 12 10 14"></path></svg></span>
+                <span class="note note--etoile note-resume" aria-hidden="true"><svg class="note-trait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 4v16"></path><path d="M5 8l14 8"></path><path d="M19 8L5 16"></path></svg><span class="note-texte" data-i18n="abstract_note">Le résumé en 30 secondes</span></span>
                 <p>Je me suis rendu compte qu'il y avait <strong>plus d'un million de recherches par an</strong> pour les cartes de la Terre du Milieu. Pour attirer ce public sur ArdaCraft, j'ai créé une carte interactive inspirée de Google Maps. L'objectif était de capter <strong>330 000 clics par an</strong> sur une requête peu disputée (difficulté de <strong>36 %</strong>). Et en quelques mois, le pari a payé : la carte génère <strong>la moitié de nos nouvelles visites</strong> !</p>
             </div>
 
@@ -430,7 +430,7 @@ window.GUMI_ARTICLES = {
             `,
             en: `
             <div class="abstract">
-                <span class="note note--fleche note-resume" aria-hidden="true"><span class="note-texte" data-i18n="abstract_note">The 30-second version</span><svg class="note-trait" viewBox="0 0 126 59" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4c14 21 38 38 68 43"></path><path d="M56 51c8 0 14-1 18-3"></path><path d="M64 34c4 7 7 12 10 14"></path></svg></span>
+                <span class="note note--etoile note-resume" aria-hidden="true"><svg class="note-trait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 4v16"></path><path d="M5 8l14 8"></path><path d="M19 8L5 16"></path></svg><span class="note-texte" data-i18n="abstract_note">The 30-second version</span></span>
                 <p>I realised there were <strong>over a million searches a year</strong> for maps of Middle-earth. To bring that audience to ArdaCraft, I built an interactive map inspired by Google Maps. The goal was to capture <strong>330,000 clicks a year</strong> on a query with little competition (a difficulty of <strong>36%</strong>). And within a few months the bet paid off: the map brings in <strong>half of our new visits</strong>!</p>
             </div>
 
