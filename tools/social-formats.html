@@ -33,6 +33,11 @@
     <link rel="stylesheet" href="../styles/outil-papier.css">
 
     <style>
+        /* Le libelle choisi passe en reserve sur la pastille d'encre. */
+        #sr-jpg:checked ~ label[for="sr-jpg"],
+        #sr-png:checked ~ label[for="sr-png"],
+        #sr-webp:checked ~ label[for="sr-webp"] { color: var(--bg); }
+
         /* Focal point picker: the dot marks where every crop stays centered. */
         .sr-focal {
             position: relative;

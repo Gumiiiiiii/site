@@ -304,7 +304,7 @@ button.primary:disabled {
 #f-jpeg:checked ~ label[for="f-jpeg"],
 #f-pdf:checked ~ label[for="f-pdf"],
 #f-svg:checked ~ label[for="f-svg"] {
-    color: var(--text);
+    color: var(--bg);
 }
 
 .tooltip-wrapper {

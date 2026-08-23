@@ -27,10 +27,6 @@
             fr: "Utiliser le SEO pour faire grandir une communauté de passionnés : l'opportunité à 1 million de recherches par an.",
             en: 'Using SEO to grow a community of enthusiasts: the one-million-searches-a-year opportunity.'
         },
-        exp_card_shooting: {
-            fr: "Peut-on remplacer un véritable shooting photo avec l'Intelligence Artificielle ?",
-            en: "Can Artificial Intelligence replace a real photo shoot?"
-        },
         // Tool cards
         tool_converter_title: { fr: 'Convertisseur de fichiers', en: 'File converter' },
         tool_converter_desc: {

@@ -44,7 +44,7 @@
         .format-5 #f-avif:checked ~ .slider-format { transform: translateX(300%); }
         .format-5 #f-pdf:checked ~ .slider-format { transform: translateX(400%); }
         #f-webp:checked ~ label[for="f-webp"],
-        #f-avif:checked ~ label[for="f-avif"] { color: var(--text); }
+        #f-avif:checked ~ label[for="f-avif"] { color: var(--bg); }
 
         /* Slider positions for the 4-option compression control. */
         .quality-4 .slider-format { width: calc((100% - 0.8em) / 4); }
@@ -55,7 +55,7 @@
         #q-lossless:checked ~ label[for="q-lossless"],
         #q-high:checked ~ label[for="q-high"],
         #q-medium:checked ~ label[for="q-medium"],
-        #q-low:checked ~ label[for="q-low"] { color: var(--text); }
+        #q-low:checked ~ label[for="q-low"] { color: var(--bg); }
 
         /* Toggles + number spinners (advanced settings). */
         .toggle-label { display: inline-flex; align-items: center; cursor: pointer; color: var(--text); }

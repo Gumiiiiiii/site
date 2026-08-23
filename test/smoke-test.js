@@ -56,7 +56,7 @@ const CHECKS = [
     { path: '/', assert(d) {
         if (!d.title.includes('Gumi')) return 'bad title: ' + d.title;
         if (d.querySelectorAll('.navbar a').length < 3) return 'navbar not injected';
-        if (d.querySelectorAll('.experiences-right .card').length !== 3) return 'expected 3 experiment cards';
+        if (d.querySelectorAll('.experiences-right .card').length !== 2) return 'expected 2 experiment cards';
         if (!d.querySelector('.footer-byline')) return 'missing footer byline';
         // The CV landing stays hidden: no public page may link to it.
         if (d.querySelector('a[href="/cv"], a[href="cv"], a[href*="pierre.gumi.ch"]')) return 'CV page must not be linked from the homepage';

@@ -244,13 +244,13 @@ button.secondary.active {
 /* La flèche revient d'un pas vers la gauche au survol, le sens même du
    lien. Trois pixels, sur la seule flèche : le mot ne bouge pas, sinon
    c'est la ligne entière qui glisse et le geste devient un effet. */
-.back-link .icone { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-.back-link:hover .icone,
-.back-link:focus-visible .icone { transform: translateX(-3px); }
+.back-link svg { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+.back-link:hover svg,
+.back-link:focus-visible svg { transform: translateX(-3px); }
 @media (prefers-reduced-motion: reduce) {
-    .back-link .icone { transition: none; }
-    .back-link:hover .icone,
-    .back-link:focus-visible .icone { transform: none; }
+    .back-link svg { transition: none; }
+    .back-link:hover svg,
+    .back-link:focus-visible svg { transform: none; }
 }
 
 /* L'infobulle : un contour, comme tout le reste. */
@@ -499,8 +499,12 @@ button.secondary.active {
     box-shadow: none;
 }
 .segmented-control label { color: var(--encre-07); }
+.segmented-control label:hover { color: var(--encre-1); }
 .segmented-control input:checked + label,
 .segmented-control label.active { color: var(--bg); }
+/* Le libelle choisi se lit en reserve sur la pastille. Les pages nomment
+   leurs boutons par identifiant (« #f-png:checked ~ label[for="f-png"] »),
+   trop lourd pour etre repris ici : la regle est corrigee chez elles. */
 
 /* Le bouton rond des listes : un contour, et la bordure répond au survol. */
 .icon-button {
