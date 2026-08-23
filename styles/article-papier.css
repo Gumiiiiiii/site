@@ -248,24 +248,31 @@
    déborde de lui. */
 .abstract { position: relative; overflow: visible; }
 
-/* Une note ne réserve jamais de place, mais elle a besoin qu'il y en ait.
-   Entre la barre du sommaire et le résumé il n'y avait qu'une quarantaine de
-   pixels : la note s'y écrivait par-dessus le mot « Sommaire ». C'est donc le
-   résumé qui descend, et seulement quand il porte une note — un résumé sans
-   annotation garde l'écart d'origine. */
-.abstract:has(.note-resume) { margin-top: 6.75rem; }
+/* La note se loge dans la place qui existe déjà, et n'en demande aucune.
 
-/* Le bloc est écrit du haut vers le bas : le mot d'abord, la flèche
-   dessous. Réduire cette marge fait donc descendre les deux, ce qui dégage
-   le mot du filet de la barre du sommaire sans que la pointe de la flèche
-   ne vienne toucher le résumé. */
+   Cette place se compte en deux morceaux : les 48 px qui séparent la barre
+   du sommaire du résumé, et les 44 px de rembourrage que le résumé garde
+   au-dessus de sa première ligne. Le mot s'écrit dans le premier, la flèche
+   descend dans le second. Elle passe donc par-dessus le bord du bloc, ce
+   qui est exactement ce qu'on attend d'une flèche : elle entre dans ce
+   qu'elle désigne, sans jamais couvrir une ligne de texte.
+
+   Une version précédente faisait descendre le résumé de 6,75 rem pour se
+   faire de la place. C'était une note qui déplaçait la page, soit
+   l'inverse de la règle : elle est absolue, elle se pose où elle peut, et
+   la retirer ne bouge rien. */
 .note-resume {
-    bottom: 100%;
+    top: -1.85em;
     left: 1.5rem;
-    margin-bottom: 0.1rem;
     transform: rotate(var(--incline, -2deg));
-    transform-origin: bottom left;
+    transform-origin: top left;
 }
+
+/* La flèche de la charte mesure 2,96 em de haut, et le mot 1 em : à eux
+   deux ils dépassaient de peu les 92 px disponibles. Le dessin est le
+   même, repris à une échelle qui tient dans l'espace au lieu de le
+   réclamer. */
+.note-resume .note-trait { width: 5.1em; height: 2.4em; }
 
 /* Sous 900 px, le résumé touche les bords de l'écran et la note n'a plus de
    marge où se poser : elle s'efface. Une annotation ne pousse jamais rien. */
