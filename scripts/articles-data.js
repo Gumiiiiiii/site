@@ -341,7 +341,7 @@ window.GUMI_ARTICLES = {
     },
 
     'ardacraft-map': {
-        cover: '/media/ardacraft-map-featured-image.webp',
+        cover: '/media/ardacraft-map-carte-interactive.webp',
         coverAlt: 'La carte interactive de la Terre du Milieu conçue pour ArdaCraft',
         readNext: 'ardacraft-social',
         published: '2026-07-12',
