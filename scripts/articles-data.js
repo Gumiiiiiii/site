@@ -346,8 +346,8 @@ window.GUMI_ARTICLES = {
         readNext: 'ardacraft-social',
         published: '2026-07-12',
         title: {
-            fr: "Utiliser le SEO pour faire grandir une communauté de passionnés : l'opportunité à 1 million de recherches par an",
-            en: 'Using SEO to Grow a Community of Enthusiasts: The One-Million-Searches-a-Year Opportunity'
+            fr: "Comment j'ai utilisé le SEO pour faire grandir une communauté de passionnés",
+            en: 'How I Used SEO to Grow a Community of Enthusiasts'
         },
         excerpt: {
             fr: "Comment j'ai transformé plus d'un million de recherches annuelles autour de la Terre du Milieu en canal d'acquisition pour ArdaCraft, grâce à une carte interactive.",
@@ -356,7 +356,8 @@ window.GUMI_ARTICLES = {
         html: {
             fr: `
             <div class="abstract">
-                <p>Cette expérimentation a consisté à transformer un marché de <strong>plus d'un million de recherches par an</strong> autour des cartes de la Terre du Milieu en canal d'acquisition pour ArdaCraft. En concevant une carte interactive pensée pour le mobile et calquée sur les codes de Google Maps, je visais un potentiel de <strong>330 000 clics par an</strong> sur un mot-clé pourtant jugé accessible (difficulté SEO de <strong>36 %</strong>). En quelques mois, la carte a généré <strong>50 % de notre trafic hors-marque</strong>.</p>
+                <span class="note note--fleche note-resume" aria-hidden="true"><span class="note-texte" data-i18n="abstract_note">Le résumé en 30 secondes</span><svg class="note-trait" viewBox="0 0 126 59" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4c14 21 38 38 68 43"></path><path d="M56 51c8 0 14-1 18-3"></path><path d="M64 34c4 7 7 12 10 14"></path></svg></span>
+                <p>Je me suis rendu compte qu'il y avait <strong>plus d'un million de recherches par an</strong> pour les cartes de la Terre du Milieu. Pour attirer ce public sur ArdaCraft, j'ai créé une carte interactive inspirée de Google Maps. L'objectif était de capter <strong>330 000 clics par an</strong> sur une requête peu disputée (difficulté de <strong>36 %</strong>). Et en quelques mois, le pari a payé : la carte génère <strong>la moitié de nos nouvelles visites</strong> !</p>
             </div>
 
             <h2>L'opportunité</h2>
@@ -429,7 +430,8 @@ window.GUMI_ARTICLES = {
             `,
             en: `
             <div class="abstract">
-                <p>This experiment was about turning a market of <strong>over 1,000,000 searches a year</strong> around Middle-earth maps into an acquisition channel for ArdaCraft. By building an interactive map that was mobile-friendly and modeled on Google Maps' conventions, I was chasing a potential <strong>330,000 clicks a year</strong> on a keyword rated surprisingly accessible (an SEO difficulty of just <strong>36%</strong>). The result: within a few months, the map already drives <strong>50% of our non-brand traffic</strong>.</p>
+                <span class="note note--fleche note-resume" aria-hidden="true"><span class="note-texte" data-i18n="abstract_note">The 30-second version</span><svg class="note-trait" viewBox="0 0 126 59" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4c14 21 38 38 68 43"></path><path d="M56 51c8 0 14-1 18-3"></path><path d="M64 34c4 7 7 12 10 14"></path></svg></span>
+                <p>I realised there were <strong>over a million searches a year</strong> for maps of Middle-earth. To bring that audience to ArdaCraft, I built an interactive map inspired by Google Maps. The goal was to capture <strong>330,000 clicks a year</strong> on a query with little competition (a difficulty of <strong>36%</strong>). And within a few months the bet paid off: the map brings in <strong>half of our new visits</strong>!</p>
             </div>
 
             <h2>The opportunity</h2>

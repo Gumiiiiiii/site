@@ -87,6 +87,21 @@ function transform(source, articles) {
         const el = document.querySelector(sel);
         if (el) el.setAttribute('content', article.title.fr);
     }
+
+    // Six places, in fact: the <h1> is the sixth, and it was the one left out.
+    // article-page.js rewrites it from the data at runtime, so the page looked
+    // right in a browser while the served HTML kept whatever title the shell
+    // was born with — exactly the drift this block exists to prevent, and the
+    // version a crawler reads first. The trailing dot belongs to the markup,
+    // not to the title, so it is put back after the text.
+    const titleEl = document.getElementById('article-title');
+    if (titleEl) {
+        titleEl.textContent = article.title.fr;
+        const dot = document.createElement('span');
+        dot.className = 'dot';
+        dot.textContent = '.';
+        titleEl.appendChild(dot);
+    }
     document.querySelectorAll('script[type="application/ld+json"]').forEach((script) => {
         try {
             const json = JSON.parse(script.textContent);

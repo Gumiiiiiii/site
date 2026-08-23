@@ -11,15 +11,15 @@
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Gumi.">
     <meta property="og:locale" content="en_US">
-    <meta property="og:title" content="Using SEO to Grow a Community of Enthusiasts: The One-Million-Searches-a-Year Opportunity | Gumi.">
+    <meta property="og:title" content="How I Used SEO to Grow a Community of Enthusiasts | Gumi.">
     <meta property="og:description" content="How I turned over a million annual searches around Middle-earth into a real acquisition channel for ArdaCraft, through an interactive map.">
     <meta property="og:url" content="https://gumi.ch/en/experiments/ardacraft-map">
     <meta property="og:image" content="https://gumi.ch/media/ardacraft-map-featured-image.webp">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Using SEO to Grow a Community of Enthusiasts: The One-Million-Searches-a-Year Opportunity | Gumi.">
+    <meta name="twitter:title" content="How I Used SEO to Grow a Community of Enthusiasts | Gumi.">
     <meta name="twitter:description" content="How I turned over a million annual searches around Middle-earth into a real acquisition channel for ArdaCraft, through an interactive map.">
     <meta name="twitter:image" content="https://gumi.ch/media/ardacraft-map-featured-image.webp">
-    <title>Using SEO to Grow a Community of Enthusiasts: The One-Million-Searches-a-Year Opportunity | Gumi.</title>
+    <title>How I Used SEO to Grow a Community of Enthusiasts | Gumi.</title>
     <meta name="description" content="How I turned over a million annual searches around Middle-earth into a real acquisition channel for ArdaCraft, through an interactive map.">
     <link rel="icon" type="image/png" sizes="32x32" href="../media/favicon-32.png">
     <link rel="apple-touch-icon" href="../media/apple-touch-icon.png">
@@ -27,11 +27,12 @@
 
     <link rel="stylesheet" href="../styles/shared.css">
     <link rel="stylesheet" href="../styles/article.css">
+    <link rel="stylesheet" href="../styles/article-papier.css">
     <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "Using SEO to Grow a Community of Enthusiasts: The One-Million-Searches-a-Year Opportunity",
+    "headline": "How I Used SEO to Grow a Community of Enthusiasts",
     "description": "How I turned over a million annual searches around Middle-earth into a real acquisition channel for ArdaCraft, through an interactive map.",
     "datePublished": "2026-07-12",
     "dateModified": "2026-07-12",
@@ -52,13 +53,13 @@
     <nav class="navbar" data-navbar-root=""></nav>
 
     <main class="site-content" id="main">
-    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+    <div class="points-champ" aria-hidden="true"></div>
 
 
         <!-- HERO (STICKY TITLE + IMAGE) — content completed by article-page.js -->
         <section class="article-hero">
             <header class="article-header">
-                <h1 class="article-title" id="article-title">Using SEO to Grow a Community of Enthusiasts: The One-Million-Searches-a-Year Opportunity<span class="dot">.</span></h1>
+                <h1 class="article-title" id="article-title">How I Used SEO to Grow a Community of Enthusiasts<span class="dot">.</span></h1>
                 <p class="article-date" id="article-date">Publié le 12 juillet 2026</p>
             </header>
 
@@ -93,7 +94,8 @@
         <!-- POST CONTENT — populated by article-page.js -->
         <article class="article-content" id="post-content">
             <div class="abstract">
-                <p>This experiment was about turning a market of <strong>over 1,000,000 searches a year</strong> around Middle-earth maps into an acquisition channel for ArdaCraft. By building an interactive map that was mobile-friendly and modeled on Google Maps' conventions, I was chasing a potential <strong>330,000 clicks a year</strong> on a keyword rated surprisingly accessible (an SEO difficulty of just <strong>36%</strong>). The result: within a few months, the map already drives <strong>50% of our non-brand traffic</strong>.</p>
+                <span class="note note--fleche note-resume" aria-hidden="true"><span class="note-texte" data-i18n="abstract_note">The 30-second version</span><svg class="note-trait" viewBox="0 0 126 59" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4c14 21 38 38 68 43"></path><path d="M56 51c8 0 14-1 18-3"></path><path d="M64 34c4 7 7 12 10 14"></path></svg></span>
+                <p>I realised there were <strong>over a million searches a year</strong> for maps of Middle-earth. To bring that audience to ArdaCraft, I built an interactive map inspired by Google Maps. The goal was to capture <strong>330,000 clicks a year</strong> on a query with little competition (a difficulty of <strong>36%</strong>). And within a few months the bet paid off: the map brings in <strong>half of our new visits</strong>!</p>
             </div>
 
             <h2>The opportunity</h2>
@@ -188,6 +190,10 @@
     <script src="../scripts/navbar.js"></script>
     <script src="../scripts/articles-data.js"></script>
     <script src="../scripts/article-page.js"></script>
+    <!-- Après article-page.js : le corps de l'étude est posé avant que le
+         champ ne se mesure. Il se redessine de toute façon quand la hauteur
+         change, mais autant lui éviter un premier tracé pour rien. -->
+    <script src="../scripts/points-champ.js"></script>
     <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };

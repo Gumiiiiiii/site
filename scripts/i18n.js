@@ -140,6 +140,7 @@
             fr: "Le verdict retient la zone la moins lisible, pas la moyenne.",
             en: 'The verdict uses the least legible zone, not the average.'
         },
+        abstract_note: { fr: 'Le résumé en 30 secondes', en: 'The 30-second version' },
         contrast_preview_edit: { fr: "Titre d'essai, modifiable", en: 'Sample heading, editable' },
         contrast_preview_edit_p: { fr: "Paragraphe d'essai, modifiable", en: 'Sample paragraph, editable' },
         contrast_zone_left: { fr: 'Gauche', en: 'Left' },

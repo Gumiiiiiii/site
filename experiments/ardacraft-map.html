@@ -11,12 +11,12 @@
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Gumi.">
     <meta property="og:locale" content="fr_FR">
-    <meta property="og:title" content="Utiliser le SEO pour faire grandir une communauté de passionnés : l'opportunité à 1 million de recherches par an">
+    <meta property="og:title" content="Comment j'ai utilisé le SEO pour faire grandir une communauté de passionnés">
     <meta property="og:description" content="Comment j'ai transformé plus d'un million de recherches annuelles autour de la Terre du Milieu en canal d'acquisition pour ArdaCraft, grâce à une carte interactive.">
     <meta property="og:url" content="https://gumi.ch/experiments/ardacraft-map">
     <meta property="og:image" content="https://gumi.ch/media/ardacraft-map-featured-image.webp">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Utiliser le SEO pour faire grandir une communauté de passionnés : l'opportunité à 1 million de recherches par an">
+    <meta name="twitter:title" content="Comment j'ai utilisé le SEO pour faire grandir une communauté de passionnés">
     <meta name="twitter:description" content="Comment j'ai transformé plus d'un million de recherches annuelles autour de la Terre du Milieu en canal d'acquisition pour ArdaCraft, grâce à une carte interactive.">
     <meta name="twitter:image" content="https://gumi.ch/media/ardacraft-map-featured-image.webp">
     <title>SEO &amp; carte interactive : l'opportunité à 1 million de recherches | Gumi.</title>
@@ -27,11 +27,12 @@
 
     <link rel="stylesheet" href="../styles/shared.css">
     <link rel="stylesheet" href="../styles/article.css">
+    <link rel="stylesheet" href="../styles/article-papier.css">
     <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "Utiliser le SEO pour faire grandir une communauté de passionnés : l'opportunité à 1 million de recherches par an",
+    "headline": "Comment j'ai utilisé le SEO pour faire grandir une communauté de passionnés",
     "description": "Comment j'ai transformé plus d'un million de recherches annuelles autour de la Terre du Milieu en canal d'acquisition pour ArdaCraft, grâce à une carte interactive.",
     "datePublished": "2026-07-12",
     "dateModified": "2026-07-12",
@@ -52,13 +53,13 @@
     <nav class="navbar" data-navbar-root=""></nav>
 
     <main class="site-content" id="main">
-    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+    <div class="points-champ" aria-hidden="true"></div>
 
 
         <!-- HERO (STICKY TITLE + IMAGE) — content completed by article-page.js -->
         <section class="article-hero">
             <header class="article-header">
-                <h1 class="article-title" id="article-title">Utiliser le SEO pour faire grandir une communauté de passionnés : l'opportunité à 1 million de recherches par an<span class="dot">.</span></h1>
+                <h1 class="article-title" id="article-title">Comment j'ai utilisé le SEO pour faire grandir une communauté de passionnés<span class="dot">.</span></h1>
                 <p class="article-date" id="article-date">Publié le 12 juillet 2026</p>
             </header>
 
@@ -93,7 +94,8 @@
         <!-- POST CONTENT — populated by article-page.js -->
         <article class="article-content" id="post-content">
             <div class="abstract">
-                <p>Cette expérimentation a consisté à transformer un marché de <strong>plus d'un million de recherches par an</strong> autour des cartes de la Terre du Milieu en canal d'acquisition pour ArdaCraft. En concevant une carte interactive pensée pour le mobile et calquée sur les codes de Google Maps, je visais un potentiel de <strong>330 000 clics par an</strong> sur un mot-clé pourtant jugé accessible (difficulté SEO de <strong>36 %</strong>). En quelques mois, la carte a généré <strong>50 % de notre trafic hors-marque</strong>.</p>
+                <span class="note note--fleche note-resume" aria-hidden="true"><span class="note-texte" data-i18n="abstract_note">Le résumé en 30 secondes</span><svg class="note-trait" viewBox="0 0 126 59" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4c14 21 38 38 68 43"></path><path d="M56 51c8 0 14-1 18-3"></path><path d="M64 34c4 7 7 12 10 14"></path></svg></span>
+                <p>Je me suis rendu compte qu'il y avait <strong>plus d'un million de recherches par an</strong> pour les cartes de la Terre du Milieu. Pour attirer ce public sur ArdaCraft, j'ai créé une carte interactive inspirée de Google Maps. L'objectif était de capter <strong>330 000 clics par an</strong> sur une requête peu disputée (difficulté de <strong>36 %</strong>). Et en quelques mois, le pari a payé : la carte génère <strong>la moitié de nos nouvelles visites</strong> !</p>
             </div>
 
             <h2 id="heading-0">L'opportunité</h2>
@@ -188,6 +190,10 @@
     <script src="../scripts/navbar.js"></script>
     <script src="../scripts/articles-data.js"></script>
     <script src="../scripts/article-page.js"></script>
+    <!-- Après article-page.js : le corps de l'étude est posé avant que le
+         champ ne se mesure. Il se redessine de toute façon quand la hauteur
+         change, mais autant lui éviter un premier tracé pour rien. -->
+    <script src="../scripts/points-champ.js"></script>
     <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };

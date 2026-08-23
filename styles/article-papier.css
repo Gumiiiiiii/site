@@ -1,0 +1,281 @@
+/* ==========================================================================
+   Le papier pointé sur une page d'étude
+   ==========================================================================
+
+   Deuxième application de /brand-guidelines hors de la charte, après
+   styles/outil-papier.css. Cette feuille se charge APRÈS shared.css et
+   article.css et les corrige : elle ne réécrit pas la mise en page des
+   études, elle les repose sur le papier. Tant qu'une seule page l'appelle,
+   aucune autre ne bouge.
+
+   Ce qu'elle fait, et rien d'autre :
+     · le grain de papier imité s'en va, la trame de points le remplace ;
+     · le relief neumorphique s'en va, il suppose une lumière ;
+     · toute surface posée sur le papier redevient opaque ;
+     · la couleur quitte le repos et ne revient qu'au survol.
+
+   Le champ de points est celui du site, sans une ligne de différence :
+   scripts/points-champ.js.
+
+   Une différence avec la page d'outil, et elle commande tout le reste :
+   une étude est une « shell-page ». Le papier n'y est pas <body> mais
+   <main class="site-content">, une feuille posée sur une table sombre. Le
+   champ de points va donc dans cette feuille, pas derrière elle.
+   ========================================================================== */
+
+:root {
+    /* L'échelle d'encre en service sur pierre.gumi.ch. Une seule couleur,
+       posée à des opacités qui ont chacune un emploi. */
+    --encre-1:    rgba(var(--text-rgb), 1);      /* titres */
+    --encre-078:  rgba(var(--text-rgb), 0.78);   /* paragraphes */
+    --encre-07:   rgba(var(--text-rgb), 0.7);    /* intros */
+    --encre-062:  rgba(var(--text-rgb), 0.62);   /* notes manuscrites */
+    --encre-05:   rgba(var(--text-rgb), 0.5);    /* mentions */
+    --encre-045:  rgba(var(--text-rgb), 0.45);   /* légendes */
+    --filet:      rgba(var(--text-rgb), 0.14);   /* bordures */
+    --filet-fin:  rgba(var(--text-rgb), 0.12);   /* bordures internes */
+    --voile:      rgba(var(--text-rgb), 0.035);  /* fonds de bloc */
+    --voile-fin:  rgba(var(--text-rgb), 0.022);  /* fonds légers */
+    --rayon: 1.25rem;
+}
+
+/* La seconde main de la page : celle qui annote. Elle ne sert qu'aux notes
+   manuscrites, jamais au contenu, d'où le font-display: swap qui laisse la
+   page s'afficher sans l'attendre. */
+@font-face {
+    font-family: 'Cedarville Cursive';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../fonts/cedarville-cursive-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ==========================================================================
+   1 · Le papier
+   ==========================================================================
+   Le grain cream-paper est encore posé sur .site-content par shared.css,
+   donc sur toutes les pages du site. Il en partira quand le portfolio
+   reprendra cette direction ; d'ici là, seules les pages qui chargent cette
+   feuille s'en affranchissent. */
+
+.site-content {
+    background-image: none;
+    color: var(--encre-1);
+}
+
+/* Un seul objet pour tout le fond, dessiné par points-champ.js. Il n'a pas
+   de masque : c'est le tracé lui-même qui sait où il est dense et où il est
+   clair.
+
+   .site-content porte « position: relative » et « z-index: 2 » : elle ouvre
+   donc son propre contexte d'empilement, et un enfant en z-index négatif s'y
+   range derrière le contenu sans passer derrière le fond de la feuille. Le
+   champ tient exactement dans cette fente, entre la feuille et son texte.
+
+   Le min-height n'est pas un ornement : « inset: 0 » donne au champ la
+   hauteur du contenu, et une étude courte laisserait sa remontée du bas
+   tomber au milieu de l'écran. */
+.points-champ {
+    position: absolute;
+    inset: 0;
+    min-height: 100vh;
+    z-index: -1;
+    color: var(--text);
+    pointer-events: none;
+}
+.points-champ svg { display: block; overflow: visible; }
+
+/* L'ancienne bande de points du haut de page faisait le même travail, en
+   moins bien : elle s'arrêtait à 250 px et ne tenait que le sommet. Le champ
+   la remplace sur toute la hauteur. */
+.dots-bg { display: none !important; }
+
+/* La charte a retiré le point après les titres : il posait une couleur là où
+   rien ne se passait. Celui du logotype reste, il appartient au logo. */
+.article-title .dot,
+.read-next-title .dot { display: none; }
+
+/* ==========================================================================
+   2 · Les surfaces
+   ==========================================================================
+   Toute surface posée sur le papier est opaque. Une carte translucide laisse
+   la trame lui passer au travers, et deux trames superposées ne se lisent
+   plus. Le --card-bg de shared.css est un rgba : il ne convient plus, il est
+   remplacé partout par le papier plus un voile. */
+
+.abstract,
+.article-content blockquote,
+.article-content pre {
+    background-color: var(--bg);
+    background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
+    border: 1px solid var(--filet);
+    border-radius: var(--rayon);
+    box-shadow: none;
+}
+
+.article-content :not(pre) > code {
+    background-color: var(--bg);
+    background-image: linear-gradient(var(--voile), var(--voile));
+    border: 1px solid var(--filet-fin);
+}
+
+.article-content tr:nth-child(even) {
+    background-color: transparent;
+    background-image: linear-gradient(var(--voile), var(--voile));
+}
+
+/* Une image se pose sur la page, elle ne flotte pas au-dessus : le filet
+   remplace l'ombre portée. */
+.featured-image-wrapper img,
+.article-content figure img,
+.article-content figure.image-breakout img {
+    box-shadow: none;
+    border: 1px solid var(--filet);
+}
+
+.article-content table {
+    box-shadow: none;
+    border: 1px solid var(--filet) !important;
+}
+
+/* La carte « à lire ensuite » perdait son relief : elle devient un contour,
+   et c'est la bordure qui répond au survol. */
+.read-next-card {
+    box-shadow: none;
+    border: 1px solid var(--filet);
+    transition: border-color 0.2s ease;
+}
+.read-next-card:hover,
+.read-next-card:focus-visible { border-color: var(--accent-ink); }
+.read-next-card:active { box-shadow: none; }
+.read-next-card .card-image {
+    background-color: var(--bg);
+    background-image: linear-gradient(var(--voile), var(--voile));
+}
+
+/* L'autre emplacement du résumé, entre le titre collant et la couverture.
+   Cette étude n'y recourt pas, mais la feuille le couvre : il portait lui
+   aussi la tuile de papier imité. */
+.article-abstract { background-image: none; }
+
+/* ==========================================================================
+   3 · La couleur
+   ==========================================================================
+   « La couleur apparaît à quatre endroits : l'entrée courante du rail, le
+   focus clavier, le survol d'un lien, et l'icône d'un projet ouvert. Partout
+   ailleurs, l'encre suffit. » (charte, §03)
+
+   Le violet --accent est réglé comme aplat : à 3,02:1 sur le papier il ne
+   tient pas le petit texte. Partout où il portait du texte, c'est
+   --accent-ink qui prend sa place. */
+
+/* Un lien de corps de texte était violet au repos, souligné d'un aplat clair
+   qui se remplissait au survol. Il passe à l'encre, souligné d'un filet, et
+   ne se colore qu'au survol. */
+.article-content p a,
+.article-content li a {
+    color: var(--encre-1);
+    box-shadow: none;
+    padding: 0;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    text-decoration-thickness: 1.5px;
+    text-decoration-color: var(--filet);
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+.article-content p a:hover,
+.article-content p a:focus-visible,
+.article-content li a:hover,
+.article-content li a:focus-visible {
+    color: var(--accent-ink);
+    box-shadow: none;
+    text-decoration-color: var(--accent-ink);
+}
+
+/* Les chiffres du résumé étaient violets et plus gros que leur phrase. La
+   hiérarchie repasse par l'encre et la graisse, comme partout ailleurs : le
+   chiffre reste dans sa ligne au lieu de la casser. */
+.abstract strong {
+    color: var(--encre-1);
+    font-weight: 900;
+    font-size: inherit;
+}
+
+/* Sommaire, partage : le survol garde la couleur, dans sa variante lisible. */
+.toc-toggle:hover,
+.toc-item:hover a,
+.toc-item.active a,
+.share-icon:hover { color: var(--accent-ink); }
+.toc-item::before { background: var(--accent-ink); }
+
+.article-date { color: var(--encre-05); }
+
+/* ==========================================================================
+   4 · L'annotation
+   ==========================================================================
+   Reprise de la charte à l'identique : toujours en absolu, jamais dans le
+   flux, jamais dans l'arbre d'accessibilité. Retirez le bloc, la mise en
+   page ne bouge pas. */
+
+.note {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+    font-family: 'Cedarville Cursive', 'Segoe Script', cursive;
+    font-size: clamp(0.9rem, 1.5vw + 0.2rem, 1.35rem);
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--encre-062);
+    /* Une note s'écrit d'une seule main, quel que soit l'endroit où on la
+       pose. Sans cette ligne elle hérite l'approche du texte qu'elle annote,
+       et une écriture liée s'y chevauche. */
+    letter-spacing: normal;
+}
+.note-texte { display: inline-block; }
+.note-trait { display: block; color: inherit; overflow: visible; }
+
+/* La flèche : la note s'écrit au-dessus du bord haut et son trait descend
+   vers ce qu'elle désigne. */
+.note--fleche { --incline: -2deg; }
+.note--fleche .note-trait { width: 6.3em; height: 2.96em; margin: 0.11em 0 0 0.4em; }
+
+/* Le résumé porte sa note dans l'espace qui le sépare de l'image, au-dessus
+   de son bord haut gauche.
+
+   Le bloc du résumé doit être un repère de position, et ne pas rogner ce qui
+   déborde de lui. */
+.abstract { position: relative; overflow: visible; }
+
+/* Une note ne réserve jamais de place, mais elle a besoin qu'il y en ait.
+   Entre la barre du sommaire et le résumé il n'y avait qu'une quarantaine de
+   pixels : la note s'y écrivait par-dessus le mot « Sommaire ». C'est donc le
+   résumé qui descend, et seulement quand il porte une note — un résumé sans
+   annotation garde l'écart d'origine. */
+.abstract:has(.note-resume) { margin-top: 6.75rem; }
+
+/* Le bloc est écrit du haut vers le bas : le mot d'abord, la flèche
+   dessous. Réduire cette marge fait donc descendre les deux, ce qui dégage
+   le mot du filet de la barre du sommaire sans que la pointe de la flèche
+   ne vienne toucher le résumé. */
+.note-resume {
+    bottom: 100%;
+    left: 1.5rem;
+    margin-bottom: 0.1rem;
+    transform: rotate(var(--incline, -2deg));
+    transform-origin: bottom left;
+}
+
+/* Sous 900 px, le résumé touche les bords de l'écran et la note n'a plus de
+   marge où se poser : elle s'efface. Une annotation ne pousse jamais rien. */
+@media (max-width: 900px) { .note-resume { display: none; } }
+
+/* ==========================================================================
+   5 · Le thème sombre
+   ==========================================================================
+   Les tokens d'encre se recalculent seuls, ils sont écrits en --text-rgb.
+   Seules les valeurs codées en dur de shared.css et d'article.css ont besoin
+   d'un mot. */
+
+:root[data-theme="dark"] .article-content th { background-color: var(--voile); color: var(--encre-1); }
