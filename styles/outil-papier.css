@@ -425,7 +425,15 @@ button.secondary.active {
    .fond-anime sur <html>, et il ne la pose ni sans JavaScript, ni quand
    le système demande moins de mouvement. */
 
-.fond-anime :where(.back-link, .header-container, .control-row, .right-col) {
+/* Cette liste est reprise telle quelle dans scripts/outil-papier.js : les
+   deux doivent rester identiques, sinon un element se cache sans que rien
+   ne vienne le decouvrir. Aux quatre premiers s'ajoutent l'accordeon des
+   parametres, le bouton d'action de la colonne de gauche, la rangee de la
+   palette et la zone de depose des declinaisons : ils arrivaient d'un
+   coup avec la page pendant que le reste montait. */
+.fond-anime :where(.back-link, .header-container, .control-row, .right-col,
+                   .advanced-section, .left-col button.primary,
+                   .pal-actions, .left-col .drop-zone) {
     opacity: 0;
     transform: translateY(var(--anim-monte, 0.85rem));
     transition: opacity 0.6s ease var(--anim-retard, 0s),
@@ -528,15 +536,36 @@ button.secondary.active {
 
 /* Le bouton dont l'action est impossible : pas d'aplat d'encre, un simple
    fond voile cercle d'un filet, et le mot en encre pale. Il reste lisible,
-   il ne se lit plus comme un appel a cliquer. tools-suite.css pose son
-   relief en !important : il faut le meme poids pour le retirer. */
+   il ne se lit plus comme un appel a cliquer. Aucune opacite ici : elle
+   appartient aux apparitions, qui la mènent de 0 à 1 et perdraient contre
+   ce sélecteur. tools-suite.css pose son relief en !important : il faut le
+   meme poids pour le retirer. */
 button.primary:disabled {
     box-shadow: none !important;
-    opacity: 1;
     background: var(--voile);
     border: 1px solid var(--filet);
     color: var(--encre-045);
     cursor: not-allowed;
+}
+
+/* Le theme sombre de shared.css redonne son relief a ce que cette feuille
+   avait aplati : ses regles pesent « :root[data-theme] + classe », plus
+   lourd qu'une classe seule. La reprise se fait donc au meme poids. Sans
+   elle, les cartes, les boutons et les champs retrouvaient leur ombre des
+   qu'on passait au sombre. */
+:root[data-theme="dark"] .card,
+:root[data-theme="dark"] .card:active,
+:root[data-theme="dark"] .tool-card,
+:root[data-theme="dark"] .tool-card:active,
+:root[data-theme="dark"] button.primary,
+:root[data-theme="dark"] .btn-primary,
+:root[data-theme="dark"] .input-field,
+:root[data-theme="dark"] .input-field:focus {
+    box-shadow: none;
+}
+:root[data-theme="dark"] button.primary:active:not(:disabled),
+:root[data-theme="dark"] .btn-primary:active {
+    box-shadow: none;
 }
 
 /* ==========================================================================
@@ -629,3 +658,33 @@ button.primary,
 }
 .switch .slider:before { box-shadow: none; }
 .switch input:checked + .slider { border-color: transparent; }
+
+/* ==========================================================================
+   11 · La page d'accueil
+   ==========================================================================
+   Même feuille que les pages de liste : cartes, boutons et grain sont déjà
+   traités plus haut. Restent trois pièces qui n'existent que là. */
+
+/* Comme dans les études, l'image se pose sur le papier : le filet dit le
+   bord, aucune ombre ne la fait flotter. */
+.hero-image-container img {
+    border: 1px solid var(--filet);
+}
+
+/* Le titre d'une carte au survol. Le survol d'un lien est bien l'un des
+   quatre emplacements de la couleur, mais --accent donne 3,02:1 sur le
+   papier, sous les 4,5 exigés à cette taille. --accent-ink en donne 5,79,
+   pour la même teinte. */
+.card:hover .card-title,
+.tool-card:hover .tool-title {
+    color: var(--accent-ink);
+}
+
+/* Le pied de page. L'adresse s'écrivait en violet au repos, une cinquième
+   place pour la couleur. Elle revient à l'encre du bloc — ici le papier,
+   puisque le pied est sombre — et la couleur ne reparaît que sur le trait
+   qui se déplie au survol. C'est la règle du CV, où le lien de contact est
+   en encre pleine et n'appelle l'accent qu'au survol. */
+.footer-mail {
+    color: inherit;
+}

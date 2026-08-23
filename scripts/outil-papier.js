@@ -118,8 +118,12 @@
     reveler(document.querySelector('.points-champ'), 0);
     reveler(couche, 120);
 
+    // Liste identique a celle de styles/outil-papier.css : ce qui est cache
+    // la-bas doit etre decouvert ici, faute de quoi il ne revient jamais.
     var attente = Array.prototype.slice.call(document.querySelectorAll(
-        '.back-link, .header-container, .control-row, .right-col'
+        '.back-link, .header-container, .control-row, .right-col,'
+        + '.advanced-section, .left-col button.primary,'
+        + '.pal-actions, .left-col .drop-zone'
     ));
 
     var observateur = new IntersectionObserver(function (entrees) {
