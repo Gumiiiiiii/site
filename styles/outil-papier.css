@@ -23,7 +23,6 @@
     --encre-1:    rgba(var(--text-rgb), 1);      /* titres */
     --encre-078:  rgba(var(--text-rgb), 0.78);   /* paragraphes */
     --encre-07:   rgba(var(--text-rgb), 0.7);    /* intros */
-    --encre-062:  rgba(var(--text-rgb), 0.62);   /* notes manuscrites */
     --encre-05:   rgba(var(--text-rgb), 0.5);    /* mentions */
     --encre-045:  rgba(var(--text-rgb), 0.45);   /* légendes */
     --filet:      rgba(var(--text-rgb), 0.14);   /* bordures */
@@ -33,17 +32,15 @@
     --rayon: 1.25rem;
 }
 
-/* La Cedarville est déclarée dans styles/fond.css, qui n'est attaché
-   qu'au CV. Une page d'outil qui porte une annotation doit donc la
-   déclarer pour elle-même. */
-@font-face {
-    font-family: 'Cedarville Cursive';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('../fonts/cedarville-cursive-latin.woff2') format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
-}
+/* Aucune annotation manuscrite sur cette page. L'essai en portait une, en
+   marge du titre : elle répétait les seuils que l'infobulle explique et
+   que les étiquettes AA/AAA affichent déjà, donc elle n'annotait rien. La
+   seconde main ne sert qu'à dire ce que la page ne dit pas ; faute de
+   quoi elle est un ornement.
+
+   La déclaration de la Cedarville est partie avec elle. Une page d'outil
+   qui portera une vraie note la reprendra de la charte, avec le reste du
+   système de notes. */
 
 /* ==========================================================================
    1 · Le papier
@@ -60,10 +57,20 @@ body {
 
 /* Un seul objet pour tout le fond, dessiné par points-champ.js. Il n'a
    pas de masque : c'est le tracé lui-même qui sait où il est dense et où
-   il est clair. */
+   il est clair.
+
+   Le min-height n'est pas un ornement. Le champ est en absolu dans body,
+   donc « inset: 0 » lui donne la hauteur du contenu, et rien de plus. Un
+   outil qui tient en un écran mesure 989 px de haut quel que soit
+   l'écran : sur une fenêtre de 1440 px, le champ s'arrêtait 451 px avant
+   le bas, et la remontée du bas — les 250 derniers pixels du dessin —
+   tombait au milieu de la page, suivie d'une bande nue. Le champ prend
+   donc au moins la hauteur de la fenêtre, et le dessin retrouve son bas
+   là où l'œil l'attend. */
 .points-champ {
     position: absolute;
     inset: 0;
+    min-height: 100vh;
     z-index: -2;
     color: var(--text);
     pointer-events: none;
@@ -221,8 +228,24 @@ button.secondary.active {
 .bg-group-divider::after { background: var(--filet); }
 .bg-image-note { color: var(--encre-05); }
 
-.back-link { color: var(--encre-05); }
+/* Le retour aux outils. L'encre monte de 0,5 à 0,7 : à 15 px gras, le
+   0,5 donnait 3,27:1 sur le papier, sous les 4,5 exigés par le petit
+   texte — un manquement que cette page-ci est mal placée pour laisser
+   passer. Le 0,7 donne 6,18:1. */
+.back-link { color: var(--encre-07); }
 .back-link:hover { color: var(--accent-ink); }
+
+/* La flèche revient d'un pas vers la gauche au survol, le sens même du
+   lien. Trois pixels, sur la seule flèche : le mot ne bouge pas, sinon
+   c'est la ligne entière qui glisse et le geste devient un effet. */
+.back-link .icone { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+.back-link:hover .icone,
+.back-link:focus-visible .icone { transform: translateX(-3px); }
+@media (prefers-reduced-motion: reduce) {
+    .back-link .icone { transition: none; }
+    .back-link:hover .icone,
+    .back-link:focus-visible .icone { transform: none; }
+}
 
 /* L'infobulle : un contour, comme tout le reste. */
 .tooltip-icon {
@@ -238,7 +261,41 @@ button.secondary.active {
     color: var(--accent-ink);
     box-shadow: none;
 }
-.tooltip-content a { color: var(--accent-ink) !important; }
+/* Un lien de la charte : à l'encre au repos, souligné d'un filet, et la
+   couleur ne vient qu'au survol. La règle est écrite au §03 — « la
+   couleur apparaît à quatre endroits : l'entrée courante du rail, le
+   focus clavier, le survol d'un lien, et l'icône d'un projet ouvert.
+   Partout ailleurs, l'encre suffit. » Un lien violet au repos la
+   contredisait, et à 3,02:1 sur le papier il ne tenait pas non plus le
+   petit texte.
+
+   Le !important reste : la chaîne du lien est écrite dans les traductions
+   de scripts/i18n.js, qui la posent en HTML dans l'infobulle. */
+.tooltip-content a {
+    color: var(--encre-1) !important;
+    font-weight: 700 !important;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    text-decoration-thickness: 1.5px;
+    text-decoration-color: var(--filet);
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+.tooltip-content a:hover,
+.tooltip-content a:focus-visible {
+    color: var(--accent-ink) !important;
+    text-decoration-color: var(--accent-ink);
+}
+
+/* « Fonctionne hors ligne » n'est pas un verdict, c'est un état de fait :
+   il n'a donc pas à porter une couleur. Le vert passe dans la seule
+   pastille, où il est un aplat — l'emploi pour lequel --positive est
+   réglé — et le texte revient à l'encre. Il y gagne aussi en lisibilité :
+   à 0,78 rem, le vert donnait 3,14:1, contre 6,18:1 pour l'encre 0,7. */
+.tooltip-status.is-offline,
+.tooltip-status.is-online { color: var(--encre-07); }
+.tooltip-status { border-top-color: var(--filet-fin); }
+.tooltip-status.is-offline .tooltip-status-dot { background: var(--positive); }
+.tooltip-status.is-online .tooltip-status-dot { background: var(--accent); }
 
 /* ==========================================================================
    4 · Les icônes
@@ -334,51 +391,7 @@ button.secondary.active {
 }
 
 /* ==========================================================================
-   7 · L'annotation
-   ==========================================================================
-   Reprise de la charte à l'identique : toujours en absolu, jamais dans le
-   flux, jamais dans l'arbre d'accessibilité. Retirez le bloc, la mise en
-   page ne bouge pas. */
-
-.note {
-    position: absolute;
-    z-index: 2;
-    pointer-events: none;
-    font-family: 'Cedarville Cursive', 'Segoe Script', cursive;
-    font-size: clamp(0.9rem, 1.5vw + 0.2rem, 1.35rem);
-    line-height: 1;
-    white-space: nowrap;
-    color: var(--encre-062);
-    /* Une note s'écrit d'une seule main, quel que soit l'endroit où on la
-       pose. Sans cette ligne elle hérite l'approche du texte qu'elle
-       annote, et une écriture liée s'y chevauche. */
-    letter-spacing: normal;
-}
-.note-texte { display: inline-block; }
-.note-trait { display: block; color: inherit; overflow: visible; }
-
-/* Le trait de la note en marge suit la largeur de son texte au lieu
-   d'être fixé en em : traduite, une note change de longueur, et un
-   soulignement de largeur fixe la dépasse ou s'arrête trop tôt. */
-.note--marge .note-trait { width: 100%; height: 0.5em; margin-top: 0.06em; }
-
-/* Écrite sur la ligne du titre, après le bouton d'aide, dans le blanc que
-   l'en-tête laisse à sa droite. Elle ne réserve rien : la retirer ne
-   déplace pas un pixel.
-   Sous le titre, essayé d'abord, elle mangeait les 3 rem que l'en-tête
-   garde avant la première commande et venait toucher son étiquette : la
-   seule place libre était celle-là. Quand cette place n'existe plus, la
-   note s'efface — une annotation ne pousse jamais rien. */
-.note-titre {
-    top: 50%;
-    left: 100%;
-    margin-left: 1.2rem;
-    transform: translateY(-50%) rotate(-2.5deg);
-}
-@media (max-width: 1100px) { .note-titre { display: none; } }
-
-/* ==========================================================================
-   8 · Le mouvement
+   7 · Le mouvement
    ==========================================================================
    Rien n'est caché tant que le script en tête de document n'a pas posé
    .fond-anime sur <html>, et il ne la pose ni sans JavaScript, ni quand
@@ -410,7 +423,7 @@ button.secondary.active {
 .fond-anime .regles[data-anim="vu"] { opacity: 1; }
 
 /* ==========================================================================
-   9 · Le thème sombre
+   8 · Le thème sombre
    ==========================================================================
    Les tokens d'encre se recalculent seuls, ils sont écrits en --text-rgb.
    Seules les valeurs codées en dur de shared.css ont besoin d'un mot. */

@@ -28,14 +28,37 @@
         if (/^[0-9a-f]{3}$/i.test(raw)) {
             return raw.split('').map((c) => parseInt(c + c, 16));
         }
-        if (/^[0-9a-f]{6}$/i.test(raw)) {
+        if (/^[0-9a-f]{6}$/i.test(raw) || /^[0-9a-f]{8}$/i.test(raw)) {
             return [raw.slice(0, 2), raw.slice(2, 4), raw.slice(4, 6)].map((c) => parseInt(c, 16));
         }
         return null;
     }
 
+    // L'opacité portée par un hex à huit chiffres, 1 s'il n'y en a pas.
+    function parseAlpha(value) {
+        const raw = String(value || '').trim().replace(/^#/, '');
+        if (/^[0-9a-f]{8}$/i.test(raw)) return parseInt(raw.slice(6, 8), 16) / 255;
+        return 1;
+    }
+
     function toHex(rgb) {
         return '#' + rgb.map((c) => Math.round(c).toString(16).padStart(2, '0')).join('').toUpperCase();
+    }
+
+    // La couleur écrite dans le champ : huit chiffres seulement si l'encre
+    // est transparente, pour que le cas courant reste celui qu'on connaît.
+    function toHexA(rgb, alpha) {
+        if (alpha >= 1) return toHex(rgb);
+        return toHex(rgb) + Math.round(alpha * 255).toString(16).padStart(2, '0').toUpperCase();
+    }
+
+    // Une encre transparente n'a pas de contraste propre : ce que l'œil lit,
+    // c'est elle composée sur ce qu'il y a derrière. Le WCAG se mesure donc
+    // sur ce mélange, jamais sur la couleur nominale. C'est exactement
+    // l'échelle d'encre du site, dont les niveaux sont des opacités.
+    function composite(rgb, sur, alpha) {
+        if (alpha >= 1) return rgb;
+        return rgb.map((c, i) => Math.round(c * alpha + sur[i] * (1 - alpha)));
     }
 
     // WCAG relative luminance.
@@ -74,53 +97,129 @@
 
     let currentText = [26, 26, 26];
     let currentBg = [249, 244, 239];
+    let textAlpha = 1;
     let bgImageUrl = null;
+    // Les trois couleurs lues sur l'image de fond, tant qu'il y en a une.
+    let bgZones = null;
 
     // Restore shared colors from the URL (?text=RRGGBB&bg=RRGGBB) so a specific
     // check can be linked. URL wins over the defaults above.
     if (window.GumiUrlState) {
-        const urlText = parseHex(window.GumiUrlState.get('text') || '');
+        const rawText = window.GumiUrlState.get('text') || '';
+        const urlText = parseHex(rawText);
         const urlBg = parseHex(window.GumiUrlState.get('bg') || '');
-        if (urlText) currentText = urlText;
+        if (urlText) {
+            currentText = urlText;
+            textAlpha = parseAlpha(rawText);
+        }
         if (urlBg) currentBg = urlBg;
     }
 
-    function averageColor(img) {
-        const size = 32;
-        const canvas = document.createElement('canvas');
-        canvas.width = size;
-        canvas.height = size;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, size, size);
-        const data = ctx.getImageData(0, 0, size, size).data;
+    // Trois zones plutôt qu'une moyenne.
+    //
+    // La moyenne d'une image contrastée ne décrit aucun de ses pixels : une
+    // photo moitié noire moitié blanche donne un gris moyen, et ce gris
+    // annonce un contraste correct alors que le texte est illisible sur les
+    // deux moitiés. On lit donc l'image en trois bandes verticales, gauche,
+    // milieu et droite, là où un titre posé sur une bannière traverse
+    // réellement la matière.
+    const ZONES = ['left', 'mid', 'right'];
 
-        let r = 0, g = 0, b = 0;
-        const count = size * size;
-        for (let i = 0; i < data.length; i += 4) {
-            r += data[i];
-            g += data[i + 1];
-            b += data[i + 2];
-        }
-        return [Math.round(r / count), Math.round(g / count), Math.round(b / count)];
+    function sampleZones(img) {
+        const width = 48, height = 32;
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        const data = ctx.getImageData(0, 0, width, height).data;
+
+        const band = width / 3;
+        return [0, 1, 2].map((zone) => {
+            const from = Math.round(zone * band);
+            const to = Math.round((zone + 1) * band);
+            let r = 0, g = 0, b = 0, count = 0;
+            for (let y = 0; y < height; y++) {
+                for (let x = from; x < to; x++) {
+                    const i = (y * width + x) * 4;
+                    r += data[i];
+                    g += data[i + 1];
+                    b += data[i + 2];
+                    count++;
+                }
+            }
+            return [Math.round(r / count), Math.round(g / count), Math.round(b / count)];
+        });
+    }
+
+    // Le ratio réellement lu : l'encre composée sur son fond, puis mesurée
+    // contre ce même fond.
+    function ratioFor(text, alpha, bg) {
+        return contrastRatio(composite(text, bg, alpha), bg);
+    }
+
+    // La zone la moins lisible pour l'encre courante. C'est elle qui porte le
+    // verdict : une page n'est pas accessible en moyenne, elle l'est à son
+    // pire endroit.
+    function worstZone(zones, text, alpha) {
+        return zones.reduce((pire, zone) => (
+            ratioFor(text, alpha, zone) < ratioFor(text, alpha, pire) ? zone : pire
+        ));
     }
 
     function clearBgImage() {
         if (!bgImageUrl) return;
         URL.revokeObjectURL(bgImageUrl);
         bgImageUrl = null;
+        bgZones = null;
         previewPanel.style.backgroundImage = '';
         bgImageClear.classList.add('hidden');
         bgImageBtn.classList.remove('hidden');
         bgImageNote.classList.add('hidden');
+        bgImageNote.innerHTML = '';
+    }
+
+    // Le relevé des trois zones, sous les commandes : chaque bande avec sa
+    // couleur et son ratio, la pire marquée. C'est ce qui rend le verdict
+    // lisible — on voit par où l'image le fait tomber.
+    function renderZones(worst) {
+        const lignes = bgZones.map((zone, index) => {
+            const ratio = ratioFor(currentText, textAlpha, zone);
+            const pire = zone === worst;
+            return '<span class="zone' + (pire ? ' zone-pire' : '') + '">' +
+                '<span class="zone-pastille" style="background:' + toHex(zone) + '"></span>' +
+                '<span class="zone-nom">' + t('contrast_zone_' + ZONES[index]) + '</span>' +
+                '<span class="zone-ratio">' + formatRatio(ratio) + '</span>' +
+                '</span>';
+        }).join('');
+
+        bgImageNote.innerHTML = '<span class="zones">' + lignes + '</span>' +
+            '<span class="zones-legende">' + t('contrast_img_note') + '</span>';
+        bgImageNote.classList.remove('hidden');
+    }
+
+    function formatRatio(ratio) {
+        return (Math.round(ratio * 100) / 100).toLocaleString(
+            (window.GumiI18n && window.GumiI18n.get() === 'fr') ? 'fr-FR' : 'en-US'
+        );
     }
 
     function update() {
-        const ratio = contrastRatio(currentText, currentBg);
+        // Quand une image porte le fond, c'est sa zone la moins lisible qui
+        // devient la couleur de référence. Le choix se refait à chaque
+        // passage : changer l'encre peut changer la zone qui pèche.
+        let worst = null;
+        if (bgZones) {
+            worst = worstZone(bgZones, currentText, textAlpha);
+            currentBg = worst;
+            bgHex.value = toHex(currentBg);
+            setSwatch(bgSwatch, currentBg);
+        }
+
+        const ratio = ratioFor(currentText, textAlpha, currentBg);
         const rating = ratingOf(ratio);
 
-        ratioValue.textContent = (Math.round(ratio * 100) / 100).toLocaleString(
-            (window.GumiI18n && window.GumiI18n.get() === 'fr') ? 'fr-FR' : 'en-US'
-        );
+        ratioValue.textContent = formatRatio(ratio);
         ratingLabel.textContent = t('contrast_r' + rating);
 
         const lvlClass = rating <= 2 ? 'lvl-low' : rating === 3 ? 'lvl-mid' : 'lvl-high';
@@ -148,19 +247,20 @@
         fixBtn.classList.toggle('hidden', smallAA);
 
         previewPanel.style.backgroundColor = toHex(currentBg);
-        previewLarge.style.color = toHex(currentText);
-        previewSmall.style.color = toHex(currentText);
+        // L'aperçu porte l'opacité telle quelle, et laisse le navigateur
+        // composer : c'est le même mélange que celui qu'on vient de mesurer,
+        // fait par la même arithmétique.
+        const encre = 'rgba(' + currentText.join(', ') + ', ' + textAlpha + ')';
+        previewLarge.style.color = encre;
+        previewSmall.style.color = encre;
 
-        if (bgImageUrl) {
-            bgImageNote.textContent = t('contrast_img_note');
-            bgImageNote.classList.remove('hidden');
-        }
+        if (bgZones) renderZones(worst);
 
         // Keep the URL shareable (skip while an image defines the background,
         // since a pasted image can't be encoded in a link).
         if (window.GumiUrlState && !bgImageUrl) {
             window.GumiUrlState.set({
-                text: toHex(currentText).replace('#', ''),
+                text: toHexA(currentText, textAlpha).replace('#', ''),
                 bg: toHex(currentBg).replace('#', '')
             });
         }
@@ -168,8 +268,15 @@
 
     // The swatches are plain buttons: their background carries the color
     // and a click opens the shared GumiColorPicker popover.
-    function setSwatch(swatch, hex) {
-        swatch.style.backgroundColor = hex;
+    //
+    // Celui de l'encre porte aussi son opacité : une pastille pleine pour une
+    // encre à moitié transparente annoncerait une couleur que la page n'écrit
+    // nulle part. Le papier qu'on voit dessous est celui sur lequel elle
+    // s'écrira.
+    function setSwatch(swatch, rgb, alpha) {
+        swatch.style.backgroundColor = alpha === undefined || alpha >= 1
+            ? toHex(rgb)
+            : 'rgba(' + rgb.join(', ') + ', ' + alpha + ')';
     }
 
     function syncFrom(hexInput, swatchInput, assign) {
@@ -177,7 +284,7 @@
         if (!rgb) return;
         assign(rgb);
         hexInput.value = toHex(rgb);
-        setSwatch(swatchInput, toHex(rgb));
+        setSwatch(swatchInput, rgb);
         update();
     }
 
@@ -195,10 +302,10 @@
 
         const img = new Image();
         img.onload = () => {
-            // The ratio is computed against the image's average color.
-            currentBg = averageColor(img);
-            bgHex.value = toHex(currentBg);
-            setSwatch(bgSwatch, toHex(currentBg));
+            // Les trois bandes sont lues une fois. Laquelle porte le verdict
+            // se décide dans update(), qui la reprend à chaque changement
+            // d'encre.
+            bgZones = sampleZones(img);
 
             previewPanel.style.backgroundImage = 'url(' + bgImageUrl + ')';
             previewPanel.style.backgroundSize = 'cover';
@@ -224,23 +331,41 @@
         });
     }
 
-    textHex.addEventListener('change', () => syncFrom(textHex, textSwatch, (rgb) => { currentText = rgb; }));
-    bgHex.addEventListener('change', () => syncFrom(bgHex, bgSwatch, (rgb) => { currentBg = rgb; }));
-    textHex.addEventListener('input', () => {
+    // Le champ de l'encre accepte les huit chiffres : #1A1A1A99 est une
+    // écriture CSS courante, et c'est ainsi qu'on colle une valeur lue dans
+    // une maquette.
+    function readTextField() {
         const rgb = parseHex(textHex.value);
-        if (rgb) { currentText = rgb; setSwatch(textSwatch, toHex(rgb)); update(); }
+        if (!rgb) return false;
+        currentText = rgb;
+        textAlpha = parseAlpha(textHex.value);
+        setSwatch(textSwatch, rgb, textAlpha);
+        update();
+        return true;
+    }
+
+    textHex.addEventListener('change', () => {
+        if (readTextField()) textHex.value = toHexA(currentText, textAlpha);
     });
+    bgHex.addEventListener('change', () => syncFrom(bgHex, bgSwatch, (rgb) => { currentBg = rgb; }));
+    textHex.addEventListener('input', readTextField);
     bgHex.addEventListener('input', () => {
         const rgb = parseHex(bgHex.value);
-        if (rgb) { clearBgImage(); currentBg = rgb; setSwatch(bgSwatch, toHex(rgb)); update(); }
+        if (rgb) { clearBgImage(); currentBg = rgb; setSwatch(bgSwatch, rgb); update(); }
     });
 
+    // L'encre est le seul des deux à recevoir la piste d'opacité. Elle y a un
+    // sens exact : une encre transparente se compose sur le fond choisi, et le
+    // ratio se mesure sur ce mélange. Un fond transparent, lui, n'aurait rien
+    // sous lui à quoi se mêler.
     window.GumiColorPicker.attach(textSwatch, {
-        get: () => toHex(currentText),
-        onChange: (hex) => {
+        alpha: true,
+        get: () => toHexA(currentText, textAlpha),
+        onChange: (hex, alpha) => {
             currentText = parseHex(hex);
-            textHex.value = toHex(currentText);
-            setSwatch(textSwatch, toHex(currentText));
+            textAlpha = alpha;
+            textHex.value = toHexA(currentText, textAlpha);
+            setSwatch(textSwatch, currentText, textAlpha);
             update();
         }
     });
@@ -250,7 +375,7 @@
             clearBgImage();
             currentBg = parseHex(hex);
             bgHex.value = toHex(currentBg);
-            setSwatch(bgSwatch, toHex(currentBg));
+            setSwatch(bgSwatch, currentBg);
             update();
         }
     });
@@ -260,24 +385,45 @@
         const towardWhite = luminance(currentBg) < 0.5;
         const target = towardWhite ? [255, 255, 255] : [0, 0, 0];
         let fixed = currentText.slice();
+        let alpha = textAlpha;
+
+        // Sur une image, la correction vise la zone la moins lisible du
+        // moment. Elle se déplace en cours de route : éclaircir l'encre pour
+        // sauver la bande sombre peut faire tomber la bande claire, et c'est
+        // la nouvelle pire qui doit alors mener la suite.
+        const mesurer = (encre, a) => ratioFor(
+            encre, a, bgZones ? worstZone(bgZones, encre, a) : currentBg
+        );
 
         for (let step = 0; step < 40; step++) {
-            if (contrastRatio(fixed, currentBg) >= 4.5) break;
+            if (mesurer(fixed, alpha) >= 4.5) break;
             fixed = fixed.map((c, i) => c + (target[i] - c) * 0.12);
         }
 
+        // Une encre transparente a un plafond : même portée au noir ou au
+        // blanc, elle ne dépasse pas le ratio que son opacité autorise. Quand
+        // la couleur seule n'y suffit pas, on remonte l'opacité, et pas plus
+        // haut qu'il ne faut pour passer.
+        if (alpha < 1 && mesurer(fixed, alpha) < 4.5) {
+            for (let step = 0; step < 40 && alpha < 1; step++) {
+                alpha = Math.min(1, alpha + 0.025);
+                if (mesurer(fixed, alpha) >= 4.5) break;
+            }
+        }
+
         currentText = fixed.map((c) => Math.round(c));
-        textHex.value = toHex(currentText);
-        setSwatch(textSwatch, toHex(currentText));
+        textAlpha = alpha;
+        textHex.value = toHexA(currentText, textAlpha);
+        setSwatch(textSwatch, currentText, textAlpha);
         update();
     });
 
     // Reflect the active colors (which may have come from the URL) in the
     // hex inputs and swatches before the first render.
-    textHex.value = toHex(currentText);
+    textHex.value = toHexA(currentText, textAlpha);
     bgHex.value = toHex(currentBg);
-    setSwatch(textSwatch, toHex(currentText));
-    setSwatch(bgSwatch, toHex(currentBg));
+    setSwatch(textSwatch, currentText, textAlpha);
+    setSwatch(bgSwatch, currentBg);
 
     document.addEventListener('gumi:lang', update);
     update();

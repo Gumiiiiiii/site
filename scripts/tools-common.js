@@ -217,17 +217,31 @@
     // dialog so the tools keep one visual language. One popover is shared by
     // every trigger on the page. Usage:
     //   GumiColorPicker.attach(button, { get: () => '#AABBCC', onChange: (hex) => {} })
+    //
+    // The opacity track is opt-in, per trigger:
+    //   GumiColorPicker.attach(button, { alpha: true, get, onChange: (hex, a) => {} })
+    // With `alpha`, get() may return #RRGGBBAA and onChange receives the
+    // opacity as a second argument (0..1) alongside the 8-digit hex. Triggers
+    // that don't ask for it never see the track and keep getting plain
+    // 6-digit hex, so the palette and QR tools are untouched.
     const ColorPicker = (function () {
         let panel = null;
         let svArea = null;
         let svThumb = null;
         let hueTrack = null;
         let hueThumb = null;
+        let alphaTrack = null;
+        let alphaTeinte = null;
+        let alphaThumb = null;
         let hexInput = null;
         let preview = null;
-        let current = { h: 0, s: 0, v: 0 };
+        let current = { h: 0, s: 0, v: 0, a: 1 };
         let activeOpts = null;
         let activeTrigger = null;
+
+        function alphaOn() {
+            return !!(activeOpts && activeOpts.alpha);
+        }
 
         function hsvToRgb(h, s, v) {
             const f = (n) => {
@@ -256,13 +270,29 @@
             return '#' + rgb.map((c) => c.toString(16).padStart(2, '0')).join('').toUpperCase();
         }
 
+        // The value the caller is handed. Opaque, or a trigger that never asked
+        // for opacity, gets the plain 6-digit form it has always had; only a
+        // real transparency widens it to 8 digits.
+        function sortie() {
+            const hex = rgbToHex(hsvToRgb(current.h, current.s, current.v));
+            if (!alphaOn() || current.a >= 1) return hex;
+            return hex + Math.round(current.a * 255).toString(16).padStart(2, '0').toUpperCase();
+        }
+
         function hexToRgb(value) {
             const raw = String(value || '').trim().replace(/^#/, '');
             if (/^[0-9a-f]{3}$/i.test(raw)) return raw.split('').map((c) => parseInt(c + c, 16));
-            if (/^[0-9a-f]{6}$/i.test(raw)) {
+            if (/^[0-9a-f]{6}$/i.test(raw) || /^[0-9a-f]{8}$/i.test(raw)) {
                 return [raw.slice(0, 2), raw.slice(2, 4), raw.slice(4, 6)].map((c) => parseInt(c, 16));
             }
             return null;
+        }
+
+        // The opacity carried by an 8-digit hex, or 1 when there is none.
+        function hexToAlpha(value) {
+            const raw = String(value || '').trim().replace(/^#/, '');
+            if (/^[0-9a-f]{8}$/i.test(raw)) return parseInt(raw.slice(6, 8), 16) / 255;
+            return 1;
         }
 
         function build() {
@@ -273,16 +303,33 @@
             panel.innerHTML =
                 '<div class="gumi-cp-sv" tabindex="0" aria-label="Saturation et luminosité (flèches pour ajuster)"><div class="gumi-cp-thumb"></div></div>' +
                 '<div class="gumi-cp-hue" tabindex="0" aria-label="Teinte (flèches pour ajuster)"><div class="gumi-cp-hue-thumb"></div></div>' +
-                '<div class="gumi-cp-row"><span class="gumi-cp-preview"></span>' +
-                '<input class="gumi-cp-hex" spellcheck="false" maxlength="7" aria-label="Hex"></div>';
+                '<div class="gumi-cp-alpha" tabindex="0" role="slider" aria-label="Opacité (flèches pour ajuster)" aria-valuemin="0" aria-valuemax="100"><div class="gumi-cp-alpha-teinte"></div><div class="gumi-cp-alpha-thumb"></div></div>' +
+                '<div class="gumi-cp-row"><span class="gumi-cp-preview"><span class="gumi-cp-preview-teinte"></span></span>' +
+                '<input class="gumi-cp-hex" spellcheck="false" maxlength="9" aria-label="Hex"></div>';
             document.body.appendChild(panel);
 
             svArea = panel.querySelector('.gumi-cp-sv');
             svThumb = panel.querySelector('.gumi-cp-thumb');
             hueTrack = panel.querySelector('.gumi-cp-hue');
             hueThumb = panel.querySelector('.gumi-cp-hue-thumb');
+            alphaTrack = panel.querySelector('.gumi-cp-alpha');
+            alphaTeinte = panel.querySelector('.gumi-cp-alpha-teinte');
+            alphaThumb = panel.querySelector('.gumi-cp-alpha-thumb');
             hexInput = panel.querySelector('.gumi-cp-hex');
-            preview = panel.querySelector('.gumi-cp-preview');
+            preview = panel.querySelector('.gumi-cp-preview-teinte');
+
+            bindDrag(alphaTrack, (x) => {
+                current.a = x;
+                emit();
+            });
+            alphaTrack.addEventListener('keydown', (event) => {
+                const step = event.shiftKey ? 0.1 : 0.02;
+                if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') current.a = Math.max(0, current.a - step);
+                else if (event.key === 'ArrowRight' || event.key === 'ArrowUp') current.a = Math.min(1, current.a + step);
+                else return;
+                event.preventDefault();
+                emit();
+            });
 
             bindDrag(svArea, (x, y) => {
                 current.s = x;
@@ -319,9 +366,11 @@
             hexInput.addEventListener('input', () => {
                 const rgb = hexToRgb(hexInput.value);
                 if (!rgb) return;
+                const a = alphaOn() ? hexToAlpha(hexInput.value) : 1;
                 current = rgbToHsv(rgb[0], rgb[1], rgb[2]);
+                current.a = a;
                 paint();
-                if (activeOpts && activeOpts.onChange) activeOpts.onChange(rgbToHex(rgb));
+                if (activeOpts && activeOpts.onChange) activeOpts.onChange(sortie(), a);
             });
 
             document.addEventListener('pointerdown', (event) => {
@@ -363,14 +412,26 @@
             svThumb.style.top = ((1 - current.v) * 100) + '%';
             svThumb.style.backgroundColor = hex;
             hueThumb.style.left = (current.h / 360 * 100) + '%';
+
+            // The opacity track shows the colour it is about to fade, over the
+            // chequerboard that stands for nothing behind it.
+            alphaTeinte.style.backgroundImage =
+                'linear-gradient(to right, ' + hex + '00, ' + hex + ')';
+            alphaThumb.style.left = (current.a * 100) + '%';
+            alphaTrack.setAttribute('aria-valuenow', Math.round(current.a * 100));
+            // Seule la teinte s'efface ; le damier qui la porte reste entier,
+            // sans quoi une couleur transparente et une couleur pâle se
+            // ressembleraient.
             preview.style.backgroundColor = hex;
-            if (document.activeElement !== hexInput) hexInput.value = hex;
+            preview.style.opacity = alphaOn() ? current.a : 1;
+
+            if (document.activeElement !== hexInput) hexInput.value = sortie();
         }
 
         function emit() {
             paint();
             if (activeOpts && activeOpts.onChange) {
-                activeOpts.onChange(rgbToHex(hsvToRgb(current.h, current.s, current.v)));
+                activeOpts.onChange(sortie(), alphaOn() ? current.a : 1);
             }
         }
 
@@ -379,8 +440,14 @@
             activeTrigger = trigger;
             activeOpts = opts;
 
-            const rgb = hexToRgb(opts.get ? opts.get() : '#FFFFFF') || [255, 255, 255];
+            const valeur = opts.get ? opts.get() : '#FFFFFF';
+            const rgb = hexToRgb(valeur) || [255, 255, 255];
             current = rgbToHsv(rgb[0], rgb[1], rgb[2]);
+            current.a = alphaOn() ? hexToAlpha(valeur) : 1;
+            // Le champ ne s'élargit qu'au besoin, et la piste d'opacité ne
+            // s'affiche que pour un déclencheur qui l'a demandée.
+            hexInput.maxLength = alphaOn() ? 9 : 7;
+            panel.classList.toggle('a-alpha', alphaOn());
             paint();
 
             panel.classList.add('open');

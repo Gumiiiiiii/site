@@ -56,8 +56,55 @@
         }
         .bg-group-divider::before,
         .bg-group-divider::after { content: ''; flex: 1; height: 1px; }
-        .bg-image-note { font-size: 0.85rem; font-weight: 600; }
+        .bg-image-note { font-size: 0.85rem; font-weight: 600; display: flex; flex-direction: column; gap: 0.6rem; }
         .bg-image-note.hidden { display: none; }
+
+        /* Le releve des trois bandes de l'image. Chacune porte sa couleur et
+           son ratio ; celle qui tient le verdict est cerclee. */
+        .zones { display: flex; gap: 0.4rem; }
+        .zone {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.45rem 0.55rem;
+            border: 1px solid var(--filet-fin);
+            border-radius: 0.7rem;
+        }
+        /* Une seule des trois porte le verdict. Elle se distingue par
+           l'encre, comme partout ailleurs sur le site : les deux autres
+           reculent, plutot que celle-ci ne s'avance en couleur. */
+        .zone-pire { border-color: var(--filet); background: var(--voile); }
+        .zone:not(.zone-pire) .zone-nom,
+        .zone:not(.zone-pire) .zone-ratio { color: var(--encre-045); }
+        .zone:not(.zone-pire) .zone-pastille { opacity: 0.55; }
+        .zone-pastille {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1px solid var(--filet);
+        }
+        .zone-nom {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--encre-07);
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .zone-ratio {
+            margin-left: auto;
+            font-size: 0.78rem;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+            color: var(--encre-1);
+        }
+        .zones-legende { font-size: 0.8rem; font-weight: 600; color: var(--encre-07); }
+
+        @media (max-width: 520px) {
+            .zones { flex-direction: column; }
+        }
 
         /* Le verdict */
         .contrast-result { display: flex; flex-direction: column; }
@@ -170,13 +217,13 @@
                         Cet outil suit les Web Content Accessibility Guidelines (WCAG), qui définissent deux niveaux de contraste : AA (minimum) et AAA (renforcé).<br><br>
                         AA : ratio d'au moins 4,5:1 pour le texte normal et 3:1 pour le grand texte (18pt+) ou le gras.<br>
                         AAA : ratio d'au moins 7:1 pour le texte normal et 4,5:1 pour le grand texte ou le gras.<br><br>
-                        <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 800;">En savoir plus</a>
+                        <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener">En savoir plus</a>
                     </div>
                     <div class="tooltip-status is-offline">
                         <span class="tooltip-status-dot" aria-hidden="true"></span>
                         <span data-i18n="tooltip_offline">Fonctionne hors ligne</span>
                     </div>
-                </div><span class="note note--marge note-titre" aria-hidden="true"><span class="note-texte" data-i18n="contrast_note">4,5 pour le petit texte, 3 pour le grand</span><svg class="note-trait" viewBox="0 0 170 12" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8c28-4 60-6 94-4 22 1 42 2 68 1"></path></svg></span>
+                </div>
             </div>
         </div>
 
@@ -186,7 +233,7 @@
                     <div class="control-row">
                         <div class="control-label" data-i18n="contrast_text_color">Couleur du texte</div>
                         <div class="color-input-row">
-                            <input type="text" id="text-hex" class="input-field" value="#1A1A1A" spellcheck="false" maxlength="7">
+                            <input type="text" id="text-hex" class="input-field" value="#1A1A1A" spellcheck="false" maxlength="9">
                             <button type="button" id="text-swatch" class="color-swatch no-select" style="background-color: #1A1A1A;" title="Couleur du texte" aria-haspopup="dialog"></button>
                         </div>
                     </div>

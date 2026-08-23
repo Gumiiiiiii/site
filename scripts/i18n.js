@@ -126,7 +126,6 @@
         contrast_small: { fr: 'Petit texte', en: 'Small text' },
         contrast_large: { fr: 'Grand texte', en: 'Large text' },
         contrast_fix: { fr: 'Corriger automatiquement', en: 'Fix automatically' },
-        contrast_note: { fr: "4,5 pour le petit texte, 3 pour le grand", en: "4.5 for small text, 3 for large" },
         contrast_msg_all: { fr: 'Contraste suffisant pour toutes les tailles de texte.', en: 'Sufficient contrast for all text sizes.' },
         contrast_msg_large: { fr: 'Contraste suffisant uniquement pour le grand texte.', en: 'Sufficient contrast for large text only.' },
         contrast_msg_none: { fr: 'Contraste insuffisant pour toutes les tailles de texte.', en: 'Poor contrast for all text sizes.' },
@@ -138,12 +137,15 @@
         contrast_add_image: { fr: 'Ajouter une image', en: 'Add an image' },
         contrast_remove_image: { fr: "Retirer l'image", en: 'Remove image' },
         contrast_img_note: {
-            fr: "Le contraste est calculé sur la couleur moyenne de l'image.",
-            en: 'Contrast is computed against the average color of the image.'
+            fr: "Le verdict retient la zone la moins lisible, pas la moyenne.",
+            en: 'The verdict uses the least legible zone, not the average.'
         },
+        contrast_zone_left: { fr: 'Gauche', en: 'Left' },
+        contrast_zone_mid: { fr: 'Milieu', en: 'Middle' },
+        contrast_zone_right: { fr: 'Droite', en: 'Right' },
         contrast_tooltip: {
-            fr: "<strong>Comment ça marche ?</strong><br><br>Cet outil suit les Web Content Accessibility Guidelines (WCAG), qui définissent deux niveaux de contraste : AA (minimum) et AAA (renforcé).<br><br>AA : ratio d'au moins 4,5:1 pour le texte normal et 3:1 pour le grand texte (18pt+) ou le gras.<br>AAA : ratio d'au moins 7:1 pour le texte normal et 4,5:1 pour le grand texte ou le gras.<br><br><a href=\"https://www.w3.org/WAI/standards-guidelines/wcag/\" target=\"_blank\" rel=\"noopener\" style=\"color: var(--accent); font-weight: 800;\">En savoir plus</a>",
-            en: "<strong>How does it work?</strong><br><br>This tool follows the Web Content Accessibility Guidelines (WCAG), which define two contrast levels: AA (minimum) and AAA (enhanced).<br><br>AA: a ratio of at least 4.5:1 for normal text and 3:1 for large text (18pt+) or bold text.<br>AAA: a ratio of at least 7:1 for normal text and 4.5:1 for large text or bold text.<br><br><a href=\"https://www.w3.org/WAI/standards-guidelines/wcag/\" target=\"_blank\" rel=\"noopener\" style=\"color: var(--accent); font-weight: 800;\">Learn more</a>"
+            fr: "<strong>Comment ça marche ?</strong><br><br>Cet outil suit les Web Content Accessibility Guidelines (WCAG), qui définissent deux niveaux de contraste : AA (minimum) et AAA (renforcé).<br><br>AA : ratio d'au moins 4,5:1 pour le texte normal et 3:1 pour le grand texte (18pt+) ou le gras.<br>AAA : ratio d'au moins 7:1 pour le texte normal et 4,5:1 pour le grand texte ou le gras.<br><br><a href=\"https://www.w3.org/WAI/standards-guidelines/wcag/\" target=\"_blank\" rel=\"noopener\">En savoir plus</a>",
+            en: "<strong>How does it work?</strong><br><br>This tool follows the Web Content Accessibility Guidelines (WCAG), which define two contrast levels: AA (minimum) and AAA (enhanced).<br><br>AA: a ratio of at least 4.5:1 for normal text and 3:1 for large text (18pt+) or bold text.<br>AAA: a ratio of at least 7:1 for normal text and 4.5:1 for large text or bold text.<br><br><a href=\"https://www.w3.org/WAI/standards-guidelines/wcag/\" target=\"_blank\" rel=\"noopener\">Learn more</a>"
         },
 
         // Document titles + meta descriptions (tab title / search snippet).

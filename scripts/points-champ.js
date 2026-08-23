@@ -97,6 +97,10 @@
     }
 
     var minuterie;
+    // Les mesures du dernier tracé. Le champ est redessiné quand elles
+    // changent, et seulement là : un observateur qui se déclenche pour une
+    // taille identique ne coûte rien.
+    var dernL = -1, dernH = -1;
 
     function dessiner() {
         // La largeur du conteneur, pas celle de la fenêtre : la barre de
@@ -105,6 +109,8 @@
         var largeur = champ.offsetWidth;
         var centre = largeur / 2;
         var hauteur = champ.offsetHeight;
+        dernL = largeur;
+        dernH = hauteur;
         var svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">' +
             '<g fill="currentColor" opacity="' + ENCRE + '">';
 
@@ -170,9 +176,27 @@
         champ.innerHTML = svg + '</g></svg>';
     }
 
-    dessiner();
-    window.addEventListener('resize', function () {
+    function replanifier() {
         clearTimeout(minuterie);
         minuterie = setTimeout(dessiner, 100);
-    });
+    }
+
+    dessiner();
+    window.addEventListener('resize', replanifier);
+
+    // La fenêtre n'est pas la seule à changer la taille du champ : le contenu
+    // la change aussi, et sans « resize ». Une mention qui apparaît sous un
+    // bouton, une section qui se déplie, et la page grandit sous un dessin
+    // qui, lui, garde l'ancienne hauteur — sa remontée du bas se retrouve
+    // alors au milieu. L'observateur mesure le champ lui-même, ce qui couvre
+    // les deux causes d'un seul geste.
+    if (window.ResizeObserver) {
+        new ResizeObserver(function () {
+            // Redessiner à taille égale ne changerait rien au tracé, et
+            // l'écriture du SVG n'est pas gratuite sur une page de trois
+            // écrans : on ne repart que si une mesure a bougé.
+            if (champ.offsetWidth === dernL && champ.offsetHeight === dernH) return;
+            replanifier();
+        }).observe(champ);
+    }
 })();
