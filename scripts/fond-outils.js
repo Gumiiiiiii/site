@@ -53,16 +53,23 @@
                 ];
             }
 
-            document.startViewTransition(appliquer).ready.then(function () {
+            // Sans cette classe, le fondu par défaut du navigateur et les
+            // transitions de chaque élément se jouent en plus du cercle.
+            racine.classList.add('theme-switching');
+            var transition = document.startViewTransition(appliquer);
+            transition.ready.then(function () {
                 racine.animate(
                     { clipPath: etapes },
                     {
-                        duration: 500,
-                        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                        duration: 700,
+                        easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
                         pseudoElement: '::view-transition-new(root)'
                     }
                 );
             }).catch(function () {});
+            transition.finished.finally(function () {
+                racine.classList.remove('theme-switching');
+            });
         });
     }
 

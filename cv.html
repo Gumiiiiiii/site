@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr"><head>
     <meta charset="UTF-8">
-    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}if(!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)){document.documentElement.classList.add('fond-anime');}}catch(e){}})();</script>
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}if(!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)){document.documentElement.classList.add('fond-anime');setTimeout(function(){if(window.fondAnim)return;var r=document.documentElement;r.classList.remove('fond-anime');r.classList.add('fond-secours');if(!window.fondPlacer)r.classList.add('fond-secours-flux');document.querySelectorAll('.fond-projet-corps[inert]').forEach(function(c){c.removeAttribute('inert');});},3000);}}catch(e){}})();</script>
+    <!-- Le script ci-dessus cache la page le temps que fond-anim.js la fasse
+         entrer. Les scripts se chargent a la file : si l un d eux reste en
+         attente, ce dernier n arrive jamais. Passe 3 s, la page s affiche donc
+         sans lui, voir .fond-secours dans fond.css. -->
     <link rel="preload" href="fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
@@ -74,15 +78,15 @@
                 <img class="fond-hero-photo" src="media/pierre-gumilar-512.webp" alt="Portrait de Pierre Gumilar" width="512" height="512" fetchpriority="high">
                 <h1 class="fond-hero-phrase" data-i18n-html="fond_1">Je m'appelle <strong>Pierre</strong>, <strong>responsable marketing digital</strong>&nbsp;: j'optimise les <strong>ventes e-commerce</strong> en combinant
                     <strong>contenu, data produit, acquisition et UX</strong>, et je recherche un
-                    <strong>CDI dès maintenant</strong> sur site ou en remote
+                    <strong class="fond-cle">CDI dès maintenant</strong> sur site ou en remote
                     (France, Belgique, Suisse, Luxembourg, Irlande).</h1>
             </div>
 
             <div class="fond-hero-chiffres">
-                <div class="fond-kpi"><b>500 <span>→</span> 5 000</b><span data-i18n="fond_2">Fiches produits enrichies</span><small data-i18n="fond_6">Magento · Salsify</small></div>
-                <div class="fond-kpi"><b>+180 %</b><span data-i18n="fond_3">Trafic organique de lindt.fr</span><small data-i18n="fond_7">Fin 2023 – mi-2026</small></div>
+                <div class="fond-kpi"><b data-i18n-html="fond_131">500 <span>→</span> 5&nbsp;000</b><span data-i18n="fond_2">Fiches produits enrichies</span><small data-i18n="fond_6">Magento · Salsify</small></div>
+                <div class="fond-kpi"><b data-i18n="fond_125">+180&nbsp;%</b><span data-i18n="fond_3">Trafic organique de lindt.fr</span><small data-i18n="fond_7">Fin 2023 – mi-2026</small></div>
                 <div class="fond-kpi"><b>500+</b><span data-i18n="fond_4">Réservations attribuées à Google Ads</span><small data-i18n="fond_8">Émeraude Aventure</small></div>
-                <div class="fond-kpi"><b>7 000+</b><span data-i18n="fond_5">Assets e-commerce coordonnés</span><small data-i18n="fond_9">Production · validation · diffusion</small></div>
+                <div class="fond-kpi"><b data-i18n="fond_132">7&nbsp;000+</b><span data-i18n="fond_5">Assets e-commerce coordonnés</span><small data-i18n="fond_9">Production · validation · diffusion</small></div>
             </div>
         </header>
 
@@ -154,15 +158,18 @@
              n'a aucun visuel dans le dépôt : sa ligne s'ouvre sur du texte
              seul plutôt que sur une image générique. -->
         <div class="fond-section fond-projets">
-            <div class="fond-projet">
-                <button type="button" class="fond-projet-tete" aria-expanded="false" aria-controls="projet-lindt">
+            <!-- Lindt s'ouvre d'entree : la section promet des resultats, elle doit
+                 en montrer sans attendre un clic. -->
+            <div class="fond-projet" data-ouvert="">
+                <button type="button" class="fond-projet-tete" aria-expanded="true" aria-controls="projet-lindt">
                     <span class="fond-projet-nom">Lindt &amp; Sprüngli</span>
                     <span class="fond-projet-resume" data-i18n="fond_16">Faire grandir le contenu e-commerce sans perdre en cohérence.</span>
+                    <span class="fond-projet-chiffre"><b data-i18n="fond_125">+180&nbsp;%</b><span data-i18n="fond_3">Trafic organique de lindt.fr</span></span>
                     <span class="fond-projet-icone" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path class="fond-plus-barre" d="M12 5v14"></path></svg>
                     </span>
                 </button>
-                <div class="fond-projet-corps" id="projet-lindt" inert="">
+                <div class="fond-projet-corps" id="projet-lindt">
                     <div class="fond-projet-interieur">
                         <div class="fond-projet-medias fond-projet-medias--mosaique" role="img" aria-label="Sélection de contenus e-commerce et de photographies produits réalisés ou coordonnés pour Lindt">
                             <img src="media/lindt-shoot-tablette-texture.webp" alt="" width="400" height="400" loading="lazy">
@@ -183,8 +190,8 @@
                             </div>
                         </div>
                         <div class="fond-projet-texte">
-                            <p data-i18n="fond_22">Chez Lindt, je fais le lien entre la donnée produit, les contenus et leur diffusion en ligne. Je structure le catalogue et le PIM Salsify, coordonne les contenus pour Amazon et les e-retailers, et pilote les shootings ainsi que la direction artistique.</p>
-                            <p data-i18n="fond_23">Sur plus de 7&nbsp;000 assets, mon rôle consiste principalement à coordonner. J'en produis aussi une partie, puis je les valide et les diffuse. J'ai également structuré les méthodes de travail pour rendre l'enrichissement et la validation plus simples à l'échelle du catalogue.</p>
+                            <p data-i18n="fond_22">Chez Lindt, je faisais le lien entre la donnée produit, les contenus et leur diffusion en ligne. Je structurais le catalogue et le PIM Salsify, coordonnais les contenus pour Amazon et les e-retailers, et pilotais les shootings ainsi que la direction artistique.</p>
+                            <p data-i18n="fond_23">Sur plus de 7&nbsp;000 assets, mon rôle consistait principalement à coordonner. J'en produisais aussi une partie, puis je les validais et les diffusais. J'ai également structuré les méthodes de travail pour rendre l'enrichissement et la validation plus simples à l'échelle du catalogue.</p>
                             <ul class="fond-preuves">
                                 <li data-i18n="fond_27">500 → 5&nbsp;000 fiches enrichies</li>
                                 <li data-i18n="fond_28">+180&nbsp;% de trafic organique sur lindt.fr, de fin 2023 à mi-2026</li>
@@ -199,6 +206,7 @@
                 <button type="button" class="fond-projet-tete" aria-expanded="false" aria-controls="projet-ardacraft">
                     <span class="fond-projet-nom">ArdaCraft</span>
                     <span class="fond-projet-resume" data-i18n="fond_17">Construire et faire grandir un écosystème digital.</span>
+                    <span class="fond-projet-chiffre"><b data-i18n-html="fond_126">8&nbsp;000 <i>→</i> 115&nbsp;000</b><span data-i18n="fond_127">Abonnés sur Instagram</span></span>
                     <span class="fond-projet-icone" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path class="fond-plus-barre" d="M12 5v14"></path></svg>
                     </span>
@@ -227,6 +235,7 @@
                 <button type="button" class="fond-projet-tete" aria-expanded="false" aria-controls="projet-emeraude">
                     <span class="fond-projet-nom">Émeraude Aventure</span>
                     <span class="fond-projet-resume" data-i18n="fond_18">Transformer un budget média en réservations directes.</span>
+                    <span class="fond-projet-chiffre"><b data-i18n="fond_128">1,67&nbsp;€</b><span data-i18n="fond_129">Par conversion</span></span>
                     <span class="fond-projet-icone" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path class="fond-plus-barre" d="M12 5v14"></path></svg>
                     </span>
@@ -250,26 +259,74 @@
         </div>
 
         <h2 class="fond-titre" id="parcours" data-i18n="fond_11">Mon parcours</h2>
-        <!-- Trois groupes, une ligne par entrée : la date à gauche, le reste à
-             droite. Contenu repris tel quel du CV. -->
+        <!-- Une frise a l'echelle du temps : les annees sur la ligne, les postes a
+             gauche, les etudes a droite, et un rectangle de la hauteur de chaque
+             periode. Deux rectangles a la meme hauteur ont eu lieu ensemble.
+
+             Les libelles reprennent les dates du site. Toutes les annees ont la meme
+             hauteur, et celle des rectangles suit les mois du CV PDF, ce qui montre par
+             exemple que les deux stages de 2020 se suivent. Les rangees sont dans
+             fond.css. -->
         <div class="fond-section fond-parcours">
-            <div class="fond-parcours-groupe">
-                <h3 data-i18n="fond_39">Expérience</h3>
-                <div class="fond-parcours-ligne"><span class="fond-dates" data-i18n="fond_42">2023 – août 2026</span><span data-i18n-html="fond_46"><strong>E-Commerce Content Manager · Lindt &amp; Sprüngli, Paris</strong></span></div>
-                <div class="fond-parcours-ligne"><span class="fond-dates" data-i18n="fond_43">Depuis 2022</span><span data-i18n="fond_47">Consulting et projets indépendants · multi-secteurs</span></div>
-                <div class="fond-parcours-ligne"><span class="fond-dates">2022</span><span data-i18n="fond_48">Assistant Marketing Digital, stage · Lindt &amp; Sprüngli, Paris</span></div>
-                <div class="fond-parcours-ligne"><span class="fond-dates">2020</span><span data-i18n="fond_49">Assistant SEO Manager · Nutri &amp; Co, Aix-en-Provence</span></div>
-                <div class="fond-parcours-ligne"><span class="fond-dates">2020</span><span data-i18n="fond_50">Assistant Marketing Opérationnel · EXKI, Bruxelles</span></div>
-            </div>
-            <div class="fond-parcours-groupe">
-                <h3 data-i18n="fond_40">Formation</h3>
-                <div class="fond-parcours-ligne"><span class="fond-dates">2019 – 2022</span><span data-i18n="fond_51">MSc Marketing &amp; Services Management · IAE Aix School of Management</span></div>
-                <div class="fond-parcours-ligne"><span class="fond-dates">2018 – 2019</span><span data-i18n="fond_52">DUETI Business · University of the West of Scotland</span></div>
-            </div>
-            <div class="fond-parcours-groupe">
-                <h3 data-i18n="fond_41">Langues</h3>
-                <div class="fond-parcours-ligne"><span class="fond-dates" data-i18n="fond_44">Français</span><span data-i18n="fond_53">Langue natale</span></div>
-                <div class="fond-parcours-ligne"><span class="fond-dates" data-i18n="fond_45">Anglais</span><span data-i18n="fond_54">Courant, C1, TOEIC 940 · présentations et réunions en contexte international</span></div>
+            <div class="fond-chrono">
+                <h3 class="fond-chrono-voie fond-chrono-voie--postes" data-i18n="fond_39">Expérience</h3>
+                <h3 class="fond-chrono-voie fond-chrono-voie--formation" data-i18n="fond_40">Formation</h3>
+
+                <div class="fond-chrono-annee" style="grid-row: 2 / span 12" aria-hidden="true"><span>2026</span></div>
+                <div class="fond-chrono-annee" style="grid-row: 14 / span 12" aria-hidden="true"><span>2025</span></div>
+                <div class="fond-chrono-annee" style="grid-row: 26 / span 12" aria-hidden="true"><span>2024</span></div>
+                <div class="fond-chrono-annee" style="grid-row: 38 / span 12" aria-hidden="true"><span>2023</span></div>
+                <div class="fond-chrono-annee" style="grid-row: 50 / span 12" aria-hidden="true"><span>2022</span></div>
+                <div class="fond-chrono-annee" style="grid-row: 62 / span 12" aria-hidden="true"><span>2021</span></div>
+                <div class="fond-chrono-annee" style="grid-row: 74 / span 12" aria-hidden="true"><span>2020</span></div>
+                <div class="fond-chrono-annee" style="grid-row: 86 / span 12" aria-hidden="true"><span>2019</span></div>
+                <div class="fond-chrono-annee" style="grid-row: 98 / span 12" aria-hidden="true"><span>2018</span></div>
+
+                <ol class="fond-chrono-liste">
+                    <li class="fond-chrono-barre fond-chrono-barre--cm">
+                        <strong data-i18n="fond_46">E-Commerce Content Manager</strong>
+                        <span class="fond-chrono-detail"><span data-i18n="fond_119">Lindt &amp; Sprüngli, Paris</span><span class="fond-dates" data-i18n="fond_42">2023 – août 2026</span></span>
+                        <ul class="fond-chrono-chiffres">
+                            <li data-i18n-html="fond_133"><b>+180&nbsp;%</b> de trafic organique</li>
+                            <li data-i18n-html="fond_134"><b>5&nbsp;000</b> fiches enrichies</li>
+                            <li data-i18n-html="fond_135"><b>7&nbsp;000+</b> assets coordonnés</li>
+                        </ul>
+                    </li>
+                    <li class="fond-chrono-barre fond-chrono-barre--consulting">
+                        <strong data-i18n="fond_47">Consulting et projets indépendants</strong>
+                        <span class="fond-chrono-detail"><span data-i18n="fond_120">Multi-secteurs</span><span class="fond-dates" data-i18n="fond_43">Depuis 2022</span></span>
+                        <p class="fond-chrono-projet">ArdaCraft</p>
+                        <ul class="fond-chrono-chiffres">
+                            <li data-i18n-html="fond_136"><b>8&nbsp;000 → 115&nbsp;000</b> abonnés Instagram</li>
+                            <li data-i18n-html="fond_137"><b>27,3 millions</b> de vues sur 24 vidéos</li>
+                        </ul>
+                        <p class="fond-chrono-projet">Émeraude Aventure</p>
+                        <ul class="fond-chrono-chiffres">
+                            <li data-i18n-html="fond_138"><b>500+</b> réservations attribuées</li>
+                            <li data-i18n-html="fond_139"><b>1,67&nbsp;€</b> par conversion</li>
+                        </ul>
+                    </li>
+                    <li class="fond-chrono-barre fond-chrono-barre--stage">
+                        <strong data-i18n="fond_48">Assistant Marketing Digital, stage</strong>
+                        <span class="fond-chrono-detail"><span data-i18n="fond_119">Lindt &amp; Sprüngli, Paris</span><span class="fond-dates">2022</span></span>
+                    </li>
+                    <li class="fond-chrono-barre fond-chrono-barre--msc">
+                        <strong data-i18n="fond_51">MSc Marketing &amp; Services Management</strong>
+                        <span class="fond-chrono-detail"><span data-i18n="fond_123">IAE Aix School of Management</span><span class="fond-dates">2019 – 2022</span></span>
+                    </li>
+                    <li class="fond-chrono-barre fond-chrono-barre--nutri">
+                        <strong data-i18n="fond_49">Assistant SEO Manager</strong>
+                        <span class="fond-chrono-detail"><span data-i18n="fond_121">Nutri &amp; Co, Aix-en-Provence</span><span class="fond-dates">2020</span></span>
+                    </li>
+                    <li class="fond-chrono-barre fond-chrono-barre--exki">
+                        <strong data-i18n="fond_50">Assistant Marketing Opérationnel</strong>
+                        <span class="fond-chrono-detail"><span data-i18n="fond_122">EXKI, Bruxelles</span><span class="fond-dates">2020</span></span>
+                    </li>
+                    <li class="fond-chrono-barre fond-chrono-barre--dueti">
+                        <strong data-i18n="fond_52">DUETI Business</strong>
+                        <span class="fond-chrono-detail"><span data-i18n="fond_124">University of the West of Scotland</span><span class="fond-dates">2018 – 2019</span></span>
+                    </li>
+                </ol>
             </div>
         </div>
 
@@ -353,29 +410,66 @@
                         <span class="fond-boite-item"><svg viewBox="0 0 64 64" aria-hidden="true"><g transform="matrix(3.208255 0 0 3.208255 -35.559129 -63.587202)"><path d="M13.513 35.76a2.433 2.433 0 0 1-2.059-3.723l4.377-6.99a2.432 2.432 0 1 1 4.123 2.582l-4.378 6.99a2.43 2.43 0 0 1-2.063 1.141z"></path><path d="M21.056 35.76a2.433 2.433 0 0 1-2.063-3.723l4.38-6.99a2.432 2.432 0 1 1 4.117 2.582l-4.372 6.99a2.43 2.43 0 0 1-2.063 1.141z"></path><ellipse ry="2.375" rx="2.436" cy="33.384" cx="28.597"></ellipse></g></svg>Monday</span>
                     </div>
                 </div>
+                <!-- Les langues ferment les competences : meme colonne de libelle
+                     que les outils, mais du texte et non des pastilles. -->
+                <div class="fond-boite-rang fond-boite-rang--langues">
+                    <h3 class="fond-boite-cat" data-i18n="fond_41">Langues</h3>
+                    <dl class="fond-langues">
+                        <div><dt data-i18n="fond_44">Français</dt><dd data-i18n="fond_53">Langue natale</dd></div>
+                        <div><dt data-i18n="fond_45">Anglais</dt><dd data-i18n="fond_54">Courant, C1, TOEIC 940 · présentations et réunions en contexte international</dd></div>
+                    </dl>
+                </div>
             </div>
         </div>
         <h2 class="fond-titre" id="temoignages" data-i18n="fond_13">Des recommandations</h2>
-        <!-- Carrousel : une carte par avis, deux flèches en haut à droite, et
-             un défilement sans fin obtenu par duplication du jeu de cartes
-             (voir scripts/fond-avis.js). La carte suivante dépasse du cadre :
-             c'est ce qui dit qu'il y en a d'autres.
+        <!-- Quatre avis visibles d'un coup, en bento : la largeur de chaque carte
+             suit la longueur de sa citation, pour que les deux cartes d'une rangee
+             finissent a peu pres ensemble. La manager ouvre, le client a cote.
 
-             Citations, noms, rôles et relations repris tels quels du CV. -->
+             Citations, noms, roles et relations repris tels quels du CV. -->
         <div class="fond-section fond-avis">
-            <div class="fond-avis-fleches">
-                <button type="button" class="fond-avis-fleche" data-avis-prec="" aria-label="Avis précédent">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
-                </button>
-                <button type="button" class="fond-avis-fleche" data-avis-suiv="" aria-label="Avis suivant">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                </button>
-            </div>
+                    <figure class="fond-avis-carte fond-avis-carte--large">
+                        <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="9" data-spacing-y="8" data-stagger="off" data-radius="1.1" data-fade="diagonale" data-opacity="0.06" aria-hidden="true"></div>
+                        <figcaption class="fond-avis-tete">
+                            <img src="media/celine-hummer.webp" alt="" width="128" height="128" loading="lazy">
+                            <div>
+                                <a href="https://www.linkedin.com/in/celinehummer/" rel="noopener">Céline Hummer<svg class="fond-avis-li" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
+                                <span class="fond-avis-role" data-i18n="fond_77">Senior Digital Manager · Lindt France</span>
+                            </div>
+                        </figcaption>
+                        <div class="fond-note fond-note--etoile" data-trait-avant aria-hidden="true">
+                            <svg class="fond-note-trait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 4v16"></path>
+                                <path d="M5 8l14 8"></path>
+                                <path d="M19 8L5 16"></path>
+                            </svg>
+                            <span class="fond-note-texte" data-i18n="fond_113">Ma manager chez Lindt</span>
+                        </div>
+                        <blockquote lang="fr" data-i18n-html="fond_81"><p>J'ai eu le plaisir de travailler avec Pierre chez Lindt France, où il occupait le poste de Content Manager au sein de l'équipe digitale que je pilote.</p><p>Pierre se distingue par sa capacité à allier expertise technique et sens créatif. Il maîtrise des sujets complexes liés à la gestion des contenus et de la donnée produit, tout en apportant une véritable vision créative qui contribue à valoriser l'image premium de nos marques.</p><p>Véritable facilitateur, il sait fédérer les équipes, simplifier les processus et faire avancer les projets avec efficacité. Son sens du détail, sa curiosité et sa capacité à anticiper les besoins en font un collaborateur particulièrement précieux.</p><p>Force de proposition, fiable et engagé, Pierre est un profil rare capable de faire le lien entre contenu, technologie et expérience de marque. Je lui souhaite beaucoup de succès pour la suite de son parcours.</p></blockquote>
+                    </figure>
 
-            <div class="fond-avis-cadre">
-                <div class="fond-avis-piste">
-                    <figure class="fond-avis-carte">
-                        <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22" data-spacing-y="20" data-stagger="off" data-radius="2.5" data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
+                    <figure class="fond-avis-carte fond-avis-carte--etroite">
+                        <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="9" data-spacing-y="8" data-stagger="off" data-radius="1.1" data-fade="diagonale" data-opacity="0.06" aria-hidden="true"></div>
+                        <figcaption class="fond-avis-tete">
+                            <img src="media/lilian-gourlay.webp" alt="" width="128" height="128" loading="lazy">
+                            <div>
+                                <a href="https://www.linkedin.com/in/lilian-gourlay/" rel="noopener">Lilian Gourlay<svg class="fond-avis-li" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
+                                <span class="fond-avis-role" data-i18n="fond_75">Dirigeant · Émeraude Aventure</span>
+                            </div>
+                        </figcaption>
+                        <div class="fond-note fond-note--traits" aria-hidden="true">
+                            <span class="fond-note-texte" data-i18n="fond_111">Client et ami&nbsp;!</span>
+                            <svg class="fond-note-trait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12c0-3 .4-6 1-9"></path>
+                                <path d="M10 15c2-3 5-6 8-8"></path>
+                                <path d="M12 21c3-1 6-1.5 9-1.5"></path>
+                            </svg>
+                        </div>
+                        <blockquote lang="fr" data-i18n="fond_79">Pierre s'est occupé de nos campagnes Google Ads chez Émeraude Aventure cette saison. Nous avons dépassé les 1&nbsp;200 réservations directes au total, dont plus de 500 attribuées aux campagnes qu'il a pilotées, pour un coût inférieur à 2&nbsp;€ par réservation. Il a clairement sa part dans la réussite de cet été, qui est la meilleure saison que j'ai eue. Je recommande son travail sans problème.</blockquote>
+                    </figure>
+
+                    <figure class="fond-avis-carte fond-avis-carte--moitie">
+                        <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="9" data-spacing-y="8" data-stagger="off" data-radius="1.1" data-fade="diagonale" data-opacity="0.06" aria-hidden="true"></div>
                         <figcaption class="fond-avis-tete">
                             <img src="media/michele-rossi.webp" alt="" width="128" height="128" loading="lazy">
                             <div>
@@ -393,30 +487,11 @@
                                 <path d="M14 62l13 9"></path>
                             </svg>
                         </div>
-                        <blockquote lang="en" data-i18n="fond_78">“I had the pleasure of working closely with Pierre for over two years. One of his best qualities is his curiosity. He has a great way of blending creative thinking with deep technical skills. Because of his personal projects, he is always on top of the latest trends, and I learned a lot from him, especially regarding E-commerce and general digital topics. What I admire most is that his knowledge goes way beyond his daily tasks. He brings a broad perspective to everything he touches. On top of that, he is a good collaborator, highly organized, and has a sharp, critical mind. Pierre always knows exactly how to bring out the absolute best in every project.”</blockquote>
+                        <blockquote lang="en" data-i18n="fond_78">I had the pleasure of working closely with Pierre for over two years. One of his best qualities is his curiosity. He has a great way of blending creative thinking with deep technical skills. Because of his personal projects, he is always on top of the latest trends, and I learned a lot from him, especially regarding E-commerce and general digital topics. What I admire most is that his knowledge goes way beyond his daily tasks. He brings a broad perspective to everything he touches. On top of that, he is a good collaborator, highly organized, and has a sharp, critical mind. Pierre always knows exactly how to bring out the absolute best in every project.</blockquote>
                     </figure>
 
-                    <figure class="fond-avis-carte fond-avis-carte--court">
-                        <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22" data-spacing-y="20" data-stagger="off" data-radius="2.5" data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
-                        <figcaption class="fond-avis-tete">
-                            <img src="media/lilian-gourlay.webp" alt="" width="128" height="128" loading="lazy">
-                            <div>
-                                <a href="https://www.linkedin.com/in/lilian-gourlay/" rel="noopener">Lilian Gourlay<svg class="fond-avis-li" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
-                                <span class="fond-avis-role" data-i18n="fond_75">Dirigeant · Émeraude Aventure</span>
-                            </div>
-                        </figcaption>
-                        <!-- Note manuscrite : un cercle trace autour du mot. -->
-                        <div class="fond-note fond-note--cercle" aria-hidden="true">
-                            <span class="fond-note-texte" data-i18n="fond_111">Client et ami&nbsp;!</span>
-                            <svg class="fond-note-trait" viewBox="0 0 210 52" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke">
-                                <path d="M16 28C16 12 62 5 110 6c52 1 88 9 86 22-2 14-42 20-94 19C50 46 14 41 14 27c0-9 18-16 50-20" vector-effect="non-scaling-stroke"></path>
-                            </svg>
-                        </div>
-                        <blockquote lang="fr" data-i18n="fond_79">«&nbsp;Pierre s'est occupé de nos campagnes Google Ads chez Émeraude Aventure cette saison. Nous avons dépassé les 1&nbsp;200 réservations directes au total, dont plus de 500 attribuées aux campagnes qu'il a pilotées, pour un coût inférieur à 2&nbsp;€ par réservation. Il a clairement sa part dans la réussite de cet été, qui est la meilleure saison que j'ai eue. Je recommande son travail sans problème.&nbsp;»</blockquote>
-                    </figure>
-
-                    <figure class="fond-avis-carte">
-                        <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22" data-spacing-y="20" data-stagger="off" data-radius="2.5" data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
+                    <figure class="fond-avis-carte fond-avis-carte--moitie">
+                        <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="9" data-spacing-y="8" data-stagger="off" data-radius="1.1" data-fade="diagonale" data-opacity="0.06" aria-hidden="true"></div>
                         <figcaption class="fond-avis-tete">
                             <img src="media/solenne-antakli.webp" alt="" width="128" height="128" loading="lazy">
                             <div>
@@ -424,38 +499,14 @@
                                 <span class="fond-avis-role" data-i18n="fond_76">Senior Communication Manager · Lindt &amp; Sprüngli</span>
                             </div>
                         </figcaption>
-                        <!-- Note manuscrite : en marge basse, tournee et soulignee. -->
                         <div class="fond-note fond-note--marge" aria-hidden="true">
                             <span class="fond-note-texte" data-i18n="fond_112">Collègue d'une autre équipe</span>
                             <svg class="fond-note-trait" viewBox="0 0 170 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M5 8c28-4 60-6 94-4 22 1 42 2 68 1"></path>
                             </svg>
                         </div>
-                        <blockquote lang="fr" data-i18n-html="fond_80"><p>«&nbsp;J'ai eu le plaisir de travailler avec Pierre chez Lindt &amp; Sprüngli pendant deux ans. Sa créativité, son sens du détail et sa capacité à concevoir des contenus à la fois engageants et performants ont été de véritables atouts pour notre équipe. Il sait transformer des idées en projets concrets tout en gardant constamment à l'esprit les enjeux business et les attentes des consommateurs.</p><p>Au-delà de ses compétences techniques, Pierre est une personne investie, à l'écoute et toujours prête à apporter son aide. Son esprit collaboratif, sa fiabilité et sa bonne humeur font de lui un collègue avec lequel il est particulièrement agréable de travailler.&nbsp;»</p></blockquote>
+                        <blockquote lang="fr" data-i18n-html="fond_80"><p>J'ai eu le plaisir de travailler avec Pierre chez Lindt &amp; Sprüngli pendant deux ans. Sa créativité, son sens du détail et sa capacité à concevoir des contenus à la fois engageants et performants ont été de véritables atouts pour notre équipe. Il sait transformer des idées en projets concrets tout en gardant constamment à l'esprit les enjeux business et les attentes des consommateurs.</p><p>Au-delà de ses compétences techniques, Pierre est une personne investie, à l'écoute et toujours prête à apporter son aide. Son esprit collaboratif, sa fiabilité et sa bonne humeur font de lui un collègue avec lequel il est particulièrement agréable de travailler.</p></blockquote>
                     </figure>
-
-                    <figure class="fond-avis-carte">
-                        <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22" data-spacing-y="20" data-stagger="off" data-radius="2.5" data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
-                        <figcaption class="fond-avis-tete">
-                            <img src="media/celine-hummer.webp" alt="" width="128" height="128" loading="lazy">
-                            <div>
-                                <a href="https://www.linkedin.com/in/celinehummer/" rel="noopener">Céline Hummer<svg class="fond-avis-li" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
-                                <span class="fond-avis-role" data-i18n="fond_77">Senior Digital Manager · Lindt France</span>
-                            </div>
-                        </figcaption>
-                        <!-- Note manuscrite : un asterisque au bord bas de la carte. -->
-                        <div class="fond-note fond-note--etoile" aria-hidden="true">
-                            <svg class="fond-note-trait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-                                <path d="M12 4v16"></path>
-                                <path d="M5 8l14 8"></path>
-                                <path d="M19 8L5 16"></path>
-                            </svg>
-                            <span class="fond-note-texte" data-i18n="fond_113">Ma manager chez Lindt</span>
-                        </div>
-                        <blockquote lang="fr" data-i18n-html="fond_81"><p>«&nbsp;J'ai eu le plaisir de travailler avec Pierre chez Lindt France, où il occupait le poste de Content Manager au sein de l'équipe digitale que je pilote.</p><p>Pierre se distingue par sa capacité à allier expertise technique et sens créatif. Il maîtrise des sujets complexes liés à la gestion des contenus et de la donnée produit, tout en apportant une véritable vision créative qui contribue à valoriser l'image premium de nos marques.</p><p>Véritable facilitateur, il sait fédérer les équipes, simplifier les processus et faire avancer les projets avec efficacité. Son sens du détail, sa curiosité et sa capacité à anticiper les besoins en font un collaborateur particulièrement précieux.</p><p>Force de proposition, fiable et engagé, Pierre est un profil rare capable de faire le lien entre contenu, technologie et expérience de marque. Je lui souhaite beaucoup de succès pour la suite de son parcours.&nbsp;»</p></blockquote>
-                    </figure>
-                </div>
-            </div>
         </div>
         <h2 class="fond-titre" id="perso" data-i18n="fond_14">Mes deux passions</h2>
         <!-- Deux cartes empilées : la photo à gauche, collée au cadre dont elle
@@ -492,64 +543,47 @@
             <p class="fond-contact-intro" data-i18n="fond_86">Si mon profil vous intéresse ou si vous avez une question,
                 n'hésitez pas à me contacter&nbsp;! :)</p>
 
+            <!-- Un seul bloc : d'abord comment me joindre, c'est ce que la section
+                 demande de faire, puis ce que je recherche. -->
             <div class="fond-bloc">
                 <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22" data-spacing-y="20" data-stagger="off" data-radius="2.5" data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
+                <div class="fond-actions">
+                    <a class="fond-action fond-action--principale" href="mailto:pierregumilar@gmail.com">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                        <span>pierregumilar<wbr>@gmail.com</span>
+                    </a>
+                    <a class="fond-action" href="media/Pierre-Gumilar-CV.pdf" download="">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M7 10l5 5 5-5"></path><path d="M12 15V3"></path></svg>
+                        <span data-i18n="fond_98">CV PDF (1 page)</span>
+                    </a>
+                    <a class="fond-action" href="tel:+33651611217">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        <span>+33 6 51 61 12 17</span>
+                    </a>
+                    <a class="fond-action" href="https://www.linkedin.com/in/pierre-gumilar/" rel="noopener">
+                        <svg class="fond-action-plein" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg>
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+
                 <dl class="fond-pied-specs">
                     <div><dt data-i18n="fond_87">Contrat</dt><dd data-i18n="fond_91">CDI</dd></div>
                     <div><dt data-i18n="fond_88">Rôle</dt><dd data-i18n="fond_92">E-commerce / marketing digital</dd></div>
                     <!-- Les drapeaux sont dessines ici plutot qu ecrits en
                          emoji : Windows n a pas de glyphe de drapeau et
-                         afficherait « FR BE CH LU ». Chacun garde le nom du
-                         pays dans son <title>, seule source pour un lecteur
-                         d ecran. -->
+                         afficherait « FR BE CH LU ». Le nom du pays les
+                         accompagne, un drapeau seul ne se lit pas toujours. -->
                     <div><dt data-i18n="fond_89">Mobilité</dt><dd>
-                        <span class="fond-drapeaux">
-                            <svg class="fond-drapeau" viewBox="0 0 30 20" role="img"><title data-i18n="fond_99">France</title><rect width="10" height="20" fill="#002395"></rect><rect x="10" width="10" height="20" fill="#fff"></rect><rect x="20" width="10" height="20" fill="#ED2939"></rect></svg>
-                            <svg class="fond-drapeau" viewBox="0 0 30 20" role="img"><title data-i18n="fond_100">Belgique</title><rect width="10" height="20" fill="#000"></rect><rect x="10" width="10" height="20" fill="#FDDA24"></rect><rect x="20" width="10" height="20" fill="#EF3340"></rect></svg>
-                            <svg class="fond-drapeau" viewBox="0 0 30 20" role="img"><title data-i18n="fond_101">Suisse</title><rect width="30" height="20" fill="#FF0000"></rect><rect x="13" y="4.5" width="4" height="11" fill="#fff"></rect><rect x="9.5" y="8" width="11" height="4" fill="#fff"></rect></svg>
-                            <svg class="fond-drapeau" viewBox="0 0 30 20" role="img"><title data-i18n="fond_102">Luxembourg</title><rect width="30" height="6.67" fill="#EA141C"></rect><rect y="6.67" width="30" height="6.66" fill="#fff"></rect><rect y="13.33" width="30" height="6.67" fill="#00A1DE"></rect></svg>
-                            <svg class="fond-drapeau" viewBox="0 0 30 20" role="img"><title data-i18n="fond_117">Irlande</title><rect width="10" height="20" fill="#169B62"></rect><rect x="10" width="10" height="20" fill="#fff"></rect><rect x="20" width="10" height="20" fill="#FF883E"></rect></svg>
+                        <span class="fond-pays">
+                            <span class="fond-pays-item"><svg class="fond-drapeau" viewBox="0 0 30 20" aria-hidden="true"><rect width="10" height="20" fill="#002395"></rect><rect x="10" width="10" height="20" fill="#fff"></rect><rect x="20" width="10" height="20" fill="#ED2939"></rect></svg><span data-i18n="fond_99">France</span></span>
+                            <span class="fond-pays-item"><svg class="fond-drapeau" viewBox="0 0 30 20" aria-hidden="true"><rect width="10" height="20" fill="#000"></rect><rect x="10" width="10" height="20" fill="#FDDA24"></rect><rect x="20" width="10" height="20" fill="#EF3340"></rect></svg><span data-i18n="fond_100">Belgique</span></span>
+                            <span class="fond-pays-item"><svg class="fond-drapeau" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#FF0000"></rect><rect x="13" y="4.5" width="4" height="11" fill="#fff"></rect><rect x="9.5" y="8" width="11" height="4" fill="#fff"></rect></svg><span data-i18n="fond_101">Suisse</span></span>
+                            <span class="fond-pays-item"><svg class="fond-drapeau" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="6.67" fill="#EA141C"></rect><rect y="6.67" width="30" height="6.66" fill="#fff"></rect><rect y="13.33" width="30" height="6.67" fill="#00A1DE"></rect></svg><span data-i18n="fond_102">Luxembourg</span></span>
+                            <span class="fond-pays-item"><svg class="fond-drapeau" viewBox="0 0 30 20" aria-hidden="true"><rect width="10" height="20" fill="#169B62"></rect><rect x="10" width="10" height="20" fill="#fff"></rect><rect x="20" width="10" height="20" fill="#FF883E"></rect></svg><span data-i18n="fond_117">Irlande</span></span>
                         </span>
                     </dd></div>
                     <div><dt data-i18n="fond_90">Disponibilité</dt><dd data-i18n="fond_93">Immédiate</dd></div>
                 </dl>
-            </div>
-
-            <div class="fond-bloc">
-                <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22" data-spacing-y="20" data-stagger="off" data-radius="2.5" data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
-                <!-- Au survol, l'icône se déplie à gauche de la valeur et
-                     pousse le texte ; seule la valeur se souligne, pas son
-                     libellé. -->
-                <div class="fond-pied-liens">
-                    <a href="mailto:pierregumilar@gmail.com">
-                        <span class="fond-lien-label" data-i18n="fond_94">E-mail</span>
-                        <span class="fond-lien-valeur">
-                            <svg class="fond-lien-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
-                            <b>pierregumilar<wbr>@gmail.com</b>
-                        </span>
-                    </a>
-                    <a href="tel:+33651611217">
-                        <span class="fond-lien-label" data-i18n="fond_95">Téléphone</span>
-                        <span class="fond-lien-valeur">
-                            <svg class="fond-lien-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                            <b>+33 6 51 61 12 17</b>
-                        </span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/pierre-gumilar/" rel="noopener">
-                        <span class="fond-lien-label" data-i18n="fond_96">Réseau</span>
-                        <span class="fond-lien-valeur">
-                            <svg class="fond-lien-icone fond-lien-icone--plein" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg>
-                            <b>LinkedIn</b>
-                        </span>
-                    </a>
-                    <a href="media/Pierre-Gumilar-CV.pdf" download="">
-                        <span class="fond-lien-label" data-i18n="fond_97">Document</span>
-                        <span class="fond-lien-valeur">
-                            <svg class="fond-lien-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M7 10l5 5 5-5"></path><path d="M12 15V3"></path></svg>
-                            <b data-i18n="fond_98">CV PDF (1 page)</b>
-                        </span>
-                    </a>
-                </div>
             </div>
         </div>
 
@@ -574,10 +608,7 @@
     <script src="scripts/fond-rail.js"></script>
     <script src="scripts/fond-outils.js"></script>
     <script src="scripts/fond-projets.js"></script>
-    <!-- Avant fond-avis.js : les copies de cartes du carrousel doivent
-         emporter les notes deja recomposees lettre a lettre. -->
     <script src="scripts/fond-notes.js"></script>
-    <script src="scripts/fond-avis.js"></script>
     <!-- En dernier : les apparitions s appuient sur la page telle qu elle est
          une fois traduite, placee et dupliquee. -->
     <script src="scripts/fond-anim.js"></script>

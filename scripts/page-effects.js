@@ -28,6 +28,25 @@
             // enfermé dans un bloc doit se caler sur ce bloc, sinon sa moitié
             // droite est rognée et ses coins ne tombent pas où on croit.
             const span = container.dataset.width === 'auto' ? container.offsetWidth : width;
+
+            // Un semis régulier à rayon fixe se dessine d'un seul motif CSS : à
+            // ces densités, des milliers de cercles SVG ramenaient la bascule de
+            // thème à quelques images par seconde. Même pas, même rayon, même
+            // fondu : le masque reprend la formule des points plus bas, le fond
+            // à 12 % et les deux foyers s'additionnant comme 0.12 + 0.88 * coin².
+            if (fade === 'diagonale' && fixedRadius !== null && container.dataset.stagger === 'off') {
+                const foyer = (position) => 'radial-gradient(ellipse 85% 85% at ' + position + ', #000, rgba(0,0,0,.5625) 25%, rgba(0,0,0,.25) 50%, rgba(0,0,0,.0625) 75%, transparent)';
+                const masque = foyer('0 0') + ', ' + foyer('100% 100%') + ', linear-gradient(rgba(0,0,0,.12), rgba(0,0,0,.12))';
+                container.innerHTML = '';
+                container.style.opacity = opacity;
+                container.style.backgroundImage = 'radial-gradient(circle, currentColor ' + fixedRadius + 'px, transparent ' + (fixedRadius + 0.5) + 'px)';
+                container.style.backgroundSize = spacingX + 'px ' + spacingY + 'px';
+                container.style.backgroundPosition = (-spacingX / 2) + 'px ' + (-spacingY / 2) + 'px';
+                container.style.webkitMaskImage = masque;
+                container.style.maskImage = masque;
+                return;
+            }
+
             let svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor" opacity="' + opacity + '">';
 
             // Un semis clairsemé doit rester sur les rangées non décalées du

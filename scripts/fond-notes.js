@@ -59,6 +59,109 @@
 
     Array.prototype.forEach.call(document.querySelectorAll('.fond-note-texte'), ecrire);
 
+    // La plume : une note s'écrit sous les yeux, au moment où on l'atteint, d'abord
+    // les mots puis le trait. C'est ce qui la fait lire comme ajoutée à la main sur
+    // une page déjà imprimée. Rien de ceci sans .fond-anime, donc rien sans
+    // JavaScript ni quand on demande moins de mouvement : la note est là, simplement.
+    function preparer() {
+        if (!document.documentElement.classList.contains('fond-anime')) return;
+        if (!window.IntersectionObserver) return;
+
+        // Un seul stylo : il n'écrit qu'une chose à la fois. Les notes visibles en même
+        // temps passent à la file, de haut en bas puis de gauche à droite, et dans une
+        // note chaque trait attend que le précédent soit fini : le corps de la flèche,
+        // puis une branche de la pointe, puis l'autre. La durée suit ce qu'il y a à
+        // écrire, comme pour une vraie main : une longue phrase prend plus de temps
+        // qu'un mot, la pointe d'une flèche moins que son corps.
+        var ENTREE_CARTE = 450;    // ms : on n'annote pas une carte qui n'est pas posée
+        var PAR_LETTRE = 55;       // ms
+        var MOTS_MIN = 450;        // ms
+        var VITESSE_TRAIT = 0.4;   // px par ms
+        var TRAIT_MIN = 110;       // ms
+        var LEVER = 110;           // ms : le stylo se lève entre deux traits
+        var ENTRE_NOTES = 300;     // ms
+        var RANGEE = 60;           // px : deux notes plus proches sont sur la même rangée
+        var file = [];
+        var enCours = false;
+
+        // Pose sur chaque geste de la note son retard et sa durée, et rend le moment où
+        // le stylo a fini.
+        function planifier(note, depart) {
+            var t = depart;
+
+            function mots() {
+                var texte = note.querySelector('.fond-note-texte');
+                var duree = Math.max(MOTS_MIN, texte.textContent.length * PAR_LETTRE);
+                texte.style.setProperty('--mots-retard', t + 'ms');
+                texte.style.setProperty('--mots-duree', duree + 'ms');
+                t += duree + LEVER;
+            }
+
+            function traits() {
+                Array.prototype.forEach.call(note.querySelectorAll('.fond-note-trait path'), function (trait) {
+                    // Un trait que la feuille de style cache n'a rien à dessiner.
+                    var repere = trait.getScreenCTM();
+                    if (!repere) return;
+                    var longueur = trait.getTotalLength() * Math.hypot(repere.a, repere.b);
+                    var duree = Math.max(TRAIT_MIN, Math.round(longueur / VITESSE_TRAIT));
+                    trait.style.setProperty('--trait-retard', t + 'ms');
+                    trait.style.setProperty('--trait-duree', duree + 'ms');
+                    t += duree + LEVER;
+                });
+            }
+
+            // On écrit dans le sens de la lecture : l'étoile vient avant son mot.
+            if (note.hasAttribute('data-trait-avant')) {
+                traits();
+                mots();
+            } else {
+                mots();
+                traits();
+            }
+            return t - LEVER;
+        }
+
+        function ordre(a, b) {
+            var ra = a.getBoundingClientRect();
+            var rb = b.getBoundingClientRect();
+            // Une distance plutôt que des cases fixes : selon le défilement, deux notes
+            // voisines tombaient de part et d'autre d'une limite et s'inversaient.
+            return Math.abs(ra.top - rb.top) < RANGEE ? ra.left - rb.left : ra.top - rb.top;
+        }
+
+        function suivante(premiere) {
+            if (!file.length) {
+                enCours = false;
+                return;
+            }
+            enCours = true;
+            file.sort(ordre);
+            var note = file.shift();
+            var fin = planifier(note, premiere ? ENTREE_CARTE : 0);
+            note.setAttribute('data-plume', 'ecrit');
+            setTimeout(suivante, fin + ENTRE_NOTES, false);
+        }
+
+        var observateur = new IntersectionObserver(function (entrees) {
+            entrees.forEach(function (entree) {
+                if (!entree.isIntersecting) return;
+                file.push(entree.target);
+                observateur.unobserve(entree.target);
+            });
+            if (!enCours) suivante(true);
+        }, { threshold: 0.2 });
+
+        Array.prototype.forEach.call(document.querySelectorAll('.fond-note'), function (note) {
+            Array.prototype.forEach.call(note.querySelectorAll('.fond-note-trait path'), function (trait) {
+                trait.setAttribute('pathLength', '1');
+            });
+            note.setAttribute('data-plume', 'attente');
+            observateur.observe(note);
+        });
+    }
+
+    preparer();
+
     // Le dictionnaire réécrit le texte de la note : il faut la recomposer.
     document.addEventListener('gumi:lang', function () {
         var notes = document.querySelectorAll('.fond-note-texte');

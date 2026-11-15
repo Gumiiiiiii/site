@@ -128,13 +128,18 @@ const CHECKS = [
         if (d.querySelectorAll('.fond-kpi').length !== 4) return 'expected 4 KPIs';
         if (d.querySelectorAll('.fond-projet').length !== 3) return 'expected exactly 3 projects';
         if (/Modularte/.test(d.body.textContent)) return 'Modularte should be gone';
+        if (d.querySelectorAll('.fond-chrono-barre').length !== 7) return 'expected 7 entries on the timeline';
+        if (d.querySelectorAll('.fond-langues dt').length !== 2) return 'expected 2 languages';
         // Les 1 200 reservations au total et les 500+ attribuees ne doivent
         // jamais etre confondues.
         if (/1[s ]?200 réservations attribu/i.test(d.body.textContent)) return '1,200 must not be described as attributed';
-        // Le carrousel duplique ses cartes pour boucler : les copies sont
-        // inertes et masquees, seules les originales comptent.
-        const avis = [...d.querySelectorAll('.fond-avis-carte')].filter((c) => !c.hasAttribute('aria-hidden'));
+        const avis = [...d.querySelectorAll('.fond-avis-carte')];
         if (avis.length !== 4) return 'expected 4 testimonials, got ' + avis.length;
+        // Chaque note a sa propre marque : jamais deux fois le meme geste.
+        const gestes = avis.map((c) => [...c.querySelector('.fond-note').classList].find((x) => x.startsWith('fond-note--')));
+        if (new Set(gestes).size !== 4) return 'each testimonial note needs its own mark, got ' + gestes.join(', ');
+        // Un seul guillemet, dessine par la feuille de style.
+        if (avis.some((c) => /[«»“”]/.test(c.querySelector('blockquote').textContent))) return 'a quote still carries its own quotation marks';
         // Chaque citation mene au profil LinkedIn de qui la signe : c'est la
         // seule chose qui la rend verifiable.
         if (avis.filter((c) => c.querySelector('a[href*="linkedin.com/in/"]')).length !== 4) return 'every testimonial needs its LinkedIn link';

@@ -199,6 +199,10 @@
         }
     }
 
+    // Arrive apres le filet de secours (voir cv.html) : la page etait dans le
+    // flux normal en l'attendant, elle reprend sa place sur la trame.
+    document.documentElement.classList.remove('fond-secours-flux');
+
     // Les polices changent les métriques une fois chargées : on replace les
     // titres à ce moment-là, sinon leur ligne de base rate la rangée.
     placer();

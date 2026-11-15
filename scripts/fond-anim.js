@@ -120,13 +120,12 @@
     var GROUPES = [
         '.fond-titre',
         '.fond-projets > .fond-projet',
-        '.fond-parcours > .fond-parcours-groupe',
+        '.fond-chrono',
         '.fond-competences-intro',
         '.fond-champs > .fond-champ',
         '.fond-boite-intro',
         '.fond-boite > .fond-boite-rang',
-        '.fond-avis-fleches',
-        '.fond-avis-cadre',
+        '.fond-avis > .fond-avis-carte',
         '.fond-passions > .fond-passion',
         '.fond-contact-intro',
         '.fond-contact > .fond-bloc'
