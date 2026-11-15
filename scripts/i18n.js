@@ -738,7 +738,7 @@
         fond_54: { fr: "Courant, C1, TOEIC 940 · présentations et réunions en contexte international", en: "Fluent, C1, TOEIC 940 · presentations and meetings in international settings" },
         fond_55: { fr: "Aujourd'hui, je me sens particulièrement à l'aise dans les 4 champs d'expertise ci-dessous :", en: "Today, I feel most at home in the four areas below:" },
         fond_56: { fr: "E-commerce et donnée produit", en: "E-commerce and product data" },
-        fond_57: { fr: "Acquisition et SEO", en: "Acquisition and SEO" },
+        fond_57: { fr: "Acquisition, SEO et GEO", en: "Acquisition, SEO and GEO" },
         fond_58: { fr: "Contenu et direction artistique", en: "Content and art direction" },
         fond_59: { fr: "Produit digital et analytics", en: "Digital product and analytics" },
         fond_60: { fr: "Structurer un catalogue, définir les attributs, enrichir les fiches et organiser leur diffusion sur les différents canaux.", en: "Structuring a catalogue, defining attributes, enriching product pages and organising how they are distributed across channels." },
