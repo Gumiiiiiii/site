@@ -8,15 +8,42 @@
         nav_tools: { fr: 'Outils', en: 'Tools' },
         nav_lang_title: { fr: 'Changer la langue', en: 'Switch language' },
         nav_theme_title: { fr: 'Changer le thème', en: 'Switch theme' },
-        nav_contact: { fr: 'Écrire à Pierre', en: 'Email Pierre' },
-        pager_prev: { fr: 'Page précédente', en: 'Previous page' },
-        pager_next: { fr: 'Page suivante', en: 'Next page' },
 
         // Homepage
         home_hero: {
             fr: "Je rassemble ici des outils et des expérimentations conçus par curiosité, pour donner vie à des idées et explorer de nouvelles directions.",
             en: "This is where I gather tools and experiments built out of curiosity, to bring ideas to life and explore new directions."
         },
+        home_tools_note: {
+            fr: 'Gratuits, sans compte. Presque tout se passe dans votre navigateur.',
+            en: 'Free, no account. Almost everything happens in your browser.'
+        },
+
+        // Post preview tool
+        tool_postprev_title: { fr: 'Aperçu de publication', en: 'Post preview' },
+        tool_postprev_desc: {
+            fr: 'Voyez votre publication sur Instagram, X, LinkedIn et Facebook avant de la publier, en local.',
+            en: 'See your post on Instagram, X, LinkedIn and Facebook before you publish it, locally.'
+        },
+        doc_pp_title: { fr: 'Aperçu de publication - Gumi.', en: 'Post preview - Gumi.' },
+        doc_pp_desc: {
+            fr: "Déposez une image ou une vidéo, écrivez votre texte, et voyez votre publication telle qu'elle apparaîtra sur Instagram, X, LinkedIn et Facebook.",
+            en: 'Drop an image or a video, write your text, and see your post as it will appear on Instagram, X, LinkedIn and Facebook.'
+        },
+        pp_tooltip: {
+            fr: "<strong>Voyez votre publication avant de la publier.</strong><br><br>Déposez une image ou une vidéo, écrivez votre texte : l'aperçu reprend le recadrage du média, la coupure du texte et la limite de caractères de chaque réseau.<br><br><i>Les maquettes sont des approximations, et rien ne quitte votre navigateur.</i>",
+            en: '<strong>See your post before you publish it.</strong><br><br>Drop an image or a video, write your text: the preview follows each network’s media crop, text truncation and character limit.<br><br><i>The mockups are approximations, and nothing leaves your browser.</i>'
+        },
+        pp_media_label: { fr: 'Média', en: 'Media' },
+        pp_dropzone: { fr: 'Déposez une image ou une vidéo', en: 'Drop an image or a video' },
+        pp_dropzone_hint: { fr: 'PNG, JPG, WebP, MP4, MOV...', en: 'PNG, JPG, WebP, MP4, MOV...' },
+        pp_remove: { fr: 'Retirer le média', en: 'Remove media' },
+        pp_text_label: { fr: 'Texte', en: 'Text' },
+        pp_text_placeholder: { fr: 'Écrivez votre publication...', en: 'Write your post...' },
+        pp_account_label: { fr: 'Compte', en: 'Account' },
+        pp_name_placeholder: { fr: 'Nom affiché', en: 'Display name' },
+        pp_handle_placeholder: { fr: 'identifiant', en: 'handle' },
+
         home_exp_title: { fr: 'Mes expérimentations', en: 'My experiments' },
         home_tools_title: { fr: 'Mes outils', en: 'My tools' },
         discover_all: { fr: 'Tout découvrir', en: 'See everything' },
@@ -418,7 +445,7 @@
         exp_card_ardacraft_social: { fr: "Emprunter les codes du voyage pour filmer la Terre du Milieu : 27 millions de vues en sept mois.", en: "Borrowing travel-reel grammar to film Middle-earth: 27 million views in seven months." },
 
         // Tools shared
-        back_tools: { fr: 'Retour aux outils', en: 'Back to tools' },
+        back_tools: { fr: "Retour à l'accueil", en: 'Back to home' },
         tooltip_offline: { fr: 'Fonctionne hors ligne', en: 'Works offline' },
         tooltip_online: { fr: 'Connexion internet requise', en: 'Internet connection required' },
         paste_added: { fr: 'Image collée ajoutée.', en: 'Pasted image added.' },

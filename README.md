@@ -5,9 +5,12 @@ Site portfolio personnel : une collection d'outils web et d'expérimentations (a
 ## Structure
 
 ```
-index.html                  Accueil
-outils.html                 Liste des outils
-experiments.html            Liste des expérimentations
+index.html                  Accueil : la seule liste du site. La phrase, les
+                            expérimentations et les outils tiennent en un écran ;
+                            scripts/trame.js dessine en points le numéro de
+                            l'expérimentation à l'affiche et l'icône de l'outil
+                            survolé. /outils et /experiments redirigent ici
+                            (vercel.json).
 experiments/<slug>.html     Pages d'articles. Le corps est PRÉ-RENDU dans le
                             fichier par build/prerender-articles.js depuis
                             scripts/articles-data.js (les moteurs qui n'exécutent
@@ -23,7 +26,9 @@ api/get-video.js            Fonction Vercel (extraction de médias via yt-dlp)
 api/_lib/extract.cjs        Logique partagée entre la fonction Vercel et server.js
 server.js                   Même API en serveur Express autonome (Render)
 scripts/                    JS par page + i18n.js (dictionnaire FR/EN) + vendor/
-styles/                     shared.css (global), tools-suite.css, article.css
+styles/                     shared.css (global), tools-suite.css, article.css,
+                            ecran.css (une page = un écran, sur ordinateur),
+                            accueil.css (la composition de l'accueil)
 fonts/                      Urbanist variable (auto-hébergée)
 media/                      Images, favicon, texture
 ```
@@ -57,7 +62,8 @@ node server.js     # API d'extraction en local (port 10000), nécessite yt-dlp +
 2. Copier une page de `experiments/` et adapter : `<title>`, meta description,
    canonical, balises OG, JSON-LD, `<h1>`, image de couverture et
    `window.GUMI_ARTICLE_SLUG`.
-3. Ajouter la carte dans `experiments.html` (et l'accueil si souhaité).
+3. Ajouter l'entrée dans la liste `.exps-liste` de `index.html`, en tête, et
+   renuméroter les suivantes.
 4. Ajouter l'URL (FR + EN) dans `sitemap.xml` et l'item dans `feed.xml`.
 5. `npm run build:en` puis committer `en/` (sinon `npm test` échoue).
 
@@ -65,8 +71,9 @@ node server.js     # API d'extraction en local (port 10000), nécessite yt-dlp +
 
 1. Copier une page de `tools/` et son script `scripts/tool-*.js`.
 2. Ajouter les clés de traduction dans `scripts/i18n.js`.
-3. Ajouter la carte dans `outils.html` (et l'accueil si souhaité), plus
-   l'URL (FR + EN) dans `sitemap.xml`.
+3. Ajouter la ligne dans la liste `.outils-liste` de `index.html` (numéro,
+   nom, icône, description) et mettre à jour le compteur, plus l'URL (FR + EN)
+   dans `sitemap.xml`. `npm test` échoue si un outil manque à l'accueil.
 4. Dans `sw.js` : ajouter la page et le script à `CORE_ASSETS` et incrémenter
    `VERSION` (sinon le badge « fonctionne hors ligne » ment).
 5. `npm run build:en` puis committer `en/` (sinon `npm test` échoue).

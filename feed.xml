@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
     <title>Gumi. — Expérimentations</title>
-    <link>https://gumi.ch/experiments</link>
+    <link>https://gumi.ch/</link>
     <atom:link href="https://gumi.ch/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Expérimentations digitales et retours d'expérience de Pierre (Gumi) : design, développement web et nouvelles technologies.</description>
     <language>fr</language>

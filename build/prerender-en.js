@@ -28,8 +28,6 @@ const CHECK_MODE = process.argv.includes('--check');
 // (legacy redirect stub).
 const PAGES = [
     'index.html',
-    'outils.html',
-    'experiments.html',
     'brand-guidelines.html',
     ...fs.readdirSync(path.join(ROOT, 'tools')).filter((f) => f.endsWith('.html')).map((f) => 'tools/' + f),
     ...fs.readdirSync(path.join(ROOT, 'experiments')).filter((f) => f.endsWith('.html')).map((f) => 'experiments/' + f)

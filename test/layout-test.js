@@ -90,22 +90,8 @@ const CHECKS = [
         }
     },
     {
-        name: 'mobile: category header leaves room for the cards',
-        async run(page) {
-            await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
-            try {
-                await page.goto(BASE + '/outils', { waitUntil: 'networkidle0' });
-                const gridTop = await page.evaluate(() => Math.round(document.querySelector('.grid-target').getBoundingClientRect().top));
-                // Hero + search + filters once filled the whole first viewport.
-                if (gridTop > 844 - 60) throw new Error('tools grid starts at ' + gridTop + 'px in an 844px viewport');
-            } finally {
-                await page.setViewport({ width: 1440, height: 900 });
-            }
-        }
-    },
-    {
-        // La regle du site (styles/ecran.css) : sur ordinateur, l accueil,
-        // les deux listes et chaque outil tiennent dans la fenetre. Ni la
+        // La regle du site (styles/ecran.css) : sur ordinateur, l accueil
+        // et chaque outil tiennent dans la fenetre. Ni la
         // page ni la colonne des reglages ne defilent, a l etat initial,
         // jusqu a un portable en 1366 x 768 (650 px utiles). Le panneau de
         // resultat, lui, peut defiler : son contenu n a pas de borne.
@@ -113,7 +99,7 @@ const CHECKS = [
         // Un outil ajoute a tools/ entre dans ce test sans qu on y touche.
         name: 'ecran: aucune page ne defile sur ordinateur',
         async run(page) {
-            const pages = ['/', '/outils', '/experiments'].concat(
+            const pages = ['/'].concat(
                 fs.readdirSync(path.join(ROOT, 'tools'))
                     .filter((f) => f.endsWith('.html'))
                     .map((f) => '/tools/' + f.replace(/\.html$/, ''))
@@ -137,7 +123,7 @@ const CHECKS = [
                                 page: document.documentElement.scrollHeight - window.innerHeight,
                                 large: document.documentElement.scrollWidth - window.innerWidth,
                                 reglages: Math.max(depasse('.left-col'), depasse('.main-grid')),
-                                montres: [...document.querySelectorAll('[data-ecran] > *')].filter((e) => e.offsetParent).length
+                                montres: [...document.querySelectorAll('.outil, .exp')].filter((e) => e.offsetParent).length
                             };
                           });
                         });
@@ -145,7 +131,7 @@ const CHECKS = [
                         if (m.page > 0) fautes.push(ou + ' : la page depasse de ' + m.page + ' px');
                         if (m.large > 0) fautes.push(ou + ' : la page depasse en largeur de ' + m.large + ' px');
                         if (m.reglages > 1) fautes.push(ou + ' : les reglages depassent de ' + m.reglages + ' px');
-                        if (!p.startsWith('/tools/') && m.montres === 0) fautes.push(ou + ' : la liste est vide');
+                        if (p === '/' && m.montres < 10) fautes.push(ou + ' : l index est incomplet (' + m.montres + ')');
                     }
                 }
             } finally {
@@ -177,35 +163,52 @@ const CHECKS = [
         }
     },
     {
-        // Une liste plus longue que l ecran se decoupe en pages au lieu de
-        // pousser la page : c est ce qui laisse ajouter des outils et des
-        // articles sans rouvrir la mise en page. Simule ici sur une fenetre
-        // basse, ou les onze outils ne tiennent plus.
-        name: 'ecran: une liste trop longue se decoupe en pages',
+        // La trame de l accueil (scripts/trame.js) dessine en points le
+        // numero de l experimentation a l affiche, puis l icone de l outil
+        // survole. On releve l encre posee sur la toile, case par case : elle
+        // doit exister, se redistribuer au survol d un outil, et ne jamais
+        // passer sous la phrase.
+        name: 'accueil: la trame dessine, et suit le survol',
         async run(page) {
-            await page.setViewport({ width: 1100, height: 600 });
+            await page.setViewport({ width: 1440, height: 780 });
             try {
-                await page.goto(BASE + '/outils', { waitUntil: 'networkidle0' });
-                const lire = () => page.evaluate(() => ({
-                    total: document.querySelectorAll('.grid-target > *').length,
-                    montres: [...document.querySelectorAll('.grid-target > *')].filter((e) => e.offsetParent).map((e) => e.getAttribute('href')),
-                    pager: (document.querySelector('.ecran-pager[data-actif] span') || {}).textContent || '',
-                    page: document.documentElement.scrollHeight - window.innerHeight
-                }));
-                const avant = await lire();
-                if (avant.montres.length >= avant.total) throw new Error('tout tient : la fenetre du test est trop haute');
-                if (!/^1 \/ \d+$/.test(avant.pager)) throw new Error('pagination absente : "' + avant.pager + '"');
-                if (avant.page > 0) throw new Error('la page depasse de ' + avant.page + ' px');
-                await page.click('.ecran-pager button[data-pas="1"]');
-                const apres = await lire();
-                if (!/^2 \/ \d+$/.test(apres.pager)) throw new Error('la page 2 ne s affiche pas : "' + apres.pager + '"');
-                if (apres.montres.some((h) => avant.montres.includes(h))) throw new Error('la page 2 repete la page 1');
-                // Un filtre repart de la premiere page et ne garde que sa categorie.
-                await page.click('.filter-btn[data-filter="marketing"]');
-                const filtre = await lire();
-                if (filtre.montres.length !== 2) throw new Error('filtre marketing : ' + filtre.montres.length + ' outils au lieu de 2');
-                if (filtre.pager) throw new Error('la pagination reste affichee pour 2 outils');
+                await page.goto(BASE + '/', { waitUntil: 'networkidle0' });
+                await page.mouse.move(700, 120);
+                await new Promise((r) => setTimeout(r, 2600));
+                const encre = () => page.evaluate(() => {
+                    const c = document.getElementById('trame');
+                    const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+                    const zone = (x0, y0, x1, y1) => {
+                        let n = 0;
+                        for (let y = y0; y < y1; y += 3) for (let x = x0; x < x1; x += 3) if (d[(y * c.width + x) * 4 + 3] > 8) n += 1;
+                        return n;
+                    };
+                    const k = c.width / innerWidth;
+                    const r = document.getElementById('hero-text').getBoundingClientRect();
+                    const aire = (g, h, dr, b) => zone(Math.round(g * k), Math.round(h * k), Math.round(dr * k), Math.round(b * k)) / ((dr - g) * (b - h));
+                    const cases = [];
+                    for (let j = 0; j < 4; j++) for (let i = 0; i < 6; i++) {
+                        cases.push(zone(Math.round(c.width * i / 6), Math.round(c.height * j / 4), Math.round(c.width * (i + 1) / 6), Math.round(c.height * (j + 1) / 4)));
+                    }
+                    return {
+                        tout: zone(0, 0, c.width, c.height),
+                        cases,
+                        sousPhrase: aire(r.left + 40, r.top + 40, r.right - 40, r.bottom - 40)
+                    };
+                });
+                const affiche = await encre();
+                if (affiche.tout < 500) throw new Error('la toile est vide (' + affiche.tout + ')');
+                if (!(await page.$('.exp.est-affiche'))) throw new Error('aucune experimentation a l affiche');
+                await page.hover('.outil[href="tools/qrcode"]');
+                await new Promise((r) => setTimeout(r, 2200));
+                const outil = await encre();
+                const ecart = outil.cases.reduce((t, n, i) => t + Math.abs(n - affiche.cases[i]), 0);
+                if (ecart < affiche.tout * 0.25) throw new Error('le survol d un outil ne change pas la trame (ecart ' + ecart + ' sur ' + affiche.tout + ')');
+                if (affiche.sousPhrase > 0.004 || outil.sousPhrase > 0.004) throw new Error('la trame passe sous la phrase (' + affiche.sousPhrase.toFixed(4) + ', ' + outil.sousPhrase.toFixed(4) + ')');
+                const note = await page.evaluate(() => document.getElementById('outils-note').textContent);
+                if (!/QR/.test(note)) throw new Error('la note ne decrit pas l outil survole : ' + note);
             } finally {
+                await page.mouse.move(0, 0);
                 await page.setViewport({ width: 1440, height: 900 });
             }
         }

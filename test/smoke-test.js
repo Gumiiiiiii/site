@@ -2,6 +2,7 @@
 // fails on script errors or missing critical content.
 // Usage: npm test
 const { fork } = require('child_process');
+const fs = require('fs');
 const path = require('path');
 const { JSDOM, ResourceLoader, VirtualConsole } = require('jsdom');
 
@@ -55,22 +56,22 @@ function loadPage(url) {
 const CHECKS = [
     { path: '/', assert(d) {
         if (!d.title.includes('Gumi')) return 'bad title: ' + d.title;
-        if (d.querySelectorAll('.navbar a').length < 3) return 'navbar not injected';
-        if (d.querySelectorAll('.accueil-exps a.ligne').length !== 3) return 'expected 3 experiment links';
-        if (d.querySelectorAll('.accueil-outils a.ligne').length < 8) return 'expected 8+ tool links';
-        if (!d.querySelector('.footer-byline')) return 'missing footer byline';
+        if (!d.querySelector('.navbar .nav-logo')) return 'navbar not injected';
+        if (d.querySelectorAll('.exps-liste a.exp[data-trame-image]').length !== 3) return 'expected 3 experiment links';
+        if (!d.querySelector('a.exp[href$="ardacraft-map"]')) return 'missing map article link';
+        if (d.querySelectorAll('.outils-liste a.outil').length < 8) return 'expected 8+ tool links';
+        // The homepage is the only index: every entry must lead somewhere.
+        for (const a of d.querySelectorAll('.outils-liste a.outil, .exps-liste a.exp')) {
+            if (!fs.existsSync(path.join(ROOT, a.getAttribute('href') + '.html'))) return 'index links to a missing page: ' + a.getAttribute('href');
+        }
+        // And every tool must be in it, or nothing leads to that tool.
+        for (const f of fs.readdirSync(path.join(ROOT, 'tools')).filter((x) => x.endsWith('.html'))) {
+            if (!d.querySelector('a.outil[href="tools/' + f.replace(/\.html$/, '') + '"]')) return 'tool missing from the index: ' + f;
+        }
+        // Pierre does not want to be contacted through the site.
+        if (d.querySelector('a[href^="mailto:"]')) return 'the homepage must not carry a contact link';
         // The CV landing stays hidden: no public page may link to it.
         if (d.querySelector('a[href="/cv"], a[href="cv"], a[href*="pierre.gumi.ch"]')) return 'CV page must not be linked from the homepage';
-    } },
-    { path: '/experiments', assert(d) {
-        if (d.querySelectorAll('.experiments-grid .card').length !== 3) return 'expected 3 cards';
-        if (!d.querySelector('a.card[href$="ardacraft-map"]')) return 'missing map article card';
-        if (d.querySelectorAll('.filter-btn[aria-pressed]').length === 0) return 'filters missing aria-pressed';
-        // Every card is a published article now: no placeholder may ship.
-        if (d.querySelectorAll('.experiments-grid .card:not(a)').length !== 0) return 'non-link (placeholder) card present';
-    } },
-    { path: '/outils', assert(d) {
-        if (d.querySelectorAll('.tool-card').length < 8) return 'expected 8+ tool cards';
     } },
     { path: '/experiments/ardacraft', async assert(d, w) {
         if (d.getElementById('post-content').children.length === 0) return 'article body empty';
@@ -104,7 +105,10 @@ const CHECKS = [
     { path: '/tools/contrast-checker' },
     { path: '/tools/placeholder-text' },
     { path: '/tools/video-compressor' },
-    { path: '/tools/password-generator' },
+    { path: '/tools/post-preview', assert(d) {
+        if (d.querySelectorAll('#pp-tabs .pp-onglet').length !== 4) return 'network tabs not built';
+        if (!d.querySelector('#pp-scale .pp-carte')) return 'preview not rendered';
+    } },
     { path: '/tools/share-preview', assert(d) {
         if (!d.getElementById('sp-url')) return 'missing URL input';
     } },

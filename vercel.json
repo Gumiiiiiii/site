@@ -22,6 +22,36 @@
       ],
       "destination": "/en",
       "permanent": false
+    },
+    {
+      "source": "/outils",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/experiments",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/tools/password-generator",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/en/outils",
+      "destination": "/en",
+      "permanent": true
+    },
+    {
+      "source": "/en/experiments",
+      "destination": "/en",
+      "permanent": true
+    },
+    {
+      "source": "/en/tools/password-generator",
+      "destination": "/en",
+      "permanent": true
     }
   ],
   "rewrites": [

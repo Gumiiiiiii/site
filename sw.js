@@ -5,20 +5,18 @@
 // deploy is picked up on the next visit; the cache is the offline fallback.
 // One cache for precache + runtime, so a network refresh overwrites the
 // precached copy instead of being shadowed by it.
-const VERSION = 'gumi-sw-v10';
+const VERSION = 'gumi-sw-v11';
 const CACHE_NAME = VERSION;
 
 const CORE_ASSETS = [
     '/',
-    '/outils',
-    '/experiments',
     '/404.html',
     '/tools/file-converter',
     '/tools/qrcode',
     '/tools/text-modifier',
     '/tools/contrast-checker',
     '/tools/placeholder-text',
-    '/tools/password-generator',
+    '/tools/post-preview',
     '/tools/video-compressor',
     '/tools/media-downloader',
     '/tools/share-preview',
@@ -28,13 +26,13 @@ const CORE_ASSETS = [
     '/styles/tools-suite.css',
     '/styles/outil-papier.css',
     '/styles/ecran.css',
+    '/styles/accueil.css',
     '/styles/article.css',
     '/scripts/i18n.js',
     '/scripts/navbar.js',
     '/scripts/page-effects.js',
     '/scripts/tools-common.js',
-    '/scripts/filters.js',
-    '/scripts/ecran.js',
+    '/scripts/trame.js',
     '/scripts/points-champ.js',
     '/scripts/outil-papier.js',
     '/scripts/tool-file-converter.js',
@@ -42,7 +40,7 @@ const CORE_ASSETS = [
     '/scripts/tool-text-modifier.js',
     '/scripts/tool-contrast-checker.js',
     '/scripts/tool-placeholder-text.js',
-    '/scripts/tool-password-generator.js',
+    '/scripts/tool-post-preview.js',
     '/scripts/tool-video-compressor.js',
     '/scripts/tool-media-downloader.js',
     '/scripts/tool-share-preview.js',

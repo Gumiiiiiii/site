@@ -2,195 +2,21 @@
    Une page, un écran
    ==========================================================================
 
-   L'accueil, les deux pages de liste et les outils tiennent dans la fenêtre,
-   sans défilement de page, sur un écran d'ordinateur. C'est la règle du
-   site : un outil qui fait ce qu'il dit n'a pas besoin qu'on le cherche.
+   L'accueil et les outils tiennent dans la fenêtre, sans défilement de
+   page, sur un écran d'ordinateur. C'est la règle du site : un outil qui
+   fait ce qu'il dit n'a pas besoin qu'on le cherche.
 
    Cette feuille se charge en dernier, sur les seules pages qui portent
-   « ecran » sur <body>. Elle a deux parties :
+   « ecran » sur <body>. Elle tient le cadre et les outils ; la composition
+   de l'accueil est dans styles/accueil.css.
 
-     · ce qui vaut partout : l'accueil, qui n'existe que sous cette forme ;
-     · ce qui ne vaut que sur ordinateur : le cadre d'un écran, le rail, la
-       pagination. Sous ce seuil, la page défile comme avant.
+   Le seuil est repris tel quel dans scripts/trame.js, scripts/page-effects.js,
+   scripts/outil-papier.js et test/layout-test.js : tous doivent rester
+   identiques. Sous ce seuil, la page défile comme avant.
 
-   Le seuil est repris tel quel dans scripts/ecran.js et dans
-   test/layout-test.js : les trois doivent rester identiques.
-
-   Quand un contenu ne tient plus, il ne pousse pas la page : une liste se
-   découpe en pages (scripts/ecran.js), et un résultat sans borne, celui
-   d'une conversion par exemple, défile dans son propre panneau.
-   ========================================================================== */
-
-:root { --rail: 11rem; }
-
-/* Écarté par le filtre ou la recherche (scripts/filters.js), ou rangé sur
-   une autre page de la liste (scripts/ecran.js). */
-[data-filtre="hors"],
-.ecran-hors-page { display: none !important; }
-
-/* Le lien de contact n'a sa place que dans le rail : la pastille flottante
-   du téléphone est déjà pleine. */
-.nav-mail { display: none !important; }
-
-.ecran-pager { display: none; }
-
-/* ==========================================================================
-   1 · L'accueil
-   ========================================================================== */
-
-.accueil {
-    padding: 5.5rem 1.5rem 7rem;
-}
-
-.accueil-phrase {
-    text-align: left;
-    max-width: 27em;
-    font-size: clamp(1.55rem, 2.3vw, 2.5rem);
-    font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-}
-
-.accueil-colonnes {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-    margin-top: 3rem;
-}
-
-.accueil-bloc { min-width: 0; }
-
-.accueil-tete {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 0.9rem;
-}
-
-.accueil-tete h2 {
-    font-size: 1.15rem;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-    line-height: 1.2;
-}
-
-/* Un lien de la charte : à l'encre au repos, la couleur au survol. */
-.accueil-tout {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--encre-07);
-    text-decoration: none;
-    white-space: nowrap;
-    transition: color 0.2s ease;
-}
-.accueil-tout svg {
-    width: 16px;
-    height: 16px;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.accueil-tout:hover,
-.accueil-tout:focus-visible { color: var(--accent-ink); }
-.accueil-tout:hover svg,
-.accueil-tout:focus-visible svg { transform: translateX(3px); }
-
-.accueil-outils,
-.accueil-exps {
-    display: grid;
-    gap: 0.6rem;
-    align-content: start;
-}
-.accueil-outils { grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
-
-/* Une ligne de l'accueil : une surface opaque posée sur le papier, comme
-   toute carte du site, ramenée à ce qu'il faut pour choisir. */
-.ligne {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    min-width: 0;
-    padding: 0.5rem 0.9rem 0.5rem 0.5rem;
-    color: var(--encre-1);
-    text-decoration: none;
-    background-color: var(--bg);
-    background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
-    border: 1px solid var(--filet);
-    border-radius: 0.85rem;
-    transition: border-color 0.2s ease, color 0.2s ease;
-}
-.ligne:hover,
-.ligne:focus-visible {
-    border-color: var(--accent-ink);
-    color: var(--accent-ink);
-}
-
-.ligne .tool-icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 0.6rem;
-}
-.ligne .tool-icon svg { width: 20px; height: 20px; }
-
-.ligne-titre {
-    font-size: 0.98rem;
-    font-weight: 700;
-    line-height: 1.3;
-    min-width: 0;
-}
-
-.ligne--exp { align-items: center; gap: 1rem; }
-.ligne--exp img {
-    width: 7.5rem;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    border-radius: 0.5rem;
-    flex-shrink: 0;
-    background-image: linear-gradient(var(--voile), var(--voile));
-}
-.ligne--exp .ligne-titre {
-    font-weight: 600;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    overflow: hidden;
-}
-
-.accueil-pied {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 0.5rem 1.5rem;
-    margin-top: 2.5rem;
-    font-size: 0.86rem;
-    color: var(--encre-05);
-}
-.accueil-pied .footer-byline {
-    font-size: inherit;
-    color: inherit;
-}
-.accueil-pied a {
-    color: var(--encre-07);
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: 0.25em;
-    text-decoration-thickness: 1.5px;
-    text-decoration-color: var(--filet);
-    transition: color 0.2s ease, text-decoration-color 0.2s ease;
-}
-.accueil-pied a:hover,
-.accueil-pied a:focus-visible {
-    color: var(--accent-ink);
-    text-decoration-color: var(--accent-ink);
-}
-
-/* ==========================================================================
-   2 · Sur ordinateur : un écran
+   Quand un contenu ne tient plus, il ne pousse pas la page : un résultat
+   sans borne, celui d'une conversion par exemple, défile dans son propre
+   panneau.
    ========================================================================== */
 
 @media (min-width: 1100px) and (min-height: 600px) {
@@ -201,43 +27,25 @@
         overflow: hidden;
     }
 
-    /* La feuille occupe l'écran entier : il n'y a plus de table sombre
-       dessous, puisque plus rien ne défile pour la découvrir. */
-    body.ecran.shell-page { background-color: var(--bg); }
-
-    body.ecran .site-content {
-        height: 100vh;
-        height: 100dvh;
-        min-height: 0;
-        margin: 0;
-        padding: 2rem 2.5rem 1.5rem var(--rail);
-        box-shadow: none;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
-
     /* ----------------------------------------------------------------------
-       Le rail
+       La barre
        ----------------------------------------------------------------------
-       La barre flottante du bas occupait la hauteur, la seule dimension
-       comptée ici. Elle passe sur le bord gauche, comme sur pierre.gumi.ch :
-       le logo en haut, les deux rubriques au milieu, les réglages en bas. */
+       La pastille flottante du bas occupait la hauteur, la seule dimension
+       comptée ici. Elle se réduit à un groupe discret en haut à droite : le
+       logo, qui ramène à l'accueil, la langue et le thème. */
 
     body.ecran .navbar {
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: var(--rail);
+        top: 0.9rem;
+        right: 1.5rem;
+        bottom: auto;
+        left: auto;
+        width: auto;
         min-width: 0;
         max-width: none;
-        height: auto;
+        height: 40px;
         transform: none;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 0;
-        padding: 1.6rem 1rem 1.4rem 1.5rem;
+        gap: 0.35rem;
+        padding: 0;
         background: none;
         -webkit-backdrop-filter: none;
         backdrop-filter: none;
@@ -248,247 +56,8 @@
         overflow: visible;
         transition: none;
     }
-
     body.ecran .nav-sep { display: none; }
-
-    body.ecran .nav-logo { padding: 0 !important; }
-
-    body.ecran .nav-group--links {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    body.ecran .navbar .nav-group--links a {
-        padding: 0;
-        font-size: 0.92rem;
-        font-weight: 600;
-        color: var(--encre-07);
-    }
-    body.ecran .navbar .nav-group--links a:hover { color: var(--encre-1); }
-    /* L'entrée courante du rail : l'un des emplacements de la couleur. */
-    body.ecran .navbar .nav-group--links a.active {
-        color: var(--accent-ink);
-        font-weight: 700;
-    }
-
-    body.ecran .nav-group--controls {
-        gap: 0.15rem;
-        margin-left: -0.45rem;
-    }
-
-    body.ecran .nav-mail {
-        display: inline-flex !important;
-        align-items: center;
-        justify-content: center;
-        width: 34px;
-        height: 34px;
-        padding: 0;
-        border-radius: 50%;
-        color: var(--encre-1);
-        transition: color 0.2s ease, background 0.2s ease;
-    }
-    body.ecran .nav-mail svg { width: 19px; height: 19px; }
-    body.ecran .nav-mail:hover {
-        background: rgba(var(--text-rgb), 0.06);
-        color: var(--accent-ink);
-    }
-
-    /* ----------------------------------------------------------------------
-       L'accueil
-       ---------------------------------------------------------------------- */
-
-    body.ecran .accueil { padding-top: clamp(2rem, 7vh, 4.5rem); }
-
-    body.ecran .accueil-colonnes {
-        flex: 1;
-        min-height: 0;
-        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-        grid-template-rows: minmax(0, 1fr);
-        gap: 3rem;
-        margin-top: clamp(1.5rem, 6vh, 3.5rem);
-    }
-
-    body.ecran .accueil-bloc {
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
-    }
-
-    body.ecran .accueil-outils,
-    body.ecran .accueil-exps {
-        flex: 1;
-        min-height: 0;
-        overflow: hidden;
-    }
-    body.ecran .accueil-outils { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-    body.ecran .accueil-pied { margin-top: 1rem; }
-    /* L'adresse est dans le rail. */
-    body.ecran .accueil-pied a { display: none; }
-
-    /* ----------------------------------------------------------------------
-       Les pages de liste
-       ----------------------------------------------------------------------
-       L'en-tête prenait 420 px avant la première carte. Il tient maintenant
-       en deux lignes : le titre et sa phrase, puis la recherche et les
-       filtres. Tout le reste va à la grille. */
-
-    body.ecran .container {
-        flex: 1;
-        min-height: 0;
-        width: 100%;
-        max-width: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-    }
-
-    body.ecran .hero {
-        padding: 0;
-        margin-bottom: 1.1rem;
-        display: flex;
-        align-items: baseline;
-        gap: 1.5rem;
-    }
-    body.ecran .hero h1 {
-        font-size: 2.25rem;
-        font-weight: 800;
-        line-height: 1.15;
-        margin: 0;
-        white-space: nowrap;
-    }
-    body.ecran .hero p {
-        font-size: 0.98rem;
-        line-height: 1.4;
-        max-width: 36rem;
-        opacity: 1;
-        color: var(--encre-07);
-    }
-
-    body.ecran .controls-wrapper {
-        flex-wrap: nowrap;
-        gap: 1rem;
-        margin-bottom: 1.25rem;
-    }
-    body.ecran .search-wrapper {
-        flex: 0 1 17rem;
-        max-width: 17rem;
-    }
-    body.ecran .search-input {
-        padding: 9px 14px 9px 40px;
-        font-size: 0.92rem;
-        border-radius: 0.6rem;
-    }
-    body.ecran .search-icon { left: 13px; width: 17px; height: 17px; }
-    body.ecran .filters-group { gap: 0.5rem; flex-wrap: nowrap; }
-    body.ecran .filter-btn { padding: 6px 13px; font-size: 0.88rem; white-space: nowrap; }
-    body.ecran .filter-count { width: 21px; height: 21px; font-size: 0.78rem; margin-left: 7px; }
-
-    /* Les marges automatiques de shared.css centrent la grille : dans une
-       colonne flexible, elles la réduisent à la largeur de son contenu. */
-    body.ecran .grid-target {
-        width: 100%;
-        max-width: none;
-        margin: 0;
-        flex: 1;
-        min-height: 0;
-        overflow: hidden;
-        align-content: start;
-    }
-
-    body.ecran .tools-grid-full {
-        grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
-        grid-auto-rows: 6.9rem;
-        gap: 1rem;
-    }
-    body.ecran .tools-grid-full .tool-card {
-        padding: 0.9rem 1rem;
-        gap: 0.85rem;
-        border-radius: 1rem;
-        overflow: hidden;
-    }
-    body.ecran .tools-grid-full .tool-icon { width: 40px; height: 40px; border-radius: 0.65rem; }
-    body.ecran .tools-grid-full .tool-icon svg { width: 21px; height: 21px; }
-    body.ecran .tools-grid-full .tool-text { gap: 0.25rem; min-width: 0; }
-    body.ecran .tools-grid-full .tool-title { font-size: 1.02rem; line-height: 1.25; }
-    body.ecran .tools-grid-full .tool-desc {
-        font-size: 0.84rem;
-        line-height: 1.38;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        line-clamp: 2;
-        overflow: hidden;
-    }
-
-    body.ecran .experiments-grid {
-        grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
-        gap: 1.25rem;
-    }
-    body.ecran .experiments-grid .card {
-        height: auto;
-        padding: 0.75rem;
-        border-radius: 1.25rem;
-    }
-    body.ecran .experiments-grid .card-inner { gap: 0.75rem; height: auto; }
-    body.ecran .experiments-grid .card-image { border-radius: 0.7rem; }
-    /* Trois lignes, toujours : des cartes de même hauteur font des pages
-       de même contenance, quel que soit le titre. */
-    body.ecran .experiments-grid .card-title {
-        font-size: 1rem;
-        line-height: 1.36;
-        height: calc(3 * 1.36em);
-        padding: 0 0.25rem;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
-        line-clamp: 3;
-        overflow: hidden;
-    }
-
-    /* ----------------------------------------------------------------------
-       La pagination
-       ----------------------------------------------------------------------
-       Elle n'apparaît que lorsqu'une liste dépasse un écran. */
-
-    .ecran-pager[data-actif] {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 0.6rem;
-        padding-top: 0.9rem;
-        font-size: 0.88rem;
-        font-weight: 700;
-        color: var(--encre-07);
-        font-variant-numeric: tabular-nums;
-    }
-    .ecran-pager button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 34px;
-        height: 34px;
-        padding: 0;
-        border-radius: 50%;
-        border: 1.5px solid var(--filet);
-        background: var(--bg);
-        color: var(--encre-1);
-        cursor: pointer;
-        transition: border-color 0.2s ease, color 0.2s ease;
-    }
-    .ecran-pager button svg { width: 18px; height: 18px; }
-    .ecran-pager button:hover:not(:disabled),
-    .ecran-pager button:focus-visible:not(:disabled) {
-        border-color: var(--accent-ink);
-        color: var(--accent-ink);
-    }
-    .ecran-pager button:disabled {
-        color: var(--encre-045);
-        border-color: var(--filet-fin);
-        cursor: default;
-    }
+    body.ecran .nav-logo { padding: 0 0.4rem 0 0 !important; }
 
     /* ----------------------------------------------------------------------
        Les outils
@@ -502,7 +71,7 @@
         max-width: none;
         height: 100vh;
         height: 100dvh;
-        padding: 1rem 2rem 1.5rem var(--rail);
+        padding: 1rem 2rem 1.5rem;
         display: grid;
         grid-template-columns: auto minmax(0, 1fr);
         grid-template-rows: auto minmax(0, 1fr);
@@ -511,7 +80,8 @@
         align-items: center;
     }
 
-    /* Le rail dit déjà « Outils » : le retour se réduit à sa flèche. */
+    /* Le retour se réduit à sa flèche : elle ramène à l'accueil, où sont
+       tous les outils. */
     body.ecran .back-link {
         grid-column: 1;
         margin: 0;
@@ -612,18 +182,12 @@
 }
 
 /* ==========================================================================
-   3 · Sur un écran bas
+   Sur un écran bas
    ==========================================================================
    Un portable en 1366 × 768 laisse 650 px à la page. Les commandes se
    resserrent d'un cran pour que rien ne passe sous le bord. */
 
 @media (min-width: 1100px) and (min-height: 600px) and (max-height: 800px) {
-
-    body.ecran .accueil-outils,
-    body.ecran .accueil-exps { gap: 0.5rem; }
-    body.ecran .ligne { padding: 0.35rem 0.8rem 0.35rem 0.35rem; }
-    body.ecran .ligne .tool-icon { width: 34px; height: 34px; }
-    body.ecran .ligne--exp img { width: 6.25rem; }
 
     body.ecran .main-wrapper { row-gap: 0.9rem; padding-bottom: 1.1rem; }
     body.ecran .control-row { gap: 0.5rem; margin-bottom: 1rem; }
