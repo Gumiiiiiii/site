@@ -79,8 +79,10 @@
     align-items: baseline;
     justify-content: space-between;
     gap: 1rem;
-    padding-bottom: 0.6rem;
-    border-bottom: 1.5px solid var(--encre-1);
+    /* Le filet est une rangée de points, au pas de la trame du fond (10 px) :
+       l'interface est faite de la même matière que le paysage. */
+    padding-bottom: calc(0.6rem + 4px);
+    background: radial-gradient(circle, var(--encre-1) 1.4px, transparent 1.9px) left bottom / 10px 4px repeat-x;
 }
 .bloc-tete h2 {
     font-size: 1.05rem;
@@ -164,7 +166,8 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 0;
-    border-bottom: 1px solid var(--filet-fin);
+    /* Entre les lignes, des points plus fins et plus pâles. */
+    background: radial-gradient(circle, rgba(var(--text-rgb), 0.3) 0.9px, transparent 1.4px) left bottom / 10px 3px repeat-x;
     color: var(--encre-1);
     text-decoration: none;
 }
@@ -325,6 +328,7 @@
         scrollbar-width: none;
     }
     body.ecran .outils-liste::-webkit-scrollbar { display: none; }
+    body.ecran .outils-liste > li:last-child .outil { background: none; }
     body.ecran .outils-liste > li:last-child .outil,
     body.ecran .exps-liste > li:last-child .exp { border-bottom: 0; padding-bottom: 0; }
 
