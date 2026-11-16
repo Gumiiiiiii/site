@@ -31,7 +31,7 @@
     // Les lumières : une seconde encre, claire, pour ce que le soleil touche.
     // L'encre grise dessine les ombres ; celle-ci pose des points blancs sur
     // le papier (en sombre, des points plus vifs que les autres).
-    var lumiere = 'rgba(255, 249, 238, 0.6)', lx, ly, lr;
+    var lumiere = 'rgba(255, 249, 238, 0.36)', lx, ly, lr;
     var boucle = 0, dernier = 0, debut = -1;
     // L'apparition : au premier dessin, les points se développent depuis
     // l'horizon vers les bords, comme une image qui monte dans le bain du
@@ -60,8 +60,8 @@
     function lireTheme() {
         var rgb = (getComputedStyle(document.documentElement).getPropertyValue('--text-rgb') || '26, 26, 26').trim();
         sombre = document.documentElement.getAttribute('data-theme') === 'dark';
-        encre = 'rgba(' + rgb + ', ' + (sombre ? 0.15 : 0.12) + ')';
-        lumiere = sombre ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 249, 238, 0.6)';
+        encre = 'rgba(' + rgb + ', ' + (sombre ? 0.17 : 0.145) + ')';
+        lumiere = sombre ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 249, 238, 0.36)';
     }
 
     // La crête, relevée sur une photo prise du sud : à l'ouest une longue
@@ -178,7 +178,7 @@
                 var v = (hy - y) / ch;                       // 0 au pied, 1 à la pointe
                 if (v < 0 || v > 1) continue;
                 var demiL = hauteur * 0.013 * Math.sin(Math.PI * Math.pow(v, 0.62)) * (1 - v * 0.2);
-                if (Math.abs(x - cxp) < demiL) cypres = 0.62;
+                if (Math.abs(x - cxp) < demiL) cypres = 0.85;
             }
 
             if (cypres) {
@@ -187,14 +187,14 @@
                 // La haie : un aplat sombre, qui rejoint en bas le ton du
                 // champ. Son faîte accroche la lumière.
                 var d2 = y - col2;
-                ton = 0.44 - 0.2 * lisse(0, hy - col2, d2);
+                ton = 0.6 - 0.18 * lisse(0, hy - col2, d2);
                 // Son faîte : un trait plein, sur une rangée entière de points.
-                if (d2 < 9.5) bord = 0.48;
+                if (d2 < 9.5) bord = 0.66;
             } else if (y >= col1 && y < col2) {
                 // Les collines : un aplat clair, à peine plus dense vers le
                 // bas, sous une crête fine.
                 var d1 = y - col1;
-                ton = 0.11 + 0.05 * lisse(0, hauteur * 0.06, d1);
+                ton = 0.15 + 0.06 * lisse(0, hauteur * 0.06, d1);
                 if (d1 < 9.5) bord = 0.28;
                 // Juste derrière la haie, la colline s'éclaircit : la haie
                 // se détache.
@@ -271,9 +271,13 @@
                 // et l'autre progressivement, si bien que les rangs sortent
                 // du ton commun au lieu de commencer sur une ligne.
                 var sortie = lisse(0.02, 0.7, p);
-                var plein = 0.24 + (0.52 * rang - 0.24) * sortie;   // le rang
-                var vide = 0.24 * (1 - sortie);                     // l'entre-rang
-                ton = (rang > 0 ? plein : vide) * (1 - 0.22 * lisse(0.6, 1, p));
+                // Le rang est un volume : son flanc à l'ombre, à droite, est
+                // plus dense que son dos. Et le premier plan est le plus
+                // contrasté : c'est lui qui donne la profondeur.
+                var versant = 1 + 0.45 * lisse(0.5, 0.66, f);
+                var plein = 0.24 + (0.6 * rang * versant - 0.24) * sortie;   // le rang
+                var vide = 0.24 * (1 - sortie);                               // l'entre-rang
+                ton = rang > 0 ? plein : vide;
                 // Chaque rang a son flanc au soleil : un liseré de lumière
                 // du côté d'où elle vient.
                 var flanc = lisse(0.275, 0.3, f) * (1 - lisse(0.36, 0.43, f)) * sortie;

@@ -42,8 +42,8 @@
     display: none;
     /* Le paysage s'estompe vers le bas, où se tient le texte : les
        rubriques se lisent sur un fond plus calme. */
-    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.3) 0, #000 55%);
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.3) 0, #000 55%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0, #000 50%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0, #000 50%);
 }
 
 .accueil {
