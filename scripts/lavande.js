@@ -133,10 +133,12 @@
     // chaque point de la trame avance jusqu'à la toucher. Rien ne bouge :
     // tout est calculé une fois par mise en page.
 
-    // Son tracé, au sol : une courbe de Bézier, de l'avant à droite vers le
-    // fond : elle part à droite, puis tourne et revient vers le milieu.
+    // Son tracé, au sol : il entre par le bas, à droite, tout près, et file
+    // droit vers le fond, le long des rangs (on voit son flanc gauche en
+    // fuite, les arches de plus en plus serrées) ; au loin il tourne à
+    // gauche et finit de profil, vers le milieu.
     var TRACE = (function () {
-        var p0 = [1.75, 0.95], p1 = [3.6, 3.6], p2 = [1.7, 10.5], n = 32, pts = [], l = 0;
+        var p0 = [2.6, 0.9], p1 = [3.0, 10], p2 = [0.4, 11.2], n = 36, pts = [], l = 0;
         for (var k = 0; k <= n; k++) {
             var t = k / n, a = (1 - t) * (1 - t), b = 2 * t * (1 - t), c = t * t;
             var x = a * p0[0] + b * p1[0] + c * p2[0], z = a * p0[1] + b * p1[1] + c * p2[1];
@@ -145,46 +147,36 @@
         }
         return pts;
     })();
-    var LONGUEUR = TRACE[TRACE.length - 1][2], ECHELLE = 0.62;
-    var abscisse = 0, matiere = 0;
+    var LONGUEUR = TRACE[TRACE.length - 1][2], ECHELLE = 0.7;
+    var abscisse = 0;
 
     function pierres(px, py, pz) {
         // Le point du tracé le plus proche : l'écart à l'axe, et l'abscisse.
-        var best = 1e9, sBest = 0;
+        var best = 1e9, sv = 0;
         for (var k = 1; k < TRACE.length; k++) {
             var ax = TRACE[k - 1][0], az = TRACE[k - 1][1], bx = TRACE[k][0], bz = TRACE[k][1];
             var ex = bx - ax, ez = bz - az, l2 = ex * ex + ez * ez;
             var t = ((px - ax) * ex + (pz - az) * ez) / l2;
             t = t < 0 ? 0 : t > 1 ? 1 : t;
             var dx = px - ax - ex * t, dz = pz - az - ez * t, d2 = dx * dx + dz * dz;
-            if (d2 < best) { best = d2; sBest = TRACE[k - 1][2] + (TRACE[k][2] - TRACE[k - 1][2]) * t; }
+            if (d2 < best) { best = d2; sv = TRACE[k - 1][2] + (TRACE[k][2] - TRACE[k - 1][2]) * t; }
         }
-        // L'ouvrage est dessiné à l'échelle ECHELLE : ses proportions restent
-        // les mêmes, il monte juste un peu au-dessus de l'horizon.
-        var K = ECHELLE;
-        var ecart = Math.sqrt(best) / K, sv = sBest / K;
-        py = py / K;
+        var K = ECHELLE, ecart = Math.sqrt(best) / K;
+        sv /= K; py /= K;
         abscisse = sv;
-        matiere = 0;
         // La hauteur : 2,1 ; vers le bout, l'ouvrage tombe par gradins.
         var H = 2.1;
-        var ruine = sv - (LONGUEUR / K - 3.2);
-        if (ruine > 0) H = Math.max(0.35, 2.1 - Math.floor(ruine / 0.55) * 0.36 - 0.12 * hasard(Math.floor(sv / 0.3), 2));
-        // Le mur, la corniche au sommet, le cordon entre les deux rangs.
-        var d = Math.max(ecart - 0.26, py - H, -py - 0.1);
-        var m = Math.max(ecart - 0.33, Math.abs(py - (H - 0.05)) - 0.05, py - H);
+        var ruine = sv - (LONGUEUR / K - 3.6);
+        if (ruine > 0) H = Math.max(0.4, 2.1 - Math.floor(ruine / 0.65) * 0.45);
+        // Le mur, et sa corniche qui déborde au sommet.
+        var d = Math.max(ecart - 0.24, py - H, -py - 0.1);
+        var m = Math.max(ecart - 0.31, Math.abs(py - (H - 0.07)) - 0.07);
         if (H > 1.9 && m < d) d = m;
-        m = Math.max(ecart - 0.34, Math.abs(py - 1.42) - 0.045);
-        if (H > 1.42 && m < d) d = m;
-        // Les grandes arches du bas.
-        var L = 1.2, r = 0.42, sm = ((sv % L) + L) % L - L / 2;
-        var o = Math.min(Math.max(Math.abs(sm) - r, py - 0.95), Math.sqrt(sm * sm + (py - 0.95) * (py - 0.95)) - r);
-        d = Math.max(d, -o);
-        // Les petites arches du haut, deux par grande.
-        var L2 = L / 2, r2 = 0.15, sm2 = ((sv % L2) + L2) % L2 - L2 / 2;
-        var o2 = Math.min(Math.max(Math.abs(sm2) - r2, Math.abs(py - 1.68) - 0.12), Math.sqrt(sm2 * sm2 + (py - 1.8) * (py - 1.8)) - r2);
-        d = Math.max(d, -o2);
-        return d * K;
+        // Un seul rang de hautes arches : peu de formes, et grandes, pour
+        // que la trame puisse les dire.
+        var L = 1.3, r = 0.46, sm = ((sv % L) + L) % L - L / 2;
+        var o = Math.min(Math.max(Math.abs(sm) - r, py - 1.2), Math.sqrt(sm * sm + (py - 1.2) * (py - 1.2)) - r);
+        return Math.max(d, -o) * K;
     }
     // Avance le long du rayon ; renvoie la distance du premier contact, ou -1.
     function toucher(ox, oy, oz, dx, dy, dz, jusque) {
@@ -225,7 +217,7 @@
         for (var i = 0; i < n; i++) {
             ruTon[i] = -1; ruEclat[i] = 0; ruOmbre[i] = 0;
             var x = xs[i], y = ys[i];
-            if (x < vx + bas * 0.35 || y < hy - bas * 0.95) continue;
+            if (x < vx - bas * 0.1 || y < hy - bas * 0.95) continue;
             var t = viser(x, y);
             var dx = R[0], dy = R[1], dz = R[2];
             if (t >= 0) {
@@ -233,47 +225,20 @@
                 var nx = pierres(px + e, py, pz) - pierres(px - e, py, pz);
                 var ny = pierres(px, py + e, pz) - pierres(px, py - e, pz);
                 var nz = pierres(px, py, pz + e) - pierres(px, py, pz - e);
-                var feuille = matiere === 1, tuile = matiere === 2;
                 var nn = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
                 nx /= nn; ny /= nn; nz /= nn;
                 var jour = nx * lx0 + ny * ly0 + nz * lz0;
                 if (jour < 0) jour = 0;
                 if (jour > 0 && toucher(px + nx * 0.05, py + ny * 0.05, pz + nz * 0.05, lx0, ly0, lz0, 8) >= 0) jour = 0;
-                var clair, grain;
-                if (feuille) {
-                    // Le feuillage : sombre, modelé en boule, moucheté.
-                    clair = 0.75 * jour;
-                    grain = bruitLisse(px * 9, py * 9 + pz * 9) - 0.5;
-                    ruTon[i] = sombre ? 0.22 + 0.5 * clair + 0.2 * grain : 0.34 + 0.56 * (1 - clair) + 0.22 * grain;
-                } else {
-                    // La pierre, en trois valeurs franches : le pignon et le
-                    // toit en plein soleil, la façade dans un demi-jour, le
-                    // reste à l'ombre. Chaque pierre a son ton.
-                    clair = jour * 1.5;
-                    if (clair > 1) clair = 1;
-                    var matiereMur;
-                    if (tuile) {
-                        // Les tuiles : des rangs qui courent le long de la pente,
-                        // un sur deux plus sombre, quelques-unes manquantes.
-                        var rangT = Math.floor((pz - MZ) / 0.15);
-                        matiereMur = (rangT % 2 ? 0.1 : -0.08) + 0.16 * (hasard(Math.floor(px / 0.2), rangT) - 0.5);
-                    } else {
-                        // Le mur : des assises de pierres inégales, chacune avec
-                        // son ton ; par endroits l'enduit est resté, plus clair ;
-                        // le pied est noirci par la terre, le haut par l'ombre
-                        // de l'égout.
-                        var rang = Math.floor(py / ECHELLE / 0.29);
-                        var le = abscisse / 0.5 + rang * 0.5;
-                        grain = hasard(Math.floor(le + 0.3 * hasard(rang, 8)), rang) - 0.5;
-                        var enduit = bruitLisse(abscisse * 1.4 + 5, py / ECHELLE * 1.9) - 0.5;
-                        matiereMur = 0.46 * grain + (enduit > 0.06 ? -0.13 : 0.1)
-                            + 0.16 * (1 - lisse(0, 0.4, py / ECHELLE)) + 0.12 * lisse(1.88, 2.06, py / ECHELLE);
-                    }
-                    ruTon[i] = sombre ? 0.1 + 0.68 * clair - 0.5 * matiereMur : 0.27 + 0.58 * (1 - clair) + matiereMur;
-                    if (ruTon[i] < 0.04) ruTon[i] = 0.04;
-                    // La lumière ne se pose que sur les pierres les plus claires : posée
-                    // partout, elle effacerait le grain du mur.
-                    ruEclat[i] = clair > 0.8 && matiereMur < -0.1 ? 0.16 : 0;
+                {
+                    // La pierre, en deux valeurs franches : les faces au soleil,
+                    // claires, et le dessous des arches, à l'ombre. Un léger
+                    // grain d'assises, pas plus : la forme passe avant.
+                    var clair = jour;
+                    var rang = Math.floor(py / ECHELLE / 0.3);
+                    var grain = hasard(Math.floor(abscisse / 0.55 + rang * 0.5), rang) - 0.5;
+                    ruTon[i] = sombre ? 0.2 + 0.6 * clair + 0.08 * grain : 0.86 - 0.42 * clair + 0.1 * grain;
+                    ruEclat[i] = 0;
                     // Le contour : là où le rayon voisin passe à côté de la
                     // pierre, ou touche bien plus loin, on est sur une arête.
                     // Un trait la dessine, comme la crête de la montagne.
@@ -282,7 +247,7 @@
                         var tv = viser(x + (v === 0 ? -5 : v === 1 ? 5 : 0), y - (v === 2 ? 5 : 0));
                         if (tv < 0 || Math.abs(tv - t) > 0.3) arete = true;
                     }
-                    if (arete) { ruTon[i] = sombre ? 0.03 : 0.84; ruEclat[i] = 0; }
+                    if (arete) { ruTon[i] = sombre ? 0.03 : 0.95; ruEclat[i] = 0; }
                 }
             } else if (dy < -0.0005) {
                 var sol = -1 / dy, gx = dx * sol, gz = dz * sol;
@@ -467,37 +432,31 @@
                 var p = (y - hy) / bas;                       // 0 à l'horizon, 1 en bas
                 var prof = 1 / (p + 0.02);
                 var X = (x - vx) / (p + 0.02) / largeur;      // position dans le champ
-                // Les rangs, et le long de chaque rang, des touffes rondes de
-                // lavande, posées sur la terre nue : la terre se voit entre
-                // deux rangs et entre deux touffes.
-                var u = X * 7;
+                // Un champ de lavande en fleur : des rangs larges et bombés,
+                // serrés, séparés par des sillons étroits et sombres. Chaque
+                // rang est un boudin de touffes : clair du côté du soleil,
+                // plus dense en tournant vers l'ombre, et son bord ondule
+                // d'une touffe à l'autre.
+                var u = X * 6.5;
                 var f = u - Math.floor(u);
                 var nRang = Math.floor(u);
-                var D = 0.42;                                   // une touffe tous les D, en profondeur
-                var decale = hasard(nRang, 11) * D;            // les touffes ne s'alignent pas d'un rang à l'autre
-                var v = prof + decale, nT = Math.floor(v / D);
-                var ga = (f - 0.5) / 0.4;                     // à travers la touffe : -1 à gauche, 1 à droite
-                var gb = (v - nT * D - D / 2) / (D * 0.7);    // le long du rang
-                var taille = 0.86 + 0.2 * hasard(nT, nRang);   // chaque touffe a sa taille
-                ga /= taille; gb /= taille;
-                var dome = 1 - ga * ga - gb * gb;
-                // Près de l'horizon, le champ a le ton de la garrigue, sans
-                // rangs : ils y seraient plus fins qu'un point. En
-                // descendant, les touffes sortent de ce ton commun.
-                var sortie = lisse(0.02, 0.7, p);
+                var D = 0.55;                                   // une touffe tous les D, en profondeur
+                var v = (prof + hasard(nRang, 11) * D) / D;
+                var bosse = Math.abs(Math.sin(v * 3.1416));     // 0 entre deux touffes, 1 en leur milieu
+                var demiRang = 0.29 + 0.13 * bosse;
+                var ga = (f - 0.5) / demiRang;                  // à travers le rang : -1 à gauche, 1 à droite
+                // Près de l'horizon, le champ a un ton uni, sans rangs : ils y
+                // seraient plus fins qu'un point. En descendant, ils en sortent.
+                var sortie = lisse(0.02, 0.55, p);
                 var champ;
-                if (dome > 0) {
-                    // La touffe : un dôme, au soleil à gauche, à l'ombre à
-                    // droite et à son pied, moucheté par les épis.
-                    var epis = hasard(Math.floor(x / 10), Math.floor(y / 18 + hasard(Math.floor(x / 10), 3))) - 0.5;
-                    champ = 0.42 + 0.28 * lisse(-0.6, 0.8, ga) + 0.14 * (1 - lisse(0, 0.5, dome)) + 0.16 * epis * lisse(0.2, 0.7, p);
-                    eclat = 0.42 * lisse(-0.15, -0.65, ga) * lisse(0.1, 0.5, dome) * sortie;
+                if (ga > -1 && ga < 1) {
+                    champ = 0.14 + 0.3 * lisse(-0.3, 1, ga) + 0.16 * (1 - bosse);
+                    eclat = 0.3 * lisse(-0.35, -0.9, ga) * bosse * sortie;
                 } else {
-                    // La terre, claire ; à droite de chaque touffe, son ombre.
-                    var oa = (f - 0.63) / 0.4 / taille;
-                    champ = 1 - oa * oa - gb * gb > 0 ? 0.24 : 0.04;
+                    champ = 0.72;                               // le sillon, dans l'ombre des touffes
                     eclat = 0;
                 }
+                if (sombre) champ = 0.62 - 0.7 * champ;
                 ton = 0.24 + (champ - 0.24) * sortie;
                 // L'ombre des nuages court sur le champ, en perspective.
                 var os = nuage(X * 1.1 - t * 0.04, prof * 0.3, 0.54) * sortie;
