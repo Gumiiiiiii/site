@@ -62,15 +62,15 @@
         <!-- HERO (STICKY TITLE + IMAGE) — content completed by article-page.js -->
         <section class="article-hero">
             <header class="article-header">
+                <p class="etude-meta"><a class="etude-retour" href="../" data-i18n="etude_rubrique">Experiments</a><span id="article-duree">4 min read</span><span class="article-date" id="article-date">Published on July 11, 2026</span></p>
                 <h1 class="article-title" id="article-title">From Webflow to a Decentralized Architecture: How I Rethought the ArdaCraft Website<span class="dot">.</span></h1>
-                <p class="article-date" id="article-date">Publié le 11 juillet 2026</p>
             </header>
 
             <!-- EN BREF : le résumé, avant la couverture, rendu depuis scripts/articles-data.js -->
             <div class="article-abstract" id="article-abstract"><section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
                     <h2 id="resume-titre">In short</h2>
-                    <span class="resume-duree">5 min read</span>
+
                 </header>
                 <ul class="resume-chiffres">
                     <li><strong>−90%</strong><span>hosting costs</span></li>
@@ -78,12 +78,12 @@
                     <li><strong>150 h</strong><span>over three months</span></li>
                 </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Where it started</h3><p>The Webflow site drew 217,000 visitors a year but had hit the limit of its plan. The next tier would have cost five times as much.</p></li>
-                    <li><h3>What I did</h3><p>I moved it to WordPress and Webstudio linked through GraphQL, redesigned every page and brought the features nobody saw to the top of the screen.</p></li>
-                    <li><h3>What came of it</h3><p>Hosting costs cut tenfold. On the locations page, search is used 71% more often and filters 555% more often.</p></li>
+                    <li><h3>Where it started</h3><p><strong>The Webflow site drew 217,000 visitors a year but had hit the limit of its plan.</strong> The next tier would have cost five times as much.</p></li>
+                    <li><h3>What I did</h3><p><strong>I moved it to WordPress and Webstudio linked through GraphQL,</strong> redesigned every page and brought the features nobody saw to the top of the screen.</p></li>
+                    <li><h3>What came of it</h3><p><strong>Hosting costs cut tenfold.</strong> On the locations page, search is used 71% more often and filters 555% more often.</p></li>
                 </ol>
-                <a class="resume-lire" href="#post-content">Read the full story<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
-            </section></div>
+
+            <div class="resume-pied"><a class="resume-lire" href="#post-content">Read the full story<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a><p class="resume-ia"><span>Summarise with</span><a href="https://chatgpt.com/?q=Summarise%20this%20article%20by%20Pierre%20(gumi.ch)%20in%20five%20key%20points%3A%20https%3A%2F%2Fgumi.ch%2Fen%2Fexperiments%2Fardacraft" target="_blank" rel="noopener">ChatGPT</a><a href="https://claude.ai/new?q=Summarise%20this%20article%20by%20Pierre%20(gumi.ch)%20in%20five%20key%20points%3A%20https%3A%2F%2Fgumi.ch%2Fen%2Fexperiments%2Fardacraft" target="_blank" rel="noopener">Claude</a><a href="https://www.perplexity.ai/search?q=Summarise%20this%20article%20by%20Pierre%20(gumi.ch)%20in%20five%20key%20points%3A%20https%3A%2F%2Fgumi.ch%2Fen%2Fexperiments%2Fardacraft" target="_blank" rel="noopener">Perplexity</a></p></div></section></div>
 
             <div class="featured-image-wrapper">
                 <img id="article-cover" src="/media/ardacraft-redesign-featured-image.webp" alt="Aperçu de la refonte du site ArdaCraft" width="1920" height="1080" fetchpriority="high">
@@ -215,16 +215,8 @@
 
         <!-- FULL-WIDTH: READ NEXT SECTION — populated by article-page.js -->
         <section class="read-next-section">
-            <h2 class="read-next-title" data-i18n="read_next">Read next</h2>
-            <a href="ardacraft-map" class="read-next-card" id="read-next-link">
-                <div class="card-image">
-                    <img id="read-next-image" src="/media/ardacraft-map-carte-interactive.webp" alt="La carte interactive de la Terre du Milieu conçue pour ArdaCraft" loading="lazy">
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title" id="read-next-title-text">Comment j'ai utilisé le SEO pour faire grandir une communauté de passionnés</h3>
-                    <p class="card-desc" id="read-next-desc">Comment j'ai transformé plus d'un million de recherches annuelles autour de la Terre du Milieu en canal d'acquisition pour ArdaCraft, grâce à une carte interactive.</p>
-                </div>
-            </a>
+            <h2 class="read-next-title" data-i18n="read_next">More experiments</h2>
+            <div class="suite-grille" id="suite-grille"><a class="read-next-card" href="ardacraft-map" id="read-next-link"><div class="card-image"><img src="/media/ardacraft-map-carte-interactive.webp" alt="La carte interactive de la Terre du Milieu conçue pour ArdaCraft" loading="lazy"></div><div class="card-content"><h3 class="card-title">How I Used SEO to Grow a Community of Enthusiasts</h3><p class="card-desc">How I turned over a million annual searches around Middle-earth into a real acquisition channel for ArdaCraft, through an interactive map.</p></div></a><a class="read-next-card" href="ardacraft-social"><div class="card-image"><img src="/media/ardacraft-social-featured-image.webp" alt="Abonnés Instagram d’ArdaCraft, de 9&nbsp;877 en janvier 2024 à 115&nbsp;579 en août" loading="lazy"></div><div class="card-content"><h3 class="card-title">Borrowing travel-reel grammar to film Middle-earth: 27 million views in seven months</h3><p class="card-desc">I wanted to practise making videos. By filming ArdaCraft’s builds like landscapes, borrowing the grammar of travel Reels, 24 videos gathered 27.3 million views.</p></div></a><a class="read-next-card" href="ai-photoshoot"><div class="card-image"><img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&amp;w=2000&amp;auto=format&amp;fit=crop" alt="Studio photo avec éclairage professionnel" loading="lazy"></div><div class="card-content"><h3 class="card-title">Can Artificial Intelligence Replace a Real Photo Shoot?</h3><p class="card-desc">A month of experimentation pitting AI image generation against a traditional product shoot: costs, quality, limits and verdict.</p></div></a></div>
         </section>
 
     </main>
@@ -235,6 +227,7 @@
     <script src="../scripts/i18n.js"></script>
     <script src="../scripts/navbar.js"></script>
     <script src="../scripts/articles-data.js"></script>
+    <script src="../scripts/etude-rendu.js"></script>
     <script src="../scripts/article-page.js"></script>
     <script src="../scripts/etude-trame.js"></script>
     <script src="../scripts/points-champ.js"></script>

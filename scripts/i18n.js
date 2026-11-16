@@ -135,7 +135,8 @@
         // Article template
         published_on: { fr: 'Publié le', en: 'Published on' },
         toc_label: { fr: 'Sommaire', en: 'Contents' },
-        read_next: { fr: 'À lire ensuite', en: 'Read next' },
+        read_next: { fr: 'Les autres expérimentations', en: 'More experiments' },
+        etude_rubrique: { fr: 'Expérimentations', en: 'Experiments' },
         copy_link: { fr: 'Copier le lien', en: 'Copy the link' },
         copy_done: { fr: 'Copié !', en: 'Copied!' },
 

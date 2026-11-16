@@ -246,19 +246,26 @@ async function main() {
                 if (absAt < 0 || raw.indexOf('class="resume"', absAt) < 0) problems.push('summary not rendered');
                 else {
                     const bloc = raw.slice(absAt, raw.indexOf('</section>', absAt));
-                    const chiffres = (bloc.match(/<strong>/g) || []).length;
+                    const ul = bloc.slice(bloc.indexOf('resume-chiffres'), bloc.indexOf('</ul>'));
+                    const chiffres = (ul.match(/<strong>/g) || []).length;
+                    const ia = (bloc.match(/class="resume-ia"/g) || []).length;
+                    if (!ia) problems.push('no « summarise with an AI » links');
                     const etapes = (bloc.match(/<h3>/g) || []).length;
                     if (chiffres !== 3) problems.push(chiffres + ' figures, expected 3');
                     if (etapes !== 3) problems.push(etapes + ' steps, expected 3');
                 }
                 if (absAt > raw.indexOf('id="article-cover"')) problems.push('summary comes after the cover');
+                const grille = raw.slice(raw.indexOf('id="suite-grille"'));
+                const cartes = (grille.match(/class="read-next-card"/g) || []).length;
+                if (cartes !== 3) problems.push(cartes + ' other experiments, expected 3');
+                if (!/id="article-duree">\d+ (min de lecture|min read)</.test(raw)) problems.push('reading time missing');
                 if (raw.indexOf('class="abstract"', raw.indexOf('id="post-content"')) > 0) problems.push('an old summary is still in the body');
                 if (slug === 'ardacraft-social') {
                     if (raw.includes('chart-figure')) problems.push('the chart is still duplicated in the body');
                     const caps = (raw.match(/class="reel-caption"/g) || []).length;
                     if (caps !== 3) problems.push(caps + ' reel captions, expected 3');
                 }
-                console.log((problems.length ? 'FAIL' : ' ok ') + '  ' + label + ' (summary at the top)'
+                console.log((problems.length ? 'FAIL' : ' ok ') + '  ' + label + ' (summary, reading time, other experiments)'
                     + (problems.length ? '  → ' + problems.join('; ') : ''));
                 if (problems.length) failures += 1;
             }

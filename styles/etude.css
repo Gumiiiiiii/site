@@ -8,21 +8,27 @@
 
      logo                                                  langue · thème
 
+     ← Expérimentations · 5 min de lecture · Publié le …
      Le titre, en grand, à gauche              (la couverture de l'article,
-     date                                        imprimée en points gris)
-
+                                                 imprimée en points gris)
      En bref ·························································
      27,3 M          9 877 → 115 579        0 €
      de vues         abonnés Instagram      de publicité
-     ● Le point de départ ── ● Ce que j'ai fait ── ● Ce que ça a donné
-     ...                     ...                    ...
-     Lire l'histoire en entier ↓
+     01 ─────────────── 02 ─────────────── 03
+     LE POINT DE DÉPART  CE QUE J'AI FAIT   CE QUE ÇA A DONNÉ
+     La phrase en gras.  La phrase en gras. La phrase en gras.
+     La suite.           La suite.          La suite.
+     Lire l'histoire en entier ↓          Résumer avec ChatGPT Claude Perplexity
 
      [ la couverture ]
 
      Sommaire         Au départ, je voulais juste m'entraîner
      01 ……            ...
      02 ……  (collé)   ...
+
+     Les autres expérimentations ····································
+     [image]          [image]          [image]
+     le titre         le titre         le titre
 
    Le résumé passe avant tout : qui ne lit que le haut de la page repart avec
    l'histoire entière, en trois chiffres et trois étapes. Il est écrit dans
@@ -132,11 +138,55 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 }
 .etude-page .article-title .dot { display: none; }
 
-.etude-page .article-date {
-    font-size: 0.82rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+/* La ligne au-dessus du titre : d'où vient la page, combien de temps elle
+   prend, quand elle a paru. Le premier mot ramène à l'accueil. */
+.etude-meta {
+    order: -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 500;
     color: var(--encre-05);
+}
+.etude-meta > * + *::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    margin: 0 0.7rem;
+    border-radius: 50%;
+    background: currentColor;
+    vertical-align: middle;
+}
+.etude-retour {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--encre-1);
+    font-weight: 600;
+    text-decoration: none;
+}
+.etude-retour::before {
+    content: '';
+    width: 0.45em;
+    height: 0.45em;
+    border-left: 1.6px solid currentColor;
+    border-bottom: 1.6px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.etude-retour:hover,
+.etude-retour:focus-visible { color: var(--accent-ink); }
+.etude-retour:hover::before { transform: translateX(-3px) rotate(45deg); }
+.etude-page .article-date {
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: 0;
+    text-transform: none;
+    color: inherit;
 }
 
 /* Un filet en rangée de points, au pas de la trame : celui de l'accueil. */
@@ -178,11 +228,6 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     text-transform: none;
     color: var(--encre-1);
 }
-.resume-duree {
-    font-size: 0.85rem;
-    color: var(--encre-05);
-    font-variant-numeric: tabular-nums;
-}
 
 /* Les trois chiffres : ce qu'on retient en un coup d'œil. */
 .resume-chiffres {
@@ -209,6 +254,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
    points jusqu'à l'étape suivante. Elles se lisent dans l'ordre sans qu'on
    ait à le dire. */
 .resume-etapes {
+    counter-reset: etape;
     list-style: none;
     margin: 2rem 0 0;
     padding: 0;
@@ -216,22 +262,23 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.5rem;
 }
-.resume-etapes li { position: relative; padding-top: 1.35rem; min-width: 0; }
+.resume-etapes li { counter-increment: etape; position: relative; padding-top: 1.7rem; min-width: 0; }
 .resume-etapes li::before {
-    content: '';
+    content: counter(etape, decimal-leading-zero);
     position: absolute;
     top: 0;
     left: 0;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--encre-1);
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--encre-1);
+    font-variant-numeric: tabular-nums;
 }
 .resume-etapes li:not(:last-child)::after {
     content: '';
     position: absolute;
     top: 2px;
-    left: 18px;
+    left: 2rem;
     right: -1.5rem;
     height: 5px;
     background: radial-gradient(circle, var(--encre-045) 1px, transparent 1.5px) left center / 7px 5px repeat-x;
@@ -244,6 +291,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     text-transform: uppercase;
     color: var(--encre-05);
 }
+.resume-etapes p strong { font-weight: 600; color: var(--encre-1); }
 .resume-etapes p {
     margin: 0;
     font-size: 0.98rem;
@@ -252,17 +300,44 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     text-wrap: pretty;
 }
 
+.resume-pied {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-top: 1.8rem;
+}
 .resume-lire {
-    align-self: flex-start;
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    margin-top: 1.8rem;
     font-size: 0.98rem;
     font-weight: 600;
     color: var(--accent-ink);
     text-decoration: none;
 }
+/* Faire résumer la page par une IA : trois liens discrets, pas des
+   boutons. Le violet n'y vient qu'au survol. */
+.resume-ia {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 1.1rem;
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--encre-05);
+}
+.resume-ia a {
+    color: var(--encre-1);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: var(--filet);
+    text-underline-offset: 0.25em;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+.resume-ia a:hover,
+.resume-ia a:focus-visible { color: var(--accent-ink); text-decoration-color: currentColor; }
 .resume-lire svg { width: 1.05em; height: 1.05em; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
 .resume-lire:hover { text-decoration: underline; text-underline-offset: 0.25em; }
 .resume-lire:hover svg,
@@ -366,8 +441,16 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     font-weight: 600;
     text-align: left;
 }
+.suite-grille {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem 1.5rem;
+}
 .etude-page .read-next-card {
-    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.9rem;
     padding: 0;
     border-radius: 0;
     background: none;
@@ -376,13 +459,13 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 }
 .etude-page .read-next-card:active { box-shadow: none; }
 .etude-page .read-next-card .card-image {
-    width: 38%;
+    width: 100%;
     border-radius: 0.7rem;
     box-shadow: 0 0 0 1px var(--filet-fin);
 }
-.etude-page .read-next-card .card-content { padding: 0; gap: 0.6rem; }
-.etude-page .read-next-card .card-title { font-size: clamp(1.2rem, 2vw, 1.55rem); font-weight: 600; line-height: 1.25; }
-.etude-page .read-next-card .card-desc { font-size: 1rem; color: var(--encre-07); opacity: 1; }
+.etude-page .read-next-card .card-content { padding: 0; gap: 0.45rem; }
+.etude-page .read-next-card .card-title { font-size: 1.05rem; font-weight: 600; line-height: 1.3; text-wrap: pretty; }
+.etude-page .read-next-card .card-desc { font-size: 0.92rem; line-height: 1.5; color: var(--encre-062); opacity: 1; }
 .etude-page .read-next-card:hover .card-title,
 .etude-page .read-next-card:focus-visible .card-title { color: var(--accent-ink); }
 
@@ -397,11 +480,11 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     .resume-chiffres li { flex-direction: row; align-items: baseline; gap: 0.7rem; flex-wrap: wrap; }
     .resume-chiffres strong { font-size: 1.6rem; }
     .resume-etapes { grid-template-columns: minmax(0, 1fr); gap: 1.3rem; margin-top: 1.8rem; }
-    .resume-etapes li { padding: 0 0 0 1.6rem; }
-    .resume-etapes li::before { top: 0.3rem; }
+    .resume-etapes li { padding: 0 0 0 2.2rem; }
+    .resume-etapes li::before { top: 0.15rem; }
     .resume-etapes li:not(:last-child)::after {
-        top: 1.15rem;
-        left: 2px;
+        top: 1.35rem;
+        left: 0.45rem;
         right: auto;
         bottom: -1.3rem;
         width: 5px;
@@ -409,8 +492,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
         background: radial-gradient(circle, var(--encre-045) 1px, transparent 1.5px) center top / 5px 7px repeat-y;
     }
     .etude-page .article-content { font-size: 1.05rem; }
-    .etude-page .read-next-card { flex-direction: column; align-items: stretch; }
-    .etude-page .read-next-card .card-image { width: 100%; }
+    .suite-grille { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* --------------------------------------------------------------------------
@@ -464,4 +546,10 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 @media (prefers-reduced-motion: reduce) {
     .etude-trame { transition: none; }
     .resume-lire svg { transition: none; }
+}
+
+/* Sur le téléphone, la date passe à la ligne, sans le point qui la sépare. */
+@media (max-width: 759px) {
+    .etude-meta .article-date { flex-basis: 100%; margin-top: 0.25rem; }
+    .etude-meta .article-date::before { display: none; }
 }

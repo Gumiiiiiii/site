@@ -12,10 +12,11 @@
     const abstractEl = document.getElementById('article-abstract');
     const postContent = document.getElementById('post-content');
     const tocList = document.getElementById('toc-list');
-    const readNextLink = document.getElementById('read-next-link');
-    const readNextImg = document.getElementById('read-next-image');
-    const readNextTitle = document.getElementById('read-next-title-text');
-    const readNextDesc = document.getElementById('read-next-desc');
+    const dureeEl = document.getElementById('article-duree');
+    const grille = document.getElementById('suite-grille');
+    // scripts/etude-rendu.js: the summary's footer, the reading time and the
+    // other experiments, rendered the same way as the build does.
+    const rendu = window.GumiEtude;
 
     let observer = null;
 
@@ -104,10 +105,12 @@
         // Optional: an abstract rendered above the cover rather than inside
         // the body. Articles without one leave the container empty.
         if (abstractEl) {
-            const abstract = article.abstract && article.abstract[lang];
+            const abstract = rendu ? rendu.resume(articles, window.GUMI_ARTICLE_SLUG, lang) : (article.abstract && article.abstract[lang]);
             abstractEl.innerHTML = abstract || '';
             abstractEl.hidden = !abstract;
         }
+
+        if (dureeEl && rendu) dureeEl.textContent = rendu.duree(article, lang);
 
         // "Read the full story" glides to the body with the page's smooth
         // scroll, like the table of contents does.
@@ -134,19 +137,12 @@
 
         buildToc();
 
-        const next = articles[article.readNext];
-        const readNextSection = readNextLink ? readNextLink.closest('.read-next-section') : null;
-        if (next && readNextLink) {
-            // Sibling page in /experiments/, so the relative slug is enough
-            // (and it keeps a potential /en/ prefix intact).
-            readNextLink.href = article.readNext;
-            readNextImg.src = next.cover;
-            readNextImg.alt = next.coverAlt || next.title[lang];
-            readNextTitle.textContent = next.title[lang];
-            readNextDesc.textContent = next.excerpt[lang];
-        } else if (readNextSection) {
-            // No published follow-up article: hide the whole section.
-            readNextSection.style.display = 'none';
+        // The other experiments. Sibling pages in /experiments/, so the
+        // relative slugs are enough (and keep a potential /en/ prefix).
+        if (grille && rendu) {
+            grille.innerHTML = rendu.cartes(articles, window.GUMI_ARTICLE_SLUG, lang);
+            const section = grille.closest('.read-next-section');
+            if (section) section.hidden = !grille.children.length;
         }
     }
 

@@ -62,15 +62,15 @@
         <!-- HERO (STICKY TITLE + IMAGE) — content completed by article-page.js -->
         <section class="article-hero">
             <header class="article-header">
+                <p class="etude-meta"><a class="etude-retour" href="../" data-i18n="etude_rubrique">Expérimentations</a><span id="article-duree">5 min de lecture</span><span class="article-date" id="article-date">Publié le 29 juillet 2026</span></p>
                 <h1 class="article-title" id="article-title">Emprunter les codes du voyage pour filmer la Terre du Milieu : 27 millions de vues en sept mois<span class="dot">.</span></h1>
-                <p class="article-date" id="article-date">Publié le 29 juillet 2026</p>
             </header>
 
             <!-- ABSTRACT — before the cover and the table of contents, filled by article-page.js -->
             <div class="article-abstract" id="article-abstract"><section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
                     <h2 id="resume-titre">En bref</h2>
-                    <span class="resume-duree">5 min de lecture</span>
+
                 </header>
                 <ul class="resume-chiffres">
                     <li><strong>27,3 M</strong><span>de vues sur 24 vidéos</span></li>
@@ -78,12 +78,12 @@
                     <li><strong>0 €</strong><span>de publicité</span></li>
                 </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Le point de départ</h3><p>Je voulais m’entraîner à la vidéo. Le compte Instagram d’ArdaCraft plafonnait autour de 30 000 vues par vidéo.</p></li>
-                    <li><h3>Ce que j’ai fait</h3><p>J’ai filmé les décors comme des destinations, avec les codes des Reels de voyage : le meilleur plan en premier, le montage calé sur la musique.</p></li>
-                    <li><h3>Ce que ça a donné</h3><p>465 000 vues au premier essai, puis 22 vidéos sur 24 au-dessus de l’ancien niveau du compte. La médiane est de 342 000 vues.</p></li>
+                    <li><h3>Le point de départ</h3><p><strong>Je voulais m’entraîner à la vidéo.</strong> Le compte Instagram d’ArdaCraft plafonnait autour de 30 000 vues par vidéo.</p></li>
+                    <li><h3>Ce que j’ai fait</h3><p><strong>J’ai filmé les décors comme des destinations, avec les codes des Reels de voyage :</strong> le meilleur plan en premier, le montage calé sur la musique.</p></li>
+                    <li><h3>Ce que ça a donné</h3><p><strong>465 000 vues au premier essai, puis 22 vidéos sur 24 au-dessus de l’ancien niveau du compte.</strong> La médiane est de 342 000 vues.</p></li>
                 </ol>
-                <a class="resume-lire" href="#post-content">Lire l’histoire en entier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
-            </section></div>
+
+            <div class="resume-pied"><a class="resume-lire" href="#post-content">Lire l’histoire en entier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a><p class="resume-ia"><span>Résumer avec</span><a href="https://chatgpt.com/?q=R%C3%A9sume%20en%20cinq%20points%20cl%C3%A9s%20cet%20article%20de%20Pierre%20(gumi.ch)%20%3A%20https%3A%2F%2Fgumi.ch%2Fexperiments%2Fardacraft-social" target="_blank" rel="noopener">ChatGPT</a><a href="https://claude.ai/new?q=R%C3%A9sume%20en%20cinq%20points%20cl%C3%A9s%20cet%20article%20de%20Pierre%20(gumi.ch)%20%3A%20https%3A%2F%2Fgumi.ch%2Fexperiments%2Fardacraft-social" target="_blank" rel="noopener">Claude</a><a href="https://www.perplexity.ai/search?q=R%C3%A9sume%20en%20cinq%20points%20cl%C3%A9s%20cet%20article%20de%20Pierre%20(gumi.ch)%20%3A%20https%3A%2F%2Fgumi.ch%2Fexperiments%2Fardacraft-social" target="_blank" rel="noopener">Perplexity</a></p></div></section></div>
 
             <div class="featured-image-wrapper">
                 <img id="article-cover" src="/media/ardacraft-social-featured-image.webp" alt="Abonnés Instagram d’ArdaCraft, de 9&nbsp;877 en janvier 2024 à 115&nbsp;579 en août" width="1920" height="1080" fetchpriority="high">
@@ -160,15 +160,7 @@
         <!-- FULL-WIDTH: READ NEXT SECTION — populated by article-page.js -->
         <section class="read-next-section">
             <h2 class="read-next-title" data-i18n="read_next">À lire ensuite</h2>
-            <a href="ardacraft" class="read-next-card" id="read-next-link">
-                <div class="card-image">
-                    <img id="read-next-image" src="/media/ardacraft-redesign-featured-image.webp" alt="Aperçu de la refonte du site ArdaCraft" loading="lazy">
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title" id="read-next-title-text">De Webflow à une architecture décentralisée : comment j'ai repensé le site d'ArdaCraft</h3>
-                    <p class="card-desc" id="read-next-desc">Participer au succès d'une communauté de passionnés tout en me challengeant et en développant de nouvelles compétences : retour sur un chantier de 150 heures.</p>
-                </div>
-            </a>
+            <div class="suite-grille" id="suite-grille"><a class="read-next-card" href="ardacraft" id="read-next-link"><div class="card-image"><img src="/media/ardacraft-redesign-featured-image.webp" alt="Aperçu de la refonte du site ArdaCraft" loading="lazy"></div><div class="card-content"><h3 class="card-title">De Webflow à une architecture décentralisée : comment j'ai repensé le site d'ArdaCraft</h3><p class="card-desc">Participer au succès d'une communauté de passionnés tout en me challengeant et en développant de nouvelles compétences : retour sur un chantier de 150 heures.</p></div></a><a class="read-next-card" href="ardacraft-map"><div class="card-image"><img src="/media/ardacraft-map-carte-interactive.webp" alt="La carte interactive de la Terre du Milieu conçue pour ArdaCraft" loading="lazy"></div><div class="card-content"><h3 class="card-title">Comment j'ai utilisé le SEO pour faire grandir une communauté de passionnés</h3><p class="card-desc">Comment j'ai transformé plus d'un million de recherches annuelles autour de la Terre du Milieu en canal d'acquisition pour ArdaCraft, grâce à une carte interactive.</p></div></a><a class="read-next-card" href="ai-photoshoot"><div class="card-image"><img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&amp;w=2000&amp;auto=format&amp;fit=crop" alt="Studio photo avec éclairage professionnel" loading="lazy"></div><div class="card-content"><h3 class="card-title">Peut-on remplacer un véritable shooting photo avec l'Intelligence Artificielle ?</h3><p class="card-desc">Un mois d'expérimentation pour confronter la génération d'images par IA à un shooting produit traditionnel : coûts, qualité, limites et verdict.</p></div></a></div>
         </section>
 
     </main>
@@ -179,6 +171,7 @@
     <script src="../scripts/i18n.js"></script>
     <script src="../scripts/navbar.js"></script>
     <script src="../scripts/articles-data.js"></script>
+    <script src="../scripts/etude-rendu.js"></script>
     <script src="../scripts/article-page.js"></script>
     <script src="../scripts/etude-trame.js"></script>
     <script src="../scripts/points-champ.js"></script>

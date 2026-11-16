@@ -20,8 +20,7 @@ window.GUMI_ARTICLES = {
         abstract: {
             fr: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
-                    <h2 id="resume-titre">En bref</h2>
-                    <span class="resume-duree">5 min de lecture</span>
+                    <h2 id="resume-titre">En bref</h2>
                 </header>
                 <ul class="resume-chiffres">
                     <li><strong>27,3 M</strong><span>de vues sur 24 vidéos</span></li>
@@ -29,16 +28,14 @@ window.GUMI_ARTICLES = {
                     <li><strong>0 €</strong><span>de publicité</span></li>
                 </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Le point de départ</h3><p>Je voulais m’entraîner à la vidéo. Le compte Instagram d’ArdaCraft plafonnait autour de 30 000 vues par vidéo.</p></li>
-                    <li><h3>Ce que j’ai fait</h3><p>J’ai filmé les décors comme des destinations, avec les codes des Reels de voyage : le meilleur plan en premier, le montage calé sur la musique.</p></li>
-                    <li><h3>Ce que ça a donné</h3><p>465 000 vues au premier essai, puis 22 vidéos sur 24 au-dessus de l’ancien niveau du compte. La médiane est de 342 000 vues.</p></li>
-                </ol>
-                <a class="resume-lire" href="#post-content">Lire l’histoire en entier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+                    <li><h3>Le point de départ</h3><p><strong>Je voulais m’entraîner à la vidéo.</strong> Le compte Instagram d’ArdaCraft plafonnait autour de 30 000 vues par vidéo.</p></li>
+                    <li><h3>Ce que j’ai fait</h3><p><strong>J’ai filmé les décors comme des destinations, avec les codes des Reels de voyage :</strong> le meilleur plan en premier, le montage calé sur la musique.</p></li>
+                    <li><h3>Ce que ça a donné</h3><p><strong>465 000 vues au premier essai, puis 22 vidéos sur 24 au-dessus de l’ancien niveau du compte.</strong> La médiane est de 342 000 vues.</p></li>
+                </ol>
             </section>`,
             en: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
-                    <h2 id="resume-titre">In short</h2>
-                    <span class="resume-duree">5 min read</span>
+                    <h2 id="resume-titre">In short</h2>
                 </header>
                 <ul class="resume-chiffres">
                     <li><strong>27.3M</strong><span>views across 24 videos</span></li>
@@ -46,11 +43,10 @@ window.GUMI_ARTICLES = {
                     <li><strong>€0</strong><span>in ads</span></li>
                 </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Where it started</h3><p>I wanted to practise video. ArdaCraft’s Instagram account topped out at around 30,000 views a video.</p></li>
-                    <li><h3>What I did</h3><p>I filmed the builds like travel destinations, borrowing the grammar of travel Reels: the best shot first, the edit cut to the music.</p></li>
-                    <li><h3>What came of it</h3><p>465,000 views on the first try, then 22 of 24 videos above the account’s old level. The median is 342,000 views.</p></li>
-                </ol>
-                <a class="resume-lire" href="#post-content">Read the full story<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+                    <li><h3>Where it started</h3><p><strong>I wanted to practise video.</strong> ArdaCraft’s Instagram account topped out at around 30,000 views a video.</p></li>
+                    <li><h3>What I did</h3><p><strong>I filmed the builds like travel destinations, borrowing the grammar of travel Reels:</strong> the best shot first, the edit cut to the music.</p></li>
+                    <li><h3>What came of it</h3><p><strong>465,000 views on the first try, then 22 of 24 videos above the account’s old level.</strong> The median is 342,000 views.</p></li>
+                </ol>
             </section>`
         },
         html: {
@@ -163,8 +159,7 @@ window.GUMI_ARTICLES = {
         abstract: {
             fr: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
-                    <h2 id="resume-titre">En bref</h2>
-                    <span class="resume-duree">5 min de lecture</span>
+                    <h2 id="resume-titre">En bref</h2>
                 </header>
                 <ul class="resume-chiffres">
                     <li><strong>−90 %</strong><span>de coûts d’hébergement</span></li>
@@ -172,16 +167,14 @@ window.GUMI_ARTICLES = {
                     <li><strong>150 h</strong><span>sur trois mois</span></li>
                 </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Le point de départ</h3><p>Le site Webflow attirait 217 000 visiteurs par an mais touchait la limite de son abonnement. Le forfait suivant aurait multiplié les coûts par cinq.</p></li>
-                    <li><h3>Ce que j’ai fait</h3><p>J’ai migré vers WordPress et Webstudio reliés en GraphQL, redessiné toutes les pages et remonté en haut de l’écran les fonctions que personne ne voyait.</p></li>
-                    <li><h3>Ce que ça a donné</h3><p>Des coûts d’hébergement divisés par dix. Sur la page des lieux, la recherche sert 71 % plus souvent et les filtres 555 % plus souvent.</p></li>
-                </ol>
-                <a class="resume-lire" href="#post-content">Lire l’histoire en entier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+                    <li><h3>Le point de départ</h3><p><strong>Le site Webflow attirait 217 000 visiteurs par an mais touchait la limite de son abonnement.</strong> Le forfait suivant aurait multiplié les coûts par cinq.</p></li>
+                    <li><h3>Ce que j’ai fait</h3><p><strong>J’ai migré vers WordPress et Webstudio reliés en GraphQL,</strong> redessiné toutes les pages et remonté en haut de l’écran les fonctions que personne ne voyait.</p></li>
+                    <li><h3>Ce que ça a donné</h3><p><strong>Des coûts d’hébergement divisés par dix.</strong> Sur la page des lieux, la recherche sert 71 % plus souvent et les filtres 555 % plus souvent.</p></li>
+                </ol>
             </section>`,
             en: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
-                    <h2 id="resume-titre">In short</h2>
-                    <span class="resume-duree">5 min read</span>
+                    <h2 id="resume-titre">In short</h2>
                 </header>
                 <ul class="resume-chiffres">
                     <li><strong>−90%</strong><span>hosting costs</span></li>
@@ -189,11 +182,10 @@ window.GUMI_ARTICLES = {
                     <li><strong>150 h</strong><span>over three months</span></li>
                 </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Where it started</h3><p>The Webflow site drew 217,000 visitors a year but had hit the limit of its plan. The next tier would have cost five times as much.</p></li>
-                    <li><h3>What I did</h3><p>I moved it to WordPress and Webstudio linked through GraphQL, redesigned every page and brought the features nobody saw to the top of the screen.</p></li>
-                    <li><h3>What came of it</h3><p>Hosting costs cut tenfold. On the locations page, search is used 71% more often and filters 555% more often.</p></li>
-                </ol>
-                <a class="resume-lire" href="#post-content">Read the full story<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+                    <li><h3>Where it started</h3><p><strong>The Webflow site drew 217,000 visitors a year but had hit the limit of its plan.</strong> The next tier would have cost five times as much.</p></li>
+                    <li><h3>What I did</h3><p><strong>I moved it to WordPress and Webstudio linked through GraphQL,</strong> redesigned every page and brought the features nobody saw to the top of the screen.</p></li>
+                    <li><h3>What came of it</h3><p><strong>Hosting costs cut tenfold.</strong> On the locations page, search is used 71% more often and filters 555% more often.</p></li>
+                </ol>
             </section>`
         },
         html: {
@@ -412,8 +404,7 @@ window.GUMI_ARTICLES = {
         abstract: {
             fr: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
-                    <h2 id="resume-titre">En bref</h2>
-                    <span class="resume-duree">6 min de lecture</span>
+                    <h2 id="resume-titre">En bref</h2>
                 </header>
                 <ul class="resume-chiffres">
                     <li><strong>1 M</strong><span>de recherches par an pour une carte</span></li>
@@ -421,16 +412,14 @@ window.GUMI_ARTICLES = {
                     <li><strong>200 000</strong><span>impressions Google par mois</span></li>
                 </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Le point de départ</h3><p>Plus d’un million de recherches par an pour une carte de la Terre du Milieu, sur une requête peu disputée : une difficulté de 36 %.</p></li>
-                    <li><h3>Ce que j’ai fait</h3><p>Une carte interactive calquée sur Google Maps, qui réunit ce que les cartes du top 3 n’offraient que séparément, et qui marche aussi sur mobile.</p></li>
-                    <li><h3>Ce que ça a donné</h3><p>Près de 200 000 impressions par mois sur Google et la moitié du trafic hors-marque du site, malgré deux coupures pour raisons de budget.</p></li>
-                </ol>
-                <a class="resume-lire" href="#post-content">Lire l’histoire en entier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+                    <li><h3>Le point de départ</h3><p><strong>Plus d’un million de recherches par an pour une carte de la Terre du Milieu, sur une requête peu disputée :</strong> une difficulté de 36 %.</p></li>
+                    <li><h3>Ce que j’ai fait</h3><p><strong>Une carte interactive calquée sur Google Maps,</strong> qui réunit ce que les cartes du top 3 n’offraient que séparément, et qui marche aussi sur mobile.</p></li>
+                    <li><h3>Ce que ça a donné</h3><p><strong>Près de 200 000 impressions par mois sur Google et la moitié du trafic hors-marque du site,</strong> malgré deux coupures pour raisons de budget.</p></li>
+                </ol>
             </section>`,
             en: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
-                    <h2 id="resume-titre">In short</h2>
-                    <span class="resume-duree">6 min read</span>
+                    <h2 id="resume-titre">In short</h2>
                 </header>
                 <ul class="resume-chiffres">
                     <li><strong>1M</strong><span>searches a year for a map</span></li>
@@ -438,11 +427,10 @@ window.GUMI_ARTICLES = {
                     <li><strong>200,000</strong><span>Google impressions a month</span></li>
                 </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Where it started</h3><p>Over a million searches a year for a map of Middle-earth, on a query with little competition: a difficulty of 36%.</p></li>
-                    <li><h3>What I did</h3><p>An interactive map modelled on Google Maps, bringing together what the top 3 maps each offered separately, and working on mobile too.</p></li>
-                    <li><h3>What came of it</h3><p>Close to 200,000 Google impressions a month and half of the site’s non-brand traffic, despite two shutdowns to protect the budget.</p></li>
-                </ol>
-                <a class="resume-lire" href="#post-content">Read the full story<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+                    <li><h3>Where it started</h3><p><strong>Over a million searches a year for a map of Middle-earth, on a query with little competition:</strong> a difficulty of 36%.</p></li>
+                    <li><h3>What I did</h3><p><strong>An interactive map modelled on Google Maps,</strong> bringing together what the top 3 maps each offered separately, and working on mobile too.</p></li>
+                    <li><h3>What came of it</h3><p><strong>Close to 200,000 Google impressions a month and half of the site’s non-brand traffic,</strong> despite two shutdowns to protect the budget.</p></li>
+                </ol>
             </section>`
         },
         html: {
@@ -607,8 +595,7 @@ window.GUMI_ARTICLES = {
         abstract: {
             fr: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
-                    <h2 id="resume-titre">En bref</h2>
-                    <span class="resume-duree">3 min de lecture</span>
+                    <h2 id="resume-titre">En bref</h2>
                 </header>
                 <ul class="resume-chiffres">
                     <li><strong>−95 %</strong><span>de coût par visuel</span></li>
@@ -616,16 +603,14 @@ window.GUMI_ARTICLES = {
                     <li><strong>58 %</strong><span>préfèrent le studio à l’aveugle</span></li>
                 </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Le point de départ</h3><p>Un shooting produit coûte vite plus de 1 000 €. Les générateurs d’images promettent du photoréalisme en quelques secondes : j’ai voulu vérifier.</p></li>
-                    <li><h3>Ce que j’ai fait</h3><p>Le même objet en studio et en IA, avec les mêmes ambiances et le même temps de retouche, puis un jury de cinq personnes à l’aveugle.</p></li>
-                    <li><h3>Ce que ça a donné</h3><p>L’IA gagne sur les ambiances et coûte vingt fois moins cher, mais déforme encore les logos et les détails. Le studio devient la dernière étape.</p></li>
-                </ol>
-                <a class="resume-lire" href="#post-content">Lire l’histoire en entier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+                    <li><h3>Le point de départ</h3><p><strong>Un shooting produit coûte vite plus de 1 000 €.</strong> Les générateurs d’images promettent du photoréalisme en quelques secondes : j’ai voulu vérifier.</p></li>
+                    <li><h3>Ce que j’ai fait</h3><p><strong>Le même objet en studio et en IA,</strong> avec les mêmes ambiances et le même temps de retouche, puis un jury de cinq personnes à l’aveugle.</p></li>
+                    <li><h3>Ce que ça a donné</h3><p><strong>L’IA gagne sur les ambiances et coûte vingt fois moins cher, mais déforme encore les logos et les détails.</strong> Le studio devient la dernière étape.</p></li>
+                </ol>
             </section>`,
             en: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
-                    <h2 id="resume-titre">In short</h2>
-                    <span class="resume-duree">3 min read</span>
+                    <h2 id="resume-titre">In short</h2>
                 </header>
                 <ul class="resume-chiffres">
                     <li><strong>−95%</strong><span>cost per image</span></li>
@@ -633,11 +618,10 @@ window.GUMI_ARTICLES = {
                     <li><strong>58%</strong><span>prefer the studio, blind</span></li>
                 </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Where it started</h3><p>A product shoot quickly costs over €1,000. Image generators promise photorealism in seconds: I wanted to check.</p></li>
-                    <li><h3>What I did</h3><p>The same object in the studio and in AI, with the same moods and the same retouching time, then a blind panel of five people.</p></li>
-                    <li><h3>What came of it</h3><p>AI wins on moods and costs twenty times less, but still warps logos and details. The studio becomes the last step.</p></li>
-                </ol>
-                <a class="resume-lire" href="#post-content">Read the full story<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+                    <li><h3>Where it started</h3><p><strong>A product shoot quickly costs over €1,000.</strong> Image generators promise photorealism in seconds: I wanted to check.</p></li>
+                    <li><h3>What I did</h3><p><strong>The same object in the studio and in AI,</strong> with the same moods and the same retouching time, then a blind panel of five people.</p></li>
+                    <li><h3>What came of it</h3><p><strong>AI wins on moods and costs twenty times less, but still warps logos and details.</strong> The studio becomes the last step.</p></li>
+                </ol>
             </section>`
         },
         html: {

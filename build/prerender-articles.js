@@ -15,7 +15,8 @@
 // scripts/articles-data.js), so re-running never accumulates.
 //
 // Generated regions: #post-content, #article-date, #article-cover,
-// the read-next card, and <meta name="description">.
+// the summary, the reading time, the other experiments, and
+// <meta name="description">.
 //
 // Usage:
 //   node build/prerender-articles.js          # (re)inject
@@ -28,10 +29,15 @@ const ROOT = path.join(__dirname, '..');
 const DIR = path.join(ROOT, 'experiments');
 const CHECK_MODE = process.argv.includes('--check');
 
+// scripts/etude-rendu.js, shared with the page and the English build.
+let rendu = null;
+
 function loadArticles() {
     const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', { runScripts: 'outside-only' });
     dom.window.eval(fs.readFileSync(path.join(ROOT, 'scripts', 'articles-data.js'), 'utf8'));
+    dom.window.eval(fs.readFileSync(path.join(ROOT, 'scripts', 'etude-rendu.js'), 'utf8'));
     const articles = dom.window.GUMI_ARTICLES;
+    rendu = dom.window.GumiEtude;
     dom.window.close();
     return articles;
 }
@@ -53,7 +59,9 @@ function transform(source, articles) {
     const document = dom.window.document;
 
     const abstract = document.getElementById('article-abstract');
-    if (abstract) abstract.innerHTML = (article.abstract && article.abstract.fr) || '';
+    if (abstract) abstract.innerHTML = rendu.resume(articles, slug, 'fr');
+    const duree = document.getElementById('article-duree');
+    if (duree) duree.textContent = rendu.duree(article, 'fr');
 
     const postContent = document.getElementById('post-content');
     if (postContent && article.html && article.html.fr) {
@@ -123,22 +131,10 @@ function transform(source, articles) {
         cover.setAttribute('alt', article.coverAlt || article.title.fr);
     }
 
-    // The read-next card is a real internal link once it is in the markup,
-    // which is how the three studies link to each other for crawlers.
-    const next = articles[article.readNext];
-    const link = document.getElementById('read-next-link');
-    if (next && link) {
-        link.setAttribute('href', article.readNext);
-        const img = document.getElementById('read-next-image');
-        if (img) {
-            img.setAttribute('src', next.cover);
-            img.setAttribute('alt', next.coverAlt || next.title.fr);
-        }
-        const t = document.getElementById('read-next-title-text');
-        if (t) t.textContent = next.title.fr;
-        const d = document.getElementById('read-next-desc');
-        if (d) d.textContent = next.excerpt.fr;
-    }
+    // The other experiments, as real internal links in the markup: this is
+    // how the studies link to each other for crawlers.
+    const grille = document.getElementById('suite-grille');
+    if (grille) grille.innerHTML = rendu.cartes(articles, slug, 'fr');
 
     return dom.serialize();
 }

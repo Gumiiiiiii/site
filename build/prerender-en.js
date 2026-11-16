@@ -35,6 +35,9 @@ const PAGES = [
 
 // Load the runtime dictionaries by evaluating the browser scripts in a bare
 // jsdom window — single source of truth, no duplicated translations here.
+// scripts/etude-rendu.js, shared with the page and the French build.
+let rendu = null;
+
 function loadSiteData() {
     const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
         url: 'https://gumi.ch/',
@@ -42,6 +45,8 @@ function loadSiteData() {
     });
     dom.window.eval(fs.readFileSync(path.join(ROOT, 'scripts', 'i18n.js'), 'utf8'));
     dom.window.eval(fs.readFileSync(path.join(ROOT, 'scripts', 'articles-data.js'), 'utf8'));
+    dom.window.eval(fs.readFileSync(path.join(ROOT, 'scripts', 'etude-rendu.js'), 'utf8'));
+    rendu = dom.window.GumiEtude;
     const dict = dom.window.GumiI18n.dict;
     const articles = dom.window.GUMI_ARTICLES;
     dom.window.close();
@@ -74,7 +79,8 @@ function applyDict(document, dict) {
 // re-renders the same thing at runtime (language toggle keeps working).
 function applyArticle(document, source, articles) {
     const slugMatch = source.match(/window\.GUMI_ARTICLE_SLUG\s*=\s*'([^']+)'/);
-    const article = slugMatch && articles[slugMatch[1]];
+    const slug = slugMatch && slugMatch[1];
+    const article = slug && articles[slug];
     if (!article) return;
 
     document.title = article.title.en + ' | Gumi.';
@@ -91,7 +97,16 @@ function applyArticle(document, source, articles) {
     }
 
     const abstract = document.getElementById('article-abstract');
-    if (abstract) abstract.innerHTML = (article.abstract && article.abstract.en) || '';
+    if (abstract) abstract.innerHTML = rendu.resume(articles, slug, 'en');
+    const dateEl = document.getElementById('article-date');
+    if (dateEl && article.published) {
+        const d = new Date(article.published + 'T00:00:00Z');
+        dateEl.textContent = 'Published on ' + d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+    }
+    const duree = document.getElementById('article-duree');
+    if (duree) duree.textContent = rendu.duree(article, 'en');
+    const grille = document.getElementById('suite-grille');
+    if (grille) grille.innerHTML = rendu.cartes(articles, slug, 'en');
 
     const postContent = document.getElementById('post-content');
     if (postContent && article.html) postContent.innerHTML = article.html.en;
