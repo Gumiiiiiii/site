@@ -20,7 +20,16 @@
     // Un point plein couvre sa case : le passage à l'image entière ne se
     // voit pas.
     var R_PLEIN = 6.4;
-    var DEBUT = 4, BANDE = 58;      // en px depuis le coin : premier point, image pleine
+    // La trame occupe une part de l'image, pas une largeur fixe : sur une
+    // grande couverture, le dégradé a plus de rangées pour se faire.
+    var PART = 0.66, BANDE_MIN = 56, BANDE_MAX = 120;
+    // La distance au coin : entre la diagonale et le quart de cercle, pour
+    // un bord légèrement bombé, moins raide qu'une coupe droite.
+    function eloignement(x, y) {
+        if (x < 0) x = 0;
+        if (y < 0) y = 0;
+        return 0.5 * (x + y) * 0.7071 + 0.5 * Math.sqrt(x * x + y * y);
+    }
     var CALME = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     function lisse(t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * (3 - 2 * t); }
@@ -44,18 +53,28 @@
         ctx.clearRect(0, 0, w, h);
         ctx.fillStyle = '#000';
 
-        var bande = BANDE * ouverture, debut = DEBUT * ouverture;
-        // La partie pleine : l'image moins ses deux coins.
+        var bande = Math.max(BANDE_MIN, Math.min(BANDE_MAX, h * PART)) * ouverture;
+        // La partie pleine : l'image moins ses deux coins, dont le bord suit
+        // la ligne où les points sont pleins.
+        var k, a, portee;
         ctx.beginPath();
-        ctx.moveTo(bande, 0); ctx.lineTo(w, 0); ctx.lineTo(w, h - bande);
-        ctx.lineTo(w - bande, h); ctx.lineTo(0, h); ctx.lineTo(0, bande);
+        for (k = 0; k <= 12; k++) {              // le coin en bas à droite
+            a = (k / 12) * 1.5708;
+            portee = bande / eloignement(Math.sin(a), Math.cos(a));
+            ctx.lineTo(w - portee * Math.sin(a), h - portee * Math.cos(a));
+        }
+        for (k = 0; k <= 12; k++) {              // le coin en haut à gauche
+            a = (k / 12) * 1.5708;
+            portee = bande / eloignement(Math.sin(a), Math.cos(a));
+            ctx.lineTo(portee * Math.sin(a), portee * Math.cos(a));
+        }
+        ctx.lineTo(w, 0);
         ctx.closePath();
         ctx.fill();
 
         // Les points, sur la grille du fond, en coordonnées de l'écran.
         var hauteur = window.innerHeight, centre = window.innerWidth / 2;
         var pas = hauteur / Math.max(1, Math.round(hauteur / PAS_Y));
-        ctx.beginPath();
         var j0 = Math.floor(haut / pas) - 1, j1 = Math.ceil((haut + h * echelle) / pas) + 1;
         for (var j = j0; j <= j1; j++) {
             var dec = (((j % 2) + 2) % 2) ? PAS_X / 2 : 0;
@@ -64,15 +83,23 @@
             var i1 = Math.ceil((gauche + w * echelle - centre - dec) / PAS_X) + 1;
             for (var i = i0; i <= i1; i++) {
                 var x = (centre + i * PAS_X + dec - gauche) / echelle;
-                var d = Math.min(x + y, (w - x) + (h - y));   // au coin le plus proche
+                var d = Math.min(eloignement(x, y), eloignement(w - x, h - y));   // au coin le plus proche
                 if (d > bande + PAS_X) continue;               // la partie pleine le couvre
-                var rayon = R_PLEIN * Math.sqrt(lisse((d - debut) / Math.max(1, bande - debut)));
-                if (rayon < 0.4) continue;
-                ctx.moveTo(x + rayon, y);
+                // La loi du fond : l'aire du point suit le ton. Vers le coin,
+                // le point s'allège aussi, jusqu'à se confondre avec ceux
+                // du paysage derrière lui.
+                var ton = d / bande;
+                if (ton > 1) ton = 1;
+                ton = ton * ton * (3 - 2 * ton);
+                var rayon = R_PLEIN * Math.sqrt(ton);
+                if (rayon < 0.5) continue;
+                ctx.globalAlpha = 0.3 + 0.7 * Math.min(1, ton * 1.6);
+                ctx.beginPath();
                 ctx.arc(x, y, rayon, 0, 6.2832);
+                ctx.fill();
             }
         }
-        ctx.fill();
+        ctx.globalAlpha = 1;
 
         var url = 'url(' + toile.toDataURL('image/png') + ')';
         img.style.webkitMaskImage = url;
