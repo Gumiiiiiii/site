@@ -14,9 +14,9 @@
 //     lise d'un coup : au loin une ligne de collines claires, unies ;
 //     devant, une haie d'arbres sombre, au faîte festonné, qui borde le
 //     champ ;
-//   · au premier plan, dans le champ, les ruines d'un mas, en volume : quatre
-//     murs épais, un pignon, des jours, le soleil sur un côté et l'ombre
-//     portée sur la lavande ;
+//   · dans le champ, à droite, un cabanon de pierre en ruine et son arbre,
+//     en volume, posés dans la perspective des rangs : ses murs fuient
+//     vers le même point qu'eux ;
 //   · quelques cyprès ;
 //   · les rangs de lavande, qui filent vers un point de fuite et que le
 //     vent fait onduler, lentement.
@@ -121,16 +121,19 @@
     // La ruine du premier plan
     // ------------------------------------------------------------------
     //
-    // Un mas en ruine, modelé en volume et vu de trois quarts : on voit sa
-    // façade et son pignon gauche, l'épaisseur des murs à leur faîte et dans
-    // les jours, l'intérieur à l'ombre par les brèches. L'unité est le
-    // mètre ; la maison fait 4,5 sur 3,5, ses murs un demi-mètre d'épaisseur :
-    // peu de formes, et grandes, pour que la trame puisse les dire.
-    // Le soleil vient de la gauche, comme sur la montagne.
+    // Un cabanon de pierre en ruine, comme il en reste au milieu des champs,
+    // et l'arbre qui a poussé contre lui. Il est modelé en volume et vu par
+    // le même œil que le champ : ses murs sont parallèles aux rangs et
+    // fuient vers le même point. L'unité est la hauteur de l'œil au-dessus
+    // du sol. Le soleil vient de la gauche, comme sur la montagne.
     //
-    // pierres() donne la distance au mur le plus proche ; un rayon parti de
-    // chaque point de la trame avance jusqu'à toucher la pierre. La ruine ne
-    // bouge pas : tout est calculé une fois par mise en page.
+    // pierres() donne la distance à la matière la plus proche (et dit dans
+    // matiere si c'est la pierre ou le feuillage) ; un rayon parti de chaque
+    // point de la trame avance jusqu'à la toucher. Rien ne bouge : tout est
+    // calculé une fois par mise en page.
+
+    var MX = 2.8, MZ = 5.3;        // le centre du cabanon : à droite de l'axe, en profondeur
+    var matiere = 0;
 
     function boite(px, py, pz, cx, cy, cz, hx, hy, hz) {
         var dx = Math.abs(px - cx) - hx, dy = Math.abs(py - cy) - hy, dz = Math.abs(pz - cz) - hz;
@@ -139,45 +142,56 @@
         return Math.sqrt(ex * ex + ey * ey + ez * ez) + (dedans < 0 ? dedans : 0);
     }
     function boule(px, py, pz, cx, cy, cz, r) {
-        var dx = px - cx, dy = (py - cy) * 1.5, dz = pz - cz;
+        var dx = px - cx, dy = py - cy, dz = pz - cz;
         return Math.sqrt(dx * dx + dy * dy + dz * dz) - r;
     }
-    function pierres(px, py, pz) {
+    function pierres(wx, py, wz) {
+        var px = wx - MX, pz = wz - MZ;      // dans le repère du cabanon
         var d, m;
-        // La façade : haute à l'angle gauche, elle descend en gradins.
-        var hA = 3.6 - Math.floor((px + 2.25) / 1.0) * 0.6 + 0.2 * hasard(Math.floor(px / 0.5), 1);
-        if (hA < 0.8) hA = 0.8;
-        d = Math.max(boite(px, py, pz, 0, 2.5, -1.75, 2.5, 2.5, 0.25), py - hA);
-        d = Math.max(d, -boite(px, py, pz, 0.6, 1.0, -1.75, 0.55, 1.0, 0.6));      // la porte
-        // Le pignon gauche : sa pointe tient encore, l'arrière est tombé.
-        var hB = 2.8 + 1.5 * (1 - Math.abs(pz) / 1.75);
-        if (pz > 0.7) hB = Math.min(hB, 2.6 - Math.floor((pz - 0.7) / 0.55) * 0.6);
-        if (hB < 0.6) hB = 0.6;
-        m = Math.max(boite(px, py, pz, -2.25, 2.5, 0, 0.25, 2.5, 2.0), py - hB);
-        m = Math.max(m, -boite(px, py, pz, -2.25, 2.0, 0, 0.6, 0.6, 0.45));        // son jour, droit
-        var arc = Math.sqrt(pz * pz + (py - 2.6) * (py - 2.6)) - 0.45;             // sous un arc
-        m = Math.max(m, -Math.max(arc, Math.abs(px + 2.25) - 0.6));
+        // La hauteur des murs : 1,7 à l'égout ; les pignons montent au faîte.
+        var faitage = 1.7 + 0.75 * (1 - Math.abs(pz) / 1.1);
+        // La façade, vers nous : sa gauche est ébréchée.
+        var hA = px > -0.3 ? 1.7 : 1.3 + 0.3 * hasard(Math.floor(px / 0.3), 1);
+        d = Math.max(boite(px, py, pz, 0, 1.5, -1.02, 1.5, 1.5, 0.08), py - hA);
+        d = Math.max(d, -boite(px, py, pz, 0.45, 0.55, -1.02, 0.2, 0.56, 0.3));     // la porte
+        d = Math.max(d, -boite(px, py, pz, -0.8, 1.02, -1.02, 0.17, 0.22, 0.3));    // la fenêtre
+        // Le pignon gauche, celui qu'on voit en fuite.
+        m = Math.max(boite(px, py, pz, -1.42, 1.5, 0, 0.08, 1.5, 1.1), py - faitage);
+        m = Math.max(m, -boite(px, py, pz, -1.42, 1.25, 0, 0.3, 0.24, 0.17));       // son jour
         if (m < d) d = m;
-        // Le mur du fond, par pans.
-        var hC = px < 0.3 ? 2.0 + 0.8 * hasard(Math.floor(px / 0.9), 7) : 0.7;
-        m = Math.max(boite(px, py, pz, 0, 2.5, 1.75, 2.5, 2.5, 0.25), py - hC);
+        // Le pignon droit et le mur du fond.
+        m = Math.max(boite(px, py, pz, 1.42, 1.5, 0, 0.08, 1.5, 1.1), py - faitage);
         if (m < d) d = m;
-        // Le mur de droite : il n'en reste que l'assise.
-        var hD = 0.5 + 0.4 * hasard(Math.floor(pz / 0.7), 9);
-        m = Math.max(boite(px, py, pz, 2.25, 2.5, 0, 0.25, 2.5, 2.0), py - hD);
+        m = Math.max(boite(px, py, pz, 0, 1.5, 1.02, 1.5, 1.5, 0.08), py - 1.7);
         if (m < d) d = m;
-        // Les éboulis, au pied de l'angle tombé.
-        m = boule(px, py, pz, 3.0, 0.2, -2.2, 0.6); if (m < d) d = m;
-        m = boule(px, py, pz, 2.0, 0.15, -2.6, 0.42); if (m < d) d = m;
+        // Le toit : il tient encore, sauf au-dessus du pignon gauche où son
+        // bord est déchiré.
+        var bordToit = -0.55 + 0.4 * hasard(Math.floor(pz / 0.22), 3);
+        m = Math.max(Math.abs(py - faitage - 0.06) * 0.82 - 0.05, bordToit - px, px - 1.62, Math.abs(pz) - 1.2);
+        if (m < d) d = m;
+        matiere = 0;
+        // L'arbre, contre le pignon droit : un tronc, une ramure en boules,
+        // au contour froissé comme un feuillage.
+        var a = boule(px, py, pz, 2.55, 2.3, 0.3, 1.1);
+        m = boule(px, py, pz, 1.85, 2.0, 0.5, 0.7); if (m < a) a = m;
+        m = boule(px, py, pz, 3.3, 2.0, 0.2, 0.8); if (m < a) a = m;
+        m = boule(px, py, pz, 2.7, 3.05, 0.3, 0.75); if (m < a) a = m;
+        // Un buisson contre la façade, à gauche.
+        m = boule(px, py * 1.25, pz, -1.75, 0.3, -1.05, 0.5); if (m < a) a = m;
+        m = boule(px, py * 1.25, pz, -1.25, 0.2, -1.3, 0.36); if (m < a) a = m;
+        a += 0.13 * (bruitLisse(px * 4.1 + 3, py * 4.1 + pz * 4.1) - 0.5);
+        m = Math.max(Math.sqrt((px - 2.6) * (px - 2.6) + (pz - 0.3) * (pz - 0.3)) - 0.1, py - 1.6);   // le tronc
+        if (m < a) a = m;
+        if (a < d) { d = a; matiere = 1; }
         return d;
     }
     // Avance le long du rayon ; renvoie la distance du premier contact, ou -1.
     function toucher(ox, oy, oz, dx, dy, dz, jusque) {
         var t = 0;
-        for (var n = 0; n < 90; n++) {
+        for (var n = 0; n < 110; n++) {
             var d = pierres(ox + dx * t, oy + dy * t, oz + dz * t);
-            if (d < 0.012) return t;
-            t += d < 0.03 ? 0.03 : (d > 0.6 ? 0.36 : d * 0.6);
+            if (d < 0.008) return t;
+            t += d < 0.02 ? 0.02 : (d > 0.6 ? 0.36 : d * 0.6);
             if (t > jusque) return -1;
         }
         return -1;
@@ -189,61 +203,74 @@
     function preparerRuine() {
         var n = xs.length;
         if (!ruTon || ruTon.length !== n) { ruTon = new Float32Array(n); ruEclat = new Float32Array(n); ruOmbre = new Uint8Array(n); }
-        // L'œil : à gauche et au-dessus, sans fuyantes (une vue cavalière).
-        var lacet = 0.62, plongee = 0.34;
-        var fx = Math.sin(lacet) * Math.cos(plongee), fy = -Math.sin(plongee), fz = Math.cos(lacet) * Math.cos(plongee);
-        var rx = Math.cos(lacet), rz = -Math.sin(lacet);
-        var ux = fy * rz, uy = fz * rx - fx * rz, uz = -fy * rx;
-        // Le soleil : de la gauche, haut, un peu de face.
-        var lx0 = -0.75, ly0 = 0.8, lz0 = -0.3, ln = Math.sqrt(lx0 * lx0 + ly0 * ly0 + lz0 * lz0);
+        // L'œil du champ : à hauteur 1, l'horizon à hy, le point de fuite à vx.
+        var hy = hauteur * 0.5, vx = largeur * 0.56, bas = hauteur - hy;
+        // Le soleil : de face et de la gauche, haut. La façade est en pleine
+        // lumière, le pignon dans un demi-jour, les jours restent noirs.
+        var lx0 = -0.4, ly0 = 0.7, lz0 = -0.62, ln = Math.sqrt(lx0 * lx0 + ly0 * ly0 + lz0 * lz0);
         lx0 /= ln; ly0 /= ln; lz0 /= ln;
-        var metre = hauteur * 0.06;                      // un mètre, en px
-        var cxr = largeur * 0.555 + hauteur * 0.172, cyr = hauteur * 0.915;
-        var e = 0.01;
+        var e = 0.006;
+        // Le rayon qui passe par le point (x, y) de l'écran : sa direction
+        // dans R, et ce qu'il touche avant le sol (ou -1).
+        var R = [0, 0, 0];
+        function viser(x, y) {
+            var dx = (x - vx) / bas, dy = -((y - hy) / bas + 0.02), dn = Math.sqrt(dx * dx + dy * dy + 1);
+            R[0] = dx / dn; R[1] = dy / dn; R[2] = 1 / dn;
+            var t = toucher(0, 1, 0, R[0], R[1], R[2], 14);
+            var sol = R[1] < -0.0005 ? -1 / R[1] : 1e9;
+            return (t >= 0 && t < sol) ? t : -1;
+        }
 
         for (var i = 0; i < n; i++) {
             ruTon[i] = -1; ruEclat[i] = 0; ruOmbre[i] = 0;
-            var a = (xs[i] - cxr) / metre, b = (cyr - ys[i]) / metre;
-            if (a < -3.4 || a > 8 || b < -2.2 || b > 4.4) continue;
-            var ox = rx * a + ux * b - fx * 20, oy = uy * b - fy * 20, oz = rz * a + uz * b - fz * 20;
-            var t = toucher(ox, oy, oz, fx, fy, fz, 40);
-            var sol = -oy / fy;                           // où le rayon rencontre le sol
-            if (t >= 0 && t < sol) {
-                var px = ox + fx * t, py = oy + fy * t, pz = oz + fz * t;
+            var x = xs[i], y = ys[i];
+            if (x < vx + bas * 0.05 || x > vx + bas * 2.1 || y < hy - bas * 0.8 || y > hy + bas * 0.5) continue;
+            var t = viser(x, y);
+            var dx = R[0], dy = R[1], dz = R[2];
+            if (t >= 0) {
+                var px = dx * t, py = 1 + dy * t, pz = dz * t;
                 var nx = pierres(px + e, py, pz) - pierres(px - e, py, pz);
                 var ny = pierres(px, py + e, pz) - pierres(px, py - e, pz);
                 var nz = pierres(px, py, pz + e) - pierres(px, py, pz - e);
+                var feuille = matiere === 1;
                 var nn = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
                 nx /= nn; ny /= nn; nz /= nn;
                 var jour = nx * lx0 + ny * ly0 + nz * lz0;
                 if (jour < 0) jour = 0;
-                if (jour > 0 && toucher(px + nx * 0.08, py + ny * 0.08, pz + nz * 0.08, lx0, ly0, lz0, 12) >= 0) jour = 0;
-                // Chaque pierre a son ton : des assises décalées d'un rang à l'autre.
-                var rang = Math.floor(py / 0.42);
-                var grain = hasard(Math.floor((px - pz) / 0.8 + rang * 0.5), rang) - 0.5;
-                // Trois valeurs franches : le pignon et le dessus des murs en
-                // plein soleil, la façade dans un demi-jour, le reste à l'ombre.
-                var clair = jour * 1.5;
-                if (clair > 1) clair = 1;
-                ruTon[i] = sombre ? 0.06 + 0.72 * clair + 0.06 * grain : 0.17 + 0.7 * (1 - clair) + 0.1 * grain * (1.2 - clair);
-                ruEclat[i] = clair > 0.8 ? 0.3 * (clair - 0.8) / 0.2 : 0;
-                // Le contour : là où le rayon voisin passe à côté de la pierre,
-                // ou touche un mur bien plus loin, on est sur une arête. Un
-                // trait la dessine, comme la crête de la montagne.
-                var pas = 0.2, arete = false;
-                for (var v = 0; v < 3 && !arete; v++) {
-                    var da = v === 0 ? -pas : v === 1 ? pas : 0, db = v === 2 ? pas : 0;
-                    var qx = ox + rx * da + ux * db, qy = oy + uy * db, qz = oz + rz * da + uz * db;
-                    var tv = toucher(qx, qy, qz, fx, fy, fz, 40);
-                    if (tv < 0 || tv > -qy / fy || Math.abs(tv - t) > 0.9) arete = true;
+                if (jour > 0 && toucher(px + nx * 0.05, py + ny * 0.05, pz + nz * 0.05, lx0, ly0, lz0, 8) >= 0) jour = 0;
+                var clair, grain;
+                if (feuille) {
+                    // Le feuillage : sombre, modelé en boule, moucheté.
+                    clair = 0.75 * jour;
+                    grain = bruitLisse(px * 9, py * 9 + pz * 9) - 0.5;
+                    ruTon[i] = sombre ? 0.22 + 0.5 * clair + 0.2 * grain : 0.34 + 0.56 * (1 - clair) + 0.22 * grain;
+                } else {
+                    // La pierre, en trois valeurs franches : le pignon et le
+                    // toit en plein soleil, la façade dans un demi-jour, le
+                    // reste à l'ombre. Chaque pierre a son ton.
+                    clair = jour * 1.5;
+                    if (clair > 1) clair = 1;
+                    var rang = Math.floor(py / 0.2);
+                    grain = hasard(Math.floor((px - pz) / 0.36 + rang * 0.5), rang) - 0.5;
+                    ruTon[i] = sombre ? 0.06 + 0.72 * clair + 0.06 * grain : 0.17 + 0.68 * (1 - clair) + 0.1 * grain * (1.2 - clair);
+                    ruEclat[i] = clair > 0.8 ? 0.3 * (clair - 0.8) / 0.2 : 0;
+                    // Le contour : là où le rayon voisin passe à côté de la
+                    // pierre, ou touche bien plus loin, on est sur une arête.
+                    // Un trait la dessine, comme la crête de la montagne.
+                    var arete = false;
+                    for (var v = 0; v < 3 && !arete; v++) {
+                        var tv = viser(x + (v === 0 ? -5 : v === 1 ? 5 : 0), y - (v === 2 ? 5 : 0));
+                        if (tv < 0 || Math.abs(tv - t) > 0.35) arete = true;
+                    }
+                    if (arete) { ruTon[i] = sombre ? 0.03 : 0.84; ruEclat[i] = 0; }
                 }
-                if (arete) { ruTon[i] = sombre ? 0.03 : 0.82; ruEclat[i] = 0; }
-            } else if (sol > 0) {
-                var gx = ox + fx * sol, gz = oz + fz * sol;
-                var aOmbre = toucher(gx, 0.03, gz, lx0, ly0, lz0, 12) >= 0;
-                if (gx > -2 && gx < 2 && gz > -1.5 && gz < 1.5) {
-                    // Le sol de la maison : de la terre nue.
-                    ruTon[i] = sombre ? (aOmbre ? 0.04 : 0.3) : (aOmbre ? 0.92 : 0.2);
+            } else if (dy < -0.0005) {
+                var sol = -1 / dy, gx = dx * sol, gz = dz * sol;
+                if (gz > 12) continue;
+                var aOmbre = toucher(gx, 0.02, gz, lx0, ly0, lz0, 8) >= 0;
+                if (Math.abs(gx - MX) < 1.34 && Math.abs(gz - MZ) < 0.94) {
+                    // Le sol du cabanon : de la terre nue.
+                    ruTon[i] = sombre ? (aOmbre ? 0.04 : 0.3) : (aOmbre ? 0.9 : 0.2);
                 } else if (aOmbre) {
                     ruOmbre[i] = 1;
                 }
