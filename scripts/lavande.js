@@ -158,7 +158,7 @@
         var nl = 0;
 
         for (var i = 0; i < xs.length; i++) {
-            var x = xs[i], y = ys[i], ton = 0, eclat = 0;
+            var x = xs[i], y = ys[i], ton = 0, eclat = 0, bord = 0;
 
             var u = (x - mg) / ml;
             var sommet = pied - mh * profil(u);
@@ -183,13 +183,17 @@
                 // champ. Son faîte accroche la lumière.
                 var d2 = y - col2;
                 ton = 0.44 - 0.2 * lisse(0, hy - col2, d2);
-                if (d2 < 5) { ton = 0.12; eclat = 0.3; }
+                // Son faîte : un trait plein, sur une rangée entière de points.
+                if (d2 < 9.5) bord = 0.62;
             } else if (y >= col1 && y < col2) {
                 // Les collines : un aplat clair, à peine plus dense vers le
                 // bas, sous une crête fine.
                 var d1 = y - col1;
                 ton = 0.11 + 0.05 * lisse(0, hauteur * 0.06, d1);
-                if (d1 < 5) ton = 0.24;
+                if (d1 < 9.5) bord = 0.4;
+                // Juste derrière la haie, la colline s'éclaircit : la haie
+                // se détache.
+                ton *= 0.35 + 0.65 * lisse(0, 22, col2 - y);
             } else if (y >= sommet && y < col1) {
                 // La face. Son ombre vient de la pente de la crête au-dessus :
                 // là où la crête descend vers l'est, le versant tourne le dos
@@ -221,7 +225,10 @@
                 if (ax < 0 && ay > 0 && dist1 < 4) ton = Math.max(ton, 0.3 * (1 - prof));
                 if (ax > 0 && ay > 0 && dist2 < 4) ton = Math.max(ton, 0.34 * (1 - prof));
                 // L'arête se lit par une ligne de points un peu plus forts.
-                if (y - sommet < 7) { ton = Math.max(ton, 0.34); eclat = 0; }
+                // La crête : un trait franc sur une rangée, une seconde plus
+                // légère dessous. C'est elle qui découpe la montagne sur le ciel.
+                if (y - sommet < 9.5) bord = 0.6;
+                else if (y - sommet < 19) ton = Math.max(ton, 0.2);
                 if (ton < 0.03) ton = 0.03;
                 // En sombre, l'encre est claire : elle dessine la lumière.
                 if (sombre) ton = 0.44 - ton;
@@ -229,6 +236,9 @@
                 // Le ciel, qui se charge vers le haut.
                 var haut = 1 - y / hy;
                 ton = 0.055 + 0.11 * haut * haut;
+                // Au ras des reliefs, le ciel se vide : un liseré de papier
+                // nu qui détache leur silhouette.
+                var ras = lisse(0, 26, Math.min(sommet, col1, col2) - y);
                 // Les nuages : petits, clairs, le ventre un peu gris.
                 var nx = x / hauteur * 4.4 - t * 0.06, ny = y / hauteur * 10.5;
                 var blanc = nuage(nx, ny, 0.56);
@@ -238,6 +248,7 @@
                     ton = ton * (1 - blanc) + (sombre ? 0 : 0.32 * ventre);
                     eclat = 0.42 * blanc * (1 - 0.8 * ventre);
                 }
+                ton *= ras; eclat *= ras;
             } else {
                 // La lavande. La profondeur suit l'inverse de la distance à
                 // l'horizon ; la coordonnée de rang suit la perspective.
@@ -276,6 +287,9 @@
                 if (!sombre) ton += 0.03 * ot;
                 eclat *= 1 - ot;
             }
+            // Les silhouettes passent après les nuages : ni ombre ni lumière
+            // ne les efface. En sombre, le trait est clair.
+            if (bord) { ton = bord; eclat = 0; }
 
             // Un seuil bas : les points s'éteignent en rétrécissant, pas d'un coup
             // sur une même rangée, ce qui y tracerait une ligne.
