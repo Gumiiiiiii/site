@@ -56,6 +56,14 @@
         overflow: visible;
         transition: none;
     }
+    /* Le thème sombre de shared.css redonne à la barre son fond dépoli,
+       par une règle plus lourde que celle d'au-dessus : sur l'accueil, où
+       la barre court d'un bord à l'autre, cela posait une bande sombre en
+       haut de l'écran. La reprise se fait au même poids. */
+    :root[data-theme="dark"] body.ecran .navbar {
+        background: none;
+        border: 0;
+    }
     body.ecran .nav-sep { display: none; }
     body.ecran .nav-logo { padding: 0 0.4rem 0 0 !important; }
 

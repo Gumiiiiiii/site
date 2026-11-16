@@ -5,14 +5,15 @@
    Une seule page porte tout le site : la phrase, les expérimentations et
    les outils. Il n'y a plus de pages de liste.
 
-   Le fond est un dégradé maillé fait de points (scripts/trame.js). Dessus,
+   Le fond est un volume dessiné en points, en gris (scripts/trame.js) : la
+   couleur du site n'apparaît que sur ce qui se clique. Dessus,
    deux listes bâties de la même façon, pour qu'on les lise comme deux
    rubriques : un titre en toutes lettres, un compte, un filet, puis des
    lignes numérotées.
 
      logo                                              langue · thème
 
-       (le dégradé, plein écran)                       Mes outils     11
+       (le volume, plein écran)                         Mes outils     11
                                                        ─────────────────
      La phrase, en grand                               01  ……………
                                                        02  ……………
@@ -161,7 +162,7 @@
 }
 
 /* L'icône de l'outil : elle ne se montre qu'au survol, au bout de la
-   ligne, pendant que la trame la redessine en grand. */
+   ligne. */
 .outil-icone {
     display: flex;
     color: var(--accent-ink);

@@ -163,65 +163,44 @@ const CHECKS = [
         }
     },
     {
-        // Le fond de l accueil (scripts/trame.js) est un degrade maille fait
-        // de points, teinte de l encre au violet. On verifie qu il est
-        // dessine, qu il porte bien plusieurs teintes, qu il se retire sous
-        // la phrase, et que le survol d un outil y dessine son icone.
-        name: 'accueil: le degrade de points est dessine et se retire sous le texte',
+        // Le fond de l accueil (scripts/trame.js) est un volume dessine en
+        // points. On verifie qu il est la, qu il n est fait que de gris (la
+        // couleur est reservee a ce qui se clique), qu il reste leger, et
+        // qu aucune bande ne barre le haut de l ecran dans les deux themes.
+        name: 'accueil: le volume de points est gris, leger, et sans bande en haut',
         async run(page) {
             await page.setViewport({ width: 1440, height: 780 });
             try {
-                await page.goto(BASE + '/', { waitUntil: 'networkidle0' });
-                await new Promise((r) => setTimeout(r, 2600));
-                const lire = () => page.evaluate(() => {
-                    const c = document.getElementById('trame');
-                    const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
-                    const k = c.width / innerWidth;
-                    const teintes = new Set();
-                    const zone = (g, h, dr, b) => {
-                        let n = 0, total = 0;
-                        for (let y = Math.round(h * k); y < Math.round(b * k); y += 2) {
-                            for (let x = Math.round(g * k); x < Math.round(dr * k); x += 2) {
-                                const p = (y * c.width + x) * 4;
-                                total += 1;
-                                if (d[p + 3] > 12) { n += 1; teintes.add((d[p] >> 5) + '-' + (d[p + 1] >> 5) + '-' + (d[p + 2] >> 5)); }
-                            }
+                for (const theme of ['light', 'dark']) {
+                    await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: theme }]);
+                    await page.goto(BASE + '/', { waitUntil: 'networkidle0' });
+                    await page.evaluate((t) => {
+                        if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+                        else document.documentElement.removeAttribute('data-theme');
+                    }, theme);
+                    await new Promise((r) => setTimeout(r, 1500));
+                    const m = await page.evaluate(() => {
+                        const c = document.getElementById('trame');
+                        const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+                        let pleins = 0, colores = 0, fort = 0;
+                        for (let p = 0; p < d.length; p += 16) {
+                            if (d[p + 3] < 6) continue;
+                            pleins += 1;
+                            // L encre du site est un gris chaud : on cherche le violet, donc un bleu qui domine.
+                            if (d[p + 2] - Math.min(d[p], d[p + 1]) > 18) colores += 1;
+                            if (d[p + 3] > 70) fort += 1;
                         }
-                        return n / total;
-                    };
-                    const r = document.getElementById('hero-text').getBoundingClientRect();
-                    return {
-                        libre: zone(60, 90, 900, r.top - 60),
-                        sousPhrase: zone(r.left + 50, r.top + 40, r.right - 50, r.bottom - 40),
-                        teintes: teintes.size
-                    };
-                });
-                const repos = await lire();
-                if (repos.libre < 0.05) throw new Error('le degrade est absent (' + repos.libre.toFixed(3) + ')');
-                if (repos.teintes < 3) throw new Error('le degrade n a qu une teinte (' + repos.teintes + ')');
-                if (repos.sousPhrase > repos.libre * 0.35) throw new Error('la trame ne se retire pas sous la phrase (' + repos.sousPhrase.toFixed(3) + ' contre ' + repos.libre.toFixed(3) + ')');
-                // L icone d un outil se dessine a l encre pleine du halftone.
-                await page.hover('.outil[href="tools/qrcode"]');
-                await new Promise((r) => setTimeout(r, 2400));
-                const pleins = await page.evaluate(() => {
-                    const c = document.getElementById('trame');
-                    const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
-                    let n = 0;
-                    for (let p = 3; p < d.length; p += 16) if (d[p] > 12) n += 1;
-                    return n;
-                });
-                await page.mouse.move(700, 60);
-                await new Promise((r) => setTimeout(r, 2400));
-                const apres = await page.evaluate(() => {
-                    const c = document.getElementById('trame');
-                    const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
-                    let n = 0;
-                    for (let p = 3; p < d.length; p += 16) if (d[p] > 12) n += 1;
-                    return n;
-                });
-                if (Math.abs(pleins - apres) < apres * 0.08) throw new Error('le survol d un outil ne change pas la trame (' + pleins + ' puis ' + apres + ')');
+                        const barre = getComputedStyle(document.querySelector('.navbar'));
+                        return { part: pleins / (d.length / 16), colores, fort, fondBarre: barre.backgroundColor, filtre: barre.backdropFilter };
+                    });
+                    if (m.part < 0.03) throw new Error(theme + ' : le volume est absent (' + m.part.toFixed(3) + ')');
+                    if (m.colores > 0) throw new Error(theme + ' : ' + m.colores + ' points sont colores');
+                    if (m.fort > 0) throw new Error(theme + ' : ' + m.fort + ' points sont trop marques');
+                    if (!/rgba\(0, 0, 0, 0\)|transparent/.test(m.fondBarre)) throw new Error(theme + ' : la barre a un fond (' + m.fondBarre + ')');
+                    if (m.filtre && m.filtre !== 'none') throw new Error(theme + ' : la barre floute le fond (' + m.filtre + ')');
+                }
             } finally {
-                await page.mouse.move(0, 0);
+                await page.emulateMediaFeatures([]);
                 await page.setViewport({ width: 1440, height: 900 });
             }
         }
