@@ -169,7 +169,10 @@
             var sommet = pied - mh * profil(u);
             // Le plan du milieu : les collines au loin, la haie devant.
             var col1 = hy - hauteur * (0.095 + 0.03 * Math.sin(x * 0.0052 + 0.8) + 0.014 * Math.sin(x * 0.0145 + 2.1));
-            var col2 = hy - hauteur * (0.034 + 0.012 * Math.sin(x * 0.0061 + 3.3) + 0.02 * Math.abs(Math.sin(x * 0.047)) + 0.011 * Math.abs(Math.sin(x * 0.113 + 1.3)));
+            // La haie n'est pas un mur droit : elle monte en bosquets, retombe
+            // presque à ras du champ, et son faîte reste festonné.
+            var bosquet = 0.3 + 0.7 * lisse(-0.5, 0.6, Math.sin(x * 0.0037 + 0.6) + 0.55 * Math.sin(x * 0.0091 + 2.2));
+            var col2 = hy - hauteur * bosquet * (0.05 + 0.022 * Math.sin(x * 0.0061 + 3.3) + 0.024 * Math.abs(Math.sin(x * 0.047)) + 0.012 * Math.abs(Math.sin(x * 0.113 + 1.3)));
 
             // Les cyprès : une flamme étroite, plus large au tiers du bas.
             var cypres = 0;
