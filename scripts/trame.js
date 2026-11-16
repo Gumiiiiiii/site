@@ -73,7 +73,7 @@
     // Les lumières : une seconde encre, claire, pour ce que le soleil touche.
     // L'encre grise dessine les ombres ; celle-ci pose des points blancs sur
     // le papier (en sombre, des points plus vifs que les autres).
-    var lumiere = 'rgba(255, 255, 255, 0.9)', lx, ly, lr;
+    var lumiere = 'rgba(255, 249, 238, 0.6)', lx, ly, lr;
     // L'apparition : au premier dessin, les points se développent depuis
     // le centre vers les bords, comme une image qui monte dans le bain du
     // tirage. Le texte de la page attend la fin (--intro, styles/accueil.css).
@@ -116,7 +116,8 @@
         var rgb = (style.getPropertyValue('--text-rgb') || '26, 26, 26').trim();
         sombre = document.documentElement.getAttribute('data-theme') === 'dark';
         encre = 'rgba(' + rgb + ', ' + (sombre ? 0.15 : 0.12) + ')';
-        lumiere = sombre ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.9)';
+        pret = false;       // le ton de la pierre dépend du thème
+        lumiere = sombre ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 249, 238, 0.6)';
     }
 
     // ------------------------------------------------------------------
@@ -203,22 +204,40 @@
         return a <= 0 ? 0 : (a >= 1 ? 1 : a * a);
     }
 
-    function tracer(maintenant) {
-        boucle = 0;
-        if (!SEUIL.matches || !ctx) return;
-        if (debut < 0) debut = maintenant;
-        var e = CALME.matches ? INTRO : (maintenant - debut) / 1000;   // le temps depuis l'apparition
-        if (e >= INTRO && maintenant - dernier < CADENCE) { reveiller(); return; }
-        dernier = maintenant;
+    function hasard(i, j) {
+        var n = Math.sin(i * 127.1 + j * 311.7) * 43758.5453;
+        return n - Math.floor(n);
+    }
+    // Les nuages : un bruit lisse, à deux échelles, qui dérive lentement. Dans
+    // le ciel il pose des taches claires ; au sol, leur ombre glisse sur le
+    // paysage. C'est le seul mouvement du fond : la lumière qui change.
+    function bruitLisse(x, y) {
+        var i = Math.floor(x), j = Math.floor(y), fx = x - i, fy = y - j;
+        fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy);
+        var a = hasard(i, j), b = hasard(i + 1, j), c = hasard(i, j + 1), d = hasard(i + 1, j + 1);
+        return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
+    }
+    function nuage(x, y) {
+        var n = 0.65 * bruitLisse(x, y) + 0.35 * bruitLisse(x * 2.3 + 7.1, y * 2.3 + 3.4);
+        n = (n - 0.46) / 0.24;
+        n = n < 0 ? 0 : n > 1 ? 1 : n;
+        return n * n * (3 - 2 * n);
+    }
 
-        var t = CALME.matches ? 0 : maintenant / 1000;
-
+    // Le pont ne bouge pas : chaque point est calculé une fois (le rayon, la
+    // pierre touchée, sa clarté), puis seuls la lumière des nuages et les
+    // rides de l'eau changent d'une image à l'autre.
+    var pret = false, genre, tonBase, eclatBase, aux, eauX, eauZ, cx = 0, cy = 0;
+    function preparer() {
+        var n = xs.length;
+        if (!genre || genre.length !== n) {
+            genre = new Uint8Array(n); tonBase = new Float32Array(n); eclatBase = new Float32Array(n);
+            aux = new Float32Array(n); eauX = new Float32Array(n); eauZ = new Float32Array(n);
+            lx = new Float32Array(n); ly = new Float32Array(n); lr = new Float32Array(n);
+        }
         // L'œil : devant le pont, à droite, tourné vers la gauche le long
-        // de l'ouvrage. Il avance lentement ; le pont étant le même à
-        // chaque travée, la marche ne finit jamais.
-        var ex = t * 0.035;
-        var ey = 0.02;
-        var ez = -3.3;
+        // de l'ouvrage.
+        var ex = 0, ey = 0.02, ez = -3.3;
         // La direction du regard, puis la droite et le haut de l'image.
         var fx = -0.66, fy = 0.06, fz = 1.0;
         var fn = Math.sqrt(fx * fx + fy * fy + fz * fz);
@@ -231,17 +250,10 @@
         // Le champ de vision se cale sur la hauteur : le pont garde sa
         // taille d'un écran à l'autre, et un écran large en voit plus long.
         var focale = hauteur * 1.08;
-        var cx = largeur * 0.60, cy = hauteur * 0.54;
+        cx = largeur * 0.60; cy = hauteur * 0.54;
         var PORTEE = 15;
 
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.clearRect(0, 0, largeur, hauteur);
-        ctx.fillStyle = encre;
-        ctx.beginPath();
-        var nl = 0;
-        if (!lx || lx.length < xs.length) { lx = new Float32Array(xs.length); ly = new Float32Array(xs.length); lr = new Float32Array(xs.length); }
-
-        for (var i = 0; i < xs.length; i++) {
+        for (var i = 0; i < n; i++) {
             var a = (xs[i] - cx) / focale, b = (cy - ys[i]) / focale;
             var dx = fx + rx * a + ux * b, dy = fy + uy * b, dz = fz + rz * a + uz * b;
             var dn = Math.sqrt(dx * dx + dy * dy + dz * dz);
@@ -261,20 +273,18 @@
                     eclat = 0.55 * soleilPierre * soleilPierre * (3 - 2 * soleilPierre) * air(M.s);
                     if (!sombre) ton *= 1 - 0.7 * soleilPierre;
                 }
+                genre[i] = 1;
             } else if (sEau < PORTEE) {
-                // La rivière. Des rides lentes courent à sa surface : elles
-                // se lisent seules, en lignes de points, et elles
-                // dévient le reflet.
+                // La rivière : on garde où le rayon la touche, et le reflet
+                // du pont, renvoyé vers le haut. Les rides viennent à chaque
+                // image.
                 var wx = ex + dx * sEau, wz = ez + dz * sEau;
-                var ride = Math.sin(wz * 12 + Math.sin(wx * 3.2 + t * 0.5) * 1.5 + t * 0.6);
-                ton = 0.035 + 0.05 * (ride * 0.5 + 0.5);
-                // Le reflet : le même rayon, renvoyé vers le haut.
-                if (marcher(wx, EAU, wz, dx + 0.03 * ride, -dy, dz, 0.03, PORTEE - sEau)) {
-                    ton += tonPierre(clarte(M.x, M.y, M.z)) * 0.5 * air(sEau + M.s);
+                if (marcher(wx, EAU, wz, dx, -dy, dz, 0.03, PORTEE - sEau)) {
+                    ton = tonPierre(clarte(M.x, M.y, M.z)) * 0.5 * air(sEau + M.s);
                 }
-                ton *= air(sEau);
-                // Le haut des rides accroche le soleil.
-                if (ride > 0.8) eclat = 0.3 * (ride - 0.8) / 0.2 * air(sEau);
+                eauX[i] = wx; eauZ[i] = wz;
+                aux[i] = air(sEau);
+                genre[i] = 2;
             } else {
                 // Le ciel : il se charge en montant vers le zénith. Du côté
                 // du soleil, en haut à gauche, il reste clair.
@@ -285,12 +295,63 @@
                     var soleil = 1 - Math.sqrt(sx * sx + sy * sy) / 1.7;
                     if (soleil < 0) soleil = 0;
                     ton = 0.16 * haut * Math.sqrt(haut) * (0.3 + 0.7 * (sombre ? soleil : 1 - soleil));
+                } else {
+                    haut = 0;
                 }
+                aux[i] = haut;
+                genre[i] = 0;
                 // L'arête de la pierre s'achève en quelques points plus petits.
                 if (M.proche < 0.03 && M.s <= PORTEE) {
                     var arete = (1 - M.proche / 0.03) * 0.2 * air(M.s);
-                    if (arete > ton) ton = arete;
+                    if (arete > ton) { ton = arete; genre[i] = 3; }
                 }
+            }
+            tonBase[i] = ton;
+            eclatBase[i] = eclat;
+        }
+        pret = true;
+    }
+
+    function tracer(maintenant) {
+        boucle = 0;
+        if (!SEUIL.matches || !ctx) return;
+        if (debut < 0) debut = maintenant;
+        var e = CALME.matches ? INTRO : (maintenant - debut) / 1000;   // le temps depuis l'apparition
+        if (e >= INTRO && maintenant - dernier < CADENCE) { reveiller(); return; }
+        dernier = maintenant;
+
+        var t = CALME.matches ? 0 : maintenant / 1000;
+
+        if (!pret) preparer();
+
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, largeur, hauteur);
+        ctx.fillStyle = encre;
+        ctx.beginPath();
+        var nl = 0;
+        var derive = t * 0.025;
+
+        for (var i = 0; i < xs.length; i++) {
+            var ton = tonBase[i], eclat = eclatBase[i], g = genre[i];
+            var nu = xs[i] / hauteur * 1.6 - derive, nv = ys[i] / hauteur * 3.2;
+
+            if (g === 1) {
+                // La pierre : l'ombre des nuages passe sur elle.
+                var op = nuage(nu + 0.4, nv + 1.7);
+                ton = sombre ? ton * (1 - 0.4 * op) : ton * (1 + 0.4 * op) + 0.04 * op;
+                eclat *= 1 - op;
+            } else if (g === 2) {
+                // La rivière. Des rides lentes courent à sa surface : elles
+                // se lisent seules, en lignes de points.
+                var ride = Math.sin(eauZ[i] * 12 + Math.sin(eauX[i] * 3.2 + t * 0.5) * 1.5 + t * 0.6);
+                ton = (0.035 + 0.05 * (ride * 0.5 + 0.5) + ton) * aux[i];
+                // Le haut des rides accroche le soleil.
+                if (ride > 0.8) eclat = 0.3 * (ride - 0.8) / 0.2 * aux[i];
+            } else if (g === 0 && aux[i] > 0) {
+                // Le ciel : les nuages y passent en taches claires.
+                var blanc = nuage(nu, nv);
+                ton *= 1 - 0.6 * blanc;
+                eclat = 0.2 * blanc * (0.35 + 0.65 * aux[i]);
             }
 
             if (ton < 0.015 && eclat < 0.02) continue;

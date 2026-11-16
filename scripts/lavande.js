@@ -32,7 +32,7 @@
     // Les lumières : une seconde encre, claire, pour ce que le soleil touche.
     // L'encre grise dessine les ombres ; celle-ci pose des points blancs sur
     // le papier (en sombre, des points plus vifs que les autres).
-    var lumiere = 'rgba(255, 255, 255, 0.9)', lx, ly, lr;
+    var lumiere = 'rgba(255, 249, 238, 0.6)', lx, ly, lr;
     var boucle = 0, dernier = 0, debut = -1;
     // L'apparition : au premier dessin, les points se développent depuis
     // l'horizon vers les bords, comme une image qui monte dans le bain du
@@ -62,7 +62,7 @@
         var rgb = (getComputedStyle(document.documentElement).getPropertyValue('--text-rgb') || '26, 26, 26').trim();
         sombre = document.documentElement.getAttribute('data-theme') === 'dark';
         encre = 'rgba(' + rgb + ', ' + (sombre ? 0.15 : 0.12) + ')';
-        lumiere = sombre ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.9)';
+        lumiere = sombre ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 249, 238, 0.6)';
     }
 
     // La crête, relevée sur une photo prise du sud : à l'ouest une longue
@@ -110,6 +110,22 @@
 
     // Les cyprès : [part de la largeur de l'écran, hauteur en part de l'écran].
     var CYPRES = [[0.215, 0.1], [0.231, 0.075], [0.905, 0.11], [0.921, 0.085]];
+
+    // Les nuages : un bruit lisse, à deux échelles, qui dérive lentement. Dans
+    // le ciel il pose des taches claires ; au sol, leur ombre glisse sur le
+    // paysage. C'est le seul mouvement du fond : la lumière qui change.
+    function bruitLisse(x, y) {
+        var i = Math.floor(x), j = Math.floor(y), fx = x - i, fy = y - j;
+        fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy);
+        var a = hasard(i, j), b = hasard(i + 1, j), c = hasard(i, j + 1), d = hasard(i + 1, j + 1);
+        return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
+    }
+    function nuage(x, y) {
+        var n = 0.65 * bruitLisse(x, y) + 0.35 * bruitLisse(x * 2.3 + 7.1, y * 2.3 + 3.4);
+        n = (n - 0.46) / 0.24;
+        n = n < 0 ? 0 : n > 1 ? 1 : n;
+        return n * n * (3 - 2 * n);
+    }
 
     function lisse(a, b, x) {
         var t = (x - a) / (b - a);
@@ -231,14 +247,17 @@
                 // Le ciel, qui se charge vers le haut.
                 var haut = 1 - y / hy;
                 ton = 0.13 * haut * haut;
+                // Les nuages : des taches claires qui passent.
+                var blanc = nuage(x / hauteur * 1.6 - t * 0.025, y / hauteur * 3.2);
+                ton *= 1 - 0.6 * blanc;
+                eclat = 0.2 * blanc * (0.35 + 0.65 * haut);
             } else {
                 // La lavande. La profondeur suit l'inverse de la distance à
                 // l'horizon ; la coordonnée de rang suit la perspective.
                 var p = (y - hy) / bas;                       // 0 à l'horizon, 1 en bas
                 var prof = 1 / (p + 0.02);
                 var X = (x - vx) / (p + 0.02) / largeur;      // position dans le champ
-                var vent = Math.sin(t * 0.7 + prof * 0.35) * 0.012;
-                var u = X * 4 + vent;
+                var u = X * 4;
                 var f = u - Math.floor(u);
                 var crete = 1 - Math.abs(f - 0.5) * 2;        // 1 au milieu du rang
                 var touffe = 0.75 + 0.25 * Math.cos(prof * 2.6 + Math.floor(u) * 1.7);
@@ -257,6 +276,18 @@
                 var flanc = lisse(0.275, 0.3, f) * (1 - lisse(0.36, 0.43, f)) * sortie;
                 eclat = 0.5 * flanc * touffe;
                 ton *= 1 - 0.85 * flanc;
+                // L'ombre des nuages court sur le champ, en perspective.
+                var os = nuage(X * 0.5 - t * 0.02, prof * 0.12) * sortie;
+                ton *= sombre ? 1 - 0.4 * os : 1 + 0.45 * os;
+                eclat *= 1 - os;
+            }
+
+            // L'ombre des nuages sur la montagne et les collines.
+            if (y < hy && y >= Math.min(sommet, col1)) {
+                var ot = nuage(x / hauteur * 1.6 - t * 0.025 + 0.4, y / hauteur * 3.2 + 1.7);
+                ton *= sombre ? 1 - 0.4 * ot : 1 + 0.45 * ot;
+                if (!sombre) ton += 0.03 * ot;
+                eclat *= 1 - ot;
             }
 
             // Un seuil bas : les points s'éteignent en rétrécissant, pas d'un coup
