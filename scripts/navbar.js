@@ -13,7 +13,7 @@
     const navbarMarkup = `
         <div class="nav-group nav-group--logo">
             <a href="${homeHref()}" class="nav-logo no-select">
-                <img src="${basePrefix}media/Gumi-small.png" alt="Gumi" onerror="this.src='https://placehold.co/56x56/transparent/9C77F5?text=G.'">
+                <img src="${basePrefix}media/logo-trame.svg" alt="Gumi" onerror="this.src='https://placehold.co/56x56/transparent/9C77F5?text=G.'">
             </a>
         </div>
         <span class="nav-sep" aria-hidden="true"></span>
