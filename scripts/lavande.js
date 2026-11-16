@@ -107,6 +107,12 @@
         return hasard(i, j) - 0.5;
     }
 
+    // Les collines : des dos ronds qui se recouvrent, du plus lointain au plus
+    // proche. [centre, demi-largeur (parts de la largeur de l'écran), hauteur
+    // (part de sa hauteur)]. Chacune a son côté au soleil, à gauche, et son
+    // côté à l'ombre : c'est ce modelé qui les fait lire comme des collines.
+    var COLLINES = [[0.33, 0.30, 0.17], [0.83, 0.27, 0.15], [0.04, 0.2, 0.135], [0.58, 0.2, 0.11], [1.0, 0.16, 0.12]];
+
     // Les cyprès : [part de la largeur de l'écran, hauteur en part de l'écran].
     var CYPRES = [[0.215, 0.1], [0.231, 0.075], [0.905, 0.11], [0.921, 0.085]];
 
@@ -168,11 +174,21 @@
             var u = (x - mg) / ml;
             var sommet = pied - mh * profil(u);
             // Le plan du milieu : les collines au loin, la haie devant.
-            var col1 = hy - hauteur * (0.095 + 0.03 * Math.sin(x * 0.0052 + 0.8) + 0.014 * Math.sin(x * 0.0145 + 2.1));
+            // col1 est le haut des collines à cet endroit ; colline, celle qui
+            // est devant ; versant, de -1 (son bord gauche) à 1 (son bord droit).
+            var col1 = hy, colline = -1, hautColline = hy, versant = 0;
+            for (var k = 0; k < COLLINES.length; k++) {
+                var ecart = (x / largeur - COLLINES[k][0]) / COLLINES[k][1];
+                if (ecart <= -1 || ecart >= 1) continue;
+                var dos = Math.cos(ecart * 1.5708);
+                var haut1 = hy - hauteur * COLLINES[k][2] * Math.pow(dos, 1.25);
+                if (haut1 < col1) col1 = haut1;
+                if (y >= haut1) { colline = k; hautColline = haut1; versant = ecart; }
+            }
             // La haie n'est pas un mur droit : elle monte en bosquets, retombe
             // presque à ras du champ, et son faîte reste festonné.
             var bosquet = 0.3 + 0.7 * lisse(-0.5, 0.6, Math.sin(x * 0.0037 + 0.6) + 0.55 * Math.sin(x * 0.0091 + 2.2));
-            var col2 = hy - hauteur * bosquet * (0.05 + 0.022 * Math.sin(x * 0.0061 + 3.3) + 0.024 * Math.abs(Math.sin(x * 0.047)) + 0.012 * Math.abs(Math.sin(x * 0.113 + 1.3)));
+            var col2 = hy - hauteur * bosquet * (0.04 + 0.018 * Math.sin(x * 0.0061 + 3.3) + 0.024 * Math.abs(Math.sin(x * 0.047)) + 0.012 * Math.abs(Math.sin(x * 0.113 + 1.3)));
 
             // Les cyprès : une flamme étroite, plus large au tiers du bas.
             var cypres = 0;
@@ -193,16 +209,19 @@
                 ton = 0.6 - 0.18 * lisse(0, hy - col2, d2);
                 // Son faîte : un trait plein, sur une rangée entière de points.
                 if (d2 < 9.5) bord = 0.66;
-            } else if (y >= col1 && y < col2) {
-                // Les collines : un aplat clair, à peine plus dense vers le
-                // bas, sous une crête fine.
-                var d1 = y - col1;
-                ton = 0.15 + 0.06 * lisse(0, hauteur * 0.06, d1);
-                if (d1 < 9.5) bord = 0.28;
+            } else if (colline >= 0 && y < hy) {
+                // Une colline : claire du côté du soleil, plus dense en
+                // tournant vers la droite et vers son pied ; les plus proches
+                // sont un peu plus sombres.
+                var d1 = y - hautColline;
+                var aOmbre = lisse(-0.35, 0.85, versant);
+                ton = 0.17 + 0.27 * aOmbre + 0.08 * lisse(0, hauteur * 0.07, d1) + 0.025 * colline;
+                eclat = 0.22 * (1 - lisse(-0.7, 0.1, versant)) * (1 - lisse(0, hauteur * 0.035, d1));
+                if (d1 < 9.5) bord = 0.44;
                 // Juste derrière la haie, la colline s'éclaircit : la haie
                 // se détache.
                 ton *= 0.6 + 0.4 * lisse(0, 20, col2 - y);
-            } else if (y >= sommet && y < col1) {
+            } else if (y >= sommet && y < hy) {
                 // La face. Son ombre vient de la pente de la crête au-dessus :
                 // là où la crête descend vers l'est, le versant tourne le dos
                 // au soleil.
@@ -277,8 +296,8 @@
                 // Le rang est un volume : son flanc à l'ombre, à droite, est
                 // plus dense que son dos. Et le premier plan est le plus
                 // contrasté : c'est lui qui donne la profondeur.
-                var versant = 1 + 0.45 * lisse(0.5, 0.66, f);
-                var plein = 0.24 + (0.6 * rang * versant - 0.24) * sortie;   // le rang
+                var epaule = 1 + 0.45 * lisse(0.5, 0.66, f);
+                var plein = 0.24 + (0.6 * rang * epaule - 0.24) * sortie;   // le rang
                 var vide = 0.24 * (1 - sortie);                               // l'entre-rang
                 ton = rang > 0 ? plein : vide;
                 // Chaque rang a son flanc au soleil : un liseré de lumière
