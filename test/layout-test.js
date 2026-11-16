@@ -208,8 +208,8 @@ const CHECKS = [
     {
         // Le titre d un article se lit en entier : aucune coupe, aucun points
         // de suspension, dans les deux langues. Les experimentations sont cote
-        // a cote, le titre a droite de l image : cinq lignes au plus des 1300 px,
-        // quatre en dessous, ou il repasse sous l image.
+        // a cote, sous la phrase et pas plus larges : quatre lignes au plus des 1300 px,
+        // cinq sur les fenetres plus etroites.
         name: 'accueil: les titres des experimentations sont entiers',
         async run(page) {
             try {
@@ -223,7 +223,7 @@ const CHECKS = [
                                     const r = t.getBoundingClientRect();
                                     const lignes = Math.round(r.height / parseFloat(getComputedStyle(t).lineHeight));
                                     const coupe = t.scrollHeight > t.clientHeight + 1 || t.scrollWidth > t.clientWidth + 1 || r.bottom > innerHeight || r.height < 10;
-                                    const max = innerWidth < 1300 ? 4 : 5;
+                                    const max = innerWidth < 1300 ? 5 : 4;
                                     return (coupe ? 'coupe' : lignes > max ? lignes + ' lignes' : '') + ' : ' + t.textContent.slice(0, 28);
                                 }).filter((x) => x[0] !== ' '));
                             if (fautes.length) throw new Error(chemin + ' en ' + width + 'x' + height + ' : ' + fautes.join(' | '));

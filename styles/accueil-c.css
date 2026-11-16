@@ -123,6 +123,12 @@ body .fen-exps .exp { grid-template-columns: minmax(0, 1fr); padding: 0.75rem 0;
     body.ecran .fen-arche { display: block; grid-column: 2; grid-row: 2; min-height: 0; padding-bottom: 14px; }
     body.ecran .fen-outils { grid-column: 3; grid-row: 2; align-self: end; min-height: 0; }
 
+    /* Ici les expérimentations restent une liste : les règles de la rangée
+       de l'accueil (styles/accueil.css) ne s'appliquent pas. */
+    body.ecran .fen-exps { contain: none; min-width: 0; margin-top: 0; }
+    body.ecran .fen-exps .exps-liste { display: block; overflow: visible; padding-top: 0; }
+    body.ecran .fen-exps .exp { padding: 0.75rem 0; border-bottom: 1px solid var(--filet-fin); }
+    body.ecran .fen-exps .exp-titre { font-size: 1rem; }
     body.ecran .fen-exps .exps-liste > li:last-child .exp,
     body.ecran .fen-outils .outils-liste > li:last-child .outil { border-bottom: 0; padding-bottom: 0; }
 

@@ -237,9 +237,12 @@
         height: 100dvh;
         padding: 5.5rem 2rem 2rem;
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 21rem;
+        /* La première colonne prend la largeur de la phrase : les
+           expérimentations, dessous, s'arrêtent où elle s'arrête. Le paysage
+           respire dans la colonne vide du milieu. */
+        grid-template-columns: auto minmax(0, 1fr) 21rem;
         grid-template-rows: minmax(0, 1fr) auto auto;
-        column-gap: 5rem;
+        column-gap: 2.5rem;
         row-gap: 0;
     }
 
@@ -254,42 +257,43 @@
         grid-column: 1;
         grid-row: 3;
         margin-top: clamp(1.5rem, 4vh, 2.5rem);
+        /* Elles ne comptent pas dans la largeur de la colonne : c'est la
+           phrase qui la donne. */
+        contain: inline-size;
+        /* Sur une fenêtre étroite, la phrase est petite : la rangée garde
+           de quoi poser trois titres lisibles. */
+        min-width: 37rem;
     }
 
-    /* Les expérimentations côte à côte, au bas de l'écran, sur toute la
-       largeur de la rubrique : chacune a sa couverture à gauche et son
-       titre entier à droite. Un article de plus ajoute une colonne ; au-delà
+    /* Les expérimentations côte à côte, au bas de l'écran, sous la phrase
+       et pas plus larges qu'elle : chacune a sa couverture en bandeau et son
+       titre entier dessous. Un article de plus ajoute une colonne ; au-delà
        de trois, la rangée défile de côté plutôt que de pousser la page. */
     body.ecran .exps-liste {
         display: grid;
         grid-auto-flow: column;
         grid-auto-columns: minmax(0, 1fr);
-        column-gap: 1.75rem;
+        column-gap: 1.25rem;
         padding-top: 0.9rem;
         overflow-x: auto;
         overscroll-behavior-x: contain;
         scrollbar-width: none;
     }
     body.ecran .exps-liste::-webkit-scrollbar { display: none; }
-    body.ecran .exps-liste:has(> li:nth-child(4)) { grid-auto-columns: calc((100% - 3.5rem) / 3); }
+    body.ecran .exps-liste:has(> li:nth-child(4)) { grid-auto-columns: calc((100% - 2.5rem) / 3); }
 
     body.ecran .exp {
-        grid-template-columns: 7.5rem minmax(0, 1fr);
-        column-gap: 0.9rem;
-        align-items: center;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: start;
+        row-gap: 0.6rem;
         padding: 0;
         border-bottom: 0;
     }
+    body.ecran .exp-image { aspect-ratio: 2.4 / 1; }
     body.ecran .exp-titre {
-        font-size: 0.86rem;
+        font-size: 0.84rem;
         line-height: 1.34;
         text-wrap: pretty;
-    }
-    /* Sous 1300 px, la colonne est trop étroite pour un titre à côté de
-       l'image : il repasse dessous. */
-    @media (max-width: 1299px) {
-        body.ecran .exp { grid-template-columns: minmax(0, 1fr); row-gap: 0.6rem; }
-        body.ecran .exp-image { aspect-ratio: 2 / 1; }
     }
     /* Le titre ne glisse plus de côté : c'est sa couleur et les coins de
        l'image qui répondent au survol. */
@@ -299,7 +303,7 @@
     /* Les outils se calent sur le bas de l'écran, comme les
        expérimentations : les deux rubriques finissent sur la même ligne. */
     body.ecran .outils {
-        grid-column: 2;
+        grid-column: 3;
         grid-row: 1 / -1;
         min-height: 0;
         justify-content: flex-end;
@@ -350,6 +354,7 @@
     body.ecran .outil-nom { font-size: 1.08rem; }
     body.ecran .exps { margin-top: 1.1rem; }
     body.ecran .exps-liste { padding-top: 0.7rem; }
-    @media (min-width: 1300px) { body.ecran .exp { grid-template-columns: 6.5rem minmax(0, 1fr); } }
-    body.ecran .exp-titre { font-size: 0.82rem; }
+    body.ecran .exp { row-gap: 0.45rem; }
+    body.ecran .exp-image { aspect-ratio: 2.8 / 1; }
+    body.ecran .exp-titre { font-size: 0.8rem; }
 }
