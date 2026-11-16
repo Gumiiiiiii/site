@@ -10,7 +10,7 @@
    « ecran » sur <body>. Elle tient le cadre et les outils ; la composition
    de l'accueil est dans styles/accueil.css.
 
-   Le seuil est repris tel quel dans scripts/trame.js, scripts/page-effects.js,
+   Le seuil est repris tel quel dans scripts/lavande.js, scripts/page-effects.js,
    scripts/outil-papier.js et test/layout-test.js : tous doivent rester
    identiques. Sous ce seuil, la page défile comme avant.
 

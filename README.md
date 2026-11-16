@@ -7,9 +7,8 @@ Site portfolio personnel : une collection d'outils web et d'expérimentations (a
 ```
 index.html                  Accueil : la seule liste du site. La phrase, les
                             expérimentations et les outils tiennent en un écran ;
-                            scripts/trame.js dessine en points le numéro de
-                            l'expérimentation à l'affiche et l'icône de l'outil
-                            survolé. /outils et /experiments redirigent ici
+                            scripts/lavande.js dessine le fond en points : la
+                            Sainte-Victoire au-dessus d'un champ de lavande. /outils et /experiments redirigent ici
                             (vercel.json).
 experiments/<slug>.html     Pages d'articles. Le corps est PRÉ-RENDU dans le
                             fichier par build/prerender-articles.js depuis

@@ -163,7 +163,7 @@ const CHECKS = [
         }
     },
     {
-        // Le fond de l accueil (scripts/trame.js) est un volume dessine en
+        // Le fond de l accueil (scripts/lavande.js) est un volume dessine en
         // points. On verifie qu il est la, qu il n est fait que de gris (la
         // couleur est reservee a ce qui se clique), qu il reste leger, et
         // qu aucune bande ne barre le haut de l ecran dans les deux themes.
@@ -180,7 +180,7 @@ const CHECKS = [
                     }, theme);
                     await new Promise((r) => setTimeout(r, 1500));
                     const m = await page.evaluate(() => {
-                        const c = document.getElementById('trame');
+                        const c = document.getElementById('lavande');
                         const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
                         let pleins = 0, colores = 0, fort = 0;
                         for (let p = 0; p < d.length; p += 16) {
@@ -188,10 +188,13 @@ const CHECKS = [
                             pleins += 1;
                             // L encre du site est un gris chaud : on cherche le violet, donc un bleu qui domine.
                             if (d[p + 2] - Math.min(d[p], d[p + 1]) > 18) colores += 1;
-                            // Les lumieres sont des points blancs : sur le papier clair ils
-                            // restent discrets meme opaques, seule l encre sombre compte ici.
-                            const blanc = d[p] > 170 && d[p + 1] > 170 && d[p + 2] > 170;
-                            if (d[p + 3] > 70 && !blanc) fort += 1;
+                            // Ce qui compte est le poids du point sur la page : son opacite
+                            // fois son ecart au papier. En clair, une lumiere (un point
+                            // clair) ne pese presque rien meme opaque ; en sombre, c est
+                            // l encre claire qui pese.
+                            const sombre = document.documentElement.getAttribute('data-theme') === 'dark';
+                            const ecart = sombre ? Math.max(d[p], d[p + 1], d[p + 2]) / 255 : 1 - Math.min(d[p], d[p + 1], d[p + 2]) / 255;
+                            if (d[p + 3] * ecart > (sombre ? 90 : 70)) fort += 1;
                         }
                         const barre = getComputedStyle(document.querySelector('.navbar'));
                         return { part: pleins / (d.length / 16), colores, fort, fondBarre: barre.backgroundColor, filtre: barre.backdropFilter };

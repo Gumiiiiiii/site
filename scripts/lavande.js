@@ -10,11 +10,10 @@
 //     le versant ouest au soleil, le flanc est dans l'ombre, et chaque plan
 //     est une tache de touches orientées, comme les coups de pinceau du
 //     tableau. Deux arêtes descendent du sommet ;
-//   · devant elle, deux rangs de collines qui se recouvrent, chacun avec
-//     sa crête claire et son ombre dessous : c'est ce qui donne la
-//     profondeur ;
-//   · sur la colline de droite, le petit viaduc du tableau, qui rappelle
-//     le pont du fond de l'autre accueil ;
+//   · devant elle, le plan du milieu, en deux aplats nets pour qu'il se
+//     lise d'un coup : au loin une ligne de collines claires, unies ;
+//     devant, une haie d'arbres sombre, au faîte festonné, qui borde le
+//     champ ;
 //   · quelques cyprès ;
 //   · les rangs de lavande, qui filent vers un point de fuite et que le
 //     vent fait onduler, lentement.
@@ -112,17 +111,18 @@
     var CYPRES = [[0.215, 0.1], [0.231, 0.075], [0.905, 0.11], [0.921, 0.085]];
 
     // Les nuages : un bruit lisse, à deux échelles, qui dérive lentement. Dans
-    // le ciel il pose des taches claires ; au sol, leur ombre glisse sur le
-    // paysage. C'est le seul mouvement du fond : la lumière qui change.
+    // le ciel il pose de petits nuages clairs, au ventre un peu gris ; au
+    // sol, leur ombre glisse sur le paysage. C'est le seul mouvement du
+    // fond : la lumière qui change.
     function bruitLisse(x, y) {
         var i = Math.floor(x), j = Math.floor(y), fx = x - i, fy = y - j;
         fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy);
         var a = hasard(i, j), b = hasard(i + 1, j), c = hasard(i, j + 1), d = hasard(i + 1, j + 1);
         return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
     }
-    function nuage(x, y) {
+    function nuage(x, y, seuil) {
         var n = 0.65 * bruitLisse(x, y) + 0.35 * bruitLisse(x * 2.3 + 7.1, y * 2.3 + 3.4);
-        n = (n - 0.46) / 0.24;
+        n = (n - seuil) / 0.13;
         n = n < 0 ? 0 : n > 1 ? 1 : n;
         return n * n * (3 - 2 * n);
     }
@@ -162,9 +162,9 @@
 
             var u = (x - mg) / ml;
             var sommet = pied - mh * profil(u);
-            // Les deux rangs de collines, de l'arrière vers l'avant.
+            // Le plan du milieu : les collines au loin, la haie devant.
             var col1 = hy - hauteur * (0.095 + 0.03 * Math.sin(x * 0.0052 + 0.8) + 0.014 * Math.sin(x * 0.0145 + 2.1));
-            var col2 = hy - hauteur * (0.042 + 0.018 * Math.sin(x * 0.0071 + 3.3) + 0.008 * Math.sin(x * 0.023));
+            var col2 = hy - hauteur * (0.034 + 0.012 * Math.sin(x * 0.0061 + 3.3) + 0.02 * Math.abs(Math.sin(x * 0.047)) + 0.011 * Math.abs(Math.sin(x * 0.113 + 1.3)));
 
             // Les cyprès : une flamme étroite, plus large au tiers du bas.
             var cypres = 0;
@@ -173,41 +173,23 @@
                 var v = (hy - y) / ch;                       // 0 au pied, 1 à la pointe
                 if (v < 0 || v > 1) continue;
                 var demiL = hauteur * 0.013 * Math.sin(Math.PI * Math.pow(v, 0.62)) * (1 - v * 0.2);
-                if (Math.abs(x - cxp) < demiL) cypres = 0.55;
-            }
-
-            // Le viaduc, posé sur la première colline, à droite.
-            var viaduc = 0;
-            var vg = largeur * 0.70, vd = largeur * 0.86;
-            if (x > vg && x < vd) {
-                var vb = col1 + hauteur * 0.02, vh = hauteur * 0.045;   // son pied, sa hauteur
-                if (y < vb && y > vb - vh) {
-                    var portee = (vd - vg) / 7, w = (x - vg) % portee - portee / 2;
-                    var ra = portee * 0.36;
-                    var dansArche = Math.abs(w) < ra && y > vb - vh * 0.72 - Math.sqrt(Math.max(0, ra * ra - w * w));
-                    if (!dansArche) viaduc = 0.5;
-                }
+                if (Math.abs(x - cxp) < demiL) cypres = 0.62;
             }
 
             if (cypres) {
                 ton = cypres;
-            } else if (viaduc) {
-                ton = viaduc;
             } else if (y >= col2 && y < hy) {
-                // La colline de devant, la plus foncée : une crête claire,
-                // puis l'ombre qui gagne en descendant, en touches.
+                // La haie : un aplat sombre, qui rejoint en bas le ton du
+                // champ. Son faîte accroche la lumière.
                 var d2 = y - col2;
-                var t2 = touche(x, y, -0.35, 34, 12);
-                ton = 0.1 + 0.16 * lisse(0, hauteur * 0.035, d2) + 0.13 * t2;
-                // Le haut de la colline prend le soleil, par touches.
-                eclat = 0.4 * lisse(0.08, 0.4, -t2) * (1 - lisse(0, hauteur * 0.03, d2));
-                if (d2 < 6) { ton = 0.34; eclat = 0; }
+                ton = 0.44 - 0.2 * lisse(0, hy - col2, d2);
+                if (d2 < 5) { ton = 0.12; eclat = 0.3; }
             } else if (y >= col1 && y < col2) {
+                // Les collines : un aplat clair, à peine plus dense vers le
+                // bas, sous une crête fine.
                 var d1 = y - col1;
-                var t1 = touche(x, y, 0.3, 40, 13);
-                ton = 0.05 + 0.14 * lisse(0, hauteur * 0.05, d1) + 0.12 * t1;
-                eclat = 0.45 * lisse(0.08, 0.4, -t1) * (1 - lisse(0, hauteur * 0.04, d1));
-                if (d1 < 6) { ton = 0.3; eclat = 0; }
+                ton = 0.11 + 0.05 * lisse(0, hauteur * 0.06, d1);
+                if (d1 < 5) ton = 0.24;
             } else if (y >= sommet && y < col1) {
                 // La face. Son ombre vient de la pente de la crête au-dessus :
                 // là où la crête descend vers l'est, le versant tourne le dos
@@ -227,10 +209,10 @@
                 // Le pied se perd dans une brume claire : les collines de devant
                 // s'y détachent.
                 var brume = lisse(0.7, 1, prof);
-                ton = (0.05 + 0.24 * ombre + (0.12 + 0.1 * ombre) * pinceau) * (1 - 0.6 * brume);
+                ton = (0.09 + 0.22 * ombre + (0.12 + 0.1 * ombre) * pinceau) * (1 - 0.6 * brume);
                 // Le versant au soleil : les touches les plus claires passent
                 // en lumière, comme les blancs laissés dans le tableau.
-                eclat = 0.6 * (1 - ombre) * (1 - ombre) * lisse(0.05, 0.4, -pinceau) * (1 - brume);
+                eclat = 0.4 * (1 - ombre) * (1 - ombre) * lisse(0.05, 0.4, -pinceau) * (1 - brume);
                 // Les deux arêtes qui descendent du sommet, en traits plus
                 // sombres, et quelques plis plus loin.
                 var ax = x - sx, ay = y - sy;
@@ -246,11 +228,16 @@
             } else if (y < hy) {
                 // Le ciel, qui se charge vers le haut.
                 var haut = 1 - y / hy;
-                ton = 0.13 * haut * haut;
-                // Les nuages : des taches claires qui passent.
-                var blanc = nuage(x / hauteur * 1.6 - t * 0.025, y / hauteur * 3.2);
-                ton *= 1 - 0.6 * blanc;
-                eclat = 0.2 * blanc * (0.35 + 0.65 * haut);
+                ton = 0.055 + 0.11 * haut * haut;
+                // Les nuages : petits, clairs, le ventre un peu gris.
+                var nx = x / hauteur * 4.4 - t * 0.06, ny = y / hauteur * 10.5;
+                var blanc = nuage(nx, ny, 0.56);
+                if (blanc > 0) {
+                    var ventre = blanc - nuage(nx, ny - 0.32, 0.56);
+                    if (ventre < 0) ventre = 0;
+                    ton = ton * (1 - blanc) + (sombre ? 0 : 0.32 * ventre);
+                    eclat = 0.42 * blanc * (1 - 0.8 * ventre);
+                }
             } else {
                 // La lavande. La profondeur suit l'inverse de la distance à
                 // l'horizon ; la coordonnée de rang suit la perspective.
@@ -277,14 +264,14 @@
                 eclat = 0.5 * flanc * touffe;
                 ton *= 1 - 0.85 * flanc;
                 // L'ombre des nuages court sur le champ, en perspective.
-                var os = nuage(X * 0.5 - t * 0.02, prof * 0.12) * sortie;
+                var os = nuage(X * 1.1 - t * 0.04, prof * 0.3, 0.54) * sortie;
                 ton *= sombre ? 1 - 0.4 * os : 1 + 0.45 * os;
                 eclat *= 1 - os;
             }
 
             // L'ombre des nuages sur la montagne et les collines.
             if (y < hy && y >= Math.min(sommet, col1)) {
-                var ot = nuage(x / hauteur * 1.6 - t * 0.025 + 0.4, y / hauteur * 3.2 + 1.7);
+                var ot = nuage(x / hauteur * 3.2 - t * 0.045 + 0.4, y / hauteur * 6 + 1.7, 0.54);
                 ton *= sombre ? 1 - 0.4 * ot : 1 + 0.45 * ot;
                 if (!sombre) ton += 0.03 * ot;
                 eclat *= 1 - ot;

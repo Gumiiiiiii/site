@@ -5,7 +5,7 @@
    Une seule page porte tout le site : la phrase, les expérimentations et
    les outils. Il n'y a plus de pages de liste.
 
-   Le fond est un volume dessiné en points, en gris (scripts/trame.js) : la
+   Le fond est un volume dessiné en points, en gris (scripts/lavande.js) : la
    couleur du site n'apparaît que sur ce qui se clique. Dessus,
    deux listes bâties de la même façon, pour qu'on les lise comme deux
    rubriques : un titre en toutes lettres, un compte, un filet, puis des
@@ -13,7 +13,7 @@
 
      logo                                              langue · thème
 
-                        (le pont, plein écran)
+                        (le paysage, plein écran)
 
      La phrase, en grand                               Mes outils     11
                                                        ─────────────────
@@ -325,7 +325,7 @@
     body.ecran .exps-liste > li:last-child .exp { border-bottom: 0; padding-bottom: 0; }
 
     /* L'entrée : d'abord le fond, dont les points se développent
-       (scripts/trame.js, scripts/lavande.js) ; le texte attend --intro, puis
+       (scripts/lavande.js) ; le texte attend --intro, puis
        la barre apparaît, la phrase s'écrit (son script lit aussi --intro) et
        les lignes montent l'une après l'autre. */
     @media (prefers-reduced-motion: no-preference) {
