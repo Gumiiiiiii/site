@@ -43,7 +43,7 @@
    le cadre de la page, pas la typographie du corps.
    ========================================================================== */
 
-body.etude-page { --marge: 1.25rem; --rail: 13.5rem; --texte: 44rem; }
+body.etude-page { --marge: 1.25rem; --rail: 13.5rem; --texte: 44rem; --page: calc(var(--rail) + 4rem + var(--texte)); }
 @media (min-width: 760px) { body.etude-page { --marge: 2rem; } }
 
 /* --------------------------------------------------------------------------
@@ -109,7 +109,9 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
    -------------------------------------------------------------------------- */
 
 .etude-page .site-content {
-    padding: calc(var(--marge) + 5.5rem) var(--marge) var(--marge);
+    /* La colonne de la page se centre dès que l'écran est plus large
+       qu'elle ; le logo et les réglages, eux, restent aux bords. */
+    padding: calc(var(--marge) + 5.5rem) max(var(--marge), calc((100% - var(--page)) / 2)) var(--marge);
 }
 
 .etude-page .article-hero {

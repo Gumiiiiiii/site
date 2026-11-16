@@ -83,6 +83,10 @@
         // L'image couvre la toile en largeur, calée en haut.
         var echelle = largeur / lu.w;
         var centre = largeur / 2;
+        // La colonne du texte, d'après le titre et le résumé.
+        var col = document.querySelector('.article-hero');
+        var r = col ? col.getBoundingClientRect() : { left: 0, right: largeur * 0.3 };
+        var colG = r.left, colD = r.right;
         ctx.beginPath();
         for (var j = 0, y = PAS_Y / 2; y < hauteur; j++, y += PAS_Y) {
             var dec = (j % 2) ? PAS_X / 2 : 0;
@@ -92,7 +96,9 @@
             var fondu = 1 - lisse(hauteur * 0.25, hauteur * 0.95, y);
             for (var x = ((centre + dec) % PAS_X); x < largeur; x += PAS_X) {
                 // Et vers la gauche, où se tient le titre.
-                var poids = 0.62 * fondu * (0.04 + 0.96 * lisse(largeur * 0.3, largeur * 0.8, x));
+                // Et dans la colonne du texte : la trame vit sur ses côtés.
+                var dehors = Math.max(colG - x, x - colD, 0);
+                var poids = 0.62 * fondu * (0.04 + 0.96 * lisse(0, 240, dehors));
                 if (poids < 0.02) continue;
                 var ix = Math.floor(x / echelle);
                 var t = lu.tons[iy * lu.w + Math.min(lu.w - 1, ix)];
