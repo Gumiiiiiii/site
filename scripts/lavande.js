@@ -29,6 +29,10 @@
 
     var ctx = null, largeur = 0, hauteur = 0, dpr = 1, xs, ys;
     var encre = 'rgba(26, 26, 26, 0.12)', sombre = false;
+    // Les lumières : une seconde encre, claire, pour ce que le soleil touche.
+    // L'encre grise dessine les ombres ; celle-ci pose des points blancs sur
+    // le papier (en sombre, des points plus vifs que les autres).
+    var lumiere = 'rgba(255, 255, 255, 0.9)', lx, ly, lr;
     var boucle = 0, dernier = 0, debut = -1;
     // L'apparition : au premier dessin, les points se développent depuis
     // l'horizon vers les bords, comme une image qui monte dans le bain du
@@ -46,6 +50,7 @@
         var n = (rangees + 1) * (demi * 2 + 1);
         xs = new Float32Array(n);
         ys = new Float32Array(n);
+        lx = new Float32Array(n); ly = new Float32Array(n); lr = new Float32Array(n);
         var k = 0;
         for (var j = 0; j <= rangees; j++) {
             var dec = (j % 2) ? PAS_X / 2 : 0;
@@ -57,6 +62,7 @@
         var rgb = (getComputedStyle(document.documentElement).getPropertyValue('--text-rgb') || '26, 26, 26').trim();
         sombre = document.documentElement.getAttribute('data-theme') === 'dark';
         encre = 'rgba(' + rgb + ', ' + (sombre ? 0.15 : 0.12) + ')';
+        lumiere = sombre ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.9)';
     }
 
     // La crête, relevée sur une photo prise du sud : à l'ouest une longue
@@ -133,9 +139,10 @@
         ctx.clearRect(0, 0, largeur, hauteur);
         ctx.fillStyle = encre;
         ctx.beginPath();
+        var nl = 0;
 
         for (var i = 0; i < xs.length; i++) {
-            var x = xs[i], y = ys[i], ton = 0;
+            var x = xs[i], y = ys[i], ton = 0, eclat = 0;
 
             var u = (x - mg) / ml;
             var sommet = pied - mh * profil(u);
@@ -174,12 +181,17 @@
                 // La colline de devant, la plus foncée : une crête claire,
                 // puis l'ombre qui gagne en descendant, en touches.
                 var d2 = y - col2;
-                ton = 0.1 + 0.16 * lisse(0, hauteur * 0.035, d2) + 0.13 * touche(x, y, -0.35, 34, 12);
-                if (d2 < 6) ton = 0.34;
+                var t2 = touche(x, y, -0.35, 34, 12);
+                ton = 0.1 + 0.16 * lisse(0, hauteur * 0.035, d2) + 0.13 * t2;
+                // Le haut de la colline prend le soleil, par touches.
+                eclat = 0.4 * lisse(0.08, 0.4, -t2) * (1 - lisse(0, hauteur * 0.03, d2));
+                if (d2 < 6) { ton = 0.34; eclat = 0; }
             } else if (y >= col1 && y < col2) {
                 var d1 = y - col1;
-                ton = 0.05 + 0.14 * lisse(0, hauteur * 0.05, d1) + 0.12 * touche(x, y, 0.3, 40, 13);
-                if (d1 < 6) ton = 0.3;
+                var t1 = touche(x, y, 0.3, 40, 13);
+                ton = 0.05 + 0.14 * lisse(0, hauteur * 0.05, d1) + 0.12 * t1;
+                eclat = 0.45 * lisse(0.08, 0.4, -t1) * (1 - lisse(0, hauteur * 0.04, d1));
+                if (d1 < 6) { ton = 0.3; eclat = 0; }
             } else if (y >= sommet && y < col1) {
                 // La face. Son ombre vient de la pente de la crête au-dessus :
                 // là où la crête descend vers l'est, le versant tourne le dos
@@ -200,6 +212,9 @@
                 // s'y détachent.
                 var brume = lisse(0.7, 1, prof);
                 ton = (0.05 + 0.24 * ombre + (0.12 + 0.1 * ombre) * pinceau) * (1 - 0.6 * brume);
+                // Le versant au soleil : les touches les plus claires passent
+                // en lumière, comme les blancs laissés dans le tableau.
+                eclat = 0.6 * (1 - ombre) * (1 - ombre) * lisse(0.05, 0.4, -pinceau) * (1 - brume);
                 // Les deux arêtes qui descendent du sommet, en traits plus
                 // sombres, et quelques plis plus loin.
                 var ax = x - sx, ay = y - sy;
@@ -208,7 +223,7 @@
                 if (ax < 0 && ay > 0 && dist1 < 4) ton = Math.max(ton, 0.3 * (1 - prof));
                 if (ax > 0 && ay > 0 && dist2 < 4) ton = Math.max(ton, 0.34 * (1 - prof));
                 // L'arête se lit par une ligne de points un peu plus forts.
-                if (y - sommet < 7) ton = Math.max(ton, 0.34);
+                if (y - sommet < 7) { ton = Math.max(ton, 0.34); eclat = 0; }
                 if (ton < 0.03) ton = 0.03;
                 // En sombre, l'encre est claire : elle dessine la lumière.
                 if (sombre) ton = 0.44 - ton;
@@ -237,22 +252,44 @@
                 var plein = 0.24 + (0.52 * rang - 0.24) * sortie;   // le rang
                 var vide = 0.24 * (1 - sortie);                     // l'entre-rang
                 ton = (rang > 0 ? plein : vide) * (1 - 0.22 * lisse(0.6, 1, p));
+                // Chaque rang a son flanc au soleil : un liseré de lumière
+                // du côté d'où elle vient.
+                var flanc = lisse(0.275, 0.3, f) * (1 - lisse(0.36, 0.43, f)) * sortie;
+                eclat = 0.5 * flanc * touffe;
+                ton *= 1 - 0.85 * flanc;
             }
 
             // Un seuil bas : les points s'éteignent en rétrécissant, pas d'un coup
             // sur une même rangée, ce qui y tracerait une ligne.
-            if (ton < 0.003) continue;
-            var r = RAYON_MAX * Math.sqrt(ton > 1 ? 1 : ton);
+            if (ton < 0.003 && eclat < 0.02) continue;
+            var paru = 1;
             if (e < INTRO) {
                 var ox = (x - vx) / largeur, oy = (y - hy) * 1.6 / largeur;
                 var retard = 0.8 * Math.min(1, Math.sqrt(ox * ox + oy * oy) / 0.75) + 0.08 * hasard(i, 7);
-                r *= lisse(retard, retard + 0.5, e);
-                if (r < 0.2) continue;
+                paru = lisse(retard, retard + 0.5, e);
             }
+            if (eclat >= 0.02) {
+                var rl = RAYON_MAX * Math.sqrt(eclat > 1 ? 1 : eclat) * paru;
+                if (rl >= 0.3) { lx[nl] = x; ly[nl] = y; lr[nl] = rl; nl += 1; }
+            }
+            if (ton < 0.003) continue;
+            var r = RAYON_MAX * Math.sqrt(ton > 1 ? 1 : ton) * paru;
+            if (r < 0.2) continue;
             ctx.moveTo(x + r, y);
             ctx.arc(x, y, r, 0, 6.2832);
         }
         ctx.fill();
+
+        // Les lumières, par-dessus.
+        if (nl) {
+            ctx.fillStyle = lumiere;
+            ctx.beginPath();
+            for (var q = 0; q < nl; q++) {
+                ctx.moveTo(lx[q] + lr[q], ly[q]);
+                ctx.arc(lx[q], ly[q], lr[q], 0, 6.2832);
+            }
+            ctx.fill();
+        }
         if (!CALME.matches || e < INTRO) reveiller();
     }
 

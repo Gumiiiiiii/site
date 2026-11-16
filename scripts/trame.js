@@ -70,6 +70,10 @@
     var xs, ys;                    // les points du réseau
     var encre = 'rgba(26, 26, 26, 0.12)', sombre = false;
     var boucle = 0, dernier = 0, debut = -1;
+    // Les lumières : une seconde encre, claire, pour ce que le soleil touche.
+    // L'encre grise dessine les ombres ; celle-ci pose des points blancs sur
+    // le papier (en sombre, des points plus vifs que les autres).
+    var lumiere = 'rgba(255, 255, 255, 0.9)', lx, ly, lr;
     // L'apparition : au premier dessin, les points se développent depuis
     // le centre vers les bords, comme une image qui monte dans le bain du
     // tirage. Le texte de la page attend la fin (--intro, styles/accueil.css).
@@ -112,6 +116,7 @@
         var rgb = (style.getPropertyValue('--text-rgb') || '26, 26, 26').trim();
         sombre = document.documentElement.getAttribute('data-theme') === 'dark';
         encre = 'rgba(' + rgb + ', ' + (sombre ? 0.15 : 0.12) + ')';
+        lumiere = sombre ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.9)';
     }
 
     // ------------------------------------------------------------------
@@ -233,6 +238,8 @@
         ctx.clearRect(0, 0, largeur, hauteur);
         ctx.fillStyle = encre;
         ctx.beginPath();
+        var nl = 0;
+        if (!lx || lx.length < xs.length) { lx = new Float32Array(xs.length); ly = new Float32Array(xs.length); lr = new Float32Array(xs.length); }
 
         for (var i = 0; i < xs.length; i++) {
             var a = (xs[i] - cx) / focale, b = (cy - ys[i]) / focale;
@@ -242,11 +249,18 @@
 
             // Où ce rayon rencontrerait l'eau, s'il descend.
             var sEau = dy < -0.002 ? (EAU - ey) / dy : 1e9;
-            var ton = 0;
+            var ton = 0, eclat = 0;
 
             if (marcher(ex, ey, ez, dx, dy, dz, 1.2, sEau < PORTEE ? sEau : PORTEE)) {
                 // La pierre.
-                ton = tonPierre(clarte(M.x, M.y, M.z)) * air(M.s);
+                var clair = clarte(M.x, M.y, M.z);
+                ton = tonPierre(clair) * air(M.s);
+                // La pierre en plein soleil passe en lumière.
+                var soleilPierre = (clair - 0.55) / 0.45;
+                if (soleilPierre > 0) {
+                    eclat = 0.55 * soleilPierre * soleilPierre * (3 - 2 * soleilPierre) * air(M.s);
+                    if (!sombre) ton *= 1 - 0.7 * soleilPierre;
+                }
             } else if (sEau < PORTEE) {
                 // La rivière. Des rides lentes courent à sa surface : elles
                 // se lisent seules, en lignes de points, et elles
@@ -259,6 +273,8 @@
                     ton += tonPierre(clarte(M.x, M.y, M.z)) * 0.5 * air(sEau + M.s);
                 }
                 ton *= air(sEau);
+                // Le haut des rides accroche le soleil.
+                if (ride > 0.8) eclat = 0.3 * (ride - 0.8) / 0.2 * air(sEau);
             } else {
                 // Le ciel : il se charge en montant vers le zénith. Du côté
                 // du soleil, en haut à gauche, il reste clair.
@@ -277,22 +293,39 @@
                 }
             }
 
-            if (ton < 0.015) continue;
+            if (ton < 0.015 && eclat < 0.02) continue;
             // La loi du halftone : c'est l'aire du point qui suit le ton.
-            var rayon = RAYON_MAX * Math.sqrt(ton > 1 ? 1 : ton);
+            var rayon = ton < 0.015 ? 0 : RAYON_MAX * Math.sqrt(ton > 1 ? 1 : ton);
+            var paru = 1;
             if (e < INTRO) {
                 var ox = (xs[i] - cx) / largeur, oy = (ys[i] - cy) * 1.6 / largeur;
                 var bruit = Math.sin(i * 12.9898) * 43758.5453;
                 var retard = 0.8 * Math.min(1, Math.sqrt(ox * ox + oy * oy) / 0.75) + 0.08 * (bruit - Math.floor(bruit));
                 var v = (e - retard) / 0.5;
                 v = v < 0 ? 0 : v > 1 ? 1 : v;
-                rayon *= v * v * (3 - 2 * v);
-                if (rayon < 0.2) continue;
+                paru = v * v * (3 - 2 * v);
+                rayon *= paru;
             }
+            if (eclat >= 0.02) {
+                var rl = RAYON_MAX * Math.sqrt(eclat > 1 ? 1 : eclat) * paru;
+                if (rl >= 0.3) { lx[nl] = xs[i]; ly[nl] = ys[i]; lr[nl] = rl; nl += 1; }
+            }
+            if (rayon < 0.2) continue;
             ctx.moveTo(xs[i] + rayon, ys[i]);
             ctx.arc(xs[i], ys[i], rayon, 0, 6.2832);
         }
         ctx.fill();
+
+        // Les lumières, par-dessus.
+        if (nl) {
+            ctx.fillStyle = lumiere;
+            ctx.beginPath();
+            for (var q = 0; q < nl; q++) {
+                ctx.moveTo(lx[q] + lr[q], ly[q]);
+                ctx.arc(lx[q], ly[q], lr[q], 0, 6.2832);
+            }
+            ctx.fill();
+        }
 
         // En mouvement réduit, le paysage est une image fixe.
         if (!CALME.matches || e < INTRO) reveiller();
