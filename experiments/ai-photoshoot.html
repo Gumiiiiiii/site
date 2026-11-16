@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="../styles/shared.css">
     <link rel="stylesheet" href="../styles/article.css">
     <link rel="stylesheet" href="../styles/article-papier.css">
+    <link rel="stylesheet" href="../styles/etude.css">
     <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -49,13 +50,15 @@
 }
     </script>
 </head>
-<body class="shell-page">
+<body class="shell-page etude-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
 
     <nav class="navbar" data-navbar-root=""></nav>
 
     <main class="site-content" id="main">
     <div class="points-champ" aria-hidden="true"></div>
+    <!-- Le fond : la couverture de l'article, tramée en points (scripts/etude-trame.js). -->
+    <canvas class="etude-trame" id="etude-trame" aria-hidden="true"></canvas>
 
 
         <!-- HERO (STICKY TITLE + IMAGE) — content completed by article-page.js -->
@@ -65,6 +68,25 @@
                 <p class="article-date" id="article-date">Publié le 11 juillet 2026</p>
             </header>
 
+            <!-- EN BREF : le résumé, avant la couverture, rendu depuis scripts/articles-data.js -->
+            <div class="article-abstract" id="article-abstract"><section class="resume" aria-labelledby="resume-titre">
+                <header class="resume-tete">
+                    <h2 id="resume-titre">En bref</h2>
+                    <span class="resume-duree">3 min de lecture</span>
+                </header>
+                <ul class="resume-chiffres">
+                    <li><strong>−95 %</strong><span>de coût par visuel</span></li>
+                    <li><strong>40 sur 600</strong><span>images retenues</span></li>
+                    <li><strong>58 %</strong><span>préfèrent le studio à l’aveugle</span></li>
+                </ul>
+                <ol class="resume-etapes">
+                    <li><h3>Le point de départ</h3><p>Un shooting produit coûte vite plus de 1 000 €. Les générateurs d’images promettent du photoréalisme en quelques secondes : j’ai voulu vérifier.</p></li>
+                    <li><h3>Ce que j’ai fait</h3><p>Le même objet en studio et en IA, avec les mêmes ambiances et le même temps de retouche, puis un jury de cinq personnes à l’aveugle.</p></li>
+                    <li><h3>Ce que ça a donné</h3><p>L’IA gagne sur les ambiances et coûte vingt fois moins cher, mais déforme encore les logos et les détails. Le studio devient la dernière étape.</p></li>
+                </ol>
+                <a class="resume-lire" href="#post-content">Lire l’histoire en entier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+            </section></div>
+
             <div class="featured-image-wrapper">
                 <img id="article-cover" src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&amp;w=2000&amp;auto=format&amp;fit=crop" alt="Studio photo avec éclairage professionnel" fetchpriority="high">
             </div>
@@ -72,6 +94,7 @@
 
         <!-- TOOLBAR & TOC (ACCORDION) -->
         <div class="toolbar-wrapper">
+            <p class="rail-tete" data-i18n="toc_label">Sommaire</p>
             <div class="article-toolbar">
                 <button id="tocToggle" class="toc-toggle">
                     <span data-i18n="toc_label">Sommaire</span>
@@ -95,11 +118,6 @@
 
         <!-- POST CONTENT — populated by article-page.js -->
         <article class="article-content" id="post-content">
-            <div class="abstract">
-                <p><strong>-95% de budget</strong> par visuel généré comparé à une journée de shooting produit traditionnelle avec photographe et studio.</p>
-                <p><strong>40 visuels retenus sur 600 générés</strong> : un taux de déchet énorme, mais un itération quasi instantanée et illimitée.</p>
-                <p><strong>Verdict nuancé</strong> : bluffant pour les ambiances et les arrière-plans, encore fragile pour la fidélité produit et la cohérence des détails.</p>
-            </div>
 
             <h2 id="heading-0">Pourquoi cette expérimentation ?</h2>
             <p>Un shooting photo professionnel, même modeste, mobilise un photographe, un studio, du matériel d'éclairage et une demi-journée de post-production. Pour une petite marque ou un projet personnel, le budget grimpe vite au-delà du millier d'euros pour une poignée de visuels. En parallèle, les générateurs d'images par IA promettent des résultats « photoréalistes » en quelques secondes. J'ai voulu vérifier cette promesse avec un cas concret : produire le visuel de lancement d'un objet réel, dans plusieurs ambiances, en comparant systématiquement le résultat IA à une référence photographiée en studio.</p>
@@ -193,6 +211,7 @@
     <script src="../scripts/navbar.js"></script>
     <script src="../scripts/articles-data.js"></script>
     <script src="../scripts/article-page.js"></script>
+    <script src="../scripts/etude-trame.js"></script>
     <script src="../scripts/points-champ.js"></script>
     <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };

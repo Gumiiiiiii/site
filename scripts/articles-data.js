@@ -15,21 +15,43 @@ window.GUMI_ARTICLES = {
             fr: 'Je voulais m’entraîner à faire des vidéos. En filmant les décors d’ArdaCraft comme des paysages, avec les codes des Reels de voyage, 24 vidéos ont cumulé 27,3 millions de vues.',
             en: 'I wanted to practise making videos. By filming ArdaCraft’s builds like landscapes, borrowing the grammar of travel Reels, 24 videos gathered 27.3 million views.'
         },
-        // Lifted out of the body: it renders above the cover and the table of
-        // contents, so a reader who stops at the top still gets the story.
+        // The summary: three figures, then the story in three steps. It
+        // renders above the cover (build/prerender-*.js, article-page.js).
         abstract: {
-            fr: `<div class="abstract">
-                <h2>Si vous n’avez pas le temps de tout lire</h2>
-                <p>Au départ, je voulais simplement m’entraîner à faire des vidéos. ArdaCraft comptait <strong>9 877 abonnés</strong> sur Instagram et les vidéos publiées jusque-là dépassaient rarement les 30 000 vues. Je me suis dit que c’était un bon terrain pour tester une idée : filmer les décors de la communauté comme des paysages, en reprenant quelques codes des Reels de voyage.</p>
-                <p>Le premier Reel a obtenu <strong>465 000 vues</strong>. Je ne m’y attendais pas du tout, alors j’ai continué pour voir si je pouvais le refaire.</p>
-                <p>J’ai finalement réalisé 24 vidéos, seul, sur mon temps libre et sans budget publicitaire. Elles ont cumulé <strong>27,3 millions de vues</strong>, avec une médiane de 342 000. Vingt-deux ont dépassé les 30 000 vues et le compte est passé de 9 877 à plus de 100 000 abonnés pendant le premier sprint de publication.</p>
-            </div>`,
-            en: `<div class="abstract">
-                <h2>If you do not have time to read it all</h2>
-                <p>At the start, I simply wanted to practise making videos. ArdaCraft had <strong>9,877 followers</strong> on Instagram and the videos published until then rarely passed 30,000 views. It struck me as good ground to test an idea: filming the community’s builds like landscapes, borrowing a few conventions from travel Reels.</p>
-                <p>The first Reel reached <strong>465,000 views</strong>. I had not expected that at all, so I kept going to see whether I could do it again.</p>
-                <p>I ended up making 24 videos, on my own, in my spare time and with no ad budget. They gathered <strong>27.3 million views</strong>, with a median of 342,000. Twenty-two passed 30,000 views and the account went from 9,877 to more than 100,000 followers during the first publishing sprint.</p>
-            </div>`
+            fr: `<section class="resume" aria-labelledby="resume-titre">
+                <header class="resume-tete">
+                    <h2 id="resume-titre">En bref</h2>
+                    <span class="resume-duree">5 min de lecture</span>
+                </header>
+                <ul class="resume-chiffres">
+                    <li><strong>27,3 M</strong><span>de vues sur 24 vidéos</span></li>
+                    <li><strong>9 877 → 115 579</strong><span>abonnés Instagram</span></li>
+                    <li><strong>0 €</strong><span>de publicité</span></li>
+                </ul>
+                <ol class="resume-etapes">
+                    <li><h3>Le point de départ</h3><p>Je voulais m’entraîner à la vidéo. Le compte Instagram d’ArdaCraft plafonnait autour de 30 000 vues par vidéo.</p></li>
+                    <li><h3>Ce que j’ai fait</h3><p>J’ai filmé les décors comme des destinations, avec les codes des Reels de voyage : le meilleur plan en premier, le montage calé sur la musique.</p></li>
+                    <li><h3>Ce que ça a donné</h3><p>465 000 vues au premier essai, puis 22 vidéos sur 24 au-dessus de l’ancien niveau du compte. La médiane est de 342 000 vues.</p></li>
+                </ol>
+                <a class="resume-lire" href="#post-content">Lire l’histoire en entier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+            </section>`,
+            en: `<section class="resume" aria-labelledby="resume-titre">
+                <header class="resume-tete">
+                    <h2 id="resume-titre">In short</h2>
+                    <span class="resume-duree">5 min read</span>
+                </header>
+                <ul class="resume-chiffres">
+                    <li><strong>27.3M</strong><span>views across 24 videos</span></li>
+                    <li><strong>9,877 → 115,579</strong><span>Instagram followers</span></li>
+                    <li><strong>€0</strong><span>in ads</span></li>
+                </ul>
+                <ol class="resume-etapes">
+                    <li><h3>Where it started</h3><p>I wanted to practise video. ArdaCraft’s Instagram account topped out at around 30,000 views a video.</p></li>
+                    <li><h3>What I did</h3><p>I filmed the builds like travel destinations, borrowing the grammar of travel Reels: the best shot first, the edit cut to the music.</p></li>
+                    <li><h3>What came of it</h3><p>465,000 views on the first try, then 22 of 24 videos above the account’s old level. The median is 342,000 views.</p></li>
+                </ol>
+                <a class="resume-lire" href="#post-content">Read the full story<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+            </section>`
         },
         html: {
             fr: `<h2>Au départ, je voulais juste m’entraîner</h2>
@@ -136,11 +158,46 @@ window.GUMI_ARTICLES = {
             fr: "Participer au succès d'une communauté de passionnés tout en me challengeant et en développant de nouvelles compétences : retour sur un chantier de 150 heures.",
             en: 'Contributing to the success of a passionate community while challenging myself and building new skills: a look back at a 150-hour project.'
         },
+        // The summary: three figures, then the story in three steps. It
+        // renders above the cover (build/prerender-*.js, article-page.js).
+        abstract: {
+            fr: `<section class="resume" aria-labelledby="resume-titre">
+                <header class="resume-tete">
+                    <h2 id="resume-titre">En bref</h2>
+                    <span class="resume-duree">5 min de lecture</span>
+                </header>
+                <ul class="resume-chiffres">
+                    <li><strong>−90 %</strong><span>de coûts d’hébergement</span></li>
+                    <li><strong>+555 %</strong><span>d’usage des filtres</span></li>
+                    <li><strong>150 h</strong><span>sur trois mois</span></li>
+                </ul>
+                <ol class="resume-etapes">
+                    <li><h3>Le point de départ</h3><p>Le site Webflow attirait 217 000 visiteurs par an mais touchait la limite de son abonnement. Le forfait suivant aurait multiplié les coûts par cinq.</p></li>
+                    <li><h3>Ce que j’ai fait</h3><p>J’ai migré vers WordPress et Webstudio reliés en GraphQL, redessiné toutes les pages et remonté en haut de l’écran les fonctions que personne ne voyait.</p></li>
+                    <li><h3>Ce que ça a donné</h3><p>Des coûts d’hébergement divisés par dix. Sur la page des lieux, la recherche sert 71 % plus souvent et les filtres 555 % plus souvent.</p></li>
+                </ol>
+                <a class="resume-lire" href="#post-content">Lire l’histoire en entier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+            </section>`,
+            en: `<section class="resume" aria-labelledby="resume-titre">
+                <header class="resume-tete">
+                    <h2 id="resume-titre">In short</h2>
+                    <span class="resume-duree">5 min read</span>
+                </header>
+                <ul class="resume-chiffres">
+                    <li><strong>−90%</strong><span>hosting costs</span></li>
+                    <li><strong>+555%</strong><span>filter use</span></li>
+                    <li><strong>150 h</strong><span>over three months</span></li>
+                </ul>
+                <ol class="resume-etapes">
+                    <li><h3>Where it started</h3><p>The Webflow site drew 217,000 visitors a year but had hit the limit of its plan. The next tier would have cost five times as much.</p></li>
+                    <li><h3>What I did</h3><p>I moved it to WordPress and Webstudio linked through GraphQL, redesigned every page and brought the features nobody saw to the top of the screen.</p></li>
+                    <li><h3>What came of it</h3><p>Hosting costs cut tenfold. On the locations page, search is used 71% more often and filters 555% more often.</p></li>
+                </ol>
+                <a class="resume-lire" href="#post-content">Read the full story<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+            </section>`
+        },
         html: {
             fr: `
-            <div class="abstract">
-                <p>Cette expérimentation a consisté à repenser entièrement le site d'ArdaCraft pour lever le goulot d'étranglement qui freinait la croissance de la communauté. En <strong>150 heures réparties sur 3 mois</strong>, j'ai migré de Webflow vers une architecture décentralisée (WordPress et Webstudio en headless via GraphQL), divisant nos coûts d'hébergement par dix (<strong>-90 %</strong>). Côté expérience, une refonte guidée par les données a multiplié jusqu'à <strong>3× l'usage des fonctionnalités clés</strong> sur l'une de nos pages les plus visitées.</p>
-            </div>
 
             <h2>Le contexte</h2>
             <p>ArdaCraft est un projet collaboratif international dont l'ambition est de recréer minutieusement la <a href="https://ardacraft.me/" target="_blank" rel="noopener">Terre du Milieu</a> (l'univers du <em>Seigneur des Anneaux</em> et du <em>Hobbit</em>). J'ai rejoint l'aventure initialement pour créer des vidéos, avant de prendre plus de responsabilités pour me challenger et explorer de nouveaux horizons.</p>
@@ -238,9 +295,6 @@ window.GUMI_ARTICLES = {
             <p>Je travaille maintenant sur la V3 de cette carte.</p>
             `,
             en: `
-            <div class="abstract">
-                <p>This experiment was about completely rethinking ArdaCraft's website to clear the bottleneck that was holding the community's growth back. In <strong>150 hours over 3 months</strong>, I migrated from Webflow to a decentralized architecture (WordPress and Webstudio, headless via GraphQL), cutting our hosting costs tenfold (<strong>-90%</strong>). On the experience side, a data-driven redesign boosted usage of key features by up to <strong>3×</strong> on one of our most visited pages.</p>
-            </div>
 
             <h2>The context</h2>
             <p>ArdaCraft is an international collaborative project whose ambition is to meticulously recreate <a href="https://ardacraft.me/" target="_blank" rel="noopener">Middle-earth</a> (the universe of <em>The Lord of the Rings</em> and <em>The Hobbit</em>). I initially joined the adventure to create videos, before taking on more responsibilities to challenge myself and explore new horizons.</p>
@@ -353,12 +407,46 @@ window.GUMI_ARTICLES = {
             fr: "Comment j'ai transformé plus d'un million de recherches annuelles autour de la Terre du Milieu en canal d'acquisition pour ArdaCraft, grâce à une carte interactive.",
             en: 'How I turned over a million annual searches around Middle-earth into a real acquisition channel for ArdaCraft, through an interactive map.'
         },
+        // The summary: three figures, then the story in three steps. It
+        // renders above the cover (build/prerender-*.js, article-page.js).
+        abstract: {
+            fr: `<section class="resume" aria-labelledby="resume-titre">
+                <header class="resume-tete">
+                    <h2 id="resume-titre">En bref</h2>
+                    <span class="resume-duree">6 min de lecture</span>
+                </header>
+                <ul class="resume-chiffres">
+                    <li><strong>1 M</strong><span>de recherches par an pour une carte</span></li>
+                    <li><strong>50 %</strong><span>du trafic hors-marque</span></li>
+                    <li><strong>200 000</strong><span>impressions Google par mois</span></li>
+                </ul>
+                <ol class="resume-etapes">
+                    <li><h3>Le point de départ</h3><p>Plus d’un million de recherches par an pour une carte de la Terre du Milieu, sur une requête peu disputée : une difficulté de 36 %.</p></li>
+                    <li><h3>Ce que j’ai fait</h3><p>Une carte interactive calquée sur Google Maps, qui réunit ce que les cartes du top 3 n’offraient que séparément, et qui marche aussi sur mobile.</p></li>
+                    <li><h3>Ce que ça a donné</h3><p>Près de 200 000 impressions par mois sur Google et la moitié du trafic hors-marque du site, malgré deux coupures pour raisons de budget.</p></li>
+                </ol>
+                <a class="resume-lire" href="#post-content">Lire l’histoire en entier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+            </section>`,
+            en: `<section class="resume" aria-labelledby="resume-titre">
+                <header class="resume-tete">
+                    <h2 id="resume-titre">In short</h2>
+                    <span class="resume-duree">6 min read</span>
+                </header>
+                <ul class="resume-chiffres">
+                    <li><strong>1M</strong><span>searches a year for a map</span></li>
+                    <li><strong>50%</strong><span>of non-brand traffic</span></li>
+                    <li><strong>200,000</strong><span>Google impressions a month</span></li>
+                </ul>
+                <ol class="resume-etapes">
+                    <li><h3>Where it started</h3><p>Over a million searches a year for a map of Middle-earth, on a query with little competition: a difficulty of 36%.</p></li>
+                    <li><h3>What I did</h3><p>An interactive map modelled on Google Maps, bringing together what the top 3 maps each offered separately, and working on mobile too.</p></li>
+                    <li><h3>What came of it</h3><p>Close to 200,000 Google impressions a month and half of the site’s non-brand traffic, despite two shutdowns to protect the budget.</p></li>
+                </ol>
+                <a class="resume-lire" href="#post-content">Read the full story<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+            </section>`
+        },
         html: {
             fr: `
-            <div class="abstract">
-                <span class="note note--etoile note-resume" aria-hidden="true"><svg class="note-trait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 4v16"></path><path d="M5 8l14 8"></path><path d="M19 8L5 16"></path></svg><span class="note-texte" data-i18n="abstract_note">Le résumé en 30 secondes</span></span>
-                <p>Je me suis rendu compte qu'il y avait <strong>plus d'un million de recherches par an</strong> pour les cartes de la Terre du Milieu. Pour attirer ce public sur ArdaCraft, j'ai créé une carte interactive inspirée de Google Maps. L'objectif était de capter <strong>330 000 clics par an</strong> sur une requête peu disputée (difficulté de <strong>36 %</strong>). Et en quelques mois, le pari a payé : la carte génère <strong>la moitié de nos nouvelles visites</strong> !</p>
-            </div>
 
             <h2>L'opportunité</h2>
             <p>Je produisais depuis un an les vidéos du projet, <a href="ardacraft-social">27,3 millions de vues sur 24 publications</a>, puis j'avais <a href="ardacraft">repris le site</a> pour que ce trafic arrive quelque part. Restait une audience que les réseaux sociaux ne touchaient pas. Je me suis donc penché sur notre stratégie SEO. C'est en analysant le marché autour de l'univers de Tolkien qu'un segment précis a immédiatement capté mon attention : les recherches de cartes. Les données Semrush montraient un écosystème de <strong>plus d'un million de recherches par an</strong> en incluant toutes les variantes du mot-clé « middle earth map ».</p>
@@ -429,10 +517,6 @@ window.GUMI_ARTICLES = {
             <p>Aujourd'hui la base technique est robuste et le contenu complet. Une fois cette V3 déployée, nos efforts basculeront sur le dernier pilier essentiel de notre stratégie d'acquisition : le <strong>netlinking</strong>. Nous concentrerons nos efforts sur une grande campagne de communication entièrement axée sur la valeur unique de cet outil, afin d'aller chercher les backlinks nécessaires pour installer durablement ArdaCraft sur ces requêtes.</p>
             `,
             en: `
-            <div class="abstract">
-                <span class="note note--etoile note-resume" aria-hidden="true"><svg class="note-trait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 4v16"></path><path d="M5 8l14 8"></path><path d="M19 8L5 16"></path></svg><span class="note-texte" data-i18n="abstract_note">The 30-second version</span></span>
-                <p>I realised there were <strong>over a million searches a year</strong> for maps of Middle-earth. To bring that audience to ArdaCraft, I built an interactive map inspired by Google Maps. The goal was to capture <strong>330,000 clicks a year</strong> on a query with little competition (a difficulty of <strong>36%</strong>). And within a few months the bet paid off: the map brings in <strong>half of our new visits</strong>!</p>
-            </div>
 
             <h2>The opportunity</h2>
             <p>In my constant search for new opportunities to grow <strong>ArdaCraft</strong>, I decided to take our SEO strategy seriously. While analyzing the market around Tolkien's universe, one specific segment immediately caught my attention: map searches. The Semrush data showed an ecosystem of <strong>more than one million searches per year</strong> when including every variant of the keyword "middle earth map".</p>
@@ -518,13 +602,46 @@ window.GUMI_ARTICLES = {
             fr: "Un mois d'expérimentation pour confronter la génération d'images par IA à un shooting produit traditionnel : coûts, qualité, limites et verdict.",
             en: 'A month of experimentation pitting AI image generation against a traditional product shoot: costs, quality, limits and verdict.'
         },
+        // The summary: three figures, then the story in three steps. It
+        // renders above the cover (build/prerender-*.js, article-page.js).
+        abstract: {
+            fr: `<section class="resume" aria-labelledby="resume-titre">
+                <header class="resume-tete">
+                    <h2 id="resume-titre">En bref</h2>
+                    <span class="resume-duree">3 min de lecture</span>
+                </header>
+                <ul class="resume-chiffres">
+                    <li><strong>−95 %</strong><span>de coût par visuel</span></li>
+                    <li><strong>40 sur 600</strong><span>images retenues</span></li>
+                    <li><strong>58 %</strong><span>préfèrent le studio à l’aveugle</span></li>
+                </ul>
+                <ol class="resume-etapes">
+                    <li><h3>Le point de départ</h3><p>Un shooting produit coûte vite plus de 1 000 €. Les générateurs d’images promettent du photoréalisme en quelques secondes : j’ai voulu vérifier.</p></li>
+                    <li><h3>Ce que j’ai fait</h3><p>Le même objet en studio et en IA, avec les mêmes ambiances et le même temps de retouche, puis un jury de cinq personnes à l’aveugle.</p></li>
+                    <li><h3>Ce que ça a donné</h3><p>L’IA gagne sur les ambiances et coûte vingt fois moins cher, mais déforme encore les logos et les détails. Le studio devient la dernière étape.</p></li>
+                </ol>
+                <a class="resume-lire" href="#post-content">Lire l’histoire en entier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+            </section>`,
+            en: `<section class="resume" aria-labelledby="resume-titre">
+                <header class="resume-tete">
+                    <h2 id="resume-titre">In short</h2>
+                    <span class="resume-duree">3 min read</span>
+                </header>
+                <ul class="resume-chiffres">
+                    <li><strong>−95%</strong><span>cost per image</span></li>
+                    <li><strong>40 of 600</strong><span>images kept</span></li>
+                    <li><strong>58%</strong><span>prefer the studio, blind</span></li>
+                </ul>
+                <ol class="resume-etapes">
+                    <li><h3>Where it started</h3><p>A product shoot quickly costs over €1,000. Image generators promise photorealism in seconds: I wanted to check.</p></li>
+                    <li><h3>What I did</h3><p>The same object in the studio and in AI, with the same moods and the same retouching time, then a blind panel of five people.</p></li>
+                    <li><h3>What came of it</h3><p>AI wins on moods and costs twenty times less, but still warps logos and details. The studio becomes the last step.</p></li>
+                </ol>
+                <a class="resume-lire" href="#post-content">Read the full story<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+            </section>`
+        },
         html: {
             fr: `
-            <div class="abstract">
-                <p><strong>-95% de budget</strong> par visuel généré comparé à une journée de shooting produit traditionnelle avec photographe et studio.</p>
-                <p><strong>40 visuels retenus sur 600 générés</strong> : un taux de déchet énorme, mais un itération quasi instantanée et illimitée.</p>
-                <p><strong>Verdict nuancé</strong> : bluffant pour les ambiances et les arrière-plans, encore fragile pour la fidélité produit et la cohérence des détails.</p>
-            </div>
 
             <h2>Pourquoi cette expérimentation ?</h2>
             <p>Un shooting photo professionnel, même modeste, mobilise un photographe, un studio, du matériel d'éclairage et une demi-journée de post-production. Pour une petite marque ou un projet personnel, le budget grimpe vite au-delà du millier d'euros pour une poignée de visuels. En parallèle, les générateurs d'images par IA promettent des résultats « photoréalistes » en quelques secondes. J'ai voulu vérifier cette promesse avec un cas concret : produire le visuel de lancement d'un objet réel, dans plusieurs ambiances, en comparant systématiquement le résultat IA à une référence photographiée en studio.</p>
@@ -595,11 +712,6 @@ window.GUMI_ARTICLES = {
             <p>Non, l'IA ne remplace pas encore un vrai shooting quand la fidélité produit est critique, packaging, e-commerce, catalogue. Mais elle a déjà gagné sur un autre terrain : les visuels d'ambiance, les moodboards clients, les tests de direction artistique et les déclinaisons pour les réseaux sociaux. Mon flux de travail a d'ailleurs changé depuis : je génère les ambiances en IA, je valide une direction avec le client, puis je ne shoote en studio que la direction retenue. Le shooting n'a pas disparu, il est devenu la dernière étape d'un entonnoir beaucoup plus large.</p>
             `,
             en: `
-            <div class="abstract">
-                <p><strong>-95% budget</strong> per generated visual compared to a traditional product shoot day with a photographer and studio.</p>
-                <p><strong>40 visuals kept out of 600 generated</strong>: a huge waste rate, but near-instant, unlimited iteration.</p>
-                <p><strong>A nuanced verdict</strong>: stunning for moods and backgrounds, still fragile on product fidelity and detail consistency.</p>
-            </div>
 
             <h2>Why This Experiment?</h2>
             <p>A professional photo shoot, even a modest one, requires a photographer, a studio, lighting gear and half a day of post-production. For a small brand or a personal project, the budget quickly climbs past a thousand euros for a handful of visuals. Meanwhile, AI image generators promise "photorealistic" results in seconds. I wanted to test that promise with a concrete case: producing the launch visual for a real object, in several moods, systematically comparing the AI result against a studio-photographed reference.</p>

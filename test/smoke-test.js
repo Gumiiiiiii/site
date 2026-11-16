@@ -234,23 +234,34 @@ async function main() {
             if (!okArt) failures += 1;
         }
 
-        // ardacraft-social: the abstract is rendered above the cover and the
-        // table of contents, and the follower chart appears once (as the
-        // cover) rather than twice.
-        for (const [label, url] of [['/experiments/ardacraft-social', BASE + '/experiments/ardacraft-social'],
-            ['/en/experiments/ardacraft-social', BASE + '/en/experiments/ardacraft-social']]) {
-            const raw = await (await fetch(url, { headers: { connection: 'close' } })).text();
-            const absAt = raw.indexOf('id="article-abstract"');
-            const problems = [];
-            if (absAt < 0 || raw.indexOf('class="abstract"', absAt) < 0) problems.push('abstract not rendered');
-            if (absAt < raw.indexOf('id="article-cover"')) problems.push('abstract comes before the cover');
-            if (absAt > raw.indexOf('toolbar-wrapper')) problems.push('abstract comes after the table of contents');
-            if (raw.includes('chart-figure')) problems.push('the chart is still duplicated in the body');
-            const caps = (raw.match(/class="reel-caption"/g) || []).length;
-            if (caps !== 3) problems.push(caps + ' reel captions, expected 3');
-            console.log((problems.length ? 'FAIL' : ' ok ') + '  ' + label + ' (abstract under the cover)'
-                + (problems.length ? '  → ' + problems.join('; ') : ''));
-            if (problems.length) failures += 1;
+        // Every article opens with its summary (« En bref ») : three figures
+        // and three steps, in the served HTML, above the cover so a reader who
+        // stops at the top still gets the whole story.
+        for (const slug of ['ardacraft-social', 'ardacraft', 'ardacraft-map', 'ai-photoshoot']) {
+            for (const prefix of ['', '/en']) {
+                const label = prefix + '/experiments/' + slug;
+                const raw = await (await fetch(BASE + label, { headers: { connection: 'close' } })).text();
+                const absAt = raw.indexOf('id="article-abstract"');
+                const problems = [];
+                if (absAt < 0 || raw.indexOf('class="resume"', absAt) < 0) problems.push('summary not rendered');
+                else {
+                    const bloc = raw.slice(absAt, raw.indexOf('</section>', absAt));
+                    const chiffres = (bloc.match(/<strong>/g) || []).length;
+                    const etapes = (bloc.match(/<h3>/g) || []).length;
+                    if (chiffres !== 3) problems.push(chiffres + ' figures, expected 3');
+                    if (etapes !== 3) problems.push(etapes + ' steps, expected 3');
+                }
+                if (absAt > raw.indexOf('id="article-cover"')) problems.push('summary comes after the cover');
+                if (raw.indexOf('class="abstract"', raw.indexOf('id="post-content"')) > 0) problems.push('an old summary is still in the body');
+                if (slug === 'ardacraft-social') {
+                    if (raw.includes('chart-figure')) problems.push('the chart is still duplicated in the body');
+                    const caps = (raw.match(/class="reel-caption"/g) || []).length;
+                    if (caps !== 3) problems.push(caps + ' reel captions, expected 3');
+                }
+                console.log((problems.length ? 'FAIL' : ' ok ') + '  ' + label + ' (summary at the top)'
+                    + (problems.length ? '  → ' + problems.join('; ') : ''));
+                if (problems.length) failures += 1;
+            }
         }
 
         // Custom 404 page is served for unknown paths.

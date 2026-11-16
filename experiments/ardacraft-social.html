@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="../styles/shared.css">
     <link rel="stylesheet" href="../styles/article.css">
     <link rel="stylesheet" href="../styles/article-papier.css">
+    <link rel="stylesheet" href="../styles/etude.css">
     <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -47,13 +48,15 @@
 }
     </script>
 </head>
-<body class="shell-page">
+<body class="shell-page etude-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
 
     <nav class="navbar" data-navbar-root=""></nav>
 
     <main class="site-content" id="main">
     <div class="points-champ" aria-hidden="true"></div>
+    <!-- Le fond : la couverture de l'article, tramée en points (scripts/etude-trame.js). -->
+    <canvas class="etude-trame" id="etude-trame" aria-hidden="true"></canvas>
 
 
         <!-- HERO (STICKY TITLE + IMAGE) — content completed by article-page.js -->
@@ -64,12 +67,23 @@
             </header>
 
             <!-- ABSTRACT — before the cover and the table of contents, filled by article-page.js -->
-            <div class="article-abstract" id="article-abstract"><div class="abstract">
-                <h2>Si vous n’avez pas le temps de tout lire</h2>
-                <p>Au départ, je voulais simplement m’entraîner à faire des vidéos. ArdaCraft comptait <strong>9&nbsp;877 abonnés</strong> sur Instagram et les vidéos publiées jusque-là dépassaient rarement les 30&nbsp;000 vues. Je me suis dit que c’était un bon terrain pour tester une idée : filmer les décors de la communauté comme des paysages, en reprenant quelques codes des Reels de voyage.</p>
-                <p>Le premier Reel a obtenu <strong>465&nbsp;000 vues</strong>. Je ne m’y attendais pas du tout, alors j’ai continué pour voir si je pouvais le refaire.</p>
-                <p>J’ai finalement réalisé 24 vidéos, seul, sur mon temps libre et sans budget publicitaire. Elles ont cumulé <strong>27,3 millions de vues</strong>, avec une médiane de 342&nbsp;000. Vingt-deux ont dépassé les 30&nbsp;000 vues et le compte est passé de 9&nbsp;877 à plus de 100&nbsp;000 abonnés pendant le premier sprint de publication.</p>
-            </div></div>
+            <div class="article-abstract" id="article-abstract"><section class="resume" aria-labelledby="resume-titre">
+                <header class="resume-tete">
+                    <h2 id="resume-titre">En bref</h2>
+                    <span class="resume-duree">5 min de lecture</span>
+                </header>
+                <ul class="resume-chiffres">
+                    <li><strong>27,3 M</strong><span>de vues sur 24 vidéos</span></li>
+                    <li><strong>9 877 → 115 579</strong><span>abonnés Instagram</span></li>
+                    <li><strong>0 €</strong><span>de publicité</span></li>
+                </ul>
+                <ol class="resume-etapes">
+                    <li><h3>Le point de départ</h3><p>Je voulais m’entraîner à la vidéo. Le compte Instagram d’ArdaCraft plafonnait autour de 30 000 vues par vidéo.</p></li>
+                    <li><h3>Ce que j’ai fait</h3><p>J’ai filmé les décors comme des destinations, avec les codes des Reels de voyage : le meilleur plan en premier, le montage calé sur la musique.</p></li>
+                    <li><h3>Ce que ça a donné</h3><p>465 000 vues au premier essai, puis 22 vidéos sur 24 au-dessus de l’ancien niveau du compte. La médiane est de 342 000 vues.</p></li>
+                </ol>
+                <a class="resume-lire" href="#post-content">Lire l’histoire en entier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+            </section></div>
 
             <div class="featured-image-wrapper">
                 <img id="article-cover" src="/media/ardacraft-social-featured-image.webp" alt="Abonnés Instagram d’ArdaCraft, de 9&nbsp;877 en janvier 2024 à 115&nbsp;579 en août" width="1920" height="1080" fetchpriority="high">
@@ -78,6 +92,7 @@
 
         <!-- TOOLBAR & TOC (ACCORDION) -->
         <div class="toolbar-wrapper">
+            <p class="rail-tete" data-i18n="toc_label">Sommaire</p>
             <div class="article-toolbar">
                 <button id="tocToggle" class="toc-toggle">
                     <span data-i18n="toc_label">Sommaire</span>
@@ -165,6 +180,7 @@
     <script src="../scripts/navbar.js"></script>
     <script src="../scripts/articles-data.js"></script>
     <script src="../scripts/article-page.js"></script>
+    <script src="../scripts/etude-trame.js"></script>
     <script src="../scripts/points-champ.js"></script>
     <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };

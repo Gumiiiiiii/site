@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="../styles/shared.css">
     <link rel="stylesheet" href="../styles/article.css">
     <link rel="stylesheet" href="../styles/article-papier.css">
+    <link rel="stylesheet" href="../styles/etude.css">
     <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -47,13 +48,15 @@
 }
     </script>
 </head>
-<body class="shell-page">
+<body class="shell-page etude-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
 
     <nav class="navbar" data-navbar-root=""></nav>
 
     <main class="site-content" id="main">
     <div class="points-champ" aria-hidden="true"></div>
+    <!-- Le fond : la couverture de l'article, tramée en points (scripts/etude-trame.js). -->
+    <canvas class="etude-trame" id="etude-trame" aria-hidden="true"></canvas>
 
 
         <!-- HERO (STICKY TITLE + IMAGE) — content completed by article-page.js -->
@@ -63,6 +66,25 @@
                 <p class="article-date" id="article-date">Publié le 11 juillet 2026</p>
             </header>
 
+            <!-- EN BREF : le résumé, avant la couverture, rendu depuis scripts/articles-data.js -->
+            <div class="article-abstract" id="article-abstract"><section class="resume" aria-labelledby="resume-titre">
+                <header class="resume-tete">
+                    <h2 id="resume-titre">En bref</h2>
+                    <span class="resume-duree">5 min de lecture</span>
+                </header>
+                <ul class="resume-chiffres">
+                    <li><strong>−90 %</strong><span>de coûts d’hébergement</span></li>
+                    <li><strong>+555 %</strong><span>d’usage des filtres</span></li>
+                    <li><strong>150 h</strong><span>sur trois mois</span></li>
+                </ul>
+                <ol class="resume-etapes">
+                    <li><h3>Le point de départ</h3><p>Le site Webflow attirait 217 000 visiteurs par an mais touchait la limite de son abonnement. Le forfait suivant aurait multiplié les coûts par cinq.</p></li>
+                    <li><h3>Ce que j’ai fait</h3><p>J’ai migré vers WordPress et Webstudio reliés en GraphQL, redessiné toutes les pages et remonté en haut de l’écran les fonctions que personne ne voyait.</p></li>
+                    <li><h3>Ce que ça a donné</h3><p>Des coûts d’hébergement divisés par dix. Sur la page des lieux, la recherche sert 71 % plus souvent et les filtres 555 % plus souvent.</p></li>
+                </ol>
+                <a class="resume-lire" href="#post-content">Lire l’histoire en entier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+            </section></div>
+
             <div class="featured-image-wrapper">
                 <img id="article-cover" src="/media/ardacraft-redesign-featured-image.webp" alt="Aperçu de la refonte du site ArdaCraft" width="1920" height="1080" fetchpriority="high">
             </div>
@@ -70,6 +92,7 @@
 
         <!-- TOOLBAR & TOC (ACCORDION) -->
         <div class="toolbar-wrapper">
+            <p class="rail-tete" data-i18n="toc_label">Sommaire</p>
             <div class="article-toolbar">
                 <button id="tocToggle" class="toc-toggle">
                     <span data-i18n="toc_label">Sommaire</span>
@@ -93,9 +116,6 @@
 
         <!-- POST CONTENT — populated by article-page.js -->
         <article class="article-content" id="post-content">
-            <div class="abstract">
-                <p>Cette expérimentation a consisté à repenser entièrement le site d'ArdaCraft pour lever le goulot d'étranglement qui freinait la croissance de la communauté. En <strong>150 heures réparties sur 3 mois</strong>, j'ai migré de Webflow vers une architecture décentralisée (WordPress et Webstudio en headless via GraphQL), divisant nos coûts d'hébergement par dix (<strong>-90 %</strong>). Côté expérience, une refonte guidée par les données a multiplié jusqu'à <strong>3× l'usage des fonctionnalités clés</strong> sur l'une de nos pages les plus visitées.</p>
-            </div>
 
             <h2 id="heading-0">Le contexte</h2>
             <p>ArdaCraft est un projet collaboratif international dont l'ambition est de recréer minutieusement la <a href="https://ardacraft.me/" target="_blank" rel="noopener">Terre du Milieu</a> (l'univers du <em>Seigneur des Anneaux</em> et du <em>Hobbit</em>). J'ai rejoint l'aventure initialement pour créer des vidéos, avant de prendre plus de responsabilités pour me challenger et explorer de nouveaux horizons.</p>
@@ -216,6 +236,7 @@
     <script src="../scripts/navbar.js"></script>
     <script src="../scripts/articles-data.js"></script>
     <script src="../scripts/article-page.js"></script>
+    <script src="../scripts/etude-trame.js"></script>
     <script src="../scripts/points-champ.js"></script>
     <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };

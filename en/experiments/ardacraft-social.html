@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="../styles/shared.css">
     <link rel="stylesheet" href="../styles/article.css">
     <link rel="stylesheet" href="../styles/article-papier.css">
+    <link rel="stylesheet" href="../styles/etude.css">
     <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -47,13 +48,15 @@
 }
     </script>
 </head>
-<body class="shell-page">
+<body class="shell-page etude-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Skip to content</a>
 
     <nav class="navbar" data-navbar-root=""></nav>
 
     <main class="site-content" id="main">
     <div class="points-champ" aria-hidden="true"></div>
+    <!-- Le fond : la couverture de l'article, tramée en points (scripts/etude-trame.js). -->
+    <canvas class="etude-trame" id="etude-trame" aria-hidden="true"></canvas>
 
 
         <!-- HERO (STICKY TITLE + IMAGE) — content completed by article-page.js -->
@@ -64,12 +67,23 @@
             </header>
 
             <!-- ABSTRACT — before the cover and the table of contents, filled by article-page.js -->
-            <div class="article-abstract" id="article-abstract"><div class="abstract">
-                <h2>If you do not have time to read it all</h2>
-                <p>At the start, I simply wanted to practise making videos. ArdaCraft had <strong>9,877 followers</strong> on Instagram and the videos published until then rarely passed 30,000 views. It struck me as good ground to test an idea: filming the community’s builds like landscapes, borrowing a few conventions from travel Reels.</p>
-                <p>The first Reel reached <strong>465,000 views</strong>. I had not expected that at all, so I kept going to see whether I could do it again.</p>
-                <p>I ended up making 24 videos, on my own, in my spare time and with no ad budget. They gathered <strong>27.3 million views</strong>, with a median of 342,000. Twenty-two passed 30,000 views and the account went from 9,877 to more than 100,000 followers during the first publishing sprint.</p>
-            </div></div>
+            <div class="article-abstract" id="article-abstract"><section class="resume" aria-labelledby="resume-titre">
+                <header class="resume-tete">
+                    <h2 id="resume-titre">In short</h2>
+                    <span class="resume-duree">5 min read</span>
+                </header>
+                <ul class="resume-chiffres">
+                    <li><strong>27.3M</strong><span>views across 24 videos</span></li>
+                    <li><strong>9,877 → 115,579</strong><span>Instagram followers</span></li>
+                    <li><strong>€0</strong><span>in ads</span></li>
+                </ul>
+                <ol class="resume-etapes">
+                    <li><h3>Where it started</h3><p>I wanted to practise video. ArdaCraft’s Instagram account topped out at around 30,000 views a video.</p></li>
+                    <li><h3>What I did</h3><p>I filmed the builds like travel destinations, borrowing the grammar of travel Reels: the best shot first, the edit cut to the music.</p></li>
+                    <li><h3>What came of it</h3><p>465,000 views on the first try, then 22 of 24 videos above the account’s old level. The median is 342,000 views.</p></li>
+                </ol>
+                <a class="resume-lire" href="#post-content">Read the full story<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+            </section></div>
 
             <div class="featured-image-wrapper">
                 <img id="article-cover" src="/media/ardacraft-social-featured-image.webp" alt="Abonnés Instagram d’ArdaCraft, de 9&nbsp;877 en janvier 2024 à 115&nbsp;579 en août" width="1920" height="1080" fetchpriority="high">
@@ -78,6 +92,7 @@
 
         <!-- TOOLBAR & TOC (ACCORDION) -->
         <div class="toolbar-wrapper">
+            <p class="rail-tete" data-i18n="toc_label">Contents</p>
             <div class="article-toolbar">
                 <button id="tocToggle" class="toc-toggle">
                     <span data-i18n="toc_label">Contents</span>
@@ -165,6 +180,7 @@
     <script src="../scripts/navbar.js"></script>
     <script src="../scripts/articles-data.js"></script>
     <script src="../scripts/article-page.js"></script>
+    <script src="../scripts/etude-trame.js"></script>
     <script src="../scripts/points-champ.js"></script>
     <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };

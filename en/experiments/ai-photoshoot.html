@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="../styles/shared.css">
     <link rel="stylesheet" href="../styles/article.css">
     <link rel="stylesheet" href="../styles/article-papier.css">
+    <link rel="stylesheet" href="../styles/etude.css">
     <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -49,13 +50,15 @@
 }
     </script>
 </head>
-<body class="shell-page">
+<body class="shell-page etude-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Skip to content</a>
 
     <nav class="navbar" data-navbar-root=""></nav>
 
     <main class="site-content" id="main">
     <div class="points-champ" aria-hidden="true"></div>
+    <!-- Le fond : la couverture de l'article, tramée en points (scripts/etude-trame.js). -->
+    <canvas class="etude-trame" id="etude-trame" aria-hidden="true"></canvas>
 
 
         <!-- HERO (STICKY TITLE + IMAGE) — content completed by article-page.js -->
@@ -65,6 +68,25 @@
                 <p class="article-date" id="article-date">Publié le 11 juillet 2026</p>
             </header>
 
+            <!-- EN BREF : le résumé, avant la couverture, rendu depuis scripts/articles-data.js -->
+            <div class="article-abstract" id="article-abstract"><section class="resume" aria-labelledby="resume-titre">
+                <header class="resume-tete">
+                    <h2 id="resume-titre">In short</h2>
+                    <span class="resume-duree">3 min read</span>
+                </header>
+                <ul class="resume-chiffres">
+                    <li><strong>−95%</strong><span>cost per image</span></li>
+                    <li><strong>40 of 600</strong><span>images kept</span></li>
+                    <li><strong>58%</strong><span>prefer the studio, blind</span></li>
+                </ul>
+                <ol class="resume-etapes">
+                    <li><h3>Where it started</h3><p>A product shoot quickly costs over €1,000. Image generators promise photorealism in seconds: I wanted to check.</p></li>
+                    <li><h3>What I did</h3><p>The same object in the studio and in AI, with the same moods and the same retouching time, then a blind panel of five people.</p></li>
+                    <li><h3>What came of it</h3><p>AI wins on moods and costs twenty times less, but still warps logos and details. The studio becomes the last step.</p></li>
+                </ol>
+                <a class="resume-lire" href="#post-content">Read the full story<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+            </section></div>
+
             <div class="featured-image-wrapper">
                 <img id="article-cover" src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&amp;w=2000&amp;auto=format&amp;fit=crop" alt="Studio photo avec éclairage professionnel" fetchpriority="high">
             </div>
@@ -72,6 +94,7 @@
 
         <!-- TOOLBAR & TOC (ACCORDION) -->
         <div class="toolbar-wrapper">
+            <p class="rail-tete" data-i18n="toc_label">Contents</p>
             <div class="article-toolbar">
                 <button id="tocToggle" class="toc-toggle">
                     <span data-i18n="toc_label">Contents</span>
@@ -95,11 +118,6 @@
 
         <!-- POST CONTENT — populated by article-page.js -->
         <article class="article-content" id="post-content">
-            <div class="abstract">
-                <p><strong>-95% budget</strong> per generated visual compared to a traditional product shoot day with a photographer and studio.</p>
-                <p><strong>40 visuals kept out of 600 generated</strong>: a huge waste rate, but near-instant, unlimited iteration.</p>
-                <p><strong>A nuanced verdict</strong>: stunning for moods and backgrounds, still fragile on product fidelity and detail consistency.</p>
-            </div>
 
             <h2>Why This Experiment?</h2>
             <p>A professional photo shoot, even a modest one, requires a photographer, a studio, lighting gear and half a day of post-production. For a small brand or a personal project, the budget quickly climbs past a thousand euros for a handful of visuals. Meanwhile, AI image generators promise "photorealistic" results in seconds. I wanted to test that promise with a concrete case: producing the launch visual for a real object, in several moods, systematically comparing the AI result against a studio-photographed reference.</p>
@@ -193,6 +211,7 @@
     <script src="../scripts/navbar.js"></script>
     <script src="../scripts/articles-data.js"></script>
     <script src="../scripts/article-page.js"></script>
+    <script src="../scripts/etude-trame.js"></script>
     <script src="../scripts/points-champ.js"></script>
     <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };

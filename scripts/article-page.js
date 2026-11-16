@@ -109,6 +109,17 @@
             abstractEl.hidden = !abstract;
         }
 
+        // "Read the full story" glides to the body with the page's smooth
+        // scroll, like the table of contents does.
+        const readLink = abstractEl && abstractEl.querySelector('.resume-lire');
+        if (readLink) {
+            readLink.addEventListener('click', (e) => {
+                if (!window.gumiLenis) return;
+                e.preventDefault();
+                window.gumiLenis.scrollTo('#post-content', { offset: -32 });
+            });
+        }
+
         if (coverEl.getAttribute('src') !== article.cover) coverEl.src = article.cover;
         coverEl.alt = article.coverAlt || article.title[lang];
         postContent.innerHTML = article.html[lang];

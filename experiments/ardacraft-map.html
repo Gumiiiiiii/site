@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="../styles/shared.css">
     <link rel="stylesheet" href="../styles/article.css">
     <link rel="stylesheet" href="../styles/article-papier.css">
+    <link rel="stylesheet" href="../styles/etude.css">
     <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -47,13 +48,15 @@
 }
     </script>
 </head>
-<body class="shell-page">
+<body class="shell-page etude-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
 
     <nav class="navbar" data-navbar-root=""></nav>
 
     <main class="site-content" id="main">
     <div class="points-champ" aria-hidden="true"></div>
+    <!-- Le fond : la couverture de l'article, tramée en points (scripts/etude-trame.js). -->
+    <canvas class="etude-trame" id="etude-trame" aria-hidden="true"></canvas>
 
 
         <!-- HERO (STICKY TITLE + IMAGE) — content completed by article-page.js -->
@@ -63,6 +66,25 @@
                 <p class="article-date" id="article-date">Publié le 12 juillet 2026</p>
             </header>
 
+            <!-- EN BREF : le résumé, avant la couverture, rendu depuis scripts/articles-data.js -->
+            <div class="article-abstract" id="article-abstract"><section class="resume" aria-labelledby="resume-titre">
+                <header class="resume-tete">
+                    <h2 id="resume-titre">En bref</h2>
+                    <span class="resume-duree">6 min de lecture</span>
+                </header>
+                <ul class="resume-chiffres">
+                    <li><strong>1 M</strong><span>de recherches par an pour une carte</span></li>
+                    <li><strong>50 %</strong><span>du trafic hors-marque</span></li>
+                    <li><strong>200 000</strong><span>impressions Google par mois</span></li>
+                </ul>
+                <ol class="resume-etapes">
+                    <li><h3>Le point de départ</h3><p>Plus d’un million de recherches par an pour une carte de la Terre du Milieu, sur une requête peu disputée : une difficulté de 36 %.</p></li>
+                    <li><h3>Ce que j’ai fait</h3><p>Une carte interactive calquée sur Google Maps, qui réunit ce que les cartes du top 3 n’offraient que séparément, et qui marche aussi sur mobile.</p></li>
+                    <li><h3>Ce que ça a donné</h3><p>Près de 200 000 impressions par mois sur Google et la moitié du trafic hors-marque du site, malgré deux coupures pour raisons de budget.</p></li>
+                </ol>
+                <a class="resume-lire" href="#post-content">Lire l’histoire en entier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a>
+            </section></div>
+
             <div class="featured-image-wrapper">
                 <img id="article-cover" src="/media/ardacraft-map-carte-interactive.webp" alt="La carte interactive de la Terre du Milieu conçue pour ArdaCraft" width="1920" height="1080" fetchpriority="high">
             </div>
@@ -70,6 +92,7 @@
 
         <!-- TOOLBAR & TOC (ACCORDION) -->
         <div class="toolbar-wrapper">
+            <p class="rail-tete" data-i18n="toc_label">Sommaire</p>
             <div class="article-toolbar">
                 <button id="tocToggle" class="toc-toggle">
                     <span data-i18n="toc_label">Sommaire</span>
@@ -93,10 +116,6 @@
 
         <!-- POST CONTENT — populated by article-page.js -->
         <article class="article-content" id="post-content">
-            <div class="abstract">
-                <span class="note note--etoile note-resume" aria-hidden="true"><svg class="note-trait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 4v16"></path><path d="M5 8l14 8"></path><path d="M19 8L5 16"></path></svg><span class="note-texte" data-i18n="abstract_note">Le résumé en 30 secondes</span></span>
-                <p>Je me suis rendu compte qu'il y avait <strong>plus d'un million de recherches par an</strong> pour les cartes de la Terre du Milieu. Pour attirer ce public sur ArdaCraft, j'ai créé une carte interactive inspirée de Google Maps. L'objectif était de capter <strong>330 000 clics par an</strong> sur une requête peu disputée (difficulté de <strong>36 %</strong>). Et en quelques mois, le pari a payé : la carte génère <strong>la moitié de nos nouvelles visites</strong> !</p>
-            </div>
 
             <h2 id="heading-0">L'opportunité</h2>
             <p>Je produisais depuis un an les vidéos du projet, <a href="ardacraft-social">27,3 millions de vues sur 24 publications</a>, puis j'avais <a href="ardacraft">repris le site</a> pour que ce trafic arrive quelque part. Restait une audience que les réseaux sociaux ne touchaient pas. Je me suis donc penché sur notre stratégie SEO. C'est en analysant le marché autour de l'univers de Tolkien qu'un segment précis a immédiatement capté mon attention : les recherches de cartes. Les données Semrush montraient un écosystème de <strong>plus d'un million de recherches par an</strong> en incluant toutes les variantes du mot-clé « middle earth map ».</p>
@@ -190,6 +209,7 @@
     <script src="../scripts/navbar.js"></script>
     <script src="../scripts/articles-data.js"></script>
     <script src="../scripts/article-page.js"></script>
+    <script src="../scripts/etude-trame.js"></script>
     <!-- Après article-page.js : le corps de l'étude est posé avant que le
          champ ne se mesure. Il se redessine de toute façon quand la hauteur
          change, mais autant lui éviter un premier tracé pour rien. -->
