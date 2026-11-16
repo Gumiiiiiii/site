@@ -8,7 +8,10 @@
 // que l'image a l'air de se dissoudre dans le paysage.
 //
 // Le masque est dessiné sur une toile à la taille de l'image, puis posé en
-// mask-image. Au survol, les coins se referment un peu.
+// mask-image. Au survol, les coins se referment un peu : une seconde copie
+// de l'image, au masque plus fermé, paraît par-dessus en fondu. Les deux
+// masques ne sont dessinés qu'une fois par mise en page, jamais pendant
+// l'animation.
 (function () {
     var images = Array.prototype.slice.call(document.querySelectorAll('.exp-image'));
     if (!images.length || !('maskImage' in document.body.style || 'webkitMaskImage' in document.body.style)) return;
@@ -30,12 +33,11 @@
         if (y < 0) y = 0;
         return 0.5 * (x + y) * 0.7071 + 0.5 * Math.sqrt(x * x + y * y);
     }
-    var CALME = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    function lisse(t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * (3 - 2 * t); }
 
-    // ouverture : 1 au repos, moins au survol (les coins se referment).
-    function masquer(img, ouverture) {
+    // Dessine le masque à la taille de img et le pose sur cible.
+    // ouverture : 1 au repos, moins pour la copie du survol.
+    function masquer(img, cible, ouverture) {
         var r = img.getBoundingClientRect();
         var w = img.offsetWidth, h = img.offsetHeight;
         if (!w || !h) return;
@@ -44,7 +46,7 @@
         var echelle = r.width / w;
         var gauche = r.left, haut = r.top;
         var dpr = Math.min(window.devicePixelRatio || 1, 2);
-        var toile = img._toile || (img._toile = document.createElement('canvas'));
+        var toile = cible._toile || (cible._toile = document.createElement('canvas'));
         toile.width = Math.round(w * dpr);
         toile.height = Math.round(h * dpr);
         var ctx = toile.getContext('2d');
@@ -63,6 +65,7 @@
             portee = bande / eloignement(Math.sin(a), Math.cos(a));
             ctx.lineTo(w - portee * Math.sin(a), h - portee * Math.cos(a));
         }
+        ctx.lineTo(0, h);
         for (k = 0; k <= 12; k++) {              // le coin en haut à gauche
             a = (k / 12) * 1.5708;
             portee = bande / eloignement(Math.sin(a), Math.cos(a));
@@ -102,34 +105,33 @@
         ctx.globalAlpha = 1;
 
         var url = 'url(' + toile.toDataURL('image/png') + ')';
-        img.style.webkitMaskImage = url;
-        img.style.maskImage = url;
-        img.style.webkitMaskSize = img.style.maskSize = '100% 100%';
-        img.style.webkitMaskRepeat = img.style.maskRepeat = 'no-repeat';
-        img._ouverture = ouverture;
+        cible.style.webkitMaskImage = url;
+        cible.style.maskImage = url;
+        cible.style.webkitMaskSize = cible.style.maskSize = '100% 100%';
+        cible.style.webkitMaskRepeat = cible.style.maskRepeat = 'no-repeat';
     }
 
-    function tout() { images.forEach(function (img) { masquer(img, img._ouverture || 1); }); }
-
-    // Au survol, les coins se referment ; ils se rouvrent en sortant.
-    function vers(img, cible) {
-        cancelAnimationFrame(img._anim);
-        if (CALME.matches) { masquer(img, cible); return; }
-        var depart = img._ouverture || 1, t0 = performance.now();
-        (function pas(maintenant) {
-            var k = lisse((maintenant - t0) / 320);
-            masquer(img, depart + (cible - depart) * k);
-            if (k < 1) img._anim = requestAnimationFrame(pas);
-        })(t0);
-    }
+    // Chaque image reçoit un cadre et sa copie du survol, que la feuille de
+    // style fait paraître (styles/accueil.css, .exp-image-survol).
     images.forEach(function (img) {
-        var lien = img.closest('a') || img;
-        lien.addEventListener('mouseenter', function () { vers(img, 0.45); });
-        lien.addEventListener('mouseleave', function () { vers(img, 1); });
-        lien.addEventListener('focus', function () { vers(img, 0.45); });
-        lien.addEventListener('blur', function () { vers(img, 1); });
-        if (!img.complete) img.addEventListener('load', function () { masquer(img, img._ouverture || 1); });
+        var cadre = document.createElement('span');
+        cadre.className = 'exp-cadre';
+        img.parentNode.insertBefore(cadre, img);
+        cadre.appendChild(img);
+        var copie = document.createElement('img');
+        copie.className = 'exp-image-survol';
+        copie.alt = '';
+        copie.setAttribute('aria-hidden', 'true');
+        copie.decoding = 'async';
+        copie.src = img.currentSrc || img.src;
+        cadre.appendChild(copie);
+        img._copie = copie;
+        if (!img.complete) img.addEventListener('load', function () { un(img); });
     });
+
+    var OUVERT = 1, FERME = 0.45;
+    function un(img) { masquer(img, img, OUVERT); masquer(img, img._copie, FERME); }
+    function tout() { images.forEach(un); }
 
     // La grille est celle de l'écran : le masque se refait dès que l'image
     // bouge (fenêtre, langue qui change la phrase, fin de l'entrée).
