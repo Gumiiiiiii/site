@@ -18,9 +18,9 @@
      La phrase, en grand                               Mes outils     11
                                                        ─────────────────
      Mes expérimentations                              01  ……………
-     ────────────────────────                          02  ……………
-     [image]  le titre, sur deux lignes                …
-     [image]  le titre, sur deux lignes
+     ────────────────────────────────────              02  ……………
+     [image]     [image]     [image]                   …
+     le titre    le titre    le titre
 
    Tout le texte se range en bas : à gauche la phrase et les
    expérimentations, à droite les outils, calés sur la même ligne. Le haut
@@ -256,9 +256,46 @@
     body.ecran .exps {
         grid-column: 1;
         grid-row: 3;
-        width: min(100%, 42rem);
         margin-top: clamp(1.5rem, 4vh, 2.5rem);
     }
+
+    /* Les expérimentations côte à côte, au bas de l'écran : chacune est
+       une colonne, la couverture en haut, le titre entier dessous. Un
+       article de plus ajoute une colonne ; au-delà de quatre, la rangée
+       défile de côté plutôt que de pousser la page. */
+    body.ecran .exps-liste {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(0, 1fr);
+        column-gap: 1.5rem;
+        padding-top: 0.9rem;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+    }
+    body.ecran .exps-liste::-webkit-scrollbar { display: none; }
+    body.ecran .exps-liste:has(> li:nth-child(5)) { grid-auto-columns: calc((100% - 4.5rem) / 4); }
+
+    body.ecran .exp {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+        padding: 0;
+        border-bottom: 0;
+    }
+    body.ecran .exp-image {
+        aspect-ratio: 16 / 9;
+        border-radius: 0.6rem;
+    }
+    body.ecran .exp-titre {
+        font-size: 0.95rem;
+        line-height: 1.34;
+        text-wrap: pretty;
+    }
+    /* Le titre ne glisse plus de côté : dans une colonne, c'est l'image
+       qui répond au survol, avec la couleur. */
+    body.ecran .exp:hover .exp-titre,
+    body.ecran .exp:focus-visible .exp-titre { transform: none; }
 
     /* Les outils se calent sur le bas de l'écran, comme les
        expérimentations : les deux rubriques finissent sur la même ligne. */
@@ -302,7 +339,9 @@
     body.ecran .accueil-phrase { font-size: clamp(1.6rem, 2.45vw, 2.5rem); }
     body.ecran .outil { padding: 0.34rem 0; }
     body.ecran .outil-nom { font-size: 1.08rem; }
-    body.ecran .exps { margin-top: 1.25rem; }
-    body.ecran .exp { padding: 0.38rem 0; grid-template-columns: 6.25rem minmax(0, 1fr); }
-    body.ecran .exp-titre { font-size: 0.96rem; }
+    body.ecran .exps { margin-top: 1.1rem; }
+    body.ecran .exps-liste { padding-top: 0.7rem; }
+    body.ecran .exp { gap: 0.5rem; }
+    body.ecran .exp-image { aspect-ratio: 2.2 / 1; }
+    body.ecran .exp-titre { font-size: 0.9rem; }
 }

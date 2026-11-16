@@ -206,10 +206,11 @@ const CHECKS = [
         }
     },
     {
-        // Le titre d un article se lit en entier, sur deux lignes au plus :
-        // aucune coupe, aucun points de suspension, dans les deux langues et
-        // jusqu au portable le plus bas.
-        name: 'accueil: les titres des experimentations sont entiers, sur deux lignes',
+        // Le titre d un article se lit en entier : aucune coupe, aucun points
+        // de suspension, dans les deux langues. Les experimentations sont cote
+        // a cote, chacune dans sa colonne : trois lignes au plus sur un
+        // portable courant, quatre sur la fenetre la plus etroite.
+        name: 'accueil: les titres des experimentations sont entiers',
         async run(page) {
             try {
                 for (const [width, height] of [[1366, 650], [1440, 780], [1100, 600], [1920, 945]]) {
@@ -222,7 +223,8 @@ const CHECKS = [
                                     const r = t.getBoundingClientRect();
                                     const lignes = Math.round(r.height / parseFloat(getComputedStyle(t).lineHeight));
                                     const coupe = t.scrollHeight > t.clientHeight + 1 || t.scrollWidth > t.clientWidth + 1 || r.bottom > innerHeight || r.height < 10;
-                                    return (coupe ? 'coupe' : lignes > 2 ? lignes + ' lignes' : '') + ' : ' + t.textContent.slice(0, 28);
+                                    const max = innerWidth < 1300 ? 4 : 3;
+                                    return (coupe ? 'coupe' : lignes > max ? lignes + ' lignes' : '') + ' : ' + t.textContent.slice(0, 28);
                                 }).filter((x) => x[0] !== ' '));
                             if (fautes.length) throw new Error(chemin + ' en ' + width + 'x' + height + ' : ' + fautes.join(' | '));
                         });
