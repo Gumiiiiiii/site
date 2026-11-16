@@ -133,21 +133,22 @@
     // chaque point de la trame avance jusqu'à la toucher. Rien ne bouge :
     // tout est calculé une fois par mise en page.
 
-    // Son tracé, au sol : il entre par le bas, à droite, tout près, et file
-    // droit vers le fond, le long des rangs (on voit son flanc gauche en
-    // fuite, les arches de plus en plus serrées) ; au loin il tourne à
-    // gauche et finit de profil, vers le milieu.
+    // Son tracé, au sol : un C ouvert vers la droite. Il entre par la droite,
+    // au premier plan, vient vers le milieu, tourne, et repart vers la
+    // droite, au fond. L'ouvrage est bas, moins haut que l'œil : on le voit
+    // d'un peu haut, le bras du fond par-dessus celui de devant, et le C se
+    // lit en entier.
     var TRACE = (function () {
-        var p0 = [2.6, 0.9], p1 = [3.0, 10], p2 = [0.4, 11.2], n = 36, pts = [], l = 0;
+        var p0 = [3.2, 1.15], c1 = [-1.6, 1.2], c2 = [-1.3, 3.4], p3 = [7.5, 3.2], n = 44, pts = [], l = 0;
         for (var k = 0; k <= n; k++) {
-            var t = k / n, a = (1 - t) * (1 - t), b = 2 * t * (1 - t), c = t * t;
-            var x = a * p0[0] + b * p1[0] + c * p2[0], z = a * p0[1] + b * p1[1] + c * p2[1];
+            var t = k / n, q = 1 - t, a = q * q * q, b = 3 * q * q * t, c = 3 * q * t * t, d = t * t * t;
+            var x = a * p0[0] + b * c1[0] + c * c2[0] + d * p3[0], z = a * p0[1] + b * c1[1] + c * c2[1] + d * p3[1];
             if (k) l += Math.sqrt((x - pts[k - 1][0]) * (x - pts[k - 1][0]) + (z - pts[k - 1][1]) * (z - pts[k - 1][1]));
             pts.push([x, z, l]);
         }
         return pts;
     })();
-    var LONGUEUR = TRACE[TRACE.length - 1][2], ECHELLE = 0.7;
+    var ECHELLE = 0.2;
     var abscisse = 0;
 
     function pierres(px, py, pz) {
@@ -164,10 +165,7 @@
         var K = ECHELLE, ecart = Math.sqrt(best) / K;
         sv /= K; py /= K;
         abscisse = sv;
-        // La hauteur : 2,1 ; vers le bout, l'ouvrage tombe par gradins.
         var H = 2.1;
-        var ruine = sv - (LONGUEUR / K - 3.6);
-        if (ruine > 0) H = Math.max(0.4, 2.1 - Math.floor(ruine / 0.65) * 0.45);
         // Le mur, et sa corniche qui déborde au sommet.
         var d = Math.max(ecart - 0.24, py - H, -py - 0.1);
         var m = Math.max(ecart - 0.31, Math.abs(py - (H - 0.07)) - 0.07);
@@ -237,15 +235,17 @@
                     var clair = jour;
                     var rang = Math.floor(py / ECHELLE / 0.3);
                     var grain = hasard(Math.floor(abscisse / 0.55 + rang * 0.5), rang) - 0.5;
-                    ruTon[i] = sombre ? 0.2 + 0.6 * clair + 0.08 * grain : 0.86 - 0.42 * clair + 0.1 * grain;
-                    ruEclat[i] = 0;
+                    // La pierre au soleil est claire, presque le papier : l'ouvrage se
+                    // détache en clair sur le champ, cerné d'un trait, les dessous à l'ombre.
+                    ruTon[i] = sombre ? (clair > 0.3 ? 0.78 + 0.1 * grain : 0.12) : (clair > 0.3 ? 0.05 + 0.05 * grain : 0.8);
+                    ruEclat[i] = clair > 0.3 ? 0.5 : 0;
                     // Le contour : là où le rayon voisin passe à côté de la
                     // pierre, ou touche bien plus loin, on est sur une arête.
                     // Un trait la dessine, comme la crête de la montagne.
                     var arete = false;
                     for (var v = 0; v < 3 && !arete; v++) {
                         var tv = viser(x + (v === 0 ? -5 : v === 1 ? 5 : 0), y - (v === 2 ? 5 : 0));
-                        if (tv < 0 || Math.abs(tv - t) > 0.3) arete = true;
+                        if (tv < 0 || Math.abs(tv - t) > 0.1) arete = true;
                     }
                     if (arete) { ruTon[i] = sombre ? 0.03 : 0.95; ruEclat[i] = 0; }
                 }
@@ -432,38 +432,44 @@
                 var p = (y - hy) / bas;                       // 0 à l'horizon, 1 en bas
                 var prof = 1 / (p + 0.02);
                 var X = (x - vx) / (p + 0.02) / largeur;      // position dans le champ
-                // Un champ de lavande en fleur : des rangs larges et bombés,
-                // serrés, séparés par des sillons étroits et sombres. Chaque
-                // rang est un boudin de touffes : clair du côté du soleil,
-                // plus dense en tournant vers l'ombre, et son bord ondule
-                // d'une touffe à l'autre.
-                var u = X * 6.5;
+                // Un champ de lavande : sur chaque rang, des touffes posées sur
+                // la terre claire. Une touffe n'est pas un rond : c'est une
+                // masse au contour bosselé, chacune différente, qui touche
+                // presque sa voisine.
+                var u = X * 6;
                 var f = u - Math.floor(u);
                 var nRang = Math.floor(u);
-                var D = 0.55;                                   // une touffe tous les D, en profondeur
-                var v = (prof + hasard(nRang, 11) * D) / D;
-                var bosse = Math.abs(Math.sin(v * 3.1416));     // 0 entre deux touffes, 1 en leur milieu
-                var demiRang = 0.29 + 0.13 * bosse;
-                var ga = (f - 0.5) / demiRang;                  // à travers le rang : -1 à gauche, 1 à droite
-                // Près de l'horizon, le champ a un ton uni, sans rangs : ils y
-                // seraient plus fins qu'un point. En descendant, ils en sortent.
+                var D = 0.5;                                    // une touffe tous les D, en profondeur
+                var v = prof + hasard(nRang, 11) * D, nT = Math.floor(v / D);
+                var ga = (f - 0.5) / 0.37;                      // à travers la touffe : -1 à gauche, 1 à droite
+                var gb = (v - nT * D - D / 2) / (D * 0.56);     // le long du rang
+                var h1 = hasard(nT, nRang), h2 = hasard(nRang, nT + 40);
+                var angle = Math.atan2(gb, ga);
+                // Le contour : un rayon qui varie avec l'angle, à sa façon pour chaque touffe.
+                var contour = (0.84 + 0.22 * h1) * (1 + 0.13 * Math.sin(angle * 2 + h1 * 6.28) + 0.09 * Math.sin(angle * 3 + h2 * 6.28));
+                var rayon = Math.sqrt(ga * ga + gb * gb) / contour;
+                // Près de l'horizon, le champ a un ton uni, sans touffes : elles
+                // y seraient plus fines qu'un point. En descendant, elles en sortent.
                 var sortie = lisse(0.02, 0.55, p);
                 var champ;
-                if (ga > -1 && ga < 1) {
-                    champ = 0.14 + 0.3 * lisse(-0.3, 1, ga) + 0.16 * (1 - bosse);
-                    eclat = 0.3 * lisse(-0.35, -0.9, ga) * bosse * sortie;
+                if (rayon < 1) {
+                    // La touffe : claire du côté du soleil, dense vers l'ombre
+                    // et à son bord, mouchetée par les épis.
+                    var epis = hasard(Math.floor(x / 10), Math.floor(y / 18 + hasard(Math.floor(x / 10), 3))) - 0.5;
+                    champ = 0.46 + 0.26 * lisse(-0.7, 0.8, ga) + 0.12 * epis * lisse(0.2, 0.7, p);
+                    eclat = 0.18 * lisse(-0.2, -0.7, ga) * (1 - lisse(0.5, 0.9, rayon)) * sortie;
                 } else {
-                    champ = 0.72;                               // le sillon, dans l'ombre des touffes
+                    champ = 0.05;                               // la terre
                     eclat = 0;
                 }
-                if (sombre) champ = 0.62 - 0.7 * champ;
+                if (sombre) champ = 0.7 - 0.8 * champ;
                 ton = 0.24 + (champ - 0.24) * sortie;
                 // L'ombre des nuages court sur le champ, en perspective.
                 var os = nuage(X * 1.1 - t * 0.04, prof * 0.3, 0.54) * sortie;
                 ton *= sombre ? 1 - 0.4 * os : 1 + 0.45 * os;
                 eclat *= 1 - os;
                 // L'ombre portée de l'aqueduc.
-                if (ruOmbre[i]) { ton = sombre ? ton * 0.3 : Math.min(1, ton * 0.6 + 0.42); eclat = 0; }
+                if (ruOmbre[i]) { ton = sombre ? ton * 0.6 : Math.min(1, ton * 0.85 + 0.14); eclat = 0; }
             }
 
             // L'ombre des nuages sur la montagne et les collines.
