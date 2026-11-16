@@ -5,24 +5,24 @@
    Une seule page porte tout le site : la phrase, les expérimentations et
    les outils. Il n'y a plus de pages de liste.
 
-   Le fond est le sujet. La trame pointée du site dessine en points ce que
-   l'on survole (scripts/trame.js) : la couverture d'une expérimentation,
-   l'icône d'un outil. Le reste de la page est du texte posé dessus, et
-   rien d'autre : ni carte, ni cadre, ni image hors des vignettes.
-
-   La composition, sur ordinateur :
+   Le fond est un dégradé maillé fait de points (scripts/trame.js). Dessus,
+   deux listes bâties de la même façon, pour qu'on les lise comme deux
+   rubriques : un titre en toutes lettres, un compte, un filet, puis des
+   lignes numérotées.
 
      logo                                              langue · thème
-                                                       OUTILS      11
-                                                       01  ……………
-       (la trame, plein écran)                         02  ……………
-                                                       …
-     La phrase, en grand
-     ─────  ─────  ─────
-     01 …   02 …   03 …                                la description
+
+       (le dégradé, plein écran)                       Mes outils     11
+                                                       ─────────────────
+     La phrase, en grand                               01  ……………
+                                                       02  ……………
+     Mes expérimentations      03                      …
+     ─────────────────────────────
+     01  [image]  le titre, en entier
+     02  [image]  le titre, en entier
 
    Sous le seuil d'un écran d'ordinateur, la page défile et les mêmes blocs
-   s'empilent ; la trame reste alors le champ de points ordinaire.
+   s'empilent ; le fond reste alors le champ de points ordinaire.
    ========================================================================== */
 
 .trame {
@@ -43,169 +43,100 @@
     gap: 3rem;
 }
 
-.accueil-etiquette {
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--encre-05);
-}
-
 /* --------------------------------------------------------------------------
    La phrase
    -------------------------------------------------------------------------- */
 
 .accueil-phrase {
     text-align: left;
-    max-width: 16.5em;
-    font-size: clamp(1.9rem, 3.05vw, 3.4rem);
+    max-width: 17em;
+    font-size: clamp(1.8rem, 2.75vw, 3rem);
     font-weight: 600;
-    line-height: 1.07;
+    line-height: 1.08;
     letter-spacing: -0.025em;
     text-wrap: balance;
 }
 
 /* --------------------------------------------------------------------------
-   Les expérimentations : une affiche qui tourne
+   Une rubrique : le même en-tête pour les deux listes
    -------------------------------------------------------------------------- */
 
-.exps { min-width: 0; }
-.exps .accueil-etiquette { display: block; margin-bottom: 0.9rem; }
+.bloc { min-width: 0; display: flex; flex-direction: column; }
 
-.exps-liste {
-    list-style: none;
+.bloc-tete {
     display: flex;
-    gap: 1.5rem;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-    padding-bottom: 2px;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1.5px solid var(--encre-1);
 }
-.exps-liste::-webkit-scrollbar { display: none; }
-.exps-liste > li { flex: 0 0 16.5rem; min-width: 0; }
+.bloc-tete h2 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: -0.005em;
+    line-height: 1.2;
+}
+.bloc-compte {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+    color: var(--encre-05);
+}
+
+.bloc ol { list-style: none; }
+
+.ligne-num {
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+    color: var(--encre-045);
+    transition: color 0.2s ease;
+}
+
+/* --------------------------------------------------------------------------
+   Les expérimentations
+   -------------------------------------------------------------------------- */
 
 .exp {
     display: grid;
-    grid-template-columns: 5.75rem minmax(0, 1fr);
-    column-gap: 0.85rem;
-    row-gap: 0.8rem;
-    align-items: start;
-    color: var(--encre-07);
+    grid-template-columns: 2.1rem 5.25rem minmax(0, 1fr);
+    align-items: center;
+    column-gap: 0.9rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--filet-fin);
+    color: var(--encre-1);
     text-decoration: none;
-    transition: color 0.25s ease;
 }
-
-/* Le filet du haut est une jauge : il se remplit pendant que
-   l'expérimentation est à l'affiche, puis passe à la suivante. */
-.exp-jauge {
-    grid-column: 1 / -1;
-    height: 1.5px;
-    background: var(--filet);
-    overflow: hidden;
-}
-.exp-jauge span {
-    display: block;
-    height: 100%;
-    background: var(--encre-1);
-    transform: scaleX(0);
-    transform-origin: left;
-}
-.exp.est-affiche .exp-jauge span { animation: exp-jauge 7s linear forwards; }
-@keyframes exp-jauge { to { transform: scaleX(1); } }
 
 .exp img {
     width: 100%;
     height: auto;
     aspect-ratio: 16 / 10;
     object-fit: cover;
-    border-radius: 0.4rem;
-    filter: grayscale(1) contrast(0.92);
-    opacity: 0.75;
-    transition: filter 0.4s ease, opacity 0.4s ease;
+    border-radius: 0.35rem;
+    border: 1px solid var(--filet-fin);
 }
 
-.exp-texte { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
-
-.exp-num {
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    font-variant-numeric: tabular-nums;
-    color: var(--encre-05);
-}
-
+/* Le titre est donné en entier : c'est lui qui dit de quoi parle
+   l'article, il ne se coupe jamais. */
 .exp-titre {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1.3;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    overflow: hidden;
+    transition: color 0.2s ease;
 }
 
-.exp.est-affiche,
-.exp:hover,
-.exp:focus-visible { color: var(--encre-1); }
-.exp.est-affiche img,
-.exp:hover img,
-.exp:focus-visible img { filter: none; opacity: 1; }
+.exp:hover .ligne-num,
+.exp:focus-visible .ligne-num,
 .exp:hover .exp-titre,
 .exp:focus-visible .exp-titre { color: var(--accent-ink); }
 
-/* La couverture qui suit le curseur (scripts/trame.js). */
-.exp-apercu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 40;
-    width: min(19rem, 26vw);
-    aspect-ratio: 16 / 9;
-    border-radius: 0.9rem;
-    overflow: hidden;
-    border: 1px solid var(--filet);
-    background: var(--bg);
-    pointer-events: none;
-    opacity: 0;
-    clip-path: inset(18% 12% 18% 12% round 0.9rem);
-    transition: opacity 0.3s ease, clip-path 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform;
-}
-.exp-apercu.est-visible { opacity: 1; clip-path: inset(0 round 0.9rem); }
-.exp-apercu img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transform: scale(1.12);
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.exp-apercu.est-visible img { transform: none; }
-
 /* --------------------------------------------------------------------------
-   Les outils : un index
+   Les outils
    -------------------------------------------------------------------------- */
-
-.outils { min-width: 0; display: flex; flex-direction: column; }
-
-.outils-tete {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    padding-bottom: 0.7rem;
-    border-bottom: 1.5px solid var(--encre-1);
-}
-.outils-tete .accueil-etiquette { color: var(--encre-1); }
-.outils-compte {
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    font-variant-numeric: tabular-nums;
-    color: var(--encre-05);
-}
-
-.outils-liste { list-style: none; }
 
 .outil {
     display: grid;
@@ -218,17 +149,8 @@
     text-decoration: none;
 }
 
-.outil-num {
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    font-variant-numeric: tabular-nums;
-    color: var(--encre-045);
-    transition: color 0.2s ease;
-}
-
 .outil-nom {
-    font-size: 1.22rem;
+    font-size: 1.18rem;
     font-weight: 600;
     line-height: 1.25;
     letter-spacing: -0.01em;
@@ -239,7 +161,7 @@
 }
 
 /* L'icône de l'outil : elle ne se montre qu'au survol, au bout de la
-   ligne, pendant que la trame la redessine en grand derrière. */
+   ligne, pendant que la trame la redessine en grand. */
 .outil-icone {
     display: flex;
     color: var(--accent-ink);
@@ -249,16 +171,15 @@
 }
 .outil-icone svg { width: 20px; height: 20px; }
 
-.outil:hover .outil-num,
-.outil:focus-visible .outil-num { color: var(--accent-ink); }
+.outil:hover .ligne-num,
+.outil:focus-visible .ligne-num { color: var(--accent-ink); }
 .outil:hover .outil-nom,
 .outil:focus-visible .outil-nom { color: var(--accent-ink); transform: translateX(0.35rem); }
 .outil:hover .outil-icone,
 .outil:focus-visible .outil-icone { opacity: 1; transform: none; }
 
-/* Les autres lignes s'effacent d'un cran quand on en vise une. */
-.outils-liste:hover .outil:not(:hover) .outil-nom { color: var(--encre-05); }
-
+/* La description reste dans la page pour les lecteurs d'écran et les
+   moteurs ; elle ne s'affiche pas. */
 .outil-desc {
     position: absolute;
     width: 1px;
@@ -268,17 +189,7 @@
     white-space: nowrap;
 }
 
-/* La description de l'outil visé, ou à défaut ce qui vaut pour tous. */
-.outils-note {
-    margin-top: 1rem;
-    min-height: 2.9em;
-    font-size: 0.9rem;
-    line-height: 1.45;
-    color: var(--encre-07);
-}
-
 @media (prefers-reduced-motion: reduce) {
-    .exp.est-affiche .exp-jauge span { animation: none; transform: scaleX(1); }
     .outil-nom, .outil-icone { transition: none; }
 }
 
@@ -309,9 +220,9 @@
         height: 100dvh;
         padding: 5.25rem 2rem 1.75rem;
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 22rem;
+        grid-template-columns: minmax(0, 1fr) 21rem;
         grid-template-rows: minmax(0, 1fr) auto auto;
-        column-gap: 4rem;
+        column-gap: 5rem;
         row-gap: 0;
     }
 
@@ -325,43 +236,39 @@
     body.ecran .exps {
         grid-column: 1;
         grid-row: 3;
-        margin-top: clamp(1.5rem, 4.5vh, 2.75rem);
+        max-width: 46rem;
+        margin-top: clamp(1.4rem, 4vh, 2.5rem);
     }
-    body.ecran .exps .accueil-etiquette { display: none; }
 
+    /* Les outils se calent sur le bas de l'écran, comme les
+       expérimentations : les deux rubriques se lisent à la même hauteur. */
     body.ecran .outils {
         grid-column: 2;
         grid-row: 1 / -1;
         min-height: 0;
+        justify-content: flex-end;
     }
 
-    /* Si les outils dépassent l'écran, c'est l'index qui défile, pas la
-       page : ses deux bords se fondent pour dire qu'il continue. */
+    /* Si les outils dépassent l'écran, c'est leur liste qui défile, pas
+       la page. */
     body.ecran .outils-liste {
-        flex: 0 1 auto;
         min-height: 0;
         overflow-y: auto;
         overscroll-behavior: contain;
         scrollbar-width: none;
-        -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 1.75rem), transparent);
-        mask-image: linear-gradient(to bottom, #000 calc(100% - 1.75rem), transparent);
-        padding-bottom: 1.25rem;
     }
     body.ecran .outils-liste::-webkit-scrollbar { display: none; }
+    body.ecran .outils-liste > li:last-child .outil,
+    body.ecran .exps-liste > li:last-child .exp { border-bottom: 0; padding-bottom: 0; }
 
-    body.ecran .outils-note { margin-top: auto; padding-top: 0.5rem; }
-
-    /* L'entrée : la colonne des outils et l'affiche montent l'une après
-       l'autre, pendant que la phrase s'écrit. */
+    /* L'entrée : les lignes montent l'une après l'autre, pendant que la
+       phrase s'écrit. */
     @media (prefers-reduced-motion: no-preference) {
-        body.ecran .outil,
-        body.ecran .outils-tete,
-        body.ecran .outils-note,
-        body.ecran .exps-liste > li {
+        body.ecran .bloc-tete,
+        body.ecran .bloc li {
             animation: accueil-monte 0.7s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-            animation-delay: calc(0.25s + var(--rang, 0) * 0.045s);
+            animation-delay: calc(0.3s + var(--rang, 0) * 0.045s);
         }
-        body.ecran .exps-liste > li { animation-delay: calc(0.75s + var(--rang, 0) * 0.09s); }
     }
 }
 
@@ -369,10 +276,12 @@
     from { opacity: 0; transform: translateY(0.9rem); }
 }
 
-/* Un écran bas : la phrase et l'index se resserrent d'un cran. */
+/* Un écran bas : la phrase et les listes se resserrent d'un cran. */
 @media (min-width: 1100px) and (min-height: 600px) and (max-height: 720px) {
-    body.ecran .accueil { padding-top: 4.5rem; padding-bottom: 1.25rem; }
-    body.ecran .accueil-phrase { font-size: clamp(1.8rem, 2.75vw, 2.9rem); }
-    body.ecran .outil { padding: 0.36rem 0; }
-    body.ecran .outil-nom { font-size: 1.12rem; }
+    body.ecran .accueil { padding-top: 4.25rem; padding-bottom: 1.25rem; }
+    body.ecran .accueil-phrase { font-size: clamp(1.7rem, 2.4vw, 2.5rem); }
+    body.ecran .outil { padding: 0.34rem 0; }
+    body.ecran .outil-nom { font-size: 1.08rem; }
+    body.ecran .exp { padding: 0.4rem 0; grid-template-columns: 2.1rem 4.25rem minmax(0, 1fr); }
+    body.ecran .exp-titre { font-size: 0.95rem; }
 }

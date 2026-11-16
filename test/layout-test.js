@@ -163,52 +163,88 @@ const CHECKS = [
         }
     },
     {
-        // La trame de l accueil (scripts/trame.js) dessine en points le
-        // numero de l experimentation a l affiche, puis l icone de l outil
-        // survole. On releve l encre posee sur la toile, case par case : elle
-        // doit exister, se redistribuer au survol d un outil, et ne jamais
-        // passer sous la phrase.
-        name: 'accueil: la trame dessine, et suit le survol',
+        // Le fond de l accueil (scripts/trame.js) est un degrade maille fait
+        // de points, teinte de l encre au violet. On verifie qu il est
+        // dessine, qu il porte bien plusieurs teintes, qu il se retire sous
+        // la phrase, et que le survol d un outil y dessine son icone.
+        name: 'accueil: le degrade de points est dessine et se retire sous le texte',
         async run(page) {
             await page.setViewport({ width: 1440, height: 780 });
             try {
                 await page.goto(BASE + '/', { waitUntil: 'networkidle0' });
-                await page.mouse.move(700, 120);
                 await new Promise((r) => setTimeout(r, 2600));
-                const encre = () => page.evaluate(() => {
+                const lire = () => page.evaluate(() => {
                     const c = document.getElementById('trame');
                     const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
-                    const zone = (x0, y0, x1, y1) => {
-                        let n = 0;
-                        for (let y = y0; y < y1; y += 3) for (let x = x0; x < x1; x += 3) if (d[(y * c.width + x) * 4 + 3] > 8) n += 1;
-                        return n;
-                    };
                     const k = c.width / innerWidth;
+                    const teintes = new Set();
+                    const zone = (g, h, dr, b) => {
+                        let n = 0, total = 0;
+                        for (let y = Math.round(h * k); y < Math.round(b * k); y += 2) {
+                            for (let x = Math.round(g * k); x < Math.round(dr * k); x += 2) {
+                                const p = (y * c.width + x) * 4;
+                                total += 1;
+                                if (d[p + 3] > 12) { n += 1; teintes.add((d[p] >> 5) + '-' + (d[p + 1] >> 5) + '-' + (d[p + 2] >> 5)); }
+                            }
+                        }
+                        return n / total;
+                    };
                     const r = document.getElementById('hero-text').getBoundingClientRect();
-                    const aire = (g, h, dr, b) => zone(Math.round(g * k), Math.round(h * k), Math.round(dr * k), Math.round(b * k)) / ((dr - g) * (b - h));
-                    const cases = [];
-                    for (let j = 0; j < 4; j++) for (let i = 0; i < 6; i++) {
-                        cases.push(zone(Math.round(c.width * i / 6), Math.round(c.height * j / 4), Math.round(c.width * (i + 1) / 6), Math.round(c.height * (j + 1) / 4)));
-                    }
                     return {
-                        tout: zone(0, 0, c.width, c.height),
-                        cases,
-                        sousPhrase: aire(r.left + 40, r.top + 40, r.right - 40, r.bottom - 40)
+                        libre: zone(60, 90, 900, r.top - 60),
+                        sousPhrase: zone(r.left + 50, r.top + 40, r.right - 50, r.bottom - 40),
+                        teintes: teintes.size
                     };
                 });
-                const affiche = await encre();
-                if (affiche.tout < 500) throw new Error('la toile est vide (' + affiche.tout + ')');
-                if (!(await page.$('.exp.est-affiche'))) throw new Error('aucune experimentation a l affiche');
+                const repos = await lire();
+                if (repos.libre < 0.05) throw new Error('le degrade est absent (' + repos.libre.toFixed(3) + ')');
+                if (repos.teintes < 3) throw new Error('le degrade n a qu une teinte (' + repos.teintes + ')');
+                if (repos.sousPhrase > repos.libre * 0.35) throw new Error('la trame ne se retire pas sous la phrase (' + repos.sousPhrase.toFixed(3) + ' contre ' + repos.libre.toFixed(3) + ')');
+                // L icone d un outil se dessine a l encre pleine du halftone.
                 await page.hover('.outil[href="tools/qrcode"]');
-                await new Promise((r) => setTimeout(r, 2200));
-                const outil = await encre();
-                const ecart = outil.cases.reduce((t, n, i) => t + Math.abs(n - affiche.cases[i]), 0);
-                if (ecart < affiche.tout * 0.25) throw new Error('le survol d un outil ne change pas la trame (ecart ' + ecart + ' sur ' + affiche.tout + ')');
-                if (affiche.sousPhrase > 0.004 || outil.sousPhrase > 0.004) throw new Error('la trame passe sous la phrase (' + affiche.sousPhrase.toFixed(4) + ', ' + outil.sousPhrase.toFixed(4) + ')');
-                const note = await page.evaluate(() => document.getElementById('outils-note').textContent);
-                if (!/QR/.test(note)) throw new Error('la note ne decrit pas l outil survole : ' + note);
+                await new Promise((r) => setTimeout(r, 2400));
+                const pleins = await page.evaluate(() => {
+                    const c = document.getElementById('trame');
+                    const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+                    let n = 0;
+                    for (let p = 3; p < d.length; p += 16) if (d[p] > 12) n += 1;
+                    return n;
+                });
+                await page.mouse.move(700, 60);
+                await new Promise((r) => setTimeout(r, 2400));
+                const apres = await page.evaluate(() => {
+                    const c = document.getElementById('trame');
+                    const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+                    let n = 0;
+                    for (let p = 3; p < d.length; p += 16) if (d[p] > 12) n += 1;
+                    return n;
+                });
+                if (Math.abs(pleins - apres) < apres * 0.08) throw new Error('le survol d un outil ne change pas la trame (' + pleins + ' puis ' + apres + ')');
             } finally {
                 await page.mouse.move(0, 0);
+                await page.setViewport({ width: 1440, height: 900 });
+            }
+        }
+    },
+    {
+        // Le titre d un article se lit en entier : aucune coupe, aucun
+        // points de suspension, jusqu au portable le plus bas.
+        name: 'accueil: les titres des experimentations sont entiers',
+        async run(page) {
+            try {
+                for (const [width, height] of [[1366, 650], [1440, 780], [1100, 600]]) {
+                    await page.setViewport({ width, height });
+                    await sansMouvement(page, async () => {
+                        await page.goto(BASE + '/', { waitUntil: 'networkidle0' });
+                        const coupes = await page.evaluate(() => [...document.querySelectorAll('.exp-titre')]
+                            .filter((t) => {
+                                const r = t.getBoundingClientRect();
+                                return t.scrollHeight > t.clientHeight + 1 || t.scrollWidth > t.clientWidth + 1 || r.bottom > innerHeight || r.height < 10;
+                            }).map((t) => t.textContent.slice(0, 30)));
+                        if (coupes.length) throw new Error(width + 'x' + height + ' : titres coupes : ' + coupes.join(' | '));
+                    });
+                }
+            } finally {
                 await page.setViewport({ width: 1440, height: 900 });
             }
         }

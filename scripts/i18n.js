@@ -14,11 +14,6 @@
             fr: "Je rassemble ici des outils et des expérimentations conçus par curiosité, pour donner vie à des idées et explorer de nouvelles directions.",
             en: "This is where I gather tools and experiments built out of curiosity, to bring ideas to life and explore new directions."
         },
-        home_tools_note: {
-            fr: 'Gratuits, sans compte. Presque tout se passe dans votre navigateur.',
-            en: 'Free, no account. Almost everything happens in your browser.'
-        },
-
         // Post preview tool
         tool_postprev_title: { fr: 'Aperçu de publication', en: 'Post preview' },
         tool_postprev_desc: {

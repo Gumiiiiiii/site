@@ -57,7 +57,7 @@ const CHECKS = [
     { path: '/', assert(d) {
         if (!d.title.includes('Gumi')) return 'bad title: ' + d.title;
         if (!d.querySelector('.navbar .nav-logo')) return 'navbar not injected';
-        if (d.querySelectorAll('.exps-liste a.exp[data-trame-image]').length !== 3) return 'expected 3 experiment links';
+        if (d.querySelectorAll('.exps-liste a.exp').length !== 3) return 'expected 3 experiment links';
         if (!d.querySelector('a.exp[href$="ardacraft-map"]')) return 'missing map article link';
         if (d.querySelectorAll('.outils-liste a.outil').length < 8) return 'expected 8+ tool links';
         // The homepage is the only index: every entry must lead somewhere.
