@@ -39,7 +39,7 @@
     // L'apparition : au premier dessin, les points se développent depuis
     // l'horizon vers les bords, comme une image qui monte dans le bain du
     // tirage. Le texte de la page attend la fin (--intro, styles/accueil.css).
-    var INTRO = 1.4;
+    var INTRO = 0.9;
 
     function mesurer() {
         dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -152,24 +152,28 @@
         var faitage = 1.7 + 0.75 * (1 - Math.abs(pz) / 1.1);
         // La façade, vers nous : sa gauche est ébréchée.
         var hA = px > -0.3 ? 1.7 : 1.3 + 0.3 * hasard(Math.floor(px / 0.3), 1);
-        d = Math.max(boite(px, py, pz, 0, 1.5, -1.02, 1.5, 1.5, 0.08), py - hA);
+        d = Math.max(boite(px, py, pz, 0, 1.5, -0.98, 1.5, 1.5, 0.12), py - hA);
         d = Math.max(d, -boite(px, py, pz, 0.45, 0.55, -1.02, 0.2, 0.56, 0.3));     // la porte
         d = Math.max(d, -boite(px, py, pz, -0.8, 1.02, -1.02, 0.17, 0.22, 0.3));    // la fenêtre
         // Le pignon gauche, celui qu'on voit en fuite.
-        m = Math.max(boite(px, py, pz, -1.42, 1.5, 0, 0.08, 1.5, 1.1), py - faitage);
+        m = Math.max(boite(px, py, pz, -1.38, 1.5, 0, 0.12, 1.5, 1.1), py - faitage);
         m = Math.max(m, -boite(px, py, pz, -1.42, 1.25, 0, 0.3, 0.24, 0.17));       // son jour
         if (m < d) d = m;
         // Le pignon droit et le mur du fond.
-        m = Math.max(boite(px, py, pz, 1.42, 1.5, 0, 0.08, 1.5, 1.1), py - faitage);
+        m = Math.max(boite(px, py, pz, 1.38, 1.5, 0, 0.12, 1.5, 1.1), py - faitage);
         if (m < d) d = m;
-        m = Math.max(boite(px, py, pz, 0, 1.5, 1.02, 1.5, 1.5, 0.08), py - 1.7);
+        m = Math.max(boite(px, py, pz, 0, 1.5, 0.98, 1.5, 1.5, 0.12), py - 1.7);
         if (m < d) d = m;
         // Le toit : il tient encore, sauf au-dessus du pignon gauche où son
         // bord est déchiré.
         var bordToit = -0.55 + 0.4 * hasard(Math.floor(pz / 0.22), 3);
         m = Math.max(Math.abs(py - faitage - 0.06) * 0.82 - 0.05, bordToit - px, px - 1.62, Math.abs(pz) - 1.2);
-        if (m < d) d = m;
-        matiere = 0;
+        var mat = 0;
+        if (m < d) { d = m; mat = 2; }
+        // La souche de la cheminée, sur le versant.
+        m = boite(px, py, pz, 0.85, 2.45, -0.3, 0.17, 0.5, 0.17);
+        if (m < d) { d = m; mat = 0; }
+        matiere = mat;
         // L'arbre, contre le pignon droit : un tronc, une ramure en boules,
         // au contour froissé comme un feuillage.
         var a = boule(px, py, pz, 2.55, 2.3, 0.3, 1.1);
@@ -232,7 +236,7 @@
                 var nx = pierres(px + e, py, pz) - pierres(px - e, py, pz);
                 var ny = pierres(px, py + e, pz) - pierres(px, py - e, pz);
                 var nz = pierres(px, py, pz + e) - pierres(px, py, pz - e);
-                var feuille = matiere === 1;
+                var feuille = matiere === 1, tuile = matiere === 2;
                 var nn = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
                 nx /= nn; ny /= nn; nz /= nn;
                 var jour = nx * lx0 + ny * ly0 + nz * lz0;
@@ -250,10 +254,29 @@
                     // reste à l'ombre. Chaque pierre a son ton.
                     clair = jour * 1.5;
                     if (clair > 1) clair = 1;
-                    var rang = Math.floor(py / 0.2);
-                    grain = hasard(Math.floor((px - pz) / 0.36 + rang * 0.5), rang) - 0.5;
-                    ruTon[i] = sombre ? 0.06 + 0.72 * clair + 0.06 * grain : 0.17 + 0.68 * (1 - clair) + 0.1 * grain * (1.2 - clair);
-                    ruEclat[i] = clair > 0.8 ? 0.3 * (clair - 0.8) / 0.2 : 0;
+                    var matiereMur;
+                    if (tuile) {
+                        // Les tuiles : des rangs qui courent le long de la pente,
+                        // un sur deux plus sombre, quelques-unes manquantes.
+                        var rangT = Math.floor((pz - MZ) / 0.15);
+                        matiereMur = (rangT % 2 ? 0.1 : -0.08) + 0.16 * (hasard(Math.floor(px / 0.2), rangT) - 0.5);
+                    } else {
+                        // Le mur : des assises de pierres inégales, chacune avec
+                        // son ton ; par endroits l'enduit est resté, plus clair ;
+                        // le pied est noirci par la terre, le haut par l'ombre
+                        // de l'égout.
+                        var rang = Math.floor(py / 0.29);
+                        var le = (px - pz) / 0.5 + rang * 0.5;
+                        grain = hasard(Math.floor(le + 0.3 * hasard(rang, 8)), rang) - 0.5;
+                        var enduit = bruitLisse((px - pz) * 1.4 + 5, py * 1.9) - 0.5;
+                        matiereMur = 0.46 * grain + (enduit > 0.06 ? -0.13 : 0.1)
+                            + 0.16 * (1 - lisse(0, 0.4, py)) + 0.12 * lisse(1.42, 1.68, py);
+                    }
+                    ruTon[i] = sombre ? 0.1 + 0.68 * clair - 0.5 * matiereMur : 0.27 + 0.58 * (1 - clair) + matiereMur;
+                    if (ruTon[i] < 0.04) ruTon[i] = 0.04;
+                    // La lumière ne se pose que sur les pierres les plus claires : posée
+                    // partout, elle effacerait le grain du mur.
+                    ruEclat[i] = clair > 0.8 && matiereMur < -0.1 ? 0.16 : 0;
                     // Le contour : là où le rayon voisin passe à côté de la
                     // pierre, ou touche bien plus loin, on est sur une arête.
                     // Un trait la dessine, comme la crête de la montagne.
@@ -312,6 +335,9 @@
     function tracer(maintenant) {
         boucle = 0;
         if (!SEUIL.matches || !ctx) return;
+        // Le cabanon se calcule avant que l'apparition commence : sinon ce
+        // calcul mangerait ses premières images et elle partirait d'un saut.
+        if (!ruPret) { preparerRuine(); reveiller(); return; }
         if (debut < 0) debut = maintenant;
         var e = CALME.matches ? INTRO : (maintenant - debut) / 1000;   // le temps depuis l'apparition
         if (e >= INTRO && maintenant - dernier < CADENCE) { reveiller(); return; }
@@ -327,8 +353,6 @@
         var pied = hy - hauteur * 0.07;                   // où elle disparaît derrière les collines
         var sx = mg + ml * 0.639, sy = pied - mh;         // le sommet
         var bas = hauteur - hy;
-
-        if (!ruPret) preparerRuine();
 
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.clearRect(0, 0, largeur, hauteur);
@@ -501,8 +525,10 @@
             var paru = 1;
             if (e < INTRO) {
                 var ox = (x - vx) / largeur, oy = (y - hy) * 1.6 / largeur;
-                var retard = 0.8 * Math.min(1, Math.sqrt(ox * ox + oy * oy) / 0.75) + 0.08 * hasard(i, 7);
-                paru = lisse(retard, retard + 0.5, e);
+                // Une onde large et douce : les points voisins grandissent
+                // presque ensemble, le front n'est pas une ligne.
+                var retard = 0.34 * Math.min(1, Math.sqrt(ox * ox + oy * oy) / 0.75) + 0.03 * hasard(i, 7);
+                paru = lisse(retard, retard + 0.52, e);
             }
             if (eclat >= 0.02) {
                 var rl = RAYON_MAX * Math.sqrt(eclat > 1 ? 1 : eclat) * paru;
