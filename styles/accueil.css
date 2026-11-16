@@ -12,19 +12,21 @@
    lignes numérotées.
 
      logo                                              langue · thème
-     Mes expérimentations  03
-     ────────────────────────
-     01  le titre, sur deux lignes
-     02  le titre, sur deux lignes
-                        (le pont, plein écran)         Mes outils     11
-                                                       ─────────────────
-     La phrase, en grand                               01  ……………
-                                                       02  ……………
 
-   La phrase tient le bas à gauche, en grand. Les expérimentations sont en
-   haut à gauche, les outils à droite : deux rubriques bâties de la même
-   façon, même en-tête, mêmes lignes numérotées, sans image. Le milieu de
-   l'écran reste au pont.
+                        (le pont, plein écran)
+
+     La phrase, en grand                               Mes outils     11
+                                                       ─────────────────
+     Mes expérimentations  03                          01  ……………
+     ────────────────────────                          02  ……………
+     01  [image]  le titre, sur deux lignes            …
+     02  [image]  le titre, sur deux lignes
+
+   Tout le texte se range en bas : à gauche la phrase et les
+   expérimentations, à droite les outils, calés sur la même ligne. Le haut
+   de l'écran reste au paysage. Les deux rubriques sont bâties de la même
+   façon, même en-tête, mêmes lignes numérotées ; une expérimentation porte
+   en plus son image de couverture.
 
    Sous le seuil d'un écran d'ordinateur, la page défile et les mêmes blocs
    s'empilent ; le fond reste alors le champ de points ordinaire.
@@ -107,14 +109,29 @@
 
 .exp {
     display: grid;
-    grid-template-columns: 2.1rem minmax(0, 1fr);
-    align-items: baseline;
-    column-gap: 0.5rem;
-    padding: 0.62rem 0;
+    grid-template-columns: 2.1rem 7.5rem minmax(0, 1fr);
+    align-items: center;
+    column-gap: 1rem;
+    padding: 0.6rem 0;
     border-bottom: 1px solid var(--filet-fin);
     color: var(--encre-1);
     text-decoration: none;
 }
+
+/* L'image de couverture de l'article, celle de son en-tête. */
+.exp-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    border-radius: 0.45rem;
+    border: 1px solid var(--filet-fin);
+    background: var(--bg);
+    transition: border-color 0.2s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.exp:hover .exp-image,
+.exp:focus-visible .exp-image { border-color: var(--accent-ink); transform: scale(1.03); }
 
 /* Le titre est donné en entier : c'est lui qui dit de quoi parle
    l'article, il ne se coupe jamais. La largeur de la rubrique est réglée
@@ -190,7 +207,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .outil-nom, .outil-icone, .exp-titre { transition: none; }
+    .outil-nom, .outil-icone, .exp-titre, .exp-image { transition: none; }
+    .exp:hover .exp-image, .exp:focus-visible .exp-image { transform: none; }
 }
 
 /* ==========================================================================
@@ -225,15 +243,9 @@
         padding: 5.5rem 2rem 2rem;
         display: grid;
         grid-template-columns: minmax(0, 1fr) 21rem;
-        grid-template-rows: auto minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1fr) auto auto;
         column-gap: 5rem;
         row-gap: 0;
-    }
-
-    body.ecran .exps {
-        grid-column: 1;
-        grid-row: 1;
-        width: min(100%, 33rem);
     }
 
     body.ecran .accueil-phrase {
@@ -243,7 +255,15 @@
         width: fit-content;
     }
 
-    /* Les outils se calent sur le bas de l'écran, à la hauteur de la phrase. */
+    body.ecran .exps {
+        grid-column: 1;
+        grid-row: 3;
+        width: min(100%, 42rem);
+        margin-top: clamp(1.5rem, 4vh, 2.5rem);
+    }
+
+    /* Les outils se calent sur le bas de l'écran, comme les
+       expérimentations : les deux rubriques finissent sur la même ligne. */
     body.ecran .outils {
         grid-column: 2;
         grid-row: 1 / -1;
@@ -281,9 +301,10 @@
 /* Un écran bas : la phrase et les listes se resserrent d'un cran. */
 @media (min-width: 1100px) and (min-height: 600px) and (max-height: 720px) {
     body.ecran .accueil { padding-top: 4.25rem; padding-bottom: 1.25rem; }
-    body.ecran .accueil-phrase { font-size: clamp(1.7rem, 2.7vw, 2.8rem); }
+    body.ecran .accueil-phrase { font-size: clamp(1.6rem, 2.45vw, 2.5rem); }
     body.ecran .outil { padding: 0.34rem 0; }
     body.ecran .outil-nom { font-size: 1.08rem; }
-    body.ecran .exp { padding: 0.42rem 0; }
+    body.ecran .exps { margin-top: 1.25rem; }
+    body.ecran .exp { padding: 0.38rem 0; grid-template-columns: 2.1rem 6.25rem minmax(0, 1fr); }
     body.ecran .exp-titre { font-size: 0.96rem; }
 }

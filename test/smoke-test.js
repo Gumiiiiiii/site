@@ -59,6 +59,11 @@ const CHECKS = [
         if (!d.querySelector('.navbar .nav-logo')) return 'navbar not injected';
         if (d.querySelectorAll('.exps-liste a.exp').length !== 3) return 'expected 3 experiment links';
         if (!d.querySelector('a.exp[href$="ardacraft-map"]')) return 'missing map article link';
+        // Each experiment shows its featured image, and the file exists.
+        for (const img of d.querySelectorAll('.exps-liste .exp-image')) {
+            if (!fs.existsSync(path.join(ROOT, img.getAttribute('src')))) return 'missing featured image: ' + img.getAttribute('src');
+        }
+        if (d.querySelectorAll('.exps-liste .exp-image').length !== d.querySelectorAll('.exps-liste a.exp').length) return 'an experiment has no featured image';
         if (d.querySelectorAll('.outils-liste a.outil').length < 8) return 'expected 8+ tool links';
         // The homepage is the only index: every entry must lead somewhere.
         for (const a of d.querySelectorAll('.outils-liste a.outil, .exps-liste a.exp')) {
