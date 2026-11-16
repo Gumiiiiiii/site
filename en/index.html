@@ -64,7 +64,7 @@
     <!-- Tout le site tient ici. Pour ajouter un outil ou un article : une
          ligne de plus dans la liste correspondante, numérotée à la suite
          (un article récent se place en tête), et le compte de la rubrique
-         à mettre à jour. Le fond est un volume dessiné en points
+         à mettre à jour. Le fond est un pont-aqueduc dessiné en points
          (scripts/trame.js). -->
     <main class="accueil" id="main">
         <h1 class="hero-text accueil-phrase" id="hero-text" data-i18n="home_hero">This is where I gather tools and experiments built out of curiosity, to bring ideas to life and explore new directions.</h1>
@@ -211,6 +211,9 @@
                 if (!text) return;
 
                 var TOTAL = 0.9; // seconds for the whole sentence
+                // On the desktop homepage the background draws itself first:
+                // the sentence waits for it (--intro, styles/accueil.css).
+                var DEPART = parseFloat(getComputedStyle(document.body).getPropertyValue('--intro')) || 0;
                 var letterCount = text.replace(/\s/g, '').length;
                 var letterIndex = 0;
 
@@ -226,7 +229,7 @@
                         var span = document.createElement('span');
                         span.className = 'hero-letter';
                         span.textContent = letter;
-                        span.style.animationDelay = (TOTAL * letterIndex / letterCount).toFixed(3) + 's';
+                        span.style.animationDelay = (DEPART + TOTAL * letterIndex / letterCount).toFixed(3) + 's';
                         letterIndex += 1;
                         wordSpan.appendChild(span);
                     });
@@ -242,7 +245,7 @@
                         heroText.textContent = text;
                     }
                     heroText.removeAttribute('aria-label');
-                }, (TOTAL + 0.4) * 1000);
+                }, (DEPART + TOTAL + 0.4) * 1000);
             }
 
             if (document.readyState === 'loading') {

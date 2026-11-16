@@ -69,7 +69,11 @@
     var largeur = 0, hauteur = 0, dpr = 1;
     var xs, ys;                    // les points du réseau
     var encre = 'rgba(26, 26, 26, 0.12)', sombre = false;
-    var boucle = 0, dernier = 0;
+    var boucle = 0, dernier = 0, debut = -1;
+    // L'apparition : au premier dessin, les points se développent depuis
+    // le centre vers les bords, comme une image qui monte dans le bain du
+    // tirage. Le texte de la page attend la fin (--intro, styles/accueil.css).
+    var INTRO = 1.4;
 
     // ------------------------------------------------------------------
     // Le réseau
@@ -197,7 +201,9 @@
     function tracer(maintenant) {
         boucle = 0;
         if (!SEUIL.matches || !ctx) return;
-        if (maintenant - dernier < CADENCE) { reveiller(); return; }
+        if (debut < 0) debut = maintenant;
+        var e = CALME.matches ? INTRO : (maintenant - debut) / 1000;   // le temps depuis l'apparition
+        if (e >= INTRO && maintenant - dernier < CADENCE) { reveiller(); return; }
         dernier = maintenant;
 
         var t = CALME.matches ? 0 : maintenant / 1000;
@@ -274,13 +280,22 @@
             if (ton < 0.015) continue;
             // La loi du halftone : c'est l'aire du point qui suit le ton.
             var rayon = RAYON_MAX * Math.sqrt(ton > 1 ? 1 : ton);
+            if (e < INTRO) {
+                var ox = (xs[i] - cx) / largeur, oy = (ys[i] - cy) * 1.6 / largeur;
+                var bruit = Math.sin(i * 12.9898) * 43758.5453;
+                var retard = 0.8 * Math.min(1, Math.sqrt(ox * ox + oy * oy) / 0.75) + 0.08 * (bruit - Math.floor(bruit));
+                var v = (e - retard) / 0.5;
+                v = v < 0 ? 0 : v > 1 ? 1 : v;
+                rayon *= v * v * (3 - 2 * v);
+                if (rayon < 0.2) continue;
+            }
             ctx.moveTo(xs[i] + rayon, ys[i]);
             ctx.arc(xs[i], ys[i], rayon, 0, 6.2832);
         }
         ctx.fill();
 
         // En mouvement réduit, le paysage est une image fixe.
-        if (!CALME.matches) reveiller();
+        if (!CALME.matches || e < INTRO) reveiller();
     }
 
     function reveiller() {

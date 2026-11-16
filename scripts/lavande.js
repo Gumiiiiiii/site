@@ -29,7 +29,11 @@
 
     var ctx = null, largeur = 0, hauteur = 0, dpr = 1, xs, ys;
     var encre = 'rgba(26, 26, 26, 0.12)', sombre = false;
-    var boucle = 0, dernier = 0;
+    var boucle = 0, dernier = 0, debut = -1;
+    // L'apparition : au premier dessin, les points se développent depuis
+    // l'horizon vers les bords, comme une image qui monte dans le bain du
+    // tirage. Le texte de la page attend la fin (--intro, styles/accueil.css).
+    var INTRO = 1.4;
 
     function mesurer() {
         dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -110,7 +114,9 @@
     function tracer(maintenant) {
         boucle = 0;
         if (!SEUIL.matches || !ctx) return;
-        if (maintenant - dernier < CADENCE) { reveiller(); return; }
+        if (debut < 0) debut = maintenant;
+        var e = CALME.matches ? INTRO : (maintenant - debut) / 1000;   // le temps depuis l'apparition
+        if (e >= INTRO && maintenant - dernier < CADENCE) { reveiller(); return; }
         dernier = maintenant;
         var t = CALME.matches ? 0 : maintenant / 1000;
 
@@ -237,11 +243,17 @@
             // sur une même rangée, ce qui y tracerait une ligne.
             if (ton < 0.003) continue;
             var r = RAYON_MAX * Math.sqrt(ton > 1 ? 1 : ton);
+            if (e < INTRO) {
+                var ox = (x - vx) / largeur, oy = (y - hy) * 1.6 / largeur;
+                var retard = 0.8 * Math.min(1, Math.sqrt(ox * ox + oy * oy) / 0.75) + 0.08 * hasard(i, 7);
+                r *= lisse(retard, retard + 0.5, e);
+                if (r < 0.2) continue;
+            }
             ctx.moveTo(x + r, y);
             ctx.arc(x, y, r, 0, 6.2832);
         }
         ctx.fill();
-        if (!CALME.matches) reveiller();
+        if (!CALME.matches || e < INTRO) reveiller();
     }
 
     function reveiller() {

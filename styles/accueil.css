@@ -118,20 +118,23 @@
     text-decoration: none;
 }
 
-/* L'image de couverture de l'article, celle de son en-tête. */
+/* L'image de couverture de l'article, celle de son en-tête. Elle est
+   découpée par un masque en trame (media/masque-trame.svg, construit par
+   build/masque-trame.js) : ses coins en haut à gauche et en bas à droite
+   se défont en points, comme le fond. */
 .exp-image {
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 2 / 1;
     object-fit: cover;
     display: block;
-    border-radius: 0.45rem;
-    border: 1px solid var(--filet-fin);
     background: var(--bg);
-    transition: border-color 0.2s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-mask: url("../media/masque-trame.svg") 0 0 / 100% 100% no-repeat;
+    mask: url("../media/masque-trame.svg") 0 0 / 100% 100% no-repeat;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .exp:hover .exp-image,
-.exp:focus-visible .exp-image { border-color: var(--accent-ink); transform: scale(1.03); }
+.exp:focus-visible .exp-image { transform: scale(1.03); }
 
 /* Le titre est donné en entier : c'est lui qui dit de quoi parle
    l'article, il ne se coupe jamais. La largeur de la rubrique est réglée
@@ -266,7 +269,8 @@
     body.ecran .exps-liste {
         display: grid;
         grid-auto-flow: column;
-        grid-auto-columns: minmax(0, 1fr);
+        grid-auto-columns: minmax(0, 16.5rem);
+        justify-content: start;
         column-gap: 1.5rem;
         padding-top: 0.9rem;
         overflow-x: auto;
@@ -274,7 +278,7 @@
         scrollbar-width: none;
     }
     body.ecran .exps-liste::-webkit-scrollbar { display: none; }
-    body.ecran .exps-liste:has(> li:nth-child(5)) { grid-auto-columns: calc((100% - 4.5rem) / 4); }
+    body.ecran .exps-liste:has(> li:nth-child(5)) { grid-auto-columns: min(16.5rem, calc((100% - 4.5rem) / 4)); }
 
     body.ecran .exp {
         display: flex;
@@ -283,12 +287,8 @@
         padding: 0;
         border-bottom: 0;
     }
-    body.ecran .exp-image {
-        aspect-ratio: 16 / 9;
-        border-radius: 0.6rem;
-    }
     body.ecran .exp-titre {
-        font-size: 0.95rem;
+        font-size: 0.88rem;
         line-height: 1.34;
         text-wrap: pretty;
     }
@@ -318,19 +318,29 @@
     body.ecran .outils-liste > li:last-child .outil,
     body.ecran .exps-liste > li:last-child .exp { border-bottom: 0; padding-bottom: 0; }
 
-    /* L'entrée : les lignes montent l'une après l'autre, pendant que la
-       phrase s'écrit. */
+    /* L'entrée : d'abord le fond, dont les points se développent
+       (scripts/trame.js, scripts/lavande.js) ; le texte attend --intro, puis
+       la barre apparaît, la phrase s'écrit (son script lit aussi --intro) et
+       les lignes montent l'une après l'autre. */
     @media (prefers-reduced-motion: no-preference) {
+        body.ecran.accueil-page { --intro: 1.15s; }
+        body.ecran.accueil-page .navbar > * {
+            animation: accueil-parait 0.6s ease backwards;
+            animation-delay: var(--intro);
+        }
         body.ecran .bloc-tete,
         body.ecran .bloc li {
             animation: accueil-monte 0.7s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-            animation-delay: calc(0.3s + var(--rang, 0) * 0.045s);
+            animation-delay: calc(var(--intro, 0s) + 0.3s + var(--rang, 0) * 0.045s);
         }
     }
 }
 
 @keyframes accueil-monte {
     from { opacity: 0; transform: translateY(0.9rem); }
+}
+@keyframes accueil-parait {
+    from { opacity: 0; }
 }
 
 /* Un écran bas : la phrase et les listes se resserrent d'un cran. */
@@ -342,6 +352,6 @@
     body.ecran .exps { margin-top: 1.1rem; }
     body.ecran .exps-liste { padding-top: 0.7rem; }
     body.ecran .exp { gap: 0.5rem; }
-    body.ecran .exp-image { aspect-ratio: 2.2 / 1; }
-    body.ecran .exp-titre { font-size: 0.9rem; }
+    body.ecran .exps-liste { grid-auto-columns: minmax(0, 16.5rem); }
+    body.ecran .exp-titre { font-size: 0.84rem; }
 }
