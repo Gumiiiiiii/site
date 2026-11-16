@@ -467,29 +467,38 @@
                 var p = (y - hy) / bas;                       // 0 à l'horizon, 1 en bas
                 var prof = 1 / (p + 0.02);
                 var X = (x - vx) / (p + 0.02) / largeur;      // position dans le champ
-                var u = X * 4;
+                // Les rangs, et le long de chaque rang, des touffes rondes de
+                // lavande, posées sur la terre nue : la terre se voit entre
+                // deux rangs et entre deux touffes.
+                var u = X * 7;
                 var f = u - Math.floor(u);
-                var crete = 1 - Math.abs(f - 0.5) * 2;        // 1 au milieu du rang
-                var touffe = 0.75 + 0.25 * Math.cos(prof * 2.6 + Math.floor(u) * 1.7);
-                var rang = crete > 0.45 ? touffe : 0;
+                var nRang = Math.floor(u);
+                var D = 0.42;                                   // une touffe tous les D, en profondeur
+                var decale = hasard(nRang, 11) * D;            // les touffes ne s'alignent pas d'un rang à l'autre
+                var v = prof + decale, nT = Math.floor(v / D);
+                var ga = (f - 0.5) / 0.4;                     // à travers la touffe : -1 à gauche, 1 à droite
+                var gb = (v - nT * D - D / 2) / (D * 0.7);    // le long du rang
+                var taille = 0.86 + 0.2 * hasard(nT, nRang);   // chaque touffe a sa taille
+                ga /= taille; gb /= taille;
+                var dome = 1 - ga * ga - gb * gb;
                 // Près de l'horizon, le champ a le ton de la garrigue, sans
                 // rangs : ils y seraient plus fins qu'un point. En
-                // descendant, le rang fonce et l'entre-rang s'éclaircit, l'un
-                // et l'autre progressivement, si bien que les rangs sortent
-                // du ton commun au lieu de commencer sur une ligne.
+                // descendant, les touffes sortent de ce ton commun.
                 var sortie = lisse(0.02, 0.7, p);
-                // Le rang est un volume : son flanc à l'ombre, à droite, est
-                // plus dense que son dos. Et le premier plan est le plus
-                // contrasté : c'est lui qui donne la profondeur.
-                var epaule = 1 + 0.45 * lisse(0.5, 0.66, f);
-                var plein = 0.24 + (0.6 * rang * epaule - 0.24) * sortie;   // le rang
-                var vide = 0.24 * (1 - sortie);                               // l'entre-rang
-                ton = rang > 0 ? plein : vide;
-                // Chaque rang a son flanc au soleil : un liseré de lumière
-                // du côté d'où elle vient.
-                var flanc = lisse(0.275, 0.3, f) * (1 - lisse(0.36, 0.43, f)) * sortie;
-                eclat = 0.5 * flanc * touffe;
-                ton *= 1 - 0.85 * flanc;
+                var champ;
+                if (dome > 0) {
+                    // La touffe : un dôme, au soleil à gauche, à l'ombre à
+                    // droite et à son pied, moucheté par les épis.
+                    var epis = hasard(Math.floor(x / 10), Math.floor(y / 18 + hasard(Math.floor(x / 10), 3))) - 0.5;
+                    champ = 0.42 + 0.28 * lisse(-0.6, 0.8, ga) + 0.14 * (1 - lisse(0, 0.5, dome)) + 0.16 * epis * lisse(0.2, 0.7, p);
+                    eclat = 0.42 * lisse(-0.15, -0.65, ga) * lisse(0.1, 0.5, dome) * sortie;
+                } else {
+                    // La terre, claire ; à droite de chaque touffe, son ombre.
+                    var oa = (f - 0.63) / 0.4 / taille;
+                    champ = 1 - oa * oa - gb * gb > 0 ? 0.24 : 0.04;
+                    eclat = 0;
+                }
+                ton = 0.24 + (champ - 0.24) * sortie;
                 // L'ombre des nuages court sur le champ, en perspective.
                 var os = nuage(X * 1.1 - t * 0.04, prof * 0.3, 0.54) * sortie;
                 ton *= sombre ? 1 - 0.4 * os : 1 + 0.45 * os;
