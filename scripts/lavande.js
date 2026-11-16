@@ -139,7 +139,7 @@
     // d'un peu haut, le bras du fond par-dessus celui de devant, et le C se
     // lit en entier.
     var TRACE = (function () {
-        var p0 = [7.5, 2.6], c1 = [-0.8, 2.9], c2 = [-0.6, 7.5], p3 = [14, 7], n = 44, pts = [], l = 0;
+        var p0 = [2.6, 0.9], c1 = [2.9, 7], c2 = [1.0, 10.5], p3 = [10, 9.2], n = 44, pts = [], l = 0;
         for (var k = 0; k <= n; k++) {
             var t = k / n, q = 1 - t, a = q * q * q, b = 3 * q * q * t, c = 3 * q * t * t, d = t * t * t;
             var x = a * p0[0] + b * c1[0] + c * c2[0] + d * p3[0], z = a * p0[1] + b * c1[1] + c * c2[1] + d * p3[1];
@@ -237,7 +237,7 @@
                     var grain = hasard(Math.floor(abscisse / 0.55 + rang * 0.5), rang) - 0.5;
                     // La pierre au soleil est claire, presque le papier : l'ouvrage se
                     // détache en clair sur le champ, cerné d'un trait, les dessous à l'ombre.
-                    ruTon[i] = sombre ? (clair > 0.3 ? 0.78 + 0.1 * grain : 0.12) : (clair > 0.3 ? 0.2 + 0.1 * grain : 0.8);
+                    ruTon[i] = sombre ? (clair > 0.3 ? 0.78 + 0.1 * grain : 0.12) : (clair > 0.3 ? 0.5 + 0.12 * grain : 0.88);
                     ruEclat[i] = clair > 0.3 && sombre ? 0.5 : 0;
                     // Le contour : là où le rayon voisin passe à côté de la
                     // pierre, ou touche bien plus loin, on est sur une arête.
