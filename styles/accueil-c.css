@@ -1,0 +1,146 @@
+/* ==========================================================================
+   Variante C : la fenêtre
+   ==========================================================================
+
+     logo                                              langue · thème
+     La phrase, sur toute la largeur
+
+     Mes expérimentations         ╭───────╮          Mes outils     11
+     ────────────────────        │ image │          ─────────────────
+     le titre                    │  de   │          01  ……………
+     le titre                    │ l'art.│          02  ……………
+     le titre                    ╰═══════╯          …
+
+   Au centre, une fenêtre cintrée comme celles des mas, encadrée de pierre
+   en points. Elle montre la couverture de l'expérimentation qu'on vise
+   (scripts/fenetre.js). Le fond reste le champ de points du site.
+   ========================================================================== */
+
+.fen { position: relative; padding: 5rem 1.5rem 7rem; display: flex; flex-direction: column; gap: 3rem; }
+
+.fen-phrase {
+    text-align: left;
+    max-width: 26em;
+    font-size: clamp(1.8rem, 2.6vw, 3rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+}
+
+/* Les titres seuls : l'image est dans la fenêtre. Celui qu'elle montre
+   est à l'encre pleine, les autres un cran plus clair. */
+body .fen-exps .exp { grid-template-columns: minmax(0, 1fr); padding: 0.75rem 0; }
+.fen-exps .exp-titre { font-size: 1.04rem; color: var(--encre-07); transition: color 0.2s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+.fen-exps .exp.est-montre .exp-titre { color: var(--encre-1); }
+.fen-exps .exp:hover .exp-titre,
+.fen-exps .exp:focus-visible .exp-titre { color: var(--accent-ink); }
+
+/* La fenêtre. Le cadre est un bandeau de pierre en points, posé sur un
+   appui ; l'image se loge dans l'ouverture, cintrée en plein cintre. */
+.fen-arche {
+    display: none;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+}
+.fen-cadre {
+    display: block;
+    position: relative;
+    height: 100%;
+    aspect-ratio: 0.66;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 18px 18px 0;
+    border-radius: 999px 999px 0 0;
+    background-image: radial-gradient(circle, rgba(var(--text-rgb), 0.2) 2.3px, transparent 2.8px);
+    background-size: 10px 9px;
+}
+.fen-ouverture {
+    display: block;
+    position: relative;
+    height: 100%;
+    border-radius: 999px 999px 0 0;
+    overflow: hidden;
+    background: var(--bg);
+    border: 1px solid var(--filet);
+    border-bottom: 0;
+    transition: border-color 0.2s ease;
+}
+.fen-ouverture img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.06);
+    transition: opacity 0.5s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fen-ouverture img.est-montre { opacity: 1; transform: none; }
+/* L'appui, sous la fenêtre. */
+.fen-cadre::after {
+    content: '';
+    position: absolute;
+    left: -14px;
+    right: -14px;
+    bottom: -14px;
+    height: 14px;
+    background-image: radial-gradient(circle, rgba(var(--text-rgb), 0.32) 2.6px, transparent 3.1px);
+    background-size: 10px 9px;
+}
+.fen-arche:hover .fen-ouverture,
+.fen-arche:focus-visible .fen-ouverture { border-color: var(--accent-ink); }
+
+@media (prefers-reduced-motion: reduce) {
+    .fen-ouverture img { transition: none; transform: none; }
+}
+
+@media (min-width: 1100px) and (min-height: 600px) {
+
+    body.accueil-c .navbar {
+        top: 0; left: 0; right: 0; width: auto;
+        justify-content: space-between;
+        padding: 1.35rem 2rem 0;
+        pointer-events: none;
+    }
+    body.accueil-c .navbar > * { pointer-events: auto; }
+    body.accueil-c .nav-logo img { height: 34px; }
+
+    body.ecran .fen {
+        height: 100vh;
+        height: 100dvh;
+        padding: 5.25rem 2rem 2.25rem;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) clamp(15rem, 25vw, 26rem) minmax(0, 1fr);
+        grid-template-rows: auto minmax(0, 1fr);
+        column-gap: 3rem;
+        row-gap: clamp(1.5rem, 5vh, 3rem);
+    }
+
+    body.ecran .fen-phrase { grid-column: 1 / -1; grid-row: 1; }
+    body.ecran .fen-exps { grid-column: 1; grid-row: 2; align-self: end; }
+    body.ecran .fen-arche { display: block; grid-column: 2; grid-row: 2; min-height: 0; padding-bottom: 14px; }
+    body.ecran .fen-outils { grid-column: 3; grid-row: 2; align-self: end; min-height: 0; }
+
+    body.ecran .fen-exps .exps-liste > li:last-child .exp,
+    body.ecran .fen-outils .outils-liste > li:last-child .outil { border-bottom: 0; padding-bottom: 0; }
+
+    @media (prefers-reduced-motion: no-preference) {
+        body.ecran .bloc-tete,
+        body.ecran .bloc li,
+        body.ecran .fen-arche {
+            animation: accueil-monte 0.7s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+            animation-delay: calc(0.3s + var(--rang, 0) * 0.045s);
+        }
+    }
+}
+
+@media (min-width: 1100px) and (min-height: 600px) and (max-height: 720px) {
+    body.ecran .fen { padding-top: 4.25rem; padding-bottom: 1.5rem; }
+    body.ecran .fen-phrase { font-size: clamp(1.6rem, 2.3vw, 2.4rem); }
+    body.ecran .outil { padding: 0.32rem 0; }
+    body.ecran .outil-nom { font-size: 1.04rem; }
+    body.ecran .fen-exps .exp { padding: 0.5rem 0; grid-template-columns: minmax(0, 1fr); }
+    body.ecran .fen-exps .exp-titre { font-size: 0.98rem; }
+}
