@@ -28,15 +28,19 @@
                 const matchSearch = title.includes(term) || desc.includes(term);
                 const matchFilter = filter === 'all' || cat === filter;
 
+                // An attribute rather than an inline display: the card keeps
+                // whatever display its stylesheet gives it, and the pager
+                // (scripts/ecran.js) can tell filtered-out from paged-out.
                 if (matchSearch && matchFilter) {
-                    item.style.display = item.classList.contains('tool-card') && grid.classList.contains('tools-grid-full') ? 'flex' : 'block';
+                    item.removeAttribute('data-filtre');
                     shown += 1;
                 } else {
-                    item.style.display = 'none';
+                    item.setAttribute('data-filtre', 'hors');
                 }
             });
 
             liveRegion.textContent = shown + ' / ' + items.length;
+            document.dispatchEvent(new CustomEvent('gumi:filtre'));
         }
 
         if (searchInput) searchInput.addEventListener('input', updateGrid);

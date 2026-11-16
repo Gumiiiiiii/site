@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="../styles/shared.css">
     <link rel="stylesheet" href="../styles/tools-suite.css">
     <link rel="stylesheet" href="../styles/outil-papier.css">
+    <link rel="stylesheet" href="../styles/ecran.css">
 
     <style>
         /* Le libelle choisi passe en reserve sur la pastille d'encre. */
@@ -164,6 +165,50 @@
             padding: 4rem 1rem;
             width: 100%;
         }
+
+        /* Sur un écran d'ordinateur (styles/ecran.css), la liste des formats
+           quitte la colonne des réglages pour la sienne, au milieu : quinze
+           lignes sous le dépôt, le point focal et le format de sortie ne
+           tenaient dans aucune fenêtre. Les réglages restent à gauche, le
+           résultat à droite ; si la liste s'allonge, c'est elle qui défile.
+           L'ordre du document ne change pas, donc celui du téléphone non plus. */
+        @media (min-width: 1100px) and (min-height: 600px) {
+            body.ecran .main-grid {
+                grid-template-columns: 21rem 17.5rem minmax(0, 1fr);
+                grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+                column-gap: 1.75rem;
+                row-gap: 1rem;
+            }
+            body.ecran .left-col,
+            body.ecran .controls-panel { display: contents; }
+            body.ecran .control-row { margin: 0 !important; min-width: 0; }
+
+            body.ecran .drop-zone { grid-column: 1; grid-row: 1; padding: 1.1rem 1rem; gap: 0.4rem; }
+            body.ecran .drop-zone-icon { width: 34px; height: 34px; }
+            body.ecran .sr-row-focal { grid-column: 1; grid-row: 2; }
+            body.ecran .sr-row-output { grid-column: 1; grid-row: 3; }
+            body.ecran #sr-export-btn { grid-column: 1; grid-row: 5; margin: 0 !important; }
+            body.ecran .sr-focal img { max-height: min(300px, 24vh); }
+
+            body.ecran .sr-row-formats {
+                grid-column: 2;
+                grid-row: 1 / -1;
+                min-height: 0;
+            }
+            body.ecran .sr-format-list {
+                flex: 1;
+                min-height: 0;
+                gap: 0;
+                overflow-y: auto;
+                overscroll-behavior: contain;
+                scrollbar-width: thin;
+                scrollbar-color: var(--filet) transparent;
+            }
+            body.ecran .sr-format-row { padding: 5px 8px; gap: 10px; }
+            body.ecran .sr-format-name { font-size: 0.9rem; }
+
+            body.ecran .right-col { grid-column: 3; grid-row: 1 / -1; }
+        }
     </style>
     <script type="application/ld+json">
     {
@@ -184,7 +229,7 @@
     }
     </script>
 </head>
-<body>
+<body class="ecran">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
     <div class="points-champ" aria-hidden="true"></div>
     <div class="regles" aria-hidden="true"></div>
@@ -229,7 +274,7 @@
                     </div>
                     <input type="file" id="file-input" accept="image/*" style="display:none;">
 
-                    <div class="control-row" style="margin-top: 1.25rem;">
+                    <div class="control-row sr-row-focal" style="margin-top: 1.25rem;">
                         <div class="control-label" data-i18n="sr_focal_label">Point focal</div>
                         <div class="sr-focal" id="sr-focal" tabindex="0" role="application" aria-label="Point focal — flèches pour déplacer">
                             <img id="sr-focal-img" alt="">
@@ -238,7 +283,7 @@
                         <span class="sr-focal-hint" id="sr-focal-hint" data-i18n="sr_focal_hint">Déplacez le point : chaque format restera cadré dessus.</span>
                     </div>
 
-                    <div class="control-row">
+                    <div class="control-row sr-row-output">
                         <div class="control-label" data-i18n="sr_output_label">Format de sortie</div>
                         <div class="segmented-control format-3 no-select">
                             <input type="radio" id="sr-jpg" name="sr-format" value="jpeg" checked>
@@ -251,7 +296,7 @@
                         </div>
                     </div>
 
-                    <div class="control-row">
+                    <div class="control-row sr-row-formats">
                         <div class="control-label" data-i18n="sr_formats_label">Formats à générer</div>
                         <div class="sr-format-list" id="sr-format-list"></div>
                     </div>

@@ -50,6 +50,9 @@
                 </g>
             </svg>
         </button>
+        <a href="mailto:pierre@gumi.ch" class="nav-mail" data-i18n-title="nav_contact" data-i18n-aria="nav_contact" title="Écrire à Pierre" aria-label="Écrire à Pierre">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>
+        </a>
         </div>
     `;
 
@@ -212,10 +215,17 @@
         if (isCv) root.classList.add('navbar--cv', 'visible');
 
         if (!isCv) {
-            root.querySelectorAll('a:not(.nav-logo)').forEach((link) => {
-                if (normalizeRoute(link.getAttribute('href') || '') === currentPage) {
+            // A tool or an article belongs to its section: the section link
+            // is highlighted there too, without claiming to be the page.
+            const section = (window.location.pathname.match(/\/(tools|experiments)\/[^/]+/) || [])[1];
+            const sectionPage = section === 'tools' ? 'outils' : section;
+            root.querySelectorAll('.nav-group--links a').forEach((link) => {
+                const route = normalizeRoute(link.getAttribute('href') || '');
+                if (route === currentPage) {
                     link.classList.add('active');
                     link.setAttribute('aria-current', 'page');
+                } else if (route === sectionPage) {
+                    link.classList.add('active');
                 }
             });
         } else {

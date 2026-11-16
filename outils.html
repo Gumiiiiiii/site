@@ -30,8 +30,9 @@
 
     <link rel="stylesheet" href="styles/shared.css">
     <link rel="stylesheet" href="styles/outil-papier.css">
+    <link rel="stylesheet" href="styles/ecran.css">
 </head>
-<body class="shell-page">
+<body class="shell-page ecran">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
 
     <nav class="navbar" data-navbar-root></nav>
@@ -59,7 +60,7 @@
                 </div>
             </div>
 
-            <section class="tools-grid tools-grid-full grid-target">
+            <section class="tools-grid tools-grid-full grid-target" data-ecran="pages">
                 <a href="tools/file-converter" class="tool-card" data-category="utils">
                     <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></div>
                     <div class="tool-text">
@@ -146,6 +147,7 @@
     <script src="scripts/i18n.js"></script>
     <script src="scripts/navbar.js"></script>
     <script src="scripts/filters.js"></script>
+    <script src="scripts/ecran.js"></script>
     <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };

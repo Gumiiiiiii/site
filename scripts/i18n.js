@@ -8,6 +8,9 @@
         nav_tools: { fr: 'Outils', en: 'Tools' },
         nav_lang_title: { fr: 'Changer la langue', en: 'Switch language' },
         nav_theme_title: { fr: 'Changer le thème', en: 'Switch theme' },
+        nav_contact: { fr: 'Écrire à Pierre', en: 'Email Pierre' },
+        pager_prev: { fr: 'Page précédente', en: 'Previous page' },
+        pager_next: { fr: 'Page suivante', en: 'Next page' },
 
         // Homepage
         home_hero: {

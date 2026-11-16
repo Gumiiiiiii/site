@@ -113,6 +113,11 @@
     // Respect reduced-motion: keep native scrolling, skip the smooth-scroll layer.
     if (!window.Lenis || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+    // A one-screen page (styles/ecran.css) has no page scroll to smooth, and
+    // Lenis would swallow the wheel meant for a panel that scrolls on its own.
+    if (document.body.classList.contains('ecran') &&
+        window.matchMedia('(min-width: 1100px) and (min-height: 600px)').matches) return;
+
     // Une page peut demander un réglage plus discret en posant
     // window.gumiLenisOptions avant ce script. Les valeurs du site restent la
     // base : une page ne surcharge que ce qu'elle veut changer.

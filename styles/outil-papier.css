@@ -663,13 +663,7 @@ button.primary,
    11 · La page d'accueil
    ==========================================================================
    Même feuille que les pages de liste : cartes, boutons et grain sont déjà
-   traités plus haut. Restent trois pièces qui n'existent que là. */
-
-/* Comme dans les études, l'image se pose sur le papier : le filet dit le
-   bord, aucune ombre ne la fait flotter. */
-.hero-image-container img {
-    border: 1px solid var(--filet);
-}
+   traités plus haut. Sa mise en page est dans styles/ecran.css. */
 
 /* Le titre d'une carte au survol. Le survol d'un lien est bien l'un des
    quatre emplacements de la couleur, mais --accent donne 3,02:1 sur le
@@ -678,13 +672,4 @@ button.primary,
 .card:hover .card-title,
 .tool-card:hover .tool-title {
     color: var(--accent-ink);
-}
-
-/* Le pied de page. L'adresse s'écrivait en violet au repos, une cinquième
-   place pour la couleur. Elle revient à l'encre du bloc — ici le papier,
-   puisque le pied est sombre — et la couleur ne reparaît que sur le trait
-   qui se déplie au survol. C'est la règle du CV, où le lien de contact est
-   en encre pleine et n'appelle l'accent qu'au survol. */
-.footer-mail {
-    color: inherit;
 }

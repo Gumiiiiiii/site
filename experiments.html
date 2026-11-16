@@ -31,8 +31,9 @@
 
     <link rel="stylesheet" href="styles/shared.css">
     <link rel="stylesheet" href="styles/outil-papier.css">
+    <link rel="stylesheet" href="styles/ecran.css">
 </head>
-<body class="shell-page">
+<body class="shell-page ecran">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
 
     <nav class="navbar" data-navbar-root></nav>
@@ -57,7 +58,7 @@
                 </div>
             </div>
 
-            <section class="experiments-grid grid-target">
+            <section class="experiments-grid grid-target" data-ecran="pages">
                 <a href="experiments/ardacraft-social" class="card" data-category="design">
                     <div class="card-inner">
                         <div class="card-image"><img src="media/ardacraft-social-card.webp" alt="Croissance des abonnés Instagram d’ArdaCraft en 2024" width="1200" height="675" loading="lazy"></div>
@@ -85,6 +86,7 @@
     <script src="scripts/i18n.js"></script>
     <script src="scripts/navbar.js"></script>
     <script src="scripts/filters.js"></script>
+    <script src="scripts/ecran.js"></script>
     <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };

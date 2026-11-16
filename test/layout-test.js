@@ -90,16 +90,6 @@ const CHECKS = [
         }
     },
     {
-        name: 'homepage: hero image waits for the text reveal',
-        async run(page) {
-            await page.goto(BASE + '/', { waitUntil: 'networkidle0' });
-            const delay = await page.evaluate(() =>
-                getComputedStyle(document.querySelector('.hero-image-container')).animationDelay
-            );
-            if (delay !== '1.05s') throw new Error('hero image animation delay is "' + delay + '", expected "1.05s"');
-        }
-    },
-    {
         name: 'mobile: category header leaves room for the cards',
         async run(page) {
             await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
@@ -114,19 +104,107 @@ const CHECKS = [
         }
     },
     {
-        name: 'mobile: hero text fully faded before its sticky container ends',
+        // La regle du site (styles/ecran.css) : sur ordinateur, l accueil,
+        // les deux listes et chaque outil tiennent dans la fenetre. Ni la
+        // page ni la colonne des reglages ne defilent, a l etat initial,
+        // jusqu a un portable en 1366 x 768 (650 px utiles). Le panneau de
+        // resultat, lui, peut defiler : son contenu n a pas de borne.
+        //
+        // Un outil ajoute a tools/ entre dans ce test sans qu on y touche.
+        name: 'ecran: aucune page ne defile sur ordinateur',
         async run(page) {
-            await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
+            const pages = ['/', '/outils', '/experiments'].concat(
+                fs.readdirSync(path.join(ROOT, 'tools'))
+                    .filter((f) => f.endsWith('.html'))
+                    .map((f) => '/tools/' + f.replace(/\.html$/, ''))
+            );
+            const ecrans = [[1366, 650], [1440, 780], [1920, 945]];
+            const fautes = [];
             try {
-                await page.goto(BASE + '/', { waitUntil: 'networkidle0' });
-                const opacity = await page.evaluate(async () => {
-                    const section = document.querySelector('.hero-section');
-                    const container = document.querySelector('.hero-text-container');
-                    window.scrollTo(0, section.offsetHeight - container.offsetHeight);
-                    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-                    return Number(getComputedStyle(document.getElementById('hero-text')).opacity);
-                });
-                if (opacity > 0.01) throw new Error('hero text still at opacity ' + opacity + ' when it unsticks');
+                for (const [width, height] of ecrans) {
+                    await page.setViewport({ width, height });
+                    for (const p of pages) {
+                        // Page posee : une apparition en cours decale ses
+                        // elements de quelques pixels et fausse la mesure.
+                        const m = await sansMouvement(page, async () => {
+                          await page.goto(BASE + p, { waitUntil: 'networkidle0' });
+                          return page.evaluate(() => {
+                            const depasse = (sel) => {
+                                const el = document.querySelector(sel);
+                                return el ? el.scrollHeight - el.clientHeight : 0;
+                            };
+                            return {
+                                page: document.documentElement.scrollHeight - window.innerHeight,
+                                large: document.documentElement.scrollWidth - window.innerWidth,
+                                reglages: Math.max(depasse('.left-col'), depasse('.main-grid')),
+                                montres: [...document.querySelectorAll('[data-ecran] > *')].filter((e) => e.offsetParent).length
+                            };
+                          });
+                        });
+                        const ou = p + ' en ' + width + 'x' + height;
+                        if (m.page > 0) fautes.push(ou + ' : la page depasse de ' + m.page + ' px');
+                        if (m.large > 0) fautes.push(ou + ' : la page depasse en largeur de ' + m.large + ' px');
+                        if (m.reglages > 1) fautes.push(ou + ' : les reglages depassent de ' + m.reglages + ' px');
+                        if (!p.startsWith('/tools/') && m.montres === 0) fautes.push(ou + ' : la liste est vide');
+                    }
+                }
+            } finally {
+                await page.setViewport({ width: 1440, height: 900 });
+            }
+            if (fautes.length) throw new Error(fautes.length + ' : ' + fautes.slice(0, 4).join(' ; '));
+        }
+    },
+    {
+        // Sur une page qui ne defile pas, une apparition qui attend d entrer
+        // dans la fenetre n arrive jamais : le bouton d action, colle au bord
+        // du bas, restait transparent. Tout doit etre visible sans un geste.
+        name: 'ecran: tout apparait sans defilement',
+        async run(page) {
+            await page.setViewport({ width: 1440, height: 780 });
+            try {
+                for (const p of ['/tools/social-formats', '/tools/file-converter', '/tools/text-modifier']) {
+                    await page.goto(BASE + p, { waitUntil: 'networkidle0' });
+                    await new Promise((r) => setTimeout(r, 1400));
+                    const caches = await page.evaluate(() =>
+                        [...document.querySelectorAll('.back-link, .header-container, .control-row, .right-col, .advanced-section, .left-col button.primary, .pal-actions, .left-col .drop-zone')]
+                            .filter((e) => e.offsetParent && Number(getComputedStyle(e).opacity) < 0.99)
+                            .map((e) => e.id || e.className));
+                    if (caches.length) throw new Error(p + ' : encore caches : ' + caches.join(', '));
+                }
+            } finally {
+                await page.setViewport({ width: 1440, height: 900 });
+            }
+        }
+    },
+    {
+        // Une liste plus longue que l ecran se decoupe en pages au lieu de
+        // pousser la page : c est ce qui laisse ajouter des outils et des
+        // articles sans rouvrir la mise en page. Simule ici sur une fenetre
+        // basse, ou les onze outils ne tiennent plus.
+        name: 'ecran: une liste trop longue se decoupe en pages',
+        async run(page) {
+            await page.setViewport({ width: 1100, height: 600 });
+            try {
+                await page.goto(BASE + '/outils', { waitUntil: 'networkidle0' });
+                const lire = () => page.evaluate(() => ({
+                    total: document.querySelectorAll('.grid-target > *').length,
+                    montres: [...document.querySelectorAll('.grid-target > *')].filter((e) => e.offsetParent).map((e) => e.getAttribute('href')),
+                    pager: (document.querySelector('.ecran-pager[data-actif] span') || {}).textContent || '',
+                    page: document.documentElement.scrollHeight - window.innerHeight
+                }));
+                const avant = await lire();
+                if (avant.montres.length >= avant.total) throw new Error('tout tient : la fenetre du test est trop haute');
+                if (!/^1 \/ \d+$/.test(avant.pager)) throw new Error('pagination absente : "' + avant.pager + '"');
+                if (avant.page > 0) throw new Error('la page depasse de ' + avant.page + ' px');
+                await page.click('.ecran-pager button[data-pas="1"]');
+                const apres = await lire();
+                if (!/^2 \/ \d+$/.test(apres.pager)) throw new Error('la page 2 ne s affiche pas : "' + apres.pager + '"');
+                if (apres.montres.some((h) => avant.montres.includes(h))) throw new Error('la page 2 repete la page 1');
+                // Un filtre repart de la premiere page et ne garde que sa categorie.
+                await page.click('.filter-btn[data-filter="marketing"]');
+                const filtre = await lire();
+                if (filtre.montres.length !== 2) throw new Error('filtre marketing : ' + filtre.montres.length + ' outils au lieu de 2');
+                if (filtre.pager) throw new Error('la pagination reste affichee pour 2 outils');
             } finally {
                 await page.setViewport({ width: 1440, height: 900 });
             }

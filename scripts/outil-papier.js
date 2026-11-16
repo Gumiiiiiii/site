@@ -126,6 +126,19 @@
         + '.pal-actions, .left-col .drop-zone'
     ));
 
+    // Sur une page qui tient dans l'ecran (styles/ecran.css), rien ne
+    // defile : attendre qu'un element entre dans la fenetre n'a plus de
+    // sens, et celui qui touche le bord du bas, le bouton d'action par
+    // exemple, restait sous le seuil de l'observateur, donc transparent
+    // pour de bon. Tout entre donc d'un seul souffle, de haut en bas.
+    if (document.body.classList.contains('ecran') &&
+        window.matchMedia('(min-width: 1100px) and (min-height: 600px)').matches) {
+        attente
+            .sort(function (a, b) { return a.getBoundingClientRect().top - b.getBoundingClientRect().top; })
+            .forEach(function (element, i) { reveler(element, Math.min(i, RANG_MAX) * PAS); });
+        return;
+    }
+
     var observateur = new IntersectionObserver(function (entrees) {
         // Ceux qui entrent dans le meme souffle se suivent de haut en bas ;
         // celui qui entre seul n'attend personne.
