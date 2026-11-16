@@ -190,7 +190,7 @@ const CHECKS = [
                             if (d[p + 2] - Math.min(d[p], d[p + 1]) > 18) colores += 1;
                             // Les lumieres sont des points blancs : sur le papier clair ils
                             // restent discrets meme opaques, seule l encre sombre compte ici.
-                            const blanc = d[p] > 240 && d[p + 1] > 240 && d[p + 2] > 240;
+                            const blanc = d[p] > 170 && d[p + 1] > 170 && d[p + 2] > 170;
                             if (d[p + 3] > 70 && !blanc) fort += 1;
                         }
                         const barre = getComputedStyle(document.querySelector('.navbar'));
