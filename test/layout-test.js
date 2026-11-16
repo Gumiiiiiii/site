@@ -206,24 +206,32 @@ const CHECKS = [
         }
     },
     {
-        // Le titre d un article se lit en entier : aucune coupe, aucun
-        // points de suspension, jusqu au portable le plus bas.
-        name: 'accueil: les titres des experimentations sont entiers',
+        // Le titre d un article se lit en entier, sur deux lignes au plus :
+        // aucune coupe, aucun points de suspension, dans les deux langues et
+        // jusqu au portable le plus bas.
+        name: 'accueil: les titres des experimentations sont entiers, sur deux lignes',
         async run(page) {
             try {
-                for (const [width, height] of [[1366, 650], [1440, 780], [1100, 600]]) {
+                for (const [width, height] of [[1366, 650], [1440, 780], [1100, 600], [1920, 945]]) {
                     await page.setViewport({ width, height });
-                    await sansMouvement(page, async () => {
-                        await page.goto(BASE + '/', { waitUntil: 'networkidle0' });
-                        const coupes = await page.evaluate(() => [...document.querySelectorAll('.exp-titre')]
-                            .filter((t) => {
-                                const r = t.getBoundingClientRect();
-                                return t.scrollHeight > t.clientHeight + 1 || t.scrollWidth > t.clientWidth + 1 || r.bottom > innerHeight || r.height < 10;
-                            }).map((t) => t.textContent.slice(0, 30)));
-                        if (coupes.length) throw new Error(width + 'x' + height + ' : titres coupes : ' + coupes.join(' | '));
-                    });
+                    for (const chemin of ['/', '/en/']) {
+                        await sansMouvement(page, async () => {
+                            await page.goto(BASE + chemin, { waitUntil: 'networkidle0' });
+                            const fautes = await page.evaluate(() => [...document.querySelectorAll('.exp-titre')]
+                                .map((t) => {
+                                    const r = t.getBoundingClientRect();
+                                    const lignes = Math.round(r.height / parseFloat(getComputedStyle(t).lineHeight));
+                                    const coupe = t.scrollHeight > t.clientHeight + 1 || t.scrollWidth > t.clientWidth + 1 || r.bottom > innerHeight || r.height < 10;
+                                    return (coupe ? 'coupe' : lignes > 2 ? lignes + ' lignes' : '') + ' : ' + t.textContent.slice(0, 28);
+                                }).filter((x) => x[0] !== ' '));
+                            if (fautes.length) throw new Error(chemin + ' en ' + width + 'x' + height + ' : ' + fautes.join(' | '));
+                        });
+                    }
                 }
             } finally {
+                // La visite de /en/ laisse la langue en memoire dans l onglet,
+                // qui est partage : on la rend comme on l a trouvee.
+                await page.evaluate(() => { try { localStorage.removeItem('site-lang'); } catch (e) {} });
                 await page.setViewport({ width: 1440, height: 900 });
             }
         }

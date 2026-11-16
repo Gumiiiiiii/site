@@ -12,6 +12,13 @@
 // points. Le pont n'est donc jamais un aplat ni une image : c'est le
 // réseau du champ (scripts/points-champ.js, à demi-pas) qui le porte.
 //
+// Le reste de la page appartient au même paysage. Le champ de points du
+// site a une bande dense en haut et une en bas ; ici elles deviennent ce
+// qu'elles sont dans le tableau. En haut, le ciel : il se charge en
+// montant, et s'éclaircit du côté du soleil. En bas, la rivière : le pont
+// y a les pieds, il s'y reflète, et l'eau ride le reflet. Sur l'accueil,
+// la trame remplace donc le champ, elle ne se pose pas dessus.
+//
 // Trois règles le tiennent :
 //   · une seule encre, en gris : la couleur du site est réservée à ce qui
 //     se clique ;
@@ -48,6 +55,7 @@
     var NAISS_2 = 0.63;
     var HAUT_2 = 0.92;             // dessus du rang du haut, le canal
     var EP_2 = 0.16;
+    var EAU = -0.62;               // le niveau de la rivière
 
     // Le soleil : haut, un peu à gauche, du côté de l'œil. La façade est
     // en pleine lumière, le dessous des voûtes et le flanc des piles dans
@@ -140,6 +148,53 @@
     // Le tracé
     // ------------------------------------------------------------------
 
+    // La marche d'un rayon : il avance de la distance qui le sépare de la
+    // pierre, jusqu'à la toucher ou sortir de la portée. Le résultat est
+    // laissé dans M (s : chemin parcouru ; x, y, z : point touché ;
+    // proche : plus petite distance croisée).
+    var M = { s: 0, x: 0, y: 0, z: 0, proche: 1 };
+    function marcher(ox, oy, oz, dx, dy, dz, depuis, jusque) {
+        var s = depuis, proche = 1, px = 0, py = 0, pz = 0;
+        for (var n = 0; n < 56; n++) {
+            px = ox + dx * s; py = oy + dy * s; pz = oz + dz * s;
+            var d = distance(px, py, pz);
+            if (d < proche) proche = d;
+            if (d < 0.004 * (s > 1 ? s : 1)) {
+                M.s = s; M.x = px; M.y = py; M.z = pz; M.proche = proche;
+                return true;
+            }
+            s += d * 0.92;
+            if (s > jusque) break;
+        }
+        M.s = s; M.proche = proche;
+        return false;
+    }
+
+    // La clarté de la pierre au point touché, de 0 (ombre) à 1 (soleil).
+    // La pente de la surface, par différences, donne sa normale.
+    function clarte(px, py, pz) {
+        var h = 0.004;
+        var nx = distance(px + h, py, pz) - distance(px - h, py, pz);
+        var ny = distance(px, py + h, pz) - distance(px, py - h, pz);
+        var nz = distance(px, py, pz + h) - distance(px, py, pz - h);
+        var nn = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
+        var eclat = (nx * LUM[0] + ny * LUM[1] + nz * LUM[2]) / nn;
+        return 0.10 + 0.90 * (eclat < 0 ? 0 : eclat);
+    }
+
+    // En clair, l'encre est sombre : elle dessine les ombres. En sombre,
+    // elle est claire : elle dessine les lumières.
+    function tonPierre(clair) {
+        return sombre ? 0.16 + 0.84 * clair : 0.24 + 0.76 * (1 - clair);
+    }
+
+    // L'air : plus une chose est loin, plus ses points s'amenuisent,
+    // jusqu'à rejoindre le papier.
+    function air(s) {
+        var a = 1 - (s - 2.6) / 10.5;
+        return a <= 0 ? 0 : (a >= 1 ? 1 : a * a);
+    }
+
     function tracer(maintenant) {
         boucle = 0;
         if (!SEUIL.matches || !ctx) return;
@@ -169,6 +224,7 @@
         // taille d'un écran à l'autre, et un écran large en voit plus long.
         var focale = hauteur * 1.08;
         var cx = largeur * 0.60, cy = hauteur * 0.54;
+        var PORTEE = 15;
 
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.clearRect(0, 0, largeur, hauteur);
@@ -181,42 +237,43 @@
             var dn = Math.sqrt(dx * dx + dy * dy + dz * dz);
             dx /= dn; dy /= dn; dz /= dn;
 
-            // La marche. Au-delà de la portée, le pont s'est fondu dans l'air.
-            var s = 1.2, touche = false, proche = 1, px = 0, py = 0, pz = 0;
-            for (var n = 0; n < 56; n++) {
-                px = ex + dx * s; py = ey + dy * s; pz = ez + dz * s;
-                var d = distance(px, py, pz);
-                if (d < proche) proche = d;
-                if (d < 0.004 * s) { touche = true; break; }
-                s += d * 0.92;
-                if (s > 15) break;
+            // Où ce rayon rencontrerait l'eau, s'il descend.
+            var sEau = dy < -0.002 ? (EAU - ey) / dy : 1e9;
+            var ton = 0;
+
+            if (marcher(ex, ey, ez, dx, dy, dz, 1.2, sEau < PORTEE ? sEau : PORTEE)) {
+                // La pierre.
+                ton = tonPierre(clarte(M.x, M.y, M.z)) * air(M.s);
+            } else if (sEau < PORTEE) {
+                // La rivière. Des rides lentes courent à sa surface : elles
+                // se lisent seules, en lignes de points, et elles
+                // dévient le reflet.
+                var wx = ex + dx * sEau, wz = ez + dz * sEau;
+                var ride = Math.sin(wz * 12 + Math.sin(wx * 3.2 + t * 0.5) * 1.5 + t * 0.6);
+                ton = 0.035 + 0.05 * (ride * 0.5 + 0.5);
+                // Le reflet : le même rayon, renvoyé vers le haut.
+                if (marcher(wx, EAU, wz, dx + 0.03 * ride, -dy, dz, 0.03, PORTEE - sEau)) {
+                    ton += tonPierre(clarte(M.x, M.y, M.z)) * 0.5 * air(sEau + M.s);
+                }
+                ton *= air(sEau);
+            } else {
+                // Le ciel : il se charge en montant vers le zénith. Du côté
+                // du soleil, en haut à gauche, il reste clair.
+                var haut = dy / 0.42;
+                if (haut > 0) {
+                    if (haut > 1) haut = 1;
+                    var sx = a + 0.95, sy = b - 0.5;
+                    var soleil = 1 - Math.sqrt(sx * sx + sy * sy) / 1.7;
+                    if (soleil < 0) soleil = 0;
+                    ton = 0.16 * haut * Math.sqrt(haut) * (0.3 + 0.7 * (sombre ? soleil : 1 - soleil));
+                }
+                // L'arête de la pierre s'achève en quelques points plus petits.
+                if (M.proche < 0.03 && M.s <= PORTEE) {
+                    var arete = (1 - M.proche / 0.03) * 0.2 * air(M.s);
+                    if (arete > ton) ton = arete;
+                }
             }
 
-            var ton;
-            if (touche) {
-                // La pente de la surface, par différences, donne sa normale.
-                var h = 0.004;
-                var nx = distance(px + h, py, pz) - distance(px - h, py, pz);
-                var ny = distance(px, py + h, pz) - distance(px, py - h, pz);
-                var nz = distance(px, py, pz + h) - distance(px, py, pz - h);
-                var nn = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
-                var eclat = (nx * LUM[0] + ny * LUM[1] + nz * LUM[2]) / nn;
-                if (eclat < 0) eclat = 0;
-                var clair = 0.10 + 0.90 * eclat;
-                // En clair, l'encre est sombre : elle dessine les ombres.
-                // En sombre, elle est claire : elle dessine les lumières.
-                ton = sombre ? 0.16 + 0.84 * clair : 0.24 + 0.76 * (1 - clair);
-            } else if (proche < 0.03 && s <= 15) {
-                // L'arête s'achève en quelques points plus petits.
-                ton = (1 - proche / 0.03) * 0.2;
-            } else {
-                continue;
-            }
-            // L'air : plus la pierre est loin, plus ses points s'amenuisent,
-            // jusqu'à rejoindre le papier.
-            var air = 1 - (s - 2.6) / 10.5;
-            if (air <= 0) continue;
-            if (air < 1) ton *= air * air;
             if (ton < 0.015) continue;
             // La loi du halftone : c'est l'aire du point qui suit le ton.
             var rayon = RAYON_MAX * Math.sqrt(ton > 1 ? 1 : ton);
@@ -225,7 +282,7 @@
         }
         ctx.fill();
 
-        // En mouvement réduit, le pont est une image fixe.
+        // En mouvement réduit, le paysage est une image fixe.
         if (!CALME.matches) reveiller();
     }
 

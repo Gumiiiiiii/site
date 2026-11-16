@@ -111,6 +111,9 @@
         var hauteur = champ.offsetHeight;
         dernL = largeur;
         dernH = hauteur;
+        // Un champ masqué (l'accueil sur ordinateur, où la trame dessine
+        // tout le fond) n'a pas de hauteur : il n'y a rien à tracer.
+        if (!largeur || !hauteur) { champ.innerHTML = ''; return; }
         var svg = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">' +
             '<g fill="currentColor" opacity="' + ENCRE + '">';
 
