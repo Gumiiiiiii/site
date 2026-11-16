@@ -55,13 +55,18 @@
         encre = 'rgba(' + rgb + ', ' + (sombre ? 0.15 : 0.12) + ')';
     }
 
-    // La crête, relevée sur le tableau : [part de la largeur, hauteur de 0
-    // à 1]. Le sommet est vers 0,45.
+    // La crête, relevée sur une photo prise du sud : à l'ouest une longue
+    // pente douce, puis la face qui se redresse ; en haut un faîte presque
+    // plat mais accidenté, jusqu'au pic de la Croix (u = 0,639) ; à l'est un
+    // second palier, puis la chute raide. [part de la largeur, hauteur 0 à 1]
     var CRETE = [
-        [0.00, 0.30], [0.08, 0.38], [0.18, 0.50], [0.28, 0.64], [0.36, 0.80],
-        [0.41, 0.93], [0.45, 1.00], [0.52, 1.00], [0.56, 0.96], [0.60, 0.84],
-        [0.66, 0.64], [0.70, 0.55], [0.73, 0.54], [0.78, 0.46], [0.86, 0.40],
-        [0.94, 0.38], [1.00, 0.40]
+        [0.000, 0.300], [0.070, 0.420], [0.150, 0.587], [0.201, 0.651], [0.261, 0.689],
+        [0.320, 0.753], [0.362, 0.791], [0.396, 0.821], [0.405, 0.842], [0.430, 0.880],
+        [0.473, 0.906], [0.507, 0.944], [0.532, 0.982], [0.558, 0.964], [0.592, 0.974],
+        [0.626, 0.990], [0.639, 1.000], [0.660, 0.931], [0.677, 0.893], [0.703, 0.885],
+        [0.728, 0.855], [0.745, 0.829], [0.779, 0.829], [0.822, 0.821], [0.847, 0.778],
+        [0.864, 0.663], [0.890, 0.548], [0.915, 0.472], [0.941, 0.421], [0.958, 0.383],
+        [0.975, 0.306], [1.000, 0.230]
     ];
     function profil(u) {
         if (u <= 0) return CRETE[0][1];
@@ -70,7 +75,7 @@
             if (u <= CRETE[k][0]) {
                 var a = CRETE[k - 1], b = CRETE[k];
                 var t = (u - a[0]) / (b[0] - a[0]);
-                t = t * t * (3 - 2 * t);           // des épaules arrondies, pas des angles
+                t = 0.5 * t + 0.5 * t * t * (3 - 2 * t);   // à peine adouci : le calcaire garde ses ressauts
                 return a[1] + (b[1] - a[1]) * t + 0.006 * Math.sin(u * 230);
             }
         }
@@ -112,10 +117,10 @@
         // La scène : l'horizon sous le milieu, le point de fuite au centre
         // de l'espace libre, la montagne posée sur l'horizon.
         var hy = hauteur * 0.5, vx = largeur * 0.56;
-        var mg = -largeur * 0.06, ml = largeur * 1.12;   // la montagne : bord gauche, largeur
+        var mg = -largeur * 0.24, ml = largeur * 1.1;    // la montagne : bord gauche, largeur
         var mh = hauteur * 0.36;                          // sa hauteur au sommet
         var pied = hy - hauteur * 0.07;                   // où elle disparaît derrière les collines
-        var sx = mg + ml * 0.485, sy = pied - mh;         // le sommet
+        var sx = mg + ml * 0.639, sy = pied - mh;         // le sommet
         var bas = hauteur - hy;
 
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -173,13 +178,15 @@
                 // La face. Son ombre vient de la pente de la crête au-dessus :
                 // là où la crête descend vers l'est, le versant tourne le dos
                 // au soleil.
-                var pente = (profil(u + 0.012) - profil(u - 0.012)) / 0.024;
+                // La pente est prise large : une ombre qui suivrait chaque ressaut
+                // de la crête tomberait en colonnes droites.
+                var pente = (profil(u + 0.05) - profil(u - 0.05)) / 0.1;
                 var ombre = lisse(-0.2, -1.6, pente);               // 0 au soleil, 1 à l'ombre
                 // L'ombre suit le versant en descendant : sous le sommet, le
                 // partage entre les deux côtés penche vers l'est.
                 var prof = (y - sommet) / Math.max(1, pied - sommet);
-                var partage = sx + (y - sy) * 0.55;
-                ombre = Math.max(ombre * (1 - 0.4 * prof), lisse(-20, 60, x - partage) * 0.75);
+                var partage = sx + (y - sy) * 0.9;
+                ombre = Math.max(ombre * (1 - 0.7 * prof), lisse(-90, 150, x - partage) * 0.7);
                 // Les touches : orientées comme les plans, plus serrées en
                 // haut, où la roche est nue.
                 var pinceau = touche(x, y, ombre > 0.4 ? 0.55 : -0.45, 30 + 30 * prof, 11);
