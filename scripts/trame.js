@@ -24,8 +24,8 @@
 //     se clique ;
 //   · une encre légère, pour que le texte se lise par-dessus sans qu'on
 //     ait à découper le fond derrière lui ;
-//   · un mouvement lent : on longe le pont au pas, et le curseur déplace
-//     à peine le regard.
+//   · un mouvement lent : on longe le pont au pas. Le curseur n'y change
+//     rien, le regard ne bouge pas avec lui.
 //
 // Le calcul : pour chaque point du réseau, un rayon part de l'œil et
 // avance jusqu'à toucher la pierre (marche par distance). Au point touché,
@@ -70,7 +70,6 @@
     var xs, ys;                    // les points du réseau
     var encre = 'rgba(26, 26, 26, 0.12)', sombre = false;
     var boucle = 0, dernier = 0;
-    var souris = { x: 0.5, y: 0.5, cx: 0.5, cy: 0.5 };
 
     // ------------------------------------------------------------------
     // Le réseau
@@ -201,15 +200,13 @@
         if (maintenant - dernier < CADENCE) { reveiller(); return; }
         dernier = maintenant;
 
-        souris.cx += (souris.x - souris.cx) * 0.05;
-        souris.cy += (souris.y - souris.cy) * 0.05;
         var t = CALME.matches ? 0 : maintenant / 1000;
 
         // L'œil : devant le pont, à droite, tourné vers la gauche le long
         // de l'ouvrage. Il avance lentement ; le pont étant le même à
         // chaque travée, la marche ne finit jamais.
-        var ex = t * 0.035 + (souris.cx - 0.5) * 0.35;
-        var ey = 0.02 - (souris.cy - 0.5) * 0.14;
+        var ex = t * 0.035;
+        var ey = 0.02;
         var ez = -3.3;
         // La direction du regard, puis la droite et le haut de l'image.
         var fx = -0.66, fy = 0.06, fz = 1.0;
@@ -290,12 +287,6 @@
         if (!boucle && ctx && SEUIL.matches && !document.hidden) boucle = requestAnimationFrame(tracer);
     }
     document.addEventListener('visibilitychange', reveiller);
-
-    window.addEventListener('pointermove', function (e) {
-        if (e.pointerType === 'touch') return;
-        souris.x = e.clientX / (largeur || 1);
-        souris.y = e.clientY / (hauteur || 1);
-    }, { passive: true });
 
     // ------------------------------------------------------------------
     // La mise en route
