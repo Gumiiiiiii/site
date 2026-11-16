@@ -4,8 +4,8 @@
 // logo) and redrawn as dots on the site's staggered grid: each dot's area
 // follows how much of the letter covers its cell, times a soft fade from
 // the bottom left (full) to the top right (lighter), so it reads as a
-// printed halftone and not as a pixelated letter. The full stop stays one
-// solid dot: in a logo made of dots, it is the one that is whole.
+// printed halftone and not as a pixelated letter. The full stop of the
+// former logo is left out: the identity is the G alone.
 //
 // Usage: node build/logo-trame.js   (needs a local Chrome or Edge)
 const fs = require('fs');
@@ -69,9 +69,8 @@ const COULEUR = '#9C77F5';
             cercles.push('<circle cx="' + x.toFixed(0) + '" cy="' + y.toFixed(0) + '" r="' + r.toFixed(1) + '"/>');
         }
     }
-    cercles.push('<circle cx="1155" cy="1032" r="146"/>');
 
-    const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 70 1370 1140" fill="' + COULEUR + '">'
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 70 1110 1140" fill="' + COULEUR + '">'
         + '<title>Gumi</title>' + cercles.join('') + '</svg>\n';
     fs.writeFileSync(path.join(ROOT, 'media/logo-trame.svg'), svg);
     console.log('media/logo-trame.svg: ' + cercles.length + ' dots, ' + svg.length + ' bytes');

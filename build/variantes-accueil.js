@@ -25,31 +25,17 @@ function page(nom, css, titre, corps, js) {
     console.log('wrote ' + nom + ' (' + titre + ')');
 }
 
-// ---- B : la lavande
-const phraseB = phrase.replace('class="hero-text accueil-phrase"', 'class="hero-text lav-phrase"');
-page('accueil-b.html', 'accueil-b.css', 'lavande', `<body id="top" class="ecran accueil-b">
-    <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
-    <div class="points-champ" aria-hidden="true"></div>
-    <canvas class="lavande" id="lavande" aria-hidden="true"></canvas>
-
-    <nav class="navbar" data-navbar-root></nav>
-
-    <!-- Variante B de l'accueil, générée depuis index.html : ne pas
-         l'éditer à la main. -->
-    <main class="lav" id="main">
-${phraseB}
-
-        <section class="bloc exps lav-exps" aria-labelledby="exps-titre">
-${expsTete}
-${expsOl}
-        </section>
-
-        <section class="bloc lav-outils" aria-labelledby="outils-titre">
-${outilsTete}
-${outils}
-        </section>
-    </main>
-`, '    <script src="scripts/points-champ.js"></script>\n    <script src="scripts/lavande.js"></script>\n');
+// ---- B : la mise en page de A, sur le fond de la Sainte-Victoire. Seul le
+// fond change : la page est celle de l'accueil, mot pour mot.
+{
+    let b = src.replace('<canvas class="trame" id="trame" aria-hidden="true"></canvas>', '<canvas class="trame" id="lavande" aria-hidden="true"></canvas>')
+        .replace('<script src="scripts/trame.js"></script>', '<script src="scripts/lavande.js"></script>')
+        .replace('<meta name="viewport"', '<meta name="robots" content="noindex">\n    <meta name="viewport"')
+        .replace('<main class="accueil" id="main">', '<!-- Variante B de l\'accueil, générée depuis index.html : ne pas\n         l\'éditer à la main. -->\n    <main class="accueil" id="main">');
+    if (!b.includes('scripts/lavande.js') || !b.includes('id="lavande"')) throw new Error('B swap');
+    fs.writeFileSync('accueil-b.html', b);
+    console.log('wrote accueil-b.html (A + lavande)');
+}
 
 // ---- C : la fenêtre
 const phraseC = phrase.replace('class="hero-text accueil-phrase"', 'class="hero-text fen-phrase"');

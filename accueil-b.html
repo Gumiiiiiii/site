@@ -34,7 +34,6 @@
     <link rel="stylesheet" href="styles/outil-papier.css">
     <link rel="stylesheet" href="styles/ecran.css">
     <link rel="stylesheet" href="styles/accueil.css">
-    <link rel="stylesheet" href="styles/accueil-b.css">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -58,21 +57,26 @@
     }
     </script>
 </head>
-<body id="top" class="ecran accueil-b">
+<body id="top" class="ecran accueil-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
     <div class="points-champ" aria-hidden="true"></div>
-    <canvas class="lavande" id="lavande" aria-hidden="true"></canvas>
+    <canvas class="trame" id="lavande" aria-hidden="true"></canvas>
 
     <nav class="navbar" data-navbar-root></nav>
 
+    <!-- Tout le site tient ici. Pour ajouter un outil ou un article : une
+         ligne de plus dans la liste correspondante, numérotée à la suite
+         (un article récent se place en tête), et le compte de la rubrique
+         à mettre à jour. Le fond est un pont-aqueduc dessiné en points
+         (scripts/trame.js). -->
     <!-- Variante B de l'accueil, générée depuis index.html : ne pas
          l'éditer à la main. -->
-    <main class="lav" id="main">
-        <h1 class="hero-text lav-phrase" id="hero-text" data-i18n="home_hero">
+    <main class="accueil" id="main">
+        <h1 class="hero-text accueil-phrase" id="hero-text" data-i18n="home_hero">
             Je rassemble ici des outils et des expérimentations conçus par curiosité, pour donner vie à des idées et explorer de nouvelles directions.
         </h1>
 
-        <section class="bloc exps lav-exps" aria-labelledby="exps-titre">
+        <section class="bloc exps" aria-labelledby="exps-titre">
             <header class="bloc-tete">
                 <h2 id="exps-titre" data-i18n="home_exp_title">Mes expérimentations</h2>
             </header>
@@ -98,7 +102,7 @@
             </ol>
         </section>
 
-        <section class="bloc lav-outils" aria-labelledby="outils-titre">
+        <section class="bloc outils" aria-labelledby="outils-titre">
             <header class="bloc-tete">
                 <h2 id="outils-titre" data-i18n="home_tools_title">Mes outils</h2>
                 <span class="bloc-compte" aria-hidden="true">11</span>
@@ -257,5 +261,11 @@
     </script>
     <script src="scripts/points-champ.js"></script>
     <script src="scripts/lavande.js"></script>
+    <script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

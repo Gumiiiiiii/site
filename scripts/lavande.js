@@ -106,7 +106,7 @@
             var u = (x - mg) / ml;
             var sommet = pied - mh * profil(u);
             // La garrigue : une bande sombre et irrégulière au pied du mont.
-            var garrigue = hy - hauteur * (0.028 + 0.01 * Math.sin(x * 0.03) + 0.006 * Math.sin(x * 0.11));
+            var garrigue = hy - hauteur * (0.03 + 0.014 * Math.sin(x * 0.021 + 0.7) + 0.009 * Math.sin(x * 0.067) + 0.005 * Math.sin(x * 0.19));
 
             // Les cyprès : une flamme étroite, plus large au tiers du bas.
             var cypres = 0;
@@ -121,7 +121,10 @@
             if (cypres) {
                 ton = cypres;
             } else if (y >= garrigue && y < hy) {
-                ton = 0.3 + 0.1 * Math.sin(x * 0.07 + y * 0.2);
+                // La garrigue : plus claire à sa lisière, où elle se mêle
+                // au pied de la montagne.
+                var lisiere = lisse(0, hauteur * 0.022, y - garrigue);
+                ton = (0.16 + 0.12 * lisiere) + 0.08 * Math.sin(x * 0.07 + y * 0.2);
             } else if (y >= sommet && y < garrigue && u > -0.05 && u < 1) {
                 // La face. Le calcaire est clair : l'encre ne se pose que
                 // dans les ravines, qui descendent presque droit et
@@ -133,8 +136,11 @@
                 r2 *= 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(x * 0.023 + 1.1));
                 var banc = Math.sin(y * 0.09 - x * 0.012) > 0.86 ? 0.12 : 0;
                 // Le bas de la face, boisé, s'assombrit vers la garrigue.
-                var boise = lisse(0.62, 1.0, prof) * 0.26;
-                ton = 0.1 + r2 * (0.26 + 0.2 * prof) + banc * (1 - prof) + boise;
+                var boise = lisse(0.6, 1.0, prof) * 0.14;
+                // Le pied se perd dans une brume : les ravines s'effacent et
+                // le ton se pose sur celui de la garrigue.
+                var brume = lisse(0.72, 1.0, prof);
+                ton = (0.1 + r2 * (0.26 + 0.2 * prof) + banc * (1 - prof)) * (1 - 0.75 * brume) + boise;
                 // L'arête se lit par une ligne de points un peu plus forts.
                 if (y - sommet < 9) ton = Math.max(ton, 0.42);
             } else if (y < hy) {
@@ -153,13 +159,20 @@
                 var crete = 1 - Math.abs(f - 0.5) * 2;        // 1 au milieu du rang
                 var touffe = 0.75 + 0.25 * Math.cos(prof * 2.6 + Math.floor(u) * 1.7);
                 var rang = crete > 0.45 ? touffe : 0;
-                // Près de l'horizon, les rangs sont plus fins qu'un point :
-                // on passe à leur ton moyen pour éviter le moiré.
-                var finesse = lisse(0.02, 0.16, p);
-                ton = (0.2 + (rang * 0.7 - 0.2) * finesse) * (0.6 + 0.4 * p) * (1 - 0.25 * lisse(0.55, 1, p));
+                // Près de l'horizon, le champ a le ton de la garrigue, sans
+                // rangs : ils y seraient plus fins qu'un point. En
+                // descendant, le rang fonce et l'entre-rang s'éclaircit, l'un
+                // et l'autre progressivement, si bien que les rangs sortent
+                // du ton commun au lieu de commencer sur une ligne.
+                var sortie = lisse(0.02, 0.7, p);
+                var plein = 0.22 + (0.52 * rang - 0.22) * sortie;   // le rang
+                var vide = 0.22 * (1 - sortie);                     // l'entre-rang
+                ton = (rang > 0 ? plein : vide) * (1 - 0.22 * lisse(0.6, 1, p));
             }
 
-            if (ton < 0.02) continue;
+            // Un seuil bas : les points s'éteignent en rétrécissant, pas d'un coup
+            // sur une même rangée, ce qui y tracerait une ligne.
+            if (ton < 0.003) continue;
             var r = RAYON_MAX * Math.sqrt(ton > 1 ? 1 : ton);
             ctx.moveTo(x + r, y);
             ctx.arc(x, y, r, 0, 6.2832);
