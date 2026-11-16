@@ -188,7 +188,10 @@ const CHECKS = [
                             pleins += 1;
                             // L encre du site est un gris chaud : on cherche le violet, donc un bleu qui domine.
                             if (d[p + 2] - Math.min(d[p], d[p + 1]) > 18) colores += 1;
-                            if (d[p + 3] > 70) fort += 1;
+                            // Les lumieres sont des points blancs : sur le papier clair ils
+                            // restent discrets meme opaques, seule l encre sombre compte ici.
+                            const blanc = d[p] > 240 && d[p + 1] > 240 && d[p + 2] > 240;
+                            if (d[p + 3] > 70 && !blanc) fort += 1;
                         }
                         const barre = getComputedStyle(document.querySelector('.navbar'));
                         return { part: pleins / (d.length / 16), colores, fort, fondBarre: barre.backgroundColor, filtre: barre.backdropFilter };
