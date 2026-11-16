@@ -14,8 +14,9 @@
 //     lise d'un coup : au loin une ligne de collines claires, unies ;
 //     devant, une haie d'arbres sombre, au faîte festonné, qui borde le
 //     champ ;
-//   · au bord du champ, les ruines d'un mas : un pignon resté debout, un
-//     mur qui s'écroule, un muret ;
+//   · au premier plan, dans le champ, un pan de mur en ruine : un angle
+//     resté haut, percé d'une fenêtre en arc, et le mur qui s'écroule en
+//     gradins ;
 //   · quelques cyprès ;
 //   · les rangs de lavande, qui filent vers un point de fuite et que le
 //     vent fait onduler, lentement.
@@ -115,36 +116,33 @@
     // côté à l'ombre : c'est ce modelé qui les fait lire comme des collines.
     var COLLINES = [[0.33, 0.30, 0.17], [0.83, 0.27, 0.15], [0.04, 0.2, 0.135], [0.58, 0.2, 0.11], [1.0, 0.16, 0.12]];
 
-    // Les ruines d'un mas, au bord du champ. X court vers la droite, Y vers
-    // le haut, dans une unité qui vaut un peu plus d'un point de la trame.
-    // Renvoie 0 hors des pierres, 1 pour le pignon (au soleil), 2 pour le
-    // mur de côté et le muret (à l'ombre), 3 pour la fenêtre, 4 pour la
-    // porte ; hautRuine reçoit la hauteur du mur à cet endroit.
+    // La ruine du premier plan : un pan de mur planté dans le champ, qui
+    // monte du bas de l'écran. X court vers la droite, Y vers le haut, dans
+    // une unité qui vaut environ deux points et demi de la trame. Renvoie 0
+    // hors des pierres, 1 pour la tranche du mur (au soleil), 2 pour sa face
+    // (à l'ombre), 3 pour la fenêtre ; hautRuine reçoit la hauteur du mur à
+    // cet endroit.
     var hautRuine = 0;
     function ruine(X, Y) {
-        if (X < 0 || X > 24.5 || Y < 0) return 0;
-        var h, face;
-        if (X <= 7) {
-            // Le pignon : sa pointe tient encore, son épaule droite est tombée.
-            h = 7 + 3.5 * (1 - Math.abs(X - 3.5) / 3.5);
-            if (X > 4.6) h = Math.min(h, 6.6 - Math.floor((X - 4.6) / 0.8) * 0.9);
-            face = 1;
-        } else if (X <= 17.5) {
-            // Le mur de côté descend en gradins inégaux.
-            h = 5.6 - Math.floor((X - 7) / 2.2) + 0.7 * hasard(Math.floor(X / 1.1), 3);
-            if (h < 1.2) h = 1.2;
-            face = 2;
-        } else if (X >= 19.5) {
-            h = 1.3 + 0.9 * hasard(Math.floor(X / 1.2), 5);     // le muret, plus loin
-            face = 2;
+        if (X < 0 || X > 11 || Y < 0) return 0;
+        var h;
+        if (X < 4.5) {
+            // L'angle resté debout, au faîte ébréché.
+            h = 10 + 0.8 * hasard(Math.floor(X / 0.6), 3) - (X < 0.7 ? 1.4 : 0);
         } else {
-            return 0;
+            // Le mur s'écroule vers la droite, en gradins inégaux.
+            h = 7 - Math.floor((X - 4.5) / 1.3) * 1.1 + 0.6 * hasard(Math.floor(X / 0.65), 4);
+            if (h < 1) h = 1;
         }
         if (Y > h) return 0;
         hautRuine = h;
-        if (face === 1 && X > 2.7 && X < 4.3 && Y > 4.2 && Y < 6.4) return 3;
-        if (face === 2 && X > 9.6 && X < 11.2 && Y < 3.3) return 4;
-        return face;
+        // La fenêtre : un jour droit sous un arc en plein cintre.
+        var fx = X - 2.4;
+        if (fx > -0.85 && fx < 0.85) {
+            if (Y > 4.8 && Y <= 7.4) return 3;
+            if (Y > 7.4 && fx * fx + (Y - 7.4) * (Y - 7.4) < 0.72) return 3;
+        }
+        return X < 0.55 ? 1 : 2;
     }
 
     // Les cyprès : [part de la largeur de l'écran, hauteur en part de l'écran].
@@ -222,10 +220,6 @@
             // La haie n'est pas un mur droit : elle monte en bosquets, retombe
             // presque à ras du champ, et son faîte reste festonné.
             var bosquet = 0.3 + 0.7 * lisse(-0.5, 0.6, Math.sin(x * 0.0037 + 0.6) + 0.55 * Math.sin(x * 0.0091 + 2.2));
-            // Derrière les ruines, la haie s'abaisse : elles se découpent
-            // sur les collines claires.
-            var presRuine = (x - largeur * 0.53) / (hauteur * 0.016);
-            bosquet *= 1 - 0.8 * lisse(-7, -2, presRuine) * (1 - lisse(26, 31, presRuine));
             var col2 = hy - hauteur * bosquet * (0.04 + 0.018 * Math.sin(x * 0.0061 + 3.3) + 0.024 * Math.abs(Math.sin(x * 0.047)) + 0.012 * Math.abs(Math.sin(x * 0.113 + 1.3)));
 
             // Les cyprès : une flamme étroite, plus large au tiers du bas.
@@ -238,19 +232,19 @@
                 if (Math.abs(x - cxp) < demiL) cypres = 0.85;
             }
 
-            // Les ruines, entre la phrase et les outils, là où le regard passe.
-            var pierre = hauteur * 0.016;
-            var mur = y < hy ? ruine((x - largeur * 0.53) / pierre, (hy - y) / pierre) : 0;
+            // La ruine, entre les expérimentations et les outils.
+            var pierre = hauteur * 0.03;
+            var mur = y > hy ? ruine((x - largeur * 0.555) / pierre, (hauteur - y) / pierre) : 0;
 
+            if (mur === 3) mur = 0;       // par la fenêtre, on voit le champ
             if (mur) {
-                var grain = touche(x, y, 0, 15, 9.5);
-                var faite = (hautRuine - (hy - y) / pierre) * pierre < 9.5;
-                // Des pierres sombres sur un fond clair : le pignon, au soleil,
-                // un cran plus clair que le mur à l'ombre. La fenêtre et la
-                // porte sont des jours, vides.
-                if (mur === 1) { ton = 0.5 + 0.12 * grain; if (faite) bord = 0.8; }
-                else if (mur === 2) { ton = 0.78 + 0.12 * grain; if (faite) bord = 0.95; }
-                else ton = 0.04;
+                // Les assises : des pierres longues, décalées d'un rang à
+                // l'autre, chacune avec son ton.
+                var grain = touche(x, y, 0, pierre * 1.5, pierre * 0.75);
+                var faite = (hautRuine - (hauteur - y) / pierre) * pierre < 9.5;
+                if (mur === 1) { ton = 0.28 + 0.14 * grain; eclat = 0.18; }
+                else ton = 0.66 + 0.26 * grain;
+                if (faite) bord = 0.95;
             } else if (cypres) {
                 ton = cypres;
             } else if (y >= col2 && y < hy) {
