@@ -120,8 +120,12 @@
         var a = hasard(i, j), b = hasard(i + 1, j), c = hasard(i, j + 1), d = hasard(i + 1, j + 1);
         return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
     }
+    // Les deux échelles ne vont pas à la même allure : le détail glisse sur
+    // la masse, si bien qu'un nuage change de forme en avançant.
+    var temps = 0;
     function nuage(x, y, seuil) {
-        var n = 0.65 * bruitLisse(x, y) + 0.35 * bruitLisse(x * 2.3 + 7.1, y * 2.3 + 3.4);
+        var n = 0.65 * bruitLisse(x, y + temps * 0.012)
+            + 0.35 * bruitLisse(x * 2.3 + 7.1 + temps * 0.05, y * 2.3 + 3.4 - temps * 0.035);
         n = (n - seuil) / 0.13;
         n = n < 0 ? 0 : n > 1 ? 1 : n;
         return n * n * (3 - 2 * n);
@@ -141,6 +145,7 @@
         if (e >= INTRO && maintenant - dernier < CADENCE) { reveiller(); return; }
         dernier = maintenant;
         var t = CALME.matches ? 0 : maintenant / 1000;
+        temps = t;
 
         // La scène : l'horizon sous le milieu, le point de fuite au centre
         // de l'espace libre, la montagne posée sur l'horizon.
@@ -184,16 +189,16 @@
                 var d2 = y - col2;
                 ton = 0.44 - 0.2 * lisse(0, hy - col2, d2);
                 // Son faîte : un trait plein, sur une rangée entière de points.
-                if (d2 < 9.5) bord = 0.62;
+                if (d2 < 9.5) bord = 0.48;
             } else if (y >= col1 && y < col2) {
                 // Les collines : un aplat clair, à peine plus dense vers le
                 // bas, sous une crête fine.
                 var d1 = y - col1;
                 ton = 0.11 + 0.05 * lisse(0, hauteur * 0.06, d1);
-                if (d1 < 9.5) bord = 0.4;
+                if (d1 < 9.5) bord = 0.28;
                 // Juste derrière la haie, la colline s'éclaircit : la haie
                 // se détache.
-                ton *= 0.35 + 0.65 * lisse(0, 22, col2 - y);
+                ton *= 0.6 + 0.4 * lisse(0, 20, col2 - y);
             } else if (y >= sommet && y < col1) {
                 // La face. Son ombre vient de la pente de la crête au-dessus :
                 // là où la crête descend vers l'est, le versant tourne le dos
@@ -227,8 +232,8 @@
                 // L'arête se lit par une ligne de points un peu plus forts.
                 // La crête : un trait franc sur une rangée, une seconde plus
                 // légère dessous. C'est elle qui découpe la montagne sur le ciel.
-                if (y - sommet < 9.5) bord = 0.6;
-                else if (y - sommet < 19) ton = Math.max(ton, 0.2);
+                if (y - sommet < 9.5) bord = 0.42;
+                else if (y - sommet < 19) ton = Math.max(ton, 0.14);
                 if (ton < 0.03) ton = 0.03;
                 // En sombre, l'encre est claire : elle dessine la lumière.
                 if (sombre) ton = 0.44 - ton;
@@ -238,7 +243,7 @@
                 ton = 0.055 + 0.11 * haut * haut;
                 // Au ras des reliefs, le ciel se vide : un liseré de papier
                 // nu qui détache leur silhouette.
-                var ras = lisse(0, 26, Math.min(sommet, col1, col2) - y);
+                var ras = 0.45 + 0.55 * lisse(0, 20, Math.min(sommet, col1, col2) - y);
                 // Les nuages : petits, clairs, le ventre un peu gris.
                 var nx = x / hauteur * 4.4 - t * 0.06, ny = y / hauteur * 10.5;
                 var blanc = nuage(nx, ny, 0.56);

@@ -40,6 +40,10 @@
     z-index: -1;
     pointer-events: none;
     display: none;
+    /* Le paysage s'estompe vers le bas, où se tient le texte : les
+       rubriques se lisent sur un fond plus calme. */
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.3) 0, #000 55%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.3) 0, #000 55%);
 }
 
 .accueil {
@@ -118,11 +122,12 @@
     text-decoration: none;
 }
 
-/* L'image de couverture de l'article, celle de son en-tête. */
+/* L'image de couverture de l'article, celle de son en-tête, dans ses
+   proportions d'origine (16:9). */
 .exp-image {
     width: 100%;
     height: auto;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
     display: block;
     border-radius: 0.6rem;
@@ -292,7 +297,6 @@
         padding: 0;
         border-bottom: 0;
     }
-    body.ecran .exp-image { aspect-ratio: 1.5 / 1; }
     body.ecran .exp-titre {
         font-size: 0.9rem;
         line-height: 1.34;
@@ -358,6 +362,5 @@
     body.ecran .exps { margin-top: 1.1rem; }
     body.ecran .exps-liste { padding-top: 0.7rem; }
     body.ecran .exp { row-gap: 0.45rem; }
-    body.ecran .exp-image { aspect-ratio: 1.9 / 1; }
     body.ecran .exp-titre { font-size: 0.84rem; }
 }
