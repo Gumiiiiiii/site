@@ -235,8 +235,8 @@ async function main() {
         }
 
         // Every article opens with its summary (« En bref ») : three figures
-        // and three steps, in the served HTML, above the cover so a reader who
-        // stops at the top still gets the whole story.
+        // and three steps, in the served HTML, right under the cover and
+        // before the table of contents.
         for (const slug of ['ardacraft-social', 'ardacraft', 'ardacraft-map', 'ai-photoshoot']) {
             for (const prefix of ['', '/en']) {
                 const label = prefix + '/experiments/' + slug;
@@ -254,7 +254,8 @@ async function main() {
                     if (chiffres !== 3) problems.push(chiffres + ' figures, expected 3');
                     if (etapes !== 3) problems.push(etapes + ' steps, expected 3');
                 }
-                if (absAt > raw.indexOf('id="article-cover"')) problems.push('summary comes after the cover');
+                if (absAt < raw.indexOf('id="article-cover"')) problems.push('summary comes before the cover');
+                if (absAt > raw.indexOf('toolbar-wrapper')) problems.push('summary comes after the table of contents');
                 const grille = raw.slice(raw.indexOf('id="suite-grille"'));
                 const cartes = (grille.match(/class="read-next-card"/g) || []).length;
                 if (cartes !== 3) problems.push(cartes + ' other experiments, expected 3');

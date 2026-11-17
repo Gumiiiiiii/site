@@ -202,14 +202,36 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
    En bref
    -------------------------------------------------------------------------- */
 
+/* Un bloc à part, posé à cheval sur le bas de la couverture : une fiche
+   qu'on lit avant de décider de lire le reste. Son coin haut droit est
+   tramé, comme le fond. */
 .etude-page .article-abstract {
-    position: static;
+    position: relative;
+    z-index: 3;
     max-width: none;
-    margin: clamp(2.5rem, 7vh, 4.5rem) 0 0;
-    padding: 0;
-    background: none;
-    border: 0;
-    box-shadow: none;
+    margin: clamp(-4.5rem, -6vw, -2rem) clamp(1rem, 3vw, 2.5rem) 0;
+    padding: clamp(1.4rem, 2.6vw, 2.4rem) clamp(1.3rem, 2.8vw, 2.6rem);
+    background: var(--bg);
+    border: 1px solid var(--filet);
+    border-radius: 1.1rem;
+    box-shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+.etude-page .article-abstract::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: min(55%, 26rem);
+    height: 12rem;
+    background: radial-gradient(circle, rgba(var(--text-rgb), 0.16) 1.6px, transparent 2.1px) 0 0 / 10px 9px;
+    -webkit-mask-image: radial-gradient(ellipse at top right, #000 0, transparent 70%);
+    mask-image: radial-gradient(ellipse at top right, #000 0, transparent 70%);
+    pointer-events: none;
+}
+.etude-page .article-abstract > * { position: relative; }
+@media (max-width: 759px) {
+    .etude-page .article-abstract { margin: 1.25rem 0 0; }
 }
 .etude-page .article-abstract[hidden] { display: none; }
 
@@ -281,7 +303,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     position: absolute;
     top: 2px;
     left: 2rem;
-    right: -1.5rem;
+    right: 0.6rem;
     height: 5px;
     background: radial-gradient(circle, var(--encre-045) 1px, transparent 1.5px) left center / 7px 5px repeat-x;
 }
