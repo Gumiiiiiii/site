@@ -1,49 +1,8 @@
-/* ==========================================================================
-   Les pages d'expérimentation
-   ==========================================================================
+/* Pages d'expérimentation : une colonne centrée (titre, couverture, En bref,
+   sommaire plié, texte), fond en dégradé de points (scripts/etude-trame.js). */
 
-   La même main que l'accueil : le papier, une encre grise, des points, le
-   violet seulement sur ce qui se clique, des filets en rangées de points, et
-   la même marge sur les quatre bords.
-
-     logo                                                  langue · thème
-
-     ← Expérimentations · 5 min de lecture · Publié le …
-     Le titre, en grand, à gauche              (la couverture de l'article,
-                                                 imprimée en points gris)
-     En bref ·························································
-     27,3 M          9 877 → 115 579        0 €
-     de vues         abonnés Instagram      de publicité
-     01 ─────────────── 02 ─────────────── 03
-     LE POINT DE DÉPART  CE QUE J'AI FAIT   CE QUE ÇA A DONNÉ
-     La phrase en gras.  La phrase en gras. La phrase en gras.
-     La suite.           La suite.          La suite.
-     Lire l'histoire en entier ↓          Résumer avec ChatGPT Claude Perplexity
-
-     [ la couverture ]
-
-     Sommaire         Au départ, je voulais juste m'entraîner
-     01 ……            ...
-     02 ……  (collé)   ...
-
-     Les autres expérimentations ····································
-     [image]          [image]          [image]
-     le titre         le titre         le titre
-
-   Le résumé passe avant tout : qui ne lit que le haut de la page repart avec
-   l'histoire entière, en trois chiffres et trois étapes. Il est écrit dans
-   scripts/articles-data.js (champ abstract) et rendu par les scripts de
-   build et par scripts/article-page.js.
-
-   Le fond n'est pas le paysage de l'accueil : c'est la couverture de
-   l'article elle-même, tramée en points gris (scripts/etude-trame.js), qui
-   s'efface vers le bas et vers le titre.
-
-   Cette feuille passe après article.css et article-papier.css : elle reprend
-   le cadre de la page, pas la typographie du corps.
-   ========================================================================== */
-
-body.etude-page { --marge: 1.25rem; --rail: 13.5rem; --texte: 44rem; --page: calc(var(--rail) + 4rem + var(--texte)); }
+/* Une seule colonne, centrée : le titre, la couverture, le résumé, le texte. */
+body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100vw - 2 * var(--marge) - 16px)); }
 @media (min-width: 760px) { body.etude-page { --marge: 2rem; } }
 
 /* --------------------------------------------------------------------------
@@ -116,7 +75,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 
 .etude-page .article-hero {
     padding: 0;
-    max-width: calc(var(--rail) + 4rem + var(--texte));
+    max-width: var(--page);
 }
 
 .etude-page .article-header {
@@ -131,10 +90,10 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 
 .etude-page .article-title {
     text-align: left;
-    max-width: 17em;
-    font-size: clamp(2.1rem, 4.4vw, 4.1rem);
+    max-width: none;
+    font-size: clamp(1.75rem, 3vw, 2.6rem);
     font-weight: 700;
-    line-height: 1.04;
+    line-height: 1.12;
     letter-spacing: -0.025em;
     text-wrap: balance;
 }
@@ -193,7 +152,6 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 
 /* Un filet en rangée de points, au pas de la trame : celui de l'accueil. */
 .etude-page .resume-tete,
-.etude-page .rail-tete,
 .etude-page .read-next-title {
     background: radial-gradient(circle, var(--encre-1) 1.4px, transparent 1.9px) left bottom / 10px 4px repeat-x;
 }
@@ -202,36 +160,17 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
    En bref
    -------------------------------------------------------------------------- */
 
-/* Un bloc à part, posé à cheval sur le bas de la couverture : une fiche
-   qu'on lit avant de décider de lire le reste. Son coin haut droit est
-   tramé, comme le fond. */
+/* Un bloc à part, sous la couverture : une fiche qu'on lit avant de
+   décider de lire le reste. */
 .etude-page .article-abstract {
-    position: relative;
-    z-index: 3;
+    position: static;
     max-width: none;
-    margin: clamp(-4.5rem, -6vw, -2rem) clamp(1rem, 3vw, 2.5rem) 0;
-    padding: clamp(1.4rem, 2.6vw, 2.4rem) clamp(1.3rem, 2.8vw, 2.6rem);
-    background: var(--bg);
-    border: 1px solid var(--filet);
+    margin: 1.5rem 0 0;
+    padding: clamp(1.4rem, 2.6vw, 2.2rem);
+    background: var(--voile);
+    border: 1px solid var(--filet-fin);
     border-radius: 1.1rem;
-    box-shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.35);
-    overflow: hidden;
-}
-.etude-page .article-abstract::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: min(55%, 26rem);
-    height: 12rem;
-    background: radial-gradient(circle, rgba(var(--text-rgb), 0.16) 1.6px, transparent 2.1px) 0 0 / 10px 9px;
-    -webkit-mask-image: radial-gradient(ellipse at top right, #000 0, transparent 70%);
-    mask-image: radial-gradient(ellipse at top right, #000 0, transparent 70%);
-    pointer-events: none;
-}
-.etude-page .article-abstract > * { position: relative; }
-@media (max-width: 759px) {
-    .etude-page .article-abstract { margin: 1.25rem 0 0; }
+    box-shadow: none;
 }
 .etude-page .article-abstract[hidden] { display: none; }
 
@@ -253,129 +192,55 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     color: var(--encre-1);
 }
 
-/* Les trois chiffres : ce qu'on retient en un coup d'œil. */
-.resume-chiffres {
-    list-style: none;
-    margin: 0;
-    padding: 1.6rem 0 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem;
-}
-.resume-chiffres li { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
-.resume-chiffres strong {
-    font-size: clamp(1.55rem, 2.5vw, 2.35rem);
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    font-variant-numeric: tabular-nums;
-    color: var(--encre-1);
-    white-space: nowrap;
-}
-.resume-chiffres span { font-size: 0.9rem; line-height: 1.35; color: var(--encre-062); }
 
-/* Les trois étapes, reliées comme un trajet : un point, puis une ligne de
-   points jusqu'à l'étape suivante. Elles se lisent dans l'ordre sans qu'on
-   ait à le dire. */
+/* Les trois points clés : une liste simple, la première phrase en gras. */
 .resume-etapes {
-    counter-reset: etape;
     list-style: none;
-    margin: 2rem 0 0;
+    margin: 1.3rem 0 0;
     padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    max-width: 46rem;
 }
-.resume-etapes li { counter-increment: etape; position: relative; padding-top: 1.7rem; min-width: 0; }
+.resume-etapes li { position: relative; padding-left: 1.3rem; }
 .resume-etapes li::before {
-    content: counter(etape, decimal-leading-zero);
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 0.85rem;
-    font-weight: 700;
-    line-height: 1;
-    color: var(--encre-1);
-    font-variant-numeric: tabular-nums;
-}
-.resume-etapes li:not(:last-child)::after {
     content: '';
     position: absolute;
-    top: 2px;
-    left: 2rem;
-    right: 0.6rem;
-    height: 5px;
-    background: radial-gradient(circle, var(--encre-045) 1px, transparent 1.5px) left center / 7px 5px repeat-x;
-}
-.resume-etapes h3 {
-    margin: 0 0 0.45rem;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--encre-05);
+    top: 0.62em;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--encre-1);
 }
 .resume-etapes p strong { font-weight: 600; color: var(--encre-1); }
 .resume-etapes p {
     margin: 0;
-    font-size: 0.98rem;
+    font-size: 1rem;
     line-height: 1.55;
     color: var(--encre-078);
     text-wrap: pretty;
 }
 
-.resume-pied {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem 2rem;
-    margin-top: 1.8rem;
-}
-.resume-lire {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-size: 0.98rem;
-    font-weight: 600;
-    color: var(--accent-ink);
-    text-decoration: none;
-}
-/* Faire résumer la page par une IA : trois liens discrets, pas des
-   boutons. Le violet n'y vient qu'au survol. */
-.resume-ia {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.35rem 1.1rem;
-    margin: 0;
-    font-size: 0.88rem;
-    color: var(--encre-05);
-}
-.resume-ia a {
-    color: var(--encre-1);
-    font-weight: 500;
-    text-decoration: underline;
-    text-decoration-color: var(--filet);
-    text-underline-offset: 0.25em;
-    transition: color 0.2s ease, text-decoration-color 0.2s ease;
-}
-.resume-ia a:hover,
-.resume-ia a:focus-visible { color: var(--accent-ink); text-decoration-color: currentColor; }
-.resume-lire svg { width: 1.05em; height: 1.05em; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-.resume-lire:hover { text-decoration: underline; text-underline-offset: 0.25em; }
-.resume-lire:hover svg,
-.resume-lire:focus-visible svg { transform: translateY(3px); }
 
 /* --------------------------------------------------------------------------
    La couverture
    -------------------------------------------------------------------------- */
 
-.etude-page .featured-image-wrapper {
+/* Les images débordent du texte : plus larges que la colonne, centrées. */
+.etude-page .featured-image-wrapper,
+.etude-page .article-content figure.image-breakout,
+.etude-page .article-content .chart-figure {
+    width: var(--large);
     max-width: none;
-    margin: clamp(2.5rem, 6vh, 4rem) 0 0;
+    margin-left: calc((100% - var(--large)) / 2);
+    margin-right: 0;
     padding: 0;
 }
+.etude-page .featured-image-wrapper { margin-top: clamp(2.5rem, 6vh, 4rem); }
+.etude-page .article-content figure.image-breakout { left: auto; transform: none; margin-top: 3rem; margin-bottom: 3rem; }
+.etude-page .article-content figure.image-breakout img { box-shadow: 0 0 0 1px var(--filet-fin); border-radius: 0.9rem; }
 .etude-page .featured-image-wrapper img {
     border-radius: 0.9rem;
     box-shadow: 0 0 0 1px var(--filet-fin);
@@ -385,16 +250,23 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
    Le corps : le sommaire et le texte
    -------------------------------------------------------------------------- */
 
+/* Le sommaire, plié, juste sous le résumé : une barre qu'on ouvre. */
 .etude-page .toolbar-wrapper {
     max-width: none;
-    margin: 2.5rem 0 2.5rem;
+    margin: 1rem 0 clamp(2.5rem, 7vh, 4rem);
     padding: 0;
 }
-.etude-page .article-toolbar { border-bottom: 0; padding: 0; }
-.etude-page .rail-tete { display: none; }
+.etude-page .article-toolbar {
+    padding: 0.35rem clamp(1.4rem, 2.6vw, 2.2rem);
+    border: 1px solid var(--filet-fin);
+    border-radius: 0.9rem;
+}
+.etude-page .toc-toggle { font-size: 1rem; font-weight: 600; color: var(--encre-1); }
+.etude-page .toc-toggle:hover { color: var(--accent-ink); }
+.etude-page .toc-dropdown-inner { padding: 0 clamp(1.4rem, 2.6vw, 2.2rem); }
 
 .etude-page .article-content {
-    max-width: var(--texte);
+    max-width: none;
     margin: 0;
     padding: 0;
     font-size: 1.1rem;
@@ -403,16 +275,6 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     font-weight: 700;
     letter-spacing: -0.015em;
     scroll-margin-top: 2rem;
-}
-.etude-page .article-content figure.image-breakout,
-.etude-page .article-content .chart-figure {
-    width: 100%;
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-    left: auto;
-    right: auto;
-    transform: none;
 }
 
 /* Le sommaire numéroté, comme la liste des outils de l'accueil. */
@@ -453,7 +315,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
    -------------------------------------------------------------------------- */
 
 .etude-page .read-next-section {
-    max-width: calc(var(--rail) + 4rem + var(--texte));
+    max-width: var(--page);
     margin: clamp(4rem, 10vh, 7rem) 0 0;
     padding: 0;
     border-top: 0;
@@ -467,7 +329,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 }
 .suite-grille {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
     gap: 2rem 1.5rem;
 }
 .etude-page .read-next-card {
@@ -495,81 +357,17 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 
 /* --------------------------------------------------------------------------
    Le téléphone : une colonne. Les chiffres passent l'un sous l'autre, les
-   étapes deviennent un trajet vertical.
+   étapes restent une liste.
    -------------------------------------------------------------------------- */
 
 @media (max-width: 759px) {
     .etude-page .site-content { padding-top: calc(var(--marge) + 4.5rem); }
-    .resume-chiffres { grid-template-columns: minmax(0, 1fr); gap: 0.9rem; }
-    .resume-chiffres li { flex-direction: row; align-items: baseline; gap: 0.7rem; flex-wrap: wrap; }
-    .resume-chiffres strong { font-size: 1.6rem; }
-    .resume-etapes { grid-template-columns: minmax(0, 1fr); gap: 1.3rem; margin-top: 1.8rem; }
-    .resume-etapes li { padding: 0 0 0 2.2rem; }
-    .resume-etapes li::before { top: 0.15rem; }
-    .resume-etapes li:not(:last-child)::after {
-        top: 1.35rem;
-        left: 0.45rem;
-        right: auto;
-        bottom: -1.3rem;
-        width: 5px;
-        height: auto;
-        background: radial-gradient(circle, var(--encre-045) 1px, transparent 1.5px) center top / 5px 7px repeat-y;
-    }
     .etude-page .article-content { font-size: 1.05rem; }
     .suite-grille { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* --------------------------------------------------------------------------
-   L'ordinateur : le sommaire passe dans un rail, à gauche du texte, et le
-   suit pendant la lecture.
-   -------------------------------------------------------------------------- */
-
-@media (min-width: 1100px) {
-    .etude-page .site-content {
-        display: grid;
-        grid-template-columns: var(--rail) minmax(0, var(--texte)) minmax(0, 1fr);
-        column-gap: 4rem;
-        align-items: start;
-    }
-    .etude-page .article-hero,
-    .etude-page .read-next-section { grid-column: 1 / -1; }
-    .etude-page .toolbar-wrapper {
-        grid-column: 1;
-        position: sticky;
-        top: 2rem;
-        margin: clamp(3.5rem, 9vh, 5.5rem) 0 0;
-    }
-    .etude-page .article-content {
-        grid-column: 2;
-        margin-top: clamp(3.5rem, 9vh, 5.5rem);
-    }
-    /* Le sommaire est toujours ouvert : le bouton qui le plie disparaît,
-       un titre sur filet le remplace. */
-    .etude-page .toc-toggle { display: none; }
-    .etude-page .rail-tete {
-        display: block;
-        margin: 0;
-        padding-bottom: calc(0.6rem + 4px);
-        font-size: 1.05rem;
-        font-weight: 600;
-    }
-    .etude-page .toc-dropdown { grid-template-rows: 1fr; }
-    .etude-page .toc-dropdown-inner { overflow: visible; }
-    /* La barre d'outils se défait : son bouton de partage passe sous la
-       liste. */
-    .etude-page .toolbar-wrapper { display: flex; flex-direction: column; }
-    .etude-page .article-toolbar { display: contents; }
-    .etude-page .toc-dropdown { order: 1; }
-    .etude-page .share-actions {
-        order: 2;
-        margin-top: 1.2rem;
-        justify-content: flex-start;
-    }
-}
-
 @media (prefers-reduced-motion: reduce) {
     .etude-trame { transition: none; }
-    .resume-lire svg { transition: none; }
 }
 
 /* Sur le téléphone, la date passe à la ligne, sans le point qui la sépare. */

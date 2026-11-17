@@ -52,6 +52,16 @@
       "source": "/en/tools/password-generator",
       "destination": "/en",
       "permanent": true
+    },
+    {
+      "source": "/experiments/ai-photoshoot",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/en/experiments/ai-photoshoot",
+      "destination": "/en",
+      "permanent": true
     }
   ],
   "rewrites": [

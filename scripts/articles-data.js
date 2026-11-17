@@ -8,7 +8,7 @@ window.GUMI_ARTICLES = {
         readNext: 'ardacraft',
         published: '2026-07-29',
         title: {
-            fr: 'Emprunter les codes du voyage pour filmer la Terre du Milieu : 27 millions de vues en sept mois',
+            fr: 'Emprunter les codes du voyage pour filmer la Terre du Milieu : 27 millions de vues en sept mois',
             en: 'Borrowing travel-reel grammar to film Middle-earth: 27 million views in seven months'
         },
         excerpt: {
@@ -22,30 +22,20 @@ window.GUMI_ARTICLES = {
                 <header class="resume-tete">
                     <h2 id="resume-titre">En bref</h2>
                 </header>
-                <ul class="resume-chiffres">
-                    <li><strong>27,3 M</strong><span>de vues sur 24 vidéos</span></li>
-                    <li><strong>9 877 → 115 579</strong><span>abonnés Instagram</span></li>
-                    <li><strong>0 €</strong><span>de publicité</span></li>
-                </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Le point de départ</h3><p><strong>Je voulais m’entraîner à la vidéo.</strong> Le compte Instagram d’ArdaCraft plafonnait autour de 30 000 vues par vidéo.</p></li>
-                    <li><h3>Ce que j’ai fait</h3><p><strong>J’ai filmé les décors comme des destinations, avec les codes des Reels de voyage :</strong> le meilleur plan en premier, le montage calé sur la musique.</p></li>
-                    <li><h3>Ce que ça a donné</h3><p><strong>465 000 vues au premier essai, puis 22 vidéos sur 24 au-dessus de l’ancien niveau du compte.</strong> La médiane est de 342 000 vues.</p></li>
+                    <li><p><strong>Je voulais m’entraîner à la vidéo.</strong> Le compte Instagram d’ArdaCraft plafonnait autour de 30 000 vues par vidéo.</p></li>
+                    <li><p><strong>J’ai filmé les décors comme des destinations, avec les codes des Reels de voyage :</strong> le meilleur plan en premier, le montage calé sur la musique.</p></li>
+                    <li><p><strong>465 000 vues au premier essai, puis 27,3 millions sur 24 vidéos, sans publicité.</strong> Le compte est passé de 9 877 à 115 579 abonnés.</p></li>
                 </ol>
             </section>`,
             en: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
                     <h2 id="resume-titre">In short</h2>
                 </header>
-                <ul class="resume-chiffres">
-                    <li><strong>27.3M</strong><span>views across 24 videos</span></li>
-                    <li><strong>9,877 → 115,579</strong><span>Instagram followers</span></li>
-                    <li><strong>€0</strong><span>in ads</span></li>
-                </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Where it started</h3><p><strong>I wanted to practise video.</strong> ArdaCraft’s Instagram account topped out at around 30,000 views a video.</p></li>
-                    <li><h3>What I did</h3><p><strong>I filmed the builds like travel destinations, borrowing the grammar of travel Reels:</strong> the best shot first, the edit cut to the music.</p></li>
-                    <li><h3>What came of it</h3><p><strong>465,000 views on the first try, then 22 of 24 videos above the account’s old level.</strong> The median is 342,000 views.</p></li>
+                    <li><p><strong>I wanted to practise video.</strong> ArdaCraft’s Instagram account topped out at around 30,000 views a video.</p></li>
+                    <li><p><strong>I filmed the builds like travel destinations, borrowing the grammar of travel Reels:</strong> the best shot first, the edit cut to the music.</p></li>
+                    <li><p><strong>465,000 views on the first try, then 27.3 million across 24 videos, with no ads.</strong> The account grew from 9,877 to 115,579 followers.</p></li>
                 </ol>
             </section>`
         },
@@ -147,7 +137,7 @@ window.GUMI_ARTICLES = {
         readNext: 'ardacraft-map',
         published: '2026-07-11',
         title: {
-            fr: "De Webflow à une architecture décentralisée : comment j'ai repensé le site d'ArdaCraft",
+            fr: "De Webflow à une architecture décentralisée : comment j'ai repensé le site d'ArdaCraft",
             en: 'From Webflow to a Decentralized Architecture: How I Rethought the ArdaCraft Website'
         },
         excerpt: {
@@ -161,30 +151,20 @@ window.GUMI_ARTICLES = {
                 <header class="resume-tete">
                     <h2 id="resume-titre">En bref</h2>
                 </header>
-                <ul class="resume-chiffres">
-                    <li><strong>−90 %</strong><span>de coûts d’hébergement</span></li>
-                    <li><strong>+555 %</strong><span>d’usage des filtres</span></li>
-                    <li><strong>150 h</strong><span>sur trois mois</span></li>
-                </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Le point de départ</h3><p><strong>Le site Webflow attirait 217 000 visiteurs par an mais touchait la limite de son abonnement.</strong> Le forfait suivant aurait multiplié les coûts par cinq.</p></li>
-                    <li><h3>Ce que j’ai fait</h3><p><strong>J’ai migré vers WordPress et Webstudio reliés en GraphQL,</strong> redessiné toutes les pages et remonté en haut de l’écran les fonctions que personne ne voyait.</p></li>
-                    <li><h3>Ce que ça a donné</h3><p><strong>Des coûts d’hébergement divisés par dix.</strong> Sur la page des lieux, la recherche sert 71 % plus souvent et les filtres 555 % plus souvent.</p></li>
+                    <li><p><strong>Le site Webflow attirait 217 000 visiteurs par an mais touchait la limite de son abonnement.</strong> Le forfait suivant aurait multiplié les coûts par cinq.</p></li>
+                    <li><p><strong>J’ai migré vers WordPress et Webstudio reliés en GraphQL,</strong> redessiné toutes les pages et remonté en haut de l’écran les fonctions que personne ne voyait.</p></li>
+                    <li><p><strong>Des coûts d’hébergement divisés par dix.</strong> Sur la page des lieux, la recherche sert 71 % plus souvent et les filtres 555 % plus souvent.</p></li>
                 </ol>
             </section>`,
             en: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
                     <h2 id="resume-titre">In short</h2>
                 </header>
-                <ul class="resume-chiffres">
-                    <li><strong>−90%</strong><span>hosting costs</span></li>
-                    <li><strong>+555%</strong><span>filter use</span></li>
-                    <li><strong>150 h</strong><span>over three months</span></li>
-                </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Where it started</h3><p><strong>The Webflow site drew 217,000 visitors a year but had hit the limit of its plan.</strong> The next tier would have cost five times as much.</p></li>
-                    <li><h3>What I did</h3><p><strong>I moved it to WordPress and Webstudio linked through GraphQL,</strong> redesigned every page and brought the features nobody saw to the top of the screen.</p></li>
-                    <li><h3>What came of it</h3><p><strong>Hosting costs cut tenfold.</strong> On the locations page, search is used 71% more often and filters 555% more often.</p></li>
+                    <li><p><strong>The Webflow site drew 217,000 visitors a year but had hit the limit of its plan.</strong> The next tier would have cost five times as much.</p></li>
+                    <li><p><strong>I moved it to WordPress and Webstudio linked through GraphQL,</strong> redesigned every page and brought the features nobody saw to the top of the screen.</p></li>
+                    <li><p><strong>Hosting costs cut tenfold.</strong> On the locations page, search is used 71% more often and filters 555% more often.</p></li>
                 </ol>
             </section>`
         },
@@ -406,30 +386,20 @@ window.GUMI_ARTICLES = {
                 <header class="resume-tete">
                     <h2 id="resume-titre">En bref</h2>
                 </header>
-                <ul class="resume-chiffres">
-                    <li><strong>1 M</strong><span>de recherches par an pour une carte</span></li>
-                    <li><strong>50 %</strong><span>du trafic hors-marque</span></li>
-                    <li><strong>200 000</strong><span>impressions Google par mois</span></li>
-                </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Le point de départ</h3><p><strong>Plus d’un million de recherches par an pour une carte de la Terre du Milieu, sur une requête peu disputée :</strong> une difficulté de 36 %.</p></li>
-                    <li><h3>Ce que j’ai fait</h3><p><strong>Une carte interactive calquée sur Google Maps,</strong> qui réunit ce que les cartes du top 3 n’offraient que séparément, et qui marche aussi sur mobile.</p></li>
-                    <li><h3>Ce que ça a donné</h3><p><strong>Près de 200 000 impressions par mois sur Google et la moitié du trafic hors-marque du site,</strong> malgré deux coupures pour raisons de budget.</p></li>
+                    <li><p><strong>Plus d’un million de recherches par an pour une carte de la Terre du Milieu, sur une requête peu disputée :</strong> une difficulté de 36 %.</p></li>
+                    <li><p><strong>Une carte interactive calquée sur Google Maps,</strong> qui réunit ce que les cartes du top 3 n’offraient que séparément, et qui marche aussi sur mobile.</p></li>
+                    <li><p><strong>Près de 200 000 impressions par mois sur Google et la moitié du trafic hors-marque du site,</strong> malgré deux coupures pour raisons de budget.</p></li>
                 </ol>
             </section>`,
             en: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
                     <h2 id="resume-titre">In short</h2>
                 </header>
-                <ul class="resume-chiffres">
-                    <li><strong>1M</strong><span>searches a year for a map</span></li>
-                    <li><strong>50%</strong><span>of non-brand traffic</span></li>
-                    <li><strong>200,000</strong><span>Google impressions a month</span></li>
-                </ul>
                 <ol class="resume-etapes">
-                    <li><h3>Where it started</h3><p><strong>Over a million searches a year for a map of Middle-earth, on a query with little competition:</strong> a difficulty of 36%.</p></li>
-                    <li><h3>What I did</h3><p><strong>An interactive map modelled on Google Maps,</strong> bringing together what the top 3 maps each offered separately, and working on mobile too.</p></li>
-                    <li><h3>What came of it</h3><p><strong>Close to 200,000 Google impressions a month and half of the site’s non-brand traffic,</strong> despite two shutdowns to protect the budget.</p></li>
+                    <li><p><strong>Over a million searches a year for a map of Middle-earth, on a query with little competition:</strong> a difficulty of 36%.</p></li>
+                    <li><p><strong>An interactive map modelled on Google Maps,</strong> bringing together what the top 3 maps each offered separately, and working on mobile too.</p></li>
+                    <li><p><strong>Close to 200,000 Google impressions a month and half of the site’s non-brand traffic,</strong> despite two shutdowns to protect the budget.</p></li>
                 </ol>
             </section>`
         },
@@ -573,197 +543,6 @@ window.GUMI_ARTICLES = {
             <p>The good news is that migrating to our new decentralized architecture (WordPress, GraphQL, Cloudflare, Webstudio) finally gives us a reliable, scalable and financially viable system. No more sword of Damocles of costs tied to traffic volume.</p>
             <p>The next step is therefore set: <strong>V3 of the interactive map</strong>. For me, this will be the final, complete version of the tool. The work will consist of fixing the last remaining bugs, refining the quality of our coordinates and polishing display details.</p>
             <p>Today the technical foundation is robust and the content complete. Once V3 is deployed, our efforts will shift to the last essential pillar of our acquisition strategy: <strong>link building</strong>. We'll focus on a large communication campaign built entirely around the unique value of this tool, to earn the backlinks needed to durably establish ArdaCraft on those queries.</p>
-            `
-        }
-    },
-
-    'ai-photoshoot': {
-        cover: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2000&auto=format&fit=crop',
-        coverAlt: 'Studio photo avec éclairage professionnel',
-        readNext: 'ardacraft',
-        published: '2026-07-11',
-        title: {
-            fr: "Peut-on remplacer un véritable shooting photo avec l'Intelligence Artificielle ?",
-            en: 'Can Artificial Intelligence Replace a Real Photo Shoot?'
-        },
-        excerpt: {
-            fr: "Un mois d'expérimentation pour confronter la génération d'images par IA à un shooting produit traditionnel : coûts, qualité, limites et verdict.",
-            en: 'A month of experimentation pitting AI image generation against a traditional product shoot: costs, quality, limits and verdict.'
-        },
-        // The summary: three figures, then the story in three steps. It
-        // renders above the cover (build/prerender-*.js, article-page.js).
-        abstract: {
-            fr: `<section class="resume" aria-labelledby="resume-titre">
-                <header class="resume-tete">
-                    <h2 id="resume-titre">En bref</h2>
-                </header>
-                <ul class="resume-chiffres">
-                    <li><strong>−95 %</strong><span>de coût par visuel</span></li>
-                    <li><strong>40 sur 600</strong><span>images retenues</span></li>
-                    <li><strong>58 %</strong><span>préfèrent le studio à l’aveugle</span></li>
-                </ul>
-                <ol class="resume-etapes">
-                    <li><h3>Le point de départ</h3><p><strong>Un shooting produit coûte vite plus de 1 000 €.</strong> Les générateurs d’images promettent du photoréalisme en quelques secondes : j’ai voulu vérifier.</p></li>
-                    <li><h3>Ce que j’ai fait</h3><p><strong>Le même objet en studio et en IA,</strong> avec les mêmes ambiances et le même temps de retouche, puis un jury de cinq personnes à l’aveugle.</p></li>
-                    <li><h3>Ce que ça a donné</h3><p><strong>L’IA gagne sur les ambiances et coûte vingt fois moins cher, mais déforme encore les logos et les détails.</strong> Le studio devient la dernière étape.</p></li>
-                </ol>
-            </section>`,
-            en: `<section class="resume" aria-labelledby="resume-titre">
-                <header class="resume-tete">
-                    <h2 id="resume-titre">In short</h2>
-                </header>
-                <ul class="resume-chiffres">
-                    <li><strong>−95%</strong><span>cost per image</span></li>
-                    <li><strong>40 of 600</strong><span>images kept</span></li>
-                    <li><strong>58%</strong><span>prefer the studio, blind</span></li>
-                </ul>
-                <ol class="resume-etapes">
-                    <li><h3>Where it started</h3><p><strong>A product shoot quickly costs over €1,000.</strong> Image generators promise photorealism in seconds: I wanted to check.</p></li>
-                    <li><h3>What I did</h3><p><strong>The same object in the studio and in AI,</strong> with the same moods and the same retouching time, then a blind panel of five people.</p></li>
-                    <li><h3>What came of it</h3><p><strong>AI wins on moods and costs twenty times less, but still warps logos and details.</strong> The studio becomes the last step.</p></li>
-                </ol>
-            </section>`
-        },
-        html: {
-            fr: `
-
-            <h2>Pourquoi cette expérimentation ?</h2>
-            <p>Un shooting photo professionnel, même modeste, mobilise un photographe, un studio, du matériel d'éclairage et une demi-journée de post-production. Pour une petite marque ou un projet personnel, le budget grimpe vite au-delà du millier d'euros pour une poignée de visuels. En parallèle, les générateurs d'images par IA promettent des résultats « photoréalistes » en quelques secondes. J'ai voulu vérifier cette promesse avec un cas concret : produire le visuel de lancement d'un objet réel, dans plusieurs ambiances, en comparant systématiquement le résultat IA à une référence photographiée en studio.</p>
-
-            <h2>Le protocole</h2>
-            <p>Pour que la comparaison soit honnête, j'ai fixé des règles strictes dès le départ : même objet, mêmes ambiances cibles, même temps de post-production maximum, et un jury de cinq personnes qui ignoraient quelle image provenait de quelle méthode.</p>
-
-            <ul>
-                <li><strong>Référence studio :</strong> une matinée de shooting classique, 35 clichés, 6 images finales retouchées.</li>
-                <li><strong>Pipeline IA :</strong> photos smartphone de l'objet, entraînement d'un modèle personnalisé, puis génération massive avec des prompts d'ambiance.</li>
-                <li><strong>Évaluation :</strong> test à l'aveugle sur la fidélité du produit, la qualité de la lumière et l'envie d'achat déclarée.</li>
-            </ul>
-
-            <figure class="image-breakout">
-                <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2000&auto=format&fit=crop" alt="Studio photo avec éclairage professionnel">
-                <figcaption>Le dispositif studio de référence : ce que l'IA doit égaler pour prétendre remplacer un shooting.</figcaption>
-            </figure>
-
-            <h3>Ce que l'IA fait remarquablement bien</h3>
-            <p>Sur les ambiances, les matières d'arrière-plan et la lumière global, les résultats sont sidérants. Un « produit posé sur du marbre au soleil couchant » sort en trente secondes avec une lumière que j'aurais mis une heure à installer en studio. L'itération est le vrai super-pouvoir : changer de décor, d'heure de la journée ou de palette ne coûte rien, là où chaque variation en studio implique de re-shooter.</p>
-
-            <blockquote>
-                <p>« Le coût marginal d'une image supplémentaire tombe à zéro. C'est ça, la vraie rupture : on ne réfléchit plus en nombre de clichés, on réfléchit en directions créatives. »</p>
-                <footer>, Note de carnet, jour 12 de l'expérimentation</footer>
-            </blockquote>
-
-            <h3>Ce qui coince encore</h3>
-            <p>La fidélité produit reste le talon d'Achille. Logos déformés, proportions légèrement fausses, coutures qui n'existent pas : sur un objet que le client connaît par cœur, ces écarts sont éliminatoires. Le taux de déchet est brutal, moins de 7% des générations étaient exploitables telles quelles, et chaque correction fine (redresser un logo, corriger un reflet) ramène vers la retouche manuelle qu'on espérait éviter.</p>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Critère</th>
-                        <th>Shooting studio</th>
-                        <th>Pipeline IA</th>
-                        <th>Gagnant</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Coût par visuel final</td>
-                        <td>~180 €</td>
-                        <td>~9 €</td>
-                        <td><strong>IA</strong></td>
-                    </tr>
-                    <tr>
-                        <td>Fidélité du produit</td>
-                        <td>Parfaite</td>
-                        <td>Aléatoire</td>
-                        <td><strong>Studio</strong></td>
-                    </tr>
-                    <tr>
-                        <td>Variété des ambiances</td>
-                        <td>Limitée par le décor</td>
-                        <td>Quasi illimitée</td>
-                        <td><strong>IA</strong></td>
-                    </tr>
-                    <tr>
-                        <td>Test à l'aveugle (préférence)</td>
-                        <td>58%</td>
-                        <td>42%</td>
-                        <td><strong>Studio</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h2>Alors, verdict ?</h2>
-            <p>Non, l'IA ne remplace pas encore un vrai shooting quand la fidélité produit est critique, packaging, e-commerce, catalogue. Mais elle a déjà gagné sur un autre terrain : les visuels d'ambiance, les moodboards clients, les tests de direction artistique et les déclinaisons pour les réseaux sociaux. Mon flux de travail a d'ailleurs changé depuis : je génère les ambiances en IA, je valide une direction avec le client, puis je ne shoote en studio que la direction retenue. Le shooting n'a pas disparu, il est devenu la dernière étape d'un entonnoir beaucoup plus large.</p>
-            `,
-            en: `
-
-            <h2>Why This Experiment?</h2>
-            <p>A professional photo shoot, even a modest one, requires a photographer, a studio, lighting gear and half a day of post-production. For a small brand or a personal project, the budget quickly climbs past a thousand euros for a handful of visuals. Meanwhile, AI image generators promise "photorealistic" results in seconds. I wanted to test that promise with a concrete case: producing the launch visual for a real object, in several moods, systematically comparing the AI result against a studio-photographed reference.</p>
-
-            <h2>The Protocol</h2>
-            <p>To keep the comparison honest, I set strict rules from the start: same object, same target moods, same maximum post-production time, and a jury of five people who didn't know which image came from which method.</p>
-
-            <ul>
-                <li><strong>Studio reference:</strong> a classic morning shoot, 35 shots, 6 final retouched images.</li>
-                <li><strong>AI pipeline:</strong> smartphone photos of the object, training a custom model, then mass generation with mood prompts.</li>
-                <li><strong>Evaluation:</strong> a blind test on product fidelity, lighting quality and declared purchase intent.</li>
-            </ul>
-
-            <figure class="image-breakout">
-                <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2000&auto=format&fit=crop" alt="Photo studio with professional lighting">
-                <figcaption>The reference studio setup: what the AI has to match to claim it can replace a shoot.</figcaption>
-            </figure>
-
-            <h3>What AI Does Remarkably Well</h3>
-            <p>On moods, background materials and overall lighting, the results are staggering. A "product on marble at sunset" comes out in thirty seconds with lighting that would have taken me an hour to set up in a studio. Iteration is the real superpower: changing the set, the time of day or the palette costs nothing, whereas every variation in a studio means re-shooting.</p>
-
-            <blockquote>
-                <p>"The marginal cost of one more image drops to zero. That's the real disruption: you stop thinking in number of shots and start thinking in creative directions."</p>
-                <footer>, Notebook entry, day 12 of the experiment</footer>
-            </blockquote>
-
-            <h3>What Still Falls Short</h3>
-            <p>Product fidelity remains the Achilles' heel. Distorted logos, slightly wrong proportions, seams that don't exist: on an object the client knows by heart, these deviations are disqualifying. The waste rate is brutal, less than 7% of generations were usable as-is, and every fine correction (straightening a logo, fixing a reflection) drags you back to the manual retouching you hoped to avoid.</p>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Criterion</th>
-                        <th>Studio shoot</th>
-                        <th>AI pipeline</th>
-                        <th>Winner</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Cost per final visual</td>
-                        <td>~€180</td>
-                        <td>~€9</td>
-                        <td><strong>AI</strong></td>
-                    </tr>
-                    <tr>
-                        <td>Product fidelity</td>
-                        <td>Perfect</td>
-                        <td>Unreliable</td>
-                        <td><strong>Studio</strong></td>
-                    </tr>
-                    <tr>
-                        <td>Variety of moods</td>
-                        <td>Limited by the set</td>
-                        <td>Nearly unlimited</td>
-                        <td><strong>AI</strong></td>
-                    </tr>
-                    <tr>
-                        <td>Blind test (preference)</td>
-                        <td>58%</td>
-                        <td>42%</td>
-                        <td><strong>Studio</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h2>So, the Verdict?</h2>
-            <p>No, AI doesn't replace a real shoot yet when product fidelity is critical, packaging, e-commerce, catalogs. But it has already won on another front: mood visuals, client moodboards, art direction tests and social media variations. My workflow has actually changed since: I generate moods with AI, validate a direction with the client, then only shoot the chosen direction in the studio. The photo shoot hasn't disappeared, it has become the final step of a much wider funnel.</p>
             `
         }
     }

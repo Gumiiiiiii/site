@@ -234,10 +234,9 @@ async function main() {
             if (!okArt) failures += 1;
         }
 
-        // Every article opens with its summary (« En bref ») : three figures
-        // and three steps, in the served HTML, right under the cover and
+        // Every article has its summary (« En bref »): three key points, in the served HTML, right under the cover and
         // before the table of contents.
-        for (const slug of ['ardacraft-social', 'ardacraft', 'ardacraft-map', 'ai-photoshoot']) {
+        for (const slug of ['ardacraft-social', 'ardacraft', 'ardacraft-map']) {
             for (const prefix of ['', '/en']) {
                 const label = prefix + '/experiments/' + slug;
                 const raw = await (await fetch(BASE + label, { headers: { connection: 'close' } })).text();
@@ -246,19 +245,15 @@ async function main() {
                 if (absAt < 0 || raw.indexOf('class="resume"', absAt) < 0) problems.push('summary not rendered');
                 else {
                     const bloc = raw.slice(absAt, raw.indexOf('</section>', absAt));
-                    const ul = bloc.slice(bloc.indexOf('resume-chiffres'), bloc.indexOf('</ul>'));
-                    const chiffres = (ul.match(/<strong>/g) || []).length;
-                    const ia = (bloc.match(/class="resume-ia"/g) || []).length;
-                    if (!ia) problems.push('no « summarise with an AI » links');
-                    const etapes = (bloc.match(/<h3>/g) || []).length;
-                    if (chiffres !== 3) problems.push(chiffres + ' figures, expected 3');
+                    const ol = bloc.slice(bloc.indexOf('resume-etapes'), bloc.indexOf('</ol>'));
+                    const etapes = (ol.match(/<li>/g) || []).length;
                     if (etapes !== 3) problems.push(etapes + ' steps, expected 3');
                 }
                 if (absAt < raw.indexOf('id="article-cover"')) problems.push('summary comes before the cover');
                 if (absAt > raw.indexOf('toolbar-wrapper')) problems.push('summary comes after the table of contents');
                 const grille = raw.slice(raw.indexOf('id="suite-grille"'));
                 const cartes = (grille.match(/class="read-next-card"/g) || []).length;
-                if (cartes !== 3) problems.push(cartes + ' other experiments, expected 3');
+                if (cartes !== 2) problems.push(cartes + ' other experiments, expected 2');
                 if (!/id="article-duree">\d+ (min de lecture|min read)</.test(raw)) problems.push('reading time missing');
                 if (raw.indexOf('class="abstract"', raw.indexOf('id="post-content"')) > 0) problems.push('an old summary is still in the body');
                 if (slug === 'ardacraft-social') {
