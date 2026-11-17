@@ -13,7 +13,7 @@
     const navbarMarkup = `
         <div class="nav-group nav-group--logo">
             <a href="${homeHref()}" class="nav-logo no-select">
-                <img src="${basePrefix}media/Gumi-small.png" alt="Gumi" onerror="this.src='https://placehold.co/56x56/transparent/9C77F5?text=G.'">
+                <img src="${basePrefix}media/logo-trame.svg" alt="Gumi" data-trame>
             </a>
         </div>
         <span class="nav-sep" aria-hidden="true"></span>
@@ -64,7 +64,7 @@
     const cvNavbarMarkup = `
         <div class="nav-group nav-group--logo">
             <a href="${homeHref()}" class="nav-logo no-select">
-                <img src="${basePrefix}media/Gumi-small.png" alt="Gumi" onerror="this.src='https://placehold.co/56x56/transparent/9C77F5?text=G.'">
+                <img src="${basePrefix}media/logo-trame.svg" alt="Gumi" data-trame>
             </a>
         </div>
         <span class="nav-sep" aria-hidden="true"></span>
@@ -201,12 +201,21 @@
         watched.forEach((el) => spy.observe(el));
     }
 
+    // The halftone logo, inlined so its dots can follow the pointer.
+    function chargerTrame() {
+        if (window.GumiTrame) { window.GumiTrame.tout(); return; }
+        const s = document.createElement('script');
+        s.src = basePrefix + 'scripts/logo-trame.js';
+        document.head.appendChild(s);
+    }
+
     document.querySelectorAll('[data-navbar-root]').forEach((root) => {
         const isCv = root.getAttribute('data-navbar-variant') === 'cv';
         root.innerHTML = isCv ? cvNavbarMarkup : navbarMarkup;
         if (isCv) root.classList.add('navbar--cv', 'visible');
 
         if (isCv) setupCvNav(root);
+        chargerTrame();
 
         const langBtn = root.querySelector('[data-lang-toggle]');
         langBtn.classList.toggle('is-en', currentLang() === 'en');

@@ -229,7 +229,8 @@
         pointer-events: none;
     }
     body.accueil-page .navbar > * { pointer-events: auto; }
-    body.accueil-page .nav-logo img { height: 34px; }
+    body.accueil-page .nav-logo img,
+    body.accueil-page .nav-logo svg { height: 34px; }
 
     /* Sur l'accueil, la trame dessine tout le fond, ciel et rivière
        compris : le champ de points ordinaire lui laisse la place. */

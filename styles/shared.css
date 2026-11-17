@@ -261,7 +261,8 @@ body.shell-page {
     padding: 8px 12px !important;
 }
 
-.nav-logo img {
+.nav-logo img,
+.nav-logo svg {
     height: 28px;
     width: auto;
     display: block;
