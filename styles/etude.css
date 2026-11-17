@@ -160,69 +160,70 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
    En bref
    -------------------------------------------------------------------------- */
 
-/* Un bloc à part, sous la couverture : une fiche qu'on lit avant de
-   décider de lire le reste. */
+/* En bref : pas de boîte. Une étiquette à gauche, trois lignes numérotées à
+   droite, séparées par des rangées de points, comme la liste des outils. */
 .etude-page .article-abstract {
     position: static;
     max-width: none;
-    margin: 1.5rem 0 0;
-    padding: clamp(1.4rem, 2.6vw, 2.2rem);
-    background: var(--voile);
-    border: 1px solid var(--filet-fin);
-    border-radius: 1.1rem;
+    margin: clamp(2.5rem, 6vh, 3.5rem) 0 0;
+    padding: 0;
+    background: none;
+    border: 0;
     box-shadow: none;
 }
 .etude-page .article-abstract[hidden] { display: none; }
 
-.resume { display: flex; flex-direction: column; }
-
-.resume-tete {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-    padding-bottom: calc(0.6rem + 4px);
+.resume {
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr);
+    column-gap: 2rem;
+    align-items: start;
 }
+.resume-tete { padding: 0; }
+.etude-page .resume-tete { background: none; }
 .resume-tete h2 {
     margin: 0;
-    font-size: 1.05rem;
+    padding-top: 0.2rem;
+    font-size: 0.85rem;
     font-weight: 600;
     letter-spacing: 0;
     text-transform: none;
-    color: var(--encre-1);
+    color: var(--encre-05);
 }
-
-
-/* Les trois points clés : une liste simple, la première phrase en gras. */
 .resume-etapes {
+    counter-reset: point;
     list-style: none;
-    margin: 1.3rem 0 0;
+    margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    max-width: 46rem;
 }
-.resume-etapes li { position: relative; padding-left: 1.3rem; }
+.resume-etapes li {
+    counter-increment: point;
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    padding: 0.9rem 0;
+    background: radial-gradient(circle, rgba(var(--text-rgb), 0.3) 0.9px, transparent 1.4px) left bottom / 10px 3px repeat-x;
+}
+.resume-etapes li:first-child { padding-top: 0; }
 .resume-etapes li::before {
-    content: '';
-    position: absolute;
-    top: 0.62em;
-    left: 0;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--encre-1);
+    content: counter(point, decimal-leading-zero);
+    padding-top: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--encre-045);
+    font-variant-numeric: tabular-nums;
 }
-.resume-etapes p strong { font-weight: 600; color: var(--encre-1); }
 .resume-etapes p {
     margin: 0;
-    font-size: 1rem;
-    line-height: 1.55;
-    color: var(--encre-078);
+    font-size: 1.12rem;
+    line-height: 1.5;
+    color: var(--encre-062);
     text-wrap: pretty;
 }
+.resume-etapes p strong { font-weight: 600; color: var(--encre-1); }
 
+@media (max-width: 759px) {
+    .resume { grid-template-columns: minmax(0, 1fr); row-gap: 0.8rem; }
+    .resume-etapes p { font-size: 1.02rem; }
+}
 
 /* --------------------------------------------------------------------------
    La couverture
@@ -253,17 +254,22 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 /* Le sommaire, plié, juste sous le résumé : une barre qu'on ouvre. */
 .etude-page .toolbar-wrapper {
     max-width: none;
-    margin: 1rem 0 clamp(2.5rem, 7vh, 4rem);
+    margin: 0 0 clamp(2.5rem, 7vh, 4rem);
     padding: 0;
 }
+/* Le sommaire, plié : une ligne de plus, alignée sur les points du résumé. */
 .etude-page .article-toolbar {
-    padding: 0.35rem clamp(1.4rem, 2.6vw, 2.2rem);
-    border: 1px solid var(--filet-fin);
-    border-radius: 0.9rem;
+    padding: 0.2rem 0 0.2rem calc(9rem + 2rem);
+    border: 0;
+    background: radial-gradient(circle, rgba(var(--text-rgb), 0.3) 0.9px, transparent 1.4px) left bottom / 10px 3px repeat-x;
+    background-origin: content-box;
+    background-clip: content-box;
 }
+@media (max-width: 759px) { .etude-page .article-toolbar { padding-left: 0; } }
 .etude-page .toc-toggle { font-size: 1rem; font-weight: 600; color: var(--encre-1); }
 .etude-page .toc-toggle:hover { color: var(--accent-ink); }
-.etude-page .toc-dropdown-inner { padding: 0 clamp(1.4rem, 2.6vw, 2.2rem); }
+.etude-page .toc-dropdown-inner { padding: 0 0 0 calc(9rem + 2rem); }
+@media (max-width: 759px) { .etude-page .toc-dropdown-inner { padding-left: 0; } }
 
 .etude-page .article-content {
     max-width: none;

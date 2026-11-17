@@ -1,6 +1,5 @@
-// Le fond d'une page d'expérimentation : un dégradé de points sur la grille
-// du site, dense dans les coins du haut, qui s'efface vers le bas et
-// s'écarte de la colonne du texte.
+// Fond des pages d'expérimentation : un dégradé de points en nappes douces,
+// sur la grille du site, qui s'efface vers le bas et autour du titre.
 (function () {
     var toile = document.getElementById('etude-trame');
     // Sans 2D (jsdom des tests), rien à dessiner.
@@ -13,6 +12,20 @@
         var t = (x - a) / (b - a);
         t = t < 0 ? 0 : t > 1 ? 1 : t;
         return t * t * (3 - 2 * t);
+    }
+    function hasard(i, j) {
+        var n = Math.sin(i * 127.1 + j * 311.7) * 43758.5453;
+        return n - Math.floor(n);
+    }
+    function bruit(x, y) {
+        var i = Math.floor(x), j = Math.floor(y), fx = x - i, fy = y - j;
+        fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy);
+        var a = hasard(i, j), b = hasard(i + 1, j), c = hasard(i, j + 1), d = hasard(i + 1, j + 1);
+        return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
+    }
+    // Des nappes : deux échelles de bruit, étirées en largeur.
+    function nappe(x, y) {
+        return 0.65 * bruit(x * 1.1, y * 2.2) + 0.35 * bruit(x * 2.7 + 5.3, y * 5.1 + 1.7);
     }
 
     function dessiner() {
@@ -28,25 +41,27 @@
         var racine = document.documentElement;
         var sombre = racine.getAttribute('data-theme') === 'dark';
         var rgb = (getComputedStyle(racine).getPropertyValue('--text-rgb') || '26, 26, 26').trim();
-        ctx.fillStyle = 'rgba(' + rgb + ', ' + (sombre ? 0.16 : 0.12) + ')';
+        ctx.fillStyle = 'rgba(' + rgb + ', ' + (sombre ? 0.17 : 0.13) + ')';
 
-        // La colonne du texte : le dégradé reste sur ses côtés.
-        var col = document.querySelector('.article-hero');
-        var r = col ? col.getBoundingClientRect() : { left: largeur * 0.2, right: largeur * 0.8 };
-        var marge = Math.max(60, Math.min(r.left, largeur - r.right));
+        // La clairière : une ellipse douce autour du titre.
+        var titre = document.querySelector('.article-header');
+        var r = titre ? titre.getBoundingClientRect() : { left: largeur * 0.25, right: largeur * 0.75, top: 100, bottom: 300 };
+        var cx = (r.left + r.right) / 2, cy = (r.top + r.bottom) / 2 + window.scrollY;
+        var rx = (r.right - r.left) / 2 + 90, ry = (r.bottom - r.top) / 2 + 70;
 
+        var echelle = 1 / 360;
         var centre = largeur / 2;
         ctx.beginPath();
         for (var j = 0, y = PAS_Y / 2; y < hauteur; j++, y += PAS_Y) {
             var dec = (j % 2) ? PAS_X / 2 : 0;
-            var haut = 1 - lisse(0, hauteur * 0.85, y);
+            var haut = 1 - lisse(hauteur * 0.05, hauteur * 0.92, y);
             if (haut <= 0) break;
             for (var x = ((centre + dec) % PAS_X); x < largeur; x += PAS_X) {
-                var dehors = Math.max(r.left - x, x - r.right, 0) / marge;
-                // Une trace légère passe au-dessus de la colonne, tout en haut.
-                var cote = Math.max(lisse(0, 1, dehors), 0.35 * (1 - lisse(0, hauteur * 0.22, y)));
-                var ton = 0.55 * haut * haut * cote;
-                if (ton < 0.01) continue;
+                var ex = (x - cx) / rx, ey = (y - cy) / ry;
+                var clairiere = lisse(0.75, 1.6, Math.sqrt(ex * ex + ey * ey));
+                var n = lisse(0.36, 0.7, nappe(x * echelle, y * echelle));
+                var ton = haut * haut * clairiere * (0.03 + 0.72 * n);
+                if (ton < 0.012) continue;
                 var rayon = RAYON_MAX * Math.sqrt(ton);
                 ctx.moveTo(x + rayon, y);
                 ctx.arc(x, y, rayon, 0, 6.2832);
