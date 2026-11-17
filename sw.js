@@ -5,7 +5,7 @@
 // deploy is picked up on the next visit; the cache is the offline fallback.
 // One cache for precache + runtime, so a network refresh overwrites the
 // precached copy instead of being shadowed by it.
-const VERSION = 'gumi-sw-v15';
+const VERSION = 'gumi-sw-v16';
 const CACHE_NAME = VERSION;
 
 const CORE_ASSETS = [
@@ -55,7 +55,8 @@ const CORE_ASSETS = [
     '/fonts/urbanist-latin-ext.woff2',
     '/media/cream-paper.png',
     '/media/favicon-32.png',
-    '/media/Gumi-small.png',
+    '/media/logo-trame.svg',
+    '/scripts/logo-trame.js',
     '/site.webmanifest'
 ];
 

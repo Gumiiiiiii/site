@@ -61,7 +61,8 @@ body.etude-page .navbar {
 body.etude-page .navbar > * { pointer-events: auto; }
 body.etude-page .nav-sep { display: none; }
 body.etude-page .nav-logo { padding: 0 !important; }
-body.etude-page .nav-logo img { height: 34px; }
+body.etude-page .nav-logo img,
+body.etude-page .nav-logo svg { height: 34px; }
 body.etude-page .nav-group--controls { margin-right: -7px; }
 
 /* --------------------------------------------------------------------------

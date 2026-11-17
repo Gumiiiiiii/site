@@ -1652,10 +1652,12 @@ h3.fond-boite-cat { margin: 0; }
 }
 
 .fond-signature a:hover { color: rgba(var(--text-rgb), 0.75); }
-.fond-signature a:hover img { opacity: 0.9; }
+.fond-signature a:hover img,
+.fond-signature a:hover svg { opacity: 0.9; }
 
 /* Le logotype complet, pas la seule initiale. */
-.fond-signature img {
+.fond-signature img,
+.fond-signature svg {
     height: 15px;
     width: auto;
     display: block;

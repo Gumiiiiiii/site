@@ -244,7 +244,8 @@
     /* Le bouton du thème a 7 px de vide autour de son dessin : on le décale
        pour que ce soit le dessin, pas sa case, qui touche la marge. */
     body.accueil-page .nav-group--controls { margin-right: -7px; }
-    body.accueil-page .nav-logo img { height: 34px; }
+    body.accueil-page .nav-logo img,
+    body.accueil-page .nav-logo svg { height: 34px; }
 
     /* Sur l'accueil, la trame dessine tout le fond, ciel et rivière
        compris : le champ de points ordinaire lui laisse la place. */
