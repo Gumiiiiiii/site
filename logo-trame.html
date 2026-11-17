@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Logo en trame</title>
+<style>
+@font-face { font-family: Urbanist; src: url(fonts/urbanist-latin.woff2) format("woff2"); font-weight: 100 900; font-display: swap; }
+:root { --fond: #faf8ff; --encre: #1d1530; --doux: #6f6683; --ligne: #e4def2; --violet: #9C77F5; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fond); color: var(--encre); font: 14px/1.4 Urbanist, system-ui, sans-serif; }
+main { display: grid; grid-template-columns: 1fr 300px; min-height: 100vh; }
+.scene { padding: 6vh 5vw; display: flex; flex-direction: column; gap: 10vh; align-items: center; justify-content: center; }
+.scene svg { display: block; max-width: 100%; height: auto; }
+#g { width: min(70vh, 100%); }
+#gumi { width: 100%; }
+aside { border-left: 1px solid var(--ligne); padding: 20px; background: #fff; position: sticky; top: 0; height: 100vh; overflow: auto; }
+h1 { font-size: 16px; font-weight: 800; margin: 0 0 16px; }
+h2 { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--doux); margin: 22px 0 8px; }
+label { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; margin: 0 0 10px; }
+label output { color: var(--doux); font-variant-numeric: tabular-nums; }
+label input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--violet); }
+.case { display: flex; gap: 8px; align-items: center; grid-template-columns: none; }
+.couleurs { display: flex; gap: 12px; }
+.couleurs label { display: flex; align-items: center; gap: 6px; }
+input[type=color] { width: 32px; height: 24px; border: 1px solid var(--ligne); padding: 0; background: none; }
+.boutons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 20px; }
+button { font: inherit; font-weight: 600; padding: 8px; border: 1px solid var(--ligne); background: var(--fond); color: var(--encre); border-radius: 6px; cursor: pointer; }
+button:hover { border-color: var(--violet); }
+.info { color: var(--doux); font-size: 12px; margin-top: 12px; }
+@media (max-width: 800px) {
+  main { grid-template-columns: 1fr; }
+  aside { position: static; height: auto; border-left: 0; border-top: 1px solid var(--ligne); }
+  .scene { padding: 32px 16px; }
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="scene" id="scene">
+    <svg id="g" role="img" aria-label="G"></svg>
+    <svg id="gumi" role="img" aria-label="Gumi"></svg>
+  </div>
+  <aside>
+    <h1>Logo en trame</h1>
+
+    <h2>Trame</h2>
+    <label>Lignes sur la hauteur du G <output></output><input id="lignesG" type="range" min="6" max="40" step="1" value="13"></label>
+    <label>Lignes sur la hauteur de GUMI <output></output><input id="lignesMot" type="range" min="6" max="40" step="1" value="13"></label>
+    <label>Hauteur de rang (x pas) <output></output><input id="rang" type="range" min="0.6" max="1.2" step="0.01" value="0.9"></label>
+    <label class="case"><input id="quinconce" type="checkbox" checked> Rangs en quinconce</label>
+
+    <h2>Points</h2>
+    <label>Taille des points <output></output><input id="taille" type="range" min="0.5" max="1.6" step="0.01" value="1.08"></label>
+    <label>Seuil de couverture <output></output><input id="seuil" type="range" min="0" max="0.5" step="0.01" value="0.04"></label>
+    <label>Point minimum (x pas) <output></output><input id="mini" type="range" min="0" max="0.4" step="0.01" value="0.07"></label>
+    <label>Contraste <output></output><input id="gamma" type="range" min="0.3" max="2" step="0.01" value="1"></label>
+
+    <h2>Fondu</h2>
+    <label>Intensité <output></output><input id="fondu" type="range" min="0" max="1" step="0.01" value="0.58"></label>
+    <label>Courbe <output></output><input id="courbe" type="range" min="0.5" max="4" step="0.1" value="2"></label>
+    <label>Direction (degrés) <output></output><input id="angle" type="range" min="0" max="360" step="5" value="45"></label>
+
+    <h2>Rendu</h2>
+    <label class="case"><input id="point" type="checkbox"> Garder le point final</label>
+    <div class="couleurs">
+      <label>Points <input id="couleur" type="color" value="#9C77F5"></label>
+      <label>Fond <input id="fond" type="color" value="#faf8ff"></label>
+    </div>
+
+    <div class="boutons">
+      <button id="svgG" type="button">SVG du G</button>
+      <button id="svgMot" type="button">SVG de GUMI</button>
+      <button id="lien" type="button">Copier le lien</button>
+      <button id="defaut" type="button">Réglages initiaux</button>
+    </div>
+    <p class="info" id="info"></p>
+  </aside>
+</main>
+<script>
+// Same halftone as build/logo-trame.js, live: tweak, then copy the link to keep a look.
+const champs = ['lignesG', 'lignesMot', 'rang', 'quinconce', 'taille', 'seuil', 'mini', 'gamma', 'fondu', 'courbe', 'angle', 'point', 'couleur', 'fond'];
+const el = (id) => document.getElementById(id);
+const defauts = {};
+champs.forEach((c) => { const i = el(c); defauts[c] = i.type === 'checkbox' ? i.checked : i.value; });
+
+function lire() {
+  const r = {};
+  champs.forEach((c) => { const i = el(c); r[c] = i.type === 'checkbox' ? i.checked : (i.type === 'color' ? i.value : +i.value); });
+  return r;
+}
+function ecrire(v) {
+  champs.forEach((c) => { if (!(c in v)) return; const i = el(c); if (i.type === 'checkbox') i.checked = v[c] === true || v[c] === 'true'; else i.value = v[c]; });
+}
+
+async function charger(src) {
+  const img = new Image();
+  img.src = src;
+  await img.decode();
+  const w = img.naturalWidth, h = img.naturalHeight;
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const x = c.getContext('2d');
+  x.drawImage(img, 0, 0);
+  const d = x.getImageData(0, 0, w, h).data;
+  // Summed-area table of ink, so every cell's coverage is four lookups.
+  const S = new Float64Array((w + 1) * (h + 1));
+  let haut = h, bas = 0;
+  for (let y = 0; y < h; y++) {
+    let ligne = 0;
+    for (let i = 0; i < w; i++) {
+      const v = d[(y * w + i) * 4 + 3] > 128 ? 1 : 0;
+      if (v) { if (y < haut) haut = y; if (y > bas) bas = y; }
+      ligne += v;
+      S[(y + 1) * (w + 1) + i + 1] = S[y * (w + 1) + i + 1] + ligne;
+    }
+  }
+  return { w, h, S, hauteur: bas - haut + 1 };
+}
+
+function couvre(m, x0, y0, x1, y1) {
+  x0 = Math.max(0, Math.round(x0)); y0 = Math.max(0, Math.round(y0));
+  x1 = Math.min(m.w, Math.round(x1)); y1 = Math.min(m.h, Math.round(y1));
+  const aire = (x1 - x0) * (y1 - y0);
+  if (aire <= 0) return 0;
+  const W = m.w + 1, S = m.S;
+  return (S[y1 * W + x1] - S[y0 * W + x1] - S[y1 * W + x0] + S[y0 * W + x0]) / aire;
+}
+
+function trame(m, lignes, horsPoint, v) {
+  const pas = m.hauteur / lignes;
+  const dy = pas * v.rang;
+  const a = v.angle * Math.PI / 180;
+  const ux = Math.cos(a), uy = -Math.sin(a);
+  // Fade runs along the chosen direction: 0 at the start corner, 1 at the opposite one.
+  const proj = (x, y) => (x / m.w - 0.5) * ux + (y / m.h - 0.5) * uy;
+  const pmax = (Math.abs(ux) + Math.abs(uy)) / 2;
+  const cercles = [];
+  for (let j = 0, y = pas / 2; y < m.h + pas; j++, y += dy) {
+    const dec = v.quinconce && j % 2 ? pas / 2 : 0;
+    for (let x = dec; x < m.w + pas; x += pas) {
+      if (horsPoint && horsPoint(x / m.w, y / m.h)) continue;
+      let cov = couvre(m, x - pas / 2, y - dy / 2, x + pas / 2, y + dy / 2);
+      if (cov < v.seuil || cov === 0) continue;
+      cov = Math.pow(cov, v.gamma);
+      const t = pmax ? (proj(x, y) / pmax + 1) / 2 : 0;
+      const f = 1 - v.fondu * Math.pow(Math.max(0, Math.min(1, t)), v.courbe);
+      const r = (pas / 2) * v.taille * Math.sqrt(cov * f);
+      if (r < pas * v.mini) continue;
+      cercles.push([x, y, r]);
+    }
+  }
+  return { cercles, pas };
+}
+
+function dessiner(svg, m, res, couleur) {
+  const marge = res.pas;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  res.cercles.forEach(([x, y, r]) => { x0 = Math.min(x0, x - r); y0 = Math.min(y0, y - r); x1 = Math.max(x1, x + r); y1 = Math.max(y1, y + r); });
+  if (!res.cercles.length) { svg.innerHTML = ''; return ''; }
+  const vb = [x0 - marge * 0.25, y0 - marge * 0.25, x1 - x0 + marge * 0.5, y1 - y0 + marge * 0.5].map((n) => +n.toFixed(1));
+  const corps = res.cercles.map(([x, y, r]) => '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + r.toFixed(1) + '"/>').join('');
+  svg.setAttribute('viewBox', vb.join(' '));
+  svg.setAttribute('fill', couleur);
+  svg.innerHTML = corps;
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + vb.join(' ') + '" fill="' + couleur + '"><title>Gumi</title>' + corps + '</svg>\n';
+}
+
+let G, MOT, sortieG = '', sortieMot = '';
+function rendre() {
+  const v = lire();
+  document.querySelectorAll('label output').forEach((o) => { o.textContent = o.parentElement.querySelector('input').value; });
+  document.body.style.background = v.fond;
+  if (!G) return;
+  // The full stop sits bottom right in both sources.
+  const resG = trame(G, v.lignesG, v.point ? null : (fx, fy) => fx > 0.76 && fy > 0.66, v);
+  const resMot = trame(MOT, v.lignesMot, v.point ? null : (fx) => fx > 0.91, v);
+  sortieG = dessiner(el('g'), G, resG, v.couleur);
+  sortieMot = dessiner(el('gumi'), MOT, resMot, v.couleur);
+  el('info').textContent = 'G : ' + resG.cercles.length + ' points, GUMI : ' + resMot.cercles.length + ' points';
+  history.replaceState(null, '', '#' + new URLSearchParams(Object.entries(v)).toString());
+}
+
+function telecharger(nom, texte) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([texte], { type: 'image/svg+xml' }));
+  a.download = nom;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+if (location.hash.length > 1) ecrire(Object.fromEntries(new URLSearchParams(location.hash.slice(1))));
+document.querySelector('aside').addEventListener('input', rendre);
+el('svgG').onclick = () => telecharger('logo-trame-g.svg', sortieG);
+el('svgMot').onclick = () => telecharger('logo-trame-gumi.svg', sortieMot);
+el('lien').onclick = async () => { try { await navigator.clipboard.writeText(location.href); el('lien').textContent = 'Lien copié'; setTimeout(() => { el('lien').textContent = 'Copier le lien'; }, 1500); } catch (e) { prompt('Lien', location.href); } };
+el('defaut').onclick = () => { ecrire(defauts); rendre(); };
+rendre();
+Promise.all([charger('media/Gumi-small.png'), charger('media/Gumi-Logotype.png')]).then(([a, b]) => { G = a; MOT = b; rendre(); });
+</script>
+</body>
+</html>
