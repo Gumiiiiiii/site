@@ -368,7 +368,7 @@ window.GUMI_ARTICLES = {
 
     'ardacraft-map': {
         cover: '/media/ardacraft-map-carte-interactive.webp',
-        coverAlt: 'La carte interactive de la Terre du Milieu conçue pour ArdaCraft',
+        coverAlt: 'La carte interactive d’ArdaCraft, ouverte sur la fiche d’Edoras, au Rohan',
         readNext: 'ardacraft-social',
         published: '2026-07-12',
         title: {
