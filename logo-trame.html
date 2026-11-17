@@ -13,8 +13,7 @@ body { margin: 0; background: var(--fond); color: var(--encre); font: 14px/1.4 U
 main { display: grid; grid-template-columns: 1fr 300px; min-height: 100vh; }
 .scene { padding: 6vh 5vw; display: flex; flex-direction: column; gap: 10vh; align-items: center; justify-content: center; }
 .scene svg { display: block; max-width: 100%; height: auto; }
-#g { width: min(70vh, 100%); }
-#gumi { width: 100%; }
+.scene svg { overflow: visible; touch-action: none; }
 aside { border-left: 1px solid var(--ligne); padding: 20px; background: #fff; position: sticky; top: 0; height: 100vh; overflow: auto; }
 h1 { font-size: 16px; font-weight: 800; margin: 0 0 16px; }
 h2 { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--doux); margin: 22px 0 8px; }
@@ -72,7 +71,18 @@ button:hover { border-color: var(--violet); }
       <label><input type="radio" name="portee" value="mot"> Sur le mot</label>
     </div>
 
+    <h2>Survol</h2>
+    <div class="choix" style="flex-wrap: wrap">
+      <label><input type="radio" name="anim" value="loupe" checked> Loupe</label>
+      <label><input type="radio" name="anim" value="repousse"> Repousse</label>
+      <label><input type="radio" name="anim" value="vague"> Vague</label>
+      <label><input type="radio" name="anim" value="aucune"> Aucune</label>
+    </div>
+    <label>Intensité <output></output><input id="force" type="range" min="0" max="2" step="0.05" value="0.8"></label>
+    <label>Rayon (x hauteur) <output></output><input id="rayon" type="range" min="0.1" max="1.5" step="0.05" value="0.4"></label>
+
     <h2>Rendu</h2>
+    <label>Hauteur des lettres (px) <output></output><input id="hauteur" type="range" min="24" max="600" step="2" value="120"></label>
     <label class="case"><input id="point" type="checkbox"> Garder le point final</label>
     <div class="couleurs">
       <label>Points <input id="couleur" type="color" value="#9C77F5"></label>
@@ -90,9 +100,10 @@ button:hover { border-color: var(--violet); }
 </main>
 <script>
 // Both marks come from one source (the logotype), letter by letter on one grid, so the G is the same dots in both.
-const champs = ['lignes', 'rang', 'quinconce', 'flouX', 'flouY', 'taille', 'seuil', 'mini', 'gamma', 'grain', 'fondu', 'courbe', 'angle', 'portee', 'point', 'couleur', 'fond'];
+const champs = ['lignes', 'rang', 'quinconce', 'flouX', 'flouY', 'taille', 'seuil', 'mini', 'gamma', 'grain', 'fondu', 'courbe', 'angle', 'portee', 'anim', 'force', 'rayon', 'hauteur', 'point', 'couleur', 'fond'];
+const radios = ['portee', 'anim'];
 const el = (id) => document.getElementById(id);
-const champ = (c) => c === 'portee' ? document.querySelector('input[name=portee]:checked') : el(c);
+const champ = (c) => radios.includes(c) ? document.querySelector('input[name=' + c + ']:checked') : el(c);
 
 function lire() {
   const r = {};
@@ -106,7 +117,7 @@ function ecrire(v) {
   if (!('lignes' in v) && 'lignesG' in v) v.lignes = v.lignesG;
   champs.forEach((c) => {
     if (!(c in v)) return;
-    if (c === 'portee') { const r = document.querySelector('input[name=portee][value="' + v[c] + '"]'); if (r) r.checked = true; return; }
+    if (radios.includes(c)) { const r = document.querySelector('input[name=' + c + '][value="' + v[c] + '"]'); if (r) r.checked = true; return; }
     const i = el(c);
     if (i.type === 'checkbox') i.checked = v[c] === true || v[c] === 'true'; else i.value = v[c];
   });
@@ -198,7 +209,8 @@ function trameLettre(m, L, boite, v) {
   return points;
 }
 
-function dessiner(svg, cercles, pas, couleur) {
+function dessiner(svg, cercles, pas, couleur, echelle) {
+  svg.anim = null;
   if (!cercles.length) { svg.innerHTML = ''; return ''; }
   let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
   cercles.forEach(([x, y, r]) => { x0 = Math.min(x0, x - r); y0 = Math.min(y0, y - r); x1 = Math.max(x1, x + r); y1 = Math.max(y1, y + r); });
@@ -207,6 +219,9 @@ function dessiner(svg, cercles, pas, couleur) {
   svg.setAttribute('viewBox', vb.join(' '));
   svg.setAttribute('fill', couleur);
   svg.innerHTML = corps;
+  svg.style.width = (vb[2] * echelle).toFixed(0) + 'px';
+  const els = svg.children;
+  svg.anim = { pts: cercles.map(([x, y, r], i) => ({ x, y, r, el: els[i], s: 1, ox: 0, oy: 0 })), presence: 0, dedans: false, px: 0, py: 0, vagues: [] };
   return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + vb.join(' ') + '" fill="' + couleur + '"><title>Gumi</title>' + corps + '</svg>\n';
 }
 
@@ -225,10 +240,65 @@ function rendre() {
   const tout = new Map();
   parLettre.forEach((p) => p.forEach((c, k) => { const e = tout.get(k); if (!e || c[2] > e[2]) tout.set(k, c); }));
   const g = [...parLettre[0].values()];
-  sortieG = dessiner(el('g'), g, pas, v.couleur);
-  sortieMot = dessiner(el('gumi'), [...tout.values()], pas, v.couleur);
+  const echelle = v.hauteur / (MOT.bas - MOT.haut);
+  sortieG = dessiner(el('g'), g, pas, v.couleur, echelle);
+  sortieMot = dessiner(el('gumi'), [...tout.values()], pas, v.couleur, echelle);
+  reglages = v;
   el('info').textContent = 'G : ' + g.length + ' points, GUMI : ' + tout.size + ' points';
 }
+
+// Hover: each dot eases toward a target size and offset set by the pointer.
+let reglages = null, boucle = 0;
+const svgs = [el('g'), el('gumi')];
+function anime(now) {
+  boucle = 0;
+  if (!MOT || !reglages) return;
+  const v = reglages, H = MOT.bas - MOT.haut, R = v.rayon * H, k = v.force;
+  let encore = false;
+  svgs.forEach((svg) => {
+    const a = svg.anim;
+    if (!a) return;
+    a.presence += ((a.dedans ? 1 : 0) - a.presence) * 0.12;
+    if (a.dedans || a.presence > 0.002) encore = true;
+    if (v.anim === 'vague' && a.dedans && (!a.vagues.length || now - a.vagues[a.vagues.length - 1].t > 900)) a.vagues.push({ x: a.px, y: a.py, t: now });
+    a.vagues = a.vagues.filter((w) => now - w.t < 1600);
+    if (a.vagues.length) encore = true;
+    a.pts.forEach((p) => {
+      const dx = p.x - a.px, dy = p.y - a.py, d2 = dx * dx + dy * dy;
+      const proche = Math.exp(-d2 / (R * R)) * a.presence;
+      let s = 1, ox = 0, oy = 0;
+      if (v.anim === 'loupe') s = 1 + k * proche;
+      else if (v.anim === 'repousse') { const d = Math.sqrt(d2) || 1; ox = dx / d * k * R * 0.4 * proche; oy = dy / d * k * R * 0.4 * proche; }
+      else if (v.anim === 'vague') {
+        a.vagues.forEach((w) => {
+          const age = (now - w.t) / 1000, d = Math.hypot(p.x - w.x, p.y - w.y);
+          const front = age * 2.2 * H, l = 0.18 * H;
+          s += k * Math.exp(-((d - front) * (d - front)) / (l * l)) * (1 - age / 1.6);
+        });
+      }
+      const ls = v.anim === 'vague' ? 1 : 0.25;
+      p.s += (s - p.s) * ls; p.ox += (ox - p.ox) * 0.25; p.oy += (oy - p.oy) * 0.25;
+      const r = p.r * p.s, cx = p.x + p.ox, cy = p.y + p.oy;
+      if (Math.abs(r - p.dr) > 0.05 || p.dr === undefined) { p.el.setAttribute('r', r.toFixed(2)); p.dr = r; }
+      if (Math.abs(cx - p.dx) > 0.05 || Math.abs(cy - p.dy) > 0.05 || p.dx === undefined) { p.el.setAttribute('cx', cx.toFixed(1)); p.el.setAttribute('cy', cy.toFixed(1)); p.dx = cx; p.dy = cy; }
+      if (Math.abs(p.s - 1) > 0.002 || Math.abs(p.ox) + Math.abs(p.oy) > 0.05) encore = true;
+    });
+  });
+  if (encore) boucle = requestAnimationFrame(anime);
+}
+const relancer = () => { if (!boucle) boucle = requestAnimationFrame(anime); };
+svgs.forEach((svg) => {
+  const suivre = (e) => {
+    if (!svg.anim) return;
+    const m = svg.getScreenCTM();
+    if (!m) return;
+    const q = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse());
+    svg.anim.px = q.x; svg.anim.py = q.y;
+  };
+  svg.addEventListener('pointerenter', (e) => { suivre(e); if (svg.anim) { svg.anim.dedans = true; svg.anim.vagues = []; } relancer(); });
+  svg.addEventListener('pointermove', (e) => { suivre(e); relancer(); });
+  svg.addEventListener('pointerleave', () => { if (svg.anim) svg.anim.dedans = false; relancer(); });
+});
 
 function telecharger(nom, texte) {
   const a = document.createElement('a');
