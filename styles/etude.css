@@ -195,8 +195,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 .resume { display: flex; flex-direction: column; gap: 1.3rem; }
 .resume-tete { padding: 0; }
 .etude-page .resume-tete { background: none; }
-/* « En bref » s'écrit à la main, comme les notes du CV : légèrement
-   penché, souligné d'un trait qui se trace quand le bloc entre à l'écran. */
+/* « En bref » écrit à la main, comme les notes du CV, penché et souligné. */
 .resume-tete h2 {
     position: relative;
     display: inline-block;
@@ -222,12 +221,6 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     background: currentColor;
     -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 170 12' preserveAspectRatio='none'%3E%3Cpath d='M5 8c28-4 60-6 94-4 22 1 42 2 68 1' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 170 12' preserveAspectRatio='none'%3E%3Cpath d='M5 8c28-4 60-6 94-4 22 1 42 2 68 1' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
-}
-/* L'écriture : le mot puis son trait, de gauche à droite. */
-.resume-tete.a-ecrire h2 { clip-path: inset(-0.3em 100% -0.3em -0.3em); }
-.resume-tete.ecrit h2 { clip-path: inset(-0.3em -0.6em -0.3em -0.3em); transition: clip-path 0.9s cubic-bezier(0.45, 0, 0.3, 1); }
-@media (prefers-reduced-motion: reduce) {
-    .resume-tete.a-ecrire h2 { clip-path: none; }
 }
 .resume-etapes {
     counter-reset: point;
@@ -420,7 +413,6 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     .etude-page .article-title,
     .etude-page .featured-image-wrapper,
     .etude-page .toolbar-wrapper,
-    .etude-page .article-abstract,
     .etude-page .article-content {
         animation: etude-entre 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
     }
@@ -429,7 +421,6 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     .etude-page .article-title { animation-delay: 0.16s; }
     .etude-page .featured-image-wrapper { animation-delay: 0.26s; }
     .etude-page .toolbar-wrapper { animation-delay: 0.36s; }
-    .etude-page .article-abstract { animation-delay: 0.42s; }
     .etude-page .article-content { animation-delay: 0.5s; }
     .etude-trame { transition-duration: 0.5s; }
 }

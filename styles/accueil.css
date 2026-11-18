@@ -58,6 +58,11 @@
    La phrase
    -------------------------------------------------------------------------- */
 
+/* La phrase s'écrit lettre à lettre : cachée dès le premier rendu pour ne pas
+   paraître, disparaître puis revenir. Secours : elle revient seule. */
+.phrase-a-ecrire .accueil-phrase { visibility: hidden; animation: phrase-secours 0s 3s forwards; }
+@keyframes phrase-secours { to { visibility: visible; } }
+
 .accueil-phrase {
     text-align: left;
     max-width: 16.5em;
@@ -80,7 +85,7 @@
     justify-content: space-between;
     gap: 1rem;
     padding-bottom: 0.6rem;
-    border-bottom: 1px solid var(--filet);
+    border-bottom: 1px solid rgba(var(--text-rgb), 0.32);
 }
 .bloc-tete h2 {
     font-size: 1.05rem;
@@ -117,7 +122,7 @@
     align-items: center;
     column-gap: 1rem;
     padding: 0.6rem 0;
-    border-bottom: 1px solid var(--filet-fin);
+    border-bottom: 1px solid rgba(var(--text-rgb), 0.2);
     color: var(--encre-1);
     text-decoration: none;
 }
