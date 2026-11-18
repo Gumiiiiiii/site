@@ -3,6 +3,8 @@
 /* Une seule colonne, centrée : le titre, la couverture, le résumé, le texte. */
 body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100vw - 2 * var(--marge) - 16px)); }
 @media (min-width: 760px) { body.etude-page { --marge: 2rem; } }
+/* Un téléphone n'a pas de barre de défilement à réserver : les images vont à la marge, comme le texte. */
+@media (max-width: 759px) { body.etude-page { --large: calc(100vw - 2 * var(--marge)); } }
 
 /* Le fond */
 
