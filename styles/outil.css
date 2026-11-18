@@ -120,7 +120,8 @@ body.outil-page .nav-group--controls { margin-right: -7px; }
 .outil-page .main-grid {
     grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
     gap: clamp(2rem, 4vw, 3.5rem);
-    align-items: stretch;
+    /* Le résultat prend la hauteur de ce qu'il montre, pas celle de l'écran. */
+    align-items: start;
 }
 
 /* Les étapes : un numéro, un intitulé, un filet gris au-dessus. */
@@ -267,7 +268,7 @@ body.outil-page .nav-group--controls { margin-right: -7px; }
 .outil-page .outil-cadre { max-width: none; }
 
 /* Les réglages : chaque rangée devient une étape numérotée, sous un filet. */
-.outil-page .left-col { counter-reset: etape; }
+.outil-page .left-col { counter-reset: etape; align-self: stretch; }
 .outil-page .left-col :is(.controls-panel, .control-row, .advanced-section) { margin: 0; }
 .outil-page :is(.left-col, .left-col > .controls-panel) > :is(.control-row, .advanced-section) {
     padding: 1.05rem 0 1.25rem;
@@ -305,7 +306,7 @@ body.outil-page .nav-group--controls { margin-right: -7px; }
     border: 1px solid var(--filet);
     border-radius: var(--rayon);
     padding: 1.75rem;
-    min-height: 22rem;
+    min-height: 10rem;
 }
 .outil-page .right-col::before {
     content: '';
@@ -328,8 +329,9 @@ body.outil-page .nav-group--controls { margin-right: -7px; }
 
 @media (min-width: 1100px) and (min-height: 600px) {
     .outil-page .left-col,
-    .outil-page .right-col {
-        min-height: 0;
+    .outil-page .right-col,
+    .outil-scene {
+        max-height: 100%;
         overflow-y: auto;
         overscroll-behavior: contain;
         scrollbar-width: thin;
