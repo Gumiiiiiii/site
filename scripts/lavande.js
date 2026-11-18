@@ -262,6 +262,155 @@
     // Les cyprès : [part de la largeur de l'écran, hauteur en part de l'écran].
     var CYPRES = [[0.215, 0.1], [0.231, 0.075], [0.905, 0.11], [0.921, 0.085]];
 
+    // ------------------------------------------------------------------
+    // Les buissons de lavande
+    // ------------------------------------------------------------------
+    //
+    // Chaque buisson est un dôme d'épis, rendu en volume une fois pour toutes
+    // (build/buissons-lavande.js) sous trois angles de vue et en trois
+    // variantes. Ici on les pose debout sur les rangs, du plus loin au plus
+    // proche, à la taille de leur distance : une fois par mise en page.
+    var BU_L = 144, BU_H = 96, BU_PX = 42, BU_U0 = -1.3, BU_V0 = 1.29, BU_C = 5;
+    var BU_ANGLES = [6, 18, 42], BU_VAR = 3;
+    var TERRE = 0.05, TERRE_SOMBRE = 0.1, OMBRE_SOL = 0.6;
+    var buMips = null, buEtat = 0, buPret = false, buDemande = false;      // buEtat : 0 en route, 1 reçu, 2 manqué
+    var buEncre, buLum, buEclat, CHAMP_UNI = 0.24;
+
+    function chargerBuissons() {
+        if (!window.fetch || !window.DecompressionStream) { buEtat = 2; return; }
+        fetch('/media/buissons-lavande.bin').then(function (r) {
+            if (!r.ok) throw new Error(r.status);
+            return r.arrayBuffer();
+        }).then(function (brut) {
+            var o = new Uint8Array(brut);
+            // Un serveur peut l'avoir déjà décompressé en route.
+            if (o[0] !== 0x1f || o[1] !== 0x8b) return brut;
+            return new Response(new Blob([brut]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+        }).then(function (b) {
+            var d = new Uint8Array(b), n = BU_L * BU_H, N = d.length / BU_C;
+            if (N !== BU_VAR * BU_ANGLES.length * n) throw new Error('taille');
+            buMips = [];
+            for (var s = 0; s < BU_VAR * BU_ANGLES.length; s++) {
+                var f = new Float32Array(n * BU_C);
+                for (var k = 0; k < n; k++) for (var c = 0; c < BU_C; c++) f[k * BU_C + c] = d[c * N + s * n + k] / 255;
+                buMips.push(mipmaps(f));
+            }
+            buEtat = 1;
+        }).catch(function () { buEtat = 2; }).then(function () { buPret = false; reveiller(); });
+    }
+    // Les réductions de moitié en moitié : un point lointain lit la moyenne de
+    // tout ce que sa cellule couvre, pas un pixel au hasard.
+    function mipmaps(f) {
+        var niveaux = [{ l: BU_L, h: BU_H, d: f }];
+        while (niveaux[niveaux.length - 1].l > 4) {
+            var p = niveaux[niveaux.length - 1], l = Math.ceil(p.l / 2), h = Math.ceil(p.h / 2), d = new Float32Array(l * h * BU_C);
+            for (var y = 0; y < h; y++) for (var x = 0; x < l; x++) for (var c = 0; c < BU_C; c++) {
+                var s = 0;
+                for (var dy = 0; dy < 2; dy++) for (var dx = 0; dx < 2; dx++) {
+                    var xx = 2 * x + dx, yy = 2 * y + dy;
+                    if (xx < p.l && yy < p.h) s += p.d[(yy * p.l + xx) * BU_C + c];
+                }
+                d[(y * l + x) * BU_C + c] = s / 4;
+            }
+            niveaux.push({ l: l, h: h, d: d });
+        }
+        return niveaux;
+    }
+    function lireNiveau(nv, sx, sy, poids, out) {
+        var x = sx - 0.5, y = sy - 0.5, x0 = Math.floor(x), y0 = Math.floor(y), fx = x - x0, fy = y - y0;
+        for (var b = 0; b < 2; b++) for (var a = 0; a < 2; a++) {
+            var xx = x0 + a, yy = y0 + b;
+            if (xx < 0 || yy < 0 || xx >= nv.l || yy >= nv.h) continue;
+            var w = poids * (a ? fx : 1 - fx) * (b ? fy : 1 - fy), o = (yy * nv.l + xx) * BU_C;
+            for (var c = 0; c < BU_C; c++) out[c] += w * nv.d[o + c];
+        }
+    }
+    function lireSprite(mips, sx, sy, niveau, poids, out) {
+        var n0 = Math.min(Math.floor(niveau), mips.length - 1), n1 = Math.min(n0 + 1, mips.length - 1), f = niveau - Math.floor(niveau);
+        if (n0 === n1) f = 0;
+        lireNiveau(mips[n0], sx / (1 << n0), sy / (1 << n0), poids * (1 - f), out);
+        if (f > 0) lireNiveau(mips[n1], sx / (1 << n1), sy / (1 << n1), poids * f, out);
+    }
+
+    var tampon = new Float32Array(BU_C);
+    function couv(mA, mB, fa, sx, sy, niveau) {
+        tampon[0] = tampon[1] = tampon[2] = tampon[3] = tampon[4] = 0;
+        lireSprite(mA, sx, sy, niveau, 1 - fa, tampon);
+        if (fa > 0) lireSprite(mB, sx, sy, niveau, fa, tampon);
+        return tampon[1];
+    }
+
+    function preparerBuissons() {
+        var n = xs.length;
+        if (!buEncre || buEncre.length !== n) { buEncre = new Float32Array(n); buLum = new Float32Array(n); buEclat = new Float32Array(n); }
+        buEncre.fill(TERRE); buLum.fill(TERRE_SOMBRE); buEclat.fill(0);
+        buPret = true;
+        if (!buMips) return;
+        var hy = hauteur * 0.5, vx = largeur * 0.56, bas = hauteur - hy;
+        var ecart = largeur / (4 * bas);                  // entre deux rangs, en hauteurs d'œil
+        var K = 0.7 * ecart / 2.25;                      // un buisson : 2,25 unités de son modèle
+        var D = 0.62 * ecart, zMax = Math.min(40, 2.2 * K * bas / 7);
+        var liste = [];
+        for (var nT = Math.ceil(zMax / D) + 1; nT >= 0; nT--) {
+            var zr = (nT + 0.5) * D;
+            var nMax = Math.ceil((largeur * 0.6 * zr / bas) / ecart) + 1;
+            for (var nR = -nMax; nR <= nMax; nR++) {
+                var h1 = hasard(nT, nR), h2 = hasard(nR, nT + 40), h3 = hasard(nT + 7, nR - 3);
+                var Z = zr - hasard(nR, 11) * D + (h2 - 0.5) * 0.08;
+                if (Z < 0.55 || Z > zMax) continue;
+                liste.push(Z, (nR + 0.5 + (h3 - 0.5) * 0.12) * ecart, 0.88 + 0.24 * h1, Math.floor(h2 * BU_VAR) % BU_VAR);
+            }
+        }
+        var ordre = [];
+        for (var q = 0; q < liste.length; q += 4) ordre.push(q);
+        ordre.sort(function (a, b) { return liste[b] - liste[a]; });
+
+        var rangees = Math.round(hauteur / PAS_Y), pas = hauteur / rangees;
+        var centre = largeur / 2, demi = Math.ceil(centre / PAS_X) + 1, parRang = demi * 2 + 1;
+        var s = new Float32Array(BU_C);
+        for (var oi = 0; oi < ordre.length; oi++) {
+            var b = ordre[oi], Z = liste[b], W = liste[b + 1], sc = liste[b + 2], vr = liste[b + 3];
+            var bx = vx + W * bas / Z, by = hy + bas * (1 / Z - 0.02);
+            var ppu = K * sc * bas / Z;                        // pixels d'écran par unité du modèle
+            var gauche = bx + BU_U0 * ppu, droite = bx + (BU_U0 + BU_L / BU_PX) * ppu;
+            var haut = by - BU_V0 * ppu, basS = by + (BU_H / BU_PX - BU_V0) * ppu;
+            if (droite < 0 || gauche > largeur || haut > hauteur || basS < hy) continue;
+            // L'angle sous lequel l'œil le voit, entre deux des rendus.
+            var th = Math.atan(1 / Z) * 57.2958, ia = 0;
+            while (ia < BU_ANGLES.length - 2 && th > BU_ANGLES[ia + 1]) ia++;
+            var fa = (th - BU_ANGLES[ia]) / (BU_ANGLES[ia + 1] - BU_ANGLES[ia]);
+            fa = fa < 0 ? 0 : fa > 1 ? 1 : fa;
+            var mA = buMips[vr * BU_ANGLES.length + ia], mB = buMips[vr * BU_ANGLES.length + ia + 1];
+            var niveau = Math.max(0, Math.log(PAS_X / ppu * BU_PX) / Math.LN2 - 0.5);
+            var pasS = PAS_X / ppu * BU_PX, pasV = pas / ppu * BU_PX;     // d'un point à son voisin, dans le rendu
+            var j0 = Math.max(0, Math.ceil(Math.max(haut, hy) / pas)), j1 = Math.min(rangees, Math.floor(basS / pas));
+            for (var j = j0; j <= j1; j++) {
+                var dec = (j % 2) ? PAS_X / 2 : 0, y = j * pas;
+                var i0 = Math.max(-demi, Math.ceil((gauche - centre - dec) / PAS_X)), i1 = Math.min(demi, Math.floor((droite - centre - dec) / PAS_X));
+                var sy = (BU_V0 - (by - y) / ppu) * BU_PX;
+                for (var ii = i0; ii <= i1; ii++) {
+                    var x = centre + ii * PAS_X + dec, sx = ((x - bx) / ppu - BU_U0) * BU_PX;
+                    s[0] = s[1] = s[2] = s[3] = s[4] = 0;
+                    lireSprite(mA, sx, sy, niveau, 1 - fa, s);
+                    if (fa > 0) lireSprite(mB, sx, sy, niveau, fa, s);
+                    if (s[1] < 0.002 && s[3] < 0.002) continue;
+                    var k = j * parRang + ii + demi, vide = 1 - s[1], sh = 0.6 * s[3];
+                    // Le buisson couvre ce qui est derrière ; son ombre tombe sur le reste.
+                    var e0 = buEncre[k], l0 = buLum[k], c0 = buEclat[k];
+                    buEncre[k] = 0.08 * s[1] + s[0] + vide * e0 + sh * (OMBRE_SOL - e0);
+                    buLum[k] = Math.max(0, 1.2 * s[2] + vide * l0 - 0.85 * sh * l0);
+                    buEclat[k] = Math.max(0, s[4] + vide * c0 - sh * c0);
+                    // Son contour, comme la crête et les collines : un trait d'un point,
+                    // sauf au pied, où il touche le sol.
+                    if (s[1] > 0.5 && (couv(mA, mB, fa, sx - pasS, sy, niveau) < 0.3 || couv(mA, mB, fa, sx + pasS, sy, niveau) < 0.3
+                        || couv(mA, mB, fa, sx - pasS / 2, sy - pasV, niveau) < 0.3 || couv(mA, mB, fa, sx + pasS / 2, sy - pasV, niveau) < 0.3)) {
+                        buEncre[k] = Math.max(buEncre[k], 0.5); buLum[k] = Math.max(buLum[k], 0.55); buEclat[k] = 0;
+                    }
+                }
+            }
+        }
+    }
+
     // Les nuages : un bruit lisse, à deux échelles, qui dérive lentement. Dans
     // le ciel il pose de petits nuages clairs, au ventre un peu gris ; au
     // sol, leur ombre glisse sur le paysage. C'est le seul mouvement du
@@ -295,6 +444,9 @@
         // Le cabanon se calcule avant que l'apparition commence : sinon ce
         // calcul mangerait ses premières images et elle partirait d'un saut.
         if (!ruPret) { preparerRuine(); reveiller(); return; }
+        if (buEtat === 0) return;
+        if (!buPret) { preparerBuissons(); reveiller(); return; }
+        CHAMP_UNI = sombre ? 0.26 : 0.24;
         if (debut < 0) debut = maintenant;
         var e = CALME.matches ? INTRO : (maintenant - debut) / 1000;   // le temps depuis l'apparition
         if (e >= INTRO && maintenant - dernier < CADENCE) { reveiller(); return; }
@@ -434,38 +586,13 @@
                 var p = (y - hy) / bas;                       // 0 à l'horizon, 1 en bas
                 var prof = 1 / (p + 0.02);
                 var X = (x - vx) / (p + 0.02) / largeur;      // position dans le champ
-                // Un champ de lavande : sur chaque rang, des touffes posées sur
-                // la terre claire. Une touffe n'est pas un rond : c'est une
-                // masse au contour bosselé, chacune différente, qui touche
-                // presque sa voisine.
-                var u = X * 6;
-                var f = u - Math.floor(u);
-                var nRang = Math.floor(u);
-                var D = 0.5;                                    // une touffe tous les D, en profondeur
-                var v = prof + hasard(nRang, 11) * D, nT = Math.floor(v / D);
-                var ga = (f - 0.5) / 0.37;                      // à travers la touffe : -1 à gauche, 1 à droite
-                var gb = (v - nT * D - D / 2) / (D * 0.56);     // le long du rang
-                var h1 = hasard(nT, nRang), h2 = hasard(nRang, nT + 40);
-                var angle = Math.atan2(gb, ga);
-                // Le contour : un rayon qui varie avec l'angle, à sa façon pour chaque touffe.
-                var contour = (0.84 + 0.22 * h1) * (1 + 0.13 * Math.sin(angle * 2 + h1 * 6.28) + 0.09 * Math.sin(angle * 3 + h2 * 6.28));
-                var rayon = Math.sqrt(ga * ga + gb * gb) / contour;
-                // Près de l'horizon, le champ a un ton uni, sans touffes : elles
-                // y seraient plus fines qu'un point. En descendant, elles en sortent.
-                var sortie = lisse(0.02, 0.55, p);
-                var champ;
-                if (rayon < 1) {
-                    // La touffe : claire du côté du soleil, dense vers l'ombre
-                    // et à son bord, mouchetée par les épis.
-                    var epis = hasard(Math.floor(x / 10), Math.floor(y / 18 + hasard(Math.floor(x / 10), 3))) - 0.5;
-                    champ = 0.46 + 0.26 * lisse(-0.7, 0.8, ga) + 0.12 * epis * lisse(0.2, 0.7, p);
-                    eclat = 0.18 * lisse(-0.2, -0.7, ga) * (1 - lisse(0.5, 0.9, rayon)) * sortie;
-                } else {
-                    champ = 0.05;                               // la terre
-                    eclat = 0;
-                }
-                if (sombre) champ = 0.7 - 0.8 * champ;
-                ton = 0.24 + (champ - 0.24) * sortie;
+                // Les buissons, posés une fois par mise en page. Près de
+                // l'horizon, ils se fondent en un ton uni : ils y seraient
+                // plus fins qu'un point.
+                var sortie = lisse(0.01, 0.22, p);
+                var champ = sombre ? buLum[i] : buEncre[i];
+                eclat = 0.8 * buEclat[i] * sortie;
+                ton = CHAMP_UNI + (champ - CHAMP_UNI) * sortie;
                 // L'ombre des nuages court sur le champ, en perspective.
                 var os = nuage(X * 1.1 - t * 0.04, prof * 0.3, 0.54) * sortie;
                 ton *= sombre ? 1 - 0.4 * os : 1 + 0.45 * os;
@@ -614,6 +741,8 @@
         if (!ctx) return;
         lireTheme();
         mesurer();
+        buPret = false;
+        if (!buDemande) { buDemande = true; chargerBuissons(); }
         dernier = 0;
         reveiller();
     }
