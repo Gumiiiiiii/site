@@ -30,7 +30,7 @@
     var PAS_X = 10, PAS_Y = 9, RAYON_MAX = 5.2, CADENCE = 40;
 
     var ctx = null, largeur = 0, hauteur = 0, dpr = 1, xs, ys;
-    var encre = 'rgba(26, 26, 26, 0.12)', sombre = false;
+    var encre = 'rgba(26, 26, 26, 0.12)', sombre = false, papier = '#F9F4EF';
     // Les lumières : une seconde encre, claire, pour ce que le soleil touche.
     // L'encre grise dessine les ombres ; celle-ci pose des points blancs sur
     // le papier (en sombre, des points plus vifs que les autres).
@@ -65,6 +65,7 @@
         sombre = document.documentElement.getAttribute('data-theme') === 'dark';
         encre = 'rgba(' + rgb + ', ' + (sombre ? 0.17 : 0.145) + ')';
         ruPret = false;      // les tons de la ruine dépendent du thème et de la trame
+        papier = (getComputedStyle(document.documentElement).getPropertyValue('--bg') || '#F9F4EF').trim();
         lumiere = sombre ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 249, 238, 0.36)';
     }
 
@@ -516,8 +517,75 @@
             }
             ctx.fill();
         }
+        montgolfiere(t, e);
         if (!CALME.matches || e < INTRO) reveiller();
     }
+
+    // La montgolfière : la seule chose qui bouge, en plus des nuages. Elle
+    // traverse le ciel en quatre minutes, dessinée en trame fine.
+    var BALLON_TOUR = 240;
+    function montgolfiere(t, e) {
+        var k = (0.62 + t / BALLON_TOUR) % 1;
+        var R = Math.max(16, Math.min(26, hauteur * 0.03));
+        var bx = -4 * R + (largeur + 8 * R) * k;
+        var by = hauteur * 0.13 + 4 * Math.sin(t * 0.31) - hauteur * 0.025 * Math.sin(k * Math.PI);
+        var vu = lisse(INTRO * 0.6, INTRO + 0.5, e);
+        if (vu <= 0) return;
+        var g = 3.6, rmax = 1.95;
+        ctx.globalAlpha = vu;
+        // Une découpe au ton du papier : le ciel ne passe pas à travers.
+        ctx.fillStyle = papier;
+        ctx.beginPath();
+        ctx.arc(bx, by, R + 2, Math.PI, 0);
+        for (var cy = 0; cy <= 1.37 * R; cy += 2) ctx.lineTo(bx + R * Math.cos(cy / R * 0.83) + 2, by + cy);
+        for (cy = 1.37 * R; cy >= 0; cy -= 2) ctx.lineTo(bx - R * Math.cos(cy / R * 0.83) - 2, by + cy);
+        ctx.closePath();
+        ctx.rect(bx - 0.36 * R, by + 1.3 * R, 0.72 * R, 0.72 * R);
+        ctx.fill();
+        ctx.fillStyle = encre;
+        ctx.beginPath();
+        var lumieres = [];
+        for (var dy = -R; dy <= 1.35 * R; dy += g * 0.88) {
+            var w = dy <= 0 ? Math.sqrt(Math.max(0, R * R - dy * dy)) : R * Math.cos(dy / R * 0.83);
+            var dec = (Math.round((dy + R) / (g * 0.88)) % 2) ? g / 2 : 0;
+            for (var dx = -w + ((w + dec) % g); dx <= w; dx += g) {
+                var nx = dx / Math.max(w, 1);
+                var cote = sombre ? -nx : nx;
+                // Le soleil vient de la gauche ; les fuseaux de l'enveloppe en bandes.
+                var fuseau = Math.cos(Math.asin(Math.max(-1, Math.min(1, nx))) * 6);
+                var ton = 0.22 + 0.55 * lisse(-0.7, 0.95, cote) + 0.12 * fuseau + 0.15 * lisse(0.7, 1.3, dy / R);
+                var r = rmax * Math.sqrt(Math.min(1, ton * 1.6));
+                ctx.moveTo(bx + dx + r, by + dy);
+                ctx.arc(bx + dx, by + dy, r, 0, 6.2832);
+                if (nx < -0.25 && dy < 0.2 * R && dy > -0.8 * R) lumieres.push(bx + dx, by + dy);
+            }
+        }
+        // La nacelle.
+        for (var ny = 1.72 * R; ny <= 1.95 * R; ny += g * 0.8) {
+            for (var nxp = -0.17 * R; nxp <= 0.17 * R; nxp += g * 0.9) {
+                ctx.moveTo(bx + nxp + rmax, by + ny);
+                ctx.arc(bx + nxp, by + ny, rmax, 0, 6.2832);
+            }
+        }
+        ctx.fill();
+        // Les cordes.
+        ctx.strokeStyle = encre;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(bx - 0.36 * R, by + 1.32 * R); ctx.lineTo(bx - 0.17 * R, by + 1.7 * R);
+        ctx.moveTo(bx + 0.36 * R, by + 1.32 * R); ctx.lineTo(bx + 0.17 * R, by + 1.7 * R);
+        ctx.stroke();
+        // La lumière sur le flanc au soleil.
+        ctx.fillStyle = lumiere;
+        ctx.beginPath();
+        for (var q = 0; q < lumieres.length; q += 2) {
+            ctx.moveTo(lumieres[q] + 1.3, lumieres[q + 1]);
+            ctx.arc(lumieres[q], lumieres[q + 1], 1.3, 0, 6.2832);
+        }
+        ctx.fill();
+        ctx.globalAlpha = 1;
+    }
+
 
     function reveiller() {
         if (!boucle && ctx && SEUIL.matches && !document.hidden) boucle = requestAnimationFrame(tracer);
