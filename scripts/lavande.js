@@ -824,7 +824,7 @@
     function voile(n, cx, cy, W, penche, vu, sens, h) {
         var depuis = h - crevee[n];
         voilesVues[n] = null;
-        if (depuis < POP && !CALME.matches) eclater({ x: cx, y: cy - 0.1 * W, W: W }, depuis / POP, eclatAngle[n]);
+        if (depuis < POP && !CALME.matches) eclater({ x: cx, y: cy + 0.15 * W, W: W }, depuis / POP, eclatAngle[n]);
         if (depuis < ABSENCE) return;
         vu *= lisse(ABSENCE, ABSENCE + RETOUR, depuis);
         if (vu <= 0) return;
