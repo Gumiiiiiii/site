@@ -477,12 +477,11 @@ button.secondary.active {
    lumière simulée. */
 
 /* La zone de dépôt était un creux : une lumière venue du haut-gauche, donc
-   une pièce et une profondeur. Sur du papier, une zone où déposer un
-   fichier se dit par un trait discontinu, la convention du découpage. */
+   une pièce et une profondeur. */
 .drop-zone {
     background: var(--bg);
     background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
-    border: 1.5px dashed var(--filet);
+    border: 1px solid var(--filet);
     border-radius: var(--rayon);
     box-shadow: none;
     transition: border-color 0.2s ease, background-color 0.2s ease;
@@ -611,7 +610,7 @@ button.primary:disabled {
 /* Une carte à venir reste une carte : elle se dit par l'encre, pas par un
    relief plus mou. */
 .tool-card.faded,
-.card.faded { border-style: dashed; }
+.card.faded { border-style: solid; opacity: 0.6; }
 
 .search-input {
     background: var(--bg);

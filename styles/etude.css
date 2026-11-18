@@ -151,11 +151,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     color: inherit;
 }
 
-/* Un filet en rangée de points, au pas de la trame : celui de l'accueil. */
-.etude-page .resume-tete,
-.etude-page .read-next-title {
-    background: radial-gradient(circle, var(--encre-1) 1.4px, transparent 1.9px) left bottom / 10px 4px repeat-x;
-}
+.etude-page .read-next-title { border-bottom: 1px solid var(--filet); }
 
 /* --------------------------------------------------------------------------
    En bref
@@ -361,7 +357,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 }
 .etude-page .read-next-title {
     margin: 0 0 1.4rem;
-    padding-bottom: calc(0.6rem + 4px);
+    padding-bottom: 0.6rem;
     font-size: 1.05rem;
     font-weight: 600;
     text-align: left;
