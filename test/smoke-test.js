@@ -250,7 +250,8 @@ async function main() {
                     if (etapes !== 3) problems.push(etapes + ' steps, expected 3');
                 }
                 if (absAt < raw.indexOf('id="article-cover"')) problems.push('summary comes before the cover');
-                if (absAt > raw.indexOf('toolbar-wrapper')) problems.push('summary comes after the table of contents');
+                if (absAt < raw.indexOf('toolbar-wrapper')) problems.push('summary comes before the table of contents');
+if (absAt > raw.indexOf('id="post-content"')) problems.push('summary comes after the body');
                 const grille = raw.slice(raw.indexOf('id="suite-grille"'));
                 const cartes = (grille.match(/class="read-next-card"/g) || []).length;
                 if (cartes !== 2) problems.push(cartes + ' other experiments, expected 2');

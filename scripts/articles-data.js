@@ -23,9 +23,9 @@ window.GUMI_ARTICLES = {
                     <h2 id="resume-titre">En bref</h2>
                 </header>
                 <ol class="resume-etapes">
-                    <li><p><strong>Je voulais m’entraîner à la vidéo.</strong> Le compte Instagram d’ArdaCraft plafonnait autour de 30 000 vues par vidéo.</p></li>
+                    <li><p><strong>Je voulais m’entraîner à la vidéo.</strong> Le compte Instagram d’ArdaCraft plafonnait autour de 30 000 vues par vidéo.</p></li>
                     <li><p><strong>J’ai filmé les décors comme des destinations, avec les codes des Reels de voyage :</strong> le meilleur plan en premier, le montage calé sur la musique.</p></li>
-                    <li><p><strong>465 000 vues au premier essai, puis 27,3 millions sur 24 vidéos, sans publicité.</strong> Le compte est passé de 9 877 à 115 579 abonnés.</p></li>
+                    <li><p><strong>465 000 vues au premier essai, puis 27,3 millions sur 24 vidéos, sans publicité.</strong> Le compte est passé de 9 877 à 115 579 abonnés.</p></li>
                 </ol>
             </section>`,
             en: `<section class="resume" aria-labelledby="resume-titre">
@@ -152,9 +152,9 @@ window.GUMI_ARTICLES = {
                     <h2 id="resume-titre">En bref</h2>
                 </header>
                 <ol class="resume-etapes">
-                    <li><p><strong>Le site Webflow attirait 217 000 visiteurs par an mais touchait la limite de son abonnement.</strong> Le forfait suivant aurait multiplié les coûts par cinq.</p></li>
+                    <li><p><strong>Le site Webflow attirait 217 000 visiteurs par an mais touchait la limite de son abonnement.</strong> Le forfait suivant aurait multiplié les coûts par cinq.</p></li>
                     <li><p><strong>J’ai migré vers WordPress et Webstudio reliés en GraphQL,</strong> redessiné toutes les pages et remonté en haut de l’écran les fonctions que personne ne voyait.</p></li>
-                    <li><p><strong>Des coûts d’hébergement divisés par dix.</strong> Sur la page des lieux, la recherche sert 71 % plus souvent et les filtres 555 % plus souvent.</p></li>
+                    <li><p><strong>Des coûts d’hébergement divisés par dix.</strong> Sur la page des lieux, la recherche sert 71 % plus souvent et les filtres 555 % plus souvent.</p></li>
                 </ol>
             </section>`,
             en: `<section class="resume" aria-labelledby="resume-titre">
@@ -387,9 +387,9 @@ window.GUMI_ARTICLES = {
                     <h2 id="resume-titre">En bref</h2>
                 </header>
                 <ol class="resume-etapes">
-                    <li><p><strong>Plus d’un million de recherches par an pour une carte de la Terre du Milieu, sur une requête peu disputée :</strong> une difficulté de 36 %.</p></li>
+                    <li><p><strong>Plus d’un million de recherches par an pour une carte de la Terre du Milieu, sur une requête peu disputée :</strong> une difficulté de 36 %.</p></li>
                     <li><p><strong>Une carte interactive calquée sur Google Maps,</strong> qui réunit ce que les cartes du top 3 n’offraient que séparément, et qui marche aussi sur mobile.</p></li>
-                    <li><p><strong>Près de 200 000 impressions par mois sur Google et la moitié du trafic hors-marque du site,</strong> malgré deux coupures pour raisons de budget.</p></li>
+                    <li><p><strong>Près de 200 000 impressions par mois sur Google et la moitié du trafic hors-marque du site,</strong> malgré deux coupures pour raisons de budget.</p></li>
                 </ol>
             </section>`,
             en: `<section class="resume" aria-labelledby="resume-titre">

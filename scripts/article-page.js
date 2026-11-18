@@ -108,6 +108,16 @@
             const abstract = rendu ? rendu.resume(articles, window.GUMI_ARTICLE_SLUG, lang) : (article.abstract && article.abstract[lang]);
             abstractEl.innerHTML = abstract || '';
             abstractEl.hidden = !abstract;
+            // « En bref » s'écrit à la main quand il entre à l'écran.
+            const tete = abstractEl.querySelector('.resume-tete');
+            if (tete && 'IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                tete.classList.add('a-ecrire');
+                new IntersectionObserver((entrees, obs) => {
+                    if (!entrees[0].isIntersecting) return;
+                    obs.disconnect();
+                    requestAnimationFrame(() => { tete.classList.remove('a-ecrire'); tete.classList.add('ecrit'); });
+                }, { rootMargin: '0px 0px -15% 0px' }).observe(tete);
+            }
         }
 
         if (dureeEl && rendu) dureeEl.textContent = rendu.duree(article, lang);
