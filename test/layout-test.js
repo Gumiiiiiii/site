@@ -424,8 +424,7 @@ const CHECKS = [
             const hauteur = await page.evaluate(() => document.documentElement.scrollHeight);
             for (let y = 0; y <= hauteur; y += 600) {
                 await page.evaluate((cible) => {
-                    if (window.gumiLenis) window.gumiLenis.scrollTo(cible, { immediate: true });
-                    else window.scrollTo(0, cible);
+                    window.scrollTo(0, cible);
                 }, y);
                 await new Promise((r) => setTimeout(r, 120));
             }
@@ -449,8 +448,7 @@ const CHECKS = [
                 .catch(() => { throw new Error('des notes ne se sont pas ecrites'); });
 
             await page.evaluate(() => {
-                if (window.gumiLenis) window.gumiLenis.scrollTo(0, { immediate: true });
-                else window.scrollTo(0, 0);
+                window.scrollTo(0, 0);
             });
         }
     },
@@ -763,8 +761,7 @@ const CHECKS = [
                 const journal = await page.evaluate(async () => {
                     const notes = [...document.querySelectorAll('.fond-avis .fond-note')];
                     const titre = document.querySelector('#temoignages').getBoundingClientRect().top + scrollY - 40;
-                    if (window.gumiLenis) window.gumiLenis.scrollTo(titre, { immediate: true });
-                    else window.scrollTo(0, titre);
+                    window.scrollTo(0, titre);
                     const debut = performance.now();
                     const ecrites = new Map();
                     while (performance.now() - debut < 15000 && ecrites.size < notes.length) {

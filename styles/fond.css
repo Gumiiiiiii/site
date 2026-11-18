@@ -289,11 +289,6 @@
 /* Les titres sont la cible des ancres : de l'air au-dessus. */
 .fond-page .fond-titre { scroll-margin-top: 35vh; }
 
-html { scroll-behavior: smooth; }
-
-@media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-}
 
 /* Titre posé sur la trame : il s'écrit sur une rangée de points. */
 /* Le rail occupe la marge gauche : les titres commencent après lui. */

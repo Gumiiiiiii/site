@@ -119,7 +119,6 @@
 
     // CV variant: anchor scrolling past the fixed bar, and a light scrollspy.
     function setupCvNav(root) {
-        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
         const menu = root.querySelector('#cv-sections-menu');
         const toggle = root.querySelector('.cv-nav-sections');
 
@@ -131,11 +130,7 @@
             const target = document.getElementById(id);
             if (!target) return;
             const y = target.getBoundingClientRect().top + window.scrollY - barHeight();
-            if (window.gumiLenis && !reduced.matches) {
-                window.gumiLenis.scrollTo(y);
-            } else {
-                window.scrollTo({ top: y, behavior: reduced.matches ? 'auto' : 'smooth' });
-            }
+            window.scrollTo(0, y);
             history.replaceState(null, '', '#' + id);
         }
 

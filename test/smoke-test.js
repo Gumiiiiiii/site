@@ -26,7 +26,6 @@ function loadPage(url) {
         const text = String(err.stack || err.message);
         // Vendored third-party libs need browser APIs jsdom lacks; not our code.
         if (text.includes('/scripts/vendor/')) return;
-        if (text.includes('lenis.min.js')) return;
         // Vercel analytics scripts only exist on the production platform.
         if (text.includes('/_vercel/')) return;
         // jsdom can't navigate; hitting this means a redirect actually fired.

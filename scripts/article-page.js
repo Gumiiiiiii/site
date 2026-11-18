@@ -22,11 +22,7 @@
     }
 
     function scrollToHeading(heading, id) {
-        if (window.gumiLenis) {
-            window.gumiLenis.scrollTo('#' + id, { offset: -40 });
-        } else {
-            heading.scrollIntoView({ behavior: 'smooth' });
-        }
+        heading.scrollIntoView();
         window.history.pushState(null, null, '#' + id);
         document.getElementById('tocDropdown').classList.remove('open');
         document.getElementById('tocToggle').classList.remove('open');

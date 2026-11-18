@@ -89,35 +89,4 @@
             navigator.serviceWorker.register('/sw.js').catch(function () {});
         });
     }
-
-    // Respect reduced-motion: keep native scrolling, skip the smooth-scroll layer.
-    if (!window.Lenis || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    // Les pages d'expérimentation se lisent au défilement natif, plus direct.
-    if (document.body.classList.contains('etude-page')) return;
-
-    // A one-screen page (styles/ecran.css) has no page scroll to smooth.
-    if (document.body.classList.contains('ecran') &&
-        window.matchMedia('(min-width: 1100px) and (min-height: 600px)').matches) return;
-
-    // Une page peut demander un réglage plus discret en posant window.gumiLenisOptions avant ce script.
-    const lenis = new window.Lenis(Object.assign({
-        duration: 1.1,
-        easing: function (t) {
-            return Math.min(1, 1.001 - Math.pow(2, -10 * t));
-        },
-        smoothWheel: true,
-        touchMultiplier: 1.5
-    }, window.gumiLenisOptions || {}));
-
-    function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-    window.addEventListener('resize', function () {
-        lenis.resize();
-    });
-
-    window.gumiLenis = lenis;
 })();

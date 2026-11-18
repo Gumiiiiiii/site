@@ -53,17 +53,6 @@
         window.requestAnimationFrame(marquer);
     }
 
-    // Les ancres passent par Lenis quand il est là.
-    liens.forEach(function (a, i) {
-        a.addEventListener('click', function (e) {
-            var cible = cibles[i];
-            if (!cible || !window.gumiLenis) return;
-            e.preventDefault();
-            window.gumiLenis.scrollTo(cible, { offset: -window.innerHeight * 0.35 });
-            history.replaceState(null, '', a.getAttribute('href'));
-        });
-    });
-
     marquer();
     window.addEventListener('scroll', planifier, { passive: true });
     window.addEventListener('resize', planifier);
