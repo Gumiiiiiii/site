@@ -138,10 +138,11 @@
     border-radius: 0.6rem;
     box-shadow: 0 0 0 1px var(--filet-fin);
     background: var(--bg);
-    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: box-shadow 0.2s ease;
 }
+/* Au survol, l'image ne grandit pas : son contour passe au violet. */
 .exp:hover .exp-image,
-.exp:focus-visible .exp-image { transform: scale(1.03); }
+.exp:focus-visible .exp-image { box-shadow: 0 0 0 1.5px var(--accent-ink); }
 
 /* Le titre est donné en entier : c'est lui qui dit de quoi parle
    l'article, il ne se coupe jamais. La largeur de la rubrique est réglée
@@ -216,7 +217,6 @@
 
 @media (prefers-reduced-motion: reduce) {
     .outil-nom, .outil-icone, .exp-titre, .exp-image { transition: none; }
-    .exp:hover .exp-image, .exp:focus-visible .exp-image { transform: none; }
 }
 
 /* ==========================================================================
