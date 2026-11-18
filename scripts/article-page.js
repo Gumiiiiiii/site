@@ -149,15 +149,6 @@
     document.addEventListener('gumi:lang', render);
     render();
 
-    // Hero title fades out gently before the featured image covers it.
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        window.addEventListener('scroll', () => {
-            const fadeEnd = window.innerHeight * 0.4;
-            const opacity = Math.max(0, Math.min(1, 1 - (window.scrollY / fadeEnd)));
-            titleEl.style.opacity = opacity;
-            if (dateEl) dateEl.style.opacity = opacity;
-        }, { passive: true });
-    }
 
     // TOC accordion toggle.
     const tocToggle = document.getElementById('tocToggle');

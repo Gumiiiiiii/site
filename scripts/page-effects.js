@@ -112,6 +112,8 @@
 
     // Respect reduced-motion: keep native scrolling, skip the smooth-scroll layer.
     if (!window.Lenis || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Les pages d'expérimentation se lisent au défilement natif, plus direct.
+    if (document.body.classList.contains('etude-page')) return;
 
     // A one-screen page (styles/ecran.css) has no page scroll to smooth, and
     // Lenis would swallow the wheel meant for a panel that scrolls on its own.

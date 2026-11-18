@@ -172,6 +172,29 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 }
 .etude-page .article-abstract[hidden] { display: none; }
 
+/* Le résumé se détache : un cadre fin, et à l'intérieur une nappe de points
+   qui s'efface depuis le coin haut droit. */
+.etude-page .article-abstract {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: clamp(1.4rem, 2.6vw, 2rem) clamp(1.3rem, 2.8vw, 2.2rem);
+    border: 1px solid var(--filet);
+    border-radius: 1rem;
+}
+.etude-page .article-abstract::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background:
+        radial-gradient(circle, rgba(var(--text-rgb), 0.17) 1.8px, transparent 2.3px) 0 0 / 10px 18px,
+        radial-gradient(circle, rgba(var(--text-rgb), 0.17) 1.8px, transparent 2.3px) 5px 9px / 10px 18px;
+    -webkit-mask-image: radial-gradient(ellipse 75% 95% at 100% 0%, #000 0%, rgba(0, 0, 0, 0.35) 45%, transparent 85%);
+    mask-image: radial-gradient(ellipse 75% 95% at 100% 0%, #000 0%, rgba(0, 0, 0, 0.35) 45%, transparent 85%);
+    pointer-events: none;
+}
+
 .resume { display: flex; flex-direction: column; gap: 1.3rem; }
 .resume-tete { padding: 0; }
 .etude-page .resume-tete { background: none; }
