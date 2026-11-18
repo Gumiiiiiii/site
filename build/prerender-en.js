@@ -30,7 +30,8 @@ const PAGES = [
     'index.html',
     'brand-guidelines.html',
     ...fs.readdirSync(path.join(ROOT, 'tools')).filter((f) => f.endsWith('.html')).map((f) => 'tools/' + f),
-    ...fs.readdirSync(path.join(ROOT, 'experiments')).filter((f) => f.endsWith('.html')).map((f) => 'experiments/' + f)
+    // Article shells: root pages that declare window.GUMI_ARTICLE_SLUG.
+    ...fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && /GUMI_ARTICLE_SLUG/.test(fs.readFileSync(path.join(ROOT, f), 'utf8')))
 ];
 
 // Load the runtime dictionaries by evaluating the browser scripts in a bare

@@ -54,7 +54,7 @@ const CHECKS = [
     {
         name: 'article: images render at their intrinsic ratio',
         async run(page) {
-            await page.goto(BASE + '/experiments/ardacraft', { waitUntil: 'networkidle0' });
+            await page.goto(BASE + '/ardacraft', { waitUntil: 'networkidle0' });
             // Article images are loading="lazy": bring one into view first.
             await page.waitForSelector('.image-breakout img');
             await page.evaluate(() => document.querySelector('.image-breakout img').scrollIntoView());
@@ -73,7 +73,7 @@ const CHECKS = [
     {
         name: 'article: featured cover renders at 16:9',
         async run(page) {
-            await page.goto(BASE + '/experiments/ardacraft-map', { waitUntil: 'networkidle0' });
+            await page.goto(BASE + '/ardacraft-map', { waitUntil: 'networkidle0' });
             const ratio = await page.evaluate(() => {
                 const rect = document.getElementById('article-cover').getBoundingClientRect();
                 return rect.width / rect.height;

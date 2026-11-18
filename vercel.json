@@ -62,6 +62,16 @@
       "source": "/en/experiments/ai-photoshoot",
       "destination": "/en",
       "permanent": true
+    },
+    {
+      "source": "/experiments/:slug",
+      "destination": "/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/en/experiments/:slug",
+      "destination": "/en/:slug",
+      "permanent": true
     }
   ],
   "rewrites": [

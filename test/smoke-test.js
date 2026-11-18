@@ -78,7 +78,7 @@ const CHECKS = [
         // The CV landing stays hidden: no public page may link to it.
         if (d.querySelector('a[href="/cv"], a[href="cv"], a[href*="pierre.gumi.ch"]')) return 'CV page must not be linked from the homepage';
     } },
-    { path: '/experiments/ardacraft', async assert(d, w) {
+    { path: '/ardacraft', async assert(d, w) {
         if (d.getElementById('post-content').children.length === 0) return 'article body empty';
         if (d.querySelectorAll('.toc-item').length === 0) return 'TOC empty';
         // Now links forward to the published map article.
@@ -88,7 +88,7 @@ const CHECKS = [
         w.GumiI18n.set('en');
         if (d.title === frTitle) return 'language toggle did not re-render';
     } },
-    { path: '/experiments/ardacraft-map', async assert(d, w) {
+    { path: '/ardacraft-map', async assert(d, w) {
         if (d.getElementById('post-content').children.length === 0) return 'article body empty';
         if (d.querySelectorAll('.toc-item').length === 0) return 'TOC empty';
         if (!d.querySelector('.article-content table')) return 'results table missing';
@@ -224,13 +224,13 @@ async function main() {
         // The jsdom checks above run article-page.js, which would hide the
         // regression; crawlers that skip JavaScript would see an empty shell.
         for (const slug of ['ardacraft', 'ardacraft-map', 'ardacraft-social']) {
-            const artRes = await fetch(BASE + '/experiments/' + slug, { headers: { connection: 'close' } });
+            const artRes = await fetch(BASE + '/' + slug, { headers: { connection: 'close' } });
             const artBody = await artRes.text();
             const empty = /id="post-content"[^>]*>\s*<\/article>/.test(artBody);
             const headings = (artBody.match(/<h2/g) || []).length;
             const okArt = artRes.status === 200 && !empty && headings >= 3;
             const why = empty ? 'post-content is empty' : 'only ' + headings + ' h2 in the served HTML';
-            console.log((okArt ? ' ok ' : 'FAIL') + '  /experiments/' + slug + ' (body server-rendered)' + (okArt ? '' : '  → ' + why));
+            console.log((okArt ? ' ok ' : 'FAIL') + '  /' + slug + ' (body server-rendered)' + (okArt ? '' : '  → ' + why));
             if (!okArt) failures += 1;
         }
 
@@ -238,7 +238,7 @@ async function main() {
         // before the table of contents.
         for (const slug of ['ardacraft-social', 'ardacraft', 'ardacraft-map']) {
             for (const prefix of ['', '/en']) {
-                const label = prefix + '/experiments/' + slug;
+                const label = prefix + '/' + slug;
                 const raw = await (await fetch(BASE + label, { headers: { connection: 'close' } })).text();
                 const absAt = raw.indexOf('id="article-abstract"');
                 const problems = [];

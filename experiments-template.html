@@ -9,15 +9,15 @@
     <link rel="apple-touch-icon" href="media/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
     <script>
-        // Legacy URL: articles now live at /experiments/<slug>.
+        // Legacy URL: articles now live at /<slug>.
         (function () {
-            var known = { 'ardacraft': 1, 'ardacraft-map': 1 };
+            var known = { 'ardacraft': 1, 'ardacraft-map': 1, 'ardacraft-social': 1 };
             var slug = new URLSearchParams(window.location.search).get('article');
-            window.location.replace(known[slug] ? 'experiments/' + slug : 'experiments');
+            window.location.replace(known[slug] ? slug : './');
         })();
     </script>
 </head>
 <body>
-    <p>Cette page a déménagé. <a href="experiments">Voir les expérimentations</a></p>
+    <p>Cette page a déménagé. <a href="./">Voir les expérimentations</a></p>
 </body>
 </html>

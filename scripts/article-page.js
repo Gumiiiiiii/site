@@ -130,7 +130,7 @@
 
         buildToc();
 
-        // The other experiments. Sibling pages in /experiments/, so the
+        // The other experiments. Sibling pages at the root, so the
         // relative slugs are enough (and keep a potential /en/ prefix).
         if (grille && rendu) {
             grille.innerHTML = rendu.cartes(articles, window.GUMI_ARTICLE_SLUG, lang);

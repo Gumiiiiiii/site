@@ -1,7 +1,7 @@
 (function () {
-    // Pages living one level deep (/tools/*, /experiments/*) need relative
+    // Pages living one level deep (/tools/*) need relative
     // links prefixed; '../' also keeps a potential /en/ prefix intact.
-    const inSubfolder = /\/(tools|experiments)\//.test(window.location.pathname);
+    const inSubfolder = /\/tools\//.test(window.location.pathname);
     const basePrefix = inSubfolder ? '../' : '';
 
     function homeHref() {

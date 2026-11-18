@@ -10,13 +10,13 @@ index.html                  Accueil : la seule liste du site. La phrase, les
                             scripts/lavande.js dessine le fond en points : la
                             Sainte-Victoire au-dessus d'un champ de lavande. /outils et /experiments redirigent ici
                             (vercel.json).
-experiments/<slug>.html     Pages d'articles. Le corps est PRÉ-RENDU dans le
+<slug>.html                 Pages d'articles, à la racine (gumi.ch/<slug>). Le corps est PRÉ-RENDU dans le
                             fichier par build/prerender-articles.js depuis
                             scripts/articles-data.js (les moteurs qui n'exécutent
                             pas JS doivent voir le texte). article-page.js
                             re-rend la même chose au runtime pour la bascule FR/EN.
                             Écrire dans articles-data.js, puis `npm run build`.
-experiments-template.html   Ancienne URL — simple redirection vers experiments/<slug>
+experiments-template.html   Ancienne URL, simple redirection vers /<slug>
 tools/*.html                Un fichier par outil (traitement 100% navigateur,
                             sauf le téléchargeur de médias qui appelle l'API)
 en/                         Pages anglaises GÉNÉRÉES par build/prerender-en.js
@@ -40,7 +40,7 @@ npm run dev           # http://localhost:4173 — reproduit cleanUrls + le préf
 npm run build:all     # les deux pré-rendus ci-dessous, dans l'ordre
                       # (ne jamais nommer ce script « build » : Vercel le
                       #  détecterait et l'exécuterait au déploiement)
-npm run build:articles # injecte les corps d'articles FR dans experiments/*.html
+npm run build:articles # injecte les corps d'articles FR dans les <slug>.html
 npm run build:en      # régénère en/ (pages anglaises pré-rendues pour le SEO)
 npm test              # fraîcheur des deux pré-rendus + smoke test jsdom + tests de layout
 node server.js     # API d'extraction en local (port 10000), nécessite yt-dlp + Python
@@ -58,7 +58,7 @@ node server.js     # API d'extraction en local (port 10000), nécessite yt-dlp +
 ## Ajouter un article
 
 1. Ajouter l'entrée (FR + EN) dans `scripts/articles-data.js`.
-2. Copier une page de `experiments/` et adapter : `<title>`, meta description,
+2. Copier une page d'article (<slug>.html, à la racine) et adapter : `<title>`, meta description,
    canonical, balises OG, JSON-LD, `<h1>`, image de couverture et
    `window.GUMI_ARTICLE_SLUG`.
 3. Ajouter l'entrée dans la liste `.exps-liste` de `index.html`, en tête, et

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url><loc>https://gumi.ch/</loc></url>
-    <url><loc>https://gumi.ch/experiments/ardacraft</loc></url>
-    <url><loc>https://gumi.ch/experiments/ardacraft-map</loc></url>
-        <url><loc>https://gumi.ch/experiments/ardacraft-social</loc></url>
+    <url><loc>https://gumi.ch/ardacraft</loc></url>
+    <url><loc>https://gumi.ch/ardacraft-map</loc></url>
+    <url><loc>https://gumi.ch/ardacraft-social</loc></url>
     <url><loc>https://gumi.ch/tools/file-converter</loc></url>
     <url><loc>https://gumi.ch/tools/video-compressor</loc></url>
     <url><loc>https://gumi.ch/tools/text-modifier</loc></url>
@@ -16,8 +16,9 @@
     <url><loc>https://gumi.ch/tools/palette</loc></url>
     <url><loc>https://gumi.ch/brand-guidelines</loc></url>
     <url><loc>https://gumi.ch/en/</loc></url>
-    <url><loc>https://gumi.ch/en/experiments/ardacraft</loc></url>
-    <url><loc>https://gumi.ch/en/experiments/ardacraft-map</loc></url>
+    <url><loc>https://gumi.ch/en/ardacraft</loc></url>
+    <url><loc>https://gumi.ch/en/ardacraft-map</loc></url>
+    <url><loc>https://gumi.ch/en/ardacraft-social</loc></url>
     <url><loc>https://gumi.ch/en/tools/file-converter</loc></url>
     <url><loc>https://gumi.ch/en/tools/video-compressor</loc></url>
     <url><loc>https://gumi.ch/en/tools/text-modifier</loc></url>

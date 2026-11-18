@@ -1,4 +1,4 @@
-// Pre-renders the FRENCH article bodies into experiments/*.html.
+// Pre-renders the FRENCH article bodies into the article shells (<slug>.html).
 //
 // Why: the article shells shipped with an empty <article id="post-content">,
 // filled client-side by scripts/article-page.js. Crawlers that do not execute
@@ -6,11 +6,11 @@
 // JS on a deferred second pass with no guarantee, Bing is less reliable, and
 // the crawlers behind conversational search engines do not run it at all.
 // The English pages never had the problem: build/prerender-en.js already
-// injects article.html.en into en/experiments/*.html. This does the same for
+// injects article.html.en into en/<slug>.html. This does the same for
 // the French sources.
 //
 // Unusual bit: the source file IS the output. Only the regions listed below
-// are generated, everything else in experiments/*.html stays hand-authored.
+// are generated, everything else in <slug>.html stays hand-authored.
 // The transform is idempotent (each region is overwritten wholesale from
 // scripts/articles-data.js), so re-running never accumulates.
 //
@@ -26,7 +26,8 @@ const path = require('path');
 const { JSDOM } = require('jsdom');
 
 const ROOT = path.join(__dirname, '..');
-const DIR = path.join(ROOT, 'experiments');
+// Article shells sit at the root: <slug>.html, one per entry of articles-data.js.
+const DIR = ROOT;
 const CHECK_MODE = process.argv.includes('--check');
 
 // scripts/etude-rendu.js, shared with the page and the English build.
@@ -155,18 +156,18 @@ function main() {
         const stale = [];
         for (const [page, html] of generated) {
             const current = fs.readFileSync(path.join(DIR, page), 'utf8');
-            if (normalize(current) !== normalize(html)) stale.push('experiments/' + page);
+            if (normalize(current) !== normalize(html)) stale.push(page);
         }
         if (stale.length) {
             console.error('French article bodies are out of date — run `npm run build:articles` and commit:\n  ' + stale.join('\n  '));
             process.exit(1);
         }
-        console.log('experiments/ bodies are up to date (' + generated.size + ' pages).');
+        console.log('Article bodies are up to date (' + generated.size + ' pages).');
         return;
     }
 
     for (const [page, html] of generated) fs.writeFileSync(path.join(DIR, page), html);
-    console.log('Injected ' + generated.size + ' French article bodies into experiments/.');
+    console.log('Injected ' + generated.size + ' French article bodies.');
 }
 
 main();
