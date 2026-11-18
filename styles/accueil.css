@@ -274,16 +274,14 @@
         width: fit-content;
     }
 
+    /* La rangée déborde dans la colonne vide du milieu, jusqu'à une
+       distance confortable des outils. */
     body.ecran .exps {
-        grid-column: 1;
+        grid-column: 1 / 3;
         grid-row: 3;
         margin-top: clamp(1.5rem, 4vh, 2.5rem);
-        /* Elles ne comptent pas dans la largeur de la colonne : c'est la
-           phrase qui la donne. */
+        max-width: 58rem;
         contain: inline-size;
-        /* Sur une fenêtre étroite, la phrase est petite : la rangée garde
-           de quoi poser trois titres lisibles. */
-        min-width: 37rem;
     }
 
     /* Les expérimentations côte à côte, au bas de l'écran, sous la phrase

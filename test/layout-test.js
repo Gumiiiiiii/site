@@ -229,7 +229,7 @@ const CHECKS = [
                                     const r = t.getBoundingClientRect();
                                     const lignes = Math.round(r.height / parseFloat(getComputedStyle(t).lineHeight));
                                     const coupe = t.scrollHeight > t.clientHeight + 1 || t.scrollWidth > t.clientWidth + 1 || r.bottom > innerHeight || r.height < 10;
-                                    const max = innerWidth < 1300 ? 6 : 5;
+                                    const max = innerWidth < 1300 ? 5 : 4;
                                     return (coupe ? 'coupe' : lignes > max ? lignes + ' lignes' : '') + ' : ' + t.textContent.slice(0, 28);
                                 }).filter((x) => x[0] !== ' '));
                             if (fautes.length) throw new Error(chemin + ' en ' + width + 'x' + height + ' : ' + fautes.join(' | '));
