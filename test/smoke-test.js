@@ -120,9 +120,6 @@ const CHECKS = [
     { path: '/social-formats', assert(d) {
         if (d.querySelectorAll('#sr-format-list .sr-format-row').length < 10) return 'format list not built';
     } },
-    { path: '/palette', assert(d) {
-        if (d.querySelectorAll('#pal-swatches .pal-swatch').length < 4) return 'palette not generated';
-    } },
     // CV (pierre.gumi.ch, servie aussi par /cv) : page cachee, jamais liee
     // depuis les pages publiques.
     { path: '/cv', assert(d) {

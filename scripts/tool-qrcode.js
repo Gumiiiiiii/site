@@ -25,7 +25,7 @@
     let renderTimer = null;
 
     // Colour input = hex text field + swatch that opens the shared colour
-    // picker (same pattern as the palette tool). The value is applied live and
+    // picker (same pattern as the contrast checker). The value is applied live and
     // persisted so it survives a reload.
     function normalizeHex(value) {
         const m = /^#?([0-9a-fA-F]{6})$/.exec(String(value || '').trim());

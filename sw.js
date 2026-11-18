@@ -5,7 +5,7 @@
 // deploy is picked up on the next visit; the cache is the offline fallback.
 // One cache for precache + runtime, so a network refresh overwrites the
 // precached copy instead of being shadowed by it.
-const VERSION = 'gumi-sw-v21';
+const VERSION = 'gumi-sw-v22';
 const CACHE_NAME = VERSION;
 
 const CORE_ASSETS = [
@@ -21,7 +21,6 @@ const CORE_ASSETS = [
     '/media-downloader',
     '/share-preview',
     '/social-formats',
-    '/palette',
     '/styles/shared.css',
     '/styles/tools-suite.css',
     '/styles/outil-papier.css',
@@ -49,7 +48,6 @@ const CORE_ASSETS = [
     '/scripts/tool-media-downloader.js',
     '/scripts/tool-share-preview.js',
     '/scripts/tool-social-formats.js',
-    '/scripts/tool-palette.js',
     '/scripts/vendor/lenis.min.js',
     '/scripts/vendor/qr-code-styling.js',
     '/fonts/urbanist-latin.woff2',

@@ -158,15 +158,6 @@
         min-height: 4rem;
     }
 
-    /* La palette : les couleurs se partagent la hauteur du panneau. */
-    body.ecran .pal-swatches { flex: 1; min-height: 0; }
-    body.ecran .pal-swatch {
-        flex: 1 1 0;
-        height: auto;
-        min-height: 2.75rem;
-        max-height: 82px;
-    }
-
     /* L'analyseur de contraste : le verdict est ce qu'on vient lire, il ne
        doit pas passer sous le bas de l'écran. Le bloc d'arrière-plan tient
        donc sur une ligne, la couleur à gauche et l'image à droite. */

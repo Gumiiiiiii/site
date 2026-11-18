@@ -433,7 +433,7 @@ button.secondary.active {
    coup avec la page pendant que le reste montait. */
 .fond-anime :where(.back-link, .header-container, .control-row, .right-col,
                    .advanced-section, .left-col button.primary,
-                   .pal-actions, .left-col .drop-zone) {
+                   .left-col .drop-zone) {
     opacity: 0;
     transform: translateY(var(--anim-monte, 0.85rem));
     transition: opacity 0.6s ease var(--anim-retard, 0s),

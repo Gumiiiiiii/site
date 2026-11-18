@@ -347,10 +347,6 @@ body.outil-page .nav-group--controls { margin-right: -7px; }
     .outil-page .left-col > .control-row > textarea { flex: 1 1 0; height: auto; min-height: 3.5rem; }
     .outil-page :is(#source-text, #urlInput) { min-height: 3.5rem; }
 
-    /* La palette : les couleurs se partagent la hauteur. */
-    .outil-page .pal-swatches { flex: 1; min-height: 0; }
-    .outil-page .pal-swatch { flex: 1 1 0; height: auto; min-height: 2.75rem; max-height: 82px; }
-
     /* Le contraste : l'arrière-plan tient sur une ligne. */
     .outil-page .bg-group { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 0.6rem; padding: 0.7rem; }
     .outil-page .bg-group > .color-input-row { flex: 1 1 11rem; }

@@ -137,7 +137,7 @@ button.primary:disabled {
     color: var(--text);
 }
 
-/* Shared colour input used across tools (palette, QR generator, …): a hex
+/* Shared colour input used across tools (QR generator, contrast checker…): a hex
    text field paired with a swatch that opens the colour picker. Keeps colour
    selection consistent from one tool to the next. */
 .color-field-row {

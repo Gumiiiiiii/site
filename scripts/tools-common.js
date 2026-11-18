@@ -223,7 +223,7 @@
     // With `alpha`, get() may return #RRGGBBAA and onChange receives the
     // opacity as a second argument (0..1) alongside the 8-digit hex. Triggers
     // that don't ask for it never see the track and keep getting plain
-    // 6-digit hex, so the palette and QR tools are untouched.
+    // 6-digit hex, so the QR tool is untouched.
     const ColorPicker = (function () {
         let panel = null;
         let svArea = null;

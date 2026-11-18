@@ -100,11 +100,13 @@
     async function requestMediaFromApi(url, format, thumb) {
         let lastError = null;
 
-        for (const base of API_CANDIDATES) {
+        for (const [rang, base] of API_CANDIDATES.entries()) {
             const backendUrl = base + '?url=' + encodeURIComponent(url) + '&format=' + encodeURIComponent(format) + '&thumb=' + encodeURIComponent(String(thumb));
 
             try {
-                const response = await fetch(backendUrl, { headers: { Accept: 'application/json' } });
+                // A server that does not answer must not hold up the next one.
+                const dernier = rang === API_CANDIDATES.length - 1;
+                const response = await fetch(backendUrl, { headers: { Accept: 'application/json' }, signal: dernier || !window.AbortSignal || !AbortSignal.timeout ? undefined : AbortSignal.timeout(8000) });
                 const rawText = await response.text();
 
                 let data = null;

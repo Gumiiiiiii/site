@@ -82,6 +82,16 @@
       "source": "/en/tools/:slug",
       "destination": "/en/:slug",
       "permanent": true
+    },
+    {
+      "source": "/palette",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/en/palette",
+      "destination": "/en",
+      "permanent": true
     }
   ],
   "rewrites": [

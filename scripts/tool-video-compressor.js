@@ -30,9 +30,7 @@
         720: "scale='if(gt(iw,ih),-2,min(720,trunc(iw/2)*2))':'if(gt(iw,ih),min(720,trunc(ih/2)*2),-2)'"
     };
 
-    // Worker chunk is vendored next to the loader; the 31 MB core stays on
-    // the CDN so the repo doesn't carry the wasm binary.
-    const FFMPEG_UMD_BASE = 'scripts/vendor';
+    // No classWorkerURL: it would start a module worker, which cannot load the UMD core.
     const FFMPEG_CORE_BASE = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd';
 
     function t(key, fallback) {
@@ -151,8 +149,7 @@
 
             await instance.load({
                 coreURL: await toBlobURL(FFMPEG_CORE_BASE + '/ffmpeg-core.js', 'text/javascript'),
-                wasmURL: await toBlobURL(FFMPEG_CORE_BASE + '/ffmpeg-core.wasm', 'application/wasm'),
-                classWorkerURL: await toBlobURL(FFMPEG_UMD_BASE + '/814.ffmpeg.js', 'text/javascript')
+                wasmURL: await toBlobURL(FFMPEG_CORE_BASE + '/ffmpeg-core.wasm', 'application/wasm')
             });
 
             setEngineNote('');
