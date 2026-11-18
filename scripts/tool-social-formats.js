@@ -247,7 +247,7 @@
         if (window.JSZip) return Promise.resolve(window.JSZip);
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
-            script.src = '../scripts/vendor/jszip.min.js';
+            script.src = 'scripts/vendor/jszip.min.js';
             script.onload = () => resolve(window.JSZip);
             script.onerror = () => reject(new Error('jszip load failed'));
             document.head.appendChild(script);

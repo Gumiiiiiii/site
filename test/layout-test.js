@@ -46,7 +46,7 @@ const CHECKS = [
     {
         name: 'tool page: dots background touches the top',
         async run(page) {
-            await page.goto(BASE + '/tools/qrcode', { waitUntil: 'networkidle0' });
+            await page.goto(BASE + '/qrcode', { waitUntil: 'networkidle0' });
             const top = await page.evaluate(() => document.querySelector('.dots-bg').getBoundingClientRect().top);
             if (top !== 0) throw new Error('dots-bg top is ' + top + 'px, expected 0');
         }
@@ -84,7 +84,7 @@ const CHECKS = [
     {
         name: 'contrast checker: custom color picker opens',
         async run(page) {
-            await page.goto(BASE + '/tools/contrast-checker', { waitUntil: 'networkidle0' });
+            await page.goto(BASE + '/contrast-checker', { waitUntil: 'networkidle0' });
             await page.click('#text-swatch');
             await page.waitForSelector('.gumi-cp.open', { timeout: 3000 });
         }
@@ -96,13 +96,13 @@ const CHECKS = [
         // jusqu a un portable en 1366 x 768 (650 px utiles). Le panneau de
         // resultat, lui, peut defiler : son contenu n a pas de borne.
         //
-        // Un outil ajoute a tools/ entre dans ce test sans qu on y touche.
+        // Un outil ajoute a la racine (avec tools-common.js) entre dans ce test sans qu on y touche.
         name: 'ecran: aucune page ne defile sur ordinateur',
         async run(page) {
             const pages = ['/'].concat(
-                fs.readdirSync(path.join(ROOT, 'tools'))
+                fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && fs.readFileSync(path.join(ROOT, f), 'utf8').includes('scripts/tools-common.js'))
                     .filter((f) => f.endsWith('.html'))
-                    .map((f) => '/tools/' + f.replace(/\.html$/, ''))
+                    .map((f) => '/' + f.replace(/\.html$/, ''))
             );
             const ecrans = [[1366, 650], [1440, 780], [1920, 945]];
             const fautes = [];
@@ -148,7 +148,7 @@ const CHECKS = [
         async run(page) {
             await page.setViewport({ width: 1440, height: 780 });
             try {
-                for (const p of ['/tools/social-formats', '/tools/file-converter', '/tools/text-modifier']) {
+                for (const p of ['/social-formats', '/file-converter', '/text-modifier']) {
                     await page.goto(BASE + p, { waitUntil: 'networkidle0' });
                     await new Promise((r) => setTimeout(r, 1400));
                     const caches = await page.evaluate(() =>
@@ -907,7 +907,7 @@ const CHECKS = [
     {
         name: 'social formats: focal point and format list are wired',
         async run(page) {
-            await page.goto(BASE + '/tools/social-formats', { waitUntil: 'networkidle0' });
+            await page.goto(BASE + '/social-formats', { waitUntil: 'networkidle0' });
             const rows = await page.evaluate(() => document.querySelectorAll('#sr-format-list .sr-format-row').length);
             if (rows < 10) throw new Error('expected 10+ format rows, got ' + rows);
         }

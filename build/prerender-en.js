@@ -29,7 +29,8 @@ const CHECK_MODE = process.argv.includes('--check');
 const PAGES = [
     'index.html',
     'brand-guidelines.html',
-    ...fs.readdirSync(path.join(ROOT, 'tools')).filter((f) => f.endsWith('.html')).map((f) => 'tools/' + f),
+    // Tools: root pages that load scripts/tools-common.js.
+    ...fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && fs.readFileSync(path.join(ROOT, f), 'utf8').includes('scripts/tools-common.js')),
     // Article shells: root pages that declare window.GUMI_ARTICLE_SLUG.
     ...fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && /GUMI_ARTICLE_SLUG/.test(fs.readFileSync(path.join(ROOT, f), 'utf8')))
 ];

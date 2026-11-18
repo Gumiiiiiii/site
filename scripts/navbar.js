@@ -1,11 +1,8 @@
 (function () {
-    // Pages living one level deep (/tools/*) need relative
-    // links prefixed; '../' also keeps a potential /en/ prefix intact.
-    const inSubfolder = /\/tools\//.test(window.location.pathname);
-    const basePrefix = inSubfolder ? '../' : '';
+    // Every page sits at the root: relative links need no prefix.
+    const basePrefix = '';
 
     function homeHref() {
-        if (inSubfolder) return '../';
         const lang = window.GumiI18n ? window.GumiI18n.get() : 'fr';
         return lang === 'en' ? '/en/' : '/';
     }

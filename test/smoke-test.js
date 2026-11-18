@@ -70,8 +70,8 @@ const CHECKS = [
             if (!fs.existsSync(path.join(ROOT, a.getAttribute('href') + '.html'))) return 'index links to a missing page: ' + a.getAttribute('href');
         }
         // And every tool must be in it, or nothing leads to that tool.
-        for (const f of fs.readdirSync(path.join(ROOT, 'tools')).filter((x) => x.endsWith('.html'))) {
-            if (!d.querySelector('a.outil[href="tools/' + f.replace(/\.html$/, '') + '"]')) return 'tool missing from the index: ' + f;
+        for (const f of fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && fs.readFileSync(path.join(ROOT, f), 'utf8').includes('scripts/tools-common.js'))) {
+            if (!d.querySelector('a.outil[href="' + f.replace(/\.html$/, '') + '"]')) return 'tool missing from the index: ' + f;
         }
         // Pierre does not want to be contacted through the site.
         if (d.querySelector('a[href^="mailto:"]')) return 'the homepage must not carry a contact link';
@@ -101,26 +101,26 @@ const CHECKS = [
         // jsdom does not navigate on location.replace; just check the page parsed.
         if (!d.title.includes('Redirection')) return 'redirect page missing';
     } },
-    { path: '/tools/file-converter' },
-    { path: '/tools/qrcode' },
-    { path: '/tools/media-downloader', assert(d) {
+    { path: '/file-converter' },
+    { path: '/qrcode' },
+    { path: '/media-downloader', assert(d) {
         if (!d.querySelector('meta[name="robots"][content="noindex"]')) return 'missing noindex';
     } },
-    { path: '/tools/text-modifier' },
-    { path: '/tools/contrast-checker' },
-    { path: '/tools/placeholder-text' },
-    { path: '/tools/video-compressor' },
-    { path: '/tools/post-preview', assert(d) {
+    { path: '/text-modifier' },
+    { path: '/contrast-checker' },
+    { path: '/placeholder-text' },
+    { path: '/video-compressor' },
+    { path: '/post-preview', assert(d) {
         if (d.querySelectorAll('#pp-tabs .pp-onglet').length !== 4) return 'network tabs not built';
         if (!d.querySelector('#pp-scale .pp-carte')) return 'preview not rendered';
     } },
-    { path: '/tools/share-preview', assert(d) {
+    { path: '/share-preview', assert(d) {
         if (!d.getElementById('sp-url')) return 'missing URL input';
     } },
-    { path: '/tools/social-formats', assert(d) {
+    { path: '/social-formats', assert(d) {
         if (d.querySelectorAll('#sr-format-list .sr-format-row').length < 10) return 'format list not built';
     } },
-    { path: '/tools/palette', assert(d) {
+    { path: '/palette', assert(d) {
         if (d.querySelectorAll('#pal-swatches .pal-swatch').length < 4) return 'palette not generated';
     } },
     // CV (pierre.gumi.ch, servie aussi par /cv) : page cachee, jamais liee

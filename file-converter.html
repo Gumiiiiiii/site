@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}if(!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)){document.documentElement.classList.add('fond-anime');}}catch(e){}})();</script>
-    <link rel="preload" href="../fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
-    <link rel="canonical" href="https://gumi.ch/tools/file-converter">
-    <link rel="alternate" hreflang="fr" href="https://gumi.ch/tools/file-converter">
-    <link rel="alternate" hreflang="en" href="https://gumi.ch/en/tools/file-converter">
-    <link rel="alternate" hreflang="x-default" href="https://gumi.ch/tools/file-converter">
+    <link rel="canonical" href="https://gumi.ch/file-converter">
+    <link rel="alternate" hreflang="fr" href="https://gumi.ch/file-converter">
+    <link rel="alternate" hreflang="en" href="https://gumi.ch/en/file-converter">
+    <link rel="alternate" hreflang="x-default" href="https://gumi.ch/file-converter">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Gumi.">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:locale:alternate" content="en_US">
     <meta property="og:title" content="Convertisseur de fichiers - Gumi.">
     <meta property="og:description" content="Convertissez localement des fichiers PDF, PSD, AI et images vers PNG, JPG, WebP, AVIF ou PDF, avec compression, redimensionnement et renommage.">
-    <meta property="og:url" content="https://gumi.ch/tools/file-converter">
+    <meta property="og:url" content="https://gumi.ch/file-converter">
     <meta property="og:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Convertisseur de fichiers - Gumi.">
@@ -24,18 +24,18 @@
     <meta name="twitter:image" content="https://gumi.ch/media/Open-Graph-Image.jpg">
     <title data-i18n="doc_conv_title">Convertisseur de fichiers - Gumi.</title>
     <meta name="description" data-i18n-content="doc_conv_desc" content="Convertissez localement des fichiers PDF, PSD, AI et images vers PNG, JPG, WebP, AVIF ou PDF, avec compression, redimensionnement et renommage.">
-    <link rel="icon" type="image/png" sizes="32x32" href="../media/favicon-32.png">
-    <link rel="apple-touch-icon" href="../media/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="media/favicon-32.png">
+    <link rel="apple-touch-icon" href="media/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
 
-    <link rel="stylesheet" href="../styles/shared.css">
-    <link rel="stylesheet" href="../styles/tools-suite.css">
-    <link rel="stylesheet" href="../styles/outil-papier.css">
-    <link rel="stylesheet" href="../styles/ecran.css">
+    <link rel="stylesheet" href="styles/shared.css">
+    <link rel="stylesheet" href="styles/tools-suite.css">
+    <link rel="stylesheet" href="styles/outil-papier.css">
+    <link rel="stylesheet" href="styles/ecran.css">
 
-    <script src="../scripts/vendor/pdf.min.js"></script>
-    <script src="../scripts/vendor/psd.min.js"></script>
-    <script src="../scripts/vendor/jspdf.umd.min.js"></script>
+    <script src="scripts/vendor/pdf.min.js"></script>
+    <script src="scripts/vendor/psd.min.js"></script>
+    <script src="scripts/vendor/jspdf.umd.min.js"></script>
 
     <style>
         /* Slider positions for the 5-option format control. */
@@ -95,7 +95,7 @@
         "@type": "WebApplication",
         "name": "Convertisseur de fichiers — Gumi.",
         "description": "Conversion locale de PDF, PSD, AI et images vers PNG, JPG, WebP ou PDF, avec compression.",
-        "url": "https://gumi.ch/tools/file-converter",
+        "url": "https://gumi.ch/file-converter",
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript",
@@ -116,7 +116,7 @@
     <nav class="navbar" data-navbar-root></nav>
 
     <div class="main-wrapper" id="main" role="main">
-        <a href="../" class="back-link no-select" title="Retour à l'accueil" data-i18n-title="back_tools">
+        <a href="./" class="back-link no-select" title="Retour à l'accueil" data-i18n-title="back_tools">
             <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             <span data-i18n="back_tools">Retour à l'accueil</span>
         </a>
@@ -264,18 +264,18 @@
     </div>
 
 
-    <script src="../scripts/vendor/lenis.min.js"></script>
-    <script src="../scripts/i18n.js"></script>
-    <script src="../scripts/navbar.js"></script>
-    <script src="../scripts/page-effects.js"></script>
-    <script src="../scripts/tools-common.js"></script>
-    <script src="../scripts/tool-file-converter.js"></script>
+    <script src="scripts/vendor/lenis.min.js"></script>
+    <script src="scripts/i18n.js"></script>
+    <script src="scripts/navbar.js"></script>
+    <script src="scripts/page-effects.js"></script>
+    <script src="scripts/tools-common.js"></script>
+    <script src="scripts/tool-file-converter.js"></script>
     <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 </script>
-<script src="../scripts/points-champ.js"></script>
-<script src="../scripts/outil-papier.js"></script>
+<script src="scripts/points-champ.js"></script>
+<script src="scripts/outil-papier.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>

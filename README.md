@@ -17,7 +17,7 @@ index.html                  Accueil : la seule liste du site. La phrase, les
                             re-rend la même chose au runtime pour la bascule FR/EN.
                             Écrire dans articles-data.js, puis `npm run build`.
 experiments-template.html   Ancienne URL, simple redirection vers /<slug>
-tools/*.html                Un fichier par outil (traitement 100% navigateur,
+<outil>.html                Un fichier par outil, à la racine (traitement 100% navigateur,
                             sauf le téléchargeur de médias qui appelle l'API)
 en/                         Pages anglaises GÉNÉRÉES par build/prerender-en.js
                             (ne pas éditer à la main ; committées pour Vercel)
@@ -68,7 +68,7 @@ node server.js     # API d'extraction en local (port 10000), nécessite yt-dlp +
 
 ## Ajouter un outil
 
-1. Copier une page de `tools/` et son script `scripts/tool-*.js`.
+1. Copier une page d'outil (à la racine) et son script `scripts/tool-*.js`.
 2. Ajouter les clés de traduction dans `scripts/i18n.js`.
 3. Ajouter la ligne dans la liste `.outils-liste` de `index.html` (numéro,
    nom, icône, description) et mettre à jour le compteur, plus l'URL (FR + EN)

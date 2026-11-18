@@ -72,6 +72,16 @@
       "source": "/en/experiments/:slug",
       "destination": "/en/:slug",
       "permanent": true
+    },
+    {
+      "source": "/tools/:slug",
+      "destination": "/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/en/tools/:slug",
+      "destination": "/en/:slug",
+      "permanent": true
     }
   ],
   "rewrites": [

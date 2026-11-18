@@ -3,7 +3,7 @@
 
     const pdfjsLib = window['pdfjs-dist/build/pdf'];
     if (pdfjsLib) {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = '../scripts/vendor/pdf.worker.min.js';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'scripts/vendor/pdf.worker.min.js';
     }
 
     const jsPDF = window.jspdf ? window.jspdf.jsPDF : null;
@@ -48,7 +48,7 @@
         if (existing) return existing;
 
         const candidates = [
-            '../scripts/vendor/psd.min.js',
+            'scripts/vendor/psd.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/psd.js/2.0.0/psd.min.js',
             'https://unpkg.com/psd.js@2.0.0/dist/psd.min.js',
             'https://cdn.jsdelivr.net/gh/meltingice/psd.js@master/dist/psd.min.js'
@@ -71,7 +71,7 @@
         if (window.JSZip) return window.JSZip;
 
         const candidates = [
-            '../scripts/vendor/jszip.min.js',
+            'scripts/vendor/jszip.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
             'https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js'
         ];
@@ -93,7 +93,7 @@
         if (existing) return existing;
 
         const candidates = [
-            '../scripts/vendor/ag-psd.bundle.js',
+            'scripts/vendor/ag-psd.bundle.js',
             'https://cdn.jsdelivr.net/npm/ag-psd@26.0.0/dist/bundle.js',
             'https://unpkg.com/ag-psd@26.0.0/dist/bundle.js'
         ];
