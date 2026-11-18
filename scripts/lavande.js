@@ -563,7 +563,8 @@
     }
 
     // Les nuages : un bruit lisse, à deux échelles, qui dérive lentement. Dans
-    // le ciel il pose de petits nuages clairs, au ventre un peu gris.
+    // le ciel il pose de petits nuages clairs, au ventre un peu gris ; leur
+    // ombre glisse sur la montagne et les collines.
     function bruitLisse(x, y) {
         var i = Math.floor(x), j = Math.floor(y), fx = x - i, fy = y - j;
         fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy);
@@ -742,6 +743,14 @@
                 if (oa > 0) { ton = sombre ? ton * (1 - 0.5 * oa) : ton + (0.62 - ton) * 0.6 * oa; eclat *= 1 - oa; }
             }
 
+            // L'ombre des nuages glisse sur la montagne et les collines, pas
+            // sur le champ : le fond vit, le premier plan reste net.
+            if (y < hy && y >= Math.min(sommet, col1)) {
+                var ot = nuage(x / hauteur * 3.2 - t * 0.045 + 0.4, y / hauteur * 6 + 1.7, 0.54);
+                ton *= sombre ? 1 - 0.4 * ot : 1 + 0.45 * ot;
+                if (!sombre) ton += 0.03 * ot;
+                eclat *= 1 - ot;
+            }
             // Les silhouettes : un trait que rien n'efface. En sombre, il est clair.
             if (bord) { ton = bord; eclat = 0; }
 
