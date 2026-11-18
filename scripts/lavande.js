@@ -30,7 +30,7 @@
     var PAS_X = 10, PAS_Y = 9, RAYON_MAX = 5.2, CADENCE = 40;
 
     var ctx = null, largeur = 0, hauteur = 0, dpr = 1, xs, ys;
-    var encre = 'rgba(26, 26, 26, 0.12)', sombre = false, trait = 'rgba(26, 26, 26, 0.5)', accent = '#9C77F5';
+    var encre = 'rgba(26, 26, 26, 0.12)', sombre = false;
     // Les lumières : une seconde encre, claire, pour ce que le soleil touche.
     // L'encre grise dessine les ombres ; celle-ci pose des points blancs sur
     // le papier (en sombre, des points plus vifs que les autres).
@@ -66,8 +66,6 @@
         encre = 'rgba(' + rgb + ', ' + (sombre ? 0.17 : 0.145) + ')';
         ruPret = false;      // les tons de la ruine dépendent du thème et de la trame
         lumiere = sombre ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 249, 238, 0.36)';
-        trait = 'rgba(' + rgb + ', ' + (sombre ? 0.5 : 0.48) + ')';
-        accent = (getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#9C77F5').trim();
     }
 
     // La crête, relevée sur une photo prise du sud : à l'ouest une longue
@@ -310,8 +308,6 @@
         var pied = hy - hauteur * 0.07;                   // où elle disparaît derrière les collines
         var sx = mg + ml * 0.639, sy = pied - mh;         // le sommet
         var bas = hauteur - hy;
-        // Le soleil respire : deux rythmes qui ne se rejoignent jamais.
-        var soleil = 1 + 0.06 * Math.sin(t * 0.153) + 0.035 * Math.sin(t * 0.363 + 1);
 
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.clearRect(0, 0, largeur, hauteur);
@@ -436,14 +432,11 @@
                 var p = (y - hy) / bas;                       // 0 à l'horizon, 1 en bas
                 var prof = 1 / (p + 0.02);
                 var X = (x - vx) / (p + 0.02) / largeur;      // position dans le champ
-                // Le vent : un balancement léger, et des rafales qui traversent le champ.
-                var rafale = lisse(0.55, 0.8, bruitLisse(x / largeur * 2.2 - t * 0.14, p * 1.5 + 9.3));
-                var Xv = (x - (0.25 * Math.sin(t * 1.1 + x * 0.004) + rafale) * (1.5 + 5 * p) - vx) / (p + 0.02) / largeur;
                 // Un champ de lavande : sur chaque rang, des touffes posées sur
                 // la terre claire. Une touffe n'est pas un rond : c'est une
                 // masse au contour bosselé, chacune différente, qui touche
                 // presque sa voisine.
-                var u = Xv * 6;
+                var u = X * 6;
                 var f = u - Math.floor(u);
                 var nRang = Math.floor(u);
                 var D = 0.5;                                    // une touffe tous les D, en profondeur
@@ -459,14 +452,12 @@
                 // y seraient plus fines qu'un point. En descendant, elles en sortent.
                 var sortie = lisse(0.02, 0.55, p);
                 var champ;
-                // Un bord adouci : la touffe qui ploie grandit ses points, sans clignoter.
-                var dedans = 1 - lisse(0.86, 1.06, rayon);
-                if (dedans > 0) {
+                if (rayon < 1) {
                     // La touffe : claire du côté du soleil, dense vers l'ombre
                     // et à son bord, mouchetée par les épis.
                     var epis = hasard(Math.floor(x / 10), Math.floor(y / 18 + hasard(Math.floor(x / 10), 3))) - 0.5;
-                    champ = 0.05 + (0.41 + 0.26 * lisse(-0.7, 0.8, ga) + 0.12 * epis * lisse(0.2, 0.7, p)) * dedans;
-                    eclat = (0.18 * lisse(-0.2, -0.7, ga) * (1 - lisse(0.5, 0.9, rayon)) + 0.07 * rafale) * dedans * sortie;
+                    champ = 0.46 + 0.26 * lisse(-0.7, 0.8, ga) + 0.12 * epis * lisse(0.2, 0.7, p);
+                    eclat = 0.18 * lisse(-0.2, -0.7, ga) * (1 - lisse(0.5, 0.9, rayon)) * sortie;
                 } else {
                     champ = 0.05;                               // la terre
                     eclat = 0;
@@ -491,7 +482,6 @@
             // Les silhouettes passent après les nuages : ni ombre ni lumière
             // ne les efface. En sombre, le trait est clair.
             if (bord) { ton = bord; eclat = 0; }
-            eclat *= soleil;
 
             // Un seuil bas : les points s'éteignent en rétrécissant, pas d'un coup
             // sur une même rangée, ce qui y tracerait une ligne.
@@ -526,86 +516,7 @@
             }
             ctx.fill();
         }
-        if (!CALME.matches && e >= INTRO) vivants(e);
         if (!CALME.matches || e < INTRO) reveiller();
-    }
-
-    // La vie de la scène, chacune à son rythme : des oiseaux de loin en loin,
-    // un papillon le jour, des lucioles la nuit.
-    var vols = [], prochainVol = 9, papillon = null, prochainPap = 16, lucioles = null;
-    function au(a, b) { return a + Math.random() * (b - a); }
-    function vivants(e) {
-        // Les oiseaux traversent le ciel, au-dessus de la phrase.
-        if (e >= prochainVol) {
-            var n = Math.random() < 0.4 ? 2 : 3, groupe = [];
-            for (var b = 0; b < n; b++) groupe.push({ dx: -b * au(14, 24), dy: au(-7, 7), ph: au(0, 6.28), s: au(5.4, 7) });
-            vols.push({ t0: e, duree: au(24, 34), y: hauteur * au(0.08, 0.17), sens: Math.random() < 0.5 ? 1 : -1, monte: au(-0.04, 0.03) * hauteur, groupe: groupe });
-            prochainVol = e + au(45, 90);
-        }
-        if (vols.length) {
-            ctx.strokeStyle = trait; ctx.lineWidth = 1.25; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-            ctx.beginPath();
-            vols = vols.filter(function (v) {
-                var k = (e - v.t0) / v.duree;
-                if (k > 1) return false;
-                var x0 = -60 + (largeur + 160) * k;
-                for (var b = 0; b < v.groupe.length; b++) {
-                    var o = v.groupe[b];
-                    var x = v.sens > 0 ? x0 + o.dx : largeur - x0 - o.dx;
-                    var y = v.y + o.dy + v.monte * k + 2.5 * Math.sin(e * 0.9 + o.ph);
-                    // Quelques battements, puis un plané.
-                    var bat = lisse(-0.3, 0.5, Math.sin(e * 0.55 + o.ph));
-                    var aile = -1.2 - 2.6 * bat * Math.sin(e * 9 + o.ph) - 0.8 * (1 - bat);
-                    ctx.moveTo(x - o.s, y + aile);
-                    ctx.quadraticCurveTo(x - o.s * 0.45, y - 1.4, x, y + 0.6);
-                    ctx.quadraticCurveTo(x + o.s * 0.45, y - 1.4, x + o.s, y + aile);
-                }
-                return true;
-            });
-            ctx.stroke();
-        }
-
-        // Le jour, un papillon violet volette dans l'espace libre, puis s'en va.
-        if (!sombre) {
-            if (!papillon && e >= prochainPap) {
-                papillon = { t0: e, duree: au(8, 12), x: au(0.55, 0.66) * largeur, y: au(0.34, 0.46) * hauteur, dx: au(0.05, 0.1) * largeur * (Math.random() < 0.5 ? 1 : -1), ph: au(0, 6.28) };
-            }
-            if (papillon) {
-                var P = papillon, k = (e - P.t0) / P.duree;
-                if (k > 1) { papillon = null; prochainPap = e + au(25, 50); }
-                else {
-                    var px = P.x + P.dx * k + 16 * Math.sin(e * 1.7 + P.ph) + 6 * Math.sin(e * 4.3);
-                    var py = P.y - hauteur * 0.06 * Math.sin(k * Math.PI) + 7 * Math.sin(e * 2.9 + P.ph);
-                    var ouvre = 0.25 + 0.75 * Math.abs(Math.sin(e * 13 + P.ph));
-                    ctx.globalAlpha = lisse(0, 0.12, k) * (1 - lisse(0.88, 1, k));
-                    ctx.fillStyle = accent;
-                    for (var w = -1; w <= 1; w += 2) {
-                        ctx.beginPath();
-                        ctx.ellipse(px + w * 2.6 * ouvre, py - 0.6, 2.7 * ouvre, 3.3, w * 0.35, 0, 6.2832);
-                        ctx.fill();
-                    }
-                    ctx.globalAlpha = 1;
-                }
-            }
-        } else {
-            // La nuit, des lucioles s'allument chacune à son heure.
-            if (!lucioles) {
-                lucioles = [];
-                for (var f = 0; f < 7; f++) lucioles.push({ x: au(0.53, 0.73), y: au(0.3, 0.5), per: au(3.5, 7.5), ph: au(0, 6.28), a: au(0, 100) });
-            }
-            for (var g = 0; g < lucioles.length; g++) {
-                var L = lucioles[g];
-                // Elles attendent que la scène soit posée, puis s'allument peu à peu.
-                var lum = lisse(0.55, 1, Math.sin(e * 6.2832 / L.per + L.ph)) * lisse(5, 9, e);
-                if (lum <= 0) continue;
-                var fx = (L.x + 0.05 * (bruitLisse(e * 0.08 + L.a, 1.3) - 0.5)) * largeur;
-                var fy = (L.y + 0.06 * (bruitLisse(2.1, e * 0.07 + L.a) - 0.5)) * hauteur;
-                ctx.fillStyle = 'rgba(244, 226, 150, ' + (0.16 * lum) + ')';
-                ctx.beginPath(); ctx.arc(fx, fy, 7, 0, 6.2832); ctx.fill();
-                ctx.fillStyle = 'rgba(255, 242, 190, ' + (0.85 * lum) + ')';
-                ctx.beginPath(); ctx.arc(fx, fy, 1.7, 0, 6.2832); ctx.fill();
-            }
-        }
     }
 
     function reveiller() {
