@@ -1,7 +1,4 @@
-// Fond des pages d'expérimentation : deux dégradés de points en nappes douces,
-// sur la grille du site. En haut, il s'efface vers le bas et autour du titre ;
-// en bas, il monte depuis le pied de page et s'écarte des dernières cartes.
-// Il sert aussi au pied de l'accueil, sur un téléphone.
+// Fond des pages d'expérimentation : deux dégradés de points en nappes douces, sur la grille du site.
 (function () {
     // Sans 2D (jsdom des tests), rien à dessiner.
     if (typeof CanvasRenderingContext2D === 'undefined') return;

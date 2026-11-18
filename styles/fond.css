@@ -1,17 +1,6 @@
-/* La page CV : le contenu posé sur le champ de points du site.
+/* La page CV : le contenu posé sur le champ de points du site. */
 
-   Le fond n'est plus découpé en couches. La descente du haut, la grille du
-   milieu et la remontée du bas sont un seul halftone, dessiné d'un coup par
-   scripts/points-champ.js — un seul objet pour tout le fond, aux mêmes
-   réglages. Il n'y a donc plus ni masque ni raccord entre deux trames.
-
-   Ce fichier place ce champ, puis tout le contenu par-dessus. */
-
-/* La seconde main de la page : celle qui annote. Elle ne sert qu'aux notes
-   manuscrites, jamais au contenu — d'où le chargement ici et non dans
-   shared.css, et le font-display: swap, qui laisse la page s'afficher sans
-   l'attendre. Cedarville Cursive, sous licence SIL Open Font : les lettres y
-   sont attachées, ce qu'aucune script détachée ne sait imiter. */
+/* La seconde main de la page : celle qui annote. */
 @font-face {
     font-family: 'Cedarville Cursive';
     font-style: normal;
@@ -21,8 +10,7 @@
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* Le gris de texte de la page, a un seul niveau : 0,62 est le plus clair qui
-   passe encore le rapport de 4,5:1 sur le papier, en clair comme en sombre. */
+/* Le gris de texte de la page, a un seul niveau. */
 .fond-page { --fond-gris: rgba(var(--text-rgb), 0.62); }
 
 .fond-page .site-content {
@@ -33,34 +21,22 @@
     padding: 0;
 }
 
-/* === HERO =================================================================
-   Un écran, pas plus : le portrait et la phrase en haut, les quatre chiffres
-   collés au bas du viewport. La phrase est grise, et seuls les mots qui
-   portent l'information reviennent au noir — c'est le contraste qui fait la
-   hiérarchie, pas la taille.
-
-   La photo de montagne prévue au brief n'est pas encore là. */
+/* Hero : un écran, pas plus, le portrait et la phrase en haut. */
 .fond-hero {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 100vh;
-    /* Le bas est plus généreux qu'il n'y paraît : les outils fixes du coin
-       inférieur gauche passent sous les chiffres, ils ont besoin de la
-       place. */
-    /* Le bas reprend exactement l axe des outils du coin gauche : leur boite
-       s arrete a 1,25rem du bord et l icone est centree dans ses 44 px, soit
-       12,5 px de rembourrage. */
+    /* Le bas est plus généreux qu'il n'y paraît. */
+    /* Le bas reprend exactement l axe des outils du coin gauche. */
     padding: clamp(5rem, 12vh, 9rem) var(--fond-marge) calc(1.25rem + 12.5px);
     display: grid;
     grid-template-rows: 1fr auto;
     gap: 2rem;
 }
 
-/* Portrait puis phrase, l'un sous l'autre et tous deux centrés dans la
-   colonne. Le bloc est centré dans la hauteur qui lui reste, entre le haut
-   de l'écran et les chiffres. */
+/* Portrait puis phrase, l'un sous l'autre et tous deux centrés dans la colonne. */
 .fond-hero-haut {
     display: flex;
     flex-direction: column;
@@ -76,16 +52,13 @@
     aspect-ratio: 4 / 5;
     object-fit: cover;
     border-radius: 1.25rem;
-    /* Le bas de l'image se dissout dans le papier, comme les dégradés de
-       points : le portrait est posé sur la page, il n'y est pas collé. Le
-       fondu part sous le menton — le visage reste intact. */
+    /* Le bas de l'image se dissout dans le papier, comme les dégradés de points. */
     -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
     mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
 }
 
 .fond-hero-phrase {
-    /* Centrée, une ligne trop longue se lit mal : la mesure reste plus
-       courte que la colonne. */
+    /* Centrée, une ligne trop longue se lit mal : la mesure reste plus courte que la colonne. */
     width: 100%;
     max-width: 56ch;
     /* Sans équilibrage, la dernière ligne se réduisait à « Luxembourg). ». */
@@ -107,11 +80,7 @@
 /* Ce que je cherche : la seule chose de la phrase qui appelle une réponse. */
 .fond-hero-phrase strong.fond-cle { color: var(--accent-ink); }
 
-/* Les chiffres, alignés sur le bas de l'écran.
-
-   Les colonnes se dimensionnent sur leur contenu, et non en quatre parts
-   égales : à parts égales, « Réservations attribuées à Google Ads » passait à
-   la ligne et son chiffre remontait, seul, au-dessus des trois autres. */
+/* Les chiffres, alignés sur le bas de l'écran. */
 .fond-hero-chiffres {
     display: grid;
     grid-template-columns: repeat(4, auto);
@@ -130,8 +99,7 @@
     white-space: nowrap;
 }
 
-/* La borne basse d'une fourchette est une donnée, pas un ornement : elle
-   recule sans devenir illisible. */
+/* La borne basse d'une fourchette est une donnée, pas un ornement. */
 .fond-kpi b span { opacity: 0.45; font-weight: 700; }
 
 .fond-kpi > span {
@@ -139,17 +107,11 @@
     font-size: 0.9rem;
     font-weight: 600;
     line-height: 1.35;
-    /* Filet de sécurité pour les largeurs où un libellé passe sur deux
-       lignes : ils la réservent tous, et les quatre chiffres restent
-       alignés. Sur desktop, la grille ci-dessous fait mieux et le retire. */
+    /* Filet de sécurité pour les largeurs où un libellé passe sur deux lignes : ils la réservent tous. */
     min-height: 2.7em;
 }
 
-/* Sur desktop, les trois lignes d'un chiffre entrent dans une grille commune
-   aux quatre : chaque étage y forme une rangée, et l'alignement ne dépend
-   plus d'une hauteur réservée d'avance. C'est ce qui supprime le vide entre
-   le libellé et sa précision quand aucun des quatre ne passe à la ligne — le
-   cas courant. */
+/* Sur desktop, les trois lignes d'un chiffre entrent dans une grille commune aux quatre. */
 @media (min-width: 901px) {
     .fond-hero-chiffres {
         grid-auto-flow: column;
@@ -157,8 +119,7 @@
         row-gap: 0;
     }
 
-    /* La boîte du chiffre s'efface : ce sont ses trois lignes qui entrent
-       dans la grille, une par rangée. */
+    /* La boîte du chiffre s'efface : ce sont ses trois lignes qui entrent dans la grille, une par rangée. */
     .fond-kpi { display: contents; }
 
     .fond-kpi b { align-self: end; }
@@ -182,8 +143,7 @@
     color: var(--fond-gris);
 }
 
-/* Sous 900 px, la phrase reprend toute la largeur : la mesure de 56ch la
-   laisserait plus étroite que la colonne. */
+/* Sous 900 px, la phrase reprend toute la largeur. */
 @media (max-width: 900px) {
     .fond-hero { height: auto; min-height: 100vh; }
 
@@ -194,16 +154,8 @@
     .fond-hero-chiffres { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
 }
 
-/* === RAIL DE NAVIGATION ===================================================
-   Fixe, centré verticalement à gauche. Des mots sur desktop, des points sur
-   mobile — mais le libellé reste toujours dans le DOM : sur mobile il est
-   masqué visuellement, jamais retiré, sinon le point serait un lien sans
-   nom. L'état actif se lit aussi par aria-current, pas seulement à la
-   couleur. */
-/* Rail et outils sont calés sur le bord gauche du viewport, pas sur la
-   colonne de contenu : --fond-bord est cette gouttière, et chacun corrige
-   son propre rembourrage interne pour que le mot, le point et l'icône
-   commencent tous exactement dessus. */
+/* Rail de navigation : fixe, centré verticalement à gauche. */
+/* Rail et outils sont calés sur le bord gauche du viewport, pas sur la colonne de contenu. */
 .fond-page { --fond-bord: 1.5rem; }
 
 .fond-rail {
@@ -224,43 +176,25 @@
     font-size: 0.82rem;
     font-weight: 700;
     letter-spacing: 0.01em;
-    /* L'entrée s'efface à mesure qu'elle s'éloigne de la section courante, un
-       cran par titre. --eloignement est posé par fond-rail.js. Les voisines
-       directes tiennent le 4,5:1 du texte ; le plancher garde « Contact »
-       visible dès l'arrivée, sans lui rendre le poids d'une voisine. */
+    /* L'entrée s'efface à mesure qu'elle s'éloigne de la section courante, un cran par titre. */
     opacity: max(0.26, calc(0.66 - (var(--eloignement, 1) - 1) * 0.08));
     transition: opacity 0.25s ease;
 }
 
 .fond-rail a:hover { opacity: 1; }
 
-/* La page est en noir et blanc, et la couleur d'accent y garde deux rôles :
-   dire ce qui est actif ou ce qu'on est en train de toucher, et désigner les
-   trois choses qu'un recruteur doit retenir : ce que je cherche (le CDI, dans la
-   phrase du hero), la preuve (le chiffre de chaque projet) et l'action (le bouton
-   d'e-mail). Jamais d'ornement : c'est ce qui préserve sa rareté.
-   --accent-ink et non --accent : sur du texte de cette taille, le violet clair
-   ne passe pas le rapport de 4,5:1. */
+/* La page est en noir et blanc, et la couleur d'accent y garde deux rôles. */
 .fond-rail a[aria-current="true"] { opacity: 1; color: var(--accent-ink); }
 
-/* Mobile : plus que les points. Le mot reste lisible par les lecteurs
-   d'écran, la zone tactile déborde largement du point. */
+/* Sur mobile, le rail n'est plus que des points. */
 @media (max-width: 760px) {
-    /* Le point est décalé de son rembourrage : on ramène le rail d'autant
-       pour qu'il retombe sur --fond-bord. */
-    /* 50svh et non 50% : sur mobile, la hauteur du viewport change quand la
-       barre d'adresse se replie, et un élément centré dessus se déplaçait à
-       chaque fois. La « small viewport height » est celle du navigateur
-       barres déployées — une constante, donc un rail immobile. */
+    /* Le point est décalé de son rembourrage, pour rester sur l'axe. */
+    /* 50svh et non 50% : sur mobile, la hauteur du viewport change quand la barre d'adresse se replie. */
     .fond-rail { gap: 0; left: calc(var(--fond-bord) - 14px); top: 50svh; }
 
     .fond-rail a {
         padding: 9px 14px;
-        /* Plancher haut, volontairement : sur un point de 7 px, un voisin a
-           0,06 est invisible. Seul le point actif se voyait, et il semblait
-           donc se teleporter d un cran a chaque changement de section au lieu
-           de se deplacer dans une colonne visible. Les points s'effacent cran
-           par cran, comme les mots sur desktop. */
+        /* Plancher haut, volontairement : sur un point de 7 px, un voisin a 0,06 est invisible. */
         opacity: max(0.3, calc(0.62 - (var(--eloignement, 1) - 1) * 0.08));
     }
 
@@ -287,18 +221,10 @@
     }
 }
 
-/* === OUTILS (bas de page, à gauche) =======================================
-   Thème, langue, contact. Pas de bouton dessiné : rien que l'icône posée sur
-   le papier, sur l'axe vertical du rail. Fixes, comme lui.
-
-   L'opacité de repos est à 0,50 et non plus bas : sous cette valeur, l'icône
-   passe sous le rapport de 3:1 exigé pour un élément d'interface, et ces
-   trois-là sont cliquables, pas décoratifs. */
+/* Outils : thème, langue, contact, en bas à gauche. */
 .fond-outils {
     position: fixed;
-    /* L'icône est centrée dans une cible de 44 px : on retire la moitié de la
-       marge intérieure pour que son trait démarre sur --fond-bord, comme les
-       mots du rail. */
+    /* L'icône est centrée dans une cible de 44 px. */
     left: calc(var(--fond-bord) - 12.5px);
     bottom: 1.25rem;
     z-index: 20;
@@ -334,8 +260,7 @@
 
 .fond-outil svg { width: 19px; height: 19px; }
 
-/* Le bouton de langue emprunte tout son mécanisme à shared.css ; il ne reste
-   qu'à lui rendre la taille de cible des deux autres. */
+/* Le bouton de langue emprunte tout son mécanisme à shared.css. */
 .fond-outil.lang-btn {
     width: 44px;
     height: 44px;
@@ -345,8 +270,7 @@
 }
 
 @media (max-width: 760px) {
-    /* Les trois icônes montent en haut à droite, comme sur le reste du
-       site, et partent avec la page. */
+    /* Les trois icônes montent en haut à droite, comme sur le reste du site, et partent avec la page. */
     .fond-outils {
         position: absolute;
         top: 0.9rem;
@@ -355,16 +279,14 @@
         bottom: auto;
     }
 
-    /* Le hero laisse en haut la hauteur des icônes, et se contente en bas
-       de peu d'air : sinon les quatre chiffres dépassent l'écran. */
+    /* Le hero laisse en haut la hauteur des icônes, et se contente en bas de peu d'air. */
     .fond-hero {
         padding-top: calc(0.9rem + 44px + 0.5rem);
         padding-bottom: 2.5rem;
     }
 }
 
-/* Les titres sont la cible des ancres : on leur laisse de l'air en haut
-   plutôt que de les coller au bord de la fenêtre. */
+/* Les titres sont la cible des ancres : de l'air au-dessus. */
 .fond-page .fond-titre { scroll-margin-top: 35vh; }
 
 html { scroll-behavior: smooth; }
@@ -373,16 +295,12 @@ html { scroll-behavior: smooth; }
     html { scroll-behavior: auto; }
 }
 
-/* === TITRE POSÉ SUR LA TRAME ==============================================
-   Le titre s'écrit sur une rangée de points, et cette rangée est plus
-   foncée que les autres. Les positions viennent de fond-titre.js. */
-/* Le rail occupe la marge gauche : les titres commencent après lui, sinon
-   le texte passe à travers les points sur mobile. */
+/* Titre posé sur la trame : il s'écrit sur une rangée de points. */
+/* Le rail occupe la marge gauche : les titres commencent après lui. */
 .fond-page { --fond-marge: max(11rem, calc(50vw - 34rem)); }
 
 @media (max-width: 760px) {
-    /* Le rail se réduit à des points : la colonne peut se resserrer nettement.
-       --fond-bord suit, sinon le point mordrait sur le texte. */
+    /* Le rail se réduit à des points : la colonne peut se resserrer nettement. */
     .fond-page { --fond-marge: 2.25rem; --fond-bord: 0.75rem; }
 }
 
@@ -393,19 +311,11 @@ html { scroll-behavior: smooth; }
     font-size: clamp(2.2rem, 5vw, 3.4rem);
     font-weight: 700;
     letter-spacing: -0.025em;
-    /* Interligne à 1 : la ligne de base est alors prévisible, et c'est elle
-       qu'on aligne sur la rangée de points. */
+    /* Interligne à 1 : la ligne de base est alors prévisible. */
     line-height: 1;
 }
 
-/* La rangée assombrie : une seule ligne de points.
-
-   La boîte doit être assez haute pour contenir ses points. Le masque qui
-   perce la rangée sous le titre a un mask-clip à border-box par défaut :
-   sur une boîte d'1 px, il rognait chaque point à une lamelle d'1 px et le
-   reste disparaissait. D'où une hauteur de 16 px, avec le tracé recentré
-   dedans (fond-titre.js pose le haut de la boîte à 8 px au-dessus de la
-   rangée visée). */
+/* La rangée assombrie : une seule ligne de points. */
 .fond-page .fond-ligne {
     position: absolute;
     left: 0;
@@ -416,26 +326,17 @@ html { scroll-behavior: smooth; }
     pointer-events: none;
 }
 
-/* display: block est indispensable, pas cosmétique. Un <svg> est inline :
-   il se pose sur une ligne de texte, et le strut du line-height le décalait
-   d'environ 18 px vers le bas — la rangée assombrie tombait alors sous la
-   grille au lieu de coïncider avec elle. */
+/* display: block est indispensable, pas cosmétique. */
 .fond-page .fond-ligne svg { display: block; }
 
-/* === SECTIONS =============================================================
-   Le contenu d'un titre. Posé en absolu comme lui, sur la même colonne ;
-   fond-titre.js lui donne son top et repousse d'autant le titre suivant. */
+/* Sections : le contenu d'un titre. */
 .fond-page .fond-section {
     position: absolute;
     left: var(--fond-marge);
     right: var(--fond-marge);
 }
 
-/* === PROJETS ==============================================================
-   Une ligne par projet : nom à gauche, phrase au milieu, son chiffre clé, puis
-   la flèche à droite.
-   Les filets sont la seule règle tracée de la page — ailleurs, ce sont les
-   points qui font les lignes. */
+/* Projets : une ligne par projet, nom à gauche, phrase au milieu, chiffre clé. */
 .fond-projet { border-bottom: 1px solid rgba(var(--text-rgb), 0.14); }
 .fond-projet:first-child { border-top: 1px solid rgba(var(--text-rgb), 0.14); }
 
@@ -470,9 +371,7 @@ html { scroll-behavior: smooth; }
     color: var(--fond-gris);
 }
 
-/* Le chiffre de la ligne : la preuve se lit avant le clic. Une fois la ligne
-   ouverte, il s'efface sans libérer sa place, la liste de preuves le reprend
-   juste en dessous. */
+/* Le chiffre de la ligne : la preuve se lit avant le clic. */
 .fond-projet-chiffre b {
     display: block;
     color: var(--accent-ink);
@@ -497,9 +396,7 @@ html { scroll-behavior: smooth; }
 
 .fond-projet[data-ouvert] .fond-projet-chiffre { visibility: hidden; opacity: 0; }
 
-/* Un plus qui devient un moins : la barre verticale pivote d'un quart de tour
-   et vient se confondre avec l'horizontale. Le signe change, le trait reste
-   le même — c'est plus lisible qu'un symbole qui se substitue à un autre. */
+/* Un plus qui devient un moins. */
 .fond-plus-barre {
     transform-box: view-box;
     transform-origin: 12px 12px;
@@ -520,16 +417,7 @@ html { scroll-behavior: smooth; }
 
 .fond-projet-icone svg { width: 20px; height: 20px; }
 
-/* Au survol, la ligne visée avance d'un demi-pas vers la droite et les deux
-   autres reculent. Rien n'apparaît, rien ne se brouille : c'est la liste
-   entière qui désigne celle qu'on regarde.
-
-   Le :has() est ici indispensable — il faut agir sur les lignes voisines de
-   celle qu'on survole, ce qu'aucun sélecteur ne savait faire avant lui. Là où
-   il manque, il ne se passe simplement rien.
-
-   Rien de tout ceci au doigt : (hover: hover) écarte les écrans tactiles, où
-   le survol est un état collé qui ne se retire jamais. */
+/* Au survol, la ligne visée avance d'un demi-pas vers la droite et les deux autres reculent. */
 .fond-projet-nom,
 .fond-projet-resume,
 .fond-projet-chiffre,
@@ -563,9 +451,7 @@ html { scroll-behavior: smooth; }
 }
 .fond-projet[data-ouvert] .fond-projet-icone { opacity: 1; color: var(--accent); }
 
-/* Ouvrir vers une hauteur inconnue : la seule façon de l'animer est de faire
-   passer une piste de grille de 0fr à 1fr. L'enfant doit donc porter le
-   overflow, sinon il déborde pendant tout le trajet. */
+/* Ouvrir vers une hauteur inconnue (grid-template-rows de 0fr à 1fr). */
 .fond-projet-corps {
     display: grid;
     grid-template-rows: 0fr;
@@ -599,19 +485,12 @@ html { scroll-behavior: smooth; }
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-/* De quoi écrire « C'est moi ! » et sa flèche sous la dernière rangée. La
-   réserve suit la taille de la note, qui suit la largeur de la fenêtre.
-   Le sélecteur est plus lourd qu'il n'en a l'air parce qu'il doit passer
-   devant celui qui rogne le premier enfant sous 900 px. */
+/* De quoi écrire « C'est moi ! » */
 .fond-projet-interieur > .fond-projet-medias--mosaique:first-child {
     padding-bottom: clamp(3.25rem, 6vw, 4.75rem);
 }
 
-/* La note vise la cinquième vignette — deuxième rangée, colonne du milieu.
-   Elle s'écrit sous la mosaïque, sur le papier, et c'est sa flèche qui
-   remonte vers la photo : posée dessus, elle se lisait mal, quel que soit le
-   halo qu'on lui donnait. La bande qui l'accueille est le rembourrage bas de
-   la mosaïque, élargi pour elle. */
+/* La note vise la cinquième vignette — deuxième rangée, colonne du milieu. */
 .fond-note--moi {
     bottom: 0.15rem;
     left: 30%;
@@ -691,20 +570,7 @@ html { scroll-behavior: smooth; }
     .fond-projet-interieur > *:first-child { padding-bottom: 1.25rem; }
 }
 
-/* === PARCOURS =============================================================
-   Une frise qui répond à une question : qu'est-ce qui s'est passé en même temps ?
-   Les années se suivent sur une ligne centrale, le plus récent en haut, les postes
-   à gauche, les études à droite. Chaque période est un rectangle de la hauteur de
-   sa durée, le texte dedans : deux rectangles à la même hauteur ont eu lieu ensemble.
-
-   L'échelle est stricte : une rangée par mois, toutes de la même hauteur, donc des
-   années toutes égales. La ligne 2 de la grille est décembre 2026 et chaque ligne
-   descend d'un mois. C'est --chrono-mois qui garantit que le texte de la période la
-   plus courte, quatre mois, tient encore dans son rectangle.
-
-   La gauche a deux voies égales parce que le consulting court en parallèle des postes :
-   l'un ne compte pas moins que l'autre. À elles deux, elles valent la droite, et la
-   ligne reste au milieu. */
+/* Parcours : une frise qui montre ce qui s'est passé en même temps. */
 .fond-chrono {
     position: relative;
     --chrono-axe: 4.5rem;
@@ -755,15 +621,13 @@ html { scroll-behavior: smooth; }
     font-variant-numeric: tabular-nums;
 }
 
-/* La liste s'efface pour que ses entrées se posent dans la grille, tout en
-   restant une liste pour un lecteur d'écran. */
+/* La liste s'efface pour que ses entrées se posent dans la grille. */
 .fond-chrono-liste {
     display: contents;
     list-style: none;
 }
 
-/* Un aplat sans bordure : c'est le filet tout autour qui en faisait un emploi du
-   temps. Le fond reste opaque, sinon les points du papier traversent le texte. */
+/* Un aplat sans bordure : c'est le filet tout autour qui en faisait un emploi du temps. */
 .fond-chrono-barre {
     position: relative;
     display: flex;
@@ -807,9 +671,7 @@ html { scroll-behavior: smooth; }
 .fond-chrono-barre--nutri,
 .fond-chrono-barre--exki { padding-block: 0.35rem; }
 
-/* Des périodes courtes, à peine la hauteur de leur texte : celui-ci se centre. Elles
-   partent de leur vraie date et valent au moins leur durée ; si le texte demande plus,
-   la carte grandit vers le bas, dans le vide, et les années restent égales. */
+/* Des périodes courtes, à peine la hauteur de leur texte : celui-ci se centre. */
 .fond-chrono-barre--stage,
 .fond-chrono-barre--nutri,
 .fond-chrono-barre--exki {
@@ -833,9 +695,7 @@ html { scroll-behavior: smooth; }
     gap: 0 0.75rem;
 }
 
-/* Les bornes en mois : ligne = 2 + mois écoulés depuis décembre 2026. Ce que le site
-   date à l'année seulement court sur l'année entière ; le MSc et le DUETI se
-   relaient au milieu de 2019. */
+/* Les bornes en mois : ligne = 2 + mois écoulés depuis décembre 2026. */
 .fond-chrono-barre--cm      { grid-column: postes; grid-row: 6 / 42; }   /* sept. 2023 - août 2026 */
 .fond-chrono-barre--stage   { grid-column: postes; grid-row: 50 / 56; }  /* juil. - déc. 2022 */
 /* Rien ne court à côté d'eux en 2020 : ils prennent les deux voies. */
@@ -845,14 +705,12 @@ html { scroll-behavior: smooth; }
 .fond-chrono-barre--msc     { grid-column: formation; grid-row: 50 / 92; }
 .fond-chrono-barre--dueti   { grid-column: formation; grid-row: 92 / 110; }
 
-/* Le poste principal porte un aplat plus soutenu : c'est le rectangle qu'on doit
-   trouver d'abord. */
+/* Le poste principal porte un aplat plus soutenu : c'est le rectangle qu'on doit trouver d'abord. */
 .fond-chrono-barre--cm {
     background-image: linear-gradient(rgba(var(--text-rgb), 0.15), rgba(var(--text-rgb), 0.15));
 }
 
-/* Les chiffres gardent la taille du détail : seule la valeur ressort, pour ne pas
-   voler la vedette au titre. */
+/* Les chiffres gardent la taille du détail : seule la valeur ressort. */
 .fond-chrono-chiffres {
     display: grid;
     gap: 0.3rem;
@@ -861,8 +719,7 @@ html { scroll-behavior: smooth; }
     color: rgba(var(--text-rgb), 0.72);
 }
 
-/* Un filet sépare ce qu'était le poste de ce qu'il a donné : sans lui, les chiffres
-   se lisaient comme la suite du lieu et des dates. */
+/* Un filet sépare ce qu'était le poste de ce qu'il a donné. */
 .fond-chrono-detail + .fond-chrono-chiffres,
 .fond-chrono-detail + .fond-chrono-projet {
     margin-top: 1rem;
@@ -882,9 +739,7 @@ html { scroll-behavior: smooth; }
 
 .fond-chrono-projet + .fond-chrono-chiffres { margin-top: 0.3rem; }
 
-/* Toujours en cours : le haut se dissout au lieu de s'arrêter sur une date, et le
-   texte attend que l'aplat soit là. La marge l'écarte du poste voisin : une
-   gouttière de grille déplacerait la ligne, sans équivalent à sa droite. */
+/* Toujours en cours : le haut se dissout au lieu de s'arrêter sur une date. */
 .fond-chrono-barre--consulting {
     margin-right: 0.5rem;
     padding-top: 1.75rem;
@@ -898,11 +753,7 @@ html { scroll-behavior: smooth; }
     background-image: linear-gradient(rgba(var(--text-rgb), 0.045), rgba(var(--text-rgb), 0.045));
 }
 
-/* Trop étroit pour deux voies à gauche de la ligne : le consulting passe à droite,
-   au-dessus des études, qu'il relaie en 2022, et reste ainsi face au poste de Lindt.
-   Les postes prennent la plus grande part, ce sont eux qui ont des périodes courtes
-   à écrire ; les rectangles de droite, très hauts, s'accommodent de peu de largeur.
-   Les en-têtes restent pour les lecteurs d'écran. */
+/* Trop étroit pour deux voies à gauche de la ligne : le consulting passe à droite. */
 @media (max-width: 1300px) {
     .fond-chrono {
         --chrono-axe: 3.5rem;
@@ -960,8 +811,7 @@ html { scroll-behavior: smooth; }
         padding-top: 0.75rem;
     }
 
-    /* La date passe sous le lieu : sur une colonne étroite, le séparateur finissait seul
-       en début de ligne. */
+    /* Sur une colonne étroite, la date passe sous le lieu. */
     .fond-chrono-barre .fond-dates { display: block; }
 
     .fond-chrono-barre .fond-dates::before { content: none; }
@@ -984,8 +834,7 @@ html { scroll-behavior: smooth; }
     .fond-chrono-detail .fond-dates { white-space: normal; }
 }
 
-/* === COMPÉTENCES ==========================================================
-   Quatre champs, puis la boîte à outils. */
+/* Compétences : quatre champs, puis la boîte à outils. */
 .fond-competences { display: grid; gap: clamp(1.5rem, 3vw, 2.25rem); }
 
 .fond-competences-intro,
@@ -1049,8 +898,7 @@ html { scroll-behavior: smooth; }
     font-weight: 600;
 }
 
-/* Les marques sont monochromes : elles suivent l'encre de la page plutôt que
-   d'y planter vingt-six couleurs. */
+/* Les marques sont monochromes. */
 .fond-boite-item svg {
     width: 15px;
     height: 15px;
@@ -1061,8 +909,7 @@ html { scroll-behavior: smooth; }
 
 .fond-boite-item svg.glyph { fill: none; stroke: currentColor; stroke-width: 1.7; }
 
-/* Les langues ferment la boîte, séparées des outils par un filet : ce n'est
-   pas un outil de plus, mais c'est le même genre de question. */
+/* Les langues ferment la boîte, séparées des outils par un filet : ce n'est pas un outil de plus. */
 .fond-boite-rang--langues {
     margin-top: 0.5rem;
     padding-top: 1.35rem;
@@ -1085,10 +932,7 @@ h3.fond-boite-cat { margin: 0; }
     .fond-boite-cat { padding-top: 0; }
 }
 
-/* === PASSIONS =============================================================
-   Deux cartes côte à côte, plus modestes que les sections qui les précèdent.
-   Dans chacune : la photo à gauche, collée aux bords qu'elle touche, et le
-   texte à droite. */
+/* Passions : deux cartes côte à côte, plus modestes que les sections qui les précèdent. */
 .fond-passions {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1099,8 +943,7 @@ h3.fond-boite-cat { margin: 0; }
     --rayon: 1.25rem;
     position: relative;
     display: grid;
-    /* La photo mène la hauteur de la carte, et le texte doit tenir dans cette
-       hauteur : sinon la rangée s'étire et la photo se fait rogner. */
+    /* La photo mène la hauteur de la carte, et le texte doit tenir dans cette hauteur. */
     grid-template-columns: minmax(0, 45%) minmax(0, 1fr);
     align-items: stretch;
     margin: 0;
@@ -1110,13 +953,7 @@ h3.fond-boite-cat { margin: 0; }
     background-image: linear-gradient(rgba(var(--text-rgb), 0.035), rgba(var(--text-rgb), 0.035));
 }
 
-/* Le même semis que les blocs de contrat et de contact : dense sur deux
-   coins opposés. Celui du haut à gauche passe sous la photo, qui est
-   opaque ; il ne reste que celui du bas à droite, dans la colonne de texte.
-
-   Un élément positionné passe devant ceux qui ne le sont pas, quel que soit
-   l'ordre : sans z-index sur la photo et le texte, le semis leur passerait
-   dessus. */
+/* Le même semis que les blocs de contrat et de contact : dense sur deux coins opposés. */
 .fond-passion .fond-bloc-semis {
     border-radius: inherit;
     overflow: hidden;
@@ -1125,10 +962,7 @@ h3.fond-boite-cat { margin: 0; }
 .fond-passion img,
 .fond-passion-texte { position: relative; z-index: 1; }
 
-/* Rien entre la photo et le cadre : elle touche le bord et en reprend
-   l'arrondi, sur ses quatre coins. Un pixel de moins que le cadre — le rayon
-   intérieur d'une bordure d'un pixel — pour que les deux courbes restent
-   concentriques. */
+/* Rien entre la photo et le cadre : elle touche le bord et en reprend l'arrondi, sur ses quatre coins. */
 .fond-passion img {
     display: block;
     width: 100%;
@@ -1159,13 +993,9 @@ h3.fond-boite-cat { margin: 0; }
     color: rgba(var(--text-rgb), 0.7);
 }
 
-/* Trop étroit pour loger la photo et le texte de front : la photo passe
-   au-dessus du texte, dans l'ordre où ils sont écrits. Le seuil est haut parce
-   que le texte devient plus haut que la photo bien avant de manquer de
-   largeur. Les deux cartes restent côte à côte tant qu'elles le peuvent. */
+/* Trop étroit pour loger la photo et le texte de front : la photo passe au-dessus du texte. */
 @media (max-width: 1399px) {
-    /* La carte voisine peut être plus haute : le surplus va au texte, jamais à
-       la photo, qui garde son rapport. */
+    /* La carte voisine peut être plus haute : le surplus va au texte, jamais à la photo. */
     .fond-passion { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; }
 
     .fond-passion img { height: auto; }
@@ -1177,16 +1007,11 @@ h3.fond-boite-cat { margin: 0; }
     .fond-passions { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
 }
 
-/* === AVIS =================================================================
-   Un bento : quatre cartes visibles d'un coup, sur une grille de douze. La
-   citation la plus longue a le plus de largeur, la plus courte le moins, et les
-   deux de longueur égale se partagent une rangée : chaque rangée finit ainsi à
-   peu près au même niveau, sans trou sous une carte. */
+/* Avis : quatre cartes visibles d'un coup, sur une grille de douze. */
 .fond-avis {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    /* Plus haut que large : les notes manuscrites débordent du haut des cartes,
-       elles ne doivent pas toucher la rangée du dessus. */
+    /* Plus haut que large : les notes manuscrites débordent du haut des cartes. */
     gap: 2.25rem 1.25rem;
 }
 
@@ -1200,8 +1025,7 @@ h3.fond-boite-cat { margin: 0; }
     padding: clamp(1.25rem, 2.5vw, 1.75rem);
     border: 1px solid rgba(var(--text-rgb), 0.14);
     border-radius: 1rem;
-    /* Opaque, et pas juste teintee : les points du semis traversaient la
-       carte et se melaient au texte. */
+    /* Opaque, et pas juste teintee : les points du semis traversaient la carte et se melaient au texte. */
     background-color: var(--bg);
     background-image: linear-gradient(rgba(var(--text-rgb), 0.022), rgba(var(--text-rgb), 0.022));
 }
@@ -1269,10 +1093,7 @@ h3.fond-boite-cat { margin: 0; }
     color: rgba(var(--text-rgb), 0.78);
 }
 
-/* Le même guillemet sur chaque avis, quelle qu'en soit la langue : il est dessiné
-   ici, le texte n'en porte aucun. Urbanist n'en a qu'un en deux barres penchées :
-   celui-ci vient d'une police à empattements, c'est le signe qu'on reconnaît. Le
-   / '' le retire des lecteurs d'écran. */
+/* Le même guillemet sur chaque avis, quelle qu'en soit la langue : il est dessiné ici. */
 .fond-avis-carte blockquote::before {
     content: '\201C';
     content: '\201C' / '';
@@ -1288,32 +1109,19 @@ h3.fond-boite-cat { margin: 0; }
 .fond-avis-carte blockquote p { margin: 0 0 0.8rem; }
 .fond-avis-carte blockquote p:last-child { margin-bottom: 0; }
 
-/* === NOTES MANUSCRITES ====================================================
-   Une deuxième couche, ajoutée à la main sur une page déjà imprimée : toujours en
-   absolu, jamais dans le flux, jamais dans l'arbre d'accessibilité. Rien de ce qui
-   suit ne tient la mise en page, retirez le bloc entier et les sections restent
-   exactement les mêmes.
-
-   Une seule plume, mais jamais deux fois le même geste : une flèche, des traits, un
-   soulignement, un astérisque. Ce qui fait l'annotation : la pleine encre de la
-   page, une écriture assez grande pour s'assumer, une inclinaison qui ne suit pas
-   la grille, et des mots qui s'écrivent sous les yeux (fond-notes.js). */
+/* Notes manuscrites : une deuxième couche, ajoutée à la main. */
 .fond-note {
     position: absolute;
     z-index: 2;
-    /* Une note ne se clique pas et n'intercepte rien : le lien LinkedIn
-       qu'elle recouvre reste cliquable. */
+    /* Une note ne se clique pas et n'intercepte rien : le lien LinkedIn qu'elle recouvre reste cliquable. */
     pointer-events: none;
     font-family: 'Cedarville Cursive', 'Segoe Script', cursive;
-    /* Une note tient sur une ligne et ne se coupe jamais. Sa taille suit donc la
-       largeur de la fenêtre. Tout ce qui la compose est exprimé en em : une note
-       est un seul objet, écrit d'une seule main, elle change de taille d'un bloc. */
+    /* Une note tient sur une ligne et ne se coupe jamais. */
     font-size: clamp(0.9rem, 1.7vw + 0.2rem, 1.5rem);
     line-height: 1;
     white-space: nowrap;
     color: var(--text);
-    /* La Cedarville est un trait de plume fin : un rien d'épaisseur lui donne
-       l'encre d'un vrai stylo. */
+    /* La Cedarville est un trait de plume fin : un rien d'épaisseur lui donne l'encre d'un vrai stylo. */
     -webkit-text-stroke: 0.012em currentColor;
     transform: rotate(var(--note-angle, -2deg));
 }
@@ -1327,8 +1135,7 @@ h3.fond-boite-cat { margin: 0; }
     height: 1.3em;
 }
 
-/* Chaque recommandation a sa propre marque : on n'annote pas quatre fois de la même
-   façon, c'est ce qui fait croire à la main. */
+/* Chaque recommandation a sa propre marque : on n'annote pas quatre fois de la même façon. */
 
 /* La flèche. Les mots au-dessus du bord haut, le trait qui redescend vers le nom. */
 .fond-note--fleche {
@@ -1391,23 +1198,12 @@ h3.fond-boite-cat { margin: 0; }
     flex-shrink: 0;
 }
 
-/* Sur les plus petits écrans, la flèche n'a plus de blanc où se poser : elle
-   tomberait sur le nom. La note reste, écrite au-dessus de la carte. */
+/* Sur les plus petits écrans, la flèche n'a plus de blanc où se poser : elle tomberait sur le nom. */
 @media (max-width: 360px) {
     .fond-note--fleche .fond-note-trait { display: none; }
 }
 
-/* Le stylo. Il ne fait qu'une chose à la fois : les mots se découvrent de gauche à
-   droite, puis chaque trait se dessine à son tour. fond-notes.js calcule pour chacun
-   son retard et sa durée.
-
-   Les transitions ne sont posées que sur l'état écrit : l'attente doit cacher la note
-   d'un coup. Avec un retard, le trait restait visible le temps que la carte entre,
-   puis s'effaçait sous les yeux avant de se réécrire.
-
-   Le blanc du pointillé est plus long que le trait : à égalité, le bout arrondi du
-   tiret suivant laissait un point à la fin de chaque trait, avant même qu'il soit
-   dessiné. */
+/* Le stylo. */
 .fond-anime .fond-note[data-plume] .fond-note-texte {
     clip-path: inset(-0.6em 100% -0.6em -0.6em);
 }
@@ -1427,13 +1223,7 @@ h3.fond-boite-cat { margin: 0; }
     transition: stroke-dashoffset var(--trait-duree, 0.3s) cubic-bezier(0.4, 0, 0.6, 1) var(--trait-retard, 0s);
 }
 
-/* === PIED DE PAGE =========================================================
-   « Ce que je recherche » et « Parlons-en » réunis en un seul bloc, posé en
-   fin de colonne. fond-titre.js lui donne son top et cale la hauteur de la
-   page dessus.
-
-   Il suit la colonne de contenu à gauche plutôt que le bord du viewport :
-   sinon le rail, qui reste fixe et centré, passerait par-dessus. */
+/* Pied de page : « Ce que je recherche » et « Parlons-en » en un seul bloc. */
 .fond-contact { display: grid; gap: clamp(1.25rem, 2.5vw, 1.75rem); }
 
 .fond-contact-intro {
@@ -1444,9 +1234,7 @@ h3.fond-boite-cat { margin: 0; }
     color: var(--fond-gris);
 }
 
-/* Deux blocs distincts, l'un sur l'autre : ce qu'il cherche, puis comment
-   l'atteindre. Leur fond est opaque, et pas seulement teinté : c'est ce qui
-   arrête le semis de la page, dont les points traversaient le bloc. */
+/* Deux blocs distincts, l'un sur l'autre : ce qu'il cherche, puis comment l'atteindre. */
 .fond-bloc {
     position: relative;
     padding: clamp(1.75rem, 3.5vw, 2.5rem);
@@ -1458,8 +1246,7 @@ h3.fond-boite-cat { margin: 0; }
     overflow: hidden;
 }
 
-/* Pas de z-index négatif ici : il ferait passer le semis sous le fond du bloc,
-   où il disparaîtrait. Il reste au-dessus, et c'est le contenu qui monte. */
+/* Pas de z-index négatif ici : il ferait passer le semis sous le fond du bloc, où il disparaîtrait. */
 .fond-bloc-semis {
     position: absolute;
     inset: 0;
@@ -1467,10 +1254,7 @@ h3.fond-boite-cat { margin: 0; }
     pointer-events: none;
 }
 
-/* Le même semis sur les cartes de recommandation. Il ne peut pas être rogné
-   par la carte — overflow: hidden y couperait les notes manuscrites, qui
-   débordent volontairement — donc c'est le semis lui-même qui reprend les
-   angles de la carte et se rogne tout seul. */
+/* Le même semis sur les cartes de recommandation. */
 .fond-avis-carte .fond-bloc-semis {
     border-radius: inherit;
     overflow: hidden;
@@ -1479,17 +1263,13 @@ h3.fond-boite-cat { margin: 0; }
 .fond-avis-tete,
 .fond-avis-carte blockquote { position: relative; z-index: 1; }
 
-/* Chaque champ d'expertise a son propre contenant — quatre blocs, pas un
-   seul qui les rassemble. Sans semis : le motif diagonal appartient au bloc
-   de contact. */
+/* Chaque champ d'expertise a son propre contenant — quatre blocs, pas un seul qui les rassemble. */
 .fond-champ { padding: clamp(1.1rem, 2.5vw, 1.6rem); }
 
 .fond-actions,
 .fond-pied-specs { position: relative; z-index: 1; }
 
-/* Les quatre façons de me joindre, de vrais boutons : c'est l'action que la
-   page entière prépare. Un seul est plein, sans quoi aucun ne le serait.
-   L'accent reste réservé à ce qu'on touche. */
+/* Les quatre façons de me joindre, de vrais boutons : c'est l'action que la page entière prépare. */
 .fond-actions {
     display: flex;
     flex-wrap: wrap;
@@ -1542,8 +1322,7 @@ h3.fond-boite-cat { margin: 0; }
     .fond-action { transition: none; }
 }
 
-/* Ce que je recherche, sous un filet. La mobilité prend la plus grande part :
-   ses cinq pays y sont écrits en toutes lettres. */
+/* Ce que je recherche, sous un filet. */
 .fond-pied-specs {
     display: grid;
     grid-template-columns: minmax(0, 0.5fr) minmax(0, 1.2fr) minmax(0, 2.6fr) minmax(0, 0.65fr);
@@ -1589,11 +1368,8 @@ h3.fond-boite-cat { margin: 0; }
     color: rgba(var(--text-rgb), 0.6);
 }
 
-/* La signature vit dans le coin de la fenêtre, pas dans le bloc, et ne se
-   montre qu'une fois le bas de la page atteint — fond-rail.js pose la classe.
-   Elle reste discrète : c'est un crédit, pas une information. */
-/* Meme hauteur de boite et meme bas que les outils du coin oppose : c est
-   ce qui met les deux sur le meme axe. */
+/* La signature vit dans le coin de la fenêtre, pas dans le bloc. */
+/* Meme hauteur de boite et meme bas que les outils du coin oppose. */
 .fond-signature {
     position: fixed;
     right: var(--fond-bord);
@@ -1612,9 +1388,7 @@ h3.fond-boite-cat { margin: 0; }
     transition: opacity 0.4s ease;
 }
 
-/* Tant qu'elle est invisible, elle ne doit rien intercepter — d'où le
-   pointer-events: none de la règle de base, qu'on lui rend une fois
-   apparue, puisqu'elle mène maintenant quelque part. */
+/* Invisible, elle n'intercepte aucun clic. */
 .fond-signature.visible { opacity: 1; pointer-events: auto; }
 
 .fond-signature a {
@@ -1666,8 +1440,7 @@ h3.fond-boite-cat { margin: 0; }
     .fond-action { flex: 1 1 100%; }
 }
 
-/* Le champ de points : un seul dessin pour toute la page, sans masque —
-   c'est le tracé lui-même qui sait où il est dense et où il est clair. */
+/* Le champ de points : un seul dessin pour toute la page. */
 .fond-page .points-champ {
     position: absolute;
     inset: 0;
@@ -1678,24 +1451,7 @@ h3.fond-boite-cat { margin: 0; }
 
 .fond-page .points-champ svg { display: block; overflow: visible; }
 
-/* ============================================================
-   Les apparitions
-   ============================================================
-
-   Deux règles, et une seule idée : ce qui n'a pas encore été atteint est
-   transparent et posé un cheveu plus bas ; le script lui retire ce retard
-   quand son tour vient, en décalant les voisins d'un souffle.
-
-   Tout dépend de .fond-anime, posée sur <html> par le script en tête de
-   document — donc avant le premier rendu, sinon la page apparaîtrait avant de
-   se cacher pour entrer. Sans JavaScript, ou si l'on demande moins de
-   mouvement, la classe n'est jamais posée et rien de ce qui suit ne
-   s'applique : la page s'affiche entière, comme avant.
-
-   La liste est enfermée dans :where() pour n'avoir aucun poids : quel que
-   soit le sélecteur qu'on y ajoute — même un enfant direct, qui en pèserait
-   trois — l'état révélé le bat toujours. Sans cela, .fond-contact > .fond-bloc
-   restait invisible pour l'éternité. */
+/* Les apparitions : ce qui n'est pas encore atteint attend, transparent. */
 .fond-anime :where(
     .fond-hero-photo,
     .fond-hero-phrase,
@@ -1720,21 +1476,15 @@ h3.fond-boite-cat { margin: 0; }
                 transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--anim-retard, 0s);
 }
 
-/* Un titre et sa rangée assombrie sont posés au pixel près l'un sur l'autre,
-   sur une rangée du champ. Ceux-là ne
-   peuvent que se révéler sur place — les faire glisser, c'est refaire
-   exactement ce saut de ligne qu'on cherchait à supprimer. */
+/* Un titre et sa rangée assombrie sont posés au pixel près l'un sur l'autre, sur une rangée du champ. */
 .fond-anime :where(.fond-titre, .fond-ligne) { --anim-monte: 0px; }
 
 .fond-anime [data-anim="vu"] { opacity: 1; --anim-monte: 0px; }
 
-/* Un KPI est en display: contents sur desktop — il n'a pas de boîte à animer.
-   Ce sont ses trois lignes qui entrent, sur le retard qu'il leur transmet. */
+/* Un KPI est en display: contents sur desktop — il n'a pas de boîte à animer. */
 .fond-anime .fond-kpi[data-anim="vu"] > * { opacity: 1; }
 
-/* Le papier arrive le premier, et vite : un seul fondu sur tout le champ,
-   plutôt que sur ses milliers de points. C'est une seule couche à composer,
-   le navigateur ne repeint rien. */
+/* Le papier arrive le premier, et vite : un seul fondu sur tout le champ. */
 .fond-anime .points-champ {
     opacity: 0;
     transition: opacity 0.35s ease var(--anim-retard, 0s);
@@ -1742,8 +1492,7 @@ h3.fond-boite-cat { margin: 0; }
 
 .fond-anime .points-champ[data-anim="vu"] { opacity: 1; }
 
-/* Le rail est centré par un transform à lui : lui en poser un autre le
-   décentrerait. Il se contente donc d'apparaître. */
+/* Le rail est centré par un transform à lui : lui en poser un autre le décentrerait. */
 .fond-anime .fond-rail {
     opacity: 0;
     transition: opacity 0.6s ease var(--anim-retard, 0s);
@@ -1751,14 +1500,7 @@ h3.fond-boite-cat { margin: 0; }
 
 .fond-anime .fond-rail[data-anim="vu"] { opacity: 1; }
 
-/* La phrase du hero s'écrit lettre à lettre. Chacune reste en display: inline
-   — un inline ne se laisse pas déplacer par transform, mais il se laisse
-   effacer par opacity, et c'est tout ce qu'on lui demande. C'est aussi ce qui
-   fait qu'un lecteur d'écran continue de lire la phrase d'un trait.
-
-   Le fondu de chaque lettre est court devant le temps que met la vague à
-   traverser la phrase : c'est ce rapport-là qui rend le passage lisible.
-   Allongé, on ne voit plus qu'un bloc qui s'éclaircit d'un coup. */
+/* La phrase du hero s'écrit lettre à lettre. */
 .fond-anime .fond-lettre {
     opacity: 0;
     transition: opacity 0.18s ease var(--anim-retard, 0s);
@@ -1767,17 +1509,7 @@ h3.fond-boite-cat { margin: 0; }
 .fond-anime .fond-lettre[data-anim="vu"] { opacity: 1; }
 
 
-/* === FILET DE SECOURS =====================================================
-   Trois secondes après le début de la page, si fond-anim.js n'est toujours pas
-   arrivé, le script en tête de cv.html retire .fond-anime et pose .fond-secours.
-   Les scripts se chargent à la file : un seul en attente et tous les suivants
-   attendent, ce qui laissait une page vide, sans rien pour le dire.
-
-   Tout s'affiche donc, projets ouverts, puisque le script qui les ouvre est
-   peut-être celui qui manque. Si fond-titre.js manque aussi, rien ne donne de
-   position aux titres et aux sections, qui s'empileraient en haut de page :
-   .fond-secours-flux les rend au flux normal, et il se retire de lui-même si
-   le script finit par arriver. */
+/* Filet de secours : si fond-anim.js n'est pas arrivé après trois secondes. */
 .fond-secours .fond-projet-corps { grid-template-rows: 1fr; }
 .fond-secours .fond-projet-interieur { visibility: visible; }
 
@@ -1793,23 +1525,7 @@ h3.fond-boite-cat { margin: 0; }
 .fond-secours-flux .fond-page .fond-section { left: 0; right: 0; margin: 0 var(--fond-marge); }
 .fond-secours-flux .fond-page .fond-ligne { display: none; }
 
-/* === AU-DELA DE 1600 ======================================================
-   Jusqu'ici, la page cessait de reagir bien avant les grands ecrans : les
-   vingt et un clamp de ce fichier atteignent tous leur plafond entre 1000 et
-   1516 px, et le media query le plus large valait 1100. Sur un 2560, la
-   colonne occupait donc 43 % de la largeur, figee, au milieu de deux bandes
-   vides de 736 px.
-
-   Le raccord est exact, et ce n'est pas un hasard : a 1600 px, 1rem et 1vw
-   valent tous deux 16 px. Chaque valeur reprend donc en vw le coefficient
-   qu'elle avait en rem, et repart de son ancien plafond sans le moindre saut.
-   La colonne suit la meme regle, en clamp plutot qu'en marge, pour rejoindre
-   68rem pile a 1600.
-
-   Le corps de texte n'est pas invite : il reste a sa taille. Un 4K a 150 %
-   rend deja un 16 px a sa taille apparente normale, et tous les blocs de
-   texte sont bornes en ch, donc la ligne la plus longue de la page ne bouge
-   pas d'un signe. C'est la mise en page qui respire, pas la lecture. */
+/* Au-delà de 1600 px : la page grandit avec l'écran. */
 @media (min-width: 1600px) {
     .fond-page {
         --fond-colonne: clamp(68rem, calc(68rem + (100vw - 1600px) * 0.25), 82rem);
@@ -1822,7 +1538,6 @@ h3.fond-boite-cat { margin: 0; }
 
     .fond-page .fond-titre { font-size: clamp(3.4rem, 3.4vw, 4.6rem); }
 
-    /* Le rail est fixe au bord : si tout grandit et pas lui, il se detache de
-       la page au lieu de l'accompagner. */
+    /* Le rail est fixe au bord. */
     .fond-rail a { font-size: clamp(0.82rem, 0.82vw, 0.98rem); }
 }

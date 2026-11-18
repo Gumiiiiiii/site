@@ -1,5 +1,4 @@
 // Précalcule les buissons du champ de l'accueil (scripts/lavande.js) dans media/buissons-lavande.bin.
-// Usage : node build/buissons-lavande.js
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');

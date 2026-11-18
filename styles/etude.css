@@ -1,16 +1,12 @@
-/* Pages d'expérimentation : une colonne centrée (titre, couverture, En bref,
-   sommaire plié, texte), fond en dégradé de points (scripts/etude-trame.js). */
+/* Pages d'expérimentation : une colonne centrée (titre, couverture, En bref, sommaire plié, texte). */
 
 /* Une seule colonne, centrée : le titre, la couverture, le résumé, le texte. */
 body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100vw - 2 * var(--marge) - 16px)); }
 @media (min-width: 760px) { body.etude-page { --marge: 2rem; } }
 
-/* --------------------------------------------------------------------------
-   Le fond
-   -------------------------------------------------------------------------- */
+/* Le fond */
 
-/* Pas de champ de points ordinaire ici : la trame de la couverture le
-   remplace. */
+/* Pas de champ de points ordinaire ici : la trame de la couverture le remplace. */
 .etude-page .points-champ { display: none; }
 
 .etude-trame {
@@ -27,17 +23,12 @@ body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100v
 .etude-trame.prete { opacity: 1; }
 .etude-trame--bas { top: auto; bottom: 0; height: min(80vh, 40rem); }
 
-/* --------------------------------------------------------------------------
-   La barre : comme sur l'accueil, le logo à gauche et les réglages à
-   droite, à la marge. Elle reste en haut de la page et part avec elle.
-   -------------------------------------------------------------------------- */
+/* La barre : comme sur l'accueil, le logo à gauche et les réglages à droite, à la marge. */
 
 /* Sur un téléphone, la barre garde la marge de l'accueil. */
 @media (min-width: 760px) { body.etude-page .navbar { padding: var(--marge) calc((100% - var(--large)) / 2) 0; } }
 
-/* --------------------------------------------------------------------------
-   La page
-   -------------------------------------------------------------------------- */
+/* La page */
 
 .etude-page .site-content {
     /* La colonne de la page se centre dès que l'écran est plus large qu'elle. */
@@ -70,8 +61,7 @@ body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100v
 }
 .etude-page .article-title .dot { display: none; }
 
-/* La ligne au-dessus du titre : d'où vient la page, combien de temps elle
-   prend, quand elle a paru. Le premier mot ramène à l'accueil. */
+/* La ligne au-dessus du titre : d'où vient la page, combien de temps elle prend, quand elle a paru. */
 .etude-meta {
     order: -1;
     display: flex;
@@ -123,9 +113,7 @@ body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100v
 
 .etude-page .read-next-title { border-bottom: 1px solid var(--filet); }
 
-/* --------------------------------------------------------------------------
-   En bref
-   -------------------------------------------------------------------------- */
+/* En bref */
 
 /* En bref : l'étiquette au-dessus, trois points numérotés, sans filets. */
 .etude-page .article-abstract {
@@ -139,8 +127,7 @@ body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100v
 }
 .etude-page .article-abstract[hidden] { display: none; }
 
-/* Le résumé se détache : un cadre fin, et à l'intérieur une nappe de points
-   qui s'efface depuis le coin haut droit. */
+/* Le résumé se détache : un cadre fin. */
 .etude-page .article-abstract {
     position: relative;
     isolation: isolate;
@@ -224,9 +211,7 @@ body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100v
     .resume-etapes p { font-size: 1.02rem; }
 }
 
-/* --------------------------------------------------------------------------
-   La couverture
-   -------------------------------------------------------------------------- */
+/* La couverture */
 
 /* Les images débordent du texte : plus larges que la colonne, centrées. */
 .etude-page .featured-image-wrapper,
@@ -246,9 +231,7 @@ body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100v
     box-shadow: 0 0 0 1px var(--filet-fin);
 }
 
-/* --------------------------------------------------------------------------
-   Le corps : le sommaire et le texte
-   -------------------------------------------------------------------------- */
+/* Le corps : le sommaire et le texte */
 
 /* Le sommaire, plié, juste sous le résumé : une barre qu'on ouvre. */
 /* Le sommaire et le lien de partage, juste sous l'image. */
@@ -308,9 +291,7 @@ body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100v
 }
 .etude-page .toc-item.active a::before { color: var(--accent-ink); }
 
-/* --------------------------------------------------------------------------
-   À lire ensuite
-   -------------------------------------------------------------------------- */
+/* À lire ensuite */
 
 .etude-page .read-next-section {
     max-width: var(--page);
@@ -353,10 +334,7 @@ body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100v
 .etude-page .read-next-card:hover .card-title,
 .etude-page .read-next-card:focus-visible .card-title { color: var(--accent-ink); }
 
-/* --------------------------------------------------------------------------
-   Le téléphone : une colonne. Les chiffres passent l'un sous l'autre, les
-   étapes restent une liste.
-   -------------------------------------------------------------------------- */
+/* Le téléphone : une colonne. */
 
 @media (max-width: 759px) {
     .etude-page .site-content { padding-top: calc(var(--marge) + 4.5rem); }
@@ -375,8 +353,7 @@ body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100v
 }
 
 
-/* L'arrivée : chaque élément entre à son tour, du haut vers le bas, au lieu
-   de paraître quand il est prêt. */
+/* L'arrivée : chaque élément entre à son tour, du haut vers le bas. */
 @media (prefers-reduced-motion: no-preference) {
     body.etude-page .navbar > *,
     .etude-page .etude-meta,

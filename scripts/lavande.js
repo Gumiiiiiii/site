@@ -1,49 +1,21 @@
 // Le fond de l'accueil : la Sainte-Victoire au-dessus d'un champ de lavande.
-//
-// Même règle que le reste du site : un seul réseau de points, celui du
-// champ à demi-pas, une seule encre grise, et c'est la taille de chaque
-// point qui dessine. On voit :
-//   · le ciel, qui se charge vers le haut comme le champ du site ;
-//   · la Sainte-Victoire comme Cézanne la peint depuis Bellevue : une
-//     longue pente à l'ouest, un sommet arrondi, un flanc est plus raide
-//     et son épaulement. Elle n'est pas un mur : elle est faite de plans,
-//     le versant ouest au soleil, le flanc est dans l'ombre, et chaque plan
-//     est une tache de touches orientées, comme les coups de pinceau du
-//     tableau. Deux arêtes descendent du sommet ;
-//   · devant elle, le plan du milieu, en deux aplats nets pour qu'il se
-//     lise d'un coup : au loin une ligne de collines claires, unies ;
-//     devant, une haie d'arbres sombre, au faîte festonné, qui borde le
-//     champ ;
-//   · à droite, un aqueduc romain en volume : il entre par le bas de
-//     l'écran, au premier plan, puis tourne et s'en va vers le milieu, sur
-//     deux rangs d'arches, et finit en ruine ;
-//   · quelques cyprès ;
-//   · les rangs de lavande, qui filent vers un point de fuite et que le
-//     vent fait onduler, lentement.
-// Pas de calcul en volume : c'est une perspective plate, ligne par ligne.
 (function () {
     var toile = document.getElementById('lavande');
     if (!toile || !toile.getContext) return;
 
     var CALME = window.matchMedia('(prefers-reduced-motion: reduce)');
     var PAS_X = 10, PAS_Y = 9, RAYON_MAX = 5.2, CADENCE = 40;
-    // Sur un téléphone, le paysage est une image fixe : une bande en haut de
-    // la page, aux proportions d'un paysage, en points deux fois plus fins.
+    // Sur un téléphone, le paysage est une image fixe : une bande en haut de la page.
     var PETIT = window.matchMedia('(max-width: 759px)');
 
     var ctx = null, largeur = 0, hauteur = 0, dpr = 1, xs, ys;
-    // Sur un écran étroit, la scène garde ses proportions de paysage : on la
-    // dessine plus large que la fenêtre et on n'en montre qu'une tranche.
+    // Sur un écran étroit, la scène garde ses proportions de paysage.
     var vue = 0, decal = 0, gI0 = 0, parRang = 1;
     var encre = 'rgba(26, 26, 26, 0.12)', sombre = false, papier = '#F9F4EF', encreVoile = 'rgba(26, 26, 26, 0.3)';
     // Les lumières : une seconde encre, claire, pour ce que le soleil touche.
-    // L'encre grise dessine les ombres ; celle-ci pose des points blancs sur
-    // le papier (en sombre, des points plus vifs que les autres).
     var lumiere = 'rgba(255, 249, 238, 0.36)', lx, ly, lr;
     var boucle = 0, dernier = 0, debut = -1;
-    // L'apparition : au premier dessin, les points se développent depuis
-    // l'horizon vers les bords, comme une image qui monte dans le bain du
-    // tirage. Le texte de la page attend la fin (--intro, styles/accueil.css).
+    // L'apparition : au premier dessin, les points se développent depuis l'horizon vers les bords.
     var INTRO = 0.9;
 
     function mesurer() {
@@ -84,10 +56,7 @@
         lumiere = sombre ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 249, 238, 0.36)';
     }
 
-    // La crête, relevée sur une photo prise du sud : à l'ouest une longue
-    // pente douce, puis la face qui se redresse ; en haut un faîte presque
-    // plat mais accidenté, jusqu'au pic de la Croix (u = 0,639) ; à l'est un
-    // second palier, puis la chute raide. [part de la largeur, hauteur 0 à 1]
+    // La crête, relevée sur une photo prise du sud : à l'ouest une longue pente douce.
     var CRETE = [
         [0.000, 0.300], [0.070, 0.420], [0.150, 0.587], [0.201, 0.651], [0.261, 0.689],
         [0.320, 0.753], [0.362, 0.791], [0.396, 0.821], [0.405, 0.842], [0.430, 0.880],
@@ -111,14 +80,12 @@
         return 0;
     }
 
-    // Un bruit en cases : chaque case a sa valeur, comme une touche de
-    // pinceau a sa couleur.
+    // Un bruit en cases : chaque case a sa valeur, comme une touche de pinceau a sa couleur.
     function hasard(i, j) {
         var n = Math.sin(i * 127.1 + j * 311.7) * 43758.5453;
         return n - Math.floor(n);
     }
-    // Les touches : des cases allongées, inclinées, décalées d'une rangée à
-    // l'autre comme des coups de pinceau posés côte à côte.
+    // Les touches : des cases allongées, inclinées.
     function touche(x, y, angle, long, large) {
         var ca = Math.cos(angle), sa = Math.sin(angle);
         var a = x * ca + y * sa, b = -x * sa + y * ca;
@@ -127,33 +94,12 @@
         return hasard(i, j) - 0.5;
     }
 
-    // Les collines : des dos ronds qui se recouvrent, du plus lointain au plus
-    // proche. [centre, demi-largeur (parts de la largeur de l'écran), hauteur
-    // (part de sa hauteur)]. Chacune a son côté au soleil, à gauche, et son
-    // côté à l'ombre : c'est ce modelé qui les fait lire comme des collines.
+    // Les collines : des dos ronds qui se recouvrent, du plus lointain au plus proche.
     var COLLINES = [[0.33, 0.30, 0.17], [0.83, 0.27, 0.15], [0.04, 0.2, 0.135], [0.58, 0.2, 0.11], [1.0, 0.16, 0.12]];
 
-    // ------------------------------------------------------------------
-    // La ruine du premier plan
-    // ------------------------------------------------------------------
-    //
-    // Un aqueduc romain, modelé en volume et vu par le même œil que le
-    // champ. Il entre par le bas de l'écran, à droite, tout près, puis
-    // tourne et s'éloigne vers le milieu, où il finit en ruine. Deux rangs
-    // d'arches, un cordon entre les deux, une corniche au sommet. L'unité est
-    // la hauteur de l'œil au-dessus du sol. Le soleil vient de la gauche,
-    // comme sur la montagne.
-    //
-    // pierres() donne la distance à la pierre la plus proche (et dans
-    // abscisse, la position le long de l'ouvrage) ; un rayon parti de
-    // chaque point de la trame avance jusqu'à la toucher. Rien ne bouge :
-    // tout est calculé une fois par mise en page.
+    // L'aqueduc du premier plan, modelé en volume et vu par le même œil que le champ.
 
-    // Son tracé, au sol : un C ouvert vers la droite. Il entre par la droite,
-    // au premier plan, vient vers le milieu, tourne, et repart vers la
-    // droite, au fond. L'ouvrage est bas, moins haut que l'œil : on le voit
-    // d'un peu haut, le bras du fond par-dessus celui de devant, et le C se
-    // lit en entier.
+    // Son tracé, au sol : un C ouvert vers la droite.
     var TRACE = (function () {
         var p0 = [2.6, 0.9], c1 = [2.9, 7], c2 = [1.0, 10.5], p3 = [10, 9.2], n = 44, pts = [], l = 0;
         for (var k = 0; k <= n; k++) {
@@ -182,8 +128,7 @@
         sv /= K; py /= K;
         abscisse = sv; assise = py;
         var H = 2.1;
-        // Le mur, sa corniche au sommet, le socle au pied et, aux naissances
-        // des arches, un cordon qui ne court que sur les piles.
+        // Le mur, sa corniche au sommet, le socle au pied et, aux naissances des arches.
         var d = Math.max(ecart - 0.24, py - H, -py - 0.1);
         d = Math.min(d, Math.max(ecart - 0.32, Math.abs(py - (H - 0.08)) - 0.08));
         d = Math.min(d, Math.max(ecart - 0.29, py - 0.24, -py - 0.1));
@@ -226,9 +171,7 @@
         return o < 0 ? 0 : o > 1 ? 1 : o;
     }
 
-    // Par point de la trame : la part que la pierre en couvre, son encre (thème
-    // clair), sa clarté (thème sombre), son éclat, si c'est un contour, et
-    // l'ombre qu'elle porte sur le sol.
+    // Par point de la trame : la part que la pierre en couvre, son encre (thème clair).
     var ruCouv, ruEncre, ruClarte, ruEclat, ruBord, ruOmbre, ruT, ruPret = false;
     function preparerRuine() {
         var n = xs.length;
@@ -277,18 +220,15 @@
             var ao = occlusion(px, py, pz, nx, ny, nz);
             // Le soleil, le ciel, et sous les arches la lumière que renvoie le sol.
             var jour = Math.max(0, cosL) * so + (0.1 + 0.08 * ny) * ao + 0.2 * Math.max(0, -ny) * ao;
-            // Les assises : chaque bloc a sa pierre, et les joints sont filtrés à
-            // la taille d'un point, pour ne pas crénerer la trame.
+            // Les assises : chaque bloc a sa pierre, et les joints sont filtrés à la taille d'un point.
             var pied = t * PAS_X / bas / ECHELLE, w = Math.max(0.03, pied * 0.55);
             var fy = as / 0.3, rang = Math.floor(fy), fx = ab / 0.55 + rang * 0.5, bloc = Math.floor(fx);
             var dj = Math.min((0.5 - Math.abs(fy - rang - 0.5)) * 0.3, (0.5 - Math.abs(fx - bloc - 0.5)) * 0.55);
             var joint = (1 - lisse(0, w, dj)) * Math.min(1, 0.04 / w);
-            // La forme d'abord ; le grain de la pierre et sa patine, plus sale
-            // vers le pied, ne font que la nuancer.
+            // La forme d'abord ; le grain de la pierre et sa patine, plus sale vers le pied.
             var grain = 0.5 * (hasard(bloc, rang + 40) - 0.5) + 0.4 * (bruitLisse(ab * 1.3, as * 2.2 + 5) - 0.5);
             var salete = 1 - lisse(0, 0.9, as);
-            // Des valeurs franches : la pierre au soleil presque papier, les
-            // dessous bien noirs, pour que l'ouvrage se détache du champ.
+            // Des valeurs franches : la pierre au soleil presque papier, les dessous bien noirs.
             grain *= 0.5;
             var r = 1 - Math.min(1, jour * 1.35);
             S.encre = 0.95 * (0.02 + 0.98 * r * r * (2 - r)) * (0.5 + 0.5 * ao) * (1 + grain) + 0.08 * joint + 0.04 * salete;
@@ -296,8 +236,7 @@
             S.eclat = lisse(0.4, 0.8, jour) * (1 - joint) * (1 - grain) * (1 - 0.4 * salete);
         }
 
-        // D'abord un rayon par point ; puis, aux bords, quatre de plus, pour
-        // que la pierre se fonde dans la trame au lieu d'y faire des marches.
+        // D'abord un rayon par point ; puis, aux bords, quatre de plus.
         var zone = new Uint8Array(n);
         for (var i = 0; i < n; i++) {
             var x = xs[i], y = ys[i];
@@ -335,8 +274,7 @@
             if (hits) { ruEncre[i] = en / hits; ruClarte[i] = cl / hits; ruEclat[i] = ec / hits; ruT[i] = tm / hits; }
             if (sols) ruOmbre[i] = so / sols;
         }
-        // Le contour, comme celui des buissons : un trait d'un point là où la
-        // pierre s'arrête sur ce qui est derrière, sauf au pied.
+        // Le contour, comme celui des buissons.
         for (i = 0; i < n; i++) {
             if (ruCouv[i] <= 0.5) continue;
             for (a = 0; a < 4; a++) {
@@ -359,14 +297,7 @@
     // Les cyprès : [part de la largeur de l'écran, hauteur en part de l'écran].
     var CYPRES = [[0.215, 0.1], [0.231, 0.075], [0.905, 0.11], [0.921, 0.085]];
 
-    // ------------------------------------------------------------------
-    // Les buissons de lavande
-    // ------------------------------------------------------------------
-    //
-    // Chaque buisson est un dôme d'épis, rendu en volume une fois pour toutes
-    // (build/buissons-lavande.js) sous trois angles de vue et en trois
-    // variantes. Ici on les pose debout sur les rangs, du plus loin au plus
-    // proche, à la taille de leur distance : une fois par mise en page.
+    // Les buissons de lavande : des dômes d'épis rendus d'avance (build/buissons-lavande.js).
     var BU_L = 144, BU_H = 96, BU_PX = 42, BU_U0 = -1.3, BU_V0 = 1.29, BU_C = 5;
     var BU_ANGLES = [6, 18, 42], BU_VAR = 3;
     var TERRE = 0.05, TERRE_SOMBRE = 0.1, OMBRE_SOL = 0.6;
@@ -395,8 +326,7 @@
             buEtat = 1;
         }).catch(function () { buEtat = 2; }).then(function () { buPret = false; reveiller(); });
     }
-    // Les réductions de moitié en moitié : un point lointain lit la moyenne de
-    // tout ce que sa cellule couvre, pas un pixel au hasard.
+    // Les réductions de moitié en moitié.
     function mipmaps(f) {
         var niveaux = [{ l: BU_L, h: BU_H, d: f }];
         while (niveaux[niveaux.length - 1].l > 4) {
@@ -437,8 +367,7 @@
         return tampon[1];
     }
 
-    // Pose un buisson sur la trame, penché de « penche » (unités du modèle,
-    // au sommet), sans sortir de la zone z quand elle est donnée.
+    // Pose un buisson sur la trame, penché de « penche » (unités du modèle, au sommet).
     var s5 = new Float32Array(BU_C);
     function poser(B, penche, z) {
         var rangees = Math.round(hauteur / PAS_Y), pas = hauteur / rangees, centre = largeur / 2;
@@ -464,8 +393,7 @@
                 buEncre[k] = 0.08 * s5[1] + s5[0] + vide * e0 + sh * (OMBRE_SOL - e0);
                 buLum[k] = Math.max(0, 1.2 * s5[2] + vide * l0 - 0.85 * sh * l0);
                 buEclat[k] = Math.max(0, s5[4] + vide * c0 - sh * c0);
-                // Son contour, comme la crête et les collines : un trait d'un point,
-                // sauf au pied, où il touche le sol.
+                // Son contour, comme la crête et les collines : un trait d'un point, sauf au pied.
                 if (s5[1] > 0.5 && (couv(B.mA, B.mB, B.fa, sx - pasS, sy, B.niveau) < 0.3 || couv(B.mA, B.mB, B.fa, sx + pasS, sy, B.niveau) < 0.3
                     || couv(B.mA, B.mB, B.fa, sx - pasS / 2, sy - pasV, B.niveau) < 0.3 || couv(B.mA, B.mB, B.fa, sx + pasS / 2, sy - pasV, B.niveau) < 0.3)) {
                     buEncre[k] = Math.max(buEncre[k], 0.5); buLum[k] = Math.max(buLum[k], 0.55); buEclat[k] = 0;
@@ -474,8 +402,7 @@
         }
     }
 
-    // Le buisson dans le vent : près du bas de l'écran, dans l'espace entre
-    // les expérimentations et les outils.
+    // Le buisson dans le vent : près du bas de l'écran.
     var vent = null;
     function cibleVent() {
         var ex = document.querySelector('.exps'), ou = document.querySelector('.outils');
@@ -569,17 +496,14 @@
         for (var q = 0; q < vent.devant.length; q++) poser(vent.devant[q], 0, z);
     }
 
-    // Les nuages : un bruit lisse, à deux échelles, qui dérive lentement. Dans
-    // le ciel il pose de petits nuages clairs, au ventre un peu gris ; leur
-    // ombre glisse sur la montagne et les collines.
+    // Les nuages : un bruit lisse, à deux échelles, qui dérive lentement.
     function bruitLisse(x, y) {
         var i = Math.floor(x), j = Math.floor(y), fx = x - i, fy = y - j;
         fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy);
         var a = hasard(i, j), b = hasard(i + 1, j), c = hasard(i, j + 1), d = hasard(i + 1, j + 1);
         return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
     }
-    // Les deux échelles ne vont pas à la même allure : le détail glisse sur
-    // la masse, si bien qu'un nuage change de forme en avançant.
+    // Les deux échelles ne vont pas à la même allure : le détail glisse sur la masse.
     var temps = 0;
     function nuage(x, y, seuil) {
         var n = 0.65 * bruitLisse(x, y + temps * 0.012)
@@ -598,8 +522,7 @@
     function tracer(maintenant) {
         boucle = 0;
         if (!ctx) return;
-        // Le cabanon se calcule avant que l'apparition commence : sinon ce
-        // calcul mangerait ses premières images et elle partirait d'un saut.
+        // Le cabanon se calcule avant que l'apparition commence.
         if (!ruPret) { preparerRuine(); reveiller(); return; }
         if (buEtat === 0) return;
         if (!buPret) { preparerBuissons(); reveiller(); return; }
@@ -613,8 +536,7 @@
         temps = t;
         if (!PETIT.matches) souffler(t);
 
-        // La scène : l'horizon sous le milieu, le point de fuite au centre
-        // de l'espace libre, la montagne posée sur l'horizon.
+        // La scène : l'horizon sous le milieu, le point de fuite au centre de l'espace libre.
         var hy = hauteur * 0.5, vx = largeur * 0.56;
         var mg = -largeur * 0.24, ml = largeur * 1.1;    // la montagne : bord gauche, largeur
         var mh = hauteur * 0.36;                          // sa hauteur au sommet
@@ -634,8 +556,6 @@
             var u = (x - mg) / ml;
             var sommet = pied - mh * profil(u);
             // Le plan du milieu : les collines au loin, la haie devant.
-            // col1 est le haut des collines à cet endroit ; colline, celle qui
-            // est devant ; versant, de -1 (son bord gauche) à 1 (son bord droit).
             var col1 = hy, colline = -1, hautColline = hy, versant = 0;
             for (var k = 0; k < COLLINES.length; k++) {
                 var ecart = (x / largeur - COLLINES[k][0]) / COLLINES[k][1];
@@ -645,8 +565,7 @@
                 if (haut1 < col1) col1 = haut1;
                 if (y >= haut1) { colline = k; hautColline = haut1; versant = ecart; }
             }
-            // La haie n'est pas un mur droit : elle monte en bosquets, retombe
-            // presque à ras du champ, et son faîte reste festonné.
+            // La haie n'est pas un mur droit : elle monte en bosquets, retombe presque à ras du champ.
             var bosquet = 0.3 + 0.7 * lisse(-0.5, 0.6, Math.sin(x * 0.0037 + 0.6) + 0.55 * Math.sin(x * 0.0091 + 2.2));
             var col2 = hy - hauteur * bosquet * (0.04 + 0.018 * Math.sin(x * 0.0061 + 3.3) + 0.024 * Math.abs(Math.sin(x * 0.047)) + 0.012 * Math.abs(Math.sin(x * 0.113 + 1.3)));
 
@@ -663,57 +582,42 @@
             if (cypres) {
                 ton = cypres;
             } else if (y >= col2 && y < hy) {
-                // La haie : un aplat sombre, qui rejoint en bas le ton du
-                // champ. Son faîte accroche la lumière.
+                // La haie : un aplat sombre, qui rejoint en bas le ton du champ.
                 var d2 = y - col2;
                 ton = 0.6 - 0.18 * lisse(0, hy - col2, d2);
                 // Son faîte : un trait plein, sur une rangée entière de points.
                 if (d2 < PAS_Y * 1.06) bord = 0.66;
             } else if (colline >= 0 && y < hy) {
-                // Une colline : claire du côté du soleil, plus dense en
-                // tournant vers la droite et vers son pied ; les plus proches
-                // sont un peu plus sombres.
+                // Une colline : claire du côté du soleil, plus dense en tournant vers la droite et vers son pied.
                 var d1 = y - hautColline;
                 var aOmbre = lisse(-0.35, 0.85, versant);
                 ton = 0.17 + 0.27 * aOmbre + 0.08 * lisse(0, hauteur * 0.07, d1) + 0.025 * colline;
                 eclat = 0.22 * (1 - lisse(-0.7, 0.1, versant)) * (1 - lisse(0, hauteur * 0.035, d1));
                 if (d1 < PAS_Y * 1.06) bord = 0.44;
-                // Juste derrière la haie, la colline s'éclaircit : la haie
-                // se détache.
+                // Juste derrière la haie, la colline s'éclaircit : la haie se détache.
                 ton *= 0.6 + 0.4 * lisse(0, PAS_Y * 2.2, col2 - y);
             } else if (y >= sommet && y < hy) {
-                // La face. Son ombre vient de la pente de la crête au-dessus :
-                // là où la crête descend vers l'est, le versant tourne le dos
-                // au soleil.
-                // La pente est prise large : une ombre qui suivrait chaque ressaut
-                // de la crête tomberait en colonnes droites.
+                // La face de la montagne : ombrée selon la pente de la crête.
                 var pente = (profil(u + 0.05) - profil(u - 0.05)) / 0.1;
                 var ombre = lisse(-0.2, -1.6, pente);               // 0 au soleil, 1 à l'ombre
-                // L'ombre suit le versant en descendant : sous le sommet, le
-                // partage entre les deux côtés penche vers l'est.
+                // L'ombre suit le versant en descendant.
                 var prof = (y - sommet) / Math.max(1, pied - sommet);
                 var partage = sx + (y - sy) * 0.9;
                 ombre = Math.max(ombre * (1 - 0.7 * prof), lisse(-90, 150, x - partage) * 0.7);
-                // Les touches : orientées comme les plans, plus serrées en
-                // haut, où la roche est nue.
+                // Les touches : orientées comme les plans, plus serrées en haut, où la roche est nue.
                 var pinceau = touche(x, y, ombre > 0.4 ? 0.55 : -0.45, (30 + 30 * prof) * PAS_X / 10, 11 * PAS_X / 10);
-                // Le pied se perd dans une brume claire : les collines de devant
-                // s'y détachent.
+                // Le pied se perd dans une brume claire : les collines de devant s'y détachent.
                 var brume = lisse(0.7, 1, prof);
                 ton = (0.09 + 0.22 * ombre + (0.12 + 0.1 * ombre) * pinceau) * (1 - 0.6 * brume);
-                // Le versant au soleil : les touches les plus claires passent
-                // en lumière, comme les blancs laissés dans le tableau.
+                // Le versant au soleil : les touches les plus claires passent en lumière.
                 eclat = 0.4 * (1 - ombre) * (1 - ombre) * lisse(0.05, 0.4, -pinceau) * (1 - brume);
-                // Les deux arêtes qui descendent du sommet, en traits plus
-                // sombres, et quelques plis plus loin.
+                // Les deux arêtes qui descendent du sommet, en traits plus sombres, et quelques plis plus loin.
                 var ax = x - sx, ay = y - sy;
                 var dist1 = Math.abs(ay - (-ax) * 0.95) / 1.38;                // pente descendant à gauche
                 var dist2 = Math.abs(ay - ax * 1.6) / 1.89;                    // pente descendant à droite
                 if (ax < 0 && ay > 0 && dist1 < PAS_X * 0.4) ton = Math.max(ton, 0.3 * (1 - prof));
                 if (ax > 0 && ay > 0 && dist2 < PAS_X * 0.4) ton = Math.max(ton, 0.34 * (1 - prof));
                 // L'arête se lit par une ligne de points un peu plus forts.
-                // La crête : un trait franc sur une rangée, une seconde plus
-                // légère dessous. C'est elle qui découpe la montagne sur le ciel.
                 if (y - sommet < PAS_Y * 1.06) bord = 0.42;
                 else if (y - sommet < PAS_Y * 2.1) ton = Math.max(ton, 0.14);
                 if (ton < 0.03) ton = 0.03;
@@ -723,8 +627,7 @@
                 // Le ciel, qui se charge vers le haut.
                 var haut = 1 - y / hy;
                 ton = 0.055 + 0.11 * haut * haut;
-                // Au ras des reliefs, le ciel se vide : un liseré de papier
-                // nu qui détache leur silhouette.
+                // Au ras des reliefs, le ciel se vide : un liseré de papier nu qui détache leur silhouette.
                 var ras = 0.45 + 0.55 * lisse(0, PAS_Y * 2.2, Math.min(sommet, col1, col2) - y);
                 // Les nuages : petits, clairs, le ventre un peu gris.
                 var nx = x / hauteur * 4.4 - t * 0.06, ny = y / hauteur * 10.5;
@@ -739,9 +642,7 @@
             } else {
                 // La lavande.
                 var p = (y - hy) / bas;                       // 0 à l'horizon, 1 en bas
-                // Les buissons, posés une fois par mise en page. Près de
-                // l'horizon, ils se fondent en un ton uni : ils y seraient
-                // plus fins qu'un point.
+                // Les buissons, posés une fois par mise en page ; uni près de l'horizon.
                 var sortie = lisse(0.01, 0.22, p);
                 var champ = sombre ? buLum[i] : buEncre[i];
                 eclat = 0.8 * buEclat[i] * sortie;
@@ -751,8 +652,7 @@
                 if (oa > 0) { ton = sombre ? ton * (1 - 0.5 * oa) : ton + (0.62 - ton) * 0.6 * oa; eclat *= 1 - oa; }
             }
 
-            // L'ombre des nuages glisse sur la montagne et les collines, pas
-            // sur le champ : le fond vit, le premier plan reste net.
+            // L'ombre des nuages glisse sur la montagne et les collines, pas sur le champ : le fond vit.
             if (y < hy && y >= Math.min(sommet, col1)) {
                 var ot = nuage(x / hauteur * 3.2 - t * 0.045 + 0.4, y / hauteur * 6 + 1.7, 0.54);
                 ton *= sombre ? 1 - 0.4 * ot : 1 + 0.45 * ot;
@@ -771,14 +671,12 @@
                 ton += (tp - ton) * cv; eclat += (ep - eclat) * cv;
             }
 
-            // Un seuil bas : les points s'éteignent en rétrécissant, pas d'un coup
-            // sur une même rangée, ce qui y tracerait une ligne.
+            // Un seuil bas : les points s'éteignent en rétrécissant, pas d'un coup sur une même rangée.
             if (ton < 0.003 && eclat < 0.02) continue;
             var paru = 1;
             if (e < INTRO) {
                 var ox = (x - vx) / largeur, oy = (y - hy) * 1.6 / largeur;
-                // Une onde large et douce : les points voisins grandissent
-                // presque ensemble, le front n'est pas une ligne.
+                // Une onde large et douce : les points voisins grandissent presque ensemble.
                 var retard = 0.34 * Math.min(1, Math.sqrt(ox * ox + oy * oy) / 0.75) + 0.03 * hasard(i, 7);
                 paru = lisse(retard, retard + 0.52, e);
             }
@@ -808,10 +706,7 @@
         if (!fixe || e < INTRO) reveiller();
     }
 
-    // Les parapentes : l'un traverse le ciel, l'autre tourne dans un thermique
-    // au-dessus de la montagne. Dessinés en trame fine, découpés sur le papier.
-    // Un clic sur une voile la crève, comme une bulle de bande dessinée ;
-    // elle revient un peu plus tard.
+    // Les parapentes : l'un traverse le ciel, l'autre tourne dans un thermique au-dessus de la montagne.
     var POP = 0.7, ABSENCE = 25, RETOUR = 2;
     var voilesVues = [null, null], crevee = [-1e9, -1e9], eclatAngle = [0, 0];
 
@@ -840,8 +735,7 @@
         parapente(cx, cy, W, penche, vu, sens);
     }
 
-    // La voile crevée : huit traits en pointillé partent du centre et
-    // filent vers l'extérieur en s'effaçant.
+    // La voile crevée : huit traits en pointillé filent du centre vers l'extérieur.
     function eclater(o, p, rot) {
         var W = o.W, file = 1 - Math.pow(1 - p, 2), g = 3.4;
         var r0 = W * (0.15 + 1.1 * file), r1 = r0 + W * 0.6 * (1 - p);

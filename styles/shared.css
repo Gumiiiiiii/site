@@ -25,19 +25,11 @@
     --accent-light: #D1BFFF;
     --positive: #609675;
     --negative: #C56A6A;
-    /* Ink variants: --accent and --positive are tuned as fills and for the
-       dark theme, and drop under 4.5:1 when used as small text on the light
-       surfaces. Use these whenever the colour carries body-sized text; the
-       display values above stay untouched so nothing else on the site moves. */
+    /* Ink variants: --accent and --positive are tuned as fills and for the dark theme. */
     --accent-ink: #6B45C9;
     --positive-ink: #3F7355;
 
-    /* === Refonte 2026 · palette du CV =====================================
-       Deux accents, pas plus : une prune grisée et une terracotta. Définis
-       ici pour que le reste du site puisse les adopter plus tard ; pour
-       l'instant seule la page CV les consomme (voir styles/cv.css).
-       Contrastes vérifiés sur --bg #F9F4EF : prune 6,5:1, terracotta 5,0:1,
-       tous deux au-dessus du 4,5:1 exigé pour du texte courant. */
+    /* Refonte 2026, palette du CV : deux accents, une prune grisée et une terracotta. */
     --plum: #6C4F63;          /* liens, états interactifs, point signature */
     --plum-soft: #8A6E82;     /* le même, éteint : états au repos, filets */
     --terracotta: #A25436;    /* labels de catégorie et badges, uniquement */
@@ -48,14 +40,10 @@
     --content-max-width: 90rem;
     --shadow-out: 6px 6px 12px #e0dad5, -6px -6px 12px rgba(255, 255, 255, 0.4);
     --shadow-in: inset 4px 4px 8px #e0dad5, inset -4px -4px 8px rgba(255, 255, 255, 0.4);
-    /* Neumorphic shadow pair — highlight (top-left) and low/shadow (bottom-
-       right). In light both are subtle; in dark the highlight fades and the
-       shadow deepens to near-black so raised buttons keep their edges against
-       the dark background (their fill equals the page colour). */
+    /* Neumorphic shadow pair — highlight (top-left) and low/shadow (bottom- right). */
     --neu-hi: rgba(255, 255, 255, 0.7);
     --neu-lo: rgba(26, 26, 26, 0.1);
-    /* Elevated panels (tooltips, popovers, the colour picker) — plain white
-       in light, a raised dark surface in dark rather than a jarring white box. */
+    /* Elevated panels (tooltips, popovers, the colour picker) — plain white in light. */
     --surface: #fff;
 }
 
@@ -66,8 +54,7 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-/* Remove the default ring for mouse/touch, but keep a clear, on-brand
-   focus indicator for keyboard users (:focus-visible). */
+/* No ring for mouse or touch; keyboard focus keeps a clear one. */
 *:focus:not(:focus-visible) {
     outline: none;
 }
@@ -116,8 +103,7 @@ body.shell-page {
 .main-wrapper {
     width: min(100%, var(--content-max-width));
     max-width: var(--content-max-width);
-    /* Padding, not margin: a top margin here collapses through <body> and
-       drags the absolutely-positioned .dots-bg away from the page top. */
+    /* Padding, not margin: a margin would collapse through <body>. */
     margin: 0 auto;
     padding: 3rem 1.5rem;
 }
@@ -141,9 +127,7 @@ body.shell-page {
     padding: 0 24px;
 }
 
-/* Dots gradient at the top of the page: purely decorative, painted behind
-   the content (negative z-index) and scrolling away with it. On shell pages
-   the element lives inside .site-content so it stays above the cream sheet. */
+/* Dots gradient at the top of the page: purely decorative. */
 .dots-bg {
     position: absolute;
     top: 0;
@@ -184,10 +168,7 @@ body.shell-page {
     transform: translateY(0);
 }
 
-/* === LA BARRE ===
-   Le logo à gauche, la langue et le thème à droite, en haut de la page, à
-   la marge. Pas de fond ni de flou : elle repose sur le papier et part avec
-   la page. Les pages en ajustent la marge (accueil, outil, étude). */
+/* La barre : le logo à gauche, la langue et le thème à droite, en haut de la page. */
 .navbar {
     position: absolute;
     top: 0;
@@ -225,8 +206,7 @@ body.shell-page {
     color: var(--accent);
 }
 
-/* Three groups — logo / links / controls — divided by hairline separators
-   that sit where the "/"s were in the layout sketch. */
+/* Three groups (logo, links, controls) split by hairline separators. */
 .nav-group {
     display: flex;
     align-items: center;
@@ -277,9 +257,7 @@ body.shell-page {
 .lang-btn:hover { background: rgba(26, 26, 26, 0.06); }
 :root[data-theme="dark"] .lang-btn:hover { background: rgba(255, 255, 255, 0.08); }
 
-/* The 24px window clips the slider to a single row inside the round button.
-   Kept as a block (not flex) so the slider keeps its natural 48px height and
-   translateY(-50%) travels a full row rather than half of one. */
+/* The 24px window clips the slider to a single row inside the round button. */
 .lang-window {
     height: 24px;
     overflow: hidden;
@@ -362,8 +340,7 @@ body.shell-page {
     margin-bottom: 3rem;
 }
 
-/* Tool pages use the full tool name as H1; size down slightly so the
-   longer titles stay on one line next to the info tooltip. */
+/* Tool H1s are long names: a step smaller so they stay on one line. */
 .header-container h1 {
     font-size: clamp(1.8rem, 4vw, 2.6rem);
 }
@@ -430,14 +407,11 @@ button.primary:active:not(:disabled) {
     font-size: clamp(1.5rem, 4vw, 3rem);
     font-weight: 600;
     line-height: 1.2;
-    /* The letter-by-letter reveal boxes each glyph in its own span, which
-       suppresses kerning; disabling kerning here too keeps the width identical
-       when the animation ends and the plain text is restored (no snap). */
+    /* The letter-by-letter reveal boxes each glyph in its own span. */
     font-kerning: none;
 }
 
-/* Letter-by-letter hero reveal (homepage). Words stay unbreakable so the
-   split into letter spans never changes line wrapping. */
+/* Letter-by-letter hero reveal (homepage). */
 .hero-word {
     display: inline-block;
     white-space: nowrap;
@@ -651,8 +625,7 @@ button.primary:active:not(:disabled) {
 
 @media (max-width: 760px) {
     .controls-wrapper { flex-direction: column; align-items: stretch; }
-    /* In a column the 320px flex-basis becomes a height: the search field
-       sat in a 320px-tall empty box. */
+    /* In a column the 320px flex-basis becomes a height: the search field sat in a 320px-tall empty box. */
     .search-wrapper { flex: 0 0 auto; max-width: none; }
     .filters-group { justify-content: center; }
 }
@@ -698,8 +671,7 @@ button.primary:active:not(:disabled) {
 .filter-btn:hover .filter-count,
 .filter-btn.active .filter-count {
     background-color: var(--accent-light);
-    /* --accent-light is light purple in both themes, so the count must stay
-       dark — var(--text) would turn it near-white and unreadable in dark. */
+    /* accent-light is light purple in both themes. */
     color: #1A1A1A;
 }
 
@@ -753,9 +725,7 @@ button.primary:active:not(:disabled) {
 @media (max-width: 600px) {
     .hero-text { font-size: clamp(1.9rem, 8.5vw, 2.6rem); line-height: 1.15; }
 
-    /* Compact the category-page header: at desktop spacing, the hero +
-       search + wrapped filter rows filled a whole phone viewport and the
-       actual cards started below the fold. */
+    /* Compact the category-page header on phones. */
     .hero { padding: 88px 0 32px; }
     .hero h1 { margin-bottom: 14px; }
     .controls-wrapper { gap: 14px; margin-bottom: 32px; }
@@ -768,9 +738,7 @@ button.primary:active:not(:disabled) {
 }
 
 
-/* ==========================================================================
-   THEME TOGGLE (sun / moon in the navbar)
-   ========================================================================== */
+/* Theme toggle (sun / moon in the navbar) */
 .theme-btn {
     display: flex;
     align-items: center;
@@ -790,16 +758,11 @@ button.primary:active:not(:disabled) {
 .theme-btn svg { width: 20px; height: 20px; }
 :root[data-theme="dark"] .theme-btn:hover { background: rgba(255, 255, 255, 0.08); }
 
-/* Animated sun <-> moon morph: light = full sun with rays; dark fades the
-   rays out and slides a masked cut-out over the disc to bite a crescent.
-   State is driven purely by [data-theme] so it stays in sync with the
-   theme set before first paint. */
+/* Sun to moon morph: the rays fade and a cutout slides over the core. */
 .theme-toggle-cutout { transition: transform 0.5s cubic-bezier(0.54, -0.42, 0.29, 1.3); }
 /* Disc scales around its own centre; light state shrinks it straight back. */
 .theme-toggle-core { transform-box: view-box; transform-origin: 12px 12px; transition: transform 0.35s ease; }
-/* Rays fade one at a time so they flick in clockwise from the top as the sun
-   reforms. DOM order is N/E/S/W then the four diagonals, so the delays below
-   are assigned by position, not source order. */
+/* Rays fade one at a time so they flick in clockwise from the top as the sun reforms. */
 .theme-toggle-rays line { transition: opacity 0.12s linear; }
 .theme-toggle-rays line:nth-child(1) { transition-delay: 0.22s; }  /* N  */
 .theme-toggle-rays line:nth-child(5) { transition-delay: 0.25s; }  /* NE */
@@ -819,35 +782,19 @@ button.primary:active:not(:disabled) {
     .theme-toggle-rays line, .theme-toggle-cutout, .theme-toggle-core { transition: none; }
 }
 
-/* Cross-fade between pages on same-origin navigations (progressive
-   enhancement — unsupported browsers just navigate normally). */
+/* Cross-fade between same-origin pages, where supported. */
 @view-transition { navigation: auto; }
 
-/* Theme change reveals the new palette with a circular wipe that grows from
-   the toggle button. The wipe itself is a JS animation on the new-frame
-   pseudo (navbar.js) because Safari does not resolve :root inline custom
-   properties inside ::view-transition pseudos; here we only disable the
-   default cross-fade. Scoped to the .theme-switching class navbar.js sets,
-   so page navigations keep the plain cross-fade above rather than
-   inheriting this. Browsers without the View Transitions API simply snap —
-   navbar.js skips the animation. */
+/* Theme change reveals the new palette with a circular wipe that grows from the toggle button. */
 :root.theme-switching::view-transition-old(root) { animation: none; }
 :root.theme-switching::view-transition-new(root) { animation: none; }
 
-/* While the wipe plays, freeze every element's own transitions so their
-   colours/shadows jump straight to the dark values rather than animating
-   (which would flash the white neumorphic edges inside the revealed area).
-   The toggle icon's morph is exempt so it keeps animating with the wipe. */
+/* While the wipe plays. */
 :root.theme-switching *:not(.theme-toggle-icon):not(.theme-toggle-icon *) {
     transition: none !important;
 }
 
-/* ==========================================================================
-   DARK THEME
-   Applied via data-theme="dark" on <html> (set early, before first paint).
-   Additive only: it remaps the design tokens and patches the components whose
-   light colors are hardcoded, leaving the light theme completely untouched.
-   ========================================================================== */
+/* Dark theme: data-theme="dark" on <html>, set before first paint. */
 :root[data-theme="dark"] {
     --bg: #1B1A1F;
     --text: #F1ECE4;
@@ -859,8 +806,7 @@ button.primary:active:not(:disabled) {
     --accent-light: #D8CAFF;
     --positive: #6FA783;
     --negative: #D98B8B;
-    /* On dark surfaces the display values already clear 4.5:1, so the ink
-       variants simply follow them. */
+    /* On dark surfaces the display values already clear 4.5:1, so the ink variants simply follow them. */
     --accent-ink: #B49BFF;
     --positive-ink: #6FA783;
     --card-bg: rgba(255, 255, 255, 0.055);

@@ -1,12 +1,4 @@
 // Les apparitions.
-//
-// Rien n'est caché tant que ce fichier ne s'exécute pas : c'est le script en
-// tête de document qui pose .fond-anime sur <html>, et il ne la pose ni sans
-// JavaScript, ni quand on demande moins de mouvement. Ici, on ne fait que
-// retirer aux éléments ce retard, au moment où leur tour vient.
-//
-// Deux temps : ce que le premier écran contient entre de lui-même au
-// chargement ; tout le reste attend d'être atteint.
 (function () {
     var racine = document.documentElement;
     if (!racine.classList.contains('fond-anime')) return;
@@ -25,9 +17,7 @@
 
     var phrase = document.querySelector('.fond-hero-phrase');
 
-    // Chaque caractère prend un span, sauf les espaces : un espace enfermé
-    // dans un span ne casse plus la ligne, et la phrase déborderait de sa
-    // colonne. Les spans restent en display: inline — voir fond.css.
+    // Chaque caractère prend un span, sauf les espaces.
     function decouper(bloc) {
         var promeneur = document.createTreeWalker(bloc, NodeFilter.SHOW_TEXT, null);
         var textes = [];
@@ -54,39 +44,27 @@
 
     function ecrire(debut, balayage) {
         if (!phrase) return;
-        // Découper une phrase déjà découpée emboîterait chaque lettre dans
-        // la précédente, et leurs opacités se multiplieraient.
+        // Découper une phrase déjà découpée emboîterait chaque lettre dans la précédente.
         var faites = phrase.querySelectorAll('.fond-lettre');
         var lettres = faites.length ? Array.prototype.slice.call(faites) : decouper(phrase);
 
-        // La phrase elle-même apparaît d'un coup et sans transition : si elle
-        // se dévoilait aussi, son propre fondu se multiplierait à celui des
-        // lettres et on ne verrait plus qu'un bloc qui s'éclaircit.
+        // La phrase elle-même apparaît d'un coup, sans transition.
         phrase.style.transition = 'none';
         reveler(phrase, 0);
 
-        // Sans cette lecture, aucune lettre ne se dégraderait : elles
-        // viennent d'être créées et le navigateur n'a encore calculé aucun
-        // style pour elles. Il passerait donc directement à l'arrivée, sans
-        // rien à interpoler. La lecture force ce calcul, et l'opacité de
-        // départ existe enfin.
+        // Sans cette lecture, aucune lettre ne se dégraderait.
         void phrase.offsetWidth;
 
-        // Le balayage dure le même temps quelle que soit la longueur du
-        // texte : une traduction plus longue ne doit pas ralentir l'entrée.
+        // Le balayage dure le même temps quelle que soit la longueur du texte.
         var pas = lettres.length ? balayage / lettres.length : 0;
         lettres.forEach(function (lettre, i) {
             reveler(lettre, Math.round(debut + i * pas));
         });
     }
 
-    // Changer de langue réécrit la phrase entière (data-i18n-html) : les
-    // lettres disparaissent avec elle, on les retaille aussitôt. Le balayage
-    // est plus court — ce n'est plus une entrée, c'est une correction.
+    // Changer de langue réécrit la phrase entière (data-i18n-html) : les lettres disparaissent avec elle.
     document.addEventListener('gumi:lang', function () {
-        // Le dictionnaire annonce aussi la langue au chargement, avant que
-        // la page ne soit visible : celle-là n'est pas un changement, et
-        // l'entrée s'en chargera.
+        // Le dictionnaire annonce aussi la langue au chargement, avant que la page ne soit visible.
         if (parti) ecrire(0, 350);
     });
 
@@ -96,11 +74,7 @@
     var chiffres = Array.prototype.slice.call(
         document.querySelectorAll('.fond-hero-chiffres .fond-kpi')
     );
-    // Les trois outils et le rail ferment la
-    // marche : ils encadrent la page, ils entrent une fois qu'il y a une page
-    // à encadrer.
-    // Le semis du fond : il entre le premier, c'est le papier sur lequel
-    // tout le reste se pose.
+    // Les trois outils et le rail ferment la marche : ils encadrent la page.
     var champ = document.querySelector('.points-champ');
     var cadre = ['.fond-rail', '.fond-outils']
         .map(function (selecteur) { return document.querySelector(selecteur); })
@@ -138,9 +112,7 @@
         });
     });
 
-    // La rangée de points assombrie appartient à son titre : elle entre avec
-    // lui, sinon elle se dessinerait sur du vide. Même ordre des deux côtés,
-    // c'est fond-titre.js qui les apparie ainsi.
+    // La rangée de points assombrie appartient à son titre : elle entre avec lui.
     var titres = Array.prototype.slice.call(document.querySelectorAll('.fond-titre'));
     var lignes = Array.prototype.slice.call(document.querySelectorAll('.fond-ligne'));
 
@@ -153,8 +125,7 @@
 
         var observateur = new IntersectionObserver(function (entrees) {
             var arrivees = entrees.filter(function (entree) { return entree.isIntersecting; });
-            // Ceux qui entrent dans le même souffle se suivent de haut en
-            // bas ; celui qui entre seul n'attend personne.
+            // Ceux qui entrent dans le même souffle se suivent de haut en bas.
             arrivees.sort(function (a, b) {
                 return a.boundingClientRect.top - b.boundingClientRect.top;
             });
@@ -180,16 +151,6 @@
     };
 
     // Le départ.
-    //
-    // Deux trames d'attente d'abord : la première laisse le navigateur poser
-    // l'état de départ, sans quoi il passerait directement à l'arrivée et il
-    // n'y aurait aucune transition à voir.
-    //
-    // Et surtout : on attend que la page ait fini de charger. Lancée dès la
-    // lecture du script, la phrase finissait de s'écrire avant que le premier
-    // écran ne soit là — l'effet avait bien lieu, mais devant personne. Pas
-    // d'attente sans fin pour autant : passé le délai, on part quand même,
-    // plutôt que de laisser un hero vide sur une connexion lente.
     var ATTENTE_MAX = 1200;
     var parti = false;
 

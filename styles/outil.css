@@ -1,5 +1,4 @@
-/* Page d'outil, dans la langue des articles : barre alignée, ligne de
-   méta, titre sobre, étapes numérotées, scène bordée sur un champ de points. */
+/* Page d'outil, dans la langue des articles : barre alignée, ligne de méta, titre sobre. */
 
 body.outil-page {
     --marge: 1.25rem;
@@ -233,9 +232,7 @@ body.outil-page {
     .outil-page .qr-container { width: min(16rem, 70vw); }
 }
 
-/* --------------------------------------------------------------------------
-   Les autres outils : la même page, posée sur leurs colonnes existantes.
-   -------------------------------------------------------------------------- */
+/* Les autres outils : la même page, posée sur leurs colonnes existantes. */
 
 .outil-page .outil-cadre { max-width: none; }
 
@@ -362,8 +359,7 @@ body.outil-page {
 @keyframes outil-entre { from { opacity: 0; transform: translateY(14px); } }
 @keyframes outil-parait { from { opacity: 0; } }
 
-/* Ce qui défile dans un outil défile sans barre : un fondu au bas du
-   panneau dit qu'il en reste, et s'efface quand on arrive au bout. */
+/* Ce qui défile dans un outil défile sans barre : un fondu au bas du panneau dit qu'il en reste. */
 .outil-page *,
 .outil-page *::before { scrollbar-width: none; }
 .outil-page *::-webkit-scrollbar { display: none; }

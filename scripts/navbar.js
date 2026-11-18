@@ -45,8 +45,7 @@
         </div>
     `;
 
-    // Sections of the CV page, in reading order. The ids are shared by both
-    // languages: the same file serves /cv and /en/cv.
+    // Sections of the CV page, in reading order.
     const CV_SECTIONS = [
         ['realisations', 'cv_nav_work', 'Réalisations'],
         ['parcours', 'cv_nav_career', 'Parcours'],
@@ -118,9 +117,7 @@
     const currentPage = normalizeRoute(window.location.pathname);
 
 
-    // --- CV variant behaviour --------------------------------------------
-    // Anchor scrolling that clears the fixed bar, a light scrollspy, and the
-    // mobile Sections popover.
+    // CV variant: anchor scrolling past the fixed bar, and a light scrollspy.
     function setupCvNav(root) {
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
         const menu = root.querySelector('#cv-sections-menu');
@@ -251,12 +248,7 @@
                     return;
                 }
 
-                // Circular wipe growing out from the toggle (low-centre of the
-                // viewport) to the farthest corner, so it always fills the page.
-                // Driven from JS with explicit pixel values: Safari does not
-                // resolve :root inline custom properties inside the
-                // ::view-transition pseudos, which made the circle open from
-                // the top-left corner on iOS when this went through CSS vars.
+                // Circular wipe growing out from the toggle (low-centre of the viewport) to the farthest corner.
                 const rect = themeBtn.getBoundingClientRect();
                 const x = rect.left + rect.width / 2;
                 const y = rect.top + rect.height / 2;
@@ -265,9 +257,7 @@
                     Math.max(y, window.innerHeight - y)
                 );
                 const docEl = document.documentElement;
-                // Freeze component transitions for the duration of the wipe so
-                // the neumorphic highlights snap straight to their dark values
-                // instead of animating light->dark inside the revealed area.
+                // Freeze transitions during the wipe so colours snap to the new theme.
                 docEl.classList.add('theme-switching');
                 const transition = document.startViewTransition(applyTheme);
                 transition.ready.then(() => {

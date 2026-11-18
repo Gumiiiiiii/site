@@ -1,39 +1,6 @@
-/* ==========================================================================
-   L'accueil
-   ==========================================================================
+/* L'accueil : une seule page porte tout le site, la phrase, les expérimentations et les outils. */
 
-   Une seule page porte tout le site : la phrase, les expérimentations et
-   les outils. Il n'y a plus de pages de liste.
-
-   Le fond est un volume dessiné en points, en gris (scripts/lavande.js) : la
-   couleur du site n'apparaît que sur ce qui se clique. Dessus,
-   deux listes bâties de la même façon, pour qu'on les lise comme deux
-   rubriques : un titre en toutes lettres, un compte, un filet, puis des
-   lignes numérotées.
-
-     logo                                              langue · thème
-
-                        (le paysage, plein écran)
-
-     La phrase, en grand                               Mes outils     11
-                                                       ─────────────────
-     Mes expérimentations                              01  ……………
-     ────────────────────────────────────              02  ……………
-     [image]     [image]     [image]                   …
-     le titre    le titre    le titre
-
-   Tout le texte se range en bas : à gauche la phrase et les
-   expérimentations, à droite les outils, calés sur la même ligne. Le haut
-   de l'écran reste au paysage. Les deux rubriques sont bâties de la même
-   façon, un titre sur un filet puis des lignes ; une expérimentation se
-   reconnaît à son image de couverture, un outil à son numéro.
-
-   Sous le seuil d'un écran d'ordinateur, la page défile et les mêmes blocs
-   s'empilent, sur le même paysage.
-   ========================================================================== */
-
-/* La grande hauteur d'écran : sur un téléphone, la barre d'adresse qui se
-   replie en défilant ne redessine pas le paysage. */
+/* La grande hauteur d'écran : la barre d'adresse qui se replie ne redessine pas le paysage. */
 .trame {
     position: fixed;
     top: 0;
@@ -43,15 +10,12 @@
     height: 100lvh;
     z-index: -1;
     pointer-events: none;
-    /* Le paysage s'estompe vers le bas, où se tient le texte : les
-       rubriques se lisent sur un fond plus calme. */
+    /* Le paysage s'estompe vers le bas, où se tient le texte. */
     -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0, #000 50%);
     mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0, #000 50%);
 }
 
-/* Sur un téléphone, le paysage est une bande fixe en haut de la page, qui
-   part avec elle et se fond dans le papier (scripts/lavande.js en règle la
-   hauteur). */
+/* Sur un téléphone, le paysage est une bande fixe en haut de la page. */
 @media (max-width: 759px) {
     .trame {
         position: absolute;
@@ -60,8 +24,7 @@
     }
 }
 
-/* Le pied de page, sur un téléphone : un dégradé de points qui monte du bas,
-   comme au pied des expérimentations. */
+/* Le pied de page, sur un téléphone : un dégradé de points qui monte du bas. */
 .accueil-pied { display: none; }
 @media (max-width: 759px) {
     .accueil-pied {
@@ -79,8 +42,7 @@
     .accueil-pied.prete { opacity: 1; }
 }
 
-/* Sur l'accueil, la trame dessine tout le fond : le champ de points
-   ordinaire lui laisse la place. */
+/* Sur l'accueil, la trame dessine tout le fond : le champ de points ordinaire lui laisse la place. */
 body.accueil-page .points-champ { display: none; }
 
 .accueil {
@@ -91,12 +53,9 @@ body.accueil-page .points-champ { display: none; }
     gap: 3rem;
 }
 
-/* --------------------------------------------------------------------------
-   La phrase
-   -------------------------------------------------------------------------- */
+/* La phrase */
 
-/* La phrase s'écrit lettre à lettre : cachée dès le premier rendu pour ne pas
-   paraître, disparaître puis revenir. Secours : elle revient seule. */
+/* La phrase s'écrit lettre à lettre : cachée dès le premier rendu pour ne pas paraître. */
 .phrase-a-ecrire .accueil-phrase { visibility: hidden; animation: phrase-secours 0s 3s forwards; }
 @keyframes phrase-secours { to { visibility: visible; } }
 
@@ -110,9 +69,7 @@ body.accueil-page .points-champ { display: none; }
     text-wrap: balance;
 }
 
-/* --------------------------------------------------------------------------
-   Une rubrique : le même en-tête pour les deux listes
-   -------------------------------------------------------------------------- */
+/* Une rubrique : le même en-tête pour les deux listes */
 
 .bloc { min-width: 0; display: flex; flex-direction: column; }
 
@@ -149,9 +106,7 @@ body.accueil-page .points-champ { display: none; }
     transition: color 0.2s ease;
 }
 
-/* --------------------------------------------------------------------------
-   Les expérimentations
-   -------------------------------------------------------------------------- */
+/* Les expérimentations */
 
 .exp {
     display: grid;
@@ -164,8 +119,7 @@ body.accueil-page .points-champ { display: none; }
     text-decoration: none;
 }
 
-/* L'image de couverture de l'article, celle de son en-tête, dans ses
-   proportions d'origine (16:9). */
+/* L'image de couverture de l'article, celle de son en-tête, dans ses proportions d'origine (16:9). */
 .exp-image {
     width: 100%;
     height: auto;
@@ -181,9 +135,7 @@ body.accueil-page .points-champ { display: none; }
 .exp:hover .exp-image,
 .exp:focus-visible .exp-image { box-shadow: 0 0 0 1.5px var(--accent-ink); }
 
-/* Le titre est donné en entier : c'est lui qui dit de quoi parle
-   l'article, il ne se coupe jamais. La largeur de la rubrique est réglée
-   pour qu'il tienne sur deux lignes (test/layout-test.js le vérifie). */
+/* Le titre est donné en entier : c'est lui qui dit de quoi parle l'article, il ne se coupe jamais. */
 .exp-titre {
     font-size: 1rem;
     font-weight: 600;
@@ -197,9 +149,7 @@ body.accueil-page .points-champ { display: none; }
 .exp:hover .exp-titre,
 .exp:focus-visible .exp-titre { transform: translateX(0.35rem); }
 
-/* --------------------------------------------------------------------------
-   Les outils
-   -------------------------------------------------------------------------- */
+/* Les outils */
 
 .outil {
     display: grid;
@@ -223,8 +173,7 @@ body.accueil-page .points-champ { display: none; }
     transition: color 0.2s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* L'icône de l'outil : elle ne se montre qu'au survol, au bout de la
-   ligne. */
+/* L'icône de l'outil : elle ne se montre qu'au survol, au bout de la ligne. */
 .outil-icone {
     display: flex;
     color: var(--accent-ink);
@@ -241,8 +190,7 @@ body.accueil-page .points-champ { display: none; }
 .outil:hover .outil-icone,
 .outil:focus-visible .outil-icone { opacity: 1; transform: none; }
 
-/* La description reste dans la page pour les lecteurs d'écran et les
-   moteurs ; elle ne s'affiche pas. */
+/* La description reste dans la page pour les lecteurs d'écran et les moteurs ; elle ne s'affiche pas. */
 .outil-desc {
     position: absolute;
     width: 1px;
@@ -256,14 +204,11 @@ body.accueil-page .points-champ { display: none; }
     .outil-nom, .outil-icone, .exp-titre, .exp-image { transition: none; }
 }
 
-/* ==========================================================================
-   Sur ordinateur : un écran
-   ========================================================================== */
+/* Sur ordinateur : un écran */
 
 @media (min-width: 1100px) and (min-height: 600px) {
 
-    /* Une seule marge pour tout le contenu : le logo, les réglages, la
-       phrase et les listes sont à la même distance des quatre bords. */
+    /* Une seule marge pour tout le contenu. */
     body.accueil-page { --marge: 2rem; }
 
 
@@ -272,9 +217,7 @@ body.accueil-page .points-champ { display: none; }
         height: 100dvh;
         padding: calc(var(--marge) + 3.5rem) var(--marge) var(--marge);
         display: grid;
-        /* La première colonne prend la largeur de la phrase : les
-           expérimentations, dessous, s'arrêtent où elle s'arrête. Le paysage
-           respire dans la colonne vide du milieu. */
+        /* La première colonne prend la largeur de la phrase. */
         grid-template-columns: auto minmax(0, 1fr) 20rem;
         grid-template-rows: minmax(0, 1fr) auto auto;
         column-gap: 2.25rem;
@@ -288,8 +231,7 @@ body.accueil-page .points-champ { display: none; }
         width: fit-content;
     }
 
-    /* La rangée déborde dans la colonne vide du milieu, jusqu'à une
-       distance confortable des outils. */
+    /* La rangée déborde dans la colonne vide du milieu, jusqu'à une distance confortable des outils. */
     body.ecran .exps {
         grid-column: 1 / 3;
         grid-row: 3;
@@ -298,10 +240,7 @@ body.accueil-page .points-champ { display: none; }
         contain: inline-size;
     }
 
-    /* Les expérimentations côte à côte, au bas de l'écran, sous la phrase
-       et pas plus larges qu'elle : chacune a sa couverture en bandeau et son
-       titre entier dessous. Un article de plus ajoute une colonne ; au-delà
-       de trois, la rangée défile de côté plutôt que de pousser la page. */
+    /* Les expérimentations côte à côte, au bas de l'écran, sous la phrase et pas plus larges qu'elle. */
     body.ecran .exps-liste {
         display: grid;
         grid-auto-flow: column;
@@ -333,13 +272,11 @@ body.accueil-page .points-champ { display: none; }
         line-height: 1.34;
         text-wrap: pretty;
     }
-    /* Le titre ne glisse plus de côté : c'est sa couleur et les coins de
-       l'image qui répondent au survol. */
+    /* Le titre ne glisse plus de côté : c'est sa couleur et les coins de l'image qui répondent au survol. */
     body.ecran .exp:hover .exp-titre,
     body.ecran .exp:focus-visible .exp-titre { transform: none; }
 
-    /* Les outils se calent sur le bas de l'écran, comme les
-       expérimentations : les deux rubriques finissent sur la même ligne. */
+    /* Les outils se calent sur le bas de l'écran, comme les expérimentations. */
     body.ecran .outils {
         grid-column: 3;
         grid-row: 1 / -1;
@@ -347,8 +284,7 @@ body.accueil-page .points-champ { display: none; }
         justify-content: flex-end;
     }
 
-    /* Si les outils dépassent l'écran, c'est leur liste qui défile, pas
-       la page. */
+    /* Si les outils dépassent l'écran, c'est leur liste qui défile, pas la page. */
     body.ecran .outils-liste {
         min-height: 0;
         overflow-y: auto;
@@ -360,10 +296,7 @@ body.accueil-page .points-champ { display: none; }
     body.ecran .outils-liste > li:last-child .outil,
     body.ecran .exps-liste > li:last-child .exp { border-bottom: 0; padding-bottom: 0; }
 
-    /* L'entrée : d'abord le fond, dont les points se développent
-       (scripts/lavande.js) ; le texte attend --intro, puis
-       la barre apparaît, la phrase s'écrit (son script lit aussi --intro) et
-       les lignes montent l'une après l'autre. */
+    /* L'entrée : d'abord le fond, dont les points se développent (scripts/lavande.js). */
     @media (prefers-reduced-motion: no-preference) {
         body.ecran.accueil-page { --intro: 0.7s; }
         body.ecran.accueil-page .navbar > * {

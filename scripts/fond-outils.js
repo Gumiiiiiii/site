@@ -1,10 +1,4 @@
-// Les trois outils du bas de page : thème, langue, contact (le contact est un
-// simple lien mailto, il n'a besoin de rien ici).
-//
-// La page n'a pas de navbar, donc pas de scripts/navbar.js : le bouton de
-// thème reprend ici la même mécanique — même attribut data-theme, même clé
-// site-theme, même balayage circulaire — pour que le réglage reste partagé
-// avec le reste du site.
+// Les trois outils : thème, langue, contact (un simple lien mailto).
 (function () {
     var racine = document.documentElement;
 
@@ -21,10 +15,7 @@
             var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             if (!document.startViewTransition || reduit) { appliquer(); return; }
 
-            // Le cercle s'ouvre depuis le bouton jusqu'au coin le plus
-            // éloigné, sinon il ne couvre pas toute la page. Valeurs en
-            // pixels calculées ici : Safari ne résout pas les variables
-            // CSS de :root dans les pseudo-éléments ::view-transition.
+            // Le cercle s'ouvre depuis le bouton jusqu'au coin le plus éloigné.
             var r = theme.getBoundingClientRect();
             var x = r.left + r.width / 2;
             var y = r.top + r.height / 2;
@@ -37,8 +28,7 @@
                 'circle(' + rayon + 'px at ' + x + 'px ' + y + 'px)'
             ];
 
-            // Sans cette classe, le fondu par défaut du navigateur et les
-            // transitions de chaque élément se jouent en plus du cercle.
+            // Sans cette classe, le fondu du navigateur se joue en plus du cercle.
             racine.classList.add('theme-switching');
             var transition = document.startViewTransition(appliquer);
             transition.ready.then(function () {
@@ -57,14 +47,7 @@
         });
     }
 
-    // Langue. Le glissement FR/EN est entièrement dans shared.css : ce code ne
-    // fait que poser les deux classes dont il dépend. is-en dit quelle langue
-    // est en cours ; hover-locked fige le rail après un clic, sinon il
-    // repartirait aussitôt vers l'autre langue puisque le curseur est encore
-    // sur le bouton.
-    //
-    // Attention : cette page d'essai n'a pas encore de version anglaise. Le
-    // bouton tient l'état partagé du site et rien de plus.
+    // La langue.
     var langue = document.querySelector('[data-fond-lang]');
     if (langue) {
         var courante = function () {
@@ -92,8 +75,7 @@
             afficher();
         });
 
-        // Le changement peut venir d ailleurs que du bouton (l URL /en/, un
-        // autre onglet) : on suit l evenement du site plutot que le seul clic.
+        // Le changement peut venir d ailleurs que du bouton (l URL /en/, un autre onglet).
         document.addEventListener('gumi:lang', afficher);
 
         langue.addEventListener('mouseleave', function () {
