@@ -49,8 +49,9 @@
 <body class="shell-page fond-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
     <main class="site-content" id="main">
-        <!-- Le fond entier tient dans ce seul objet : la descente du haut. -->
-        <div class="points-champ" aria-hidden="true"></div>
+        <!-- Le fond en dégradé de points, comme sur les études (scripts/etude-trame.js). -->
+        <canvas class="etude-trame" id="etude-trame" aria-hidden="true"></canvas>
+        <canvas class="etude-trame etude-trame--bas" id="etude-trame-bas" aria-hidden="true"></canvas>
 
         <!-- La rangée assombrie : la rangée de la grille sur laquelle un titre s'écrit. -->
         <div class="fond-ligne" aria-hidden="true"></div>
@@ -545,7 +546,7 @@
     <script>window.gumiLenisOptions = { duration: 0.6, touchMultiplier: 1.2 };</script>
     <script src="scripts/vendor/lenis.min.js"></script>
     <script src="scripts/page-effects.js"></script>
-    <script src="scripts/points-champ.js"></script>
+    <script src="scripts/etude-trame.js"></script>
     <script src="scripts/i18n.js"></script>
     <script src="scripts/fond-titre.js"></script>
     <script src="scripts/fond-rail.js"></script>

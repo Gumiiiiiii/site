@@ -3,8 +3,8 @@
     // Sans 2D (jsdom des tests), rien à dessiner.
     if (typeof CanvasRenderingContext2D === 'undefined') return;
     var toiles = [
-        { el: document.getElementById('etude-trame'), bas: false, autour: '.article-header, .outil-tete' },
-        { el: document.getElementById('etude-trame-bas'), bas: true, autour: '.read-next-section' },
+        { el: document.getElementById('etude-trame'), bas: false, autour: '.article-header, .outil-tete, .fond-hero-haut' },
+        { el: document.getElementById('etude-trame-bas'), bas: true, autour: '.read-next-section, .fond-contact' },
         { el: document.getElementById('trame-pleine'), plein: true, autour: '.nf' },
         { el: document.getElementById('accueil-pied'), bas: true, autour: null }
     ].filter(function (t) { return t.el; });

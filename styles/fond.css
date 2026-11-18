@@ -308,15 +308,16 @@ html { scroll-behavior: smooth; }
     position: absolute;
     left: var(--fond-marge);
     margin: 0;
-    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
     font-weight: 700;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.015em;
     /* Interligne à 1 : la ligne de base est alors prévisible. */
     line-height: 1;
 }
 
-/* La rangée assombrie : une seule ligne de points. */
+/* La rangée d'un titre : masquée, le fond n'est plus un champ uniforme. */
 .fond-page .fond-ligne {
+    display: none;
     position: absolute;
     left: 0;
     right: 0;
@@ -357,9 +358,9 @@ html { scroll-behavior: smooth; }
 
 .fond-projet-nom {
     transition: color 0.25s ease;
-    font-size: clamp(1.3rem, 2.1vw, 1.85rem);
-    font-weight: 800;
-    letter-spacing: -0.025em;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     line-height: 1.1;
 }
 
@@ -1440,16 +1441,20 @@ h3.fond-boite-cat { margin: 0; }
     .fond-action { flex: 1 1 100%; }
 }
 
-/* Le champ de points : un seul dessin pour toute la page. */
-.fond-page .points-champ {
+/* Le fond en dégradé de points, comme sur les études. */
+.fond-page .etude-trame {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: min(100vh, 62rem);
     z-index: -1;
-    color: var(--text);
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.9s ease;
 }
-
-.fond-page .points-champ svg { display: block; overflow: visible; }
+.fond-page .etude-trame.prete { opacity: 1; }
+.fond-page .etude-trame--bas { top: auto; bottom: 0; height: min(80vh, 40rem); }
 
 /* Les apparitions : ce qui n'est pas encore atteint attend, transparent. */
 .fond-anime :where(
@@ -1535,8 +1540,6 @@ h3.fond-boite-cat { margin: 0; }
     .fond-hero-photo  { width: clamp(12rem, 12vw, 18rem); }
     .fond-hero-phrase { font-size: clamp(1.8rem, 1.8vw, 2.45rem); }
     .fond-kpi b       { font-size: clamp(2.1rem, 2.1vw, 2.9rem); }
-
-    .fond-page .fond-titre { font-size: clamp(3.4rem, 3.4vw, 4.6rem); }
 
     /* Le rail est fixe au bord. */
     .fond-rail a { font-size: clamp(0.82rem, 0.82vw, 0.98rem); }
