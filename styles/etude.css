@@ -160,8 +160,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
    En bref
    -------------------------------------------------------------------------- */
 
-/* En bref : pas de boîte. Une étiquette à gauche, trois lignes numérotées à
-   droite, séparées par des rangées de points, comme la liste des outils. */
+/* En bref : l'étiquette au-dessus, trois points numérotés, sans filets. */
 .etude-page .article-abstract {
     position: static;
     max-width: none;
@@ -173,12 +172,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 }
 .etude-page .article-abstract[hidden] { display: none; }
 
-.resume {
-    display: grid;
-    grid-template-columns: 9rem minmax(0, 1fr);
-    column-gap: 2rem;
-    align-items: start;
-}
+.resume { display: flex; flex-direction: column; gap: 1rem; }
 .resume-tete { padding: 0; }
 .etude-page .resume-tete { background: none; }
 .resume-tete h2 {
@@ -200,10 +194,8 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     counter-increment: point;
     display: grid;
     grid-template-columns: 2rem minmax(0, 1fr);
-    padding: 0.9rem 0;
-    background: radial-gradient(circle, rgba(var(--text-rgb), 0.3) 0.9px, transparent 1.4px) left bottom / 10px 3px repeat-x;
+    padding: 0 0 1.1rem;
 }
-.resume-etapes li:first-child { padding-top: 0; }
 .resume-etapes li::before {
     content: counter(point, decimal-leading-zero);
     padding-top: 0.3rem;
@@ -221,7 +213,6 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 .resume-etapes p strong { font-weight: 600; color: var(--encre-1); }
 
 @media (max-width: 759px) {
-    .resume { grid-template-columns: minmax(0, 1fr); row-gap: 0.8rem; }
     .resume-etapes p { font-size: 1.02rem; }
 }
 
@@ -257,19 +248,14 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     margin: 0 0 clamp(2.5rem, 7vh, 4rem);
     padding: 0;
 }
-/* Le sommaire, plié : une ligne de plus, alignée sur les points du résumé. */
+/* Le sommaire, plié, sous le résumé. */
 .etude-page .article-toolbar {
-    padding: 0.2rem 0 0.2rem calc(9rem + 2rem);
+    padding: 0;
     border: 0;
-    background: radial-gradient(circle, rgba(var(--text-rgb), 0.3) 0.9px, transparent 1.4px) left bottom / 10px 3px repeat-x;
-    background-origin: content-box;
-    background-clip: content-box;
 }
-@media (max-width: 759px) { .etude-page .article-toolbar { padding-left: 0; } }
 .etude-page .toc-toggle { font-size: 1rem; font-weight: 600; color: var(--encre-1); }
 .etude-page .toc-toggle:hover { color: var(--accent-ink); }
-.etude-page .toc-dropdown-inner { padding: 0 0 0 calc(9rem + 2rem); }
-@media (max-width: 759px) { .etude-page .toc-dropdown-inner { padding-left: 0; } }
+.etude-page .toc-dropdown-inner { padding: 0; }
 
 .etude-page .article-content {
     max-width: none;
@@ -298,9 +284,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     color: var(--encre-07);
     opacity: 1;
     transform: none;
-    background: radial-gradient(circle, rgba(var(--text-rgb), 0.3) 0.9px, transparent 1.4px) left bottom / 10px 3px repeat-x;
 }
-.etude-page .toc-item:last-child a { background: none; }
 .etude-page .toc-item a::before {
     content: counter(toc, decimal-leading-zero);
     font-size: 0.72rem;
