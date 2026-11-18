@@ -176,7 +176,7 @@
 }
 
 .outil-nom {
-    font-size: 1.18rem;
+    font-size: 1.22rem;
     font-weight: 600;
     line-height: 1.25;
     letter-spacing: -0.01em;
@@ -317,7 +317,7 @@
         border-bottom: 0;
     }
     body.ecran .exp-titre {
-        font-size: 0.9rem;
+        font-size: 1.22rem;
         line-height: 1.34;
         text-wrap: pretty;
     }
@@ -379,9 +379,9 @@
     body.ecran .accueil { padding-top: calc(var(--marge) + 2.75rem); }
     body.ecran .accueil-phrase { font-size: clamp(1.6rem, 2.45vw, 2.5rem); }
     body.ecran .outil { padding: 0.34rem 0; }
-    body.ecran .outil-nom { font-size: 1.08rem; }
+    body.ecran .outil-nom { font-size: 1.1rem; }
     body.ecran .exps { margin-top: 1.1rem; }
     body.ecran .exps-liste { padding-top: 0.7rem; }
     body.ecran .exp { row-gap: 0.45rem; }
-    body.ecran .exp-titre { font-size: 0.84rem; }
+    body.ecran .exp-titre { font-size: 1.1rem; }
 }

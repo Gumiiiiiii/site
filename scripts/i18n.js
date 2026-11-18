@@ -438,7 +438,7 @@
         cv_cta_write: { fr: "Me contacter", en: "Contact me" },
         // La relation de travail, en tête de chaque attribution.
 
-        exp_card_ardacraft_social: { fr: "Emprunter les codes du voyage pour filmer la Terre du Milieu : 27 millions de vues en sept mois.", en: "Borrowing travel-reel grammar to film Middle-earth: 27 million views in seven months." },
+        exp_card_ardacraft_social: { fr: "Emprunter les codes du voyage pour filmer la Terre du Milieu : 27 millions de vues en sept mois.", en: "Borrowing travel-reel grammar to film Middle-earth: 27 million views in seven months." },
 
         // Tools shared
         back_tools: { fr: "Retour à l'accueil", en: 'Back to home' },
