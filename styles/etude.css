@@ -44,7 +44,8 @@ body.etude-page .navbar {
     transform: none;
     justify-content: space-between;
     gap: 0.35rem;
-    padding: var(--marge) var(--marge) 0;
+    /* Le logo et les réglages s'alignent sur les bords des images larges. */
+    padding: var(--marge) calc((100% - var(--large)) / 2) 0;
     background: none;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
@@ -68,8 +69,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
    -------------------------------------------------------------------------- */
 
 .etude-page .site-content {
-    /* La colonne de la page se centre dès que l'écran est plus large
-       qu'elle ; le logo et les réglages, eux, restent aux bords. */
+    /* La colonne de la page se centre dès que l'écran est plus large qu'elle. */
     padding: calc(var(--marge) + 5.5rem) max(var(--marge), calc((100% - var(--page)) / 2)) var(--marge);
 }
 
@@ -414,7 +414,3 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     .etude-meta .article-date::before { display: none; }
 }
 
-/* Une sous-partie : pas de numéro, alignée sur les titres, en retrait de ton. */
-.etude-page .toc-item.depth-h3 { counter-increment: none; padding-left: 0; }
-.etude-page .toc-item.depth-h3 a { font-size: 0.85rem; color: var(--encre-05); padding-top: 0.1rem; }
-.etude-page .toc-item.depth-h3 a::before { content: ''; }
