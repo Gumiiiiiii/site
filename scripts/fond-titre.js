@@ -13,7 +13,7 @@
     var AIR_SECTION = 48;     // entre la rangée du titre et son contenu
     var AIR_APRES = 192;      // entre la fin d'un contenu et le titre suivant
     // Sous le pied de page.
-    var MARGE_BAS = 220;
+    var MARGE_BAS = 72;
 
     var titres = Array.prototype.slice.call(document.querySelectorAll('.fond-titre'));
     var lignes = Array.prototype.slice.call(document.querySelectorAll('.fond-ligne'));
