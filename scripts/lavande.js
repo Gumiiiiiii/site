@@ -27,6 +27,9 @@
 
     var CALME = window.matchMedia('(prefers-reduced-motion: reduce)');
     var PAS_X = 10, PAS_Y = 9, RAYON_MAX = 5.2, CADENCE = 40;
+    // Sur un téléphone, le paysage est une image fixe : une bande en haut de
+    // la page, aux proportions d'un paysage, en points deux fois plus fins.
+    var PETIT = window.matchMedia('(max-width: 759px)');
 
     var ctx = null, largeur = 0, hauteur = 0, dpr = 1, xs, ys;
     // Sur un écran étroit, la scène garde ses proportions de paysage : on la
@@ -45,7 +48,11 @@
 
     function mesurer() {
         dpr = Math.min(window.devicePixelRatio || 1, 2);
+        var f = PETIT.matches ? 2 : 1;
+        PAS_X = 10 / f; PAS_Y = 9 / f; RAYON_MAX = 5.2 / f;
         vue = toile.clientWidth || window.innerWidth;
+        if (PETIT.matches) toile.style.height = Math.round(vue / 1.3) + 'px';
+        else toile.style.height = '';
         hauteur = toile.clientHeight || window.innerHeight;
         largeur = Math.max(vue, Math.round(hauteur * 1.2));
         decal = Math.min(largeur - vue, Math.max(0, largeur * 0.56 - vue / 2));
@@ -598,12 +605,13 @@
         if (!buPret) { preparerBuissons(); reveiller(); return; }
         CHAMP_UNI = sombre ? 0.26 : 0.24;
         if (debut < 0) debut = maintenant;
-        var e = CALME.matches ? INTRO : (maintenant - debut) / 1000;   // le temps depuis l'apparition
+        var fixe = CALME.matches || PETIT.matches;
+        var e = fixe ? INTRO : (maintenant - debut) / 1000;   // le temps depuis l'apparition
         if (e >= INTRO && maintenant - dernier < CADENCE) { reveiller(); return; }
         dernier = maintenant;
-        var t = CALME.matches ? 0 : maintenant / 1000;
+        var t = fixe ? 0 : maintenant / 1000;
         temps = t;
-        souffler(t);
+        if (!PETIT.matches) souffler(t);
 
         // La scène : l'horizon sous le milieu, le point de fuite au centre
         // de l'espace libre, la montagne posée sur l'horizon.
@@ -660,7 +668,7 @@
                 var d2 = y - col2;
                 ton = 0.6 - 0.18 * lisse(0, hy - col2, d2);
                 // Son faîte : un trait plein, sur une rangée entière de points.
-                if (d2 < 9.5) bord = 0.66;
+                if (d2 < PAS_Y * 1.06) bord = 0.66;
             } else if (colline >= 0 && y < hy) {
                 // Une colline : claire du côté du soleil, plus dense en
                 // tournant vers la droite et vers son pied ; les plus proches
@@ -669,10 +677,10 @@
                 var aOmbre = lisse(-0.35, 0.85, versant);
                 ton = 0.17 + 0.27 * aOmbre + 0.08 * lisse(0, hauteur * 0.07, d1) + 0.025 * colline;
                 eclat = 0.22 * (1 - lisse(-0.7, 0.1, versant)) * (1 - lisse(0, hauteur * 0.035, d1));
-                if (d1 < 9.5) bord = 0.44;
+                if (d1 < PAS_Y * 1.06) bord = 0.44;
                 // Juste derrière la haie, la colline s'éclaircit : la haie
                 // se détache.
-                ton *= 0.6 + 0.4 * lisse(0, 20, col2 - y);
+                ton *= 0.6 + 0.4 * lisse(0, PAS_Y * 2.2, col2 - y);
             } else if (y >= sommet && y < hy) {
                 // La face. Son ombre vient de la pente de la crête au-dessus :
                 // là où la crête descend vers l'est, le versant tourne le dos
@@ -688,7 +696,7 @@
                 ombre = Math.max(ombre * (1 - 0.7 * prof), lisse(-90, 150, x - partage) * 0.7);
                 // Les touches : orientées comme les plans, plus serrées en
                 // haut, où la roche est nue.
-                var pinceau = touche(x, y, ombre > 0.4 ? 0.55 : -0.45, 30 + 30 * prof, 11);
+                var pinceau = touche(x, y, ombre > 0.4 ? 0.55 : -0.45, (30 + 30 * prof) * PAS_X / 10, 11 * PAS_X / 10);
                 // Le pied se perd dans une brume claire : les collines de devant
                 // s'y détachent.
                 var brume = lisse(0.7, 1, prof);
@@ -701,13 +709,13 @@
                 var ax = x - sx, ay = y - sy;
                 var dist1 = Math.abs(ay - (-ax) * 0.95) / 1.38;                // pente descendant à gauche
                 var dist2 = Math.abs(ay - ax * 1.6) / 1.89;                    // pente descendant à droite
-                if (ax < 0 && ay > 0 && dist1 < 4) ton = Math.max(ton, 0.3 * (1 - prof));
-                if (ax > 0 && ay > 0 && dist2 < 4) ton = Math.max(ton, 0.34 * (1 - prof));
+                if (ax < 0 && ay > 0 && dist1 < PAS_X * 0.4) ton = Math.max(ton, 0.3 * (1 - prof));
+                if (ax > 0 && ay > 0 && dist2 < PAS_X * 0.4) ton = Math.max(ton, 0.34 * (1 - prof));
                 // L'arête se lit par une ligne de points un peu plus forts.
                 // La crête : un trait franc sur une rangée, une seconde plus
                 // légère dessous. C'est elle qui découpe la montagne sur le ciel.
-                if (y - sommet < 9.5) bord = 0.42;
-                else if (y - sommet < 19) ton = Math.max(ton, 0.14);
+                if (y - sommet < PAS_Y * 1.06) bord = 0.42;
+                else if (y - sommet < PAS_Y * 2.1) ton = Math.max(ton, 0.14);
                 if (ton < 0.03) ton = 0.03;
                 // En sombre, l'encre est claire : elle dessine la lumière.
                 if (sombre) ton = 0.44 - ton;
@@ -717,7 +725,7 @@
                 ton = 0.055 + 0.11 * haut * haut;
                 // Au ras des reliefs, le ciel se vide : un liseré de papier
                 // nu qui détache leur silhouette.
-                var ras = 0.45 + 0.55 * lisse(0, 20, Math.min(sommet, col1, col2) - y);
+                var ras = 0.45 + 0.55 * lisse(0, PAS_Y * 2.2, Math.min(sommet, col1, col2) - y);
                 // Les nuages : petits, clairs, le ventre un peu gris.
                 var nx = x / hauteur * 4.4 - t * 0.06, ny = y / hauteur * 10.5;
                 var blanc = nuage(nx, ny, 0.56);
@@ -796,8 +804,8 @@
             }
             ctx.fill();
         }
-        voiles(t, e, maintenant);
-        if (!CALME.matches || e < INTRO) reveiller();
+        if (!PETIT.matches) voiles(t, e, maintenant);
+        if (!fixe || e < INTRO) reveiller();
     }
 
     // Les parapentes : l'un traverse le ciel, l'autre tourne dans un thermique

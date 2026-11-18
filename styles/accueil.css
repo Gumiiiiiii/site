@@ -49,6 +49,17 @@
     mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0, #000 50%);
 }
 
+/* Sur un téléphone, le paysage est une bande fixe en haut de la page, qui
+   part avec elle et se fond dans le papier (scripts/lavande.js en règle la
+   hauteur). */
+@media (max-width: 759px) {
+    .trame {
+        position: absolute;
+        -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+        mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    }
+}
+
 /* Sur l'accueil, la trame dessine tout le fond : le champ de points
    ordinaire lui laisse la place. */
 body.accueil-page .points-champ { display: none; }
