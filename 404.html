@@ -7,50 +7,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
     <meta name="robots" content="noindex">
-    <title data-i18n="doc_404_title">Page introuvable | Gumi.</title>
+    <title>Page introuvable | Gumi.</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/media/favicon-32.png">
     <link rel="apple-touch-icon" href="/media/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="/styles/shared.css">
     <style>
-        .nf-wrapper {
-            min-height: 100vh;
+        html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+        .trame-pleine {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.9s ease;
+        }
+        .trame-pleine.prete { opacity: 1; }
+        .nf-logo {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            width: 2.6rem;
+            height: 2.6rem;
+            display: block;
+        }
+        .nf-logo img { width: 100%; height: 100%; display: block; }
+        .nf-page {
+            height: 100%;
+            display: grid;
+            place-items: center;
+            padding: 1.25rem;
+        }
+        .nf {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             text-align: center;
-            padding: 2rem 1.5rem;
-            gap: 1.5rem;
+            gap: 1.1rem;
+            max-width: 30rem;
         }
         .nf-code {
-            font-size: clamp(5rem, 18vw, 10rem);
-            font-weight: 900;
-            line-height: 1;
-            letter-spacing: -4px;
+            margin: 0;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(var(--text-rgb), 0.6);
         }
-        .nf-text {
-            font-size: 1.15rem;
-            max-width: 32rem;
-            opacity: 0.8;
+        .nf-titre {
+            margin: 0;
+            font-size: clamp(1.9rem, 4vw, 2.8rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.025em;
         }
-        .nf-text-en {
-            font-size: 0.95rem;
-            opacity: 0.55;
+        .nf-titre .dot { color: var(--accent); }
+        .nf-texte { margin: 0; font-size: 1.05rem; color: rgba(var(--text-rgb), 0.72); }
+        .nf-retour {
+            margin-top: 0.6rem;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1.5px solid rgba(var(--text-rgb), 0.3);
+            padding-bottom: 0.15rem;
+            transition: color 0.2s ease, border-color 0.2s ease;
         }
+        .nf-retour:hover, .nf-retour:focus-visible { color: var(--accent-ink); border-color: var(--accent-ink); }
+        :root[data-theme="dark"] .nf-retour:hover, :root[data-theme="dark"] .nf-retour:focus-visible { color: var(--accent); border-color: var(--accent); }
+        [lang="en"] .fr, [lang="fr"] .en { display: none; }
+        @media (max-width: 759px) { .nf-logo { top: 1.25rem; left: 1.25rem; } }
+        @media (prefers-reduced-motion: no-preference) {
+            .nf > * { animation: nf-entre 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+            .nf > :nth-child(2) { animation-delay: 0.08s; }
+            .nf > :nth-child(3) { animation-delay: 0.16s; }
+            .nf > :nth-child(4) { animation-delay: 0.24s; }
+        }
+        @keyframes nf-entre { from { opacity: 0; transform: translateY(14px); } }
     </style>
 </head>
 <body>
-    <div class="dots-bg dynamic-dots dots-bg-top" data-height="250" aria-hidden="true"></div>
+    <canvas class="trame-pleine" id="trame-pleine" aria-hidden="true"></canvas>
+    <a class="nf-logo" href="/" aria-label="Gumi, accueil"><img src="/media/logo-trame.svg" alt=""></a>
 
-    <main class="nf-wrapper">
-        <div class="nf-code" aria-hidden="true">4<span class="dot">0</span>4</div>
-        <p class="nf-text">Cette page n'existe pas, ou n'existe plus.</p>
-        <p class="nf-text-en">This page doesn't exist, or doesn't anymore.</p>
-        <a href="/" class="btn-primary">Retour à l'accueil</a>
+    <main class="nf-page">
+        <div class="nf">
+            <p class="nf-code">Erreur 404</p>
+            <h1 class="nf-titre"><span class="fr">Cette page s'est perdue</span><span class="en">This page got lost</span><span class="dot">.</span></h1>
+            <p class="nf-texte"><span class="fr">Elle n'existe pas, ou n'existe plus.</span><span class="en">It doesn't exist, or doesn't anymore.</span></p>
+            <a class="nf-retour" href="/"><span class="fr">← Retour à l'accueil</span><span class="en">← Back to the homepage</span></a>
+        </div>
     </main>
 
-    <script src="/scripts/page-effects.js"></script>
+    <script>(function(){if(document.documentElement.lang==='en'){document.title='Page not found | Gumi.';document.querySelectorAll('a[href="/"]').forEach(function(a){a.href='/en';});}})();</script>
+    <script src="/scripts/etude-trame.js"></script>
     <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };

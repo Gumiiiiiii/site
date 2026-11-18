@@ -99,6 +99,9 @@
 
         qrMount.innerHTML = '';
         qrCodeObj.append(qrMount);
+        // A viewBox lets the preview scale to its card instead of cropping.
+        const svg = qrMount.querySelector('svg');
+        if (svg && !svg.getAttribute('viewBox')) svg.setAttribute('viewBox', '0 0 300 300');
         if (placeholder) placeholder.style.display = 'none';
         qrMount.style.display = '';
         exportGroup.style.display = 'flex';

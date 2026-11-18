@@ -488,6 +488,12 @@
         qr_download: { fr: 'Télécharger', en: 'Download' },
         qr_empty_error: { fr: 'Veuillez entrer un texte ou un lien.', en: 'Please enter some text or a link.' },
         qr_lib_error: { fr: 'Bibliothèque QR indisponible.', en: 'QR library unavailable.' },
+        outil_rubrique: { fr: 'Outils', en: 'Tools' },
+        qr_chapo: { fr: "Un lien ou un texte devient un QR code, à vos couleurs, prêt en PNG ou en SVG.", en: 'Turn a link or some text into a QR code in your colours, ready as PNG or SVG.' },
+        qr_etape_contenu: { fr: 'Le contenu', en: 'Content' },
+        qr_etape_style: { fr: 'Le style', en: 'Style' },
+        qr_etape_export: { fr: "L'export", en: 'Export' },
+        qr_export_attente: { fr: 'Saisissez un contenu pour exporter.', en: 'Type some content to export.' },
         qr_tooltip: {
             fr: '<strong>Créez un QR code rapide et propre.</strong><br><br>Saisissez votre contenu : l\'aperçu se met à jour en direct. Choisissez un style et n\'importe quelle couleur, puis exportez en PNG ou SVG.',
             en: '<strong>Create a clean QR code in seconds.</strong><br><br>Type your content and the preview updates live. Pick a style and any color, then export as PNG or SVG.'

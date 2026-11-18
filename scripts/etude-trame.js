@@ -5,8 +5,9 @@
     // Sans 2D (jsdom des tests), rien à dessiner.
     if (typeof CanvasRenderingContext2D === 'undefined') return;
     var toiles = [
-        { el: document.getElementById('etude-trame'), bas: false, autour: '.article-header' },
-        { el: document.getElementById('etude-trame-bas'), bas: true, autour: '.read-next-section' }
+        { el: document.getElementById('etude-trame'), bas: false, autour: '.article-header, .outil-tete' },
+        { el: document.getElementById('etude-trame-bas'), bas: true, autour: '.read-next-section' },
+        { el: document.getElementById('trame-pleine'), plein: true, autour: '.nf' }
     ].filter(function (t) { return t.el; });
     if (!toiles.length) return;
 
@@ -61,7 +62,7 @@
         for (var j = 0, y = PAS_Y / 2; y < hauteur; j++, y += PAS_Y) {
             var dec = (j % 2) ? PAS_X / 2 : 0;
             var depuisBord = t.bas ? hauteur - y : y;
-            var haut = 1 - lisse(hauteur * 0.05, hauteur * 0.92, depuisBord);
+            var haut = t.plein ? 1 : 1 - lisse(hauteur * 0.05, hauteur * 0.92, depuisBord);
             if (haut <= 0) continue;
             for (var x = ((centre + dec) % PAS_X); x < largeur; x += PAS_X) {
                 var ex = (x - cx) / rx, ey = (y - cy) / ry;
