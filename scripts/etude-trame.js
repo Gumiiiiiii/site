@@ -47,13 +47,16 @@
         var racine = document.documentElement;
         var sombre = racine.getAttribute('data-theme') === 'dark';
         var rgb = (getComputedStyle(racine).getPropertyValue('--text-rgb') || '26, 26, 26').trim();
-        ctx.fillStyle = 'rgba(' + rgb + ', ' + (sombre ? 0.17 : 0.13) + ')';
+        // Le CV sur un téléphone : une encre plus marquée, sinon la trame s'efface.
+        var fort = document.body.classList.contains('fond-page') && largeur < 760 ? 1.7 : 1;
+        ctx.fillStyle = 'rgba(' + rgb + ', ' + (sombre ? 0.17 : 0.13) * fort + ')';
 
         // La clairière : une ellipse douce autour du titre, ou des cartes du bas.
         var cible = t.autour && document.querySelector(t.autour), boite = toile.getBoundingClientRect();
         var r = cible ? cible.getBoundingClientRect() : { left: largeur * 0.25, right: largeur * 0.75, top: boite.top + 100, bottom: boite.top + 300 };
         var cx = (r.left + r.right) / 2 - boite.left, cy = (r.top + r.bottom) / 2 - boite.top;
         var rx = (r.right - r.left) / 2 + 90, ry = (r.bottom - r.top) / 2 + 70;
+        if (fort > 1) { rx *= 0.6; ry *= 0.7; }
 
         var echelle = 1 / 360;
         var centre = largeur / 2;

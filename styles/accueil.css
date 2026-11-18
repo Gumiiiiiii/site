@@ -190,6 +190,11 @@ body.accueil-page .points-champ { display: none; }
 .outil:hover .outil-icone,
 .outil:focus-visible .outil-icone { opacity: 1; transform: none; }
 
+/* Sur un téléphone ou un écran tactile, les titres ne glissent pas. */
+@media (max-width: 759px), (hover: none) {
+    .exp-titre, .outil-nom { transform: none !important; }
+}
+
 /* La description reste dans la page pour les lecteurs d'écran et les moteurs ; elle ne s'affiche pas. */
 .outil-desc {
     position: absolute;

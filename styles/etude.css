@@ -360,6 +360,7 @@ body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100v
     .etude-page .article-title,
     .etude-page .featured-image-wrapper,
     .etude-page .toolbar-wrapper,
+    .etude-page .article-abstract,
     .etude-page .article-content {
         animation: etude-entre 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
     }
@@ -368,6 +369,7 @@ body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100v
     .etude-page .article-title { animation-delay: 0.16s; }
     .etude-page .featured-image-wrapper { animation-delay: 0.26s; }
     .etude-page .toolbar-wrapper { animation-delay: 0.36s; }
+    .etude-page .article-abstract { animation-delay: 0.43s; }
     .etude-page .article-content { animation-delay: 0.5s; }
     .etude-trame { transition-duration: 0.5s; }
 }

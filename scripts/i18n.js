@@ -684,7 +684,6 @@
             en: '<strong>See your links before you share them.</strong><br><br>Paste a link: the tool reads its Open Graph tags and shows the preview as it will appear on each platform, with a diagnostic of missing tags.'
         },
 
-        fond_signature: { fr: "Conçu par", en: "Designed by" },
         // Refonte du CV (page /fond) Le francais de chaque entree est exactement celui de la page.
         fond_1: { fr: "Je m'appelle <strong>Pierre</strong>, <strong>responsable marketing digital</strong>&nbsp;: j'optimise les <strong>ventes e-commerce</strong> en combinant <strong>contenu, data produit, acquisition et UX</strong>, et je recherche un <strong class='fond-cle'>CDI dès maintenant</strong> sur site ou en remote (France, Belgique, Suisse, Luxembourg, Irlande).", en: "My name is <strong>Pierre</strong>, <strong>digital marketing manager</strong>: I grow <strong>e-commerce sales</strong> by combining <strong>content, product data, acquisition and UX</strong>, and I am looking for a <strong class='fond-cle'>permanent role starting immediately</strong>, on site or remote (France, Belgium, Switzerland, Luxembourg, Ireland)." },
         fond_2: { fr: "Fiches produits enrichies", en: "Enriched product records" },

@@ -1,22 +1,7 @@
 // Rail de navigation : il suit la lecture et signale la section courante.
 (function () {
-    // La signature suit le même fil : elle n'apparaît qu'une fois le bas de la page atteint.
-    var signature = document.querySelector('.fond-signature');
-
-    function marquerSignature() {
-        if (!signature) return;
-        var restant = document.documentElement.scrollHeight
-            - (window.scrollY + window.innerHeight);
-        signature.classList.toggle('visible', restant <= 160);
-    }
-
     var liens = Array.prototype.slice.call(document.querySelectorAll('.fond-rail a'));
-    if (!liens.length) {
-        marquerSignature();
-        window.addEventListener('scroll', marquerSignature, { passive: true });
-        window.addEventListener('resize', marquerSignature);
-        return;
-    }
+    if (!liens.length) return;
 
     var cibles = liens.map(function (a) {
         return document.querySelector(a.getAttribute('href'));
@@ -26,7 +11,6 @@
 
     function marquer() {
         enAttente = false;
-        marquerSignature();
         // La section courante est la dernière dont le titre est passé au-dessus du tiers haut de la fenêtre.
         var seuil = window.scrollY + window.innerHeight * 0.35;
         var actif = 0;
