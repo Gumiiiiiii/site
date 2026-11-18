@@ -30,7 +30,7 @@
     var PAS_X = 10, PAS_Y = 9, RAYON_MAX = 5.2, CADENCE = 40;
 
     var ctx = null, largeur = 0, hauteur = 0, dpr = 1, xs, ys;
-    var encre = 'rgba(26, 26, 26, 0.12)', sombre = false, papier = '#F9F4EF';
+    var encre = 'rgba(26, 26, 26, 0.12)', sombre = false, papier = '#F9F4EF', encreVoile = 'rgba(26, 26, 26, 0.3)';
     // Les lumières : une seconde encre, claire, pour ce que le soleil touche.
     // L'encre grise dessine les ombres ; celle-ci pose des points blancs sur
     // le papier (en sombre, des points plus vifs que les autres).
@@ -65,6 +65,7 @@
         sombre = document.documentElement.getAttribute('data-theme') === 'dark';
         encre = 'rgba(' + rgb + ', ' + (sombre ? 0.17 : 0.145) + ')';
         ruPret = false;      // les tons de la ruine dépendent du thème et de la trame
+        encreVoile = 'rgba(' + rgb + ', ' + (sombre ? 0.22 : 0.2) + ')';
         papier = (getComputedStyle(document.documentElement).getPropertyValue('--bg') || '#F9F4EF').trim();
         lumiere = sombre ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 249, 238, 0.36)';
     }
@@ -517,75 +518,82 @@
             }
             ctx.fill();
         }
-        montgolfiere(t, e);
+        voiles(t, e);
         if (!CALME.matches || e < INTRO) reveiller();
     }
 
-    // La montgolfière : la seule chose qui bouge, en plus des nuages. Elle
-    // traverse le ciel en quatre minutes, dessinée en trame fine.
-    var BALLON_TOUR = 240;
-    function montgolfiere(t, e) {
-        var k = (0.62 + t / BALLON_TOUR) % 1;
-        var R = Math.max(16, Math.min(26, hauteur * 0.03));
-        var bx = -4 * R + (largeur + 8 * R) * k;
-        var by = hauteur * 0.13 + 4 * Math.sin(t * 0.31) - hauteur * 0.025 * Math.sin(k * Math.PI);
+    // Les parapentes : l'un traverse le ciel, l'autre tourne dans un thermique
+    // au-dessus de la montagne. Dessinés en trame fine, découpés sur le papier.
+    function voiles(t, e) {
         var vu = lisse(INTRO * 0.6, INTRO + 0.5, e);
         if (vu <= 0) return;
-        var g = 3.6, rmax = 1.95;
+        var W = Math.max(24, Math.min(38, hauteur * 0.044));
+        // Le premier traverse en un peu plus de trois minutes.
+        var k = (0.55 + t / 200) % 1;
+        parapente(-3 * W + (largeur + 6 * W) * k, hauteur * 0.12 + 5 * Math.sin(t * 0.29), W, 0.06 * Math.sin(t * 0.37), vu);
+        // Le second spirale, plus loin : il penche vers le centre de son virage.
+        var a = t * 6.2832 / 52;
+        var loin = 0.72 + 0.08 * Math.sin(a);
+        parapente(largeur * 0.8 + 70 * Math.cos(a), hauteur * 0.19 + 12 * Math.sin(a) - 3 * Math.sin(t * 0.21), W * loin, -0.22 * Math.sin(a + 1.5708), vu * 0.9);
+    }
+
+    function parapente(cx, cy, W, penche, vu) {
+        var g = 3.4, rmax = 2;
+        function milieu(u) { return -0.34 * W * (1 - u * u); }
+        function epaisseur(u) { return 0.24 * W * Math.sqrt(Math.max(0, 1 - u * u)) + 0.05 * W; }
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(penche);
         ctx.globalAlpha = vu;
-        // Une découpe au ton du papier : le ciel ne passe pas à travers.
+        // La découpe : la voile au ton du papier, pour que le ciel ne passe pas.
         ctx.fillStyle = papier;
         ctx.beginPath();
-        ctx.arc(bx, by, R + 2, Math.PI, 0);
-        for (var cy = 0; cy <= 1.37 * R; cy += 2) ctx.lineTo(bx + R * Math.cos(cy / R * 0.83) + 2, by + cy);
-        for (cy = 1.37 * R; cy >= 0; cy -= 2) ctx.lineTo(bx - R * Math.cos(cy / R * 0.83) - 2, by + cy);
+        var u;
+        for (u = -1; u <= 1.001; u += 0.1) ctx.lineTo(u * W * 1.04, milieu(u) - epaisseur(u) / 2 - 1.5);
+        for (u = 1; u >= -1.001; u -= 0.1) ctx.lineTo(u * W * 1.04, milieu(u) + epaisseur(u) / 2 + 1.5);
         ctx.closePath();
-        ctx.rect(bx - 0.36 * R, by + 1.3 * R, 0.72 * R, 0.72 * R);
+        ctx.rect(-5, 0.62 * W - 5, 10, 11);
         ctx.fill();
-        ctx.fillStyle = encre;
+        // La voile : des caissons en bandes, le côté au soleil plus clair.
+        ctx.fillStyle = encreVoile;
         ctx.beginPath();
         var lumieres = [];
-        for (var dy = -R; dy <= 1.35 * R; dy += g * 0.88) {
-            var w = dy <= 0 ? Math.sqrt(Math.max(0, R * R - dy * dy)) : R * Math.cos(dy / R * 0.83);
-            var dec = (Math.round((dy + R) / (g * 0.88)) % 2) ? g / 2 : 0;
-            for (var dx = -w + ((w + dec) % g); dx <= w; dx += g) {
-                var nx = dx / Math.max(w, 1);
-                var cote = sombre ? -nx : nx;
-                // Le soleil vient de la gauche ; les fuseaux de l'enveloppe en bandes.
-                var fuseau = Math.cos(Math.asin(Math.max(-1, Math.min(1, nx))) * 6);
-                var ton = 0.22 + 0.55 * lisse(-0.7, 0.95, cote) + 0.12 * fuseau + 0.15 * lisse(0.7, 1.3, dy / R);
+        for (var dy = -0.5 * W, rang = 0; dy <= 0.15 * W; dy += g * 0.88, rang++) {
+            for (var dx = -W + (rang % 2 ? g / 2 : 0); dx <= W; dx += g) {
+                u = dx / W;
+                if (Math.abs(dy - milieu(u)) > epaisseur(u) / 2) continue;
+                var cote = sombre ? -u : u;
+                var ton = 0.28 + 0.45 * lisse(-0.8, 0.9, cote) + 0.14 * Math.cos(u * Math.PI * 4.5);
                 var r = rmax * Math.sqrt(Math.min(1, ton * 1.6));
-                ctx.moveTo(bx + dx + r, by + dy);
-                ctx.arc(bx + dx, by + dy, r, 0, 6.2832);
-                if (nx < -0.25 && dy < 0.2 * R && dy > -0.8 * R) lumieres.push(bx + dx, by + dy);
+                ctx.moveTo(dx + r, dy);
+                ctx.arc(dx, dy, r, 0, 6.2832);
+                if (!sombre && cote < -0.35 && dy < milieu(u)) lumieres.push(dx, dy);
             }
         }
-        // La nacelle.
-        for (var ny = 1.72 * R; ny <= 1.95 * R; ny += g * 0.8) {
-            for (var nxp = -0.17 * R; nxp <= 0.17 * R; nxp += g * 0.9) {
-                ctx.moveTo(bx + nxp + rmax, by + ny);
-                ctx.arc(bx + nxp, by + ny, rmax, 0, 6.2832);
-            }
+        // Le pilote, sous la voile.
+        var py = 0.62 * W;
+        for (var pyy = py - 2; pyy <= py + 3.5; pyy += g * 0.8) {
+            for (var pxx = -2.2; pxx <= 2.2; pxx += g) { ctx.moveTo(pxx + rmax, pyy); ctx.arc(pxx, pyy, rmax, 0, 6.2832); }
         }
         ctx.fill();
-        // Les cordes.
+        // Les suspentes, des bords et du centre de la voile au pilote.
         ctx.strokeStyle = encre;
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 0.8;
         ctx.beginPath();
-        ctx.moveTo(bx - 0.36 * R, by + 1.32 * R); ctx.lineTo(bx - 0.17 * R, by + 1.7 * R);
-        ctx.moveTo(bx + 0.36 * R, by + 1.32 * R); ctx.lineTo(bx + 0.17 * R, by + 1.7 * R);
+        [-0.92, -0.45, 0.45, 0.92].forEach(function (s) {
+            ctx.moveTo(s * W * 0.97, milieu(s) + epaisseur(s) / 2 + 2.5);
+            ctx.lineTo(s * 1.5, py - 4.5);
+        });
         ctx.stroke();
-        // La lumière sur le flanc au soleil.
         ctx.fillStyle = lumiere;
         ctx.beginPath();
         for (var q = 0; q < lumieres.length; q += 2) {
-            ctx.moveTo(lumieres[q] + 1.3, lumieres[q + 1]);
-            ctx.arc(lumieres[q], lumieres[q + 1], 1.3, 0, 6.2832);
+            ctx.moveTo(lumieres[q] + 1.2, lumieres[q + 1]);
+            ctx.arc(lumieres[q], lumieres[q + 1], 1.2, 0, 6.2832);
         }
         ctx.fill();
-        ctx.globalAlpha = 1;
+        ctx.restore();
     }
-
 
     function reveiller() {
         if (!boucle && ctx && SEUIL.matches && !document.hidden) boucle = requestAnimationFrame(tracer);
