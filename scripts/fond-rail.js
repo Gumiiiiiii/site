@@ -36,6 +36,8 @@
             var haut = el.getBoundingClientRect().top + window.scrollY;
             if (haut <= seuil) actif = i;
         });
+        // Au bas de la page, la dernière section l'emporte : son titre ne remonte jamais jusqu'au seuil.
+        if (document.documentElement.scrollHeight - (window.scrollY + window.innerHeight) <= 4) actif = cibles.length - 1;
 
         liens.forEach(function (a, i) {
             if (i === actif) a.setAttribute('aria-current', 'true');
