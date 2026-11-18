@@ -1,22 +1,6 @@
 // Les notes manuscrites posées sur les recommandations.
-//
-// Une police script suffit à écrire à la main, pas à donner l'impression que
-// la main a écrit deux fois la même lettre différemment : Caveat, comme toutes
-// les polices de ce genre, n'a qu'un dessin par caractère. On recompose donc
-// chaque note lettre à lettre, en donnant à chacune une inclinaison, une
-// hauteur et une graisse légèrement différentes.
-//
-// Le tirage est déterministe — il dépend de la lettre et de sa place — pour
-// que la note ne se redessine pas autrement à chaque passage : une note qui
-// bouge trahit le procédé.
-//
-// Ce script est décoratif de bout en bout. Les notes portent aria-hidden, la
-// page se lit sans elles, et si rien de tout ceci ne s'exécute il reste le
-// texte, écrit dans la police script.
 (function () {
-    // Les lettres de Cedarville s'attachent les unes aux autres : une secousse
-    // franche décrocherait les liaisons, et l'écriture cesserait d'être une
-    // écriture. Ces valeurs-là sont le maximum qu'elles supportent.
+    // Les lettres de Cedarville s'attachent les unes aux autres.
     var INCLINAISON = 0.9;   // degrés, de part et d'autre
     var HAUTEUR = 0.35;      // pixels, de part et d'autre
 
@@ -59,20 +43,12 @@
 
     Array.prototype.forEach.call(document.querySelectorAll('.fond-note-texte'), ecrire);
 
-    // La plume : une note s'écrit sous les yeux, au moment où on l'atteint, d'abord
-    // les mots puis le trait. C'est ce qui la fait lire comme ajoutée à la main sur
-    // une page déjà imprimée. Rien de ceci sans .fond-anime, donc rien sans
-    // JavaScript ni quand on demande moins de mouvement : la note est là, simplement.
+    // La plume : une note s'écrit sous les yeux, au moment où on l'atteint.
     function preparer() {
         if (!document.documentElement.classList.contains('fond-anime')) return;
         if (!window.IntersectionObserver) return;
 
-        // Un seul stylo : il n'écrit qu'une chose à la fois. Les notes visibles en même
-        // temps passent à la file, de haut en bas puis de gauche à droite, et dans une
-        // note chaque trait attend que le précédent soit fini : le corps de la flèche,
-        // puis une branche de la pointe, puis l'autre. La durée suit ce qu'il y a à
-        // écrire, comme pour une vraie main : une longue phrase prend plus de temps
-        // qu'un mot, la pointe d'une flèche moins que son corps.
+        // Un seul stylo : il n'écrit qu'une chose à la fois.
         var ENTREE_CARTE = 450;    // ms : on n'annote pas une carte qui n'est pas posée
         var PAR_LETTRE = 55;       // ms
         var MOTS_MIN = 450;        // ms
@@ -84,8 +60,7 @@
         var file = [];
         var enCours = false;
 
-        // Pose sur chaque geste de la note son retard et sa durée, et rend le moment où
-        // le stylo a fini.
+        // Pose sur chaque geste de la note son retard et sa durée, et rend le moment où le stylo a fini.
         function planifier(note, depart) {
             var t = depart;
 
@@ -124,8 +99,7 @@
         function ordre(a, b) {
             var ra = a.getBoundingClientRect();
             var rb = b.getBoundingClientRect();
-            // Une distance plutôt que des cases fixes : selon le défilement, deux notes
-            // voisines tombaient de part et d'autre d'une limite et s'inversaient.
+            // Une distance plutôt que des cases fixes : selon le défilement.
             return Math.abs(ra.top - rb.top) < RANGEE ? ra.left - rb.left : ra.top - rb.top;
         }
 

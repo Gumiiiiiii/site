@@ -2,17 +2,13 @@
 <html lang="fr"><head>
     <meta charset="UTF-8">
     <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}if(!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)){document.documentElement.classList.add('fond-anime');setTimeout(function(){if(window.fondAnim)return;var r=document.documentElement;r.classList.remove('fond-anime');r.classList.add('fond-secours');if(!window.fondPlacer)r.classList.add('fond-secours-flux');document.querySelectorAll('.fond-projet-corps[inert]').forEach(function(c){c.removeAttribute('inert');});},3000);}}catch(e){}})();</script>
-    <!-- Le script ci-dessus cache la page le temps que fond-anim.js la fasse
-         entrer. Les scripts se chargent a la file : si l un d eux reste en
-         attente, ce dernier n arrive jamais. Passe 3 s, la page s affiche donc
-         sans lui, voir .fond-secours dans fond.css. -->
+    <!-- Le script ci-dessus cache la page le temps que fond-anim.js la fasse entrer. -->
     <link rel="preload" href="fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
     <!-- Page cachee : jamais indexee, accessible uniquement par lien direct. -->
     <meta name="robots" content="noindex">
-    <!-- La page vit desormais a la racine de pierre.gumi.ch. /cv continue de
-         la servir, pour les liens deja partages, mais ne fait pas foi. -->
+    <!-- La page vit desormais a la racine de pierre.gumi.ch. -->
     <link rel="canonical" href="https://pierre.gumi.ch/">
     <link rel="alternate" hreflang="fr" href="https://pierre.gumi.ch/">
     <link rel="alternate" hreflang="en" href="https://pierre.gumi.ch/en">
@@ -53,16 +49,10 @@
 <body class="shell-page fond-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
     <main class="site-content" id="main">
-        <!-- Le fond entier tient dans ce seul objet : la descente du haut, la
-             grille du milieu et la remontée du bas sont un même halftone, dont
-             seule la taille des points varie — scripts/points-champ.js. -->
+        <!-- Le fond entier tient dans ce seul objet : la descente du haut. -->
         <div class="points-champ" aria-hidden="true"></div>
 
-        <!-- La rangée assombrie : la rangée de la grille sur laquelle un titre
-             s'écrit, redessinée par-dessus le champ à une encre plus forte.
-             Elle reprend la géométrie du champ — même pas, mêmes colonnes
-             comptées depuis l'axe — et c'est fond-titre.js qui la remplit,
-             puis la place sur la rangée choisie. -->
+        <!-- La rangée assombrie : la rangée de la grille sur laquelle un titre s'écrit. -->
         <div class="fond-ligne" aria-hidden="true"></div>
         <div class="fond-ligne" aria-hidden="true"></div>
         <div class="fond-ligne" aria-hidden="true"></div>
@@ -70,9 +60,7 @@
         <div class="fond-ligne" aria-hidden="true"></div>
         <div class="fond-ligne" aria-hidden="true"></div>
 
-        <!-- HERO : dans le viewport, le portrait, la phrase et les quatre
-             chiffres cles alignes en bas d ecran. Les chiffres sont ceux du CV,
-             inchanges. La photo de montagne du brief manque encore. -->
+        <!-- HERO : dans le viewport, le portrait, la phrase et les quatre chiffres cles alignes en bas d ecran. -->
         <header class="fond-hero" id="intro">
             <div class="fond-hero-haut">
                 <img class="fond-hero-photo" src="media/pierre-gumilar-512.webp" alt="Portrait de Pierre Gumilar" width="512" height="512" fetchpriority="high">
@@ -90,8 +78,7 @@
             </div>
         </header>
 
-        <!-- Thème, langue, contact : des icônes posées sur le papier, sur le
-             meme axe vertical que le rail. -->
+        <!-- Thème, langue, contact : des icônes posées sur le papier, sur le meme axe vertical que le rail. -->
         <div class="fond-outils">
             <button type="button" class="fond-outil" data-fond-theme="" title="Changer le thème" aria-label="Changer le thème">
                 <svg class="theme-toggle-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -112,9 +99,7 @@
                     </g>
                 </svg>
             </button>
-            <!-- Meme structure que le bouton de langue du site : la fenetre
-                 de 24 px rogne le rail FR/EN, qui glisse d une ligne au
-                 survol pour montrer la langue vers laquelle on va. -->
+            <!-- Meme structure que le bouton de langue du site : la fenetre de 24 px rogne le rail FR/EN. -->
             <button type="button" class="fond-outil lang-btn no-select" data-fond-lang="" title="Changer la langue" aria-label="Changer la langue">
                 <span class="lang-window">
                     <span class="lang-slider">
@@ -123,8 +108,7 @@
                     </span>
                 </span>
             </button>
-            <!-- Lucide « mail », geometrie et graisse d origine (2), pour tenir
-                 le meme trait que les rayons du soleil juste a cote. -->
+            <!-- Lucide « mail », geometrie et graisse d origine (2). -->
             <a class="fond-outil" href="mailto:pierregumilar@gmail.com" title="Me contacter" aria-label="Me contacter">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <rect width="20" height="16" x="2" y="4" rx="2"></rect>
@@ -143,19 +127,11 @@
             <a href="#contact"><span data-i18n="fond_109">Contact</span></a>
         </nav>
 
-        <!-- Les titres de sections de pierre.gumi.ch/cv, dans l'ordre de la
-             page. Une rangée assombrie par titre, ci-dessus. -->
+        <!-- Les titres de sections de pierre.gumi.ch/cv, dans l'ordre de la page. -->
         <h2 class="fond-titre" id="realisations" data-i18n="fond_10">Trois projets et leurs résultats</h2>
-        <!-- Une ligne par projet : le nom, la phrase qui le résume, et une
-             flèche qui bascule vers le bas quand le contenu s'ouvre. Le corps
-             met les médias à gauche et le texte à droite.
-
-             Textes et chiffres repris tels quels du CV. Émeraude Aventure
-             n'a aucun visuel dans le dépôt : sa ligne s'ouvre sur du texte
-             seul plutôt que sur une image générique. -->
+        <!-- Une ligne par projet : le nom, la phrase qui le résume. -->
         <div class="fond-section fond-projets">
-            <!-- Lindt s'ouvre d'entree : la section promet des resultats, elle doit
-                 en montrer sans attendre un clic. -->
+            <!-- Lindt s'ouvre d'entree : la section promet des resultats. -->
             <div class="fond-projet" data-ouvert="">
                 <button type="button" class="fond-projet-tete" aria-expanded="true" aria-controls="projet-lindt">
                     <span class="fond-projet-nom">Lindt &amp; Sprüngli</span>
@@ -174,8 +150,7 @@
                             <img src="media/lindt-shoot-chocolat-noir.webp" alt="" width="400" height="400" loading="lazy">
                             <img src="media/lindt-shoot-geste.webp" alt="" width="400" height="400" loading="lazy">
                             <img src="media/lindt-shoot-noel.webp" alt="" width="400" height="400" loading="lazy">
-                            <!-- Note manuscrite : la cinquieme photo, celle du
-                                 maitre chocolatier, c est Pierre. -->
+                            <!-- Note manuscrite : la cinquieme photo, celle du maitre chocolatier, c est Pierre. -->
                             <div class="fond-note fond-note--moi" aria-hidden="true">
                                 <svg class="fond-note-trait" viewBox="0 0 70 54" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M8 50C14 32 28 14 56 8"></path>
@@ -255,14 +230,7 @@
         </div>
 
         <h2 class="fond-titre" id="parcours" data-i18n="fond_11">Mon parcours</h2>
-        <!-- Une frise a l'echelle du temps : les annees sur la ligne, les postes a
-             gauche, les etudes a droite, et un rectangle de la hauteur de chaque
-             periode. Deux rectangles a la meme hauteur ont eu lieu ensemble.
-
-             Les libelles reprennent les dates du site. Toutes les annees ont la meme
-             hauteur, et celle des rectangles suit les mois du CV PDF, ce qui montre par
-             exemple que les deux stages de 2020 se suivent. Les rangees sont dans
-             fond.css. -->
+        <!-- Une frise a l'echelle du temps : les annees sur la ligne, les postes a gauche, les etudes a droite. -->
         <div class="fond-section fond-parcours">
             <div class="fond-chrono">
                 <h3 class="fond-chrono-voie fond-chrono-voie--postes" data-i18n="fond_39">Expérience</h3>
@@ -327,9 +295,7 @@
         </div>
 
         <h2 class="fond-titre" id="competences" data-i18n="fond_12">Mes compétences</h2>
-        <!-- Quatre champs d'expertise, puis la boîte à outils. Les logos sont
-             des tracés simple-icons (CC0), inlinés ; les outils dont les
-             ayants droit ont retiré la marque n'en ont pas. -->
+        <!-- Quatre champs d'expertise, puis la boîte à outils. -->
         <div class="fond-section fond-competences">
             <p class="fond-competences-intro" data-i18n="fond_55">Aujourd'hui, je me sens particulièrement à l'aise
                 dans les 4 champs d'expertise ci-dessous&nbsp;:</p>
@@ -406,8 +372,7 @@
                         <span class="fond-boite-item"><svg viewBox="0 0 64 64" aria-hidden="true"><g transform="matrix(3.208255 0 0 3.208255 -35.559129 -63.587202)"><path d="M13.513 35.76a2.433 2.433 0 0 1-2.059-3.723l4.377-6.99a2.432 2.432 0 1 1 4.123 2.582l-4.378 6.99a2.43 2.43 0 0 1-2.063 1.141z"></path><path d="M21.056 35.76a2.433 2.433 0 0 1-2.063-3.723l4.38-6.99a2.432 2.432 0 1 1 4.117 2.582l-4.372 6.99a2.43 2.43 0 0 1-2.063 1.141z"></path><ellipse ry="2.375" rx="2.436" cy="33.384" cx="28.597"></ellipse></g></svg>Monday</span>
                     </div>
                 </div>
-                <!-- Les langues ferment les competences : meme colonne de libelle
-                     que les outils, mais du texte et non des pastilles. -->
+                <!-- Les langues ferment les competences : meme colonne de libelle que les outils. -->
                 <div class="fond-boite-rang fond-boite-rang--langues">
                     <h3 class="fond-boite-cat" data-i18n="fond_41">Langues</h3>
                     <dl class="fond-langues">
@@ -418,11 +383,7 @@
             </div>
         </div>
         <h2 class="fond-titre" id="temoignages" data-i18n="fond_13">Des recommandations</h2>
-        <!-- Quatre avis visibles d'un coup, en bento : la largeur de chaque carte
-             suit la longueur de sa citation, pour que les deux cartes d'une rangee
-             finissent a peu pres ensemble. La manager ouvre, le client a cote.
-
-             Citations, noms, roles et relations repris tels quels du CV. -->
+        <!-- Quatre avis visibles d'un coup, en bento. -->
         <div class="fond-section fond-avis">
                     <figure class="fond-avis-carte fond-avis-carte--large">
                         <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="9" data-spacing-y="8" data-stagger="off" data-radius="1.1" data-fade="diagonale" data-opacity="0.06" aria-hidden="true"></div>
@@ -473,8 +434,7 @@
                                 <span class="fond-avis-role" data-i18n="fond_74">Senior Digital E-commerce Manager · Lindt &amp; Sprüngli</span>
                             </div>
                         </figcaption>
-                        <!-- Note manuscrite : une fleche courbe qui pointe vers la
-                             citation. Decorative de bout en bout. -->
+                        <!-- Note manuscrite : une fleche courbe qui pointe vers la citation. -->
                         <div class="fond-note fond-note--fleche" aria-hidden="true">
                             <span class="fond-note-texte" data-i18n="fond_110">Mon binôme au quotidien chez Lindt</span>
                             <svg class="fond-note-trait" viewBox="0 0 130 70" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -505,8 +465,7 @@
                     </figure>
         </div>
         <h2 class="fond-titre" id="perso" data-i18n="fond_14">Mes deux passions</h2>
-        <!-- Deux cartes empilées : la photo à gauche, collée au cadre dont elle
-             reprend l'arrondi, le texte à droite. -->
+        <!-- Deux cartes empilées : la photo à gauche, collée au cadre dont elle reprend l'arrondi. -->
         <div class="fond-section fond-passions">
             <article class="fond-passion">
                 <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22" data-spacing-y="20" data-stagger="off" data-radius="2.5" data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
@@ -529,18 +488,13 @@
             </article>
         </div>
 
-        <!-- CONTACT : le titre reste sur sa rangée de points, hors du bloc.
-             Le bloc, lui, réunit « ce que je recherche » et « parlons-en » :
-             un fond légèrement plus dense que le papier, et par-dessus un
-             semis dont la densité se concentre sur deux coins opposés (voir
-             data-fade dans page-effects.js). -->
+        <!-- CONTACT : le titre reste sur sa rangée de points, hors du bloc. -->
         <h2 class="fond-titre" id="contact" data-i18n="fond_15">Parlons-en !</h2>
         <div class="fond-section fond-contact">
             <p class="fond-contact-intro" data-i18n="fond_86">Si mon profil vous intéresse ou si vous avez une question,
                 n'hésitez pas à me contacter&nbsp;! :)</p>
 
-            <!-- Un seul bloc : d'abord comment me joindre, c'est ce que la section
-                 demande de faire, puis ce que je recherche. -->
+            <!-- Un seul bloc : d'abord comment me joindre, c'est ce que la section demande de faire. -->
             <div class="fond-bloc">
                 <div class="fond-bloc-semis dynamic-dots" data-width="auto" data-height="auto" data-spacing-x="22" data-spacing-y="20" data-stagger="off" data-radius="2.5" data-fade="diagonale" data-opacity="0.08" aria-hidden="true"></div>
                 <div class="fond-actions">
@@ -565,10 +519,7 @@
                 <dl class="fond-pied-specs">
                     <div><dt data-i18n="fond_87">Contrat</dt><dd data-i18n="fond_91">CDI</dd></div>
                     <div><dt data-i18n="fond_88">Rôle</dt><dd data-i18n="fond_92">E-commerce / marketing digital</dd></div>
-                    <!-- Les drapeaux sont dessines ici plutot qu ecrits en
-                         emoji : Windows n a pas de glyphe de drapeau et
-                         afficherait « FR BE CH LU ». Le nom du pays les
-                         accompagne, un drapeau seul ne se lit pas toujours. -->
+                    <!-- Les drapeaux sont dessines ici plutot qu ecrits en emoji. -->
                     <div><dt data-i18n="fond_89">Mobilité</dt><dd>
                         <span class="fond-pays">
                             <span class="fond-pays-item"><svg class="fond-drapeau" viewBox="0 0 30 20" aria-hidden="true"><rect width="10" height="20" fill="#002395"></rect><rect x="10" width="10" height="20" fill="#fff"></rect><rect x="20" width="10" height="20" fill="#ED2939"></rect></svg><span data-i18n="fond_99">France</span></span>
@@ -583,16 +534,12 @@
             </div>
         </div>
 
-        <!-- La signature ne vit plus dans le bloc : elle se pose dans le coin
-             de la fenêtre, et n'apparaît qu'une fois le bas de la page
-             atteint (voir scripts/fond-rail.js). -->
+        <!-- La signature ne vit plus dans le bloc : elle se pose dans le coin de la fenêtre. -->
         <p class="fond-signature"><a href="https://gumi.ch/"><span data-i18n="fond_signature">Conçu par</span>
             <img src="media/logo-trame-gumi-petit.svg" alt="Gumi" data-trame></a></p>
     </main>
-    <!-- Defilement adouci. Reglage volontairement plus court que celui du
-         site : sur une page aussi longue, la course par defaut se remarque. -->
-    <!-- Vercel Web Analytics : sans cookie, sans identifiant persistant, donc
-         sans banniere de consentement. -->
+    <!-- Defilement adouci. -->
+    <!-- Vercel Web Analytics : sans cookie, sans identifiant persistant, donc sans banniere de consentement. -->
     <script defer src="/_vercel/insights/script.js"></script>
     <script defer src="/_vercel/speed-insights/script.js"></script>
     <script>window.gumiLenisOptions = { duration: 0.6, touchMultiplier: 1.2 };</script>
@@ -606,8 +553,7 @@
     <script src="scripts/fond-outils.js"></script>
     <script src="scripts/fond-projets.js"></script>
     <script src="scripts/fond-notes.js"></script>
-    <!-- En dernier : les apparitions s appuient sur la page telle qu elle est
-         une fois traduite, placee et dupliquee. -->
+    <!-- En dernier : les apparitions s appuient sur la page telle qu elle est une fois traduite. -->
     <script src="scripts/fond-anim.js"></script>
 
 
