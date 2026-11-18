@@ -530,14 +530,14 @@
         var W = Math.max(24, Math.min(38, hauteur * 0.044));
         // Le premier traverse en un peu plus de trois minutes.
         var k = (0.55 + t / 200) % 1;
-        parapente(-3 * W + (largeur + 6 * W) * k, hauteur * 0.12 + 5 * Math.sin(t * 0.29), W, 0.06 * Math.sin(t * 0.37), vu);
+        parapente(-3 * W + (largeur + 6 * W) * k, hauteur * 0.12 + 5 * Math.sin(t * 0.29), W, 0.06 * Math.sin(t * 0.37), vu, 1);
         // Le second spirale, plus loin : il penche vers le centre de son virage.
         var a = t * 6.2832 / 52;
         var loin = 0.72 + 0.08 * Math.sin(a);
-        parapente(largeur * 0.8 + 70 * Math.cos(a), hauteur * 0.19 + 12 * Math.sin(a) - 3 * Math.sin(t * 0.21), W * loin, -0.22 * Math.sin(a + 1.5708), vu * 0.9);
+        parapente(largeur * 0.8 + 70 * Math.cos(a), hauteur * 0.19 + 12 * Math.sin(a) - 3 * Math.sin(t * 0.21), W * loin, -0.22 * Math.sin(a + 1.5708), vu * 0.9, Math.sin(a) > 0 ? -1 : 1);
     }
 
-    function parapente(cx, cy, W, penche, vu) {
+    function parapente(cx, cy, W, penche, vu, sens) {
         var g = 3.4, rmax = 2;
         function milieu(u) { return -0.34 * W * (1 - u * u); }
         function epaisseur(u) { return 0.24 * W * Math.sqrt(Math.max(0, 1 - u * u)) + 0.05 * W; }
@@ -552,7 +552,7 @@
         for (u = -1; u <= 1.001; u += 0.1) ctx.lineTo(u * W * 1.04, milieu(u) - epaisseur(u) / 2 - 1.5);
         for (u = 1; u >= -1.001; u -= 0.1) ctx.lineTo(u * W * 1.04, milieu(u) + epaisseur(u) / 2 + 1.5);
         ctx.closePath();
-        ctx.rect(-5, 0.62 * W - 5, 10, 11);
+        ctx.rect(-6, 0.62 * W - 7, 13, 17);
         ctx.fill();
         // La voile : des caissons en bandes, le côté au soleil plus clair.
         ctx.fillStyle = encreVoile;
@@ -570,11 +570,21 @@
                 if (!sombre && cote < -0.35 && dy < milieu(u)) lumieres.push(dx, dy);
             }
         }
-        // Le pilote, sous la voile.
         var py = 0.62 * W;
-        for (var pyy = py - 2; pyy <= py + 3.5; pyy += g * 0.8) {
-            for (var pxx = -2.2; pxx <= 2.2; pxx += g) { ctx.moveTo(pxx + rmax, pyy); ctx.arc(pxx, pyy, rmax, 0, 6.2832); }
-        }
+        ctx.fill();
+        // Le pilote, assis dans sa sellette, les jambes vers l'avant : un seul tracé.
+        ctx.strokeStyle = encreVoile;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.moveTo(0, py - 1.6); ctx.lineTo(-0.6 * sens, py + 2.6); ctx.lineTo(3 * sens, py + 3.4); ctx.lineTo(4.6 * sens, py + 6.2);
+        ctx.moveTo(-1.2, py - 1.4); ctx.lineTo(-2.8, py - 5.2);
+        ctx.moveTo(1.2, py - 1.4); ctx.lineTo(2.8, py - 5.2);
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(0, py - 4.1, 1.7, 0, 6.2832);
+        ctx.fillStyle = encreVoile;
         ctx.fill();
         // Les suspentes, des bords et du centre de la voile au pilote.
         ctx.strokeStyle = encre;
@@ -582,7 +592,7 @@
         ctx.beginPath();
         [-0.92, -0.45, 0.45, 0.92].forEach(function (s) {
             ctx.moveTo(s * W * 0.97, milieu(s) + epaisseur(s) / 2 + 2.5);
-            ctx.lineTo(s * 1.5, py - 4.5);
+            ctx.lineTo(s * 3.1, py - 6);
         });
         ctx.stroke();
         ctx.fillStyle = lumiere;
