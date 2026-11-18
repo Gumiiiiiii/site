@@ -1,11 +1,4 @@
-// Ce qu'une page d'expérimentation dérive de scripts/articles-data.js, écrit
-// une seule fois : le temps de lecture, le résumé et les cartes des autres
-// expérimentations.
-//
-// Trois lecteurs : scripts/article-page.js dans le navigateur, et les deux
-// scripts de build (build/prerender-articles.js pour le français,
-// build/prerender-en.js pour l'anglais), qui l'évaluent dans jsdom. Il ne
-// touche donc pas au DOM : il rend des chaînes.
+// Ce qu'une page d'expérimentation dérive de scripts/articles-data.js, écrit une seule fois.
 (function (racine) {
     var MOTS_PAR_MINUTE = 220;
 
@@ -26,8 +19,7 @@
         return (a && a.abstract && a.abstract[lang]) || '';
     }
 
-    // Les autres expérimentations : celle qui fait suite d'abord, puis les
-    // autres, de la plus récente à la plus ancienne.
+    // Les autres expérimentations : celle qui fait suite d'abord, puis les autres.
     function autres(articles, slug) {
         var a = articles[slug] || {};
         var liste = Object.keys(articles).filter(function (k) { return k !== slug && k !== a.readNext; });

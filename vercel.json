@@ -84,6 +84,27 @@
       "permanent": true
     },
     {
+      "source": "/experiments-template",
+      "has": [{ "type": "query", "key": "article", "value": "(?<slug>ardacraft|ardacraft-map|ardacraft-social)" }],
+      "destination": "/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/experiments-template",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/brand-guidelines",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/en/brand-guidelines",
+      "destination": "/en",
+      "permanent": true
+    },
+    {
       "source": "/palette",
       "destination": "/",
       "permanent": true

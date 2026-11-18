@@ -8,8 +8,7 @@
     const formatBtns = document.querySelectorAll('.format-btn');
     const thumbToggle = document.getElementById('thumb-toggle');
     const dlCount = document.getElementById('dl-count');
-    // Primary backend: Oracle Cloud Always Free VM (no cold starts),
-    // fronted by Caddy (auto-HTTPS) at api.gumi.ch.
+    // Primary backend: Oracle Cloud Always Free VM (no cold starts).
     const ORACLE_API_BASE = 'https://api.gumi.ch/api/get-video';
     const RENDER_API_BASE = 'https://site-xyvc.onrender.com/api/get-video';
     const LOCAL_API_BASE = 'http://localhost:10000/api/get-video';
@@ -292,8 +291,7 @@
         thumbToggle.addEventListener('change', forceRefetch);
     }
 
-    // Debounced: without it, typing a URL by hand fires one doomed request
-    // (plus its retry chain) for every keystroke.
+    // Debounced: one request once the URL is typed, not one per keystroke.
     let inputDebounce = null;
 
     urlInput.addEventListener('input', function () {

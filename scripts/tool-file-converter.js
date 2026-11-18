@@ -532,8 +532,7 @@
         return (window.GumiI18n && window.GumiI18n.t(key)) || fallback;
     }
 
-    // Browsers block bursts of programmatic downloads, so "download all"
-    // bundles everything into a single ZIP instead of clicking each row.
+    // Browsers block bursts of programmatic downloads.
     downloadAllBtn.addEventListener('click', async function () {
         const doneItems = pendingFiles.filter(function (item) { return item.blob && item.outputName; });
         if (!doneItems.length) return;

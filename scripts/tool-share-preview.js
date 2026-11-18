@@ -45,8 +45,7 @@
         return '<div class="' + wrap + '"><div class="sp-noimg">' + NO_IMG_ICON + '</div></div>';
     }
 
-    // Each renderer mimics one platform's link card, with that platform's
-    // real-world truncation limits applied to the title and description.
+    // Each renderer mimics one platform's link card.
     const PLATFORMS = [
         { name: 'X (Twitter)', cls: 'sp-x', render(d) {
             const overlay = '<span class="sp-x-overlay sp-ellipsis">' + escapeHtml(truncate(d.title, 70)) + '</span>';
@@ -105,8 +104,7 @@
         } }
     ];
 
-    // Crawler-like precedence: Open Graph first, then Twitter, then the
-    // plain HTML fallbacks.
+    // Crawler-like precedence: Open Graph first, then Twitter, then the plain HTML fallbacks.
     function displayData(data) {
         return {
             title: data.og.title || data.twitter.title || data.title || data.domain,
@@ -184,8 +182,7 @@
         auditPanel.hidden = false;
     }
 
-    // The image's real dimensions only exist client-side; measure once,
-    // then refresh the audit with the size/ratio verdict.
+    // The image's real dimensions only exist client-side; measure once.
     function measureImage(data) {
         const src = data.og.image || data.twitter.image;
         if (!src || data._imageDims) return;
@@ -212,8 +209,7 @@
         syncFetchBtn();
     }
 
-    // Rien a generer tant que le champ ne contient pas un lien exploitable :
-    // le bouton reste grise plutot que de renvoyer une erreur au clic.
+    // Rien a generer tant que le champ ne contient pas un lien exploitable.
     function syncFetchBtn() {
         fetchBtn.disabled = isFetching || !normalizeInput(urlInput.value);
     }

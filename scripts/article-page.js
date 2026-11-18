@@ -1,6 +1,4 @@
-// Renders an article from GUMI_ARTICLES into the static article page shell,
-// in the current language, and re-renders when the language changes.
-// The page declares its slug via window.GUMI_ARTICLE_SLUG.
+// Renders an article from GUMI_ARTICLES into the static article page shell, in the current language.
 (function () {
     const articles = window.GUMI_ARTICLES || {};
     const article = articles[window.GUMI_ARTICLE_SLUG];
@@ -14,8 +12,7 @@
     const tocList = document.getElementById('toc-list');
     const dureeEl = document.getElementById('article-duree');
     const grille = document.getElementById('suite-grille');
-    // scripts/etude-rendu.js: the summary's footer, the reading time and the
-    // other experiments, rendered the same way as the build does.
+    // scripts/etude-rendu.js: the summary's footer, the reading time and the other experiments.
     const rendu = window.GumiEtude;
 
     let observer = null;
@@ -44,8 +41,7 @@
         headings.forEach((heading, index) => {
             const id = 'heading-' + index;
             heading.setAttribute('id', id);
-            // Le sommaire ne liste que les parties (h2) ; les sous-parties
-            // gardent leur ancre.
+            // Le sommaire ne liste que les parties (h2) ; les sous-parties gardent leur ancre.
             if (heading.tagName !== 'H2') return;
 
             const li = document.createElement('li');
@@ -105,8 +101,7 @@
             );
         }
 
-        // Optional: an abstract rendered above the cover rather than inside
-        // the body. Articles without one leave the container empty.
+        // Optional: an abstract rendered above the cover rather than inside the body.
         if (abstractEl) {
             const abstract = rendu ? rendu.resume(articles, window.GUMI_ARTICLE_SLUG, lang) : (article.abstract && article.abstract[lang]);
             abstractEl.innerHTML = abstract || '';
@@ -130,8 +125,7 @@
 
         buildToc();
 
-        // The other experiments. Sibling pages at the root, so the
-        // relative slugs are enough (and keep a potential /en/ prefix).
+        // The other experiments.
         if (grille && rendu) {
             grille.innerHTML = rendu.cartes(articles, window.GUMI_ARTICLE_SLUG, lang);
             const section = grille.closest('.read-next-section');

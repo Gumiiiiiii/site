@@ -97,10 +97,6 @@ const CHECKS = [
         w.GumiI18n.set('en');
         if (d.title === frTitle) return 'language toggle did not re-render';
     } },
-    { path: '/experiments-template?article=ardacraft', assert(d, w) {
-        // jsdom does not navigate on location.replace; just check the page parsed.
-        if (!d.title.includes('Redirection')) return 'redirect page missing';
-    } },
     { path: '/file-converter' },
     { path: '/qrcode' },
     { path: '/media-downloader', assert(d) {
@@ -174,8 +170,7 @@ const CHECKS = [
         }
         if (!d.querySelector('script[src*="_vercel/insights"]')) return 'CV page is missing Vercel Analytics';
         if (d.body.textContent.includes('—')) return 'em dash found in CV copy';
-    } },
-    { path: '/brand-guidelines' }
+    } }
 ];
 
 async function main() {

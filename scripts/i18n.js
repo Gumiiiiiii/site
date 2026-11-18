@@ -169,7 +169,6 @@
         },
 
         // Document titles + meta descriptions (tab title / search snippet).
-        // Article pages manage their own title in article-page.js.
         doc_home_title: { fr: 'Gumi. — Outils web & expérimentations', en: 'Gumi. — Web tools & experiments' },
         doc_home_desc: {
             fr: 'Gumi rassemble des outils web pratiques et des expérimentations digitales, conçus par curiosité pour donner vie à des idées.',
@@ -416,8 +415,7 @@
         footer_title: { fr: "Envie d'échanger ?", en: 'Want to get in touch?' },
         footer_byline: { fr: '© 2026 Gumi · Conçu et développé par Pierre.', en: '© 2026 Gumi · Designed and built by Pierre.' },
 
-        // CV landing (pierre.gumi.ch/cv, page cachée). Copy issue du brief
-        // de refonte : source de vérité visible, FR et EN.
+        // CV landing (pierre.gumi.ch/cv, page cachée).
         doc_cv_title: { fr: "Pierre Gumilar · E-commerce & marketing digital", en: "Pierre Gumilar · E-commerce & digital marketing" },
         doc_cv_desc: { fr: "E-commerce, PIM, SEO, acquisition et contenu : découvrez le parcours, les réalisations et les résultats de Pierre Gumilar.", en: "E-commerce, PIM, SEO, acquisition and content: explore Pierre Gumilar’s experience, selected work and results." },
         cv_nav_work: { fr: "Réalisations", en: "Selected work" },
@@ -687,11 +685,7 @@
         },
 
         fond_signature: { fr: "Conçu par", en: "Designed by" },
-        // --- Refonte du CV (page /fond) ---------------------------------
-        // Le francais de chaque entree est exactement celui de la page : le
-        // dictionnaire ne doit jamais reecrire la copie, seulement la traduire.
-        // Les entrees rendues en texte brut sont stockees decodees ; seules
-        // celles qui portent du balisage gardent leurs entites.
+        // Refonte du CV (page /fond) Le francais de chaque entree est exactement celui de la page.
         fond_1: { fr: "Je m'appelle <strong>Pierre</strong>, <strong>responsable marketing digital</strong>&nbsp;: j'optimise les <strong>ventes e-commerce</strong> en combinant <strong>contenu, data produit, acquisition et UX</strong>, et je recherche un <strong class='fond-cle'>CDI dès maintenant</strong> sur site ou en remote (France, Belgique, Suisse, Luxembourg, Irlande).", en: "My name is <strong>Pierre</strong>, <strong>digital marketing manager</strong>: I grow <strong>e-commerce sales</strong> by combining <strong>content, product data, acquisition and UX</strong>, and I am looking for a <strong class='fond-cle'>permanent role starting immediately</strong>, on site or remote (France, Belgium, Switzerland, Luxembourg, Ireland)." },
         fond_2: { fr: "Fiches produits enrichies", en: "Enriched product records" },
         fond_3: { fr: "Trafic organique de lindt.fr", en: "Organic traffic on lindt.fr" },
@@ -789,9 +783,7 @@
         fond_107: { fr: "Recommandations", en: "Recommendations" },
         fond_108: { fr: "Passions", en: "Passions" },
         fond_109: { fr: "Contact", en: "Contact" },
-        // Les notes manuscrites des recommandations. Elles commentent la
-        // page, elles ne la portent pas : traduites, mais jamais lues par un
-        // lecteur d ecran (aria-hidden dans le HTML).
+        // Les notes manuscrites des recommandations.
         fond_110: { fr: "Mon binôme au quotidien chez Lindt", en: "My day-to-day teammate at Lindt" },
         fond_111: { fr: "Client et ami\u00a0!", en: "Client, and a friend!" },
         fond_112: { fr: "Collègue d'une autre équipe", en: "Colleague from another team" },
@@ -887,8 +879,7 @@
             if (entry && entry[lang]) el.setAttribute('aria-label', entry[lang]);
         });
 
-        // Links with a language-specific target (study pages, PDFs): the
-        // original href is the French one, data-href-en holds the English one.
+        // Links with a language-specific target (study pages, PDFs): the original href is the French one.
         document.querySelectorAll('[data-href-en]').forEach((el) => {
             if (!el.dataset.hrefFr) el.dataset.hrefFr = el.getAttribute('href');
             el.setAttribute('href', lang === 'en' ? el.dataset.hrefEn : el.dataset.hrefFr);

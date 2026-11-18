@@ -16,7 +16,6 @@ index.html                  Accueil : la seule liste du site. La phrase, les
                             pas JS doivent voir le texte). article-page.js
                             re-rend la même chose au runtime pour la bascule FR/EN.
                             Écrire dans articles-data.js, puis `npm run build`.
-experiments-template.html   Ancienne URL, simple redirection vers /<slug>
 <outil>.html                Un fichier par outil, à la racine (traitement 100% navigateur,
                             sauf le téléchargeur de médias qui appelle l'API)
 en/                         Pages anglaises GÉNÉRÉES par build/prerender-en.js

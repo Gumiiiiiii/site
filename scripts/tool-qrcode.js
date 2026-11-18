@@ -24,9 +24,7 @@
     let hasRendered = false;
     let renderTimer = null;
 
-    // Colour input = hex text field + swatch that opens the shared colour
-    // picker (same pattern as the contrast checker). The value is applied live and
-    // persisted so it survives a reload.
+    // Colour input: a hex field plus a swatch that opens the shared picker.
     function normalizeHex(value) {
         const m = /^#?([0-9a-fA-F]{6})$/.exec(String(value || '').trim());
         return m ? '#' + m[1].toUpperCase() : null;
@@ -43,8 +41,7 @@
             if (persist && window.GumiPrefs) window.GumiPrefs.set(prefKey, hex);
         }
 
-        // Live-apply while typing a valid hex, but don't clobber what the user
-        // is mid-typing in the field itself.
+        // Live-apply while typing a valid hex.
         hexInput.addEventListener('input', function () {
             const hex = normalizeHex(hexInput.value);
             if (!hex) return;
@@ -111,8 +108,7 @@
         hasRendered = true;
     }
 
-    // Debounced so typing and dragging the color picker stay smooth; the QR
-    // only re-renders once input settles.
+    // Debounced: the QR re-renders once input settles.
     function scheduleRender() {
         clearTimeout(renderTimer);
         renderTimer = setTimeout(render, 160);

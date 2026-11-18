@@ -250,11 +250,7 @@
     font-size: 1.3rem;
 }
 
-/* An abstract can also sit outside the body, between the sticky title and the
-   cover, so the summary lands before the visual and the table of contents.
-   Same z-index as the cover: both scroll up over the sticky header. The card
-   itself is translucent, so the wrapper carries the page's own opaque surface
-   — without it the title reads straight through the abstract while scrolling. */
+/* An abstract can also sit outside the body, between the sticky title and the cover. */
 .article-abstract {
     position: relative;
     z-index: 2;
@@ -271,8 +267,7 @@
     margin: 0 auto;
 }
 
-/* A full-length summary at body-copy size fills a whole phone screen before
-   the cover ever appears; tighten it there. */
+/* On phones the summary is set smaller so the cover shows sooner. */
 @media (max-width: 600px) {
     .abstract { padding: 1.75rem 1.5rem; }
     .abstract p { font-size: 1.05rem; margin-bottom: 1rem; }
@@ -325,8 +320,7 @@
     border-radius: 1.5rem;
     box-shadow: var(--shadow-out);
     width: 100%;
-    /* Keep the intrinsic ratio from the width/height attributes: without
-       height:auto the attribute height would apply literally and stretch. */
+    /* Keep the intrinsic ratio from the width/height attributes. */
     height: auto;
     display: block;
 }
@@ -384,8 +378,7 @@
     font-size: 0.9em;
 }
 
-/* Tables are wrapped in .table-scroll by article-page.js so wide tables
-   scroll horizontally on small screens instead of widening the page. */
+/* Wide tables scroll inside .table-scroll (added by article-page.js). */
 .article-content .table-scroll {
     overflow-x: auto;
     margin: 2.5rem 0;
@@ -502,8 +495,7 @@
 }
 
 /* === CHART (ardacraft-social) === */
-/* Inline SVG: gridlines and labels use currentColor so the chart follows the
-   theme, while the gold stays gold in both. */
+/* Inline SVG: gridlines and labels use currentColor so the chart follows the theme. */
 .chart-figure { margin: 2.5rem 0; }
 
 .chart-svg {
@@ -521,8 +513,7 @@
 }
 
 /* === REELS === */
-/* Thumbnails linking out rather than three Instagram embeds, which would drag
-   third-party scripts and cookies onto a site that has neither. */
+/* Thumbnails linking out rather than three Instagram embeds. */
 .reel-list {
     list-style: none;
     margin: 2rem 0;

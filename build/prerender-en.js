@@ -24,11 +24,9 @@ const OUT_DIR = path.join(ROOT, 'en');
 const CHECK_MODE = process.argv.includes('--check');
 
 // Pages worth an English copy: everything indexable. Excluded on purpose:
-// 404.html (Vercel only serves the root one), experiments-template.html
-// (legacy redirect stub).
+// 404.html (Vercel only serves the root one).
 const PAGES = [
     'index.html',
-    'brand-guidelines.html',
     // Tools: root pages that load scripts/tools-common.js.
     ...fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && fs.readFileSync(path.join(ROOT, f), 'utf8').includes('scripts/tools-common.js')),
     // Article shells: root pages that declare window.GUMI_ARTICLE_SLUG.

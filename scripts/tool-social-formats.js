@@ -91,8 +91,7 @@
         img.src = url;
     }
 
-    // The focal preview uses object-fit: contain, so pointer coordinates
-    // must be mapped onto the letterboxed image area, not the whole box.
+    // The focal preview uses object-fit: contain.
     function imageAreaInBox() {
         const box = focalBox.getBoundingClientRect();
         const scale = Math.min(box.width / sourceImg.naturalWidth, box.height / sourceImg.naturalHeight);
@@ -128,8 +127,7 @@
     });
     window.addEventListener('resize', paintFocal);
 
-    // Keyboard access to the focal point (a11y parity with the mouse):
-    // arrows nudge it, Shift for larger steps.
+    // Keyboard access to the focal point (a11y parity with the mouse): arrows nudge it.
     focalBox.addEventListener('keydown', (event) => {
         if (!sourceImg) return;
         const step = event.shiftKey ? 0.1 : 0.02;

@@ -22,8 +22,7 @@
         strong: { crf: '32', audio: '96k' }
     };
 
-    // Scale filters keep dimensions even (required by H.264) and cap the
-    // smaller side for the 1080p/720p presets, portrait videos included.
+    // Scale filters keep dimensions even (H.264) and cap the smaller side per preset.
     const SCALE = {
         original: 'scale=trunc(iw/2)*2:trunc(ih/2)*2',
         1080: "scale='if(gt(iw,ih),-2,min(1080,trunc(iw/2)*2))':'if(gt(iw,ih),min(1080,trunc(ih/2)*2),-2)'",

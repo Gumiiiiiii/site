@@ -5,8 +5,7 @@
     align-items: start;
 }
 
-/* Grid items default to min-width:auto and refuse to shrink below their
-   content, which pushed the columns past small viewports. */
+/* Grid items default to min-width:auto and refuse to shrink below their content. */
 .main-grid > * {
     min-width: 0;
 }
@@ -137,9 +136,7 @@ button.primary:disabled {
     color: var(--text);
 }
 
-/* Shared colour input used across tools (QR generator, contrast checker…): a hex
-   text field paired with a swatch that opens the colour picker. Keeps colour
-   selection consistent from one tool to the next. */
+/* Shared colour input used across tools (QR generator. */
 .color-field-row {
     display: flex;
     align-items: center;
@@ -444,8 +441,7 @@ button.primary:disabled {
     pointer-events: none;
 }
 
-/* Opacity track. Hidden unless the trigger asked for it, so the pickers
-   that only deal in solid colour look exactly as they did. */
+/* Opacity track. */
 .gumi-cp-alpha { display: none; }
 
 .gumi-cp.a-alpha .gumi-cp-alpha {
@@ -489,9 +485,7 @@ button.primary:disabled {
     gap: 10px;
 }
 
-/* The preview sits on the same chequerboard, so a faded colour reads as
-   faded rather than as a different colour. The colour lives in an inner
-   layer: fading the swatch itself would fade the chequerboard with it. */
+/* The preview sits on the same chequerboard. */
 .gumi-cp-preview {
     position: relative;
     overflow: hidden;
@@ -558,8 +552,7 @@ button.primary:disabled {
 .tooltip-status.is-offline { color: var(--positive); }
 .tooltip-status.is-online { color: var(--accent); }
 
-/* On small screens the anchored panel would run past the viewport edge
-   (and its hidden box widened the page): pin it to the bottom instead. */
+/* On small screens the anchored panel stays inside the viewport. */
 @media (max-width: 640px) {
     .tooltip-content {
         position: fixed;
@@ -624,11 +617,7 @@ button.primary:disabled {
     gap: 1.5rem;
 }
 
-/* L'action principale du résultat se tient dans le flux de la colonne de
-   droite, entre l'aperçu et ce qu'elle produit — plus en surimpression du
-   contenu. Quand l'action est impossible elle disparaît vraiment
-   (« display: none ») : une opacité à zéro laisserait un trou dans la
-   colonne, et l'espacement de la grille compterait encore l'absente. */
+/* L'action principale du résultat se tient dans le flux de la colonne de droite. */
 .action-row {
     display: flex;
     align-items: center;
@@ -673,8 +662,7 @@ button.action-btn.visible {
     box-shadow: none;
 }
 
-/* Le bloc de resultats occupe ce qui reste de la colonne, pour que l'etat
-   d'attente reste centre quand l'action principale le surmonte. */
+/* Le bloc de resultats occupe ce qui reste de la colonne. */
 .result-flow {
     flex: 1;
     display: flex;

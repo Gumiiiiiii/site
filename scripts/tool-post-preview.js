@@ -1,11 +1,4 @@
-// Aperçu de publication : un média, un texte, et la publication telle
-// qu'elle apparaîtra sur chaque réseau. Tout se passe dans le navigateur :
-// le média est lu par une URL d'objet locale, rien n'est envoyé.
-//
-// Chaque réseau est décrit par quatre choses : sa limite de caractères, la
-// longueur à laquelle il coupe le texte, la plage de formats qu'il accepte
-// pour un média (au-delà, il recadre), et sa maquette. Ce sont des ordres
-// de grandeur observés, pas des valeurs garanties par les plateformes.
+// Aperçu de publication : un média, un texte.
 (function () {
     var drop = document.getElementById('pp-drop');
     var input = document.getElementById('pp-input');
@@ -51,8 +44,7 @@
         return '<svg viewBox="0 0 24 24" aria-hidden="true"' + (classe ? ' class="' + classe + '"' : '') + '>' + ICONES[nom] + '</svg>';
     }
 
-    // limite : nombre de caractères accepté. coupe : longueur affichée
-    // avant « plus ». format : [le plus haut, le plus large] en largeur / hauteur.
+    // limite : nombre de caractères accepté.
     var RESEAUX = [
         { id: 'instagram', nom: 'Instagram', limite: 2200, coupe: 125, format: [0.8, 1.91], defaut: 1 },
         { id: 'x', nom: 'X', limite: 280, coupe: Infinity, format: [0.75, 16 / 9], defaut: 16 / 9 },
@@ -72,9 +64,7 @@
         return n.toLocaleString(langue() === 'en' ? 'en-US' : 'fr-FR');
     }
 
-    // ------------------------------------------------------------------
     // Les maquettes
-    // ------------------------------------------------------------------
 
     function blocMedia(r) {
         var ratio = etat.media ? Math.min(r.format[1], Math.max(r.format[0], etat.media.ratio)) : r.defaut;
@@ -167,9 +157,7 @@
         }
     }
 
-    // ------------------------------------------------------------------
     // Le média
-    // ------------------------------------------------------------------
 
     function retirer() {
         if (etat.media) URL.revokeObjectURL(etat.media.url);
@@ -233,9 +221,7 @@
     });
     removeBtn.addEventListener('click', retirer);
 
-    // ------------------------------------------------------------------
     // Les réseaux et la saisie
-    // ------------------------------------------------------------------
 
     RESEAUX.forEach(function (r) {
         var b = document.createElement('button');

@@ -1,25 +1,7 @@
-/* ==========================================================================
-   Le papier pointé sur une page d'outil
-   ==========================================================================
-
-   Première application de /brand-guidelines hors de la charte elle-même.
-   Cette feuille se charge APRÈS shared.css et tools-suite.css et les
-   corrige : elle ne réécrit pas la suite d'outils, elle la repose sur le
-   papier. Tant qu'une seule page l'appelle, aucune autre ne bouge.
-
-   Trois choses en sortent, et c'est tout ce qu'elle fait :
-     · le grain de papier imité s'en va, la trame de points le remplace ;
-     · le relief neumorphique s'en va, il suppose une lumière ;
-     · toute surface posée sur le papier redevient opaque.
-
-   Le champ de points est celui du site, sans une ligne de différence :
-   scripts/points-champ.js. Les valeurs ci-dessous sont celles de la
-   charte, reprises telles quelles.
-   ========================================================================== */
+/* Le papier pointé sur une page d'outil. */
 
 :root {
-    /* L'échelle d'encre en service sur pierre.gumi.ch. Une seule couleur,
-       posée à des opacités qui ont chacune un emploi. */
+    /* L'échelle d'encre en service sur pierre.gumi.ch. */
     --encre-1:    rgba(var(--text-rgb), 1);      /* titres */
     --encre-078:  rgba(var(--text-rgb), 0.78);   /* paragraphes */
     --encre-07:   rgba(var(--text-rgb), 0.7);    /* intros */
@@ -32,41 +14,16 @@
     --rayon: 1.25rem;
 }
 
-/* Aucune annotation manuscrite sur cette page. L'essai en portait une, en
-   marge du titre : elle répétait les seuils que l'infobulle explique et
-   que les étiquettes AA/AAA affichent déjà, donc elle n'annotait rien. La
-   seconde main ne sert qu'à dire ce que la page ne dit pas ; faute de
-   quoi elle est un ornement.
+/* Aucune annotation manuscrite sur cette page. */
 
-   La déclaration de la Cedarville est partie avec elle. Une page d'outil
-   qui portera une vraie note la reprendra de la charte, avec le reste du
-   système de notes. */
-
-/* ==========================================================================
-   1 · Le papier
-   ==========================================================================
-   Le grain cream-paper est encore posé sur body par shared.css, donc sur
-   toutes les pages du site. Il en partira quand le portfolio reprendra
-   cette direction ; d'ici là, seules les pages qui chargent cette feuille
-   s'en affranchissent. */
+/* 1 · Le papier : le grain cream-paper vient de shared.css. */
 
 body {
     background-image: none;
     color: var(--encre-1);
 }
 
-/* Un seul objet pour tout le fond, dessiné par points-champ.js. Il n'a
-   pas de masque : c'est le tracé lui-même qui sait où il est dense et où
-   il est clair.
-
-   Le min-height n'est pas un ornement. Le champ est en absolu dans body,
-   donc « inset: 0 » lui donne la hauteur du contenu, et rien de plus. Un
-   outil qui tient en un écran mesure 989 px de haut quel que soit
-   l'écran : sur une fenêtre de 1440 px, le champ s'arrêtait 451 px avant
-   le bas, et la remontée du bas — les 250 derniers pixels du dessin —
-   tombait au milieu de la page, suivie d'une bande nue. Le champ prend
-   donc au moins la hauteur de la fenêtre, et le dessin retrouve son bas
-   là où l'œil l'attend. */
+/* Un seul objet pour tout le fond, dessiné par points-champ.js. */
 .points-champ {
     position: absolute;
     inset: 0;
@@ -77,8 +34,7 @@ body {
 }
 .points-champ svg { display: block; overflow: visible; }
 
-/* La rangée assombrie du titre, tracée sur une vraie rangée de la grille,
-   à une encre plus forte que le champ. */
+/* La rangée assombrie du titre, tracée sur une vraie rangée de la grille. */
 .regles {
     position: absolute;
     inset: 0;
@@ -88,11 +44,7 @@ body {
 }
 .regles svg { display: block; overflow: visible; }
 
-/* Un titre efface la trame sous lui, il ne la laisse pas le traverser.
-   Un fond à la couleur du papier suffit : il est invisible sur le papier
-   et il mange les points sur toute la boîte du titre. Les deux bords sont
-   fondus sur l'épaisseur du rembourrage — un fond net coupe en deux le
-   point qui tombe dessus, et un demi-point se voit plus qu'un entier. */
+/* Un titre efface la trame sous lui, il ne la laisse pas le traverser. */
 .header-container h1 {
     background-image: linear-gradient(to right,
         transparent 0, var(--bg) 0.3em,
@@ -104,17 +56,10 @@ body {
     margin-right: -0.36em;
 }
 
-/* La charte a retiré le point après les titres : il posait une couleur là
-   où rien ne se passait. Celui du logotype reste, il appartient au logo. */
+/* La charte a retiré le point après les titres : il posait une couleur là où rien ne se passait. */
 .header-container h1 .dot { display: none; }
 
-/* ==========================================================================
-   2 · Les surfaces
-   ==========================================================================
-   Toute surface posée sur le papier est opaque. Une carte translucide
-   laisse la trame lui passer au travers, et deux trames superposées ne se
-   lisent plus. Le --card-bg de shared.css est un rgba : il ne convient
-   plus, il est remplacé partout par le papier plus un voile. */
+/* 2 · Les surfaces : toute surface posée sur le papier est opaque. */
 
 .right-col,
 .stats-container,
@@ -133,9 +78,7 @@ body {
 
 .size-row { border-color: var(--filet-fin); border-radius: 0.8rem; }
 
-/* Une infobulle et un sélecteur de couleur se posent sur la page, ils ne
-   flottent pas au-dessus d'elle : ni ombre portée, ni surface distincte.
-   Ce sont des feuilles posées sur la feuille. */
+/* Une infobulle et un sélecteur de couleur se posent sur la page, ils ne flottent pas au-dessus d'elle. */
 .tooltip-content,
 .gumi-cp {
     background-image: none;
@@ -143,9 +86,7 @@ body {
     border-radius: 1rem;
 }
 
-/* Le champ hexadécimal du sélecteur porte encore le creux neumorphique
-   de tools-suite.css, et sa pastille un anneau à sa propre valeur : les
-   deux repassent au filet. */
+/* Le champ hexadécimal du sélecteur porte encore le creux neumorphique de tools-suite.css. */
 .gumi-cp-hex {
     background: var(--bg);
     border: 1.5px solid var(--filet);
@@ -159,11 +100,7 @@ body {
     box-shadow: none;
 }
 
-/* ==========================================================================
-   3 · Les commandes
-   ==========================================================================
-   Aucune ombre portée, aucun relief. Une forme pleine, un contour, ou
-   rien. L'état se dit par la couleur de la bordure et du texte. */
+/* 3 · Les commandes : aucune ombre portée, aucun relief. */
 
 .input-field {
     height: 52px;
@@ -202,9 +139,7 @@ button.secondary.active {
     box-shadow: none;
 }
 
-/* La pastille de couleur porte la couleur choisie : c'est son contenu,
-   pas son style. Elle n'a donc qu'un filet, et le même rayon qu'un
-   bouton pour tomber juste à côté du champ. */
+/* La pastille de couleur porte la couleur choisie : c'est son contenu, pas son style. */
 .color-swatch,
 .color-field-swatch {
     width: 52px;
@@ -212,8 +147,7 @@ button.secondary.active {
     border: 1.5px solid var(--filet);
     border-radius: 0.6rem;
     box-shadow: none;
-    /* Un bouton ne prend pas la main tout seul : par défaut le navigateur
-       lui laisse la flèche, et rien ne disait que la pastille s'ouvre. */
+    /* Un bouton ne prend pas la main tout seul : par défaut le navigateur lui laisse la flèche. */
     cursor: pointer;
     transition: border-color 0.2s ease;
 }
@@ -234,16 +168,11 @@ button.secondary.active {
 .bg-group-divider::after { background: var(--filet); }
 .bg-image-note { color: var(--encre-05); }
 
-/* Le retour aux outils. L'encre monte de 0,5 à 0,7 : à 15 px gras, le
-   0,5 donnait 3,27:1 sur le papier, sous les 4,5 exigés par le petit
-   texte — un manquement que cette page-ci est mal placée pour laisser
-   passer. Le 0,7 donne 6,18:1. */
+/* Le retour aux outils. */
 .back-link { color: var(--encre-07); }
 .back-link:hover { color: var(--accent-ink); }
 
-/* La flèche revient d'un pas vers la gauche au survol, le sens même du
-   lien. Trois pixels, sur la seule flèche : le mot ne bouge pas, sinon
-   c'est la ligne entière qui glisse et le geste devient un effet. */
+/* La flèche revient d'un pas vers la gauche au survol, le sens même du lien. */
 .back-link svg { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 .back-link:hover svg,
 .back-link:focus-visible svg { transform: translateX(-3px); }
@@ -267,16 +196,7 @@ button.secondary.active {
     color: var(--accent-ink);
     box-shadow: none;
 }
-/* Un lien de la charte : à l'encre au repos, souligné d'un filet, et la
-   couleur ne vient qu'au survol. La règle est écrite au §03 — « la
-   couleur apparaît à quatre endroits : l'entrée courante du rail, le
-   focus clavier, le survol d'un lien, et l'icône d'un projet ouvert.
-   Partout ailleurs, l'encre suffit. » Un lien violet au repos la
-   contredisait, et à 3,02:1 sur le papier il ne tenait pas non plus le
-   petit texte.
-
-   Le !important reste : la chaîne du lien est écrite dans les traductions
-   de scripts/i18n.js, qui la posent en HTML dans l'infobulle. */
+/* Un lien de la charte : à l'encre au repos, souligné d'un filet, et la couleur ne vient qu'au survol. */
 .tooltip-content a {
     color: var(--encre-1) !important;
     font-weight: 700 !important;
@@ -292,31 +212,18 @@ button.secondary.active {
     text-decoration-color: var(--accent-ink);
 }
 
-/* Le panneau est à l'intérieur de .tooltip-wrapper, qui porte « cursor:
-   pointer » pour son bouton d'aide : tout le texte de l'infobulle héritait
-   donc la main, comme s'il était cliquable. Il ne l'est pas. La main ne
-   reste que sur le bouton et sur le lien, les deux seules choses qu'on y
-   clique ; le texte reprend le curseur de lecture. */
+/* Le panneau est à l'intérieur de .tooltip-wrapper. */
 .tooltip-content { cursor: default; }
 .tooltip-content a { cursor: pointer; }
 
-/* « Fonctionne hors ligne » n'est pas un verdict, c'est un état de fait :
-   il n'a donc pas à porter une couleur. Le vert passe dans la seule
-   pastille, où il est un aplat — l'emploi pour lequel --positive est
-   réglé — et le texte revient à l'encre. Il y gagne aussi en lisibilité :
-   à 0,78 rem, le vert donnait 3,14:1, contre 6,18:1 pour l'encre 0,7. */
+/* « Fonctionne hors ligne » n'est pas un verdict, c'est un état de fait. */
 .tooltip-status.is-offline,
 .tooltip-status.is-online { color: var(--encre-07); }
 .tooltip-status { border-top-color: var(--filet-fin); }
 .tooltip-status.is-offline .tooltip-status-dot { background: var(--positive); }
 .tooltip-status.is-online .tooltip-status-dot { background: var(--accent); }
 
-/* ==========================================================================
-   4 · Les icônes
-   ==========================================================================
-   Lucide au trait, sans retouche : grille de 24, épaisseur 2, extrémités
-   et jonctions arrondies. L'épaisseur est dans les unités du dessin, elle
-   suit donc la taille affichée. */
+/* 4 · Les icônes : Lucide au trait, grille de 24, épaisseur 2. */
 
 .icone {
     display: block;
@@ -326,10 +233,7 @@ button.secondary.active {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
-/* shared.css et tools-suite.css visent ces icônes par « .back-link svg »
-   et « .tooltip-icon svg », qui pèsent plus lourd que « .icone » seul et
-   lui imposaient une épaisseur de 2,5. La règle du jeu est reprise ici au
-   même poids, sur les deux emplacements. */
+/* shared.css et tools-suite.css visent ces icônes par « .back-link svg » et « .tooltip-icon svg ». */
 .back-link .icone,
 .tooltip-icon .icone {
     width: 20px;
@@ -337,13 +241,7 @@ button.secondary.active {
     stroke-width: 2;
 }
 
-/* ==========================================================================
-   5 · Le verdict
-   ==========================================================================
-   Le seul endroit de la page où la couleur porte un sens plutôt qu'un
-   état d'interaction : réussi ou non. Elle se dit comme le dit le UI kit
-   de la charte, par la bordure et par le texte, et non par un aplat
-   teinté qui repeindrait le papier. */
+/* 5 · Le verdict : le seul endroit où la couleur porte un sens. */
 
 .contrast-result {
     padding: 1.5rem;
@@ -374,8 +272,7 @@ button.secondary.active {
 
 .size-row .size-label { font-weight: 700; font-size: 0.92rem; color: var(--encre-078); }
 
-/* Une étiquette de la charte : un filet, pas un aplat. Le vert et le
-   rouge passent dans le trait et dans le texte. */
+/* Une étiquette de la charte : un filet, pas un aplat. */
 .chip {
     font-size: 0.76rem;
     font-weight: 700;
@@ -389,10 +286,7 @@ button.secondary.active {
 .chip.fail { border-color: rgba(197, 106, 106, 0.55); color: var(--negative); background: transparent; }
 
 .contrast-footer { color: var(--encre-07); font-size: 0.92rem; }
-/* « Corriger automatiquement » est un lien, et suit donc la règle des
-   liens : à l'encre au repos, souligné d'un filet, la couleur réservée au
-   survol. Il faisait l'inverse, violet au repos et noir au survol, ce qui
-   posait une couleur sur une action qui ne s'était pas encore produite. */
+/* « Corriger automatiquement » est un lien, et suit donc la règle des liens : à l'encre au repos. */
 .fix-link {
     color: var(--encre-1);
     font-size: 0.92rem;
@@ -408,9 +302,7 @@ button.secondary.active {
     text-decoration-color: var(--accent-ink);
 }
 
-/* ==========================================================================
-   6 · L'aperçu
-   ========================================================================== */
+/* 6 · L'aperçu */
 
 .preview-panel {
     border-radius: var(--rayon);
@@ -418,19 +310,9 @@ button.secondary.active {
     min-height: 480px;
 }
 
-/* ==========================================================================
-   7 · Le mouvement
-   ==========================================================================
-   Rien n'est caché tant que le script en tête de document n'a pas posé
-   .fond-anime sur <html>, et il ne la pose ni sans JavaScript, ni quand
-   le système demande moins de mouvement. */
+/* 7 · Le mouvement : rien n'est caché tant que .fond-anime n'est pas posée. */
 
-/* Cette liste est reprise telle quelle dans scripts/outil-papier.js : les
-   deux doivent rester identiques, sinon un element se cache sans que rien
-   ne vienne le decouvrir. Aux quatre premiers s'ajoutent l'accordeon des
-   parametres, le bouton d'action de la colonne de gauche, la rangee de la
-   palette et la zone de depose des declinaisons : ils arrivaient d'un
-   coup avec la page pendant que le reste montait. */
+/* Cette liste est reprise telle quelle dans scripts/outil-papier.js. */
 .fond-anime :where(.back-link, .header-container, .control-row, .right-col,
                    .advanced-section, .left-col button.primary,
                    .left-col .drop-zone) {
@@ -440,13 +322,9 @@ button.secondary.active {
                 transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--anim-retard, 0s);
 }
 
-/* Un transform, même à zéro, ouvre un contexte d'empilement : le z-index
-   d'un élément placé à l'intérieur ne compte plus qu'entre frères, et
-   l'infobulle de l'en-tête passait derrière l'aperçu. L'en-tête reçoit
-   donc son propre rang, au-dessus de la grille. */
+/* Un transform, même à zéro, ouvre un contexte d'empilement. */
 .header-container { position: relative; z-index: 20; }
-/* Un titre et sa rangée sont posés au pixel près l'un sur l'autre : les
-   faire glisser referait le saut de ligne qu'on cherche à supprimer. */
+/* Un titre et sa rangée sont posés au pixel près l'un sur l'autre. */
 .fond-anime :where(.header-container) { --anim-monte: 0px; }
 .fond-anime [data-anim="vu"] { opacity: 1; --anim-monte: 0px; }
 
@@ -458,26 +336,15 @@ button.secondary.active {
 .fond-anime .points-champ[data-anim="vu"],
 .fond-anime .regles[data-anim="vu"] { opacity: 1; }
 
-/* ==========================================================================
-   8 · Le thème sombre
-   ==========================================================================
-   Les tokens d'encre se recalculent seuls, ils sont écrits en --text-rgb.
-   Seules les valeurs codées en dur de shared.css ont besoin d'un mot. */
+/* 8 · Le thème sombre : les encres suivent --text-rgb. */
 
 :root[data-theme="dark"] .chip.pass { border-color: rgba(96, 150, 117, 0.6); color: var(--positive); }
 :root[data-theme="dark"] .chip.fail { border-color: rgba(197, 106, 106, 0.6); color: var(--negative); }
 :root[data-theme="dark"] .contrast-result.is-pass .rating-label { color: var(--positive); }
 
-/* ==========================================================================
-   9 · Le reste de la suite d'outils
-   ==========================================================================
-   Ce qui précède a été écrit pour l'analyseur de contraste, la première
-   page passée au papier. Ce bloc-ci couvre les composants que portent les
-   dix autres : ils suivent la même règle, aplat opaque et filet, jamais de
-   lumière simulée. */
+/* 9 · Le reste de la suite d'outils. */
 
-/* La zone de dépôt était un creux : une lumière venue du haut-gauche, donc
-   une pièce et une profondeur. */
+/* La zone de dépôt était un creux : une lumière venue du haut-gauche. */
 .drop-zone {
     background: var(--bg);
     background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
@@ -492,9 +359,7 @@ button.secondary.active {
     box-shadow: none;
 }
 
-/* Le sélecteur segmenté : le rail devient un contour, et c'est la pastille
-   qui porte l'aplat. L'état choisi se lit donc par la forme pleine, pas par
-   un creux. */
+/* Le sélecteur segmenté : le rail devient un contour, et c'est la pastille qui porte l'aplat. */
 .segmented-control {
     background: var(--bg);
     background-image: linear-gradient(var(--voile-fin), var(--voile-fin));
@@ -509,9 +374,7 @@ button.secondary.active {
 .segmented-control label:hover { color: var(--encre-1); }
 .segmented-control input:checked + label,
 .segmented-control label.active { color: var(--bg); }
-/* Le libelle choisi se lit en reserve sur la pastille. Les pages nomment
-   leurs boutons par identifiant (« #f-png:checked ~ label[for="f-png"] »),
-   trop lourd pour etre repris ici : la regle est corrigee chez elles. */
+/* Le libelle choisi se lit en reserve sur la pastille. */
 
 /* Le bouton rond des listes : un contour, et la bordure répond au survol. */
 .icon-button {
@@ -533,12 +396,7 @@ button.secondary.active {
 .stats-container { border-radius: 2rem; color: var(--encre-07); }
 .item-preview { border-radius: 50%; }
 
-/* Le bouton dont l'action est impossible : pas d'aplat d'encre, un simple
-   fond voile cercle d'un filet, et le mot en encre pale. Il reste lisible,
-   il ne se lit plus comme un appel a cliquer. Aucune opacite ici : elle
-   appartient aux apparitions, qui la mènent de 0 à 1 et perdraient contre
-   ce sélecteur. tools-suite.css pose son relief en !important : il faut le
-   meme poids pour le retirer. */
+/* Le bouton dont l'action est impossible : pas d'aplat d'encre, un simple fond voile cercle d'un filet. */
 button.primary:disabled {
     box-shadow: none !important;
     background: var(--voile);
@@ -547,11 +405,7 @@ button.primary:disabled {
     cursor: not-allowed;
 }
 
-/* Le theme sombre de shared.css redonne son relief a ce que cette feuille
-   avait aplati : ses regles pesent « :root[data-theme] + classe », plus
-   lourd qu'une classe seule. La reprise se fait donc au meme poids. Sans
-   elle, les cartes, les boutons et les champs retrouvaient leur ombre des
-   qu'on passait au sombre. */
+/* Le theme sombre de shared.css redonne son relief a ce que cette feuille avait aplati. */
 :root[data-theme="dark"] .card,
 :root[data-theme="dark"] .card:active,
 :root[data-theme="dark"] .tool-card,
@@ -567,25 +421,16 @@ button.primary:disabled {
     box-shadow: none;
 }
 
-/* ==========================================================================
-   10 · Les pages de liste
-   ==========================================================================
-   /outils et /experimentations. Elles ne sont pas bâties comme une page
-   d'outil : ce sont des « shell-page », où le papier n'est pas <body> mais
-   <main class="site-content">, une feuille posée sur une table sombre. Le
-   champ de points va donc dans cette feuille, et c'est elle qui perd le
-   grain imité. */
+/* 10 · Les pages de liste. */
 
 .site-content { background-image: none; }
 
-/* L'ancienne bande de points du haut de page ne tenait que les 250 premiers
-   pixels. Le champ la remplace sur toute la hauteur. */
+/* L'ancienne bande de points du haut de page ne tenait que les 250 premiers pixels. */
 .dots-bg { display: none !important; }
 
 .hero h1 .dot { display: none; }
 
-/* La carte d'un outil ou d'une expérimentation : un contour qui répond au
-   survol, au lieu d'un relief qui s'enfonce au clic. */
+/* La carte d'un outil ou d'une expérimentation : un contour qui répond au survol. */
 .tool-card,
 .card {
     background-color: var(--bg);
@@ -607,8 +452,7 @@ button.primary:disabled {
     box-shadow: none;
 }
 
-/* Une carte à venir reste une carte : elle se dit par l'encre, pas par un
-   relief plus mou. */
+/* Une carte à venir reste une carte : elle se dit par l'encre, pas par un relief plus mou. */
 .tool-card.faded,
 .card.faded { border-style: solid; opacity: 0.6; }
 
@@ -630,8 +474,7 @@ button.primary:disabled {
     transition: border-color 0.2s ease, color 0.2s ease;
 }
 .filter-btn:hover { border-color: var(--accent-ink); color: var(--accent-ink); }
-/* Le filtre actif est le seul aplat de la rangée : c'est la forme pleine
-   qui dit « celui-ci », et non une couleur de plus. */
+/* Le filtre actif est le seul aplat de la rangée : c'est la forme pleine qui dit « celui-ci ». */
 .filter-btn.active {
     background: var(--encre-1);
     border-color: var(--encre-1);
@@ -639,17 +482,11 @@ button.primary:disabled {
     box-shadow: none;
 }
 
-/* Le bouton plein. Sa forme suffit à le distinguer : il n'a pas besoin
-   d'être soulevé. L'action principale du résultat est désormais dans le
-   flux de la colonne, elle ne survole plus rien : aucune ombre ne décrit
-   de position, il ne reste que l'aplat. */
+/* Le bouton plein. */
 button.primary,
 .btn-primary { box-shadow: none; }
 
-/* Les interrupteurs : un contour et un aplat, sans creux. « .switch .slider »
-   pese plus lourd qu'un selecteur simple, la reprise se fait donc au meme
-   niveau. La pastille perd son ombre : sur le papier, c'est la position qui
-   dit l'etat, pas l'epaisseur. */
+/* Les interrupteurs : un contour et un aplat, sans creux. */
 .switch .slider,
 .toggle {
     box-shadow: none;
@@ -658,16 +495,9 @@ button.primary,
 .switch .slider:before { box-shadow: none; }
 .switch input:checked + .slider { border-color: transparent; }
 
-/* ==========================================================================
-   11 · La page d'accueil
-   ==========================================================================
-   Même feuille que les pages de liste : cartes, boutons et grain sont déjà
-   traités plus haut. Sa mise en page est dans styles/ecran.css. */
+/* 11 · La page d'accueil : même feuille que les pages de liste. */
 
-/* Le titre d'une carte au survol. Le survol d'un lien est bien l'un des
-   quatre emplacements de la couleur, mais --accent donne 3,02:1 sur le
-   papier, sous les 4,5 exigés à cette taille. --accent-ink en donne 5,79,
-   pour la même teinte. */
+/* Le titre d'une carte au survol. */
 .card:hover .card-title,
 .tool-card:hover .tool-title {
     color: var(--accent-ink);

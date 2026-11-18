@@ -34,17 +34,13 @@
     <link rel="stylesheet" href="styles/outil.css">
 
     <style>
-        /* Ce qui reste ici est la mise en place de cette page-la : des
-           axes, des ecarts, des tailles. La matiere — fonds, bordures,
-           rayons, encres — est dans styles/outil-papier.css, avec le
-           reste du papier. */
+        /* Ce qui reste ici est la mise en place de cette page-la : des axes, des ecarts, des tailles. */
 
         .color-input-row { display: flex; align-items: center; gap: 10px; }
         .color-input-row .input-field { text-align: left; text-transform: uppercase; flex: 1; min-width: 0; }
         .color-input-row .secondary.hidden { display: none; }
 
-        /* La couleur et l'image sont un choix a deux branches : elles
-           tiennent donc dans un meme cadre. */
+        /* La couleur et l'image sont un choix a deux branches : elles tiennent donc dans un meme cadre. */
         .bg-group { display: flex; flex-direction: column; gap: 0.9rem; padding: 1rem; }
         .bg-group-divider {
             display: flex;
@@ -60,8 +56,7 @@
         .bg-image-note { font-size: 0.85rem; font-weight: 600; display: flex; flex-direction: column; gap: 0.6rem; }
         .bg-image-note.hidden { display: none; }
 
-        /* Le releve des trois bandes de l'image. Chacune porte sa couleur et
-           son ratio ; celle qui tient le verdict est cerclee. */
+        /* Le releve des trois bandes de l'image. */
         .zones { display: flex; gap: 0.4rem; }
         .zone {
             flex: 1;
@@ -73,9 +68,7 @@
             border: 1px solid var(--filet-fin);
             border-radius: 0.7rem;
         }
-        /* Une seule des trois porte le verdict. Elle se distingue par
-           l'encre, comme partout ailleurs sur le site : les deux autres
-           reculent, plutot que celle-ci ne s'avance en couleur. */
+        /* Une seule des trois porte le verdict. */
         .zone-pire { border-color: var(--filet); background: var(--voile); }
         .zone:not(.zone-pire) .zone-nom,
         .zone:not(.zone-pire) .zone-ratio { color: var(--encre-045); }
@@ -115,9 +108,7 @@
 
         .contrast-meter { display: flex; gap: 5px; }
         .contrast-meter span { transition: background 0.3s ease, border-color 0.3s ease; }
-        /* Le bas et le haut de l'echelle disent reussi ou non ; le milieu
-           n'est ni l'un ni l'autre et reste donc a l'encre, sans teinte.
-           Le violet du site est reserve aux etats interactifs. */
+        /* Le bas et le haut de l'echelle disent reussi ou non. */
         .contrast-meter span.on.lvl-low { background: var(--negative); }
         .contrast-meter span.on.lvl-mid { background: var(--encre-05); }
         .contrast-meter span.on.lvl-high { background: var(--positive); }
@@ -169,21 +160,13 @@
             transition: color 0.3s ease;
         }
 
-        /* Les deux textes d'apercu se reecrivent sur place : on juge une
-           combinaison sur ses propres mots, pas sur ceux de Corneille.
-           L'affordance reste au minimum, un curseur de saisie et un cadre
-           qui n'apparait qu'au survol ; le panneau doit ressembler a la
-           page qu'on teste, pas a un formulaire. Le cadre est trace en
-           encre du texte, donc il suit la couleur choisie et ne peut pas
-           fausser le rendu. */
+        /* Les deux textes d'apercu se reecrivent sur place : on juge une combinaison sur ses propres mots. */
         .preview-large[contenteditable],
         .preview-small[contenteditable] {
             cursor: text;
             outline: none;
             border-radius: 0.4rem;
-            /* Le rembourrage donne de l'air au cadre, la marge negative le
-               reprend : le texte reste exactement ou il etait, et activer
-               l'edition ne deplace pas l'apercu d'un pixel. */
+            /* Le rembourrage donne de l'air au cadre, la marge negative le reprend. */
             padding: 0.35rem 0.55rem;
             margin: -0.35rem -0.55rem;
             box-shadow: 0 0 0 1px transparent;

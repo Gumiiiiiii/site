@@ -74,9 +74,7 @@
         element.style.height = element.scrollHeight + 'px';
     };
 
-    // Per-tool preference storage: each tool page gets one localStorage entry
-    // keyed by its path (the /en prefix is stripped so both languages share
-    // the same preferences). Settings only, never user content.
+    // Per-tool preferences: one localStorage entry per tool path.
     window.GumiPrefs = (function () {
         const KEY = 'gumi-prefs:' + window.location.pathname.replace(/^\/en(?=\/|$)/, '');
 
@@ -110,11 +108,7 @@
         };
     })();
 
-    // Auto-persistence for the common controls: radios (by name) and
-    // checkboxes (by id) are restored on load and saved on change. Restores
-    // dispatch a change event so dependent UI (disabled inputs, sliders)
-    // stays consistent. Runs on DOMContentLoaded, after the tool scripts
-    // have built any dynamic controls.
+    // Radios (by name) and checkboxes (by id) are saved and restored automatically.
     function autoPersistInputs() {
         const prefs = window.GumiPrefs.read();
 
@@ -136,9 +130,7 @@
             }
         });
 
-        // Controls a tool manages itself (e.g. because it also syncs them to
-        // the URL) opt out with data-no-persist so this generic layer doesn't
-        // fight the tool's own restore logic.
+        // Controls a tool manages itself (e.g.
         document.addEventListener('change', function (event) {
             const el = event.target;
             if (!(el instanceof HTMLInputElement) || el.hasAttribute('data-no-persist')) return;
@@ -156,14 +148,11 @@
         autoPersistInputs();
     }
 
-    // Clipboard image paste: calls back with the first image File found when
-    // the user pastes (Ctrl/Cmd+V) anywhere on the page, unless focus is in a
-    // text field. Lets the image tools accept a screenshot without saving it.
+    // Clipboard paste: calls back with the first pasted image file.
     window.GumiPaste = {
         onImage(callback) {
             document.addEventListener('paste', function (event) {
-                // Only ever acts on an image in the clipboard; a text paste has
-                // no image item, so text fields keep their normal behavior.
+                // Only ever acts on an image in the clipboard; a text paste has no image item.
                 const items = (event.clipboardData && event.clipboardData.items) || [];
                 for (const item of items) {
                     if (item.kind === 'file' && item.type.startsWith('image/')) {
@@ -179,9 +168,7 @@
         }
     };
 
-    // Shareable tool state through the URL query string. Tools register their
-    // parameters; state is read on load (URL wins over saved prefs) and the
-    // URL is kept in sync via history.replaceState so it can be copied/shared.
+    // Shareable tool state through the URL query string.
     window.GumiUrlState = {
         read() {
             return new URLSearchParams(window.location.search);
@@ -203,8 +190,7 @@
             try {
                 window.history.replaceState(null, '', url);
             } catch (err) {
-                // Some sandboxed contexts refuse replaceState; sharing just
-                // won't reflect the latest state, which is non-fatal.
+                // Some sandboxed contexts refuse replaceState; sharing just won't reflect the latest state.
             }
         },
         // Absolute URL for the current state, for a "copy link" button.
@@ -213,17 +199,7 @@
         }
     };
 
-    // Custom color picker popover, replacing the native <input type="color">
-    // dialog so the tools keep one visual language. One popover is shared by
-    // every trigger on the page. Usage:
-    //   GumiColorPicker.attach(button, { get: () => '#AABBCC', onChange: (hex) => {} })
-    //
-    // The opacity track is opt-in, per trigger:
-    //   GumiColorPicker.attach(button, { alpha: true, get, onChange: (hex, a) => {} })
-    // With `alpha`, get() may return #RRGGBBAA and onChange receives the
-    // opacity as a second argument (0..1) alongside the 8-digit hex. Triggers
-    // that don't ask for it never see the track and keep getting plain
-    // 6-digit hex, so the QR tool is untouched.
+    // Custom color picker popover.
     const ColorPicker = (function () {
         let panel = null;
         let svArea = null;
@@ -270,9 +246,7 @@
             return '#' + rgb.map((c) => c.toString(16).padStart(2, '0')).join('').toUpperCase();
         }
 
-        // The value the caller is handed. Opaque, or a trigger that never asked
-        // for opacity, gets the plain 6-digit form it has always had; only a
-        // real transparency widens it to 8 digits.
+        // The value the caller is handed.
         function sortie() {
             const hex = rgbToHex(hsvToRgb(current.h, current.s, current.v));
             if (!alphaOn() || current.a >= 1) return hex;
@@ -341,8 +315,7 @@
                 emit();
             });
 
-            // Keyboard parity with the native color input: arrows nudge the
-            // values, Shift makes bigger steps.
+            // Keyboard parity with the native color input: arrows nudge the values, Shift makes bigger steps.
             svArea.addEventListener('keydown', (event) => {
                 const step = event.shiftKey ? 0.1 : 0.02;
                 if (event.key === 'ArrowLeft') current.s = Math.max(0, current.s - step);
@@ -413,15 +386,12 @@
             svThumb.style.backgroundColor = hex;
             hueThumb.style.left = (current.h / 360 * 100) + '%';
 
-            // The opacity track shows the colour it is about to fade, over the
-            // chequerboard that stands for nothing behind it.
+            // The opacity track shows the colour it is about to fade.
             alphaTeinte.style.backgroundImage =
                 'linear-gradient(to right, ' + hex + '00, ' + hex + ')';
             alphaThumb.style.left = (current.a * 100) + '%';
             alphaTrack.setAttribute('aria-valuenow', Math.round(current.a * 100));
-            // Seule la teinte s'efface ; le damier qui la porte reste entier,
-            // sans quoi une couleur transparente et une couleur pâle se
-            // ressembleraient.
+            // Seule la teinte s'efface ; le damier qui la porte reste entier.
             preview.style.backgroundColor = hex;
             preview.style.opacity = alphaOn() ? current.a : 1;
 
@@ -444,8 +414,7 @@
             const rgb = hexToRgb(valeur) || [255, 255, 255];
             current = rgbToHsv(rgb[0], rgb[1], rgb[2]);
             current.a = alphaOn() ? hexToAlpha(valeur) : 1;
-            // Le champ ne s'élargit qu'au besoin, et la piste d'opacité ne
-            // s'affiche que pour un déclencheur qui l'a demandée.
+            // Le champ ne s'élargit qu'au besoin.
             hexInput.maxLength = alphaOn() ? 9 : 7;
             panel.classList.toggle('a-alpha', alphaOn());
             paint();

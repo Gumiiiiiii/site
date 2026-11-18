@@ -204,7 +204,6 @@
 
     updateCountControls();
 
-    // Generate on arrival so the tool shows real output immediately. The button
-    // reads "Régénérer" (via data-i18n) and rerolls a fresh draft.
+    // Generate on arrival so the tool shows real output immediately.
     generate();
 })();

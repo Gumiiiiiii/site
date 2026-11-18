@@ -63,11 +63,7 @@
 
     <nav class="navbar" data-navbar-root></nav>
 
-    <!-- Tout le site tient ici. Pour ajouter un outil ou un article : une
-         ligne de plus dans la liste correspondante, numérotée à la suite
-         (un article récent se place en tête), et le compte de la rubrique
-         à mettre à jour. Le fond, la Sainte-Victoire au-dessus de la
-         lavande, est dessiné en points (scripts/lavande.js). -->
+    <!-- Tout le site tient ici. -->
     <main class="accueil" id="main">
         <!-- Sur un téléphone, le pied de page monte en dégradé de points (scripts/etude-trame.js). -->
         <canvas class="accueil-pied" id="accueil-pied" aria-hidden="true"></canvas>
@@ -201,16 +197,13 @@
             var heroText = document.getElementById('hero-text');
             if (!heroText) return;
 
-            // Fast letter-by-letter hero reveal. Runs after i18n applied the
-            // active language (its DOMContentLoaded handler registers first),
-            // then restores plain text so language toggles stay clean.
+            // Fast letter-by-letter hero reveal.
             function revealHero() {
                 var text = heroText.textContent.trim();
                 if (!text) { document.documentElement.classList.remove('phrase-a-ecrire'); return; }
 
                 var TOTAL = 0.9; // seconds for the whole sentence
-                // On the desktop homepage the background draws itself first:
-                // the sentence waits for it (--intro, styles/accueil.css).
+                // On the desktop homepage the background draws itself first: the sentence waits for it (--intro.
                 var DEPART = parseFloat(getComputedStyle(document.body).getPropertyValue('--intro')) || 0;
                 var letterCount = text.replace(/\s/g, '').length;
                 var letterIndex = 0;
@@ -238,8 +231,7 @@
                 });
 
                 setTimeout(function () {
-                    // A language toggle mid-animation already replaced the
-                    // spans with fresh text: don't stomp it with stale text.
+                    // A language toggle mid-animation already replaced the spans: leave them.
                     if (heroText.querySelector('.hero-letter')) {
                         heroText.textContent = text;
                     }

@@ -1,6 +1,4 @@
 // Article content for the experiments template page.
-// Each article provides its full content in both languages; the template
-// (article-page.js) renders the right one and re-renders on language switch.
 window.GUMI_ARTICLES = {
     'ardacraft-social': {
         cover: '/media/ardacraft-social-featured-image.webp',
@@ -15,28 +13,31 @@ window.GUMI_ARTICLES = {
             fr: 'Je voulais m’entraîner à faire des vidéos. En filmant les décors d’ArdaCraft comme des paysages, avec les codes des Reels de voyage, 24 vidéos ont cumulé 27,3 millions de vues.',
             en: 'I wanted to practise making videos. By filming ArdaCraft’s builds like landscapes, borrowing the grammar of travel Reels, 24 videos gathered 27.3 million views.'
         },
-        // The summary: three figures, then the story in three steps. It
-        // renders above the cover (build/prerender-*.js, article-page.js).
+        // The summary: three figures, then the story in three steps.
         abstract: {
             fr: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
-                    <h2 id="resume-titre">En bref</h2>
+                    <h2 id="resume-titre">En bref</h2>
+
                 </header>
                 <ol class="resume-etapes">
                     <li><p><strong>Je voulais m’entraîner à la vidéo.</strong> Le compte Instagram d’ArdaCraft plafonnait autour de 30 000 vues par vidéo.</p></li>
                     <li><p><strong>J’ai filmé les décors comme des destinations, avec les codes des Reels de voyage :</strong> le meilleur plan en premier, le montage calé sur la musique.</p></li>
                     <li><p><strong>465 000 vues au premier essai, puis 27,3 millions sur 24 vidéos, sans publicité.</strong> Le compte est passé de 9 877 à 115 579 abonnés.</p></li>
-                </ol>
+                </ol>
+
             </section>`,
             en: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
-                    <h2 id="resume-titre">In short</h2>
+                    <h2 id="resume-titre">In short</h2>
+
                 </header>
                 <ol class="resume-etapes">
                     <li><p><strong>I wanted to practise video.</strong> ArdaCraft’s Instagram account topped out at around 30,000 views a video.</p></li>
                     <li><p><strong>I filmed the builds like travel destinations, borrowing the grammar of travel Reels:</strong> the best shot first, the edit cut to the music.</p></li>
                     <li><p><strong>465,000 views on the first try, then 27.3 million across 24 videos, with no ads.</strong> The account grew from 9,877 to 115,579 followers.</p></li>
-                </ol>
+                </ol>
+
             </section>`
         },
         html: {
@@ -144,28 +145,31 @@ window.GUMI_ARTICLES = {
             fr: "Participer au succès d'une communauté de passionnés tout en me challengeant et en développant de nouvelles compétences : retour sur un chantier de 150 heures.",
             en: 'Contributing to the success of a passionate community while challenging myself and building new skills: a look back at a 150-hour project.'
         },
-        // The summary: three figures, then the story in three steps. It
-        // renders above the cover (build/prerender-*.js, article-page.js).
+        // The summary: three figures, then the story in three steps.
         abstract: {
             fr: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
-                    <h2 id="resume-titre">En bref</h2>
+                    <h2 id="resume-titre">En bref</h2>
+
                 </header>
                 <ol class="resume-etapes">
                     <li><p><strong>Le site Webflow attirait 217 000 visiteurs par an mais touchait la limite de son abonnement.</strong> Le forfait suivant aurait multiplié les coûts par cinq.</p></li>
                     <li><p><strong>J’ai migré vers WordPress et Webstudio reliés en GraphQL,</strong> redessiné toutes les pages et remonté en haut de l’écran les fonctions que personne ne voyait.</p></li>
                     <li><p><strong>Des coûts d’hébergement divisés par dix.</strong> Sur la page des lieux, la recherche sert 71 % plus souvent et les filtres 555 % plus souvent.</p></li>
-                </ol>
+                </ol>
+
             </section>`,
             en: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
-                    <h2 id="resume-titre">In short</h2>
+                    <h2 id="resume-titre">In short</h2>
+
                 </header>
                 <ol class="resume-etapes">
                     <li><p><strong>The Webflow site drew 217,000 visitors a year but had hit the limit of its plan.</strong> The next tier would have cost five times as much.</p></li>
                     <li><p><strong>I moved it to WordPress and Webstudio linked through GraphQL,</strong> redesigned every page and brought the features nobody saw to the top of the screen.</p></li>
                     <li><p><strong>Hosting costs cut tenfold.</strong> On the locations page, search is used 71% more often and filters 555% more often.</p></li>
-                </ol>
+                </ol>
+
             </section>`
         },
         html: {
@@ -379,28 +383,31 @@ window.GUMI_ARTICLES = {
             fr: "Comment j'ai transformé plus d'un million de recherches annuelles autour de la Terre du Milieu en canal d'acquisition pour ArdaCraft, grâce à une carte interactive.",
             en: 'How I turned over a million annual searches around Middle-earth into a real acquisition channel for ArdaCraft, through an interactive map.'
         },
-        // The summary: three figures, then the story in three steps. It
-        // renders above the cover (build/prerender-*.js, article-page.js).
+        // The summary: three figures, then the story in three steps.
         abstract: {
             fr: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
-                    <h2 id="resume-titre">En bref</h2>
+                    <h2 id="resume-titre">En bref</h2>
+
                 </header>
                 <ol class="resume-etapes">
                     <li><p><strong>Plus d’un million de recherches par an pour une carte de la Terre du Milieu, sur une requête peu disputée :</strong> une difficulté de 36 %.</p></li>
                     <li><p><strong>Une carte interactive calquée sur Google Maps,</strong> qui réunit ce que les cartes du top 3 n’offraient que séparément, et qui marche aussi sur mobile.</p></li>
                     <li><p><strong>Près de 200 000 impressions par mois sur Google et la moitié du trafic hors-marque du site,</strong> malgré deux coupures pour raisons de budget.</p></li>
-                </ol>
+                </ol>
+
             </section>`,
             en: `<section class="resume" aria-labelledby="resume-titre">
                 <header class="resume-tete">
-                    <h2 id="resume-titre">In short</h2>
+                    <h2 id="resume-titre">In short</h2>
+
                 </header>
                 <ol class="resume-etapes">
                     <li><p><strong>Over a million searches a year for a map of Middle-earth, on a query with little competition:</strong> a difficulty of 36%.</p></li>
                     <li><p><strong>An interactive map modelled on Google Maps,</strong> bringing together what the top 3 maps each offered separately, and working on mobile too.</p></li>
                     <li><p><strong>Close to 200,000 Google impressions a month and half of the site’s non-brand traffic,</strong> despite two shutdowns to protect the budget.</p></li>
-                </ol>
+                </ol>
+
             </section>`
         },
         html: {

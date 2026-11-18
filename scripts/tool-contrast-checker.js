@@ -45,17 +45,13 @@
         return '#' + rgb.map((c) => Math.round(c).toString(16).padStart(2, '0')).join('').toUpperCase();
     }
 
-    // La couleur écrite dans le champ : huit chiffres seulement si l'encre
-    // est transparente, pour que le cas courant reste celui qu'on connaît.
+    // La couleur écrite dans le champ : huit chiffres seulement si l'encre est transparente.
     function toHexA(rgb, alpha) {
         if (alpha >= 1) return toHex(rgb);
         return toHex(rgb) + Math.round(alpha * 255).toString(16).padStart(2, '0').toUpperCase();
     }
 
-    // Une encre transparente n'a pas de contraste propre : ce que l'œil lit,
-    // c'est elle composée sur ce qu'il y a derrière. Le WCAG se mesure donc
-    // sur ce mélange, jamais sur la couleur nominale. C'est exactement
-    // l'échelle d'encre du site, dont les niveaux sont des opacités.
+    // Une encre transparente n'a pas de contraste propre : ce que l'œil lit.
     function composite(rgb, sur, alpha) {
         if (alpha >= 1) return rgb;
         return rgb.map((c, i) => Math.round(c * alpha + sur[i] * (1 - alpha)));
@@ -102,8 +98,7 @@
     // Les trois couleurs lues sur l'image de fond, tant qu'il y en a une.
     let bgZones = null;
 
-    // Restore shared colors from the URL (?text=RRGGBB&bg=RRGGBB) so a specific
-    // check can be linked. URL wins over the defaults above.
+    // Restore shared colors from the URL (?text=RRGGBB&bg=RRGGBB) so a specific check can be linked.
     if (window.GumiUrlState) {
         const rawText = window.GumiUrlState.get('text') || '';
         const urlText = parseHex(rawText);
@@ -116,13 +111,6 @@
     }
 
     // Trois zones plutôt qu'une moyenne.
-    //
-    // La moyenne d'une image contrastée ne décrit aucun de ses pixels : une
-    // photo moitié noire moitié blanche donne un gris moyen, et ce gris
-    // annonce un contraste correct alors que le texte est illisible sur les
-    // deux moitiés. On lit donc l'image en trois bandes verticales, gauche,
-    // milieu et droite, là où un titre posé sur une bannière traverse
-    // réellement la matière.
     const ZONES = ['left', 'mid', 'right'];
 
     function sampleZones(img) {
@@ -152,15 +140,12 @@
         });
     }
 
-    // Le ratio réellement lu : l'encre composée sur son fond, puis mesurée
-    // contre ce même fond.
+    // Le ratio réellement lu : l'encre composée sur son fond, puis mesurée contre ce même fond.
     function ratioFor(text, alpha, bg) {
         return contrastRatio(composite(text, bg, alpha), bg);
     }
 
-    // La zone la moins lisible pour l'encre courante. C'est elle qui porte le
-    // verdict : une page n'est pas accessible en moyenne, elle l'est à son
-    // pire endroit.
+    // La zone la moins lisible pour l'encre courante.
     function worstZone(zones, text, alpha) {
         return zones.reduce((pire, zone) => (
             ratioFor(text, alpha, zone) < ratioFor(text, alpha, pire) ? zone : pire
@@ -179,9 +164,7 @@
         bgImageNote.innerHTML = '';
     }
 
-    // Le relevé des trois zones, sous les commandes : chaque bande avec sa
-    // couleur et son ratio, la pire marquée. C'est ce qui rend le verdict
-    // lisible — on voit par où l'image le fait tomber.
+    // Le relevé des trois zones, sous les commandes : chaque bande avec sa couleur et son ratio.
     function renderZones(worst) {
         const lignes = bgZones.map((zone, index) => {
             const ratio = ratioFor(currentText, textAlpha, zone);
@@ -205,9 +188,7 @@
     }
 
     function update() {
-        // Quand une image porte le fond, c'est sa zone la moins lisible qui
-        // devient la couleur de référence. Le choix se refait à chaque
-        // passage : changer l'encre peut changer la zone qui pèche.
+        // Quand une image porte le fond, c'est sa zone la moins lisible qui devient la couleur de référence.
         let worst = null;
         if (bgZones) {
             worst = worstZone(bgZones, currentText, textAlpha);
@@ -247,17 +228,14 @@
         fixBtn.classList.toggle('hidden', smallAA);
 
         previewPanel.style.backgroundColor = toHex(currentBg);
-        // L'aperçu porte l'opacité telle quelle, et laisse le navigateur
-        // composer : c'est le même mélange que celui qu'on vient de mesurer,
-        // fait par la même arithmétique.
+        // L'aperçu porte l'opacité telle quelle, et laisse le navigateur composer.
         const encre = 'rgba(' + currentText.join(', ') + ', ' + textAlpha + ')';
         previewLarge.style.color = encre;
         previewSmall.style.color = encre;
 
         if (bgZones) renderZones(worst);
 
-        // Keep the URL shareable (skip while an image defines the background,
-        // since a pasted image can't be encoded in a link).
+        // Keep the URL shareable (skip while an image defines the background.
         if (window.GumiUrlState && !bgImageUrl) {
             window.GumiUrlState.set({
                 text: toHexA(currentText, textAlpha).replace('#', ''),
@@ -266,13 +244,7 @@
         }
     }
 
-    // The swatches are plain buttons: their background carries the color
-    // and a click opens the shared GumiColorPicker popover.
-    //
-    // Celui de l'encre porte aussi son opacité : une pastille pleine pour une
-    // encre à moitié transparente annoncerait une couleur que la page n'écrit
-    // nulle part. Le papier qu'on voit dessous est celui sur lequel elle
-    // s'écrira.
+    // Swatches are plain buttons: their background is the colour, a click opens the picker.
     function setSwatch(swatch, rgb, alpha) {
         swatch.style.backgroundColor = alpha === undefined || alpha >= 1
             ? toHex(rgb)
@@ -302,9 +274,7 @@
 
         const img = new Image();
         img.onload = () => {
-            // Les trois bandes sont lues une fois. Laquelle porte le verdict
-            // se décide dans update(), qui la reprend à chaque changement
-            // d'encre.
+            // Les trois bandes sont lues une fois.
             bgZones = sampleZones(img);
 
             previewPanel.style.backgroundImage = 'url(' + bgImageUrl + ')';
@@ -331,9 +301,7 @@
         });
     }
 
-    // Le champ de l'encre accepte les huit chiffres : #1A1A1A99 est une
-    // écriture CSS courante, et c'est ainsi qu'on colle une valeur lue dans
-    // une maquette.
+    // Le champ de l'encre accepte les huit chiffres : #1A1A1A99 est une écriture CSS courante.
     function readTextField() {
         const rgb = parseHex(textHex.value);
         if (!rgb) return false;
@@ -354,10 +322,7 @@
         if (rgb) { clearBgImage(); currentBg = rgb; setSwatch(bgSwatch, rgb); update(); }
     });
 
-    // L'encre est le seul des deux à recevoir la piste d'opacité. Elle y a un
-    // sens exact : une encre transparente se compose sur le fond choisi, et le
-    // ratio se mesure sur ce mélange. Un fond transparent, lui, n'aurait rien
-    // sous lui à quoi se mêler.
+    // L'encre est le seul des deux à recevoir la piste d'opacité.
     window.GumiColorPicker.attach(textSwatch, {
         alpha: true,
         get: () => toHexA(currentText, textAlpha),
@@ -387,10 +352,7 @@
         let fixed = currentText.slice();
         let alpha = textAlpha;
 
-        // Sur une image, la correction vise la zone la moins lisible du
-        // moment. Elle se déplace en cours de route : éclaircir l'encre pour
-        // sauver la bande sombre peut faire tomber la bande claire, et c'est
-        // la nouvelle pire qui doit alors mener la suite.
+        // Sur une image, la correction vise la zone la moins lisible du moment.
         const mesurer = (encre, a) => ratioFor(
             encre, a, bgZones ? worstZone(bgZones, encre, a) : currentBg
         );
@@ -400,10 +362,7 @@
             fixed = fixed.map((c, i) => c + (target[i] - c) * 0.12);
         }
 
-        // Une encre transparente a un plafond : même portée au noir ou au
-        // blanc, elle ne dépasse pas le ratio que son opacité autorise. Quand
-        // la couleur seule n'y suffit pas, on remonte l'opacité, et pas plus
-        // haut qu'il ne faut pour passer.
+        // Une encre transparente a un plafond : même portée au noir ou au blanc.
         if (alpha < 1 && mesurer(fixed, alpha) < 4.5) {
             for (let step = 0; step < 40 && alpha < 1; step++) {
                 alpha = Math.min(1, alpha + 0.025);
@@ -418,24 +377,18 @@
         update();
     });
 
-    // Reflect the active colors (which may have come from the URL) in the
-    // hex inputs and swatches before the first render.
+    // Show the active colours (maybe from the URL) in the inputs and swatches.
     textHex.value = toHexA(currentText, textAlpha);
     bgHex.value = toHex(currentBg);
     setSwatch(textSwatch, currentText, textAlpha);
     setSwatch(bgSwatch, currentBg);
 
-    // Les deux textes de l'aperçu se réécrivent sur place. Ce qu'on y colle
-    // doit arriver nu : un fragment copié d'une page web apporte ses propres
-    // balises, et donc sa propre couleur, qui repeindrait l'aperçu par-dessus
-    // celle qu'on est en train de mesurer. Le collage est donc ramené à du
-    // texte, et le presse-papiers perd sa mise en forme à l'entrée.
+    // Les deux textes de l'aperçu se réécrivent sur place.
     [previewLarge, previewSmall].forEach((champ) => {
         champ.addEventListener('paste', (event) => {
             event.preventDefault();
             const brut = (event.clipboardData || window.clipboardData).getData('text/plain');
-            // Une seule ligne pour le titre : un retour y casserait la mesure
-            // qu'on vient faire, celle d'une ligne de titre.
+            // Une seule ligne pour le titre : un retour y casserait la mesure qu'on vient faire.
             const texte = champ === previewLarge ? brut.replace(/\s+/g, ' ').trim() : brut;
             document.execCommand('insertText', false, texte);
         });
