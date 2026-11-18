@@ -7,6 +7,8 @@ body.outil-page {
     background-image: none;
 }
 @media (min-width: 760px) { body.outil-page { --marge: 2rem; } }
+/* Un téléphone n'a pas de barre de défilement à réserver : la colonne touche la marge. */
+@media (max-width: 759px) { body.outil-page { --large: calc(100vw - 2 * var(--marge)); } }
 
 /* Le fond : la trame des articles, dégagée autour du titre. */
 .outil-page .etude-trame {

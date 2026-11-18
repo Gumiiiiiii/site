@@ -67,6 +67,8 @@
          à mettre à jour. Le fond, la Sainte-Victoire au-dessus de la
          lavande, est dessiné en points (scripts/lavande.js). -->
     <main class="accueil" id="main">
+        <!-- Sur un téléphone, le pied de page monte en dégradé de points (scripts/etude-trame.js). -->
+        <canvas class="accueil-pied" id="accueil-pied" aria-hidden="true"></canvas>
         <h1 class="hero-text accueil-phrase" id="hero-text" data-i18n="home_hero">This is where I gather tools and experiments built out of curiosity, to bring ideas to life and explore new directions.</h1>
 
         <section class="bloc exps" aria-labelledby="exps-titre">
@@ -250,6 +252,7 @@
     </script>
     <script src="scripts/points-champ.js"></script>
     <script src="scripts/lavande.js"></script>
+    <script src="scripts/etude-trame.js"></script>
     <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };

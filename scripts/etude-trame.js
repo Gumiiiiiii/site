@@ -1,13 +1,15 @@
 // Fond des pages d'expérimentation : deux dégradés de points en nappes douces,
 // sur la grille du site. En haut, il s'efface vers le bas et autour du titre ;
 // en bas, il monte depuis le pied de page et s'écarte des dernières cartes.
+// Il sert aussi au pied de l'accueil, sur un téléphone.
 (function () {
     // Sans 2D (jsdom des tests), rien à dessiner.
     if (typeof CanvasRenderingContext2D === 'undefined') return;
     var toiles = [
         { el: document.getElementById('etude-trame'), bas: false, autour: '.article-header, .outil-tete' },
         { el: document.getElementById('etude-trame-bas'), bas: true, autour: '.read-next-section' },
-        { el: document.getElementById('trame-pleine'), plein: true, autour: '.nf' }
+        { el: document.getElementById('trame-pleine'), plein: true, autour: '.nf' },
+        { el: document.getElementById('accueil-pied'), bas: true, autour: null }
     ].filter(function (t) { return t.el; });
     if (!toiles.length) return;
 
@@ -51,7 +53,7 @@
         ctx.fillStyle = 'rgba(' + rgb + ', ' + (sombre ? 0.17 : 0.13) + ')';
 
         // La clairière : une ellipse douce autour du titre, ou des cartes du bas.
-        var cible = document.querySelector(t.autour), boite = toile.getBoundingClientRect();
+        var cible = t.autour && document.querySelector(t.autour), boite = toile.getBoundingClientRect();
         var r = cible ? cible.getBoundingClientRect() : { left: largeur * 0.25, right: largeur * 0.75, top: boite.top + 100, bottom: boite.top + 300 };
         var cx = (r.left + r.right) / 2 - boite.left, cy = (r.top + r.bottom) / 2 - boite.top;
         var rx = (r.right - r.left) / 2 + 90, ry = (r.bottom - r.top) / 2 + 70;
@@ -66,7 +68,7 @@
             if (haut <= 0) continue;
             for (var x = ((centre + dec) % PAS_X); x < largeur; x += PAS_X) {
                 var ex = (x - cx) / rx, ey = (y - cy) / ry;
-                var clairiere = lisse(0.75, 1.6, Math.sqrt(ex * ex + ey * ey));
+                var clairiere = t.autour ? lisse(0.75, 1.6, Math.sqrt(ex * ex + ey * ey)) : 1;
                 var n = lisse(0.36, 0.7, nappe(x * echelle, (y + (t.bas ? 4000 : 0)) * echelle));
                 var ton = haut * haut * clairiere * (0.03 + 0.72 * n);
                 if (ton < 0.012) continue;

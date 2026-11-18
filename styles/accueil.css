@@ -60,13 +60,32 @@
     }
 }
 
+/* Le pied de page, sur un téléphone : un dégradé de points qui monte du bas,
+   comme au pied des expérimentations. */
+.accueil-pied { display: none; }
+@media (max-width: 759px) {
+    .accueil-pied {
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: min(60vh, 26rem);
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.9s ease;
+    }
+    .accueil-pied.prete { opacity: 1; }
+}
+
 /* Sur l'accueil, la trame dessine tout le fond : le champ de points
    ordinaire lui laisse la place. */
 body.accueil-page .points-champ { display: none; }
 
 .accueil {
     position: relative;
-    padding: 5rem 1.5rem 7rem;
+    padding: 5rem 1.25rem 7rem;
     display: flex;
     flex-direction: column;
     gap: 3rem;
