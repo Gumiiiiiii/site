@@ -1,8 +1,8 @@
-<html lang="en"><head></head><body class="ecran">﻿
+<html lang="en"><head></head><body class="outil-page">﻿
 
 
     <meta charset="UTF-8">
-    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}if(!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)){document.documentElement.classList.add('fond-anime');}}catch(e){}})();</script>
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
     <link rel="preload" href="fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="styles/shared.css">
     <link rel="stylesheet" href="styles/tools-suite.css">
     <link rel="stylesheet" href="styles/outil-papier.css">
-    <link rel="stylesheet" href="styles/ecran.css">
+    <link rel="stylesheet" href="styles/outil.css">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -51,32 +51,16 @@
 
 
     <a class="skip-link" href="#main" data-i18n="skip_link">Skip to content</a>
-    <div class="points-champ" aria-hidden="true"></div>
-    <div class="regles" aria-hidden="true"></div>
+    <canvas class="etude-trame" id="etude-trame" aria-hidden="true"></canvas>
 
     <nav class="navbar" data-navbar-root=""></nav>
 
-    <div class="main-wrapper" id="main" role="main">
-        <a href="./" class="back-link no-select" title="Back to home" data-i18n-title="back_tools">
-            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            <span data-i18n="back_tools">Back to home</span>
-        </a>
-
-        <div class="header-container">
+    <div class="main-wrapper outil-cadre" id="main" role="main">
+        <header class="outil-tete">
+            <p class="etude-meta"><a href="./" class="etude-retour" data-i18n="outil_rubrique">Tools</a></p>
             <h1><span data-i18n="tool_media_title">Media downloader</span><span class="dot">.</span></h1>
-            <div class="tooltip-wrapper no-select">
-                <button type="button" class="tooltip-icon" onclick="toggleTooltip(event)" aria-expanded="false" aria-label="Comment ça marche ?" title="Comment ça marche ?">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                </button>
-                <div class="tooltip-content">
-                    <div data-i18n-html="md_tooltip"><strong>Silent pre-loading:</strong><br><br>Paste your links (one per line). The system pre-loads media in the background instantly. Click extract to grab your files.<br><br><i>Personal tool, for private use only: download only content you own or have permission to save.</i></div>
-                    <div class="tooltip-status is-online">
-                        <span class="tooltip-status-dot" aria-hidden="true"></span>
-                        <span data-i18n="tooltip_online">Internet connection required</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <p class="outil-chapo" data-i18n="tool_media_desc">Quickly extract videos, audio and thumbnails from your links.</p>
+        </header>
 
         <div class="main-grid">
             <div class="left-col">
@@ -140,8 +124,7 @@ https://tiktok.com/..."></textarea>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 </script>
-<script src="scripts/points-champ.js"></script>
-<script src="scripts/outil-papier.js"></script>
+<script src="scripts/etude-trame.js"></script>
 <script defer="" src="/_vercel/insights/script.js"></script>
 <script defer="" src="/_vercel/speed-insights/script.js"></script>
 

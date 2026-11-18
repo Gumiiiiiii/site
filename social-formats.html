@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}if(!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)){document.documentElement.classList.add('fond-anime');}}catch(e){}})();</script>
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
     <link rel="preload" href="fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="styles/shared.css">
     <link rel="stylesheet" href="styles/tools-suite.css">
     <link rel="stylesheet" href="styles/outil-papier.css">
-    <link rel="stylesheet" href="styles/ecran.css">
+    <link rel="stylesheet" href="styles/outil.css">
 
     <style>
         /* Le libelle choisi passe en reserve sur la pastille d'encre. */
@@ -166,36 +166,36 @@
             width: 100%;
         }
 
-        /* Sur un écran d'ordinateur (styles/ecran.css), la liste des formats
+        /* Sur un écran d'ordinateur (styles/outil.css), la liste des formats
            quitte la colonne des réglages pour la sienne, au milieu : quinze
            lignes sous le dépôt, le point focal et le format de sortie ne
            tenaient dans aucune fenêtre. Les réglages restent à gauche, le
            résultat à droite ; si la liste s'allonge, c'est elle qui défile.
            L'ordre du document ne change pas, donc celui du téléphone non plus. */
         @media (min-width: 1100px) and (min-height: 600px) {
-            body.ecran .main-grid {
+            body.outil-page .main-grid:has(> .left-col) {
                 grid-template-columns: 21rem 17.5rem minmax(0, 1fr);
                 grid-template-rows: auto auto auto minmax(0, 1fr) auto;
                 column-gap: 1.75rem;
                 row-gap: 1rem;
             }
-            body.ecran .left-col,
-            body.ecran .controls-panel { display: contents; }
-            body.ecran .control-row { margin: 0 !important; min-width: 0; }
+            body.outil-page .left-col,
+            body.outil-page .controls-panel { display: contents; }
+            body.outil-page .control-row { margin: 0 !important; min-width: 0; }
 
-            body.ecran .drop-zone { grid-column: 1; grid-row: 1; padding: 1.1rem 1rem; gap: 0.4rem; }
-            body.ecran .drop-zone-icon { width: 34px; height: 34px; }
-            body.ecran .sr-row-focal { grid-column: 1; grid-row: 2; }
-            body.ecran .sr-row-output { grid-column: 1; grid-row: 3; }
-            body.ecran #sr-export-btn { grid-column: 1; grid-row: 5; margin: 0 !important; }
-            body.ecran .sr-focal img { max-height: min(300px, 24vh); }
+            body.outil-page .drop-zone { grid-column: 1; grid-row: 1; padding: 1.1rem 1rem; gap: 0.4rem; }
+            body.outil-page .drop-zone-icon { width: 34px; height: 34px; }
+            body.outil-page .sr-row-focal { grid-column: 1; grid-row: 2; }
+            body.outil-page .sr-row-output { grid-column: 1; grid-row: 3; }
+            body.outil-page #sr-export-btn { grid-column: 1; grid-row: 5; margin: 0 !important; }
+            body.outil-page .sr-focal img { max-height: min(300px, 24vh); }
 
-            body.ecran .sr-row-formats {
+            body.outil-page .sr-row-formats {
                 grid-column: 2;
                 grid-row: 1 / -1;
                 min-height: 0;
             }
-            body.ecran .sr-format-list {
+            body.outil-page .sr-format-list {
                 flex: 1;
                 min-height: 0;
                 gap: 0;
@@ -204,10 +204,10 @@
                 scrollbar-width: thin;
                 scrollbar-color: var(--filet) transparent;
             }
-            body.ecran .sr-format-row { padding: 5px 8px; gap: 10px; }
-            body.ecran .sr-format-name { font-size: 0.9rem; }
+            body.outil-page .sr-format-row { padding: 5px 8px; gap: 10px; }
+            body.outil-page .sr-format-name { font-size: 0.9rem; }
 
-            body.ecran .right-col { grid-column: 3; grid-row: 1 / -1; }
+            body.outil-page .right-col { grid-column: 3; grid-row: 1 / -1; }
         }
     </style>
     <script type="application/ld+json">
@@ -229,40 +229,18 @@
     }
     </script>
 </head>
-<body class="ecran">
+<body class="outil-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
-    <div class="points-champ" aria-hidden="true"></div>
-    <div class="regles" aria-hidden="true"></div>
+    <canvas class="etude-trame" id="etude-trame" aria-hidden="true"></canvas>
 
     <nav class="navbar" data-navbar-root></nav>
 
-    <div class="main-wrapper" id="main" role="main">
-        <a href="./" class="back-link no-select" title="Retour à l'accueil" data-i18n-title="back_tools">
-            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            <span data-i18n="back_tools">Retour à l'accueil</span>
-        </a>
-
-        <div class="header-container">
+    <div class="main-wrapper outil-cadre" id="main" role="main">
+        <header class="outil-tete">
+            <p class="etude-meta"><a href="./" class="etude-retour" data-i18n="outil_rubrique">Outils</a></p>
             <h1><span data-i18n="tool_social_title">Formats réseaux sociaux</span><span class="dot">.</span></h1>
-            <div class="tooltip-wrapper no-select" style="margin-left: 10px;">
-                <button type="button" class="tooltip-icon" onclick="toggleTooltip(event)" aria-expanded="false" aria-label="Comment ça marche ?" title="Comment ça marche ?">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                </button>
-                <div class="tooltip-content">
-                    <div data-i18n-html="sr_tooltip">
-                        <strong>Un visuel, tous les formats :</strong><br><br>
-                        1. Déposez une image.<br>
-                        2. Placez le point focal : chaque recadrage restera centré dessus.<br>
-                        3. Cochez les formats voulus et exportez.<br><br>
-                        <i>Le recadrage se fait dans votre navigateur, aucune image n'est envoyée sur nos serveurs.</i>
-                    </div>
-                    <div class="tooltip-status is-offline">
-                        <span class="tooltip-status-dot" aria-hidden="true"></span>
-                        <span data-i18n="tooltip_offline">Fonctionne hors ligne</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <p class="outil-chapo" data-i18n="tool_social_desc">Déclinez un visuel aux formats Instagram, X, LinkedIn, YouTube et plus, en local.</p>
+        </header>
 
         <div class="main-grid">
             <div class="left-col">
@@ -328,8 +306,7 @@
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 </script>
-<script src="scripts/points-champ.js"></script>
-<script src="scripts/outil-papier.js"></script>
+<script src="scripts/etude-trame.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>

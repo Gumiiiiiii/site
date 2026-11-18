@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}if(!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)){document.documentElement.classList.add('fond-anime');}}catch(e){}})();</script>
+    <script>(function(){try{var p=location.pathname;if(p==='/en'||p.indexOf('/en/')===0||localStorage.getItem('site-lang')==='en'){document.documentElement.lang='en';}var t=localStorage.getItem('site-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
     <link rel="preload" href="fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F9F4EF">
@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="styles/shared.css">
     <link rel="stylesheet" href="styles/tools-suite.css">
     <link rel="stylesheet" href="styles/outil-papier.css">
-    <link rel="stylesheet" href="styles/ecran.css">
+    <link rel="stylesheet" href="styles/outil.css">
 
     <style>
         /* Ce qui reste ici est la mise en place de cette page-la : des
@@ -218,40 +218,18 @@
     }
     </script>
 </head>
-<body class="ecran">
+<body class="outil-page">
     <a class="skip-link" href="#main" data-i18n="skip_link">Aller au contenu</a>
-    <div class="points-champ" aria-hidden="true"></div>
-    <div class="regles" aria-hidden="true"></div>
+    <canvas class="etude-trame" id="etude-trame" aria-hidden="true"></canvas>
 
     <nav class="navbar" data-navbar-root></nav>
 
-    <div class="main-wrapper" id="main" role="main">
-        <a href="./" class="back-link no-select" title="Retour à l'accueil" data-i18n-title="back_tools">
-            <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
-            <span data-i18n="back_tools">Retour à l'accueil</span>
-        </a>
-
-        <div class="header-container">
-            <h1 data-i18n="tool_contrast_title">Analyseur de contraste</h1>
-            <div class="tooltip-wrapper no-select" style="margin-left: 10px;">
-                <button type="button" class="tooltip-icon" onclick="toggleTooltip(event)" aria-expanded="false" aria-label="Comment ça marche ?" title="Comment ça marche ?">
-                    <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-                </button>
-                <div class="tooltip-content" style="max-width: 340px;">
-                    <div data-i18n-html="contrast_tooltip">
-                        <strong>Comment ça marche ?</strong><br><br>
-                        Cet outil suit les Web Content Accessibility Guidelines (WCAG), qui définissent deux niveaux de contraste : AA (minimum) et AAA (renforcé).<br><br>
-                        AA : ratio d'au moins 4,5:1 pour le texte normal et 3:1 pour le grand texte (18pt+) ou le gras.<br>
-                        AAA : ratio d'au moins 7:1 pour le texte normal et 4,5:1 pour le grand texte ou le gras.<br><br>
-                        <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener">En savoir plus</a>
-                    </div>
-                    <div class="tooltip-status is-offline">
-                        <span class="tooltip-status-dot" aria-hidden="true"></span>
-                        <span data-i18n="tooltip_offline">Fonctionne hors ligne</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="main-wrapper outil-cadre" id="main" role="main">
+        <header class="outil-tete">
+            <p class="etude-meta"><a href="./" class="etude-retour" data-i18n="outil_rubrique">Outils</a></p>
+            <h1><span data-i18n="tool_contrast_title">Analyseur de contraste</span><span class="dot">.</span></h1>
+            <p class="outil-chapo" data-i18n="tool_contrast_desc">Vérifiez l'accessibilité de vos palettes selon les normes de lisibilité WCAG.</p>
+        </header>
 
         <div class="main-grid">
             <div class="left-col">
@@ -281,46 +259,43 @@
                         </div>
                     </div>
 
-                    <div class="control-row">
-                        <div class="control-label" data-i18n="contrast_ratio_label">Contraste</div>
-                        <div class="contrast-result" id="contrast-result">
-                            <div class="contrast-headline">
-                                <div class="ratio-value" id="ratio-value">—</div>
-                                <div class="rating-block">
-                                    <div class="rating-label" id="rating-label"></div>
-                                    <div class="contrast-meter" id="contrast-meter" aria-hidden="true">
-                                        <span></span><span></span><span></span><span></span><span></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="size-rows">
-                                <div class="size-row">
-                                    <span class="size-label" data-i18n="contrast_small">Petit texte</span>
-                                    <div class="chips">
-                                        <span class="chip" id="chip-small-aa">AA</span>
-                                        <span class="chip" id="chip-small-aaa">AAA</span>
-                                    </div>
-                                </div>
-                                <div class="size-row">
-                                    <span class="size-label" data-i18n="contrast_large">Grand texte</span>
-                                    <div class="chips">
-                                        <span class="chip" id="chip-large-aa">AA</span>
-                                        <span class="chip" id="chip-large-aaa">AAA</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="contrast-footer">
-                                <span id="contrast-msg"></span>
-                                <button type="button" class="fix-link hidden" id="fix-btn" data-i18n="contrast_fix">Corriger automatiquement</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
-            <div class="right-col" style="padding: 0; background: transparent; border: none;">
+            <div class="right-col outil-scene-nue">
+                <div class="contrast-result" id="contrast-result">
+                    <div class="contrast-headline">
+                        <div class="ratio-value" id="ratio-value">—</div>
+                        <div class="rating-block">
+                            <div class="rating-label" id="rating-label"></div>
+                            <div class="contrast-meter" id="contrast-meter" aria-hidden="true">
+                                <span></span><span></span><span></span><span></span><span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="size-rows">
+                        <div class="size-row">
+                            <span class="size-label" data-i18n="contrast_small">Petit texte</span>
+                            <div class="chips">
+                                <span class="chip" id="chip-small-aa">AA</span>
+                                <span class="chip" id="chip-small-aaa">AAA</span>
+                            </div>
+                        </div>
+                        <div class="size-row">
+                            <span class="size-label" data-i18n="contrast_large">Grand texte</span>
+                            <div class="chips">
+                                <span class="chip" id="chip-large-aa">AA</span>
+                                <span class="chip" id="chip-large-aaa">AAA</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contrast-footer">
+                        <span id="contrast-msg"></span>
+                        <button type="button" class="fix-link hidden" id="fix-btn" data-i18n="contrast_fix">Corriger automatiquement</button>
+                    </div>
+                </div>
                 <div class="preview-panel" id="preview-panel">
                     <p class="preview-large" id="preview-large" contenteditable="true" spellcheck="false" role="textbox" aria-multiline="true" data-i18n-aria="contrast_preview_edit" aria-label="Titre d'essai, modifiable">À vaincre sans péril, on triomphe sans gloire</p>
                     <p class="preview-small" id="preview-small" contenteditable="true" spellcheck="false" role="textbox" aria-multiline="true" data-i18n-aria="contrast_preview_edit_p" aria-label="Paragraphe d'essai, modifiable">À vaincre sans péril, on triomphe sans gloire. Cette réplique du Cid de Corneille sert ici de texte d'essai : elle permet de juger la lisibilité d'un paragraphe courant dans la combinaison de couleurs choisie.</p>
@@ -335,9 +310,8 @@
     <script src="scripts/navbar.js"></script>
     <script src="scripts/page-effects.js"></script>
     <script src="scripts/tools-common.js"></script>
-    <script src="scripts/points-champ.js"></script>
     <script src="scripts/tool-contrast-checker.js"></script>
-    <script src="scripts/outil-papier.js"></script>
+    <script src="scripts/etude-trame.js"></script>
     <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
