@@ -580,19 +580,16 @@
         ctx.moveTo(0, py - 1.6); ctx.lineTo(-0.6 * sens, py + 2.6); ctx.lineTo(3 * sens, py + 3.4); ctx.lineTo(4.6 * sens, py + 6.2);
         ctx.moveTo(-1.2, py - 1.4); ctx.lineTo(-2.8, py - 5.2);
         ctx.moveTo(1.2, py - 1.4); ctx.lineTo(2.8, py - 5.2);
+        ctx.moveTo(0.8, py - 4.4); ctx.arc(0, py - 4.4, 0.8, 0, 6.2832);
         ctx.lineWidth = 2;
         ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(0, py - 4.1, 1.7, 0, 6.2832);
-        ctx.fillStyle = encreVoile;
-        ctx.fill();
         // Les suspentes, des bords et du centre de la voile au pilote.
         ctx.strokeStyle = encre;
         ctx.lineWidth = 0.8;
         ctx.beginPath();
         [-0.92, -0.45, 0.45, 0.92].forEach(function (s) {
             ctx.moveTo(s * W * 0.97, milieu(s) + epaisseur(s) / 2 + 2.5);
-            ctx.lineTo(s * 3.1, py - 6);
+            ctx.lineTo(s * 3.1, py - 7.4);
         });
         ctx.stroke();
         ctx.fillStyle = lumiere;
