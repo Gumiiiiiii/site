@@ -133,7 +133,7 @@ window.GUMI_ARTICLES = {
 
     'ardacraft': {
         cover: '/media/ardacraft-redesign-featured-image.webp',
-        coverAlt: 'Aperçu de la refonte du site ArdaCraft',
+        coverAlt: 'La page d’accueil d’ArdaCraft après la refonte : un village de la Terre du Milieu sous le titre « Roam our expansive open world adapted from J.R.R. Tolkien’s work »',
         readNext: 'ardacraft-map',
         published: '2026-07-11',
         title: {
