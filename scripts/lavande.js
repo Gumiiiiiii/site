@@ -158,7 +158,7 @@
         return pts;
     })();
     var ECHELLE = 0.7;
-    var abscisse = 0;
+    var abscisse = 0, assise = 0;
 
     function pierres(px, py, pz) {
         // Le point du tracé le plus proche : l'écart à l'axe, et l'abscisse.
@@ -173,46 +173,68 @@
         }
         var K = ECHELLE, ecart = Math.sqrt(best) / K;
         sv /= K; py /= K;
-        abscisse = sv;
+        abscisse = sv; assise = py;
         var H = 2.1;
-        // Le mur, et sa corniche qui déborde au sommet.
+        // Le mur, sa corniche au sommet, le socle au pied et, aux naissances
+        // des arches, un cordon qui ne court que sur les piles.
         var d = Math.max(ecart - 0.24, py - H, -py - 0.1);
-        var m = Math.max(ecart - 0.31, Math.abs(py - (H - 0.07)) - 0.07);
-        if (H > 1.9 && m < d) d = m;
-        // Un seul rang de hautes arches : peu de formes, et grandes, pour
-        // que la trame puisse les dire.
+        d = Math.min(d, Math.max(ecart - 0.32, Math.abs(py - (H - 0.08)) - 0.08));
+        d = Math.min(d, Math.max(ecart - 0.29, py - 0.24, -py - 0.1));
+        d = Math.min(d, Math.max(ecart - 0.285, Math.abs(py - 1.17) - 0.05));
         var L = 1.3, r = 0.46, sm = ((sv % L) + L) % L - L / 2;
         var o = Math.min(Math.max(Math.abs(sm) - r, py - 1.2), Math.sqrt(sm * sm + (py - 1.2) * (py - 1.2)) - r);
         return Math.max(d, -o) * K;
     }
+    function scene(px, py, pz) { var d = pierres(px, py, pz); return py < d ? py : d; }
     // Avance le long du rayon ; renvoie la distance du premier contact, ou -1.
     function toucher(ox, oy, oz, dx, dy, dz, jusque) {
         var t = 0;
         for (var n = 0; n < 110; n++) {
             var d = pierres(ox + dx * t, oy + dy * t, oz + dz * t);
-            if (d < 0.008) return t;
-            t += d < 0.02 ? 0.02 : (d > 0.6 ? 0.36 : d * 0.6);
+            if (d < 0.004) return t;
+            t += d < 0.015 ? 0.015 : (d > 0.6 ? 0.36 : d * 0.7);
             if (t > jusque) return -1;
         }
         return -1;
     }
+    // L'ombre du soleil, à bord doux, comme celle des buissons.
+    function penombre(ox, oy, oz, lx, ly, lz) {
+        var res = 1, t = 0.03;
+        for (var n = 0; n < 48 && t < 8; n++) {
+            var d = pierres(ox + lx * t, oy + ly * t, oz + lz * t);
+            if (d < 0.002) return 0;
+            res = Math.min(res, 8 * d / t);
+            t += Math.max(0.025, d * 0.9);
+        }
+        return res < 0 ? 0 : res > 1 ? 1 : res;
+    }
+    function occlusion(px, py, pz, nx, ny, nz) {
+        var o = 0, w = 1;
+        for (var k = 1; k <= 5; k++) {
+            var h = 0.06 * k;
+            o += w * (h - scene(px + nx * h, py + ny * h, pz + nz * h));
+            w *= 0.7;
+        }
+        o = 1 - 2.2 * o;
+        return o < 0 ? 0 : o > 1 ? 1 : o;
+    }
 
-    // Par point de la trame : le ton de la ruine (-1 hors d'elle), sa
-    // lumière, et si le sol y est dans son ombre portée.
-    var ruTon, ruEclat, ruOmbre, ruPret = false;
+    // Par point de la trame : la part que la pierre en couvre, son encre (thème
+    // clair), sa clarté (thème sombre), son éclat, si c'est un contour, et
+    // l'ombre qu'elle porte sur le sol.
+    var ruCouv, ruEncre, ruClarte, ruEclat, ruBord, ruOmbre, ruT, ruPret = false;
     function preparerRuine() {
         var n = xs.length;
-        if (!ruTon || ruTon.length !== n) { ruTon = new Float32Array(n); ruEclat = new Float32Array(n); ruOmbre = new Uint8Array(n); }
-        // L'œil du champ : à hauteur 1, l'horizon à hy, le point de fuite à vx.
+        if (!ruCouv || ruCouv.length !== n) {
+            ruCouv = new Float32Array(n); ruEncre = new Float32Array(n); ruClarte = new Float32Array(n);
+            ruEclat = new Float32Array(n); ruBord = new Uint8Array(n); ruOmbre = new Float32Array(n); ruT = new Float32Array(n);
+        }
+        ruCouv.fill(0); ruEncre.fill(0); ruClarte.fill(0); ruEclat.fill(0); ruBord.fill(0); ruOmbre.fill(0); ruT.fill(-1);
         var hy = hauteur * 0.5, vx = largeur * 0.56, bas = hauteur - hy;
-        // Le soleil : de face et de la gauche, haut. La façade est en pleine
-        // lumière, le pignon dans un demi-jour, les jours restent noirs.
+        // Le soleil : de face et de la gauche, haut, comme sur la montagne.
         var lx0 = -0.4, ly0 = 0.7, lz0 = -0.62, ln = Math.sqrt(lx0 * lx0 + ly0 * ly0 + lz0 * lz0);
         lx0 /= ln; ly0 /= ln; lz0 /= ln;
-        var e = 0.006;
-        // Le rayon qui passe par le point (x, y) de l'écran : sa direction
-        // dans R, et ce qu'il touche avant le sol (ou -1).
-        var R = [0, 0, 0];
+        var e = 0.004, R = [0, 0, 0];
         function viser(x, y) {
             var dx = (x - vx) / bas, dy = -((y - hy) / bas + 0.02), dn = Math.sqrt(dx * dx + dy * dy + 1);
             R[0] = dx / dn; R[1] = dy / dn; R[2] = 1 / dn;
@@ -220,47 +242,108 @@
             var sol = R[1] < -0.0005 ? -1 / R[1] : 1e9;
             return (t >= 0 && t < sol) ? t : -1;
         }
+        // Un échantillon : la pierre touchée et sa lumière, ou le sol et son ombre.
+        var S = { t: -1, encre: 0, clarte: 0, eclat: 0, sol: 0 };
+        function echantillon(x, y) {
+            var t = viser(x, y), dx = R[0], dy = R[1], dz = R[2];
+            S.t = t;
+            if (t < 0) {
+                S.sol = 0;
+                if (dy < -0.0005) {
+                    var sol = -1 / dy, gx = dx * sol, gz = dz * sol;
+                    var so = penombre(gx, 0.01, gz, lx0, ly0, lz0);
+                    var ao = pierres(gx, 0, gz) < 0.4 ? occlusion(gx, 0.002, gz, 0, 1, 0) : 1;
+                    S.sol = Math.min(1, 0.85 * (1 - so) + 0.7 * (1 - ao));
+                }
+                return;
+            }
+            var px = dx * t, py = 1 + dy * t, pz = dz * t;
+            pierres(px, py, pz);
+            var ab = abscisse, as = assise;
+            var nx = pierres(px + e, py, pz) - pierres(px - e, py, pz);
+            var ny = pierres(px, py + e, pz) - pierres(px, py - e, pz);
+            var nz = pierres(px, py, pz + e) - pierres(px, py, pz - e);
+            var nn = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
+            nx /= nn; ny /= nn; nz /= nn;
+            var cosL = nx * lx0 + ny * ly0 + nz * lz0;
+            var so = cosL > 0 ? penombre(px + nx * 0.01, py + ny * 0.01, pz + nz * 0.01, lx0, ly0, lz0) : 0;
+            var ao = occlusion(px, py, pz, nx, ny, nz);
+            // Le soleil, le ciel, et sous les arches la lumière que renvoie le sol.
+            var jour = Math.max(0, cosL) * so + (0.1 + 0.08 * ny) * ao + 0.2 * Math.max(0, -ny) * ao;
+            // Les assises : chaque bloc a sa pierre, et les joints sont filtrés à
+            // la taille d'un point, pour ne pas crénerer la trame.
+            var pied = t * PAS_X / bas / ECHELLE, w = Math.max(0.03, pied * 0.55);
+            var fy = as / 0.3, rang = Math.floor(fy), fx = ab / 0.55 + rang * 0.5, bloc = Math.floor(fx);
+            var dj = Math.min((0.5 - Math.abs(fy - rang - 0.5)) * 0.3, (0.5 - Math.abs(fx - bloc - 0.5)) * 0.55);
+            var joint = (1 - lisse(0, w, dj)) * Math.min(1, 0.04 / w);
+            // La forme d'abord ; le grain de la pierre et sa patine, plus sale
+            // vers le pied, ne font que la nuancer.
+            var grain = 0.5 * (hasard(bloc, rang + 40) - 0.5) + 0.4 * (bruitLisse(ab * 1.3, as * 2.2 + 5) - 0.5);
+            var salete = 1 - lisse(0, 0.9, as);
+            // Des valeurs franches : la pierre au soleil presque papier, les
+            // dessous bien noirs, pour que l'ouvrage se détache du champ.
+            grain *= 0.5;
+            var r = 1 - Math.min(1, jour * 1.35);
+            S.encre = 0.95 * (0.02 + 0.98 * r * r * (2 - r)) * (0.5 + 0.5 * ao) * (1 + grain) + 0.08 * joint + 0.04 * salete;
+            S.clarte = 0.8 * (0.06 + 0.94 * Math.min(1, jour * 1.35)) * (0.55 + 0.45 * ao) * (1 - 0.6 * grain) * (1 - 0.3 * joint) * (1 - 0.15 * salete);
+            S.eclat = lisse(0.4, 0.8, jour) * (1 - joint) * (1 - grain) * (1 - 0.4 * salete);
+        }
 
+        // D'abord un rayon par point ; puis, aux bords, quatre de plus, pour
+        // que la pierre se fonde dans la trame au lieu d'y faire des marches.
+        var zone = new Uint8Array(n);
         for (var i = 0; i < n; i++) {
-            ruTon[i] = -1; ruEclat[i] = 0; ruOmbre[i] = 0;
             var x = xs[i], y = ys[i];
             if (x < vx - bas * 0.1 || y < hy - bas * 0.95) continue;
-            var t = viser(x, y);
-            var dx = R[0], dy = R[1], dz = R[2];
-            if (t >= 0) {
-                var px = dx * t, py = 1 + dy * t, pz = dz * t;
-                var nx = pierres(px + e, py, pz) - pierres(px - e, py, pz);
-                var ny = pierres(px, py + e, pz) - pierres(px, py - e, pz);
-                var nz = pierres(px, py, pz + e) - pierres(px, py, pz - e);
-                var nn = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
-                nx /= nn; ny /= nn; nz /= nn;
-                var jour = nx * lx0 + ny * ly0 + nz * lz0;
-                if (jour < 0) jour = 0;
-                if (jour > 0 && toucher(px + nx * 0.05, py + ny * 0.05, pz + nz * 0.05, lx0, ly0, lz0, 8) >= 0) jour = 0;
-                {
-                    // La pierre, en deux valeurs franches : les faces au soleil,
-                    // claires, et le dessous des arches, à l'ombre. Un léger
-                    // grain d'assises, pas plus : la forme passe avant.
-                    var clair = jour;
-                    var rang = Math.floor(py / ECHELLE / 0.3);
-                    var grain = hasard(Math.floor(abscisse / 0.55 + rang * 0.5), rang) - 0.5;
-                    // La pierre au soleil est claire, presque le papier : l'ouvrage se
-                    // détache en clair sur le champ, cerné d'un trait, les dessous à l'ombre.
-                    ruTon[i] = sombre ? (clair > 0.3 ? 0.78 + 0.1 * grain : 0.12) : (clair > 0.3 ? 0.5 + 0.12 * grain : 0.88);
-                    ruEclat[i] = clair > 0.3 && sombre ? 0.5 : 0;
-                    // Le contour : là où le rayon voisin passe à côté de la
-                    // pierre, ou touche bien plus loin, on est sur une arête.
-                    // Un trait la dessine, comme la crête de la montagne.
-                    var arete = false;
-                    for (var v = 0; v < 3 && !arete; v++) {
-                        var tv = viser(x + (v === 0 ? -5 : v === 1 ? 5 : 0), y - (v === 2 ? 5 : 0));
-                        if (tv < 0 || Math.abs(tv - t) > 0.3) arete = true;
-                    }
-                    if (arete) { ruTon[i] = sombre ? 0.03 : 0.95; ruEclat[i] = 0; }
-                }
-            } else if (dy < -0.0005) {
-                var sol = -1 / dy, gx = dx * sol, gz = dz * sol;
-                if (toucher(gx, 0.02, gz, lx0, ly0, lz0, 8) >= 0) ruOmbre[i] = 1;
+            zone[i] = 1;
+            ruT[i] = viser(x, y);
+        }
+        function voisin(k, a) {
+            // a : 0 gauche, 1 droite, 2 et 3 au-dessus, 4 et 5 au-dessous.
+            var j = Math.floor(k / parRang), c = k - j * parRang, imp = j % 2;
+            if (a < 2) c += a ? 1 : -1;
+            else { j += a < 4 ? -1 : 1; c += (a % 2 ? 0 : -1) + imp; }
+            if (c < 0 || c >= parRang || j < 0 || j * parRang + c >= n) return -1;
+            return j * parRang + c;
+        }
+        function rompt(a, b) {
+            if ((a < 0) !== (b < 0)) return true;
+            return a >= 0 && Math.abs(a - b) > 0.12 * Math.min(a, b);
+        }
+        var OFF = [[0, 0], [-2.6, -1.1], [2.6, 1.1], [-1.1, 2.3], [1.1, -2.3]];
+        var a, v;
+        for (i = 0; i < n; i++) {
+            if (!zone[i]) continue;
+            var bord = false;
+            for (a = 0; a < 6 && !bord; a++) { v = voisin(i, a); if (v >= 0 && zone[v] && rompt(ruT[i], ruT[v])) bord = true; }
+            if (!bord && ruT[i] < 0 && ys[i] < hy) continue;
+            var m = bord ? OFF.length : 1, hits = 0, sols = 0;
+            var en = 0, cl = 0, ec = 0, so = 0, tm = 0;
+            for (var q = 0; q < m; q++) {
+                echantillon(xs[i] + OFF[q][0] * PAS_X / 10, ys[i] + OFF[q][1] * PAS_X / 10);
+                if (S.t >= 0) { hits++; en += S.encre; cl += S.clarte; ec += S.eclat; tm += S.t; }
+                else { sols++; so += S.sol; }
+            }
+            ruCouv[i] = hits / m;
+            if (hits) { ruEncre[i] = en / hits; ruClarte[i] = cl / hits; ruEclat[i] = ec / hits; ruT[i] = tm / hits; }
+            if (sols) ruOmbre[i] = so / sols;
+        }
+        // Le contour, comme celui des buissons : un trait d'un point là où la
+        // pierre s'arrête sur ce qui est derrière, sauf au pied.
+        for (i = 0; i < n; i++) {
+            if (ruCouv[i] <= 0.5) continue;
+            for (a = 0; a < 4; a++) {
+                v = voisin(i, a);
+                if (v < 0) continue;
+                if (ruCouv[v] < 0.3 || ruT[v] > ruT[i] * 1.18) { ruBord[i] = 1; break; }
+            }
+        }
+        // Autour, un liseré de papier nu, comme au ras de la montagne.
+        for (i = 0; i < n; i++) {
+            if (ruBord[i] !== 1) continue;
+            for (a = 0; a < 4; a++) {
+                v = voisin(i, a);
+                if (v >= 0 && ruBord[v] === 0 && ruCouv[v] < 0.5) ruBord[v] = 2;
             }
         }
         ruPret = true;
@@ -480,9 +563,7 @@
     }
 
     // Les nuages : un bruit lisse, à deux échelles, qui dérive lentement. Dans
-    // le ciel il pose de petits nuages clairs, au ventre un peu gris ; au
-    // sol, leur ombre glisse sur le paysage. C'est le seul mouvement du
-    // fond : la lumière qui change.
+    // le ciel il pose de petits nuages clairs, au ventre un peu gris.
     function bruitLisse(x, y) {
         var i = Math.floor(x), j = Math.floor(y), fx = x - i, fy = y - j;
         fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy);
@@ -570,10 +651,7 @@
                 if (Math.abs(x - cxp) < demiL) cypres = 0.85;
             }
 
-            // La ruine, entre les expérimentations et les outils.
-            if (ruTon[i] >= 0) {
-                ton = ruTon[i]; eclat = ruEclat[i];
-            } else if (cypres) {
+            if (cypres) {
                 ton = cypres;
             } else if (y >= col2 && y < hy) {
                 // La haie : un aplat sombre, qui rejoint en bas le ton du
@@ -650,11 +728,8 @@
                 }
                 ton *= ras; eclat *= ras;
             } else {
-                // La lavande. La profondeur suit l'inverse de la distance à
-                // l'horizon ; la coordonnée de rang suit la perspective.
+                // La lavande.
                 var p = (y - hy) / bas;                       // 0 à l'horizon, 1 en bas
-                var prof = 1 / (p + 0.02);
-                var X = (x - vx) / (p + 0.02) / largeur;      // position dans le champ
                 // Les buissons, posés une fois par mise en page. Près de
                 // l'horizon, ils se fondent en un ton uni : ils y seraient
                 // plus fins qu'un point.
@@ -662,24 +737,22 @@
                 var champ = sombre ? buLum[i] : buEncre[i];
                 eclat = 0.8 * buEclat[i] * sortie;
                 ton = CHAMP_UNI + (champ - CHAMP_UNI) * sortie;
-                // L'ombre des nuages court sur le champ, en perspective.
-                var os = nuage(X * 1.1 - t * 0.04, prof * 0.3, 0.54) * sortie;
-                ton *= sombre ? 1 - 0.4 * os : 1 + 0.45 * os;
-                eclat *= 1 - os;
                 // L'ombre portée de l'aqueduc.
-                if (ruOmbre[i]) { ton = sombre ? ton * 0.6 : Math.min(1, ton * 0.85 + 0.14); eclat = 0; }
+                var oa = ruOmbre[i];
+                if (oa > 0) { ton = sombre ? ton * (1 - 0.5 * oa) : ton + (0.62 - ton) * 0.6 * oa; eclat *= 1 - oa; }
             }
 
-            // L'ombre des nuages sur la montagne et les collines.
-            if (y < hy && y >= Math.min(sommet, col1)) {
-                var ot = nuage(x / hauteur * 3.2 - t * 0.045 + 0.4, y / hauteur * 6 + 1.7, 0.54);
-                ton *= sombre ? 1 - 0.4 * ot : 1 + 0.45 * ot;
-                if (!sombre) ton += 0.03 * ot;
-                eclat *= 1 - ot;
-            }
-            // Les silhouettes passent après les nuages : ni ombre ni lumière
-            // ne les efface. En sombre, le trait est clair.
+            // Les silhouettes : un trait que rien n'efface. En sombre, il est clair.
             if (bord) { ton = bord; eclat = 0; }
+
+            // L'aqueduc, par-dessus, fondu au bord selon la part qu'il couvre.
+            var cv = ruCouv[i], rb = ruBord[i];
+            if (rb === 2) { ton *= 0.3; eclat *= 0.5; }
+            if (cv > 0) {
+                var tp = rb === 1 ? (sombre ? 0.62 : 0.62) : (sombre ? ruClarte[i] : ruEncre[i]);
+                var ep = rb === 1 ? 0 : ruEclat[i] * (sombre ? 0.7 : 1);
+                ton += (tp - ton) * cv; eclat += (ep - eclat) * cv;
+            }
 
             // Un seuil bas : les points s'éteignent en rétrécissant, pas d'un coup
             // sur une même rangée, ce qui y tracerait une ligne.
@@ -750,45 +823,50 @@
         parapente(cx, cy, W, penche, vu, sens);
     }
 
-    // La bulle crevée : une étoile dentelée qui s'ouvre et s'efface, des
-    // traits de vitesse et quelques points projetés. Pas de mot.
+    // La bulle crevée, en points comme la voile : une étoile dentelée qui
+    // s'ouvre, des traits de vitesse en pointillé, quelques gros points
+    // projetés. Pas de mot.
     function eclater(o, p, rot) {
-        var ouvre = 1 - Math.pow(1 - p, 3), W = o.W;
+        var W = o.W, ouvre = 1 - Math.pow(1 - p, 3), reste = 1 - lisse(0.4, 1, p);
+        var R = W * (0.5 + 0.75 * ouvre), g = 3.4, portee = R * 1.15 + W * 0.7;
+        function bord(th) {
+            var f = th * 11 / 6.2832 + 0.25, tri = 1 - 2 * Math.abs(f - Math.floor(f) - 0.5);
+            return R * (0.68 + 0.4 * tri);
+        }
         ctx.save();
         ctx.translate(o.x, o.y);
-        ctx.rotate(rot);
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        if (p < 0.5) {
-            var R = W * (0.55 + 0.6 * ouvre), r = R * 0.58, pointes = 11;
-            ctx.globalAlpha = 1 - lisse(0.2, 0.5, p);
-            ctx.beginPath();
-            for (var q = 0; q < pointes * 2; q++) {
-                var ang = q * Math.PI / pointes, rr = q % 2 ? r * (0.9 + 0.2 * hasard(q, 3)) : R * (0.85 + 0.3 * hasard(q, 5));
-                ctx.lineTo(Math.cos(ang) * rr, Math.sin(ang) * rr);
-            }
-            ctx.closePath();
-            ctx.fillStyle = papier;
-            ctx.fill();
-            ctx.strokeStyle = encreVoile;
-            ctx.lineWidth = 1.6;
-            ctx.stroke();
-        }
-        ctx.globalAlpha = 1 - lisse(0.55, 1, p);
-        ctx.strokeStyle = encreVoile;
-        ctx.lineWidth = 2 * (1 - 0.6 * p);
+        // Le dedans de l'étoile, au ton du papier : le ciel s'efface derrière.
+        ctx.globalAlpha = reste;
+        ctx.fillStyle = papier;
         ctx.beginPath();
-        for (var l = 0; l < 8; l++) {
-            var al = l * Math.PI / 4 + Math.PI / 8, r0 = W * (0.95 + 0.9 * ouvre), r1 = r0 + W * 0.4 * (1 - p);
-            ctx.moveTo(Math.cos(al) * r0, Math.sin(al) * r0);
-            ctx.lineTo(Math.cos(al) * r1, Math.sin(al) * r1);
-        }
-        ctx.stroke();
+        for (var q = 0; q <= 88; q++) { var a0 = q * 6.2832 / 88; ctx.lineTo(Math.cos(a0) * bord(a0 - rot), Math.sin(a0) * bord(a0 - rot)); }
+        ctx.fill();
+        ctx.globalAlpha = 1;
         ctx.fillStyle = encreVoile;
         ctx.beginPath();
-        for (var d = 0; d < 10; d++) {
-            var ad = d * 0.6283 + 0.3 * hasard(d, 9), rd = W * (0.5 + (1.3 + 0.5 * hasard(d, 2)) * ouvre), tp = 2.6 * (1 - p);
-            if (tp < 0.3) continue;
+        for (var y = -portee, rang = 0; y <= portee; y += g * 0.88, rang++) {
+            for (var x = -portee + (rang % 2 ? g / 2 : 0); x <= portee; x += g) {
+                var d = Math.sqrt(x * x + y * y);
+                if (d > portee) continue;
+                var th = Math.atan2(y, x) - rot;
+                var v = Math.exp(-Math.pow((d - bord(th)) / 2.6, 2));
+                // Huit traits de vitesse, au-delà des pointes.
+                var r0 = R * 1.12, r1 = r0 + W * 0.55 * (1 - p);
+                if (d > r0 && d < r1) {
+                    var sec = (th / 0.7854) - 0.5, dl = Math.abs(sec - Math.round(sec)) * 0.7854 * d;
+                    v = Math.max(v, Math.exp(-dl * dl / 4) * (1 - (d - r0) / (r1 - r0 + 0.01) * 0.5));
+                }
+                v *= reste;
+                if (v < 0.12) continue;
+                var r = 1.9 * Math.sqrt(v);
+                ctx.moveTo(x + r, y);
+                ctx.arc(x, y, r, 0, 6.2832);
+            }
+        }
+        // Les éclats : des points à la taille de ceux du paysage.
+        for (var e = 0; e < 9; e++) {
+            var ad = e * 0.698 + rot + 0.3 * hasard(e, 9), rd = W * (0.6 + (1.25 + 0.45 * hasard(e, 2)) * ouvre), tp = RAYON_MAX * 0.75 * (1 - p);
+            if (tp < 0.4) continue;
             ctx.moveTo(Math.cos(ad) * rd + tp, Math.sin(ad) * rd);
             ctx.arc(Math.cos(ad) * rd, Math.sin(ad) * rd, tp, 0, 6.2832);
         }
