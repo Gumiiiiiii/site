@@ -96,13 +96,13 @@
     var chiffres = Array.prototype.slice.call(
         document.querySelectorAll('.fond-hero-chiffres .fond-kpi')
     );
-    // Les trois outils du bas, le rail et le voile qui les détache ferment la
+    // Les trois outils et le rail ferment la
     // marche : ils encadrent la page, ils entrent une fois qu'il y a une page
     // à encadrer.
     // Le semis du fond : il entre le premier, c'est le papier sur lequel
     // tout le reste se pose.
     var champ = document.querySelector('.points-champ');
-    var cadre = ['.fond-rail', '.fond-outils', '.fond-voile']
+    var cadre = ['.fond-rail', '.fond-outils']
         .map(function (selecteur) { return document.querySelector(selecteur); })
         .filter(Boolean);
 

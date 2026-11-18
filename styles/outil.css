@@ -23,38 +23,7 @@ body.outil-page {
 .outil-page .etude-trame.prete { opacity: 1; }
 
 /* La barre, comme sur les articles. */
-body.outil-page .navbar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: auto;
-    width: auto;
-    min-width: 0;
-    max-width: none;
-    height: auto;
-    transform: none;
-    justify-content: space-between;
-    gap: 0.35rem;
-    padding: var(--marge) calc((100% - var(--large)) / 2) 0;
-    background: none;
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    visibility: visible;
-    overflow: visible;
-    transition: none;
-    pointer-events: none;
-}
-:root[data-theme="dark"] body.outil-page .navbar { background: none; border: 0; }
-body.outil-page .navbar > * { pointer-events: auto; }
-body.outil-page .nav-sep { display: none; }
-body.outil-page .nav-logo { padding: 0 !important; }
-body.outil-page .nav-logo img,
-body.outil-page .nav-logo svg { height: 34px; }
-body.outil-page .nav-group--controls { margin-right: -7px; }
+body.outil-page .navbar { padding: var(--marge) calc((100% - var(--large)) / 2) 0; }
 
 /* La page. */
 .outil-cadre {
@@ -333,9 +302,8 @@ body.outil-page .nav-group--controls { margin-right: -7px; }
     .outil-scene {
         max-height: 100%;
         overflow-y: auto;
+        overflow-x: hidden;
         overscroll-behavior: contain;
-        scrollbar-width: thin;
-        scrollbar-color: var(--filet) transparent;
     }
     .outil-page .main-grid:has(> .left-col) { grid-template-columns: minmax(0, 28rem) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
     .outil-page .preview-panel, .outil-page .status-container { min-height: 0; }
@@ -390,3 +358,36 @@ body.outil-page .nav-group--controls { margin-right: -7px; }
 }
 @keyframes outil-entre { from { opacity: 0; transform: translateY(14px); } }
 @keyframes outil-parait { from { opacity: 0; } }
+
+/* Ce qui défile dans un outil défile sans barre : un fondu au bas du
+   panneau dit qu'il en reste, et s'efface quand on arrive au bout. */
+.outil-page *,
+.outil-page *::before { scrollbar-width: none; }
+.outil-page *::-webkit-scrollbar { display: none; }
+
+@property --fondu {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 0px;
+}
+@keyframes outil-fondu {
+    from { --fondu: 2.5rem; }
+    to { --fondu: 0px; }
+}
+@supports (animation-timeline: scroll()) {
+  @media (min-width: 1100px) and (min-height: 600px) {
+    .outil-page :is(.left-col, .output-panel, .results-list, .preview-panel) {
+        animation: outil-fondu linear both;
+        animation-timeline: scroll(self);
+        -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fondu)), transparent);
+        mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fondu)), transparent);
+    }
+  }
+  /* La colonne des réglages garde aussi son arrivée. */
+  @media (min-width: 1100px) and (min-height: 600px) and (prefers-reduced-motion: no-preference) {
+    .outil-page .left-col {
+        animation: outil-entre 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.28s backwards, outil-fondu linear both;
+        animation-timeline: auto, scroll(self);
+    }
+  }
+}

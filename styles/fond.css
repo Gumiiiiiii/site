@@ -344,47 +344,22 @@
     letter-spacing: 0.04em;
 }
 
-/* Le voile : sur mobile, les trois icônes n'ont plus la marge de gauche pour
-   elles seules, elles passent au milieu et le contenu défile juste dessous.
-   Cette bande floute ce qui passe derrière elles, et s'éteint vers le haut
-   pour qu'aucune ligne franche ne traverse la page. Elle n'existe pas sur
-   desktop, où les icônes sont dans la marge. */
-.fond-voile { display: none; }
-
 @media (max-width: 760px) {
-    .fond-voile {
-        display: block;
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 6rem;
-        z-index: 19;
-        pointer-events: none;
-        -webkit-backdrop-filter: blur(7px);
-        backdrop-filter: blur(7px);
-        /* Le fondu se fait par le masque, pas par une couleur : la teinte du
-           papier reste celle du thème en cours, sans être répétée ici. */
-        -webkit-mask-image: linear-gradient(to top, #000 40%, transparent 100%);
-        mask-image: linear-gradient(to top, #000 40%, transparent 100%);
-    }
-
-    /* Les trois icônes reviennent au centre ; la signature les suit, plus
-       bas dans ce fichier — après les règles qu elle doit contredire. */
+    /* Les trois icônes montent en haut à droite, comme sur le reste du
+       site, et partent avec la page. */
     .fond-outils {
-        left: 0;
-        right: 0;
-        bottom: 0.75rem;
-        justify-content: center;
+        position: absolute;
+        top: 0.5rem;
+        right: 0.25rem;
+        left: auto;
+        bottom: auto;
     }
 
-    /* En haut, le hero se contente de la moitié de son air : sinon la photo,
-       la phrase et les quatre chiffres dépassent l'écran, et les chiffres
-       arrivent sous le voile. En bas, il rend la hauteur d'une cible (44 px)
-       plus l'épaisseur du voile, sans quoi le flou les mangerait. */
+    /* Le hero laisse en haut la hauteur des icônes, et se contente en bas
+       de peu d'air : sinon les quatre chiffres dépassent l'écran. */
     .fond-hero {
-        padding-top: clamp(1.5rem, 4vh, 2.5rem);
-        padding-bottom: calc(6rem + 0.5rem);
+        padding-top: calc(0.5rem + 44px + 0.75rem);
+        padding-bottom: 2.5rem;
     }
 }
 
@@ -1669,13 +1644,12 @@ h3.fond-boite-cat { margin: 0; }
     .fond-signature { transition: none; }
 }
 
-/* Sur mobile, la signature quitte le coin droit : elle se pose au centre,
-   juste au-dessus des trois icônes. */
+/* Sur mobile, la signature quitte le coin droit : elle se pose au centre. */
 @media (max-width: 760px) {
     .fond-signature {
         left: 0;
         right: 0;
-        bottom: calc(0.75rem + 44px + 0.25rem);
+        bottom: 0.75rem;
         min-height: 0;
         justify-content: center;
     }
@@ -1738,8 +1712,7 @@ h3.fond-boite-cat { margin: 0; }
     .fond-passion,
     .fond-contact-intro,
     .fond-contact > .fond-bloc,
-    .fond-outils,
-    .fond-voile
+    .fond-outils
 ) {
     opacity: 0;
     transform: translateY(var(--anim-monte, 0.85rem));
@@ -1748,10 +1721,10 @@ h3.fond-boite-cat { margin: 0; }
 }
 
 /* Un titre et sa rangée assombrie sont posés au pixel près l'un sur l'autre,
-   sur une rangée du champ ; le voile est collé au bas de l'écran. Ceux-là ne
+   sur une rangée du champ. Ceux-là ne
    peuvent que se révéler sur place — les faire glisser, c'est refaire
    exactement ce saut de ligne qu'on cherchait à supprimer. */
-.fond-anime :where(.fond-titre, .fond-ligne, .fond-voile) { --anim-monte: 0px; }
+.fond-anime :where(.fond-titre, .fond-ligne) { --anim-monte: 0px; }
 
 .fond-anime [data-anim="vu"] { opacity: 1; --anim-monte: 0px; }
 

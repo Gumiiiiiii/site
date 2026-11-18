@@ -25,11 +25,13 @@
     var toile = document.getElementById('lavande');
     if (!toile || !toile.getContext) return;
 
-    var SEUIL = window.matchMedia('(min-width: 1100px) and (min-height: 600px)');
     var CALME = window.matchMedia('(prefers-reduced-motion: reduce)');
     var PAS_X = 10, PAS_Y = 9, RAYON_MAX = 5.2, CADENCE = 40;
 
     var ctx = null, largeur = 0, hauteur = 0, dpr = 1, xs, ys;
+    // Sur un écran étroit, la scène garde ses proportions de paysage : on la
+    // dessine plus large que la fenêtre et on n'en montre qu'une tranche.
+    var vue = 0, decal = 0, gI0 = 0, parRang = 1;
     var encre = 'rgba(26, 26, 26, 0.12)', sombre = false, papier = '#F9F4EF', encreVoile = 'rgba(26, 26, 26, 0.3)';
     // Les lumières : une seconde encre, claire, pour ce que le soleil touche.
     // L'encre grise dessine les ombres ; celle-ci pose des points blancs sur
@@ -43,20 +45,25 @@
 
     function mesurer() {
         dpr = Math.min(window.devicePixelRatio || 1, 2);
-        largeur = window.innerWidth;
-        hauteur = window.innerHeight;
-        toile.width = Math.round(largeur * dpr);
+        vue = toile.clientWidth || window.innerWidth;
+        hauteur = toile.clientHeight || window.innerHeight;
+        largeur = Math.max(vue, Math.round(hauteur * 1.2));
+        decal = Math.min(largeur - vue, Math.max(0, largeur * 0.56 - vue / 2));
+        toile.width = Math.round(vue * dpr);
         toile.height = Math.round(hauteur * dpr);
         var rangees = Math.round(hauteur / PAS_Y), pas = hauteur / rangees;
-        var centre = largeur / 2, demi = Math.ceil(centre / PAS_X) + 1;
-        var n = (rangees + 1) * (demi * 2 + 1);
+        var centre = largeur / 2;
+        gI0 = Math.floor((decal - centre) / PAS_X) - 1;
+        var gI1 = Math.ceil((decal + vue - centre) / PAS_X) + 1;
+        parRang = gI1 - gI0 + 1;
+        var n = (rangees + 1) * parRang;
         xs = new Float32Array(n);
         ys = new Float32Array(n);
         lx = new Float32Array(n); ly = new Float32Array(n); lr = new Float32Array(n);
         var k = 0;
         for (var j = 0; j <= rangees; j++) {
             var dec = (j % 2) ? PAS_X / 2 : 0;
-            for (var i = -demi; i <= demi; i++) { xs[k] = centre + i * PAS_X + dec; ys[k] = j * pas; k += 1; }
+            for (var i = gI0; i <= gI1; i++) { xs[k] = centre + i * PAS_X + dec; ys[k] = j * pas; k += 1; }
         }
     }
 
@@ -340,17 +347,67 @@
         return tampon[1];
     }
 
+    // Pose un buisson sur la trame, penché de « penche » (unités du modèle,
+    // au sommet), sans sortir de la zone z quand elle est donnée.
+    var s5 = new Float32Array(BU_C);
+    function poser(B, penche, z) {
+        var rangees = Math.round(hauteur / PAS_Y), pas = hauteur / rangees, centre = largeur / 2;
+        var pasS = PAS_X / B.ppu * BU_PX, pasV = pas / B.ppu * BU_PX;     // d'un point à son voisin, dans le rendu
+        var marge = Math.abs(penche) * B.ppu;
+        var j0 = Math.max(z ? z.j0 : 0, Math.ceil(Math.max(B.haut, hauteur * 0.5) / pas)), j1 = Math.min(z ? z.j1 : rangees, Math.floor(B.basS / pas));
+        for (var j = j0; j <= j1; j++) {
+            var dec = (j % 2) ? PAS_X / 2 : 0, y = j * pas;
+            var i0 = Math.max(z ? z.i0 : gI0, Math.ceil((B.gauche - marge - centre - dec) / PAS_X));
+            var i1 = Math.min(z ? z.i1 : gI0 + parRang - 1, Math.floor((B.droite + marge - centre - dec) / PAS_X));
+            var v = (B.by - y) / B.ppu, sy = (BU_V0 - v) * BU_PX;
+            // Le vent couche le haut du buisson ; le pied et l'ombre au sol restent.
+            var dx = v > 0 ? penche * Math.pow(v / 1.25, 1.6) * BU_PX : 0;
+            for (var ii = i0; ii <= i1; ii++) {
+                var x = centre + ii * PAS_X + dec, sx = ((x - B.bx) / B.ppu - BU_U0) * BU_PX - dx;
+                s5[0] = s5[1] = s5[2] = s5[3] = s5[4] = 0;
+                lireSprite(B.mA, sx, sy, B.niveau, 1 - B.fa, s5);
+                if (B.fa > 0) lireSprite(B.mB, sx, sy, B.niveau, B.fa, s5);
+                if (s5[1] < 0.002 && s5[3] < 0.002) continue;
+                var k = j * parRang + ii - gI0, vide = 1 - s5[1], sh = 0.6 * s5[3];
+                // Le buisson couvre ce qui est derrière ; son ombre tombe sur le reste.
+                var e0 = buEncre[k], l0 = buLum[k], c0 = buEclat[k];
+                buEncre[k] = 0.08 * s5[1] + s5[0] + vide * e0 + sh * (OMBRE_SOL - e0);
+                buLum[k] = Math.max(0, 1.2 * s5[2] + vide * l0 - 0.85 * sh * l0);
+                buEclat[k] = Math.max(0, s5[4] + vide * c0 - sh * c0);
+                // Son contour, comme la crête et les collines : un trait d'un point,
+                // sauf au pied, où il touche le sol.
+                if (s5[1] > 0.5 && (couv(B.mA, B.mB, B.fa, sx - pasS, sy, B.niveau) < 0.3 || couv(B.mA, B.mB, B.fa, sx + pasS, sy, B.niveau) < 0.3
+                    || couv(B.mA, B.mB, B.fa, sx - pasS / 2, sy - pasV, B.niveau) < 0.3 || couv(B.mA, B.mB, B.fa, sx + pasS / 2, sy - pasV, B.niveau) < 0.3)) {
+                    buEncre[k] = Math.max(buEncre[k], 0.5); buLum[k] = Math.max(buLum[k], 0.55); buEclat[k] = 0;
+                }
+            }
+        }
+    }
+
+    // Le buisson dans le vent : près du bas de l'écran, dans l'espace entre
+    // les expérimentations et les outils.
+    var vent = null;
+    function cibleVent() {
+        var ex = document.querySelector('.exps'), ou = document.querySelector('.outils');
+        if (ex && ou) {
+            var a = ex.getBoundingClientRect(), b = ou.getBoundingClientRect();
+            if (b.left - a.right > 8) return (a.right + b.left) / 2;
+        }
+        return vue / 2;
+    }
+
     function preparerBuissons() {
         var n = xs.length;
         if (!buEncre || buEncre.length !== n) { buEncre = new Float32Array(n); buLum = new Float32Array(n); buEclat = new Float32Array(n); }
         buEncre.fill(TERRE); buLum.fill(TERRE_SOMBRE); buEclat.fill(0);
         buPret = true;
+        vent = null;
         if (!buMips) return;
         var hy = hauteur * 0.5, vx = largeur * 0.56, bas = hauteur - hy;
         var ecart = largeur / (4 * bas);                  // entre deux rangs, en hauteurs d'œil
         var K = 0.7 * ecart / 2.25;                      // un buisson : 2,25 unités de son modèle
         var D = 0.62 * ecart, zMax = Math.min(40, 2.2 * K * bas / 7);
-        var liste = [];
+        var tous = [];
         for (var nT = Math.ceil(zMax / D) + 1; nT >= 0; nT--) {
             var zr = (nT + 0.5) * D;
             var nMax = Math.ceil((largeur * 0.6 * zr / bas) / ecart) + 1;
@@ -358,57 +415,68 @@
                 var h1 = hasard(nT, nR), h2 = hasard(nR, nT + 40), h3 = hasard(nT + 7, nR - 3);
                 var Z = zr - hasard(nR, 11) * D + (h2 - 0.5) * 0.08;
                 if (Z < 0.55 || Z > zMax) continue;
-                liste.push(Z, (nR + 0.5 + (h3 - 0.5) * 0.12) * ecart, 0.88 + 0.24 * h1, Math.floor(h2 * BU_VAR) % BU_VAR);
+                var W = (nR + 0.5 + (h3 - 0.5) * 0.12) * ecart, vr = Math.floor(h2 * BU_VAR) % BU_VAR;
+                var B = { Z: Z, bx: vx + W * bas / Z, by: hy + bas * (1 / Z - 0.02), ppu: K * (0.88 + 0.24 * h1) * bas / Z };
+                B.gauche = B.bx + BU_U0 * B.ppu; B.droite = B.bx + (BU_U0 + BU_L / BU_PX) * B.ppu;
+                B.haut = B.by - BU_V0 * B.ppu; B.basS = B.by + (BU_H / BU_PX - BU_V0) * B.ppu;
+                if (B.droite < decal || B.gauche > decal + vue || B.haut > hauteur || B.basS < hy) continue;
+                // L'angle sous lequel l'œil le voit, entre deux des rendus.
+                var th = Math.atan(1 / Z) * 57.2958, ia = 0;
+                while (ia < BU_ANGLES.length - 2 && th > BU_ANGLES[ia + 1]) ia++;
+                var fa = (th - BU_ANGLES[ia]) / (BU_ANGLES[ia + 1] - BU_ANGLES[ia]);
+                B.fa = fa < 0 ? 0 : fa > 1 ? 1 : fa;
+                B.mA = buMips[vr * BU_ANGLES.length + ia]; B.mB = buMips[vr * BU_ANGLES.length + ia + 1];
+                B.niveau = Math.max(0, Math.log(PAS_X / B.ppu * BU_PX) / Math.LN2 - 0.5);
+                tous.push(B);
             }
         }
-        var ordre = [];
-        for (var q = 0; q < liste.length; q += 4) ordre.push(q);
-        ordre.sort(function (a, b) { return liste[b] - liste[a]; });
+        tous.sort(function (a, b) { return b.Z - a.Z; });
 
-        var rangees = Math.round(hauteur / PAS_Y), pas = hauteur / rangees;
-        var centre = largeur / 2, demi = Math.ceil(centre / PAS_X) + 1, parRang = demi * 2 + 1;
-        var s = new Float32Array(BU_C);
-        for (var oi = 0; oi < ordre.length; oi++) {
-            var b = ordre[oi], Z = liste[b], W = liste[b + 1], sc = liste[b + 2], vr = liste[b + 3];
-            var bx = vx + W * bas / Z, by = hy + bas * (1 / Z - 0.02);
-            var ppu = K * sc * bas / Z;                        // pixels d'écran par unité du modèle
-            var gauche = bx + BU_U0 * ppu, droite = bx + (BU_U0 + BU_L / BU_PX) * ppu;
-            var haut = by - BU_V0 * ppu, basS = by + (BU_H / BU_PX - BU_V0) * ppu;
-            if (droite < 0 || gauche > largeur || haut > hauteur || basS < hy) continue;
-            // L'angle sous lequel l'œil le voit, entre deux des rendus.
-            var th = Math.atan(1 / Z) * 57.2958, ia = 0;
-            while (ia < BU_ANGLES.length - 2 && th > BU_ANGLES[ia + 1]) ia++;
-            var fa = (th - BU_ANGLES[ia]) / (BU_ANGLES[ia + 1] - BU_ANGLES[ia]);
-            fa = fa < 0 ? 0 : fa > 1 ? 1 : fa;
-            var mA = buMips[vr * BU_ANGLES.length + ia], mB = buMips[vr * BU_ANGLES.length + ia + 1];
-            var niveau = Math.max(0, Math.log(PAS_X / ppu * BU_PX) / Math.LN2 - 0.5);
-            var pasS = PAS_X / ppu * BU_PX, pasV = pas / ppu * BU_PX;     // d'un point à son voisin, dans le rendu
-            var j0 = Math.max(0, Math.ceil(Math.max(haut, hy) / pas)), j1 = Math.min(rangees, Math.floor(basS / pas));
-            for (var j = j0; j <= j1; j++) {
-                var dec = (j % 2) ? PAS_X / 2 : 0, y = j * pas;
-                var i0 = Math.max(-demi, Math.ceil((gauche - centre - dec) / PAS_X)), i1 = Math.min(demi, Math.floor((droite - centre - dec) / PAS_X));
-                var sy = (BU_V0 - (by - y) / ppu) * BU_PX;
-                for (var ii = i0; ii <= i1; ii++) {
-                    var x = centre + ii * PAS_X + dec, sx = ((x - bx) / ppu - BU_U0) * BU_PX;
-                    s[0] = s[1] = s[2] = s[3] = s[4] = 0;
-                    lireSprite(mA, sx, sy, niveau, 1 - fa, s);
-                    if (fa > 0) lireSprite(mB, sx, sy, niveau, fa, s);
-                    if (s[1] < 0.002 && s[3] < 0.002) continue;
-                    var k = j * parRang + ii + demi, vide = 1 - s[1], sh = 0.6 * s[3];
-                    // Le buisson couvre ce qui est derrière ; son ombre tombe sur le reste.
-                    var e0 = buEncre[k], l0 = buLum[k], c0 = buEclat[k];
-                    buEncre[k] = 0.08 * s[1] + s[0] + vide * e0 + sh * (OMBRE_SOL - e0);
-                    buLum[k] = Math.max(0, 1.2 * s[2] + vide * l0 - 0.85 * sh * l0);
-                    buEclat[k] = Math.max(0, s[4] + vide * c0 - sh * c0);
-                    // Son contour, comme la crête et les collines : un trait d'un point,
-                    // sauf au pied, où il touche le sol.
-                    if (s[1] > 0.5 && (couv(mA, mB, fa, sx - pasS, sy, niveau) < 0.3 || couv(mA, mB, fa, sx + pasS, sy, niveau) < 0.3
-                        || couv(mA, mB, fa, sx - pasS / 2, sy - pasV, niveau) < 0.3 || couv(mA, mB, fa, sx + pasS / 2, sy - pasV, niveau) < 0.3)) {
-                        buEncre[k] = Math.max(buEncre[k], 0.5); buLum[k] = Math.max(buLum[k], 0.55); buEclat[k] = 0;
-                    }
-                }
-            }
+        // Le plus proche de la cible parmi ceux qui ont le pied au bas de l'écran.
+        var tx = decal + cibleVent(), ty = hauteur * 0.93, choisi = -1, meilleur = 1e9;
+        for (var q = 0; q < tous.length; q++) {
+            var c = tous[q];
+            if (c.by < hauteur * 0.8 || c.by > hauteur * 1.02) continue;
+            var d = Math.abs(c.bx - tx) + 0.5 * Math.abs(c.by - ty);
+            if (d < meilleur) { meilleur = d; choisi = q; }
         }
+        var rangees = Math.round(hauteur / PAS_Y), pas = hauteur / rangees, centre = largeur / 2;
+        for (var oi = 0; oi < tous.length; oi++) {
+            if (oi === choisi) {
+                // Ce qui est derrière lui est gardé, pour être reposé à chaque image.
+                var Bv = tous[oi], m = 0.45 * Bv.ppu;
+                var zone = {
+                    j0: Math.max(0, Math.floor(Bv.haut / pas) - 1), j1: Math.min(rangees, Math.ceil(Bv.basS / pas) + 1),
+                    i0: Math.max(gI0, Math.floor((Bv.gauche - m - centre) / PAS_X) - 1),
+                    i1: Math.min(gI0 + parRang - 1, Math.ceil((Bv.droite + m - centre) / PAS_X) + 1)
+                };
+                var l = zone.i1 - zone.i0 + 1, h = zone.j1 - zone.j0 + 1;
+                var fond = new Float32Array(l * h * 3);
+                for (var j = 0; j < h; j++) for (var ii = 0; ii < l; ii++) {
+                    var k = (zone.j0 + j) * parRang + zone.i0 + ii - gI0, o = (j * l + ii) * 3;
+                    fond[o] = buEncre[k]; fond[o + 1] = buLum[k]; fond[o + 2] = buEclat[k];
+                }
+                vent = { B: Bv, zone: zone, fond: fond, devant: [] };
+            } else if (vent) {
+                var A = tous[oi], mv = 0.35 * vent.B.ppu;
+                if (A.droite > vent.B.gauche - mv && A.gauche < vent.B.droite + mv && A.basS > vent.B.haut) vent.devant.push(A);
+            }
+            poser(tous[oi], 0, null);
+        }
+    }
+
+    // À chaque image : le fond gardé, le buisson penché, puis ce qui est devant lui.
+    function souffler(t) {
+        if (!vent) return;
+        var z = vent.zone, l = z.i1 - z.i0 + 1;
+        for (var j = z.j0; j <= z.j1; j++) for (var ii = z.i0; ii <= z.i1; ii++) {
+            var k = j * parRang + ii - gI0, o = ((j - z.j0) * l + ii - z.i0) * 3;
+            buEncre[k] = vent.fond[o]; buLum[k] = vent.fond[o + 1]; buEclat[k] = vent.fond[o + 2];
+        }
+        // Des rafales : une poussée lente vers la droite, et deux balancements dessus.
+        var penche = 0.08 + 0.06 * Math.sin(t * 0.45) + 0.08 * Math.sin(t * 1.7) + 0.035 * Math.sin(t * 3.3 + 1.3);
+        poser(vent.B, penche, z);
+        for (var q = 0; q < vent.devant.length; q++) poser(vent.devant[q], 0, z);
     }
 
     // Les nuages : un bruit lisse, à deux échelles, qui dérive lentement. Dans
@@ -440,7 +508,7 @@
 
     function tracer(maintenant) {
         boucle = 0;
-        if (!SEUIL.matches || !ctx) return;
+        if (!ctx) return;
         // Le cabanon se calcule avant que l'apparition commence : sinon ce
         // calcul mangerait ses premières images et elle partirait d'un saut.
         if (!ruPret) { preparerRuine(); reveiller(); return; }
@@ -453,6 +521,7 @@
         dernier = maintenant;
         var t = CALME.matches ? 0 : maintenant / 1000;
         temps = t;
+        souffler(t);
 
         // La scène : l'horizon sous le milieu, le point de fuite au centre
         // de l'espace libre, la montagne posée sur l'horizon.
@@ -463,8 +532,8 @@
         var sx = mg + ml * 0.639, sy = pied - mh;         // le sommet
         var bas = hauteur - hy;
 
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.clearRect(0, 0, largeur, hauteur);
+        ctx.setTransform(dpr, 0, 0, dpr, -decal * dpr, 0);
+        ctx.clearRect(decal, 0, vue, hauteur);
         ctx.fillStyle = encre;
         ctx.beginPath();
         var nl = 0;
@@ -645,24 +714,112 @@
             }
             ctx.fill();
         }
-        voiles(t, e);
+        voiles(t, e, maintenant);
         if (!CALME.matches || e < INTRO) reveiller();
     }
 
     // Les parapentes : l'un traverse le ciel, l'autre tourne dans un thermique
     // au-dessus de la montagne. Dessinés en trame fine, découpés sur le papier.
-    function voiles(t, e) {
+    // Un clic sur une voile la crève, comme une bulle de bande dessinée ;
+    // elle revient un peu plus tard.
+    var POP = 0.7, ABSENCE = 25, RETOUR = 2;
+    var voilesVues = [null, null], crevee = [-1e9, -1e9], eclatAngle = [0, 0];
+
+    function voiles(t, e, maintenant) {
         var vu = lisse(INTRO * 0.6, INTRO + 0.5, e);
         if (vu <= 0) return;
+        var h = maintenant / 1000;
         var W = Math.max(24, Math.min(38, hauteur * 0.044));
         // Le premier traverse en un peu plus de trois minutes.
         var k = (0.55 + t / 200) % 1;
-        parapente(-3 * W + (largeur + 6 * W) * k, hauteur * 0.12 + 5 * Math.sin(t * 0.29), W, 0.06 * Math.sin(t * 0.37), vu, 1);
+        voile(0, decal - 3 * W + (vue + 6 * W) * k, hauteur * 0.12 + 5 * Math.sin(t * 0.29), W, 0.06 * Math.sin(t * 0.37), vu, 1, h);
         // Le second spirale, plus loin : il penche vers le centre de son virage.
         var a = t * 6.2832 / 52;
         var loin = 0.72 + 0.08 * Math.sin(a);
-        parapente(largeur * 0.8 + 70 * Math.cos(a), hauteur * 0.19 + 12 * Math.sin(a) - 3 * Math.sin(t * 0.21), W * loin, -0.22 * Math.sin(a + 1.5708), vu * 0.9, Math.sin(a) > 0 ? -1 : 1);
+        voile(1, decal + vue * 0.8 + 70 * Math.cos(a), hauteur * 0.19 + 12 * Math.sin(a) - 3 * Math.sin(t * 0.21), W * loin, -0.22 * Math.sin(a + 1.5708), vu * 0.9, Math.sin(a) > 0 ? -1 : 1, h);
     }
+
+    function voile(n, cx, cy, W, penche, vu, sens, h) {
+        var depuis = h - crevee[n];
+        voilesVues[n] = null;
+        if (depuis < POP && !CALME.matches) eclater({ x: cx, y: cy - 0.1 * W, W: W }, depuis / POP, eclatAngle[n]);
+        if (depuis < ABSENCE) return;
+        vu *= lisse(ABSENCE, ABSENCE + RETOUR, depuis);
+        if (vu <= 0) return;
+        voilesVues[n] = { x: cx - decal, y: cy, W: W };
+        parapente(cx, cy, W, penche, vu, sens);
+    }
+
+    // La bulle crevée : une étoile dentelée qui s'ouvre et s'efface, des
+    // traits de vitesse et quelques points projetés. Pas de mot.
+    function eclater(o, p, rot) {
+        var ouvre = 1 - Math.pow(1 - p, 3), W = o.W;
+        ctx.save();
+        ctx.translate(o.x, o.y);
+        ctx.rotate(rot);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        if (p < 0.5) {
+            var R = W * (0.55 + 0.6 * ouvre), r = R * 0.58, pointes = 11;
+            ctx.globalAlpha = 1 - lisse(0.2, 0.5, p);
+            ctx.beginPath();
+            for (var q = 0; q < pointes * 2; q++) {
+                var ang = q * Math.PI / pointes, rr = q % 2 ? r * (0.9 + 0.2 * hasard(q, 3)) : R * (0.85 + 0.3 * hasard(q, 5));
+                ctx.lineTo(Math.cos(ang) * rr, Math.sin(ang) * rr);
+            }
+            ctx.closePath();
+            ctx.fillStyle = papier;
+            ctx.fill();
+            ctx.strokeStyle = encreVoile;
+            ctx.lineWidth = 1.6;
+            ctx.stroke();
+        }
+        ctx.globalAlpha = 1 - lisse(0.55, 1, p);
+        ctx.strokeStyle = encreVoile;
+        ctx.lineWidth = 2 * (1 - 0.6 * p);
+        ctx.beginPath();
+        for (var l = 0; l < 8; l++) {
+            var al = l * Math.PI / 4 + Math.PI / 8, r0 = W * (0.95 + 0.9 * ouvre), r1 = r0 + W * 0.4 * (1 - p);
+            ctx.moveTo(Math.cos(al) * r0, Math.sin(al) * r0);
+            ctx.lineTo(Math.cos(al) * r1, Math.sin(al) * r1);
+        }
+        ctx.stroke();
+        ctx.fillStyle = encreVoile;
+        ctx.beginPath();
+        for (var d = 0; d < 10; d++) {
+            var ad = d * 0.6283 + 0.3 * hasard(d, 9), rd = W * (0.5 + (1.3 + 0.5 * hasard(d, 2)) * ouvre), tp = 2.6 * (1 - p);
+            if (tp < 0.3) continue;
+            ctx.moveTo(Math.cos(ad) * rd + tp, Math.sin(ad) * rd);
+            ctx.arc(Math.cos(ad) * rd, Math.sin(ad) * rd, tp, 0, 6.2832);
+        }
+        ctx.fill();
+        ctx.restore();
+    }
+
+    function toucheVoile(x, y) {
+        for (var n = 0; n < 2; n++) {
+            var v = voilesVues[n];
+            if (v && Math.abs(x - v.x) < v.W * 1.1 && y > v.y - 0.75 * v.W && y < v.y + 0.95 * v.W) return n;
+        }
+        return -1;
+    }
+    var INTERACTIF = 'a, button, input, textarea, select, label, summary, [role="button"], [contenteditable]';
+    document.addEventListener('click', function (ev) {
+        if (ev.target.closest && ev.target.closest(INTERACTIF)) return;
+        var n = toucheVoile(ev.clientX, ev.clientY);
+        if (n < 0) return;
+        crevee[n] = performance.now() / 1000;
+        eclatAngle[n] = Math.random() * 0.6;
+        voilesVues[n] = null;
+        document.body.style.cursor = '';
+        dernier = 0;
+        reveiller();
+    });
+    document.addEventListener('pointermove', function (ev) {
+        if (ev.pointerType !== 'mouse') return;
+        var sur = !(ev.target.closest && ev.target.closest(INTERACTIF)) && toucheVoile(ev.clientX, ev.clientY) >= 0;
+        document.body.style.cursor = sur ? 'pointer' : '';
+    }, { passive: true });
 
     function parapente(cx, cy, W, penche, vu, sens) {
         var g = 3.4, rmax = 2;
@@ -730,15 +887,16 @@
     }
 
     function reveiller() {
-        if (!boucle && ctx && SEUIL.matches && !document.hidden) boucle = requestAnimationFrame(tracer);
+        if (!boucle && ctx && !document.hidden) boucle = requestAnimationFrame(tracer);
     }
     document.addEventListener('visibilitychange', reveiller);
 
     var redim;
     function reprendre() {
-        if (!SEUIL.matches) { if (ctx) ctx.clearRect(0, 0, toile.width, toile.height); return; }
+        if (!toile.clientWidth) return;
         if (!ctx) ctx = toile.getContext('2d');
         if (!ctx) return;
+        if (vue === toile.clientWidth && hauteur === toile.clientHeight && xs) return;
         lireTheme();
         mesurer();
         buPret = false;

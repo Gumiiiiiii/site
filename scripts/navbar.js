@@ -209,7 +209,7 @@
     document.querySelectorAll('[data-navbar-root]').forEach((root) => {
         const isCv = root.getAttribute('data-navbar-variant') === 'cv';
         root.innerHTML = isCv ? cvNavbarMarkup : navbarMarkup;
-        if (isCv) root.classList.add('navbar--cv', 'visible');
+        if (isCv) root.classList.add('navbar--cv');
 
         if (isCv) setupCvNav(root);
         chargerTrame();
@@ -296,30 +296,4 @@
             logo.setAttribute('href', homeHref());
         });
     });
-
-    // Slide the navbar in after a bit of scrolling; keep it visible on pages
-    // too short to ever reach that threshold.
-    const navbars = document.querySelectorAll('.navbar');
-
-    function updateNavbarVisibility() {
-        const shortPage = document.body.scrollHeight <= window.innerHeight + 150;
-        const visible = shortPage || window.scrollY > 100;
-        navbars.forEach((nav) => {
-            // The CV bar is anchored to the top and always on: it is that
-            // page's only sticky surface and its anchors must stay reachable.
-            if (nav.getAttribute('data-navbar-variant') === 'cv') return;
-            nav.classList.toggle('visible', visible);
-        });
-        // Mirrored on <body> so CSS-only companions (mobile progressive
-        // blur behind the navbar) can follow the same visibility.
-        document.body.classList.toggle('nav-visible', visible);
-    }
-
-    window.addEventListener('scroll', updateNavbarVisibility, { passive: true });
-    window.addEventListener('resize', updateNavbarVisibility);
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', updateNavbarVisibility);
-    } else {
-        updateNavbarVisibility();
-    }
 })();

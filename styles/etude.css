@@ -32,39 +32,7 @@ body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100v
    droite, à la marge. Elle reste en haut de la page et part avec elle.
    -------------------------------------------------------------------------- */
 
-body.etude-page .navbar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: auto;
-    width: auto;
-    min-width: 0;
-    max-width: none;
-    height: auto;
-    transform: none;
-    justify-content: space-between;
-    gap: 0.35rem;
-    /* Le logo et les réglages s'alignent sur les bords des images larges. */
-    padding: var(--marge) calc((100% - var(--large)) / 2) 0;
-    background: none;
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    visibility: visible;
-    overflow: visible;
-    transition: none;
-    pointer-events: none;
-}
-:root[data-theme="dark"] body.etude-page .navbar { background: none; border: 0; }
-body.etude-page .navbar > * { pointer-events: auto; }
-body.etude-page .nav-sep { display: none; }
-body.etude-page .nav-logo { padding: 0 !important; }
-body.etude-page .nav-logo img,
-body.etude-page .nav-logo svg { height: 34px; }
-body.etude-page .nav-group--controls { margin-right: -7px; }
+body.etude-page .navbar { padding: var(--marge) calc((100% - var(--large)) / 2) 0; }
 
 /* --------------------------------------------------------------------------
    La page
