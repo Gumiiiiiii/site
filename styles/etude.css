@@ -25,6 +25,7 @@ body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100v
     transition: opacity 0.9s ease;
 }
 .etude-trame.prete { opacity: 1; }
+.etude-trame--bas { top: auto; bottom: 0; height: min(80vh, 40rem); }
 
 /* --------------------------------------------------------------------------
    La barre : comme sur l'accueil, le logo à gauche et les réglages à
@@ -71,7 +72,7 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
 
 .etude-page .site-content {
     /* La colonne de la page se centre dès que l'écran est plus large qu'elle. */
-    padding: calc(var(--marge) + 5.5rem) max(var(--marge), calc((100% - var(--page)) / 2)) var(--marge);
+    padding: calc(var(--marge) + 5.5rem) max(var(--marge), calc((100% - var(--page)) / 2)) clamp(5rem, 14vh, 9rem);
 }
 
 .etude-page .article-hero {
