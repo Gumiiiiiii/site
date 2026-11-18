@@ -823,52 +823,23 @@
         parapente(cx, cy, W, penche, vu, sens);
     }
 
-    // La bulle crevée, en points comme la voile : une étoile dentelée qui
-    // s'ouvre, des traits de vitesse en pointillé, quelques gros points
-    // projetés. Pas de mot.
+    // La voile crevée : huit traits en pointillé partent du centre et
+    // filent vers l'extérieur en s'effaçant.
     function eclater(o, p, rot) {
-        var W = o.W, ouvre = 1 - Math.pow(1 - p, 3), reste = 1 - lisse(0.4, 1, p);
-        var R = W * (0.5 + 0.75 * ouvre), g = 3.4, portee = R * 1.15 + W * 0.7;
-        function bord(th) {
-            var f = th * 11 / 6.2832 + 0.25, tri = 1 - 2 * Math.abs(f - Math.floor(f) - 0.5);
-            return R * (0.68 + 0.4 * tri);
-        }
+        var W = o.W, file = 1 - Math.pow(1 - p, 2), g = 3.4;
+        var r0 = W * (0.15 + 1.1 * file), r1 = r0 + W * 0.6 * (1 - p);
         ctx.save();
         ctx.translate(o.x, o.y);
-        // Le dedans de l'étoile, au ton du papier : le ciel s'efface derrière.
-        ctx.globalAlpha = reste;
-        ctx.fillStyle = papier;
-        ctx.beginPath();
-        for (var q = 0; q <= 88; q++) { var a0 = q * 6.2832 / 88; ctx.lineTo(Math.cos(a0) * bord(a0 - rot), Math.sin(a0) * bord(a0 - rot)); }
-        ctx.fill();
-        ctx.globalAlpha = 1;
         ctx.fillStyle = encreVoile;
         ctx.beginPath();
-        for (var y = -portee, rang = 0; y <= portee; y += g * 0.88, rang++) {
-            for (var x = -portee + (rang % 2 ? g / 2 : 0); x <= portee; x += g) {
-                var d = Math.sqrt(x * x + y * y);
-                if (d > portee) continue;
-                var th = Math.atan2(y, x) - rot;
-                var v = Math.exp(-Math.pow((d - bord(th)) / 2.6, 2));
-                // Huit traits de vitesse, au-delà des pointes.
-                var r0 = R * 1.12, r1 = r0 + W * 0.55 * (1 - p);
-                if (d > r0 && d < r1) {
-                    var sec = (th / 0.7854) - 0.5, dl = Math.abs(sec - Math.round(sec)) * 0.7854 * d;
-                    v = Math.max(v, Math.exp(-dl * dl / 4) * (1 - (d - r0) / (r1 - r0 + 0.01) * 0.5));
-                }
-                v *= reste;
-                if (v < 0.12) continue;
-                var r = 1.9 * Math.sqrt(v);
-                ctx.moveTo(x + r, y);
-                ctx.arc(x, y, r, 0, 6.2832);
+        for (var l = 0; l < 8; l++) {
+            var a = rot + l * 0.7854, ca = Math.cos(a), sa = Math.sin(a);
+            for (var d = r0; d <= r1; d += g) {
+                var r = 1.7 * (1 - p) * (1 - 0.4 * (d - r0) / (r1 - r0 + 0.01));
+                if (r < 0.3) continue;
+                ctx.moveTo(ca * d + r, sa * d);
+                ctx.arc(ca * d, sa * d, r, 0, 6.2832);
             }
-        }
-        // Les éclats : des points à la taille de ceux du paysage.
-        for (var e = 0; e < 9; e++) {
-            var ad = e * 0.698 + rot + 0.3 * hasard(e, 9), rd = W * (0.6 + (1.25 + 0.45 * hasard(e, 2)) * ouvre), tp = RAYON_MAX * 0.75 * (1 - p);
-            if (tp < 0.4) continue;
-            ctx.moveTo(Math.cos(ad) * rd + tp, Math.sin(ad) * rd);
-            ctx.arc(Math.cos(ad) * rd, Math.sin(ad) * rd, tp, 0, 6.2832);
         }
         ctx.fill();
         ctx.restore();
