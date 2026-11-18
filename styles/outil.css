@@ -115,8 +115,6 @@ body.outil-page .nav-group--controls { margin-right: -7px; }
 }
 .etude-retour:hover, .etude-retour:focus-visible { color: var(--accent-ink); }
 .etude-retour:hover::before { transform: translateX(-3px) rotate(45deg); }
-.outil-horsligne { display: inline-flex; align-items: center; gap: 0.45rem; }
-.outil-horsligne i { width: 6px; height: 6px; border-radius: 50%; background: var(--positive); }
 
 /* Les réglages à gauche, la scène à droite. */
 .outil-page .main-grid {
@@ -155,7 +153,16 @@ body.outil-page .nav-group--controls { margin-right: -7px; }
 .outil-page .control-row { margin: 0; gap: 0.55rem; }
 .outil-page .control-label { font-size: 0.85rem; font-weight: 500; color: var(--encre-07); margin: 0; }
 .outil-page .input-field { border-radius: 0.8rem; }
-.outil-page textarea.input-field { min-height: 0; resize: none; }
+.outil-page textarea.input-field { height: 5.2rem; min-height: 0; padding: 0.85rem 1rem; line-height: 1.45; resize: none; }
+/* Un seul anneau au focus : la bordure prend l'accent, un halo doux autour. */
+.outil-page .input-field:focus,
+.outil-page .input-field:focus-visible {
+    outline: none;
+    border-color: var(--accent-ink);
+    box-shadow: 0 0 0 3px rgba(156, 119, 245, 0.2);
+}
+:root[data-theme="dark"] .outil-page .input-field:focus,
+:root[data-theme="dark"] .outil-page .input-field:focus-visible { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(156, 119, 245, 0.28); }
 .outil-couleurs { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
 /* La sortie, au pied de la scène, sous un filet. */
@@ -235,7 +242,7 @@ body.outil-page .nav-group--controls { margin-right: -7px; }
 @media (min-width: 1100px) and (max-height: 700px) {
     .outil-chapo { display: none; }
     .outil-cadre { gap: 1.1rem; }
-    .outil-page textarea.input-field { height: 3.4rem; }
+    .outil-page textarea.input-field { height: 4rem; padding: 0.7rem 1rem; }
     .outil-page .segmented-control { height: 46px; }
     .outil-etape { padding: 0.75rem 0 0.85rem; }
 }
