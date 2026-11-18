@@ -207,6 +207,8 @@ body.shell-page {
 .navbar .nav-logo img,
 .navbar .nav-logo svg { height: 34px; }
 .navbar .nav-group--controls { margin-right: -7px; }
+/* Sur un téléphone, la même marge sur toutes les pages. */
+@media (max-width: 759px) { .navbar { padding: 1.25rem 1.25rem 0; } }
 
 .navbar a {
     color: var(--text);

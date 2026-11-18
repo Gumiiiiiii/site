@@ -349,8 +349,8 @@
        site, et partent avec la page. */
     .fond-outils {
         position: absolute;
-        top: 0.5rem;
-        right: 0.25rem;
+        top: 0.9rem;
+        right: 0.5rem;
         left: auto;
         bottom: auto;
     }
@@ -358,7 +358,7 @@
     /* Le hero laisse en haut la hauteur des icônes, et se contente en bas
        de peu d'air : sinon les quatre chiffres dépassent l'écran. */
     .fond-hero {
-        padding-top: calc(0.5rem + 44px + 0.75rem);
+        padding-top: calc(0.9rem + 44px + 0.5rem);
         padding-bottom: 2.5rem;
     }
 }

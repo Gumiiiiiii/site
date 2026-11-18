@@ -32,7 +32,8 @@ body.etude-page { --marge: 1.25rem; --page: 46rem; --large: min(68rem, calc(100v
    droite, à la marge. Elle reste en haut de la page et part avec elle.
    -------------------------------------------------------------------------- */
 
-body.etude-page .navbar { padding: var(--marge) calc((100% - var(--large)) / 2) 0; }
+/* Sur un téléphone, la barre garde la marge de l'accueil. */
+@media (min-width: 760px) { body.etude-page .navbar { padding: var(--marge) calc((100% - var(--large)) / 2) 0; } }
 
 /* --------------------------------------------------------------------------
    La page

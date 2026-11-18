@@ -23,7 +23,8 @@ body.outil-page {
 .outil-page .etude-trame.prete { opacity: 1; }
 
 /* La barre, comme sur les articles. */
-body.outil-page .navbar { padding: var(--marge) calc((100% - var(--large)) / 2) 0; }
+/* Sur un téléphone, la barre garde la marge de l'accueil. */
+@media (min-width: 760px) { body.outil-page .navbar { padding: var(--marge) calc((100% - var(--large)) / 2) 0; } }
 
 /* La page. */
 .outil-cadre {
