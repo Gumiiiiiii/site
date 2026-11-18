@@ -413,3 +413,8 @@ body.etude-page .nav-group--controls { margin-right: -7px; }
     .etude-meta .article-date { flex-basis: 100%; margin-top: 0.25rem; }
     .etude-meta .article-date::before { display: none; }
 }
+
+/* Une sous-partie : pas de numéro, alignée sur les titres, en retrait de ton. */
+.etude-page .toc-item.depth-h3 { counter-increment: none; padding-left: 0; }
+.etude-page .toc-item.depth-h3 a { font-size: 0.85rem; color: var(--encre-05); padding-top: 0.1rem; }
+.etude-page .toc-item.depth-h3 a::before { content: ''; }
