@@ -49,12 +49,8 @@ h2{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase
 <section>
 <h2>Logos</h2>
 <div class="grid">
-<div class="card"><div class="stage cream"><img src="media/Gumi-Logotype.png" alt="Long logo"></div><div class="meta"><div>Long logo<small>PNG 1300 x 354</small></div><a class="dl" href="media/Gumi-Logotype.png" download>PNG</a></div></div>
-<div class="card"><div class="stage cream"><img src="media/Gumi-small.png" alt="Short logo"></div><div class="meta"><div>Short logo<small>PNG 1300 x 1300</small></div><a class="dl" href="media/Gumi-small.png" download>PNG</a></div></div>
-<div class="card"><div class="stage dark"><img src="media/logo-trame-gumi.svg" alt="Dotted long logo"></div><div class="meta"><div>Dotted long logo<small>SVG, vector</small></div><a class="dl" href="media/logo-trame-gumi.svg" download>SVG</a></div></div>
-<div class="card"><div class="stage dark"><img src="media/logo-trame-gumi-petit.svg" alt="Dotted long logo, small sizes"></div><div class="meta"><div>Dotted long logo, small sizes<small>SVG, vector</small></div><a class="dl" href="media/logo-trame-gumi-petit.svg" download>SVG</a></div></div>
-<div class="card"><div class="stage cream"><img src="media/logo-trame.svg" alt="Dotted G" style="height:100%"></div><div class="meta"><div>Dotted G<small>SVG, vector, favicon</small></div><a class="dl" href="media/logo-trame.svg" download>SVG</a></div></div>
-<div class="card"><div class="stage cream"><img src="media/icon-512.png" alt="App icon" style="height:100%;border-radius:1.5rem"></div><div class="meta"><div>App icon<small>PNG 512 x 512</small></div><a class="dl" href="media/icon-512.png" download>PNG</a></div></div>
+<div class="card"><div class="stage cream"><img src="media/logo-trame-gumi.svg" alt="Long logo"></div><div class="meta"><div>Long logo<small>SVG, vector</small></div><a class="dl" href="media/logo-trame-gumi.svg" download>SVG</a></div></div>
+<div class="card"><div class="stage cream"><img src="media/logo-trame.svg" alt="Short logo" style="height:100%"></div><div class="meta"><div>Short logo<small>SVG, vector</small></div><a class="dl" href="media/logo-trame.svg" download>SVG</a></div></div>
 </div>
 </section>
 
@@ -85,7 +81,7 @@ h2{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase
 <script>
 var icon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>';
 document.querySelectorAll('.dl').forEach(function(a){a.innerHTML=icon+a.textContent});
-var colors=[['Violet','#9C77F5','Accent','#fff'],['Violet light','#D1BFFF','Accent light','#1A1A1A'],['Violet ink','#6B45C9','Accent on text','#fff'],['Cream','#F9F4EF','Background','#1A1A1A'],['Ink','#1A1A1A','Text','#F9F4EF'],['Plum','#6C4F63','Links','#fff'],['Terracotta','#A25436','Labels','#fff'],['Green','#609675','Positive','#fff'],['Red','#C56A6A','Negative','#fff'],['Night','#1B1A1F','Dark background','#F1ECE4'],['Night text','#F1ECE4','Dark text','#1B1A1F'],['Night violet','#B49BFF','Dark accent','#1A1A1A']];
+var colors=[['Violet','#9C77F5','Accent','#fff'],['Cream','#F9F4EF','Background','#1A1A1A'],['Ink','#1A1A1A','Text','#F9F4EF'],['Night','#1B1A1F','Dark background','#F1ECE4']];
 var box=document.getElementById('colors');
 colors.forEach(function(c){var b=document.createElement('button');b.className='swatch';b.innerHTML='<div class="sw" style="background:'+c[1]+';color:'+c[3]+'">'+c[1]+'</div><div class="meta"><div>'+c[0]+'<small>'+c[2]+'</small></div></div>';
 b.onclick=function(){navigator.clipboard.writeText(c[1]);var s=b.querySelector('.sw');s.textContent='Copied';setTimeout(function(){s.textContent=c[1]},900)};box.appendChild(b)});
