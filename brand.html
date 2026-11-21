@@ -32,6 +32,8 @@ h2{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase
 .meta{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.75rem 1rem;border-top:1px solid var(--rule);font-weight:600;font-size:.9rem}
 .meta small{display:block;color:var(--grey);font-weight:500;font-size:.78rem}
 .dl{display:inline-flex;align-items:center;gap:.4rem;color:var(--text);text-decoration:none;font-weight:700;font-size:.85rem;padding:.4rem .75rem;border-radius:99px;border:1px solid var(--rule);background:transparent;white-space:nowrap}
+.dls{display:flex;gap:.4rem}
+button.dl{font-family:inherit;cursor:pointer}
 .dl:hover{background:var(--text);color:var(--bg)}
 .dl svg{width:15px;height:15px}
 .sw{height:7rem;display:flex;align-items:flex-end;padding:.75rem 1rem;font-weight:700}
@@ -50,8 +52,8 @@ h2{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase
 <section>
 <h2>Logos</h2>
 <div class="grid">
-<div class="card bare"><div class="stage cream"><img src="media/logo-trame-gumi.svg" alt="Long logo"></div><div class="meta"><div>Long logo<small>SVG, vector</small></div><a class="dl" href="media/logo-trame-gumi.svg" download>SVG</a></div></div>
-<div class="card bare"><div class="stage cream"><img src="media/logo-trame.svg" alt="Short logo" style="height:100%"></div><div class="meta"><div>Short logo<small>SVG, vector</small></div><a class="dl" href="media/logo-trame.svg" download>SVG</a></div></div>
+<div class="card bare"><div class="stage cream"><img src="media/logo-trame-gumi.svg" alt="Long logo"></div><div class="meta"><div>Long logo<small>SVG, vector</small></div><span class="dls"><a class="dl" href="media/logo-trame-gumi.svg" download>SVG</a><button class="dl" data-png="media/logo-trame-gumi.svg" data-name="Gumi-long-logo" data-w="2400">PNG</button></span></div></div>
+<div class="card bare"><div class="stage cream"><img src="media/logo-trame.svg" alt="Short logo" style="height:100%"></div><div class="meta"><div>Short logo<small>SVG, vector</small></div><span class="dls"><a class="dl" href="media/logo-trame.svg" download>SVG</a><button class="dl" data-png="media/logo-trame.svg" data-name="Gumi-short-logo" data-w="1200">PNG</button></span></div></div>
 </div>
 </section>
 
@@ -82,6 +84,7 @@ h2{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase
 <script>
 var icon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>';
 document.querySelectorAll('.dl').forEach(function(a){a.innerHTML=icon+a.textContent});
+document.querySelectorAll('[data-png]').forEach(function(b){b.onclick=function(){var im=new Image();im.onload=function(){var w=+b.dataset.w,h=Math.round(w*im.naturalHeight/im.naturalWidth),c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);c.toBlob(function(bl){var a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download=b.dataset.name+'.png';a.click()})};im.src=b.dataset.png}});
 var colors=[['Violet','#9C77F5','Accent','#fff'],['Cream','#F9F4EF','Background','#1A1A1A'],['Ink','#1A1A1A','Text','#F9F4EF'],['Night','#1B1A1F','Dark background','#F1ECE4']];
 var box=document.getElementById('colors');
 colors.forEach(function(c){var b=document.createElement('button');b.className='swatch';b.innerHTML='<div class="sw" style="background:'+c[1]+';color:'+c[3]+'">'+c[1]+'</div><div class="meta"><div>'+c[0]+'<small>'+c[2]+'</small></div></div>';
